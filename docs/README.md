@@ -39,7 +39,7 @@ always secure and protected.
 [Endorsed by industry experts](https://vsecm.com/endorsements),
 
 [roadmap]: https://vsecm.com/roadmap  "The Roadmap"
-[installation]: https://vsecm.com/installation "Install Aegis"
+[installation]: https://vsecm.com/installation "Install VSecM"
 [build]: https://vsecm.com/use-the-source "Building, Deploying, and Testing"
 [architecture]: https://vsecm.com/architecture/ "VMware Secrets Manager Architecture"
 [design]: https://vsecm.com/philosophy/ "VMware Secrets Manager Design Philosophy"
@@ -73,7 +73,7 @@ You need to sign off changes with that one.
 Test this on the build server before merging.
 
 Also add a notification to the README about the changes; and point to the
-latest release that has Aegis in it.
+latest release that has VSecM in it.
 
 Also clean up the website template; there is a lot of junk I inherited due
 to copy/paste
