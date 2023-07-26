@@ -11,13 +11,13 @@
 
 ## The Elevator Pitch
 
-[**VMware Secrets Manager for Cloud-Native Apps**](https://vsecm.com) (*VSecM*)
-is a delightfully-secure Kubernetes-native secrets store.
+[**VMware Secrets Manager**](https://vsecm.com) is a delightfully-secure 
+Kubernetes-native secrets store.
 
-**VMware Secrets Manager** keeps your secrets secret.
+**VMware Secrets Manager** (*VSecM*) keeps your secrets secret.
 
-With **VMware Secrets Manager**, you can rest assured that your
-sensitive data is always **secure** and **protected**.
+With **VMware Secrets Manager**, you can rest assured that your sensitive data 
+is always **secure** and **protected**.
 
 **VMware Secrets Manager** is perfect for securely storing arbitrary configuration
 information at a central location and securely dispatching it to workloads.
@@ -204,8 +204,8 @@ currently being worked on.
 
 ## Contributing
 
-To contribute to **VMware Secrets Manager**, [follow the contributing guidelines](CONTRIBUTING.md)
-to get started.
+To contribute to **VMware Secrets Manager**, 
+[follow the contributing guidelines](CONTRIBUTING_DCO.md) to get started.
 
 Use GitHub issues to request features or file bugs.
 
