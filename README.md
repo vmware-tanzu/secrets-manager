@@ -178,6 +178,7 @@ Here are the important folders and files in this repository:
 * `./k8s`: Contains Kubernetes manifests that are used to deploy **VSecM** and
   its use cases.
 * `./sdk`: Contains the source code of the **VSecM Developer SDK**.
+* `./docs`: Contains the source code of the **VSecM Documentation** website (<https://vsecm.com>).
 * `./CODE_OF_CONDUCT.md`: Contains **VSecM** Code of Conduct.
 * `./SECURITY.md`: Contains **VSecM** Security Policy.
 * `./LICENSE`: Contains **VSecM** License.
