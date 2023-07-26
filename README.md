@@ -180,6 +180,7 @@ Here are the important folders and files in this repository:
 * `./sdk`: Contains the source code of the **VSecM Developer SDK**.
 * `./docs`: Contains the source code of the **VSecM Documentation** website (<https://vsecm.com>).
 * `./CODE_OF_CONDUCT.md`: Contains **VSecM** Code of Conduct.
+* `./CONTRIBUTING_DCO.md`: Contains **VSecM** Contributing Guidelines.
 * `./SECURITY.md`: Contains **VSecM** Security Policy.
 * `./LICENSE`: Contains **VSecM** License.
 * `./Makefile`: Contains the `Makefile` that is used for building,
