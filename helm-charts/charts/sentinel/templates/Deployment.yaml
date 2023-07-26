@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sentinel.fullname" . }}
+  namespace: {{ .Values.global.aegis.namespace }}
+  labels:
+    {{- include "sentinel.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "sentinel.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "sentinel.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "sentinel.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: main
+          image: "{{ .Values.global.registry }}/{{- include "sentinel.repository" .}}:{{ .Values.global.images.sentinel.tag }}"
+          imagePullPolicy: {{ .Values.global.images.sentinel.pullPolicy }}
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+          #
+          # You can configure Aegis Sentinel by providing environment variables.
+          #
+          # See https://aegis.ist/docs/configuration for more information about
+          # these environment variables.
+          #
+          # When you don’t explicitly provide env vars here, Aegis Sentinel will
+          # assume the default values outlined in the given link above.
+          #
+          env:
+            {{- range .Values.environments }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
+            - name: AEGIS_SENTINEL_SVID_PREFIX
+              value: "spiffe://aegis.ist/workload/aegis-sentinel/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-sentinel/n/"
+            - name: AEGIS_SAFE_SVID_PREFIX
+              value: "spiffe://aegis.ist/workload/aegis-safe/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-safe/n/"
+            - name: AEGIS_PROBE_LIVENESS_PORT
+              value: ":{{ .Values.livenessPort }}"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.livenessPort }}
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true

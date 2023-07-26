@@ -1,0 +1,17 @@
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: {{ include "safe.fullname" . }}
+spec:
+  spiffeIDTemplate: "spiffe://aegis.ist\
+    /workload/{{ include "safe.fullname" . }}\
+    /ns/{{`{{ .PodMeta.Namespace }}`}}\
+    /sa/{{`{{ .PodSpec.ServiceAccountName }}`}}\
+    /n/{{`{{ .PodMeta.Name }}`}}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "safe.fullname" . }}
+      app.kubernetes.io/part-of: {{ .Values.global.aegis.namespace }}
+  workloadSelectorTemplates:
+    - "k8s:ns:{{`{{ .PodMeta.Namespace }}`}}"
+    - "k8s:sa:{{`{{ .PodSpec.ServiceAccountName }}`}}"

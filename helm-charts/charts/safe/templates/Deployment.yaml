@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "safe.fullname" . }}
+  namespace: {{ .Values.global.aegis.namespace }}
+  labels:
+    {{- include "safe.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "safe.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "safe.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "safe.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: main
+          image: "{{ .Values.global.registry }}/{{- include "safe.repository" .}}:{{ .Values.global.images.safe.tag }}"
+          imagePullPolicy: {{ .Values.global.images.safe.pullPolicy }}
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+            - name: aegis-data
+              mountPath: /data
+            - name: aegis-age
+              mountPath: /key
+              readOnly: true
+          #
+          # You can configure Aegis Safe by providing environment variables.
+          #
+          # See https://aegis.ist/docs/configuration for more information about
+          # these environment variables.
+          #
+          # When you don’t explicitly provide env vars here, Aegis Safe will assume
+          # the default values outlined in the given link above.
+          #
+          env:
+            {{- range .Values.environments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            - name: AEGIS_SENTINEL_SVID_PREFIX
+              value: "spiffe://aegis.ist/workload/aegis-sentinel/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-sentinel/n/"
+            - name: AEGIS_SAFE_SVID_PREFIX
+              value: "spiffe://aegis.ist/workload/aegis-safe/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-safe/n/"
+            - name: AEGIS_PROBE_LIVENESS_PORT
+              value: ":{{ .Values.livenessPort }}"
+            - name: AEGIS_PROBE_READINESS_PORT
+              value: ":{{ .Values.readynessPort }}"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.livenessPort }}
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.readynessPort }}
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+        # `aegis-data` is used to persist the encrypted backups of the secrets.
+        - name: aegis-data
+          hostPath:
+            path: /var/local/aegis/data
+            type: DirectoryOrCreate
+        # `aegis-age` stores the encryption keys to restore secrets from aegis-data.
+        - name: aegis-age
+          secret:
+            secretName: {{ .Values.ageKeySecretName }}
+            items:
+              - key: KEY_TXT
+                path: key.txt

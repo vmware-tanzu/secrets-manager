@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-controller-manager-config
+  namespace: {{ .Values.global.spire.namespace }}
+data:
+  spire-controller-manager-config.yaml: |
+    apiVersion: spire.spiffe.io/v1alpha1
+    kind: ControllerManagerConfig
+    metrics:
+      bindAddress: 127.0.0.1:8082
+    healthProbe:
+      bindAddress: 127.0.0.1:8083
+    leaderElection:
+      leaderElect: true
+      resourceName: 98c9c988.spiffe.io
+      resourceNamespace: {{ .Values.global.spire.namespace }}
+    clusterName: aegis-cluster
+    trustDomain: aegis.ist
+    ignoreNamespaces:
+      - kube-system
+      - kube-public
+      - {{ .Values.global.spire.namespace }}
+      - local-path-storage
+      # - do not ignore aegis-system!
+      # - aegis-system
+      - kube-node-lease
+      - kube-public
+      - kubernetes-dashboard

@@ -1,0 +1,16 @@
+# |   Protect your secrets, protect your sensitive data.
+# :   Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/ keep your secrets… secret
+
+# Lines starting with '#' are comments.
+# Each line is a file pattern followed by one or more owners.
+# More details are here: https://help.github.com/articles/about-codeowners/
+
+## Code Owners (in no particular order) ##
+
+* @v0lkan           # Volkan Özçelik
+* @abhishek44sharma # Abhishek Sharma
+* @st96d045         # Esteban Serrano
+* @ats0stv          # Arun Thundyill Saseendran
+* @RamXX            # Ramiro Salas

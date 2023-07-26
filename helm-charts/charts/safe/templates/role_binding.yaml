@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: secret-readwriter-binding
+subjects:
+  - kind: ServiceAccount
+    name: aegis-safe
+    namespace: {{ .Values.global.aegis.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: secret-readwriter
+  apiGroup: rbac.authorization.k8s.io
+
+##
+#
+# Alternatively, for a tighter security, you can define a `RoleBinding`
+# instead of a `ClusterRoleBinding`. It will be more secure, yet harder to
+# maintain. See the discussion about above `Role`s and `RoleBinding`s.
+#
+#   apiVersion: rbac.authorization.k8s.io/v1
+#   kind: RoleBinding
+#   metadata:
+#     name: secret-readwriter-binding
+#     namespace: {{ .Values.global.aegis.namespace }}
+#   subjects:
+#     - kind: ServiceAccount
+#       name: aegis-safe
+#       namespace: {{ .Values.global.aegis.namespace }}
+#   roleRef:
+#     kind: Role
+#     name: secret-readwriter
+#     apiGroup: rbac.authorization.k8s.io
+#
+##
