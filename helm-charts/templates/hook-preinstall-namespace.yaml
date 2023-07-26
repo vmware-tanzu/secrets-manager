@@ -1,0 +1,17 @@
+#
+# .-'_.---._'-.
+# ||####|(__)||   Protect your secrets, protect your business.
+#   \\()|##//       Secure your sensitive data with Aegis.
+#    \\ |#//                    <aegis.ist>
+#     .\_/.
+#
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aegis-system
+  {{- with .Values.podAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+    "helm.sh/hook-weight": "1"
+  {{- end }}

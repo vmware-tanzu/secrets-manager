@@ -1,4 +1,56 @@
-# Ignore everything in this directory
-*
-# Except this file
-!.gitignore
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# Docs
+docs/_site
+docs/.jekyll-cache
+
+.DS_Store
+
+# Mac
+.DS_Store
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# IDE-specific
+.idea
+.code
+.history
+
+vendor
+
+# Binaries
+/vsecm-safe
+/vsecm-init-container
+/vsecm-sentinel
+/vsecm-sidecar
+/example-using-init-container
+/example-using-sidecar
+/example-using-sdk
+/example-multiple-secrets
+/vsecm-ist-init-container
+/vsecm-ist-safe
+/vsecm-ist-sentinel
+/vsecm-ist-sidecar
+
