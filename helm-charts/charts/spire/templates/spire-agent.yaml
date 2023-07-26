@@ -53,13 +53,13 @@ data:
       server_port = {{ .Values.global.spire.serverPort | quote }}
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
-      trust_domain = "aegis.ist"
+      trust_domain = "vsecm.com"
     }
 
     plugins {
       NodeAttestor "k8s_psat" {
         plugin_data {
-          cluster = "aegis-cluster"
+          cluster = "vsecm-cluster"
         }
       }
 
