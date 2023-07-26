@@ -1,10 +1,11 @@
+# VMware Secrets Manager for Cloud-Native Apps
+
 ```text
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
 <>/ keep your secrets… secret
 ```
-
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)
 
