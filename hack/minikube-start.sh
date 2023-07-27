@@ -14,10 +14,6 @@
 CPU_COUNT="${VSECM_MINIKUBE_CPU_COUNT:-8}"
 MEMORY="${VSECM_MINIKUBE_MEMORY:-11264m}"
 
-# Get CPU and Memory from environment variables or default
-CPU_COUNT="${AEGIS_MINIKUBE_CPU_COUNT:-8}"
-MEMORY="${AEGIS_MINIKUBE_MEMORY:-11264m}"
-
 # Minikube might need additional flags for SPIRE to work properly.
 # A bare-metal or cloud Kubernetes cluster will not need these extra configs.
 minikube start \
