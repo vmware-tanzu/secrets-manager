@@ -60,11 +60,4 @@ echo "vsecm-photon-init-container"
 docker trust sign vsecm/vsecm-photon-init-container:"$VERSION"
 docker trust sign vsecm/vsecm-photon-init-container:latest
 
-echo "vsecm-web"
-cd ../vsecm-web || exit
-if git tag -s v"$VERSION"; then
-  git push origin --tags
-  gh release create
-fi
-
 echo "Everything is awesome!"
