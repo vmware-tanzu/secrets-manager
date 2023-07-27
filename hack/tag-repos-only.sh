@@ -20,11 +20,4 @@ if git tag -s v"$VERSION"; then
   gh release create
 fi
 
-echo "vsecm-web"
-cd ../vsecm-web || exit
-if git tag -s v"$VERSION"; then
-  git push origin --tags
-  gh release create
-fi
-
 echo "Everything is awesome!"
