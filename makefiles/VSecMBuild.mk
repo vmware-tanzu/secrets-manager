@@ -8,6 +8,9 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+serve-docs:
+	./hack/serve-docs.sh
+
 # Builds everything and pushes to public registries.
 build: \
 	example-sidecar-bundle \
