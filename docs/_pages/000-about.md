@@ -11,18 +11,21 @@
 
 title: About
 layout: post
+next_url: /docs/quickstart/
+prev_url: /docs/roadmap/
+permalink: /docs/about/
 ---
 
 *VMware Secrets Manager for Cloud-Native Apps is a cloud-native secure store
 for secrets management. It provides a minimal and intuitive API, ensuring
 practical security without compromising user experience.*
 
-Endorsed by **industry experts**, VMware Secrets Manager is a ground-up re-imagination 
-of secrets management, leveraging SPIRE for authentication and providing a cloud-native
-way to manage secrets end-to-end.
+[Endorsed by **industry experts**](/docs/endorsements), **VMware Secrets Manager** 
+is a ground-up re-imagination of secrets management, leveraging SPIRE for 
+authentication and providing a cloud-native way to manage secrets end-to-end.
 
-VMware Secrets Manager is resilient and secure by default, storing sensitive
+**VMware Secrets Manager** is resilient and secure by default, storing sensitive
 data in memory and encrypting any data saved to disk.
 
-With VMware Secrets Manager, you can rest assured that your sensitive data is
+With **VMware Secrets Manager**, you can rest assured that your sensitive data is
 always secure and protected.

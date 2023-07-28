@@ -35,20 +35,24 @@
                 <div class="body-inner">
                     {%- include body.html -%}
 
-                    {% if page.previous %}
-                        <a href="{{site.baseurl}}{{page.previous.url}}" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{page.previous.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
+                    {% if page.prev_url %}
+                    <a href="{{site.baseurl}}{{page.prev_url}}" class="navigation navigation-prev navigation-unique">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                     {% else %}
-                        <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{site.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
+                    <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                     {% endif %}
 
-                    {% if page.next %}
-                        <a href="{{site.baseurl}}{{page.next.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{page.next.title}}">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
+                    {% if page.next_url %}
+                    <a href="{{site.baseurl}}{{page.next_url}}" class="navigation navigation-next navigation-unique">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                    {% else %}
+                    <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                     {% endif %}
                 </div>
             </div>
