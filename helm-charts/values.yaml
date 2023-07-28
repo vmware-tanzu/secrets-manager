@@ -3,22 +3,22 @@ global:
   deploySpire: true
   # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
   baseImage: distroless
-  registry: aegishub
+  registry: vsecm
   logLevel: "7"
   images:
     safe:
-      distrolessRepository: aegis-ist-safe
-      distrolessFipsRepository: aegis-ist-fips-safe
-      photonRepository: aegis-photon-safe
-      photonFipsRepository: aegis-photon-fips-safe
-      tag: 0.18.2
+      distrolessRepository: vsecm-ist-safe
+      distrolessFipsRepository: vsecm-ist-fips-safe
+      photonRepository: vsecm-photon-safe
+      photonFipsRepository: vsecm-photon-fips-safe
+      tag: 0.20.0
       pullPolicy: IfNotPresent
     sentinel:
-      distrolessRepository: aegis-ist-sentinel
-      distrolessFipsRepository: aegis-ist-fips-sentinel
-      photonRepository: aegis-photon-sentinel
-      photonFipsRepository: aegis-photon-fips-sentinel
-      tag: 0.18.2
+      distrolessRepository: vsecm-ist-sentinel
+      distrolessFipsRepository: vsecm-ist-fips-sentinel
+      photonRepository: vsecm-photon-sentinel
+      photonFipsRepository: vsecm-photon-fips-sentinel
+      tag: 0.20.0
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
@@ -40,8 +40,8 @@ global:
       repository: ghcr.io/spiffe/spire-controller-manager
       tag: nightly
       pullPolicy: IfNotPresent
-  aegis:
-    namespace: aegis-system
+  vsecm:
+    namespace: vsecm-system
   spire:
     namespace: spire-system
     logLevel: DEBUG

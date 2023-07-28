@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "sentinel.fullname" . }}
-  namespace: {{ .Values.global.aegis.namespace }}
+  namespace: {{ .Values.global.vsecm.namespace }}
   labels:
     {{- include "sentinel.labels" . | nindent 4 }}
 spec:
@@ -37,24 +37,25 @@ spec:
               mountPath: /spire-agent-socket
               readOnly: true
           #
-          # You can configure Aegis Sentinel by providing environment variables.
+          # You can configure VMware Secrets Manager Sentinel by providing
+          # environment variables.
           #
-          # See https://aegis.ist/docs/configuration for more information about
+          # See https://vsecm.com/configuration for more information about
           # these environment variables.
           #
-          # When you don’t explicitly provide env vars here, Aegis Sentinel will
-          # assume the default values outlined in the given link above.
+          # When you don’t explicitly provide env vars here, VMware Secrets Manager
+          # Sentinel will assume the default values outlined in the given link above.
           #
           env:
             {{- range .Values.environments }}
             - name: {{ .name }}
               value: {{ .value }}
             {{- end }}
-            - name: AEGIS_SENTINEL_SVID_PREFIX
-              value: "spiffe://aegis.ist/workload/aegis-sentinel/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-sentinel/n/"
-            - name: AEGIS_SAFE_SVID_PREFIX
-              value: "spiffe://aegis.ist/workload/aegis-safe/ns/{{ .Values.global.aegis.namespace }}/sa/aegis-safe/n/"
-            - name: AEGIS_PROBE_LIVENESS_PORT
+            - name: VSECM_SENTINEL_SVID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-sentinel/n/"
+            - name: VSECM_SAFE_SVID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-safe/n/"
+            - name: VSECM_PROBE_LIVENESS_PORT
               value: ":{{ .Values.livenessPort }}"
           livenessProbe:
             httpGet:

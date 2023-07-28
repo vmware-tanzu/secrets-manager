@@ -48,7 +48,7 @@ Selector labels
 {{- define "sentinel.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "sentinel.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ .Values.global.aegis.namespace }}
+app.kubernetes.io/part-of: {{ .Values.global.vsecm.namespace }}
 {{- end }}
 
 {{/*
@@ -63,7 +63,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Define image for aegis sentinel
+Define image for VMware Secrets Manager sentinel
 */}}
 {{- define "sentinel.repository" -}}
 {{- if eq (lower $.Values.global.baseImage) "distroless" }}
