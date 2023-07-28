@@ -31,7 +31,7 @@ compromising user experience.
 **VMare Secrets Manager** is resilient and **secure by default**, storing
 sensitive data in memory and encrypting any data saved to disk.
 
-[Endorsed by industry experts](https://vsecm.com/endorsements),
+[Endorsed by industry experts](/docs/endorsements),
 **VMware Secrets Manager** is a ground-up re-imagination of secrets management,
 leveraging [**SPIFFE**](https://spiffe.io) for authentication and providing a
 cloud-native way to manage secrets end-to-end.
