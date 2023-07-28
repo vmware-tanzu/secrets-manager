@@ -1,10 +1,18 @@
-/*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
     display: block
 }
 
 audio, canvas, video {
     display: inline-block
+}
+
+.github-button {
+    text-align:right;
+}
+
+.github-button a {
+    border-bottom: none !important;background:#e0e0e0 !important;padding:0.5em !important;display:inline-block !important;
+    border-radius:8px !important;
 }
 
 audio:not([controls]) {
@@ -3540,18 +3548,28 @@ table {
 
 .copy-code-button {
     font-family: var(--font-family);
-    background: #edc910 !important;
+    background: #ffffff !important;
     color: #000000 !important;
-    border: none !important;
+    border: 1px #b3b3b3 solid !important;
     padding: 0.26em !important;
 }
 
+.copy-code-button:hover {
+    background: #edc910 !important;
+    color: #000000 !important;
+    padding: 0.26em !important;
+    border: 1px #00244F solid !important;
+}
+
 .markdown-section a {
-    color: #00244F;
     border-bottom: 4px #edc910 solid;
     text-decoration: none;
     background: 0 0;
     padding: 0.2em 0.5em calc(0.2em - 4px) 0.5em;
+}
+
+.page-wrapper {
+    padding-bottom: 150px;
 }
 
 .markdown-section a:active, .markdown-section a:focus, .markdown-section a:hover {
@@ -3618,7 +3636,8 @@ table {
 }
 
 .markdown-section code, .markdown-section pre {
-    xfont-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-family: aglet-mono, mono, divenire-mono, serif, auger-mono, monospace, lexia-mono-variable, sans-serif, moby, sans-serif, paradroid-mono-soft, sans-serif, logic-monospace, mono, john-doe, sans-serif;
+
     direction: ltr;
     margin: 0;
     padding: 0;
@@ -3629,10 +3648,34 @@ table {
 .markdown-section pre {
     overflow: auto;
     word-wrap: normal;
-    margin: 0;
+    xmargin: 0.2em;
     padding: .85em 1em;
     margin-bottom: 1.275em;
-    background: #f7f7f7
+    background: #f0f0f0;
+    border: 1px #b3b3b3 solid;
+    xborder: 2px #e0e0e0 solid;
+
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+    font-family: aglet-mono, mono, divenire-mono, serif, auger-mono, monospace, lexia-mono-variable, sans-serif, moby, sans-serif, paradroid-mono-soft, sans-serif, logic-monospace, mono, john-doe, sans-serif;
+}
+.highlight {
+    border-radius: 0.25em;
+}
+
+pre {
+    tab-size: 2;
+}
+
+span.c {
+    background: #93DC0F !important;
+    color: #000000 !important;
 }
 
 .markdown-section pre > code {
@@ -3641,8 +3684,8 @@ table {
     padding: 0;
     margin: 0;
     overflow: initial;
-    line-height: inherit;
-    font-size: .85em;
+    line-height: 1.1em;
+    font-size: 1em;
     white-space: pre;
     background: 0 0
 }

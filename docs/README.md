@@ -10,8 +10,9 @@
 # */
 
 title: VMWare Secrets Manager for Cloud Native Apps
-layout: home
+layout: post
 permalink: /
+next_url: /docs/about/
 ---
 
 **VMware Secrets Manager** is a cloud-native secure store
