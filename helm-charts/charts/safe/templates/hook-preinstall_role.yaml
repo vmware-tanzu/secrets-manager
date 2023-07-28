@@ -5,13 +5,13 @@ metadata:
 #
 # Creating a `ClusterRole` will make the role applicable to all namespaces
 # within the cluster. This approach is easier to maintain, and still secure
-# enough because Aegis Safe will talk only to the Secrets it knows about.
+# enough because VMware Secrets Manager Safe will talk only to the Secrets it knows about.
 # Alternatively, you can create a `Role` for tighter control:
 #
 #   kind: Role
 #   metadata:
 #     name: secret-readwriter
-#     namespace: {{ .Values.global.aegis.namespace }}
+#     namespace: {{ .Values.global.vsecm.namespace }}
 #
 ##
 
@@ -25,8 +25,8 @@ metadata:
 # namespace, or you will need to define a ClusterRole across the cluster.
 # The former approach is tedious, yet more explicit, and more secure.
 #
-# If you are NOT planning to use Kubernetes Secrets to sync Aegis-Safe-generated
-# secrets (i.e., if AEGIS_SAFE_USE_KUBERNETES_SECRETS is "false"), then
+# If you are NOT planning to use Kubernetes Secrets to sync VSecM-Safe-generated
+# secrets (i.e., if VSECM_SAFE_USE_KUBERNETES_SECRETS is "false"), then
 # you can limit the scope of this role as follows:
 #
 #    rules
@@ -35,11 +35,11 @@ metadata:
 #      resourceNames: [{{ .Values.ageKeySecretName | quote }}]
 #      verbs: ["get", "watch", "list", "update"]
 #
-# When the above rule is defined and when AEGIS_SAFE_USE_KUBERNETES_SECRETS
+# When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
 # environment variable is either not set, or set to anything other than "true",
-# then you can only consume Aegis-managed secrets through Aegis Safe API, either
-# by using the Aegis SDK, or leveraging Aegis Sidecar—which is the recommended
-# way.
+# then you can only consume VSecM-managed secrets through VSecM Safe API, either
+# by using the VMware Secrets Manager SDK, or leveraging VMware Secrets Manager
+# Sidecar—which is the recommended way.
 #
 ##
 

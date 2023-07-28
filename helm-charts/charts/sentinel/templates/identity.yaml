@@ -3,7 +3,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: {{ include "sentinel.fullname" . }}
 spec:
-  spiffeIDTemplate: "spiffe://aegis.ist\
+  spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/{{ include "sentinel.fullname" . }}\
     /ns/{{`{{ .PodMeta.Namespace }}`}}\
     /sa/{{`{{ .PodSpec.ServiceAccountName }}`}}\
@@ -11,7 +11,7 @@ spec:
   podSelector:
     matchLabels:
       app.kubernetes.io/name: {{ include "sentinel.fullname" . }}
-      app.kubernetes.io/part-of: {{ .Values.global.aegis.namespace }}
+      app.kubernetes.io/part-of: {{ .Values.global.vsecm.namespace }}
   workloadSelectorTemplates:
     - "k8s:ns:{{`{{ .PodMeta.Namespace }}`}}"
     - "k8s:sa:{{`{{ .PodSpec.ServiceAccountName }}`}}"

@@ -48,7 +48,7 @@ Selector labels
 {{- define "safe.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "safe.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ .Values.global.aegis.namespace }}
+app.kubernetes.io/part-of: {{ .Values.global.vsecm.namespace }}
 {{- end }}
 
 {{/*
@@ -63,7 +63,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Define image for aegis safe
+Define image for vsecm safe
 */}}
 {{- define "safe.repository" -}}
 {{- if eq (lower $.Values.global.baseImage) "distroless" }}

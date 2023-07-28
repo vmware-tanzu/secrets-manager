@@ -1,6 +1,6 @@
 apiVersion: v2
-name: aegis
-description: Helm chart for aegis
+name: vsecm
+description: Helm chart for VMware Secrets Manager
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -12,7 +12,7 @@ description: Helm chart for aegis
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 sources:
-- https://github.com/shieldworks/aegis
+- https://github.com/vmware-tanzu/secrets-manager
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
@@ -23,9 +23,10 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "0.18.2"
-home: https://aegis.ist/
-icon: https://raw.githubusercontent.com/shieldworks/aegis/main/assets/aegis-banner.png
+appVersion: "0.20.0"
+home: https://vsecm.com/
+# TODO: update icon when available
+# icon: 
 keywords:
   - secrets
 
@@ -36,7 +37,7 @@ dependencies:
     condition: global.deploySpire
   - name: safe
     repository: file://charts/safe
-    version: 0.18.2
+    version: 0.20.0
   - name: sentinel
     repository: file://charts/sentinel
-    version: 0.18.2
+    version: 0.20.0

@@ -4,8 +4,8 @@ metadata:
   name: secret-readwriter-binding
 subjects:
   - kind: ServiceAccount
-    name: aegis-safe
-    namespace: {{ .Values.global.aegis.namespace }}
+    name: vsecm-safe
+    namespace: {{ .Values.global.vsecm.namespace }}
 roleRef:
   kind: ClusterRole
   name: secret-readwriter
@@ -21,11 +21,11 @@ roleRef:
 #   kind: RoleBinding
 #   metadata:
 #     name: secret-readwriter-binding
-#     namespace: {{ .Values.global.aegis.namespace }}
+#     namespace: {{ .Values.global.vsecm.namespace }}
 #   subjects:
 #     - kind: ServiceAccount
-#       name: aegis-safe
-#       namespace: {{ .Values.global.aegis.namespace }}
+#       name: vsecm-safe
+#       namespace: {{ .Values.global.vsecm.namespace }}
 #   roleRef:
 #     kind: Role
 #     name: secret-readwriter

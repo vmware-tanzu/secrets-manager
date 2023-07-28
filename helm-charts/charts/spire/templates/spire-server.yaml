@@ -102,7 +102,7 @@ data:
     server {
       bind_address = "0.0.0.0"
       bind_port = "8081"
-      trust_domain = "aegis.ist"
+      trust_domain = "vsecm.com"
       data_dir = "/run/spire/server/data"
       log_level = "DEBUG"
       federation {
@@ -124,7 +124,7 @@ data:
       NodeAttestor "k8s_psat" {
         plugin_data {
           clusters = {
-            "aegis-cluster" = {
+            "vsecm-cluster" = {
               service_account_allow_list = ["{{ .Values.global.spire.namespace }}:spire-agent"]
             }
           }
