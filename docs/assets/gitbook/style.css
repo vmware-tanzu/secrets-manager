@@ -3267,7 +3267,9 @@ table {
     -webkit-transition: left 250ms ease;
     -moz-transition: left 250ms ease;
     -o-transition: left 250ms ease;
-    transition: left 250ms ease
+    transition: left 250ms ease;
+
+    box-shadow: rgba(0, 0, 0, 0.45) 15px 25px 20px -20px;
 }
 
 .book-summary ul.summary {
@@ -3566,10 +3568,35 @@ table {
     text-decoration: none;
     background: 0 0;
     padding: 0.2em 0.5em calc(0.2em - 4px) 0.5em;
+    color: #0946EC
 }
 
 .page-wrapper {
-    padding-bottom: 150px;
+    xpadding-bottom: 150px;
+}
+
+.copyright a {
+    color: #343f54;
+    text-decoration: underline;
+}
+
+.copyright {
+    border-top: 1px #96a4be solid;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 2em;
+    padding-right: 2em;
+    text-align: center;
+    font-size: 0.85em;
+    color: #343f54;
+    line-height: 1.6em;
+    background: #bdc6d6;
+
+
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 20px 20px 20px;
+
+
+    margin-bottom: -10px;
 }
 
 .markdown-section a:active, .markdown-section a:focus, .markdown-section a:hover {
@@ -3577,7 +3604,6 @@ table {
     background-color: #edc910;
     color: #000000;
     border-bottom: 4px #edc910 solid;
-
     text-decoration: none;
 }
 
@@ -3615,15 +3641,19 @@ table {
 }
 
 .markdown-section h2 {
-    font-size: 1.4em
+    font-size: 1.25em;
+    font-weight: 400;
+    border-left: 0.5em #BA1C3B solid;
+    xborder-top: 1px solid #ED6B85;
+    color: #720016;
 }
 
 .markdown-section h3 {
-    font-size: 1.25em
+    font-size: 1.15em
 }
 
 .markdown-section h4 {
-    font-size: 1.15em
+    font-size: 1.05em
 }
 
 .markdown-section h5 {
@@ -3672,6 +3702,7 @@ table {
 pre {
     tab-size: 2;
 }
+
 
 span.c {
     background: #93DC0F !important;
@@ -4161,6 +4192,13 @@ h1, h2, h3, h4, h5, h6 {
     color: #00244F;
     border-left: 0.81em #edc910 solid;
     padding-left: 0.5em;
+}
+
+h2 {
+    margin-top: 3.26em !important;
+    margin-bottom: 0.5em !important;
+    border-left: 0.81em #BA1C3B solid;
+
 }
 
 
