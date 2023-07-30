@@ -23,7 +23,8 @@ href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/chan
 
 ## Recent Updates
 
-* TBD 
+* Documentation updates to make the project align with the current status of
+  **VSecM**.
 
 ## [v0.20.0] - 2023-07-27
 

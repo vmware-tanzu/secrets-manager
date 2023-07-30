@@ -166,6 +166,30 @@
     overflow-x: scroll;
 }
 
+.markdown-section blockquote {
+    border-left: 0.5em solid #71129E;
+    background: #faf7fb;
+    background: -webkit-linear-gradient(to right, #f3ebf6, #fdf8e3);
+    background: linear-gradient(to right, #f3ebf6, #fdf8e3);
+
+
+
+
+    padding: 0 1em;
+    color: #140a18;
+    padding-top: 1.5em;
+    padding-bottom: 0.5em;
+    border-radius: 0.5em;
+
+    box-shadow:
+    rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+    rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
 /* Tips, warnings, and dangers */
 
 .markdown-section blockquote.block-tip {
