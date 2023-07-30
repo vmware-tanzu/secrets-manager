@@ -194,20 +194,23 @@
 
 .markdown-section blockquote.block-tip {
     border-color: var(--c-tip);
-    background-color: var(--c-tip-bg);
-    color: var(--c-tip-text);
+    color: #143a29;
     font-family: var(--font-family);
     padding: 0.5em;
+    padding-left: 0.96em;
     margin: 1em 0.2em;
     border-left-width: 0.5em;
 
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background: #e2f5ec;
+    background: -webkit-linear-gradient(to right, #e2f5ec, #d5eefe);
+    background: linear-gradient(to right, #e2f5ec, #d5eefe);
 
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
-    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border-radius: 4px;
+
+    box-shadow:
+            rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+            rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .markdown-section blockquote.block-tip h1 {
