@@ -3728,8 +3728,10 @@ span.c {
 .markdown-section code {
     padding: .2em;
     margin: 0;
-    font-size: .85em;
-    background-color: #f7f7f7
+    font-size: .99em;
+    background-color: #FFF0EB;
+    color: #882200;
+    border-radius: 2px;
 }
 
 .markdown-section code:after, .markdown-section code:before {
@@ -3842,7 +3844,8 @@ span.c {
 
 .navigation:hover {
     text-decoration: none;
-    color: #444
+    color: #444;
+    background: #eeeeee;
 }
 
 .navigation.navigation-next {
