@@ -29,8 +29,16 @@ Hi, thank you for wanting to contact us ❤️.
 
 Here are a few ways that you can get in touch:
 
+## We’d Love to Hear Back From You
 
+If you have comments, suggestions, and ideas to share; if you have found
+a bug; or if you want to contribute to **Aegis**, these links might be what
+you are looking for:
 
+* [I Want to Contribute to **Aegis**](/contact#i-want-to-be-a-contributor)
+* [I Have Something to Say](/contact#comments-and-suggestions)
+* [Can I Buy You A Coffee](/contact#coffee)?
+#882200
 
 ## Community
 

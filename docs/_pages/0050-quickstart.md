@@ -414,10 +414,11 @@ clusters.
 
 After successfully completing this quickstart, you can try the following:
 
-* [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite]
-* [Learn more about **VMware Secrets Manager** Architecture](/docs/architecture)
-* [Learn more about **VMware Secrets Manager** Design Philosophy](/docs/sentinel)
-* [Follow a more detailed tutorial that contains multiple use cases](/docs/tutorial)
-* Navigate this website to learn more about **VMware Secrets Manager**
+* [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite] 
+  where helpful community members and **VMware Secrets Manager** engineers
+  hang out and answer questions.
+* Navigate this website to learn more about **VMware Secrets Manager**, starting
+  with [its architecture, and design philosophy](/docs/architecture).
+* [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases)
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"

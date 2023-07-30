@@ -16,11 +16,11 @@ next_url: /docs/about/
 prev_url: /docs/showcase/
 ---
 
-## Introduction
+## Keep Your Secrets… Secret
 
-**VMware Secrets Manager** is a cloud-native secure store
-for secrets management. It provides a minimal and intuitive API, ensuring
-practical security without compromising user experience.
+**VMware Secrets Manager** *for Cloud-Native Apps* is a secure store for secrets
+management. It provides a minimal and intuitive API, ensuring practical security 
+without compromising user experience.
 
 [Endorsed by industry experts][endorsements], **VMware Secrets Manager** is a 
 ground-up re-imagination of secrets management, leveraging [**SPIRE**][spire] 
@@ -34,11 +34,24 @@ always secure and protected.
 
 [endorsements]: /docs/endorsements/ "Endorsements"
 
+## **VMware Secrets Manager** in Action
+
+[Here is a playlist of videos showcasing **VMware Secrets Manager**][videos].
+
+[videos]: /docs/showcase/ "Showcase"
+
 ## Where Can I Use **VMware Secrets Manager**?
 
 **VMware Secrets Manager** is perfect for securely storing arbitrary 
 configuration information at a central location and securely dispatching it to 
 workloads, offering *centralized* and *secure* secrets store for your clusters.
+
+> **VSEcM is Perfect for the Edge**
+> 
+> The *ease of configuration* and *small footprint* make **VMware Secrets Manager** 
+> perfect not only for standard deployments but also for **edge deployments** where 
+> resources are limited and efficiency is crucial.
+{: .block-tip }
 
 By leveraging Kubernetes security primitives, [**SPIRE**][spire], and strong,
 industry-standard encryption, **VMware Secrets Manager** ensures that your 
@@ -51,13 +64,6 @@ you safeguard your business and protect against data breaches.
 [spire]: https://spiffe.io/spire
 [vsecm-github]: https://github.com/vmware-tanzu/secrets-manager
 
-## See **VMware Secrets Manager** in Action
-
-[Here is a showcase of videos that displays **VMware Secrets Manager** 
-in action][videos].
-
-[videos]: /docs/showcase/ "Showcase"
-
 If you haven’t watched them yet, now might be a good time 🙂.
 
 ## Thanks ❤️
@@ -65,6 +71,6 @@ If you haven’t watched them yet, now might be a good time 🙂.
 Hope you enjoy using **VMware Secrets Manager** as much as we do and find it 
 helpful in making your ops teams `#sleepmore`. 
 
-Browse the rest of the docs to learn more about **VMware Secrets Manager**.
+Browse the rest of this website to learn more about **VSecM**.
 
 May the source be with you 🦄.
