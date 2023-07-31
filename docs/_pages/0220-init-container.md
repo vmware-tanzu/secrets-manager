@@ -16,7 +16,7 @@ prev_url: /docs/use-case-sdk/
 permalink: /docs/use-case-init-container/
 ---
 
-## Using **Aegis Init Container**
+## Using **VMware Secrets Manager Init Container**
 
 In certain situations you might not have full control over the source code
 of your workloads. For example, your workload can be a containerized third
@@ -24,8 +24,8 @@ party binary executable that you don’t have the source code of. It might
 be consuming Kubernetes `Secret`s through injected environment variables,
 and the like.
 
-Luckily, with **Aegis Init Container** you can interpolate secrets stored in
-**Aegis Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
+Luckily, with **VMware Secrets Manager Init Container** you can interpolate secrets stored in
+**VMware Secrets Manager Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
 be consumed by the workloads.
 
 ☝️ This sounds a bit mouthful. Fear not: Everything will be crystal clear
@@ -40,13 +40,13 @@ clean slate:
 # Remove the workload deployment:
 kubectl delete deployment example
 # Find the sentinel pod’s name:
-kubectl get po -n aegis-system 
+kubectl get po -n vsecm-system 
 # Delete the secret:
-kubectl exec aegis-sentinel-778b7fdc78-86v6d -n \
-  aegis-system -- aegis -w example -d
+kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
+  vsecm-system -- safe -w example -d
 # Make sure that the secret is gone:
-kubectl exec aegis-sentinel-778b7fdc78-86v6d -n \
-  aegis-system -- aegis -l
+kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
+  vsecm-system -- safe -l
 
 {"secrets":[]}
 ```
@@ -56,7 +56,7 @@ kubectl exec aegis-sentinel-778b7fdc78-86v6d -n \
 Make sure [you examine the manifests][workload-yaml] to gain an understanding
 of what kinds of entities you’ve deployed to your cluster.
 
-[workload-yaml]: https://github.com/shieldworks/aegis/tree/main/examples/workload-using-init-container/k8s
+[workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using-init-container/k8s
 
 ## Demo Workload
 
@@ -110,29 +110,29 @@ spec:
       containers:
       - name: main
         # Replace $version with the most recent version:
-        image: aegishub/example-using-init-container:$version
+        image: vsecm/example-using-init-container:$version
         env:
           - name: SECRET
             valueFrom:
               secretKeyRef:
-                name: aegis-secret-example
+                name: vsecm-secret-example
                 key: VALUE
           - name: USERNAME
             valueFrom:
               secretKeyRef:
-                name: aegis-secret-example
+                name: vsecm-secret-example
                 key: USERNAME
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: aegis-secret-example
+                name: vsecm-secret-example
                 key: PASSWORD
 
 # … Truncated  … 
 ```
 
 In the deployment manifest, there are environment variable bindings from a
-secret named `aegis-secret-example`.
+secret named `vsecm-secret-example`.
 
 Let’s [look into that secret too][secret-yaml]:
 
@@ -140,16 +140,16 @@ Let’s [look into that secret too][secret-yaml]:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: aegis-secret-example
+  name: vsecm-secret-example
   namespace: default
 type: Opaque
 ```
 
 As you see, the secret doesn’t have any data associated with it.
-We will dynamically populate it using **Aegis Sentinel** soon.
+We will dynamically populate it using **VMware Secrets Manager Sentinel** soon.
 
-[deployment-yaml]: https://github.com/shieldworks/aegis/blob/main/examples/workload-using-init-container/k8s/Deployment.yaml
-[secret-yaml]: https://github.com/shieldworks/aegis/blob/main/examples/workload-using-init-container/k8s/Secret.yaml
+[deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Deployment.yaml
+[secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Secret.yaml
 
 ## Deploy the Demo Workload
 
@@ -157,7 +157,7 @@ To begin, let’s deploy our demo workload:
 
 ```bash 
 # Switch to the project folder:
-cd $WORKSPACE/aegis
+cd $WORKSPACE/secrets-manager
 # Deploy the demo workload:
 # Install the workload:
 make example-init-container-deploy
@@ -166,7 +166,7 @@ make example-init-container-deploy
 ```
 
 When we list the pods, you’ll see that it’s not ready yet because
-**Aegis Init Container** is waiting for a secret to be registered to this pod.
+**VMware Secrets Manager Init Container** is waiting for a secret to be registered to this pod.
 
 ```bash
 kubectl get po 
@@ -180,13 +180,13 @@ Here are the containers in that [`Deployment.yaml`][deployment-yaml]
 ```yaml
       containers:
       - name: main
-        image: aegishub/example-using-init-container:$version
+        image: vsecm/example-using-init-container:$version
       
       # … Truncated  … 
       
       initContainers:
       - name: init-container
-        image: aegishub/aegis-init-container:$version
+        image: vsecm/vsecm-ist-init-container:$version
 ```
 
 It’s the `init-container` that waits until the workload acquires a secret.
@@ -200,14 +200,14 @@ container of the Pod, execute the following script:
 {% raw %}# ./examples/workload-using-init-container/register.sh
 
 # Find a Sentinel node.
-SENTINEL=$(kubectl get po -n aegis-system \
-  | grep "aegis-sentinel-" | awk '{print $1}')
+SENTINEL=$(kubectl get po -n vsecm-system \
+  | grep "vsecm-sentinel-" | awk '{print $1}')
 
 # Execute the command needed to interpolate the secret.
-kubectl exec "$SENTINEL" -n aegis-system -- aegis \
+kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 -w "example" \
 -n "default" \
--s '{"username": "root", "password": "SuperSecret", "value": "AegisRocks"}' \
+-s '{"username": "root", "password": "SuperSecret", "value": "VSecMRocks"}' \
 -t '{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}' \
 -k
 
@@ -218,7 +218,7 @@ Here are the meanings of the parameters in the above command:
 
 * `-w` is the name of the workload.
 * `-n` identifies the namespace of the Kubernetes `Secret`.
-* `-k` means **Aegis** will update an associated Kubernetes `Secret`.
+* `-k` means **VMware Secrets Manager** will update an associated Kubernetes `Secret`.
 * `-t` is the template to be be used to transform the fields of the payload.
 * `-s` is the actual value of the secret.
 
@@ -236,13 +236,13 @@ It looks like it did. So, let’s check its logs:
 ```bash
 kubectl logs example-5d8c6c4865-dlt8r
 
-My secret: 'AegisRocks'.
+My secret: 'VSecMRocks'.
 My creds: username:'root' password:'SuperSecret'.
 
-My secret: 'AegisRocks'.
+My secret: 'VSecMRocks'.
 My creds: username:'root' password:'SuperSecret'.
 
-My secret: 'AegisRocks'.
+My secret: 'VSecMRocks'.
 My creds: username:'root' password:'SuperSecret'.
 ```
 
@@ -252,13 +252,13 @@ Which means, our secret should also have been populated; let’s check tha too:
 kubectl get secret 
 
 NAME                               TYPE     DATA   AGE
-aegis-secret-example   Opaque   3      7h9m
+vsecm-secret-example   Opaque   3      7h9m
 ```
 
 ```bash
-kubectl describe secret aegis-secret-example
+kubectl describe secret vsecm-secret-example
 
-Name:         aegis-secret-example
+Name:         vsecm-secret-example
 Namespace:    default
 Labels:       <none>
 Annotations:  <none>
@@ -279,7 +279,7 @@ And yes, the values have been dynamically bound to the secret.
 In summary, the `Pod` that your `Deployment` manages will not initialize until
 you register secrets to your workload.
 
-Once you register secrets using the above command, **Aegis Init Container** will
+Once you register secrets using the above command, **VMware Secrets Manager Init Container** will
 exit with a success status code and let the main container initialize with the
 updated Kubernetes `Secret`.
 
@@ -288,14 +288,15 @@ in a new tab for a larger version*):
 
 ![Transforming Secrets](/assets/secret-transformation.png "Transforming Secrets")
 
-## A Video Is Worth a Lot of Words
+<!-- TODO: Update video link -->
+<!-- ## A Video Is Worth a Lot of Words
 
 You can also watch a demo video that implements the above flow. The video
 visually explains the above concepts in greater detail:
 
-[![Watch the video](/doks-theme/assets/images/capture.png)](https://vimeo.com/v0lkan/aegis-secrets)
+[![Watch the video](/doks-theme/assets/images/capture.png)](https://vimeo.com/v0lkan/vsecm-secrets)
 
-[git-init-container]: https://github.com/shieldworks/example-using-init-container "Aegis Workload Demo Using Init Container"
+[git-init-container]: https://github.com/shieldworks/example-using-init-container "VMware Secrets Manager Workload Demo Using Init Container" -->
 
 ## Conclusion
 
@@ -304,17 +305,17 @@ halt bootstrapping of the main container until the secrets are registered to
 the workload.
 
 This approach is marginally **less** secure, because it creates interim secrets
-which are not strictly necessary if we were to use **Aegis Sidecar** or
-**Aegis Safe**. It is meant to be used for **legacy** systems where directly
+which are not strictly necessary if we were to use **VMware Secrets Manager Sidecar** or
+**VMware Secrets Manager Safe**. It is meant to be used for **legacy** systems where directly
 using the **Safe Sidecar** or **Safe SDK** are not feasible.
 
 For example, you might not have direct control over the source code to enable a
 tighter **Safe** integration. Or, you might temporarily want to establish
-behavior parity of your legacy system before starting a more canonical **Aegis**
+behavior parity of your legacy system before starting a more canonical **VMware Secrets Manager**
 implementation.
 
 For modern workloads that you have more control, we highly encourage you to
-use [**Aegis SDK**][tutorial-sdk] or [**Aegis Sidecar**][tutorial-sidecar] instead.
+use [**VMware Secrets Manager SDK**][tutorial-sdk] or [**VMware Secrets Manager Sidecar**][tutorial-sidecar] instead.
 
 That being said, it’s good to have this option, and we are sure you can find
 other creative ways to leverage it too.
