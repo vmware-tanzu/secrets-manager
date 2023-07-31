@@ -24,28 +24,28 @@ Transforming secrets may come in handy when your workload expects the secret
 in a different format than it has been initially provided, and you don’t want
 to write custom code to do the transformation.
 
-To help us explore these transformations, [we will use **Aegis Inspector**
-from the previous tutorial](/docs/use-case-encrypt). If you haven’t installed
+To help us explore these transformations, [we will use **VMware Secrets Manager Inspector**
+from the previous tutorial](/docs/use-case-encryption). If you haven’t installed
 it, before you proceed, please [navigate to that lecture and install
-**Aegis Inspector**](/docs/use-case-encrypt)
+**VMware Secrets Manager Inspector**](/docs/use-case-encryption)
 
 ## Preparation
 
 Let us define a few aliases first, they will speed things up:
 
 ```bash 
-SENTINEL=$(kubectl get po -n aegis-system \
-  | grep "aegis-sentinel-" | awk '{print $1}')
-SAFE=$(kubectl get po -n aegis-system \
-  | grep "aegis-safe-" | awk '{print $1}')
+SENTINEL=$(kubectl get po -n vsecm-system \
+  | grep "vsecm-sentinel-" | awk '{print $1}')
+SAFE=$(kubectl get po -n vsecm-system \
+  | grep "vsecm-safe-" | awk '{print $1}')
 WORKLOAD=$(kubectl get po -n default \
   | grep "example-" | awk '{print $1}')
 INSPECTOR=$(kubectl get po -n default \
-  | grep "aegis-inspector-" | awk '{print $1}')
+  | grep "vsecm-inspector-" | awk '{print $1}')
 
 # Delete secrets assigned to the workload:
 alias delete-secret="kubectl exec $SENTINEL \
-  -n aegis-system -- aegis \
+  -n vsecm-system -- safe \
   -w example -s x -d"
 
 alias inspect="kubectl exec $INSPECTOR -- ./env"
@@ -69,7 +69,7 @@ inspect
 
 ## The Format (`-f`) Argument
 
-**Aegis Sentinel** CLI accepts a format flag (`-f`), the possible values are
+**VMware Secrets Manager Sentinel** CLI accepts a format flag (`-f`), the possible values are
 
 * `"json"`
 * and `"yaml"`
@@ -80,27 +80,27 @@ we’ll be explicit and provide this argument at all times.
 ## Registering a JSON Secret
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -f json
 
 inspect
 # Output:
-# {"username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {"username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Registering a YAML Secret
 
 ```bash 
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -f yaml
 
 inspect
 # Output:
-# password: AegisRocks!
+# password: VSecMRocks!
 # username: admin{% endraw %}
 ```
 
@@ -110,14 +110,14 @@ Now we’ll deliberately make an error in our JSON. Notice the missing `"`
 in `username"`: That is not valid JSON.
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -f json
 
 inspect
 # Output:
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 # Registering a YAML String (with invalid JSON)
@@ -125,60 +125,60 @@ inspect
 Since the JSON cannot be parsed, the output will not be a YAML:
 
 ```bash 
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -f yaml
 
 inspect
 # Output:
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming A JSON Secret
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -t '{"USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f json
 
 inspect
 # Output:
-# {"USR":"admin", "PWD":"AegisRocks!"}{% endraw %}
+# {"USR":"admin", "PWD":"VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming a YAML Secret
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -t '{"USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f yaml
 
 inspect
 # Output:
-# PWD: AegisRocks!
+# PWD: VSecMRocks!
 # USR: admin{% endraw %}
 ```
 
 ## Transforming a JSON Secret (invalid JSON)
 
 If our secret is not valid JSON, then the YAML transformation will not be
-possible. **Aegis** will still try its best to provide something.
+possible. **VMware Secrets Manager** will still try its best to provide something.
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -t '{"USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f json
 
 inspect
 # Output:
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming a JSON Secret (invalid template)
@@ -186,73 +186,73 @@ inspect
 Since template is not valid, the template transformation will not happen.
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -t '{USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f json
 
 inspect
 # Output:
-# {"username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {"username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 # Transforming a JSON Secret (invalid template and JSON)
 
-**Aegis** will still try its best:
+**VMware Secrets Manager** will still try its best:
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -t '{USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f json
 
 inspect
 # Output:
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming YAML Secret (invalid JSON)
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -t '{"USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f yaml
 
 inspect
 # Output
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming YAML Secret (invalid template)
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{"username": "admin", "password": "AegisRocks!"}' \
+  -s '{"username": "admin", "password": "VSecMRocks!"}' \
   -t '{USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f yaml
 
 inspect
 # Output:
-# {USR":"admin", "PWD":"AegisRocks!"}{% endraw %}
+# {USR":"admin", "PWD":"VSecMRocks!"}{% endraw %}
 ```
 
 ## Transforming YAML Secret (invalid JSON and template)
 
 ```bash
-{% raw %}kubectl exec $SENTINEL -n aegis-system -- aegis \
+{% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
-  -s '{username": "admin", "password": "AegisRocks!"}' \
+  -s '{username": "admin", "password": "VSecMRocks!"}' \
   -t '{USR":"{{.username}}", "PWD":"{{.password}}"}' \
   -f yaml
 
 inspect
 # Output:
-# {username": "admin", "password": "AegisRocks!"}{% endraw %}
+# {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
 ## Conclusion
