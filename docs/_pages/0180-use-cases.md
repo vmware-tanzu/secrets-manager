@@ -53,5 +53,4 @@ The use cases above leverage **VMware Secrets Manager Sentinel** and **VMware Se
 interested, the following sections cover these tools in greater detail:
 
 * [**VMware Secrets Manager SDK** Documentation](/docs/sdk)
-<!-- TODO: Fix below link -->
-* [**VMware Secrets Manager Sentinel** Command Line Reference](/docs/sentinel)
+* [**VMware Secrets Manager Sentinel** Command Line Reference](/docs/cli)

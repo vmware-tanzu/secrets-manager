@@ -183,14 +183,13 @@ or `ConfigMap`s][david-copperfield].
 <!-- TODO: Update below link with new link -->
 <!-- [david-copperfield]: https://github.com/shieldworks/aegis/issues/231 -->
 
-<!-- TODO: Fix below link for [VSecM-k] -->
 However, **VMware Secrets Manager** also has the option to[persist the secrets stored in
 **VMware Secrets Manager Safe** as Kubernetes `Secret` objects][VSecM-k]. This approach can
 help support **legacy** systems where you want to start using
 **VMware Secrets Manager** without introducing much code and infrastructure change to the
 existing cluster—at least initially.
 
-[VSecM-k]: https://vsecm.com/docs/sentinel/#creating-kubernetes-secrets "VMware Secrets Manager Sentinel: Creating Kubernetes Secrets"
+[VSecM-k]: /docs/cli/#creating-kubernetes-secrets "VMware Secrets Manager Sentinel: Creating Kubernetes Secrets"
 
 If you are using **VMware Secrets Manager** to generate Kubernetes `Secrets` for the workloads
 to consume, then take regular precautions around those secrets,
