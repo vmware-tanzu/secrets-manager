@@ -9,7 +9,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Design Philosophy
+title: VSecM Design Philosophy
 layout: post
 permalink: /docs/philosophy/
 prev_url: /docs/quickstart/
