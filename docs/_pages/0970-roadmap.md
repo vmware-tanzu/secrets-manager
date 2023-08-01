@@ -9,18 +9,30 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Roadmap
+title: VSecM Roadmap
 layout: post
 next_url: /
 prev_url: /docs/use-case-showcase/
 permalink: /docs/roadmap/
 ---
 
-## VMware Secrets Manager for Cloud Native Apps
 
-You can see the project’s progress [in these **Aegis** boards][mdp].
+This is a page where we publish our approximate roadmap for **VMware Secrets
+Manager** for Cloud-Native Apps. Note that this is not a commitment to deliver
+any of the features listed here, and that the roadmap is subject to change at
+any time without notice.
 
-The boards outline what are the current outstanding work items, and what is
-currently being worked on.
+## VSecM v0.20.1 
 
-[mdp]: https://github.com/orgs/shieldworks/projects/1/views/4
+* Migrate existing Aegis documentation to the [new VMware Secrets Manager
+  documentation site](https://vsecm.com).
+* Create missing video tutorials.
+* Maintain feature parity.
+
+## VSecM v0.21.0
+
+* TBD
+
+## VSecM v0.22.0
+
+* TBD
