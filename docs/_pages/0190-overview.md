@@ -94,8 +94,8 @@ each other in the upcoming tutorials:
 On the above diagram:
 
 * **SPIRE** is the identity provider for all intents and purposes.
-* **VMware Secrets Manager Safe** is where secrets are stored.
-* **VMware Secrets Manager Sentinel** can be considered a bastion host.
+* **VSecM Safe** is where secrets are stored.
+* **VSecM Sentinel** can be considered a bastion host.
 * **Demo Workload** is a typical Kubernetes Pod that needs secrets.
 
 > **Want a Deeper Dive**?
@@ -109,12 +109,12 @@ On the above diagram:
 
 [architecture]: /docs/architecture
 
-The **Demo Workload** fetches secrets from **VMware Secrets Manager Safe**. This is either
+The **Demo Workload** fetches secrets from **VSecM Safe**. This is either
 indirectly done through a **sidecar** or directly by using
 [**VMware Secrets Manager Go SDK**][go-sdk].
 
-Using **VMware Secrets Manager Sentinel**, an admin operator or ar CI/CD pipeline can register
-secrets to **VMware Secrets Manager Safe** for the **Demo Workload** to consume.
+Using **VSecM Sentinel**, an admin operator or ar CI/CD pipeline can register
+secrets to **VSecM Safe** for the **Demo Workload** to consume.
 
 All the above workload-to-safe and sentinel-to-safe communication are
 encrypted through **mTLS** using the **X.509 SVID**s that **SPIRE**
