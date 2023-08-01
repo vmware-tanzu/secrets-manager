@@ -69,7 +69,7 @@ inspect
 
 ## The Format (`-f`) Argument
 
-**VMware Secrets Manager Sentinel** CLI accepts a format flag (`-f`), the possible values are
+**VSecM Sentinel** CLI accepts a format flag (`-f`), the possible values are
 
 * `"json"`
 * and `"yaml"`

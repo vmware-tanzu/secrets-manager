@@ -254,17 +254,17 @@ using the `sentry.Fetch()` function.
 
 `sentery.Fetch()` is a function provided by the **VMware Secrets Manager**;
 it establishes a secure mTLS connection between the workload and
-**VMware Secrets Manager Safe** to fetch the secret.
+**VSecM Safe** to fetch the secret.
 
 Since this workload does not have any secret registered, the request fails
 and the workload retries every 5 seconds.
 
 Since this is a quickstart example, we won’t dive into the details of
 how the workload establishes a secure mTLS connection with the
-**VMware Secrets Manager Safe**. We’ll cover this in the following sections.
+**VSecM Safe**. We’ll cover this in the following sections.
 
 For the sake of this quickstart, we can assume that secure communication
-between the workload and the **VMware Secrets Manager Safe** is already taken
+between the workload and the **VSecM Safe** is already taken
 care of for us.
 
 ## Register a Secret
@@ -299,9 +299,9 @@ safe -w "example" -n "default" -s "VSecMRocks"
 
 > **Sentinel Command Line Help**
 >
-> **VMware Secrets Manager Sentinel** comes with a command line tool
+> **VSecM Sentinel** comes with a command line tool
 > called `safe`. `safe` allows you to register secrets to
-> **VMware Secrets Manager Safe**, delete secrets, or list existing secrets.
+> **VSecM Safe**, delete secrets, or list existing secrets.
 >
 > You can execute `safe -h` or `safe --help` to get a list of available
 > commands and options.
@@ -380,7 +380,7 @@ Status:
 For the sake of keeping things simple because this is a quickstart, we can
 assume that someone has created this `example` SPIFFE ID for us, and using
 this SPIFFE ID, our example workload can securely communicate with the
-**VMware Secrets Manager Safe**.
+**VSecM Safe**.
 
 ## Verifying Secret Registration
 
@@ -408,7 +408,7 @@ created: "2023-07-28T01:34:30Z", value: VSecMRocks
 As you can see, the secret is now fetched and displayed in the logs.
 
 The beauty of this approach is when we change the secret using
-**VMware Secrets Manager Sentinel**, the workload will automatically fetch the
+**VSecM Sentinel**, the workload will automatically fetch the
 new value, without having to restart itself.
 
 ## Where to Go From Here

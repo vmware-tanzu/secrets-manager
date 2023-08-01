@@ -18,7 +18,7 @@ permalink: /docs/use-case-encryption/
 
 ## Introduction
 
-This tutorial will introduce how you can use **VMware Secrets Manager Sentinel** encrypt secrets
+This tutorial will introduce how you can use **VSecM Sentinel** encrypt secrets
 for safe keeping outside your cluster.
 
 ## What Is the Benefit?
@@ -27,7 +27,7 @@ Since the secret will be encrypted, you can freely share it, and store in
 source control systems.
 
 When you’re ready to submit a secret to the workload, rather than providing the
-secret in plain text, you can deliver its encrypted version to **VMware Secrets Manager Safe**.
+secret in plain text, you can deliver its encrypted version to **VSecM Safe**.
 
 This method offers a couple of distinct benefits:
 
@@ -47,7 +47,7 @@ Please note that the encryption process and its inner workings remain mostly
 hidden to the end-user, ensuring a user-friendly experience.
 
 The process employs asymmetric encryption, where the secret is encrypted with a
-public key and decrypted using a private key by **VMware Secrets Manager Safe**. However,
+public key and decrypted using a private key by **VSecM Safe**. However,
 this is an implementation detail which can be subject to change.
 
 ## Cleanup
@@ -112,7 +112,7 @@ kubectl exec $INSPECTOR -- ./env
 
 ## Encrypting a Secret
 
-Now, let’s encrypt a secret using **VMware Secrets Manager Sentinel**:
+Now, let’s encrypt a secret using **VSecM Sentinel**:
 
 ```bash
 export SENTINEL=$(kubectl get po -n vsecm-system \
@@ -132,7 +132,7 @@ kubectl exec $SENTINEL -n vsecm-system -- safe \
 ```
 
 Here `-s` is for the secret we would like to encrypt, and `-e` indicates
-that we are not going to store the secret (*yet*), instead we want **VMware Secrets Manager Sentinel**
+that we are not going to store the secret (*yet*), instead we want **VSecM Sentinel**
 to output the encrypted value of the secret to us.
 
 ## Registering the Encrypted Secret
@@ -162,7 +162,7 @@ And yes, it did.
 One thing to note is, if you lose access to the Kubernetes `Secret` named
 `vsecm-safe-age-key` in `vsecm-system` namespace, then you will lose the
 ability to register your encrypted secrets (*since, during bootstrapping
-when VMware Secrets Manager Safe cannot find the secret, it will create a brand new one,
+when VSecM Safe cannot find the secret, it will create a brand new one,
 invalidating all encrypted values*).
 
 As a rule of thumb, **always backup your cluster** regularly, so that if
@@ -172,7 +172,7 @@ from the backups.
 ## Conclusion
 
 This tutorial demonstrated how you can encrypt a secret value and register the
-encrypted value to **VMware Secrets Manager Safe** instead of the plain text secret. This
+encrypted value to **VSecM Safe** instead of the plain text secret. This
 technique provides and added layer of protection, and also allows you to
 safe the secret anywhere you like including source control systems.
 
