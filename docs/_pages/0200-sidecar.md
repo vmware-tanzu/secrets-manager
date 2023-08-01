@@ -16,9 +16,9 @@ prev_url: /docs/use-cases-overview/
 permalink: /docs/use-case-sidecar/
 ---
 
-## Using With **VMware Secrets Manager Sidecar**
+## Using With **VSecM Sidecar**
 
-Let’s deploy our demo workload that will use **VMware Secrets Manager Sidecar**.
+Let’s deploy our demo workload that will use **VSecM Sidecar**.
 
 You can find the deployment manifests inside the
 [`./examples/workload-using-sidecar/k8s`][workload-yaml] folder of your
@@ -189,13 +189,13 @@ secret: ' VSecMRocks! '
 …{% endraw %}
 ```
 
-So we registered our first secret to a workload using **VMware Secrets Manager Sentinel**.
-The secret is stored in **VMware Secrets Manager Safe** and dispatched to the workload
-through **VMware Secrets Manager Sidecar** behind the scenes.
+So we registered our first secret to a workload using **VSecM Sentinel**.
+The secret is stored in **VSecM Safe** and dispatched to the workload
+through **VSecM Sidecar** behind the scenes.
 
-> **What Is VMware Secrets Manager Sentinel**?
+> **What Is VSecM Sentinel**?
 >
-> For all practical purposes, you can think of **VMware Secrets Manager Sentinel** as the
+> For all practical purposes, you can think of **VSecM Sentinel** as the
 > “*bastion host*” you log in and execute sensitive operations.
 >
 > In our case, we will register secrets to workloads using it.
@@ -238,7 +238,7 @@ secret: ' ["YouRockToo!","VSecMRocks!"] '
 
 Yes, we have two secrets in an array.
 
-**VMware Secrets Manager Safe** returns a single string if there is a single secret associated
+**VSecM Safe** returns a single string if there is a single secret associated
 with the workload, and a JSON Array of strings if the workload has more than
 one secret registered.
 
@@ -269,15 +269,15 @@ The `example` part from that template is the **name** that **VMware Secrets Mana
 will identify this workload as. That is the name we used when we registered
 the secret to our workload.
 
-## **VMware Secrets Manager Sentinel** Commands
+## **VSecM Sentinel** Commands
 
 You can execute
 `kubectl exec -it $sentinelPod -n vsecm-sytem -- safe --help`
 for a list of all available commands and command-line flags
-that **VMware Secrets Manager Sentinel** has.
+that **VSecM Sentinel** has.
 
-Also, [Check out **VMware Secrets Manager Sentinel CLI Reference**][sentinel-ref] for more
-information and usage examples on **VMware Secrets Manager Sentinel**.
+Also, [Check out **VSecM Sentinel CLI Reference**][sentinel-ref] for more
+information and usage examples on **VSecM Sentinel**.
 
 [sentinel-ref]: /docs/cli
 
@@ -286,4 +286,4 @@ information and usage examples on **VMware Secrets Manager Sentinel**.
 Yay 🎉. That was our first secret.
 
 In the next tutorial, we will do something similar; however, this time we
-will leverage [**VMware Secrets Manager SDK**](/docs/sdk) instead of **VMware Secrets Manager Sidecar**.
+will leverage [**VMware Secrets Manager SDK**](/docs/sdk) instead of **VSecM Sidecar**.

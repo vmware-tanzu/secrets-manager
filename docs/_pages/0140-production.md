@@ -42,7 +42,7 @@ Kubernetes client and server you use, things will likely work just fine.
 resources, such as edge computing and IoT.
 
 That being said, **VMware Secrets Manager**, by design, is a memory-intensive application.
-However, even when you throw all your secrets at it, **VMware Secrets Manager Safe**’s peak
+However, even when you throw all your secrets at it, **VSecM Safe**’s peak
 memory consumption will be in the order or 10-20 megabytes of RAM. The CPU
 consumption will be within reasonable limits too.
 
@@ -54,13 +54,13 @@ conditions to accurately gauge the resource requirements to ensure optimal
 performance.
 
 Benchmark your system usage and set **CPU** and **Memory** limits to the
-**VMware Secrets Manager Safe** pod.
+**VSecM Safe** pod.
 
 We recommend you to:
 
-* Set a memory **request** and **limit** for **VMware Secrets Manager Safe**,
-* Set a CPU **request**; but **not** set a CPU limit for **VMware Secrets Manager Safe**
-  (*i.e., the **VMware Secrets Manager Safe** pod will ask for a baseline CPU;
+* Set a memory **request** and **limit** for **VSecM Safe**,
+* Set a CPU **request**; but **not** set a CPU limit for **VSecM Safe**
+  (*i.e., the **VSecM Safe** pod will ask for a baseline CPU;
   yet burst for more upon need*).
 
 As in any secrets management solution, your compute and memory requirements
@@ -136,7 +136,7 @@ namespace contains the keys to encrypt and decrypt secret data on the data
 volume of **VSecM Safe**.
 
 While reading the secret alone is not enough to plant an attack on the secrets
-(*because the attacker also needs to access the VMware Secrets Manager Safe Pod or the `/data`
+(*because the attacker also needs to access the VSecM Safe Pod or the `/data`
 volume in that Pod*), it is still **crucial** to follow the **principle of least
 privilege** guideline and do not allow anyone on the cluster read or write
 to the `vsecm-safe-age-key` secret.
@@ -170,11 +170,11 @@ to `etcd`.
 If you are **only** using **VMware Secrets Manager** for your configuration and secret storage
 needs, and your workloads do **not** bind any Kubernetes `Secret` (*i.e.,
 instead of using Kubernetes `Secret` objects, you use tools like **VMware Secrets Manager SDK**
-or **VMware Secrets Manager Sidecar** to securely dispatch secrets to your workloads*) then
+or **VSecM Sidecar** to securely dispatch secrets to your workloads*) then
 as long as you secure access to the secret `vsecm-safe-age-key` inside the
 `vsecm-system` namespace, you should be good to go.
 
-With the help of **VMware Secrets Manager SDK**, **VMware Secrets Manager Sidecar**, and **VMware Secrets Manager Init Container**,
+With the help of **VMware Secrets Manager SDK**, **VSecM Sidecar**, and **VMware Secrets Manager Init Container**,
 and with some custom coding/shaping of your data, you should be able to use it.
 [Even when you don’t have direct access to the application’s source code, there
 are still ways to inject environment variables without Kubernetes `Secret`s
@@ -184,12 +184,12 @@ or `ConfigMap`s][david-copperfield].
 <!-- [david-copperfield]: https://github.com/shieldworks/aegis/issues/231 -->
 
 However, **VMware Secrets Manager** also has the option to[persist the secrets stored in
-**VMware Secrets Manager Safe** as Kubernetes `Secret` objects][VSecM-k]. This approach can
+**VSecM Safe** as Kubernetes `Secret` objects][VSecM-k]. This approach can
 help support **legacy** systems where you want to start using
 **VMware Secrets Manager** without introducing much code and infrastructure change to the
 existing cluster—at least initially.
 
-[VSecM-k]: /docs/cli/#creating-kubernetes-secrets "VMware Secrets Manager Sentinel: Creating Kubernetes Secrets"
+[VSecM-k]: /docs/cli/#creating-kubernetes-secrets "VSecM Sentinel: Creating Kubernetes Secrets"
 
 If you are using **VMware Secrets Manager** to generate Kubernetes `Secrets` for the workloads
 to consume, then take regular precautions around those secrets,
@@ -206,7 +206,7 @@ end of the world if you keep your `etcd` unencrypted.
 > **VMware Secrets Manager Keeps Your Secrets Safe**
 >
 > If you use **VMware Secrets Manager** to store your sensitive data, your secrets
-> will be securely stored in **VMware Secrets Manager Safe** (*instead of `etcd`*),
+> will be securely stored in **VSecM Safe** (*instead of `etcd`*),
 > so you will have even fewer reasons to encrypt `etcd` 😉.
 
 #### Details
@@ -269,7 +269,7 @@ attacker.
 [rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [kms]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
 
-## Restrict Access to VMware Secrets Manager Sentinel
+## Restrict Access to VSecM Sentinel
 
 All **VMware Secrets Manager** images are based on [distroless][distroless] containers for an
 additional layer of security. Thus, an operator cannot execute a shell on the
@@ -280,24 +280,24 @@ Always take a **principle of least privilege** stance. For example, do not let
 anyone who does not need to fiddle with the `vsecm-system` namespace see and use
 the resources there.
 
-This stance is especially important for the **VMware Secrets Manager Sentinel** Pod since an
+This stance is especially important for the **VSecM Sentinel** Pod since an
 attacker with access to that pod can override (*but not read*) secrets on
 workloads.
 
 **VMware Secrets Manager** leverages Kubernetes security primitives and modern cryptography
-to secure access to secrets. And **VMware Secrets Manager Sentinel** is the **only** system
-part that has direct write access to the **VMware Secrets Manager Safe** secrets store. Therefore,
-once you secure access to **VMware Secrets Manager Sentinel** with [proper RBAC and
+to secure access to secrets. And **VSecM Sentinel** is the **only** system
+part that has direct write access to the **VSecM Safe** secrets store. Therefore,
+once you secure access to **VSecM Sentinel** with [proper RBAC and
 policies][rbac], you secure access to your secrets.
 
 [distroless]: https://github.com/GoogleContainerTools/distroless
 
-## Volume Selection for VMware Secrets Manager Safe Backing Store
+## Volume Selection for VSecM Safe Backing Store
 
-[**VMware Secrets Manager Safe** default deployment descriptor][vsecm-safe-deployment-yaml]
+[**VSecM Safe** default deployment descriptor][vsecm-safe-deployment-yaml]
 uses [`HostPath`][k8s-pv] to store encrypted backups for secrets.
 
-It is highly recommended to ensure that the backing store **VMware Secrets Manager Safe**
+It is highly recommended to ensure that the backing store **VSecM Safe**
 uses is **durable**, **performant**, and **reliable**.
 
 It is a best practice to avoid `HostPath` volumes for production deployments.
@@ -307,37 +307,37 @@ needs][k8s-pv] for production setups.
 [vsecm-safe-deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/charts/safe/templates/Deployment.yaml
 [k8s-pv]: https://kubernetes.io/docs/concepts/storage/volumes/
 
-## High Availability of VMware Secrets Manager Safe
+## High Availability of VSecM Safe
 
 > **tl;dr:**
 >
-> **VMware Secrets Manager Safe** may not emphasize high-availability, but its robustness is
+> **VSecM Safe** may not emphasize high-availability, but its robustness is
 > so outstanding that the need for high-availability becomes almost negligible.
 
-Since **VMware Secrets Manager Safe** keeps all of it state in memory, using a pod with enough
+Since **VSecM Safe** keeps all of it state in memory, using a pod with enough
 memory and compute resources is the most effective way to leverage it. Although,
 with some effort, it might be possible to make it highly available, the effort
 will likely bring unnecessary complexity without much added benefit.
 
-**VMware Secrets Manager Safe** is, by design, a single pod; so technically-speaking, it is
-not highly-available. So in the rare case when **VMware Secrets Manager Safe** crashes, or
+**VSecM Safe** is, by design, a single pod; so technically-speaking, it is
+not highly-available. So in the rare case when **VSecM Safe** crashes, or
 gets evicted due to a resource contention, there will be minimal disruption
-until it restarts. However, **VMware Secrets Manager Safe** restarts fairly quickly, so the
+until it restarts. However, **VSecM Safe** restarts fairly quickly, so the
 time window where it is unreachable will hardly be an issue.
 
-Moreover **VMware Secrets Manager Safe** employs “*lazy learning*” and does not load everything
+Moreover **VSecM Safe** employs “*lazy learning*” and does not load everything
 into memory all at once, allowing **very** fast restarts. In addition, its
 lightweight and focused code ensures that crashes are infrequent, making
-**VMware Secrets Manager Safe** *practically* highly available.
+**VSecM Safe** *practically* highly available.
 
 While it is possible to modify the current architecture to include more than one
-**VMware Secrets Manager Safe** pod and place it behind a service to ensure high-availability,
+**VSecM Safe** pod and place it behind a service to ensure high-availability,
 this would be a significant undertaking, with not much benefit to merit it:
 
 First of all, for that case to happen, the state would need to be moved away
 from the memory, and centralized into a common in-memory store (*such as Redis,
 or etcd*). This will introduce another moving part to manage. Or alternatively
-all **VMware Secrets Manager Safe** pods could be set up to broadcast their operations and reach
+all **VSecM Safe** pods could be set up to broadcast their operations and reach
 a quorum. A quorum-based solution would be more complex than using a share store,
 besides reaching a quorum means a performance it (*both in terms of decision time
 and also compute required*).
@@ -348,7 +348,7 @@ two pods from creating different bootstrap secrets simultaneously.
 Also, for a backing store like Redis, the data would need to be encrypted
 (*and Redis, for example, does not support encryption at rest by default*).
 
-When considering all these, **VMware Secrets Manager Safe** has not been created highly-available
+When considering all these, **VSecM Safe** has not been created highly-available
 **by design**; however, it is so robust, and it restarts from crashes so fast that
 it’s “*as good as*” highly-available.
 
@@ -356,13 +356,13 @@ it’s “*as good as*” highly-available.
 
 ## Update VMware Secrets Manager’ Log Levels
 
-**VMware Secrets Manager Safe** and **VMware Secrets Manager Sidecar** are configured to log at `TRACE` level by
+**VSecM Safe** and **VSecM Sidecar** are configured to log at `TRACE` level by
 default. This is to help you debug issues with **VMware Secrets Manager**. However, this can
 cause a lot of noise in your logs. Once you are confident that **VMware Secrets Manager**
 works as expected, you can reduce the log level to `INFO` or `WARN`.
 
 For this, you will need to modify the `VSECM_LOG_LEVEL` environment variable
-in the **VMware Secrets Manager Safe** and **VMware Secrets Manager Sidecar** Deployment manifests.
+in the **VSecM Safe** and **VSecM Sidecar** Deployment manifests.
 
 See [**Configuring VMware Secrets Manager**](/docs/configuration) for details.
 
@@ -380,8 +380,8 @@ benchmark your system and set your resources accordingly. Or set generous-enough
 limits and adjust your settings as time goes by.
 
 Also, you are strongly encouraged **not** to set a limit on **VMware Secrets Manager** Pods’ CPU
-usage. Instead, it is recommended to let **VMware Secrets Manager Safe** burst the CPU when
+usage. Instead, it is recommended to let **VSecM Safe** burst the CPU when
 it needs.
 
-On the same topic, you are encouraged to set a **request** for **VMware Secrets Manager Safe**
+On the same topic, you are encouraged to set a **request** for **VSecM Safe**
 to guarantee a baseline compute allocation.
