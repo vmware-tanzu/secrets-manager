@@ -97,7 +97,7 @@ plain text secrets in memory (*and nowhere else than memory*) crucial.
 
 For disaster recovery, VMware Secrets Manager (*by default*) backs up encrypted version of
 its state on the file system; however, the
-plain text secrets that **VMware Secrets Manager Safe** dispatches to
+plain text secrets that **VSecM Safe** dispatches to
 workloads will always be stored in memory.
 
 ## Resilient By Default
