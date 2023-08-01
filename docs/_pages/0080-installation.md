@@ -9,7 +9,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Installation
+title: VSecM Installation
 layout: post
 next_url: /docs/cli/
 prev_url: /docs/architecture/

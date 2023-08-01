@@ -9,126 +9,123 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Architecture
+title: VSecM Architecture
 layout: post
 permalink: /docs/architecture/
 next_url: /docs/installation
 prev_url: /docs/philosophy/
 ---
 
-## VMware Secrets Manager for Cloud Native Apps
-
 ## Introduction
 
-This section discusses **Aegis** architecture and building blocks in greater
-detail: We will cover **Aegis**’ system design and project structure.
+This section discusses **VMware Secrets Manager** architecture and building blocks 
+in greater detail: We will cover **VMware Secrets Manager**’s system design and 
+project structure.
 
-You don’t have to know about these architectural details to use **Aegis**;
-however, understanding how **Aegis** works as a system can
-prove helpful when you want to extend, augment, or optimize **Aegis**.
+You don’t have to know about these architectural details to use **VMware Secrets Manager**;
+however, understanding how **VMware Secrets Manager** works as a system can
+prove helpful when you want to extend, augment, or optimize **VMware Secrets Manager**.
 
-Also, if you want to [contribute to the **Aegis** source code][contributor],
+Also, if you want to [contribute to the **VMware Secrets Manager** source code][contributor],
 knowing what happens under the hood will serve you well.
 
-[contributor]: https://aegis.ist/contact/#i-want-to-be-a-contributor
+[contributor]: /docs/contributing/ "Contribute to VMware Secrets Manager"
 
-## Components of Aegis
+## Components of VMware Secrets Manager
 
-**Aegis**, as a system, has the following components.
+**VMware Secrets Manager** (*VSecM*), as a system, has the following components.
 
-### Aegis SPIRE
+### SPIRE
 
-[`aegis-spire`][aegis-spire] is what makes communication within **Aegis**
+[**SPIRE**][spiffe] is not strictly a part of **VMware Secrets Manager**. However,
+**VMware Secrets Manager** uses **SPIRE** to establish an *Identity Control Plane*.
+
+**SPIRE** is what makes communication within **VMware Secrets Manager**
 components and workloads possible. It dispatches **x.509 SVID Certificates**
 to the required parties to make secure **mTLS** communication possible.
 
 [Check out the official SPIFFE/SPIRE documentation][spiffe] for more information
 about how **SPIRE** works internally.
 
+> **It Is More SPIFFE than SPIRE**
+>
+> Technically, any SPIFFE-compatible Identity Control Plane can be used with
+> **VMware Secrets Manager**. However, only **SPIRE** comes as part of the
+> default installation.
+
 [spiffe]: https://spiffe.io/
 
-### Aegis Safe
+### VSecM Safe
 
-[`aegis-safe`][safe] stores secrets and dispatches them to workloads.
+[`vsecm-safe`][safe] stores secrets and dispatches them to workloads.
 
-### Aegis Sidecar
+### VSecM Sidecar
 
-[`aegis-sidecar`][sidecar] is a sidecar that facilitates delivering secrets to workloads.
+[`vsecm-sidecar`][sidecar] is a sidecar that facilitates delivering secrets to 
+workloads.
 
-### Aegis Sentinel
+### VSecM Sentinel
 
-[`aegis-sentinel`][sentinel] is a pod you can shell in and do administrative tasks such as
-registering secrets for workloads.
+[`vsecm-sentinel`][sentinel] is a pod you can shell in and do administrative 
+tasks such as registering secrets for workloads.
 
-[aegis-spire]: https://github.com/ShieldWorks/aegis/tree/main/k8s/spire
-[safe]: https://github.com/shieldworks/tree/main/app/safe
-[sidecar]: https://github.com/shieldworks/tree/main/app/sidecar
-[sentinel]: https://github.com/shieldworks/tree/main/app/sentinel
+[safe]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/safe
+[sidecar]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sidecar
+[sentinel]: https://github.com/vmware-tanzu/tree/main/app/sentinel
 
-Here is a simplified overview of how various actors on an **Aegis** system
-interact with each other:
+Here is a simplified overview of how various actors on a 
+**VMware Secrets Manager** system interact with each other:
 
-![Aegis Components](/assets/actors.jpg "Aegis Component Interaction")
-
-## Technologies Used
-
-Without the following technologies, implementing **Aegis** would have been a very
-hard, time-consuming, and error-prone endeavor.
-
-* [SPIFFE and **SPIRE**][spire] for establishing an Identity Control Plane.
-* [**Age** Encryption][age] to enable out-of-memory encrypted
-  backup of the secrets stored for disaster recovery.
-
-[spire]: https://spiffe.io/ "SPIFFE: Secure Production Identity Framework for Everyone"
-[sops]: https://github.com/mozilla/sops "Sops: Simple and flexible tool for managing secrets"
-[age]: https://github.com/FiloSottile/age "Age: A secure and modern encryption tool"
+![VMware Secrets Manager Components](/assets/actors.jpg "VMware Secrets Manager Component Interaction")
 
 ## High-Level Architecture
 
 ### Dispatching Identities
 
-**SPIRE** delivers short-lived X.509 SVIDs to **Aegis**
+**SPIRE** delivers short-lived X.509 SVIDs to **VMware Secrets Manager**
 components and consumer workloads.
 
-**Aegis Sidecar** periodically talks to **Aegis Safe** to check if there is
+**VSecM Sidecar** periodically talks to **VSecM Safe** to check if there is
 a new secret to be updated.
 
-![Aegis High Level Architecture](/assets/aegis-hla.png "Aegis High Level Architecture")
+![VMware Secrets Manager High Level Architecture](/assets/vsecm-hla.png "VMware Secrets Managers High Level Architecture")
+
+Open the image above in a new tab or window to see it in full size.
 
 ### Creating Secrets
 
-**Aegis Sentinel** is the only place where secrets can be created and registered
-to **Aegis Safe**.
+**VSecM Sentinel** is the only place where secrets can be created and registered
+to **VSecM Safe**.
 
-![Creating Secrets](/assets/aegis-create-secrets.png "Creating Secrets")
+![Creating Secrets](/assets/vsecm-create-secrets.png "Creating Secrets")
 
 ### Component and Workload SVID Schemas
 
 SPIFFE ID format wor workloads is as follows:
 
 ```text
-{% raw %}spiffe://aegis.ist/workload/$workloadName
+{% raw %}spiffe://vsecm.com/workload/$workloadName
 /ns/{{ .PodMeta.Namespace }}
 /sa/{{ .PodSpec.ServiceAccountName }}
 /n/{{ .PodMeta.Name }}{% endraw %}
 ```
 
-For the non-`aegis-system` workloads that **Safe** injects secrets,
+For the non-`vsecm-system` workloads that **Safe** injects secrets,
 `$workloadName` is determined by the workload’s `ClusterSPIFFEID` CRD.
 
-For `aegis-system` components, we use `aegis-safe` and `aegis-sentinel`
+For `vsecm-system` components, we use `vsecm-safe` and `vsecm-sentinel`
 for the `$workloadName` (*along with other attestors such as attesting
 the service account and namespace*):
 
 ```text
-{% raw %}spiffe://aegis.ist/workload/aegis-safe
+{% raw %}spiffe://vsecm.com/workload/vsecm-safe
 /ns/{{ .PodMeta.Namespace }}
 /sa/{{ .PodSpec.ServiceAccountName }}
 /n/{{ .PodMeta.Name }}{% endraw %}
 ```
 
 ```text
-{% raw %}spiffe://aegis.ist/workload/aegis-sentinel
+{% raw %}spiffe://vsecm.com/workload/vsecm-sentinel
 /ns/{{ .PodMeta.Namespace }}
 /sa/{{ .PodSpec.ServiceAccountName }}
 /n/{{ .PodMeta.Name }}{% endraw %}
@@ -136,80 +133,106 @@ the service account and namespace*):
 
 ## Persisting Secrets
 
-**Aegis Safe** uses [age][age] to securely persist the secrets to disk so that
+**VSecM Safe** uses [`age`][age] to securely persist the secrets to disk so that
 when its Pod is replaced by another pod for any reason
-(*eviction, crash, system restart, etc.*). When that happens, **Aegis Safe**
+(*eviction, crash, system restart, etc.*). When that happens, **VSecM Safe**
 can retrieve secrets from a persistent storage.
+
+> **Age Algorithm Can We Swapped With SHA-256**
+> 
+> The `age` algorithm can be swapped with `SHA-256`. 
+> 
+> Check out the [**VSecM Configuration**](/docs/configuration/) for more information.
+{: .block-tip}
 
 Since decryption is relatively expensive, once a secret is retrieved,
 it is kept in memory and served from memory for better performance.
 Unfortunately, this also means the amount of secrets you have for all
-your workloads **has to** fit in the memory you allocate to **Aegis Safe**.
+your workloads **has to** fit in the memory you allocate to **VSecM Safe**.
 
-## **Aegis Safe** Bootstrapping Flow
+## **VSecM Safe** Bootstrapping Flow
 
-To persist secrets, **Aegis Safe** needs a way to generate and securely store
+To persist secrets, **VSecM Safe** needs a way to generate and securely store
 the private and public `age` keys that are utilized for decrypting and
 encrypting the secrets, respectively.
 
 * Key generation is conveniently provided by `age` Go SDK.
 * After generation, the keys are stored in a Kubernetes `Secret` that only
-  **Aegis Safe** can access.
+  **VSecM Safe** can access.
 
-Here is a sequence diagram of the **Aegis Safe** bootstrapping flow:
+Here is a sequence diagram of the **VSecM Safe** bootstrapping flow:
 
-![Aegis Safe Bootstrapping](/assets/bootstrap.jpg "Aegis Safe Bootstrapping Flow")
+![VSecM Safe Bootstrapping](/assets/vsecm-bootstrap.jpg "VSecM Safe Bootstrapping Flow")
 
-Note that, until bootstrapping is complete, **Aegis Safe** will not respond to
-any API requests that you make from **Aegis Sentinel**.
+Note that, until bootstrapping is complete, **VSecM Safe** will not respond to
+any API requests that you make from **VSecM Sentinel**.
+
+> **You Can Swap the Encryption Mechanism**
+> 
+> In **FIPS-compliant** environments, you can use **VMare Secrets Manager**
+> FIPS-compliant container images that use **AES-256-GCM** encryption instead
+> of **Age**. 
+> 
+> Check out the [**Configuration**](/docs/configuration) section for more
+> details.
+> 
+> Also, you can opt-out from auto-generating the private and public keys
+> and provide your own keys. However, when you do this, you will have to 
+> manually unlock **VSecM Safe** by providing your keys every time it
+> crashes. If you let **VSecM Safe** auto-generate the keys,
+> you won’t have to do this; so you can `#sleepmore`.
+>
+> Again, check out the [**Configuration**](/docs/configuration)
+> section for more details.
+{: .block-tip}
 
 [age]: https://github.com/FiloSottile/age
 
-## **Aegis Safe** Pod Layout
+## **VSecM Safe** Pod Layout
 
-Here is what an **Aegis Safe** Pod looks like at a high level:
+Here is what an **VSecM Safe** Pod looks like at a high level:
 
-![Aegis Safe Pod](/assets/crypto.jpg "Aegis Safe Pod")
+![VSedM Safe Pod](/assets/vsecm-crypto.jpg "VSecM Safe Pod")
 
 * `spire-agent-socket`: Is a [SPIFFE CSI Driver][csi-driver]-managed volume that
   enables **SPIRE** to distribute **X.509 SVID**s to the Pod.
 * `/data` is the volume where secrets are stored in an encrypted format. You are
   **strongly encouraged** to use a **persistent volume** for production setups
   to retrieve the secrets if the Pod crashes and restarts.
-* `/key` is where the secret `aegis-safe-age-key` mounts. For security reasons,
-  ensure that **only** the pod **Aegis Safe** can read and write to `aegis-safe-age-key`
+* `/key` is where the secret `vsecm-safe-age-key` mounts. For security reasons,
+  ensure that **only** the pod **VSecM Safe** can read and write to `vsecm-safe-age-key`
   and no one else has access. In this diagram, this is achieved by assigning
-  a `secret-readwriter` role to **Aegis Safe** and using that role to update
+  a `secret-readwriter` role to **VSecM Safe** and using that role to update
   the secret. Any pod that does not have the role will be unable to read or
   write to this secret.
 
 If the `main` container does not have a public/private key pair in memory, it
 will attempt to retrieve it from the `/key` volume. If that fails, it will
-generate a brand new key pair and then store it in the `aegis-safe-age-key` secret.
+generate a brand new key pair and then store it in the `vsecm-safe-age-key` secret.
 
 [csi-driver]: https://github.com/spiffe/spiffe-csi
 
-## Template Transformation and Kubernetes Secret Generation
+## Template Transformation and K8S Secret Generation
 
-Here is a sequence diagram of how the and **Aegis Safe**-managed *secret*
+Here is a sequence diagram of how the and **VSecM Safe**-managed *secret*
 is transformed into a **Kubernetes** `Secret` (*open the image in a
 new tab for a larger version*):
 
-![Transforming Secrets](/assets/secret-transformation.png "Transforming Secrets")
+![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 
 There are two parts to this:
 
 * Transforming secrets using a Go template transformation
 * Updating the relevant **Kubernetes** `Secret`
 
-You can check [**Aegis Sentinel** CLI Documentation](/docs/sentinel) for
+You can check [**VSecM Sentinel** CLI Documentation](/docs/sentinel) for
 various ways this transformation can be done. In addition, you can check
-[**Aegis** Secret Registration Tutorial](/docs/register) for more information
+[**VSecM** Secret Registration Tutorial](/docs/register) for more information
 about how the **Kubernetes** `Secret` object is generated and used in workloads.
 
 ## Liveness and Readiness Probes
 
-**Aegis Safe** and **Aegis Sentinel** use **liveness** and **readiness** probes.
+**VSecM Safe** and **VSecM Sentinel** use **liveness** and **readiness** probes.
 These probes are tiny web servers that serve at ports `8081` and `8082` by
 default, respectively.
 
@@ -223,8 +246,8 @@ probe will return an `HTTP 200` success response.
 
 ## Conclusion
 
-This was a deeper overview of **Aegis** architecture. If you have further
-questions, feel free to [join the **Aegis** community on Slack][slack-invite]
-and ask them out.
+This was a deeper overview of **VMware Secrets Manager** architecture. If you 
+have further questions, feel free to [join the **VMware Secrets Manager** 
+community on **Slack**][slack-invite] and ask them out.
 
-[slack-invite]: https://join.slack.com/t/aegis-6n41813/shared_invite/zt-1myzqdi6t-jTvuRd1zDLbHX0gN8VkCqg "Join aegis.slack.com"
+[slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
