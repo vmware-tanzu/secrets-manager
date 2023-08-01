@@ -174,14 +174,9 @@ or **VMware Secrets Manager Sidecar** to securely dispatch secrets to your workl
 as long as you secure access to the secret `vsecm-safe-age-key` inside the
 `vsecm-system` namespace, you should be good to go.
 
-With the help of **VMware Secrets Manager SDK**, **VMware Secrets Manager Sidecar**, and **VMware Secrets Manager Init Container**,
-and with some custom coding/shaping of your data, you should be able to use it.
-[Even when you don’t have direct access to the application’s source code, there
-are still ways to inject environment variables without Kubernetes `Secret`s
-or `ConfigMap`s][david-copperfield].
-
-<!-- TODO: Update below link with new link -->
-<!-- [david-copperfield]: https://github.com/shieldworks/aegis/issues/231 -->
+With the help of **VMware Secrets Manager SDK**, **VMware Secrets Manager Sidecar**, 
+and **VMware Secrets Manager Init Container**, and with some custom coding/shaping
+of your data, you should be able to use it.
 
 However, **VMware Secrets Manager** also has the option to[persist the secrets stored in
 **VMware Secrets Manager Safe** as Kubernetes `Secret` objects][VSecM-k]. This approach can
