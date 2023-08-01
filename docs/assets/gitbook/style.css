@@ -3449,7 +3449,8 @@ table {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px 15px 40px 15px
+    padding: 20px 15px 40px 15px;
+    padding-bottom: 6em !important;
 }
 
 .page-inner .btn-group .btn {
@@ -3649,7 +3650,12 @@ table {
 }
 
 .markdown-section h3 {
-    font-size: 1.15em
+    font-size: 1.1em;
+    font-weight: 400;
+
+    border-left: 0.3em #00af80 solid;
+    color: #006c4f;
+
 }
 
 .markdown-section h4 {
@@ -4201,7 +4207,6 @@ h2 {
     margin-top: 3.26em !important;
     margin-bottom: 0.5em !important;
     border-left: 0.81em #BA1C3B solid;
-
 }
 
 
