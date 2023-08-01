@@ -3644,9 +3644,32 @@ table {
 .markdown-section h2 {
     font-size: 1.25em;
     font-weight: 400;
-    border-left: 0.5em #BA1C3B solid;
     xborder-top: 1px solid #ED6B85;
     color: #720016;
+    padding-left: 0;
+    border-left: 0;
+}
+
+.markdown-section a code {
+    background: inherit;
+}
+
+.markdown-section h2 code, .markdown-section h3 code, .markdown-section h1 code {
+    background: inherit;
+}
+
+.markdown-section .highlighter-rouge {
+    margin-top: 1.42em;
+    margin-bottom: 2em;
+}
+
+.markdown-section h2:before {
+    background: #BA1C3B;
+    content: "";
+    display: block;
+    height: 2px;
+    margin-bottom: 1rem;
+    width: 64px;
 }
 
 .markdown-section h3 {
@@ -3732,12 +3755,14 @@ span.c {
 }
 
 .markdown-section code {
-    padding: .2em;
+    padding: .1em;
     margin: 0;
     font-size: .99em;
     background-color: #FFF0EB;
     color: #882200;
     border-radius: 2px;
+    background-color: #D1F3AE;
+    color: #1E3B00;
 }
 
 .markdown-section code:after, .markdown-section code:before {

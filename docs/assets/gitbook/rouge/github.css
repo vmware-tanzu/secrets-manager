@@ -60,7 +60,7 @@
 }
 .highlight .kc {
   color: #000000;
-  font-weight: bold;
+  font-weight: normal;
 }
 .highlight .kd {
   color: #000000;
@@ -84,7 +84,7 @@
 }
 .highlight .k, .highlight .kv {
   color: #000000;
-  font-weight: bold;
+  font-weight: normal;
 }
 .highlight .mf {
   color: #009999;
