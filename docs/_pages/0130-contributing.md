@@ -16,27 +16,21 @@ prev_url: /docs/use-the-source/
 permalink: /docs/contributing/
 ---
 
-## VMware Secrets Manager for Cloud Native Apps
-
 ## Introduction
 
-This section contains instructions to test and develop **Aegis** locally.
+This section contains instructions to test and develop **VMware Secrets Manager** 
+locally.
 
-## Video
-
-Here’s a video that shows how to develop **Aegis** locally:
-
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
-  src="https://player.vimeo.com/video/811710600?h=a186b73be4&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
-  frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
-  allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-  title="Installing Aegis from the Source Code"></iframe></div>
-<script src="https://player.vimeo.com/api/player.js"></script>
+> **📚 Familiarize Yourself with the Contributing Guidelines**
+> 
+> Please make sure you read the [Contributing Guidelines][contributing]
+> and  the [Code of Conduct][coc] on the **VSecM** GitHub repo first.
+{: .block-warning}
 
 ## Prerequisites
 
 Other than the source code, you need the following set up for your development
-environment to be able to locally develop **Aegis**:
+environment to be able to locally develop **VMware Secrets Manager**:
 
 * [Docker][docker] installed and running for the local user.
 * [Minikube][minikube] installed on your system.
@@ -50,7 +44,7 @@ environment to be able to locally develop **Aegis**:
 > **Can I Use Something Other than Minikube and Docker**?
 >
 > Of course, you can use any Kubernetes cluster to develop, deploy, and test
-> **Aegis**.
+> **VMware Secrets Manager** for Cloud-Native Apps.
 >
 > Similarly, you can use any OCI-compliant container runtime. It does not
 > have to be Docker.
@@ -58,94 +52,42 @@ environment to be able to locally develop **Aegis**:
 > We are giving **Minikube** and **Docker** as an example because they are
 > easier to set up; and when you stumble upon, it is easy to find supporting
 > documentation about these to help you out.
+{: .block-tip}
 
-## Cloning Aegis
+## Cloning VMware Secrets Manager
 
-Create a workspace folder and clone **Aegis** into it.
+Create a workspace folder and clone **VMware Secrets Manager** into it.
 
 ```bash 
 mkdir $HOME/Desktop/WORKSPACE
 cd $HOME/Desktop/WORKSPACE
-git clone "https://github.com/shieldworks/aegis.git"
-cd aegis
+git clone "https://github.com/vmware-tanzu/secrets-manager.git"
+cd secrets-manager 
 ```
 
 > **Want to Create a Pull Request**?
 >
 > If you are contributing to the source code, make sure you read
 > [the contributing guidelines][contributing], and [the code of conduct][coc].
+{: .block-tip}
 
 [fork]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks
-[contributing]: https://github.com/shieldworks/aegis/blob/main/CONTRIBUTING.md
-[coc]: https://github.com/shieldworks/aegis/blob/main/CODE_OF_CONDUCT.md
+[contributing]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING_DCO.md
+[coc]: https://github.com/shieldworks/wmware-tanzu/secrets-manager/blob/CODE_OF_CONDUCT.md
 
 ## Getting Help
 
 Running `make help` at the project root will provide you with a list of
-logically grouped commands:
+logically grouped commands. This page will not include the output because
+the content of the output can change depending on the version of **VMware Secrets
+Manager**; however, the output will give a nice overview of what you can do
+with the `Makefile` at the project root.
 
-```text
-{% raw %}# make help
-
---------------------------------------------------------------------
-          🛡️ Aegis: Keep your secrets… secret.
-          🛡️ https://aegis.ist
---------------------------------------------------------------------
-        ℹ️ This Makefile assumes you use Minikube and Docker
-        ℹ️ for most operations.
---------------------------------------------------------------------
-  Using Docker for Mac?
-        ➡ 'make mac-tunnel' to proxy to the internal registry.
-
-  Using Minikube? If DOCKER_HOST and MINIKUBE_ACTIVE_DOCKERD are
-  not set, then run: eval $(minikube -p minikube docker-env)
-        ➡ $DOCKER_HOST            : 
-        ➡ $MINIKUBE_ACTIVE_DOCKERD: 
---------------------------------------------------------------------
-  Prep/Cleanup:
-          ˃ make k8s-delete;make k8s-start;
-          ˃ make clean;
---------------------------------------------------------------------
-  Testing:
-    ⦿ Istanbul images:
-          ˃ make build-local;make deploy-local;make test-local;
-    ⦿ Istanbul FIPS images:
-          ˃ make build-local;make deploy-fips-local;make test-local;
-    ⦿ Photon images:
-          ˃ make build-local;make deploy-photon-local;make test-local;
-    ⦿ Photon FIPS images:
-          ˃ make build-local;make deploy-photon-fips-local;make test-local;
---------------------------------------------------------------------
-  Example Use Cases:
-    Using local images:
-          ˃ make example-sidecar-deploy-local;
-          ˃ make example-sdk-deploy-local;
-          ˃ make example-multiple-secrets-deploy-local;
-    Using remote images:
-          ˃ make example-sidecar-deploy;
-          ˃ make example-sdk-deploy;
-          ˃ make example-multiple-secrets-deploy;
---------------------------------------------------------------------
- Do these at the build server only!
-   Building and Remote Testing:
-     ⦿ Istanbul (remote) images:
-         ˃ make build;make deploy;make test-remote;
-     ⦿ Istanbul FIPS (remote) images:
-         ˃ make build;make deploy-fips;make test-remote;
-     ⦿ Photon (remote) images:
-         ˃ make build;make deploy-photon;make test-remote;
-     ⦿ Photon FIPS (remote) images:
-         ˃ make build;make deploy-photon-fips;make test-remote;
-   Tagging:
-         ˃ make tag;
---------------------------------------------------------------------
-{% endraw %}
+```bash
+make help
 ```
 
 ## Building, Deploying, and Testing
-
-Note that depending on the version of **Aegis** you use, what you see can
-be slightly different.
 
 Now let’s explain some of these steps (*and for the remainder, you can read
 the `Makefile` at the project root):
@@ -154,8 +96,8 @@ the `Makefile` at the project root):
 * `make k8s-start`: Starts an existing cluster, or creates a brand new one.
 * `make build-local`: Builds all the projects locally and pushes them to
   the local container registry.
-* `make deploy-local`: Deploys **Aegis** locally with the artifacts generated
-  at the `build-local` step.
+* `make deploy-local`: Deploys **VMware Secrets Manager** locally with the 
+  artifacts generated at the `build-local` step.
 * `make test-local`: Runs integration tests to make sure that the changes
   that were made doesn’t break anything.
 
@@ -203,7 +145,8 @@ You can verify that the repository is there:
 There are two issues here:
 
 * First, all the local development scripts assume port 5000 as the repository port;
-  however, port 5000 on your mac will likely be controlled by the **Airplay Receiver**.
+  however, port `5000` on your Mac will likely be controlled by the 
+  **Airplay Receiver**.
 * And secondly, you’ll need to forward `localhost:5000` to whatever port the error
   message shows you.
 
@@ -247,14 +190,15 @@ curl localhost:5000/v2/_catalog
 ```
 
 If you get a successful response to the above `curl`, then congratulations,
-you have successfully set up your local docker registry for your **Aegis**
-development needs.
+you have successfully set up your local docker registry for your 
+**VMware Secrets Manager** development needs.
 
 > **Make a Big McTunnel**
 >
 > If you have `localhost:5000` unallocated, there is a `make mac-tunnel`
-> target in the **Aegis**’ project **Makefile** that will automatically find
-> the exposed docker registry port, and establish a tunnel for you.
+> target in the **VMware Secrets Manager**’ project **Makefile** that will 
+> automatically find the exposed docker registry port, and establish a 
+> tunnel for you.
 >
 > Execute this:
 >
@@ -270,6 +214,7 @@ development needs.
 > # Should return something similar to this:
 > # "repositories":[]
 > ```
+{: .block-tip}
 
 ### Ubuntu Troubleshooting
 
@@ -303,6 +248,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io{% endraw %}
 > After doing this, you might need to restart your system and execute
 > `minikube delete` on your terminal too. Although you might feel that this
 > step is optional, it is **not**; trust me 🙂.
+{: .block-tip}
 
 After installing a non-snap version of **Docker** and restarting your system, if
 you can use **Minikube** *Docker registry*, then, perfect. If not, there are
@@ -316,11 +262,13 @@ still be having.
 
 > **Restart, Maybe?**
 >
-> If you still have permission issues after following the official Docker post
-> installation steps outlined above, try **restarting** your computer once more.
+> If you still have permission issues after following the official Docker 
+> post-installation steps outlined above, try **restarting** your computer once 
+> more.
 >
 > Especially when it comes to Docker permissions, restarting can help,
 > and worst case it’s still worth giving a try.
+{: .block-tip}
 
 [post-installation]: https://docs.docker.com/engine/install/linux-postinstall/
 
@@ -351,7 +299,7 @@ acquiring images from the local registry, try these:
 
 Just explore the [Makefile][makefile] and get a feeling of it.
 
-[Feel free to touch base](/contact#community) if you have any questions, comments,
+[Feel free to touch base](/docs/community/) if you have any questions, comments,
 recommendations.
 
-[makefile]: https://github.com/shieldworks/aegis/blob/main/Makefile
+[makefile]: https://github.com/vmware-tanzu/secrets-manager/blob/main/Makefile

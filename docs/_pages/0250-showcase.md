@@ -16,22 +16,37 @@ prev_url: /docs/use-case-transformation/
 permalink: /docs/showcase/
 ---
 
+> **🚧 Work In Progress 🚧️**
+>
+> The video tutorials that relate to **VMware Secrets Manager** are still work
+> in progress.
+>
+> Please note that video content creation is a time-consuming process. We
+> will add more videos as our time permits.
+>
+> Thank you for your patience and understanding 🙏.
+{: .block-warning}
 
-## Unleashing Aegis’ Potential
+**VMware Secrets Manager** *for Cloud-Native Apps* is a successor of 
+a project called [**Aegis**][aegis]. The project was [renamed to 
+**VMware Secrets Manager** and moved under the **VMware Tanzu** GitHub 
+organization][vsecm].
 
-The following video covers a diverse set of use cases and dive into code to
-showcase Aegis’ adaptability as a secrets management solution.
+[aegis]: https://github.com/sheildworks/aegis "Aegis"
+[vsecm]: https://github.com/vmware-tanzu/secrets-manager "VMware Secrets Manager for Cloud-Native Apps"
 
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
-src="https://player.vimeo.com/video/822485452?h=03c0348f6f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
-frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen 
-style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="Unleashing Aegis&amp;rsquo; Potential"></iframe></div>
-<script src="https://player.vimeo.com/api/player.js"></script>
 
-## Aegis Showcase
+In the meantime, you can check out the videos that relate to **Aegis**. Aside
+from the name, the videos are still relevant. 
 
-Want to see more? Here’s a playlist for you:
+> **Replace “Aegis” with “VSecM”**
+> 
+> When watching the videos remember to replace **Aegis** with **VMware Secrets Manager**,
+> and the `aegis` command in **Aegis Sentinel** with the `safe` command in 
+> **VSecM Sentinel**. The rest of the content shall still be relevant.
+{: .block-tip}
+
+Without further ado, here is a playlist of videos that relate to **Aegis**:
 
 <div style='padding:56.25% 0 0 0;position:relative;'>
   <iframe src='https://vimeo.com/showcase/10074951/embed' 
