@@ -11,10 +11,15 @@
 
 title: VSecM Design Philosophy
 layout: post
-permalink: /docs/philosophy/
 prev_url: /docs/quickstart/
 next_url: /docs/architecture/
+permalink: /docs/philosophy/
 ---
+
+<p class="github-button"
+><a
+href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## VMware Secrets Manager for Cloud Native Apps
 

@@ -16,6 +16,11 @@ prev_url: /
 permalink: /docs/about/
 ---
 
+<p class="github-button"
+><a
+href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0021-about.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 > 🛡️ **Welcome** 🛡
 > 
 > Welcome to *VMware Secrets Manager* (**VSecM**) for Cloud-Native Apps.️
@@ -53,7 +58,7 @@ All of these (*and more*) is possible with **VMware Secrets Manager**.
 ## The **VMware Secrets Manager** Difference
 
 Cloud-native secret management can be more secure, centralized, and easy-to-use.
-This is where **Aegis**, comes into play:
+This is where **VMware Secrets Manager**, comes into play:
 
 > **VMware Secrets Manager** offers a *secure*, *user-friendly*, *cloud-native* 
 > secrets store that’s robust yet *lightweight*, requiring almost zero DevOps 
