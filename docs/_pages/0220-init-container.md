@@ -25,7 +25,7 @@ be consuming Kubernetes `Secret`s through injected environment variables,
 and the like.
 
 Luckily, with **VMware Secrets Manager Init Container** you can interpolate secrets stored in
-**VMware Secrets Manager Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
+**VSecM Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
 be consumed by the workloads.
 
 ☝️ This sounds a bit mouthful. Fear not: Everything will be crystal clear
@@ -146,7 +146,7 @@ type: Opaque
 ```
 
 As you see, the secret doesn’t have any data associated with it.
-We will dynamically populate it using **VMware Secrets Manager Sentinel** soon.
+We will dynamically populate it using **VSecM Sentinel** soon.
 
 [deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Deployment.yaml
 [secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Secret.yaml
@@ -305,8 +305,8 @@ halt bootstrapping of the main container until the secrets are registered to
 the workload.
 
 This approach is marginally **less** secure, because it creates interim secrets
-which are not strictly necessary if we were to use **VMware Secrets Manager Sidecar** or
-**VMware Secrets Manager Safe**. It is meant to be used for **legacy** systems where directly
+which are not strictly necessary if we were to use **VSecM Sidecar** or
+**VSecM Safe**. It is meant to be used for **legacy** systems where directly
 using the **Safe Sidecar** or **Safe SDK** are not feasible.
 
 For example, you might not have direct control over the source code to enable a
@@ -315,7 +315,7 @@ behavior parity of your legacy system before starting a more canonical **VMware 
 implementation.
 
 For modern workloads that you have more control, we highly encourage you to
-use [**VMware Secrets Manager SDK**][tutorial-sdk] or [**VMware Secrets Manager Sidecar**][tutorial-sidecar] instead.
+use [**VMware Secrets Manager SDK**][tutorial-sdk] or [**VSecM Sidecar**][tutorial-sidecar] instead.
 
 That being said, it’s good to have this option, and we are sure you can find
 other creative ways to leverage it too.
