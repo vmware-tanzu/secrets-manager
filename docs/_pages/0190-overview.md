@@ -16,7 +16,10 @@ prev_url: /docs/use-cases/
 permalink: /docs/use-cases-overview/
 ---
 
-
+<p class="github-button"
+><a
+href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0190-overview.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction
 
@@ -29,16 +32,16 @@ suffice to get you started and familiar with the basics.
 To complete the tutorials listed here, you will need the following:
 
 * A **Kubernetes** cluster that you have sufficient admin rights.
-* **Aegis** up and running on that cluster.
-* [The `shieldworks/aegis` repository][repo] cloned inside a workspace
-  folder (such as `/home/WORKSPACE/aegis`)
+* **VMware Secrets Manager** up and running on that cluster.
+* [The `vmware-tanzu/secrets-manager` repository][repo] cloned inside a workspace
+  folder (such as `/home/WORKSPACE/secrets-manager`)
 
-> **How Do I Set Up Aegis**?
+> **How Do I Set Up VMware Secrets Manager**?
 >
-> To set up **Aegis**, [follow the instructions in this quickstart guide][quickstart].
+> To set up **VMware Secrets Manager**, [follow the instructions in this quickstart guide][quickstart].
 
-[quickstart]: /docs/
-[repo]: https://github.com/shieldworks/aegis
+[quickstart]: /docs/quickstart
+[repo]: https://github.com/vmware-tanzu/secrets-manager
 
 ## Minikube Instructions
 
@@ -53,13 +56,13 @@ Once you have **Docker** up and running, execute the following script to
 install **minikube**. Note that you will also need [`git`][git] and [`make`][make]
 installed on your system.
 
-```bash 
+```bash
 # Switch to your workspace folder (e.g., `~/Desktop/WORKSPACE`).
 cd $WORKSPACE
-# Clone Aegis repository if you haven’t already done so:
-git clone https://github.com/shieldworks/aegis.git
+# Clone VMware Secrets Manager repository if you haven’t already done so:
+git clone https://github.com/vmware-tanzu/secrets-manager.git
 # cd into the cloned project folder
-cd aegis
+cd secrets-manager
 # Test if `make` is working, if it fails, install `make` first
 make help 
 # Install minikube
@@ -91,8 +94,8 @@ each other in the upcoming tutorials:
 On the above diagram:
 
 * **SPIRE** is the identity provider for all intents and purposes.
-* **Aegis Safe** is where secrets are stored.
-* **Aegis Sentinel** can be considered a bastion host.
+* **VMware Secrets Manager Safe** is where secrets are stored.
+* **VMware Secrets Manager Sentinel** can be considered a bastion host.
 * **Demo Workload** is a typical Kubernetes Pod that needs secrets.
 
 > **Want a Deeper Dive**?
@@ -101,22 +104,22 @@ On the above diagram:
 > to follow through the steps and make sense of how things tie together
 > from a platform operator’s perspective.
 >
-> [You can check out this “**Aegis** Deep Dive” article][architecture]
+> [You can check out this “**VMware Secrets Manager** Deep Dive” article][architecture]
 > to learn more about these components.
 
 [architecture]: /docs/architecture
 
-The **Demo Workload** fetches secrets from **Aegis Safe**. This is either
+The **Demo Workload** fetches secrets from **VMware Secrets Manager Safe**. This is either
 indirectly done through a **sidecar** or directly by using
-[**Aegis Go SDK**][go-sdk].
+[**VMware Secrets Manager Go SDK**][go-sdk].
 
-Using **Aegis Sentinel**, an admin operator or ar CI/CD pipeline can register
-secrets to **Aegis Safe** for the **Demo Workload** to consume.
+Using **VMware Secrets Manager Sentinel**, an admin operator or ar CI/CD pipeline can register
+secrets to **VMware Secrets Manager Safe** for the **Demo Workload** to consume.
 
 All the above workload-to-safe and sentinel-to-safe communication are
 encrypted through **mTLS** using the **X.509 SVID**s that **SPIRE**
 dispatches to all the actors.
 
-[go-sdk]: https://github.com/shieldworks/aegis-sdk-go
+[go-sdk]: https://github.com/vmware-tanzu/secrets-manager/tree/main/sdk
 
 After this high-level overview of your system, let’s create a workload next.

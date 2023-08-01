@@ -23,17 +23,17 @@ href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050
 
 ## VMware Secrets Manager for Cloud Native Apps
 
-This is a quickstart guide to get you up and running with **VMware Secrets 
+This is a quickstart guide to get you up and running with **VMware Secrets
 Manager**.
 
 ## Prerequisites
 
-* [**Minikube**][minikube]: You can install **VMware Secrets Manager** on any 
-  Kubernetes cluster, but we’ll use *Minikube* in this quickstart example. 
-  Minikube is a tool that makes it easy to run Kubernetes locally. 
-* [**make**][make]: You’ll need `make` to run certain build tasks. You can 
+* [**Minikube**][minikube]: You can install **VMware Secrets Manager** on any
+  Kubernetes cluster, but we’ll use *Minikube* in this quickstart example.
+  Minikube is a tool that makes it easy to run Kubernetes locally.
+* [**make**][make]: You’ll need `make` to run certain build tasks. You can
   install `make` using your favorite package manager.
-* [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses 
+* [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses
   the *Docker* driver. If you use a different driver, things will still likely
   work, but you might need to tweak some of the commands and configuration.
 
@@ -45,10 +45,10 @@ Manager**.
 
 Here’s a video that walks you through the steps in this quickstart guide:
 
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
-src="https://player.vimeo.com/video/849328819?h=46caa595f7&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
-frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen 
-style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe
+src="https://player.vimeo.com/video/849328819?h=46caa595f7&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+style="position:absolute;top:0;left:0;width:100%;height:100%;"
 title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"></iframe></div>
 <script src="https://player.vimeo.com/api/player.js"></script>
 
@@ -91,7 +91,7 @@ eval $(minikube -p minikube docker-env)
 
 Next we’ll install [SPIRE][spire] and **VMware Secrets Manager** on the cluster.
 
-```bash 
+```bash
 cd $WORKSPACE/secrets-manager
 make deploy
 ```
@@ -168,7 +168,7 @@ Here’s the output of this command:
 
 ## Deploy an Example Workload
 
-Now, let’s deploy an example workload to the cluster to test 
+Now, let’s deploy an example workload to the cluster to test
 **VMware Secrets Manager** in action.
 
 ```bash
@@ -220,32 +220,32 @@ package main
 // … truncated headers … 
 
 func main() {
-	
-	// … truncated irrelevant code …
-	
-	for {
-		log.Println("fetch")
-		d, err := sentry.Fetch()
 
-		if err != nil {
-			fmt.Println("Failed. Will retry in 5 seconds…")
-			fmt.Println(err.Error())
-			time.Sleep(5 * time.Second)
-			continue
-		}
+  // … truncated irrelevant code …
 
-		if d.Data == "" {
-			fmt.Println("No secret yet… will check again later.")
-			time.Sleep(5 * time.Second)
-			continue
-		}
+  for {
+    log.Println("fetch")
+    d, err := sentry.Fetch()
 
-		fmt.Printf(
-			"secret: updated: %s, created: %s, value: %s\n",
-			d.Updated, d.Created, d.Data,
-		)
-		time.Sleep(5 * time.Second)
-	}
+    if err != nil {
+      fmt.Println("Failed. Will retry in 5 seconds…")
+      fmt.Println(err.Error())
+      time.Sleep(5 * time.Second)
+      continue
+    }
+
+    if d.Data == "" {
+      fmt.Println("No secret yet… will check again later.")
+      time.Sleep(5 * time.Second)
+      continue
+    }
+
+    fmt.Printf(
+      "secret: updated: %s, created: %s, value: %s\n",
+      d.Updated, d.Created, d.Data,
+    )
+    time.Sleep(5 * time.Second)
+  }
 }
 ```
 
@@ -259,8 +259,8 @@ it establishes a secure mTLS connection between the workload and
 Since this workload does not have any secret registered, the request fails
 and the workload retries every 5 seconds.
 
-Since this is a quickstart example, we won’t dive into the details of 
-how the workload establishes a secure mTLS connection with the 
+Since this is a quickstart example, we won’t dive into the details of
+how the workload establishes a secure mTLS connection with the
 **VMware Secrets Manager Safe**. We’ll cover this in the following sections.
 
 For the sake of this quickstart, we can assume that secure communication
@@ -271,7 +271,7 @@ care of for us.
 
 Now, let’s register a secret and see what happens.
 
-To register a secret we’ll need to find the `vsecm-sentinel` pod in the 
+To register a secret we’ll need to find the `vsecm-sentinel` pod in the
 `vsecm-system` namespace and execute a command inside the pod.
 
 Let’s get the pod first:
@@ -299,7 +299,7 @@ safe -w "example" -n "default" -s "VSecMRocks"
 
 > **Sentinel Command Line Help**
 >
-> **VMware Secrets Manager Sentinel** comes with a command line tool 
+> **VMware Secrets Manager Sentinel** comes with a command line tool
 > called `safe`. `safe` allows you to register secrets to
 > **VMware Secrets Manager Safe**, delete secrets, or list existing secrets.
 >
@@ -323,7 +323,7 @@ But how do you know what the workload name is?
 
 That’s where **ClusterSPIFFEID** comes in:
 
-```bash 
+```bash
 kubectl get ClusterSPIFFEID
 ```
 
@@ -344,7 +344,7 @@ kubectl describe ClusterSPIFFEID example
 
 And the output:
 
-```text 
+```text
 {% raw %}Name:         example
 Namespace:
 Labels:       <none>
@@ -377,7 +377,7 @@ Status:
     Pods Selected:              1{% endraw %}
 ```
 
-For the sake of keeping things simple because this is a quickstart, we can 
+For the sake of keeping things simple because this is a quickstart, we can
 assume that someone has created this `example` SPIFFE ID for us, and using
 this SPIFFE ID, our example workload can securely communicate with the
 **VMware Secrets Manager Safe**.
@@ -393,7 +393,7 @@ kubectl get logs example-68997489c6-8j8kj
 
 And the output would be something like this:
 
-```text 
+```text
 2023/07/28 06:06:39 fetch
 secret: updated: "2023-07-28T01:34:30Z", 
 created: "2023-07-28T01:34:30Z", value: VSecMRocks
@@ -419,7 +419,7 @@ clusters.
 
 After successfully completing this quickstart, you can try the following:
 
-* [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite] 
+* [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite]
   where helpful community members and **VMware Secrets Manager** engineers
   hang out and answer questions.
 * Navigate this website to learn more about **VMware Secrets Manager**, starting
