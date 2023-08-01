@@ -279,7 +279,7 @@ that **VMware Secrets Manager Sentinel** has.
 Also, [Check out **VMware Secrets Manager Sentinel CLI Reference**][sentinel-ref] for more
 information and usage examples on **VMware Secrets Manager Sentinel**.
 
-[sentinel-ref]: /docs/sentinel
+[sentinel-ref]: /docs/cli
 
 ## Conclusion
 

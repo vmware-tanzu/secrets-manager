@@ -11,15 +11,15 @@
 
 title: VSecM Architecture
 layout: post
-permalink: /docs/architecture/
 next_url: /docs/installation
 prev_url: /docs/philosophy/
+permalink: /docs/architecture/
 ---
 
 ## Introduction
 
-This section discusses **VMware Secrets Manager** architecture and building blocks 
-in greater detail: We will cover **VMware Secrets Manager**’s system design and 
+This section discusses **VMware Secrets Manager** architecture and building blocks
+in greater detail: We will cover **VMware Secrets Manager**’s system design and
 project structure.
 
 You don’t have to know about these architectural details to use **VMware Secrets Manager**;
@@ -177,7 +177,7 @@ any API requests that you make from **VSecM Sentinel**.
 > details.
 > 
 > Also, you can opt-out from auto-generating the private and public keys
-> and provide your own keys. However, when you do this, you will have to 
+> and provide your own keys. However, when you do this, you will have to
 > manually unlock **VSecM Safe** by providing your keys every time it
 > crashes. If you let **VSecM Safe** auto-generate the keys,
 > you won’t have to do this; so you can `#sleepmore`.
@@ -225,10 +225,12 @@ There are two parts to this:
 * Transforming secrets using a Go template transformation
 * Updating the relevant **Kubernetes** `Secret`
 
-You can check [**VSecM Sentinel** CLI Documentation](/docs/sentinel) for
+You can check [**VSecM Sentinel** CLI Documentation](/docs/cli) for
 various ways this transformation can be done. In addition, you can check
-[**VSecM** Secret Registration Tutorial](/docs/register) for more information
+[**VSecM** Secret Registration Tutorial][register-a-secret] for more information
 about how the **Kubernetes** `Secret` object is generated and used in workloads.
+
+[register-a-secret]: /docs/quickstart/#register-a-secret "Register a Secret"
 
 ## Liveness and Readiness Probes
 
@@ -236,8 +238,8 @@ about how the **Kubernetes** `Secret` object is generated and used in workloads.
 These probes are tiny web servers that serve at ports `8081` and `8082` by
 default, respectively.
 
-You can set `AEGIS_PROBE_LIVENESS_PORT` (*default `:8081`*) and
-`AEGIS_PROBE_READINESS_PORT` (*default `:8082`*) environment variables to change
+You can set `VSECM_PROBE_LIVENESS_PORT` (*default `:8081`*) and
+`VSECM_PROBE_READINESS_PORT` (*default `:8082`*) environment variables to change
 the ports used for these probes.
 
 When the service is healthy, the liveness probe will return an `HTTP 200` success
@@ -246,8 +248,8 @@ probe will return an `HTTP 200` success response.
 
 ## Conclusion
 
-This was a deeper overview of **VMware Secrets Manager** architecture. If you 
-have further questions, feel free to [join the **VMware Secrets Manager** 
+This was a deeper overview of **VMware Secrets Manager** architecture. If you
+have further questions, feel free to [join the **VMware Secrets Manager**
 community on **Slack**][slack-invite] and ask them out.
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
