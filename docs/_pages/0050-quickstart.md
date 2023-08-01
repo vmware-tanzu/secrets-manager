@@ -16,6 +16,11 @@ prev_url: /docs/community/
 next_url: /docs/philosophy/
 ---
 
+<p class="github-button"
+><a
+href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## VMware Secrets Manager for Cloud Native Apps
 
 This is a quickstart guide to get you up and running with **VMware Secrets 

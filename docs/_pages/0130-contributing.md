@@ -18,7 +18,7 @@ permalink: /docs/contributing/
 
 ## Introduction
 
-This section contains instructions to test and develop **VMware Secrets Manager** 
+This section contains instructions to test and develop **VMware Secrets Manager**
 locally.
 
 > **📚 Familiarize Yourself with the Contributing Guidelines**
