@@ -3,7 +3,7 @@ entries:
   vsecm:
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2023-08-02T23:55:41.534139+05:30"
+    created: "2023-08-03T00:29:41.006933+05:30"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -16,7 +16,7 @@ entries:
       repository: file://charts/sentinel
       version: 0.20.0
     description: Helm chart for VMware Secrets Manager
-    digest: 70b9f21daf807da7cc38e1a85bdf709a055326aeefb8e4b8159e72fb20010572
+    digest: 089de1264acbd1271992577afe2e3cc878cc8eb17951463362775138da3e130f
     home: https://vsecm.com/
     keywords:
     - secrets
@@ -27,4 +27,4 @@ entries:
     urls:
     - vsecm-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-02T23:55:41.531835+05:30"
+generated: "2023-08-03T00:29:41.004347+05:30"
