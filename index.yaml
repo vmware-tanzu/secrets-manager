@@ -1,0 +1,30 @@
+apiVersion: v1
+entries:
+  vsecm:
+  - apiVersion: v2
+    appVersion: 0.20.0
+    created: "2023-08-02T23:55:41.534139+05:30"
+    dependencies:
+    - condition: global.deploySpire
+      name: spire
+      repository: file://charts/spire
+      version: 0.1.0
+    - name: safe
+      repository: file://charts/safe
+      version: 0.20.0
+    - name: sentinel
+      repository: file://charts/sentinel
+      version: 0.20.0
+    description: Helm chart for VMware Secrets Manager
+    digest: 70b9f21daf807da7cc38e1a85bdf709a055326aeefb8e4b8159e72fb20010572
+    home: https://vsecm.com/
+    keywords:
+    - secrets
+    name: vsecm
+    sources:
+    - https://github.com/vmware-tanzu/secrets-manager
+    type: application
+    urls:
+    - vsecm-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-08-02T23:55:41.531835+05:30"
