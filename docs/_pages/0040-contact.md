@@ -27,13 +27,13 @@ href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0040
 > 
 > This page outlines the various ways you can touch base.  
 
-## Slack is Where We Hang Out
+## Join Our Community on Slack 
 
 As a, small, dedicated team of security enthusiasts, we value focused, effective 
 communication. Thus, we prefer to consolidate our interactions into a single 
 channel, rather than dispersing them across multiple platforms.
 
-Open Source is better together. [**Join VMware Secret Manager’ Slack Workspace**][slack]
+Open Source is better together. [**Join VMware Secret Manager’s Slack Workspace**][slack]
 and let us change the world together 🤘.
 
 ## Want to Create an Issue?
