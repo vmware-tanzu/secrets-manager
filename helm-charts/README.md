@@ -9,7 +9,7 @@ To use VMware Secrets Manager, follow the steps below:
 1. Add VMware Secrets Manager Helm repository:
 
     ```bash
-    helm repo add VMware Secrets Manager https://github.com/vmware-tanzu/secrets-manager
+    helm repo add vsecm https://vmware-tanzu.github.io/secrets-manager/
     ```
 
 2. Update helm repository:
@@ -43,4 +43,4 @@ Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/phot
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [BSD 2-Clause License](https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE).
