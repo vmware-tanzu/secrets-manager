@@ -228,7 +228,7 @@ We’d love to have them.
 
 ## License
 
-[BSD-2 Clause License](LICENSE).
+[BSD 2-Clause License](LICENSE).
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
 [roadmap]: https://vsecm.com/roadmap  "The Roadmap"
