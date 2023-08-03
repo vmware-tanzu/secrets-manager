@@ -21,10 +21,10 @@ next_url: /docs/philosophy/
 href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-## VMware Secrets Manager for Cloud Native Apps
-
-This is a quickstart guide to get you up and running with **VMware Secrets
-Manager**.
+> **Get Your Hands Dirty**
+> 
+> This is a quickstart guide to get you up and running with **VSecM**.
+{: .block-tip}
 
 ## Prerequisites
 
@@ -135,35 +135,9 @@ All the pods look up and running, so we can move on to the next step.
 
 ```bash
 make help
-```
 
-Here’s the output of this command:
-  
-```text
---------------------------------------------------------------------
-          🛡️ VMware Secrets Manager: Keep your secrets… secret.
-          🛡️ https://vsecm.com/
---------------------------------------------------------------------
-        ℹ️ This Makefile assumes you use Minikube and Docker
-        ℹ️ for most operations.
---------------------------------------------------------------------
-
-… truncated …
- 
---------------------------------------------------------------------
-  Example Use Cases:
-    Using local images:
-          ˃ make example-sidecar-deploy-local;
-          ˃ make example-sdk-deploy-local;
-          ˃ make example-multiple-secrets-deploy-local;
-    Using remote images:
-          ˃ make example-sidecar-deploy;
-          ˃ make example-sdk-deploy;
-          ˃ make example-multiple-secrets-deploy;
-
-… truncated …
-
---------------------------------------------------------------------
+# The output will vary as we add more commands to the Makefile.
+# It will contain useful information about the available commands.
 ```
 
 ## Deploy an Example Workload

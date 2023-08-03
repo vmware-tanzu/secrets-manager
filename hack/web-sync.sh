@@ -10,11 +10,14 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+cd docs || exit
+
 JEKYLL_ENV=production jekyll build
 
-cd web || exit
+echo $VSECM_S3_BUCKET
+echo $VSECM_DISTRIBUTION_ID
 
 rm -rf _site/versions
-aws s3 sync _site/ s3://vsecm.com/
+aws s3 sync _site/ "$VSECM_S3_BUCKET"
 
-aws cloudfront create-invalidation --distribution-id EZFGMY32S3BBS --paths "/*"
+aws cloudfront create-invalidation --distribution-id "$VSECM_DISTRIBUTION_ID" --paths "/*"
