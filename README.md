@@ -11,7 +11,7 @@
 
 ## The Elevator Pitch
 
-[**VMware Secrets Manager**](https://vsecm.com) is a delightfully-secure 
+[**VMware Secrets Manager**](https://vsecm.com/) is a delightfully-secure 
 Kubernetes-native secrets store.
 
 **VMware Secrets Manager** (*VSecM*) keeps your secrets secret.
@@ -31,9 +31,9 @@ compromising user experience.
 **VMare Secrets Manager** is resilient and **secure by default**, storing
 sensitive data in memory and encrypting any data saved to disk.
 
-[Endorsed by industry experts](/docs/endorsements),
+[Endorsed by industry experts](https://vsecm.com/docs/endorsements/),
 **VMware Secrets Manager** is a ground-up re-imagination of secrets management,
-leveraging [**SPIFFE**](https://spiffe.io) for authentication and providing a
+leveraging [**SPIFFE**](https://spiffe.io/) for authentication and providing a
 cloud-native way to manage secrets end-to-end.
 
 ## Getting Your Hands Dirty
@@ -41,9 +41,9 @@ cloud-native way to manage secrets end-to-end.
 Before trying **VMware Secrets Manager**, you might want to learn about its
 [architecture][architecture] and [design goals][design].
 
-Once you are ready to get started, [see the Quickstart guide][quickstart].
+Once you are ready to start, [see the Quickstart guide][quickstart].
 
-Or, if you one of those who “*learn by doing*”, you might want to dig into the
+Or, if you are one of those who “*learn by doing*”, you might want to dig into the
 implementation details later. If that’s the case, you can directly jump to the
 fun part and [follow the steps here][installation] to install
 **VMware Secrets Manager** to your Kubernetes cluster.
@@ -66,7 +66,7 @@ at: <https://hub.docker.com/u/vsecm>.
 
 [We publicly track all **VMware Secrets Manager** plans on this roadmap page][roadmap].
 
-You can check it out to get a glimpse of the current planned features, and how
+You can check it out to get a glimpse of the current planned features and how
 the future of **VMware Secrets Manager** looks like.
 
 
@@ -74,28 +74,28 @@ the future of **VMware Secrets Manager** looks like.
 
 **VMware Secrets Manager** is under dynamic and progressive development.
 
-The code that we’ve officially signed and released maintains a
+The code we’ve officially signed and released maintains a
 high standard of stability and dependability. However, we do encourage
-it be used in a production environment (*at your own risk—[see LICENSE](LICENSE)*).
+it to be used in a production environment (*at your own risk—[see LICENSE](LICENSE)*).
 
 It’s important to note that, technically speaking, **VMware Secrets Manager**
-currently holds the status of an *alpha software*. This simply means that as we
+currently holds the status of an *alpha software*. This means that as we
 journey towards our milestone of `v1.0.0`, it's possible for changes to
 occur—both major and minor. While this might mean some aspects are not backward
 compatible, it's a testament to our unwavering commitment to refining and
 enhancing **VMware Secrets Manager**.
 
-In a nutshell, we are ceaselessly pushing the boundaries of what’s possible, while
-ensuring our software stays as dependable and effective for production use.
+In a nutshell, we are ceaselessly pushing the boundaries of what’s possible while
+ensuring our software stays dependable and effective for production use.
 
 ## 🦆🦆🦆 (*Docs*)
 
-[Official documentation available on **vsecm.com**](https://vsecm.com).
+[Official documentation on **vsecm.com**](https://vsecm.com/).
 
 ## A Note on Security
 
 We take **VMware Secrets Manager**’s security seriously. If you believe you have
-found a vulnerability, please responsibly disclose by contacting
+found a vulnerability, please responsibly disclose it by contacting
 [security@vsecm.com](mailto:security@vsecm.com).
 
 ## A Tour Of VMware Secrets Manager
@@ -103,7 +103,7 @@ found a vulnerability, please responsibly disclose by contacting
 [Check out this quickstart guide][quickstart] for an overview of
 **VMware Secrets Manager**.
 
-[quickstart]: https://vsecm.com/quickstart
+[quickstart]: https://vsecm.com/docs/quickstart
 
 ## Community
 
@@ -118,46 +118,45 @@ and let us change the world together 🤘.
 ### General Links
 
 * **Homepage and Docs**: <https://vsecm.com/>
-* **Changelog**: <https://vsecm.com/changelog/>
+* **Changelog**: <https://vsecm.com/docs/changelog/>
 * **Community**: [Join **VSecM**’s Slack Workspace][slack-invite]
-* **Contact**: <https://vsecm.com/contact/>
-* **Media Kit**: <https://vsecm.com/media/>
-* **Changelog**: <https://vsecm.com/changelog/>
+* **Contact**: <https://vsecm.com/docs/community/>
 
 ### Guides and Tutorials
 
-* **Installation and Quickstart**: <https://vsecm.com/quickstart/>
-* **Local Development Instructions**: <https://vsecm.com/use-the-source/>
-* **Developer SDK**: <https://vsecm.com/sdk/>
-* **CLI**: <https://vsecm.com/sentinel/>
-* **Architecture**: <https://vsecm.com/architecture/>
-* **Configuration**: <https://vsecm.com/configuration/>
-* **Design Philosophy**: <https://vsecm.com/philosophy/>
-* **Production Deployment Tips**: <https://vsecm.com/production/>
+* **Installation and Quickstart**: <https://vsecm.com/docs/quickstart/>
+* **Local Development Instructions**: <https://vsecm.com/docs/use-the-source/>
+* **Developer SDK**: <https://vsecm.com/docs/sdk/>
+* **CLI**: <https://vsecm.com/docs/cli/>
+* **Architecture**: <https://vsecm.com/docs/architecture/>
+* **Configuration**: <https://vsecm.com/docs/configuration/>
+* **Design Philosophy**: <https://vsecm.com/docs/philosophy/>
+* **Production Deployment Tips**: <https://vsecm.com/docs/production/>
 
 ## Installation
 
 [Check out this quickstart guide][quickstart] for an overview of **VMware Secrets Manager**,
 which also covers **installation** and **uninstallation** instructions.
 
-[quickstart]: https://vsecm.com/docs/
+[quickstart]: https://vsecm.com/docs/quickstart/
 
 You need a **Kubernetes** cluster and sufficient admin rights on that cluster to
 install **VMware Secrets Manager**.
 
 ## Usage
 
-[This tutorial about “**Registering Secrets Using VMware Secrets Manager**”][register] covers
-several usage scenarios.
+[Here is a list of step-by-step tutorials][register] covers
+several usage scenarios that can show you where and how **VMware Secrets Manager**
+could be used.
 
-[register]: https://vsecm.com/quickstart/
+[use-cases]: https://vsecm.com/docs/use-cases
 
 ## Architecture Details
 
 [Check out this **VMware Secrets Manager Deep Dive**][deep-dive] article for an overview
 of **VMware Secrets Manager** system design and how each component fits together.
 
-[deep-dive]: https://vsecm.com/architecture/
+[deep-dive]: https://vsecm.com/docs/architecture/
 
 ## Folder Structure
 
@@ -167,14 +166,14 @@ Here are the important folders and files in this repository:
 
 * `./app`: Contains core **VSecM** components’ source code.
     * `./app/init-container`: Contains the source code for the **VSecM Init Container**.
-    * `./app/safe`: Contains the source code for the **VSecM Safe**.
+    * `./app/safe`: Contains the **VSecM Safe** source code.
     * `./app/sentinel`: Contains the source code for the **VSecM Sentinel**.
     * `./app/sidecar`: Contains the source code for the **VSecM Sidecar**.
 * `./helm-charts`: Contains **VSecM** helm charts.
-* `./core`: Contains core modules that are shared across **VSecM** components.
+* `./core`: Contains core modules shared across **VSecM** components.
 * `./examples`: Contains the source code of example use cases.
-* `./hack`: Contains scripts that are used for building, publishing, development
-  and testing.
+* `./hack`: Contains scripts for building, publishing, development
+  , and testing.
 * `./k8s`: Contains Kubernetes manifests that are used to deploy **VSecM** and
   its use cases.
 * `./sdk`: Contains the source code of the **VSecM Developer SDK**.
@@ -183,22 +182,22 @@ Here are the important folders and files in this repository:
 * `./CONTRIBUTING_DCO.md`: Contains **VSecM** Contributing Guidelines.
 * `./SECURITY.md`: Contains **VSecM** Security Policy.
 * `./LICENSE`: Contains **VSecM** License.
-* `./Makefile`: Contains the `Makefile` that is used for building,
+* `./Makefile`: The `Makefile` used for building,
   publishing, deploying, and testing the project.
 
 ## Changelog
 
-You can find the changelog, and migration/upgrade instructions (*if any*)
-on [**VMware Secrets Manager**’s Changelog Page](https://vsecm.com/changelog/).
+You can find the changelog and migration/upgrade instructions (*if any*)
+on [**VMware Secrets Manager**’s Changelog Page](https://vsecm.com/docs/changelog/).
 
 ## What’s Coming Up Next?
 
 You can see the project’s progress [in this **VMware Secrets Manager** roadmap][mdp].
 
-The board outlines what are the current outstanding work items, and what is
+The board outlines what the current outstanding work items and what is are
 currently being worked on.
 
-[mdp]: https://vsecm.com/roadmap
+[mdp]: https://vsecm.com/docs/roadmap/
 
 ## Code Of Conduct
 
@@ -207,7 +206,7 @@ currently being worked on.
 ## Contributing
 
 To contribute to **VMware Secrets Manager**, 
-[follow the contributing guidelines](CONTRIBUTING_DCO.md) to get started.
+[follow the contributing guidelines](CONTRIBUTING.md) to get started.
 
 Use GitHub issues to request features or file bugs.
 
@@ -231,10 +230,10 @@ We’d love to have them.
 [BSD 2-Clause License](LICENSE).
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
-[roadmap]: https://vsecm.com/roadmap  "The Roadmap"
-[installation]: https://vsecm.com/installation "Install VMware Secrets Manager"
-[build]: https://vsecm.com/use-the-source "Building, Deploying, and Testing"
-[architecture]: https://vsecm.com/architecture/ "VMware Secrets Manager Architecture"
-[design]: https://vsecm.com/philosophy/ "VMware Secrets Manager Design Philosphy"
-[quickstart]: https://vsecm.com/quickstart "Quickstart"
+[roadmap]: https://vsecm.com/docs/roadmap/  "The Roadmap"
+[installation]: https://vsecm.com/docs/installation/ "Install VMware Secrets Manager"
+[build]: https://vsecm.com/docs/use-the-source/ "Building, Deploying, and Testing"
+[architecture]: https://vsecm.com/docs/architecture/ "VMware Secrets Manager Architecture"
+[design]: https://vsecm.com/docs/philosophy/ "VMware Secrets Manager Design Philosophy"
+[quickstart]: https://vsecm.com/docs/quickstart/ "Quickstart"
 [spire]: https://spiffe.io/ "SPIFFE: Secure Production Identity Framework for Everyone"
