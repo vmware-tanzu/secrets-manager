@@ -13,8 +13,12 @@ title: Privacy Policy
 layout: post
 next_url: /
 prev_url: /
-permalink: /docs/privacy
+permalink: /docs/privacy/
 ---
+
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0990-privacy.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > This is the shortest privacy policy you’ll possibly read.
 >

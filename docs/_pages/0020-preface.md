@@ -9,16 +9,15 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Structure and Terminology
+title: Preface
 layout: post
-next_url: /docs/endorsements/
-prev_url: /docs/about
+next_url: /docs/about/
+prev_url: /
 permalink: /docs/navigation/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0022-navigation.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0022-navigation.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Hey, This Website Looks Like a GitBook 📖

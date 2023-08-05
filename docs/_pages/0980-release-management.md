@@ -16,6 +16,12 @@ prev_url: /
 permalink: /docs/release-management/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0980-release-management.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## Introduction
+
 This page discusses the release management process for **VMware Secrets Manager**.
 
 If you are responsible for cutting a release, please follow the steps outlined

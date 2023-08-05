@@ -20,6 +20,7 @@
             <li class="divider"></li>
 
             {% for collection in site.collections %}
+
                 <!-- <p>{{ collection.label }}</p> -->
                 {% if collection.output %}
                     {% if collection.label == "posts" %}
@@ -29,6 +30,15 @@
                     {% endif %}
 
                     {% for post in reversed_posts %}
+
+                        {% if post.url contains "navigation" %}
+                            <li class="divider"></li>
+                        {% endif %}
+                        {% if post.url contains "release-management" %}
+                            <li class="divider"></li>
+                        {% endif %}
+
+
                         {% if page.url == post.url %}
                         <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">
                         {% else %}

@@ -3297,7 +3297,8 @@ table {
     height: 1px;
     margin: 7px 0;
     overflow: hidden;
-    background: rgba(0, 0, 0, .07)
+    background: rgba(0, 0, 0, .026);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 }
 
 .book-summary ul.summary li i.fa-check {
@@ -3339,10 +3340,13 @@ table {
 }
 
 .book-summary ul.summary li.active > a {
-    color: #ffffff;
-    background: #022856;
-    font-weight: 900;
-    text-decoration: none
+    xcolor: #ffffff;
+    xbackground: #022856;
+    background: #edc910;
+    color: #000000;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: default;
 }
 
 .book-summary ul.summary li ul {
@@ -3551,9 +3555,9 @@ table {
 
 .copy-code-button {
     font-family: var(--font-family);
-    background: #ffffff !important;
+    background: #0CB821 !important;
     color: #000000 !important;
-    border: 1px #b3b3b3 solid !important;
+    border: 1px #0dd426 solid !important;
     padding: 0.26em !important;
 }
 
@@ -3638,7 +3642,8 @@ table {
 }
 
 .markdown-section h1 {
-    font-size: 1.5em
+    font-size: 1.5em;
+    font-weight: 600;
 }
 
 .markdown-section h2 {
@@ -3710,7 +3715,8 @@ table {
     xmargin: 0.2em;
     padding: .85em 1em;
     margin-bottom: 1.275em;
-    background: #f0f0f0;
+    xbackground: #f0f0f0;
+    background: #17202d;
     border: 1px #b3b3b3 solid;
     xborder: 2px #e0e0e0 solid;
 
@@ -3758,12 +3764,19 @@ span.c {
     padding: .1em;
     margin: 0;
     font-size: .99em;
-    background-color: #FFF0EB;
-    color: #882200;
+    xbackground-color: #FFF0EB;
+    xcolor: #882200;
     border-radius: 2px;
     background-color: #D1F3AE;
     color: #1E3B00;
+    xcolor: #ffffff;
 }
+
+*::selection {
+    background: #FFEABE !important;
+    color: #000000 !important;
+}
+
 
 .markdown-section code:after, .markdown-section code:before {
     letter-spacing: -.2em;

@@ -17,8 +17,7 @@ permalink: /docs/endorsements/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0030-endorsements.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0030-endorsements.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 Don’t just take our word for it. See what industry experts

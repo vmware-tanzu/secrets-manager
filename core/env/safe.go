@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-// SafeSecretBufferSize returns the buffer size for the VMware Secrets Manager Safe secret queue.
+// SafeSecretBufferSize returns the buffer size for the VSecM Safe secret queue.
 //
 // The buffer size is determined by the environment variable
 // VSECM_SAFE_SECRET_BUFFER_SIZE.
@@ -40,7 +40,7 @@ func SafeSecretBufferSize() int {
 	return l
 }
 
-// SafeK8sSecretBufferSize returns the buffer size for the VMware Secrets Manager Safe Kubernetes
+// SafeK8sSecretBufferSize returns the buffer size for the VSecM Safe Kubernetes
 // secret queue.
 //
 // The buffer size is determined by the environment variable
@@ -63,7 +63,7 @@ func SafeK8sSecretBufferSize() int {
 	return l
 }
 
-// SafeSecretDeleteBufferSize returns the buffer size for the VMware Secrets Manager Safe secret
+// SafeSecretDeleteBufferSize returns the buffer size for the VSecM Safe secret
 // deletion queue.
 //
 // The buffer size is determined by the environment variable
@@ -86,7 +86,7 @@ func SafeSecretDeleteBufferSize() int {
 	return l
 }
 
-// SafeK8sSecretDeleteBufferSize returns the buffer size for the VMware Secrets Manager Safe
+// SafeK8sSecretDeleteBufferSize returns the buffer size for the VSecM Safe
 // Kubernetes secret deletion queue.
 //
 // The buffer size is determined by the environment variable
@@ -109,8 +109,8 @@ func SafeK8sSecretDeleteBufferSize() int {
 	return l
 }
 
-// SafeFipsCompliant returns a boolean indicating whether VMware Secrets Manager Safe should run in
-// FIPS compliant mode. Note that this is not a guarantee that VMware Secrets Manager Safe will
+// SafeFipsCompliant returns a boolean indicating whether VSecM Safe should run in
+// FIPS compliant mode. Note that this is not a guarantee that VSecM Safe will
 // run in FIPS compliant mode, as it depends on the underlying base image.
 // If you are using one of the official FIPS-complaint VMware Secrets Manager Docker images,
 // then it will be FIPS-compliant. Check https://vsecm.com/configuration/
@@ -127,7 +127,7 @@ func SafeFipsCompliant() bool {
 // SafeBackingStore returns the storage type for the data,
 // as specified in the VSECM_SAFE_BACKING_STORE environment variable.
 // If the environment variable is not set, it defaults to "file".
-// Any value that is not "file" will mean VMware Secrets Manager Safe will store
+// Any value that is not "file" will mean VSecM Safe will store
 // its state in-memory
 func SafeBackingStore() data.BackingStore {
 	s := os.Getenv("VSECM_SAFE_BACKING_STORE")
@@ -171,7 +171,7 @@ func SafeUseKubernetesSecrets() bool {
 	return false
 }
 
-// SafeSecretBackupCount retrieves the number of backups to keep for VMware Secrets Manager Safe
+// SafeSecretBackupCount retrieves the number of backups to keep for VSecM Safe
 // secrets. If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT is not
 // set or is not a valid integer, the default value of 3 will be returned.
 func SafeSecretBackupCount() int {
@@ -187,7 +187,7 @@ func SafeSecretBackupCount() int {
 }
 
 // SafeManualKeyInput returns a boolean indicating whether to use manual
-// cryptographic key input for VMware Secrets Manager Safe, instead of letting it bootstrap
+// cryptographic key input for VSecM Safe, instead of letting it bootstrap
 // automatically. If the environment variable is not set or its value is
 // not "true", the function returns false. Otherwise, the function returns true.
 func SafeManualKeyInput() bool {
@@ -224,7 +224,7 @@ func SafeAgeKeyPath() string {
 	return p
 }
 
-// SafeBootstrapTimeout returns the allowed time for VMware Secrets Manager Safe to wait
+// SafeBootstrapTimeout returns the allowed time for VSecM Safe to wait
 // before killing the pod to retrieve an SVID, in time.Duration.
 // The interval is determined by the VSECM_SAFE_BOOTSTRAP_TIMEOUT environment
 // variable, with a default value of 30000 milliseconds if the variable is not
@@ -242,7 +242,7 @@ func SafeBootstrapTimeout() time.Duration {
 }
 
 // SafeAgeKeySecretName returns the name of the environment variable that holds
-// the VMware Secrets Manager Safe age key. The value is retrieved using the
+// the VSecM Safe age key. The value is retrieved using the
 // "VSECM_CRYPTO_KEY_NAME" environment variable. If this variable is
 // not set or is empty, the default value "vsecm-safe-age-key" is returned.
 func SafeAgeKeySecretName() string {
@@ -254,7 +254,7 @@ func SafeAgeKeySecretName() string {
 }
 
 // SafeSecretNamePrefix returns the prefix to be used for the names of secrets that
-// VMware Secrets Manager Safe stores, when it is configured to persist the secret in the Kubernetes
+// VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
 // cluster as Kubernetes `Secret` objects.
 //
 // The prefix is retrieved using the "VSECM_SAFE_SECRET_NAME_PREFIX"

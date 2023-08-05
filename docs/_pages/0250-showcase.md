@@ -16,6 +16,10 @@ prev_url: /docs/use-case-transformation/
 permalink: /docs/showcase/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0250-showcase.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 > **🚧 Work In Progress 🚧️**
 >
 > The video tutorials that relate to **VMware Secrets Manager** are still work

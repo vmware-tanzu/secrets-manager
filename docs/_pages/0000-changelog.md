@@ -12,13 +12,12 @@
 title: VSecM Changelog
 layout: post
 prev_url: /
-next_url: /docs/about/
+next_url: /docs/roadmap/
 permalink: /docs/changelog/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-changelog.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-changelog.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Recent Updates
@@ -27,6 +26,8 @@ href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000
   **VSecM**.
 * Migrate existing Aegis documentation to the [new VMware Secrets Manager
   documentation site](https://vsecm.com).
+* Minor bugfixes after migration; ensuring feature and behavior parity with
+  Aegis.
 
 
 ## [v0.20.0] - 2023-07-27

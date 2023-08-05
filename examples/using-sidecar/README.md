@@ -5,12 +5,12 @@
 <>/ keep your secrets… secret
 ```
 
-## Use Case: Leveraging VMware Secrets Manager Sidecar
+## Use Case: Leveraging VSecM Sidecar
 
-This example demonstrates how to use **VMware Secrets Manager Sidecar** along with your workload.
+This example demonstrates how to use **VSecM Sidecar** along with your workload.
 
-When you use **VMware Secrets Manager Sidecar**, you don’t need to modify your workload. 
-**VMware Secrets Manager Sidecar** can fetch and provide the secrets that your workload needs
+When you use **VSecM Sidecar**, you don’t need to modify your workload. 
+**VSecM Sidecar** can fetch and provide the secrets that your workload needs
 automatically.
 
 ## Video Tutorials Anyone?

@@ -17,20 +17,14 @@ permalink: /docs/about/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0021-about.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0021-about.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-> 🛡️ **Welcome** 🛡
-> 
-> Welcome to *VMware Secrets Manager* (**VSecM**) for Cloud-Native Apps.️
-> 
-> **VSecM** keeps your secrets… secret, so you can `#sleepmore`.
-{: .block-tip }
+## Why Do We Need a Cloud-Native Secrets Manager?
 
-Before we begin, let’s think about why we need a secrets manager in the first
-place. Can’t we just use Kubernetes `Secret`s? The following section will
-answer this question.
+Before we begin, let’s think about why we need a cloud-native secrets manager in 
+the first place. Can’t we just use Kubernetes `Secret`s? The following section 
+will answer this question.
 
 ## Wait, What’s Wrong With Kubernetes `Secret`s?
 

@@ -16,6 +16,10 @@ prev_url: /docs/use-cases-overview/
 permalink: /docs/use-case-sidecar/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0200-sidecar.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Using With **VSecM Sidecar**
 
 Let’s deploy our demo workload that will use **VSecM Sidecar**.
@@ -65,7 +69,7 @@ secret file every 5 seconds forever:
 for {
     dat, err := os.ReadFile(sidecarSecretsPath())
     if err != nil {
-        fmt.Println("Failed to read the secrets file. Will retry in 5 seconds…")
+        fmt.Println("Failed to read. Will retry in 5 seconds…")
         fmt.Println(err.Error())
     } else {
         fmt.Println("secret: '", string(dat), "'")
@@ -90,8 +94,10 @@ the workload:
 metadata:
   name: example
 spec:
-  # SPIFFE ID `MUST` start with "spiffe://vsecm.com/workload/$workloadName/ns/"
-  # for `safe` to recognize the workload and dispatch secrets to it.
+  # SPIFFE ID `MUST` start with 
+  # "spiffe://vsecm.com/workload/$workloadName/ns/"
+  # for `safe` to recognize the workload and 
+  # dispatch secrets to it.
   spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/example\
     /ns/{{ .PodMeta.Namespace }}\
@@ -111,8 +117,8 @@ This identity descriptor, tells **VMware Secrets Manager** that the workload:
 * Is bound to a certain service account,
 * And as a certain name.
 
-When the time comes, **VMware Secrets Manager** will read this identity and learn about which
-workload is requesting secrets. Then it can decide to deliver
+When the time comes, **VMware Secrets Manager** will read this identity and learn 
+about which workload is requesting secrets. Then it can decide to deliver
 the secrets (*because the workload is registered*) or deny dispatching them
 (*because the workload is unknown/unregistered*).
 
@@ -137,21 +143,24 @@ give you something like this:
 ```bash 
 {% raw %}kubectl get po
 
-NAME                                  READY   STATUS    RESTARTS   AGE
-example-5d564458b6-vsmtm  2/2     Running   0          9s{% endraw %}
+NAME                              STATUS    AGE
+example-5d564458b6-vsmtm  2/2     Running   9s{% endraw %}
 ```
 
 Let’s check the logs of our pod:
 
-```bash 
-{% raw %}kubectl logs example-5d564458b6-vsmtm -f
+```bash
+{% raw %}kubectl logs example-5d564458b6-vsmtm -f{% endraw %}
+```
 
-Failed to read the secrets file. Will retry in 5 seconds…
+The output will be something like this:
+
+```text
+{% raw %}Failed to read the secrets file. Will retry in 5 seconds…
 open /opt/vsecm/secrets.json: no such file or directory
 Failed to read the secrets file. Will retry in 5 seconds…
 open /opt/vsecm/secrets.json: no such file or directory
 Failed to read the secrets file. Will retry in 5 seconds…
-
 …{% endraw %}
 ```
 
@@ -286,4 +295,4 @@ information and usage examples on **VSecM Sentinel**.
 Yay 🎉. That was our first secret.
 
 In the next tutorial, we will do something similar; however, this time we
-will leverage [**VMware Secrets Manager SDK**](/docs/sdk) instead of **VSecM Sidecar**.
+will leverage [**VSecM SDK**](/docs/sdk) instead of **VSecM Sidecar**.

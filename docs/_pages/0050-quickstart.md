@@ -17,8 +17,7 @@ next_url: /docs/philosophy/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Get Your Hands Dirty**
@@ -111,9 +110,9 @@ kubectl get po -n spire-system
 
 ```text
 # Output:
-NAME                           READY   STATUS    RESTARTS      AGE
-spire-agent-p9m27              3/3     Running   1 (23s ago)   29s
-spire-server-6fb4f57c8-6s7ns   2/2     Running   0             29s
+NAME                           READY   STATUS    RESTARTS
+spire-agent-p9m27              3/3     Running   1 (23s ago)
+spire-server-6fb4f57c8-6s7ns   2/2     Running   0
 ```
 
 ```bash
@@ -122,9 +121,9 @@ kubectl get po -n vsecm-system
 
 ```text
 # Output:
-NAME                             READY   STATUS    RESTARTS   AGE
-vsecm-safe-85dd95949c-f4mhj      1/1     Running   0          25s
-vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0          24s
+NAME                             READY   STATUS    RESTARTS
+vsecm-safe-85dd95949c-f4mhj      1/1     Running   0
+vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0
 ```
 
 All the pods look up and running, so we can move on to the next step.
@@ -257,9 +256,9 @@ kubectl get po -n vsecm-system
 Here’s a sample output:
 
 ```text
-NAME                             READY   STATUS    RESTARTS   AGE
-vsecm-safe-85dd95949c-f4mhj      1/1     Running   0          4h29m
-vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0          4h29m
+NAME                             READY   STATUS    RESTARTS
+vsecm-safe-85dd95949c-f4mhj      1/1     Running   0
+vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0
 ```
 
 `vsecm-sentinel-6dc9b476f-djnq7` is what we need here.
@@ -334,7 +333,8 @@ Spec:
   Pod Selector:
     Match Labels:
       app.kubernetes.io/name:  example
-  Spiffe ID Template:          spiffe://vsecm.com/workload/example/
+  Spiffe ID Template:          
+  spiffe://vsecm.com/workload/example/
   ns/{{ .PodMeta.Namespace }}/
   sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   Workload Selector Templates:
@@ -398,6 +398,6 @@ After successfully completing this quickstart, you can try the following:
   hang out and answer questions.
 * Navigate this website to learn more about **VMware Secrets Manager**, starting
   with [its architecture, and design philosophy](/docs/architecture).
-* [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases)
+* [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases).
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"

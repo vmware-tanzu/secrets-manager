@@ -11,15 +11,30 @@
 
 title: VSecM Roadmap
 layout: post
-next_url: /
-prev_url: /docs/use-case-showcase/
+next_url: /docs/about
+prev_url: /
 permalink: /docs/roadmap/
 ---
+
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0001-roadmap.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## Introduction
 
 This is a page where we publish our approximate roadmap for **VMware Secrets
 Manager** for Cloud-Native Apps. Note that this is not a commitment to deliver
 any of the features listed here, and that the roadmap is subject to change at
 any time without notice.
+
+Whenever we release a new version of **VMware Secrets Manager**, we will update
+this page, and also [the changelog](/docs/changelog/) to reflect the changes.
+
+> **One-Year Window**
+> 
+> This page will only contain information about the next 12 months of the
+> project. We will update the roadmap every release, and remove the completed
+> items from the list, and add a new iteration at the end of the list.
 
 ## VSecM v0.21.0 (*codename: Andromeda*)
 
@@ -32,11 +47,17 @@ version of **VMware Secrets Manager**.
 
 Here is a high-level list of features that we plan to deliver in this release:
 
-* TBD
+* Documentation improvements
+* Improvements in build automation
+* Video demos and tutorials
+* Bugfixes and stability improvements
 
 ## VSecM v0.22.0 (*codename: Boötes*) 
 
 **Sep 12, 2023 – Oct 9, 2023**
+
+This release will be more about enhancing deployment workflows, testing automation
+and CI/CD pipelines. We will also focus on improving the overall user experience.
 
 * TBD
 

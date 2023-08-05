@@ -16,6 +16,10 @@ prev_url: /docs/use-case-encryption/
 permalink: /docs/use-case-transformation/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0240-transform.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Introduction
 
 This tutorial will show various way you can interpolate and transform secrets.
@@ -24,10 +28,10 @@ Transforming secrets may come in handy when your workload expects the secret
 in a different format than it has been initially provided, and you don’t want
 to write custom code to do the transformation.
 
-To help us explore these transformations, [we will use **VMware Secrets Manager Inspector**
+To help us explore these transformations, [we will use **VSecM Inspector**
 from the previous tutorial](/docs/use-case-encryption). If you haven’t installed
 it, before you proceed, please [navigate to that lecture and install
-**VMware Secrets Manager Inspector**](/docs/use-case-encryption)
+**VSecM Inspector**](/docs/use-case-encryption)
 
 ## Preparation
 

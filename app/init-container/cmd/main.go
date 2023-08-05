@@ -19,7 +19,7 @@ import (
 func main() {
 	id := "AEGIICNT"
 
-	log.InfoLn(&id, "Starting VMware Secrets Manager Init Container")
+	log.InfoLn(&id, "Starting VSecM Init Container")
 	go startup.Watch()
 
 	// Block the process from exiting, but also be graceful and honor the

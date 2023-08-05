@@ -16,7 +16,11 @@ prev_url: /docs/use-case-sdk/
 permalink: /docs/use-case-init-container/
 ---
 
-## Using **VMware Secrets Manager Init Container**
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0220-init-container.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## Using **VSecM Init Container**
 
 In certain situations you might not have full control over the source code
 of your workloads. For example, your workload can be a containerized third
@@ -24,7 +28,7 @@ party binary executable that you don’t have the source code of. It might
 be consuming Kubernetes `Secret`s through injected environment variables,
 and the like.
 
-Luckily, with **VMware Secrets Manager Init Container** you can interpolate secrets stored in
+Luckily, with **VSecM Init Container** you can interpolate secrets stored in
 **VSecM Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
 be consumed by the workloads.
 
@@ -47,8 +51,8 @@ kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
 # Make sure that the secret is gone:
 kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
   vsecm-system -- safe -l
-
-{"secrets":[]}
+# Output:
+# {"secrets":[]}
 ```
 
 ## Read the Source
@@ -86,7 +90,7 @@ func main() {
 As you see, the code tries to parse several environment variables. But,
 where does it get them?
 
-For that let’s look into [`Deployment.yaml][deployment-yaml] manifest:
+For that let’s look into the [`Deployment.yaml`][deployment-yaml] manifest:
 
 ```yaml
 apiVersion: apps/v1
@@ -109,8 +113,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        # Replace $version with the most recent version:
-        image: vsecm/example-using-init-container:$version
+        image: vsecm/example-using-init-container:latest
         env:
           - name: SECRET
             valueFrom:
@@ -166,13 +169,13 @@ make example-init-container-deploy
 ```
 
 When we list the pods, you’ll see that it’s not ready yet because
-**VMware Secrets Manager Init Container** is waiting for a secret to be registered to this pod.
+**VSecM Init Container** is waiting for a secret to be registered to this pod.
 
 ```bash
 kubectl get po 
 
-NAME                                   READY   STATUS     RESTARTS   AGE
-example-5d8c6c4865-dlt8r   0/1     Init:0/1   0          49s
+NAME                                  READY   STATUS
+example-5d8c6c4865-dlt8r   0/1     Init:0/1   0
 ```
 
 Here are the containers in that [`Deployment.yaml`][deployment-yaml]
@@ -180,13 +183,13 @@ Here are the containers in that [`Deployment.yaml`][deployment-yaml]
 ```yaml
       containers:
       - name: main
-        image: vsecm/example-using-init-container:$version
+        image: vsecm/example-using-init-container:latest
       
       # … Truncated  … 
       
       initContainers:
       - name: init-container
-        image: vsecm/vsecm-ist-init-container:$version
+        image: vsecm/vsecm-ist-init-container:latest
 ```
 
 It’s the `init-container` that waits until the workload acquires a secret.
@@ -207,8 +210,10 @@ SENTINEL=$(kubectl get po -n vsecm-system \
 kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 -w "example" \
 -n "default" \
--s '{"username": "root", "password": "SuperSecret", "value": "VSecMRocks"}' \
--t '{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}' \
+-s '{"username": "root", \
+  "password": "SuperSecret", "value": "VSecMRocks"}' \
+-t '{"USERNAME":"{{.username}}", \
+  "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}' \
 -k
 
 # Sit back and relax.{% endraw %}
@@ -219,7 +224,7 @@ Here are the meanings of the parameters in the above command:
 * `-w` is the name of the workload.
 * `-n` identifies the namespace of the Kubernetes `Secret`.
 * `-k` means **VMware Secrets Manager** will update an associated Kubernetes `Secret`.
-* `-t` is the template to be be used to transform the fields of the payload.
+* `-t` is the template to be used to transform the fields of the payload.
 * `-s` is the actual value of the secret.
 
 Now let’s check if our pod has initialized:
@@ -227,8 +232,8 @@ Now let’s check if our pod has initialized:
 ```bash 
 kubectl get po
 
-NAME                                   READY   STATUS    RESTARTS   AGE
-example-5d8c6c4865-dlt8r   1/1     Running   0          7m49s
+NAME                                 READY   STATUS
+example-5d8c6c4865-dlt8r   1/1     Running   0
 ```
 
 It looks like it did. So, let’s check its logs:
@@ -251,7 +256,7 @@ Which means, our secret should also have been populated; let’s check tha too:
 ```bash
 kubectl get secret 
 
-NAME                               TYPE     DATA   AGE
+NAME                   TYPE     DATA   AGE
 vsecm-secret-example   Opaque   3      7h9m
 ```
 
@@ -279,7 +284,7 @@ And yes, the values have been dynamically bound to the secret.
 In summary, the `Pod` that your `Deployment` manages will not initialize until
 you register secrets to your workload.
 
-Once you register secrets using the above command, **VMware Secrets Manager Init Container** will
+Once you register secrets using the above command, **VSecM Init Container** will
 exit with a success status code and let the main container initialize with the
 updated Kubernetes `Secret`.
 
@@ -315,7 +320,7 @@ behavior parity of your legacy system before starting a more canonical **VMware 
 implementation.
 
 For modern workloads that you have more control, we highly encourage you to
-use [**VMware Secrets Manager SDK**][tutorial-sdk] or [**VSecM Sidecar**][tutorial-sidecar] instead.
+use [**VSecM SDK**][tutorial-sdk] or [**VSecM Sidecar**][tutorial-sidecar] instead.
 
 That being said, it’s good to have this option, and we are sure you can find
 other creative ways to leverage it too.
