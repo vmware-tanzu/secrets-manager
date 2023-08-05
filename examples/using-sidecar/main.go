@@ -11,10 +11,10 @@
 package main
 
 // Note that there is no VSecM-specific dependency in the app’s code:
-// That’s the benefit of using “VMware Secrets Manager Sidecar”: The application has zero idea
-// that `VMware Secrets Manager Safe` exists. From its perspective, it just knows that there
-// are secrets in a predefined location that it can read and parse. And, that’s
-// a good way to separate cross-cutting concerns.
+// That’s the benefit of using “VSecM Sidecar”: The application
+// has zero idea that `VSecM Safe` exists. From its perspective, it just knows
+// that there are secrets in a predefined location that it can read and parse.
+// And, that’s a good way to separate cross-cutting concerns.
 
 import (
 	"fmt"

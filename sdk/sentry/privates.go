@@ -42,15 +42,15 @@ func saveData(data string) error {
 func fetchSecrets() error {
 	r, eFetch := Fetch()
 
-	// VMware Secrets Manager Safe was successfully queried, but no secrets found.
+	// VSecM Safe was successfully queried, but no secrets found.
 	// This means someone has deleted the secret. We cannot let
 	// the workload linger with the existing secret, so we remove
 	// it from the workload too.
 	//
 	// If the user wants a more fine-tuned control for this case,
 	// that is: if the user wants to keep the existing secret even
-	// if it has been deleted from VMware Secrets Manager Safe, then the user should
-	// use VSecM SDK directly, instead of using VMware Secrets Manager Sidecar.
+	// if it has been deleted from VSecM Safe, then the user should
+	// use VSecM SDK directly, instead of using VSecM Sidecar.
 	if eFetch == ErrSecretNotFound {
 		return saveData("")
 	}

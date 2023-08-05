@@ -16,6 +16,10 @@ prev_url: /docs/configuration/
 permalink: /docs/use-the-source/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0120-use-the-source.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Introduction
 
 This section describes how to build **VMware Secrets Manager** from source.

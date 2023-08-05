@@ -17,8 +17,7 @@ permalink: /docs/philosophy/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction

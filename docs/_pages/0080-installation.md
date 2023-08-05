@@ -16,6 +16,12 @@ prev_url: /docs/architecture/
 permalink: /docs/installation/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0080-installation.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## Introduction
+
 There are several ways to install **VMware Secrets Manager** to a Kubernetes cluster:
 
 * You can use **helm charts**,

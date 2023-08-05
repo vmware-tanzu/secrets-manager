@@ -16,6 +16,10 @@ prev_url: /docs/use-the-source/
 permalink: /docs/contributing/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0130-contributing.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Introduction
 
 This section contains instructions to test and develop **VMware Secrets Manager**
@@ -124,7 +128,8 @@ make k8s-start
 … truncated …
 …
 
-Registry addon with docker driver uses port 50565 please use that instead of 
+Registry addon with docker driver uses port 50565
+please use that instead of 
 default port 5000 
 
 …{% endraw %}
@@ -172,8 +177,8 @@ designated port, you can use [`socat`][socat].
 # Install `socat` if you don’t have it on your system.
 brew install socat
 
-# Replace 49876 with whatever port the warning message gave you during 
-# the initial cluster setup.
+# Replace 49876 with whatever port the warning message 
+# gave you during the initial cluster setup.
 socat TCP-LISTEN:5000,fork,reuseaddr TCP:localhost:49876
 {% endraw %}
 ```
@@ -286,10 +291,11 @@ acquiring images from the local registry, try these:
 * Execute `eval $(minikube docker-env)` before pushing things to **Docker**. This
   is one of the first instructions [on the “*push*” section of the Minikube
   handbook][minikube-push], yet it is still very easy to inadvertently skip it.
-* Make sure you have the registry addon enabled (`minikube addons list`).
+* Make sure you have the registry addon enabled
+  * (`minikube addons list`).
 * You might have luck directly pushing the image:
-  `docker build --tag $(minikube ip):5000/test-img`; followed by:
-  `docker push $(minikube ip):5000/test-img`.
+  * first: `docker build --tag $(minikube ip):5000/test-img`;
+  * followed by: `docker push $(minikube ip):5000/test-img`.
 * There are also `minikube image load` and `minikube image build` commands
   that might be helpful.
 

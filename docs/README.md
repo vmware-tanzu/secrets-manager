@@ -12,9 +12,19 @@
 title: VMWare Secrets Manager for Cloud-Native Apps
 layout: post
 permalink: /
-next_url: /docs/about/
+next_url: /docs/navigation/
 prev_url: /docs/showcase/
 ---
+
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/README.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## 🛡️ **Welcome** 🛡
+
+Welcome to **VMware Secrets Manager** for Cloud-Native Apps (*VSecM*)️.
+
+**VSecM** keeps your secrets… secret, so you can `#sleepmore`.
 
 ## Keep Your Secrets… Secret
 

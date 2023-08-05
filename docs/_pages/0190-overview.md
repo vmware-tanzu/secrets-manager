@@ -17,8 +17,7 @@ permalink: /docs/use-cases-overview/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0190-overview.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0190-overview.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction

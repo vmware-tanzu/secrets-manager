@@ -16,6 +16,10 @@ prev_url: /docs/use-case-init-container/
 permalink: /docs/use-case-encryption/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0230-encrypt.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Introduction
 
 This tutorial will introduce how you can use **VSecM Sentinel** encrypt secrets
@@ -73,15 +77,16 @@ OK{% endraw %}
 
 That should be enough cleanup for the next steps.
 
-## Introducing **VMware Secrets Manager Inspector**
+## Introducing **VSecM Inspector**
 
-We will use **VMware Secrets Manager Inspector** like a debugger, to diagnose the
+We will use **VSecM Inspector** like a debugger, to diagnose the
 state of our system.
 
-By the time of this writing **VMware Secrets Manager Inspector** is not an official **VMware Secrets Manager**
-component, so we’ll piggyback on a `Deployment` manifest that was used in
-a former workshop. When we have an `vsecm-inspector` pod that we can officially
-use for diagnostic purposes, this paragraph will be edited to reflect that too.
+By the time of this writing **VSecM Inspector** is not an official 
+**VMware Secrets Manager** component, so we’ll piggyback on a `Deployment` 
+manifest that was used in a former workshop. When we have an `vsecm-inspector` 
+pod that we can officially use for diagnostic purposes, this paragraph will be 
+edited to reflect that too.
 
 Yet, for now, let’s deploy the workshop version of it.
 
@@ -122,13 +127,14 @@ kubectl exec $SENTINEL -n vsecm-system -- safe \
   -s "VSecMRocks" \
   -e
 
-# The output of the above command will be similar to something like this:
+# The output of the above command will be 
+# similar to something like this:
 #
 #   YWdlLWVuY … Truncated … VZ2SDFiMjEY+V7JMg
 #
 # ☝️ This is a long random encrypted string. 
-# We will use the variable $ENCRYPTED_SECRET in lieu of this value 
-# in the sections below for simplicity.
+# We will use the variable $ENCRYPTED_SECRET in lieu of
+# this value in the sections below for simplicity.
 ```
 
 Here `-s` is for the secret we would like to encrypt, and `-e` indicates
