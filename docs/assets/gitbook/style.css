@@ -4247,6 +4247,12 @@ h2 {
     border-left: 0.81em #BA1C3B solid;
 }
 
+h4 {
+    border-left: 0 !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
 
 body {
     text-rendering: optimizeLegibility;

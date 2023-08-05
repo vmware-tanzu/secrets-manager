@@ -9,9 +9,9 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VSecM Roadmap
+title: Roadmap
 layout: post
-next_url: /docs/about
+next_url: /docs/navigation/
 prev_url: /
 permalink: /docs/roadmap/
 ---

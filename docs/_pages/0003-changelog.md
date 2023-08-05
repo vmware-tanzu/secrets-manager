@@ -9,10 +9,10 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VSecM Changelog
+title: Changelog
 layout: post
+next_url: /docs/navigation/
 prev_url: /
-next_url: /docs/roadmap/
 permalink: /docs/changelog/
 ---
 
