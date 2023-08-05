@@ -286,7 +286,7 @@ updated Kubernetes `Secret`.
 Here is a sequence diagram of how the secret is transformed (*open the image
 in a new tab for a larger version*):
 
-![Transforming Secrets](/assets/secret-transformation.png "Transforming Secrets")
+![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 
 <!-- TODO: Update video link -->
 <!-- ## A Video Is Worth a Lot of Words

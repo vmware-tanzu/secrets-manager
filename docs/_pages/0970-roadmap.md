@@ -16,23 +16,86 @@ prev_url: /docs/use-case-showcase/
 permalink: /docs/roadmap/
 ---
 
-
 This is a page where we publish our approximate roadmap for **VMware Secrets
 Manager** for Cloud-Native Apps. Note that this is not a commitment to deliver
 any of the features listed here, and that the roadmap is subject to change at
 any time without notice.
 
-## VSecM v0.20.1 
+## VSecM v0.21.0 (*codename: Andromeda*)
 
-* Migrate existing Aegis documentation to the [new VMware Secrets Manager
-  documentation site](https://vsecm.com).
-* Create missing video tutorials.
-* Maintain feature parity.
+**Aug 15, 2023 – Sep, 11, 2023** 
 
-## VSecM v0.21.0
+This is a stability-focused release. We will focus on fixing bugs, improving
+stability, and improving workflows and CI/CD pipelines. We will also create
+missing documentation and generate new video tutorials that feature the current
+version of **VMware Secrets Manager**.
+
+Here is a high-level list of features that we plan to deliver in this release:
 
 * TBD
 
-## VSecM v0.22.0
+## VSecM v0.22.0 (*codename: Boötes*) 
+
+**Sep 12, 2023 – Oct 9, 2023**
+
+* TBD
+
+## VSecM v0.23.0 (*codename: Cassiopeia*) 
+
+**Oct 10, 2023 – Nov 6, 2023**
+
+* TBD
+
+## VSecM v0.24.0 (*codename: Draco*) 
+
+**Nov 7, 2023 – Dec 4, 2023**
+
+* TBD
+
+## VSecM v0.25.0 (*codename: Eridanus*) 
+
+**Dec 5, 2023 – Jan 1, 2024**
+
+* TBD
+
+## VSecM v0.26.0 (*codename: Fornax*) 
+
+**Jan 2, 2024 – Jan 29, 2024**
+
+* TBD
+
+## VSecM v0.27.0 (*codename: Gemini*) 
+
+**Jan 30, 2024 – Feb 26, 2024**
+
+* TBD
+
+## VSecM v0.28.0 (*codename: Hydra*) 
+
+**Feb 27, 2024 – Mar 25, 2024**
+
+* TBD
+
+## VSecM v0.29.0 (*codename: Indus*) 
+
+**Mar 26, 2024 – Apr 22, 2024**
+
+* TBD
+
+## VSecM v0.30.0 (*codename: Lupus*) 
+
+**Apr 23, 2024 – May 20, 2024**
+
+* TBD
+
+## VSecM v0.31.0 (*codename: Mensa*) 
+
+**May 21, 2024 – Jun 17, 2024**
+
+* TBD
+
+## VSecM v0.32.0 (*codename: Norma*) 
+
+**Jun 18, 2024 – Jul 15, 2024**
 
 * TBD

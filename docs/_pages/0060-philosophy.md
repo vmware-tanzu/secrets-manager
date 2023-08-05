@@ -21,8 +21,6 @@ permalink: /docs/philosophy/
 href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-## VMware Secrets Manager for Cloud Native Apps
-
 ## Introduction
 
 We follow the **guidelines** outlined in the next few sections as an

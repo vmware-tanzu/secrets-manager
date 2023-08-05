@@ -21,7 +21,6 @@ permalink: /docs/configuration/
 href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0110-configuration.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-## Configuring VMware Secrets Manager
 ## Introduction
 
 **VMware Secrets Manager** system components can be configured using environment variables.
@@ -31,6 +30,7 @@ The following section contain a breakdown of all of these environment variables.
 > **Looking for VMware Secrets Manager Production Tips**?
 >
 > For **production setup**, check out [**VMware Secrets Manager Production Deployment**](/docs/production).
+{: .block-warning}
 
 ## Environment Variables
 

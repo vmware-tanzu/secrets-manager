@@ -189,6 +189,8 @@
     margin-left: 0.5em;
     margin-right: 0.5em;
     margin-top: 2em;
+
+    margin: 2em 0.2em;
 }
 
 /* Tips, warnings, and dangers */
@@ -256,6 +258,7 @@
             rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
     margin-top: 2em;
+    margin: 2em 0.2em;
 }
 
 .markdown-section blockquote.block-warning h1 {
