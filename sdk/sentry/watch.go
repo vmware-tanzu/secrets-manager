@@ -18,7 +18,7 @@ import (
 )
 
 // Watch synchronizes the internal state of the sidecar by talking to
-// VMware Secrets Manager Safe regularly. It periodically calls Fetch behind-the-scenes to
+// VSecM Safe regularly. It periodically calls Fetch behind-the-scenes to
 // get its work done. Once it fetches the secrets, it saves it to
 // the location defined in the `VSECM_SIDECAR_SECRETS_PATH` environment
 // variable (`/opt/vsecm/secrets.json` by default).

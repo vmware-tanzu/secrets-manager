@@ -15,7 +15,7 @@ metadata:
 #
 # Creating a `ClusterRole` will make the role applicable to all namespaces
 # within the cluster. This approach is easier to maintain, and still secure
-# enough because VMware Secrets Manager Safe will talk only to the Secrets it knows about.
+# enough because VSecM Safe will talk only to the Secrets it knows about.
 # Alternatively, you can create a `Role` for tighter control:
 #
 #   kind: Role
@@ -48,8 +48,7 @@ metadata:
 # When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
 # environment variable is either not set, or set to anything other than "true",
 # then you can only consume VSecM-managed secrets through VSecM Safe API, either
-# by using the VMware Secrets Manager SDK, or leveraging VMware Secrets Manager
-# Sidecar—which is the recommended way.
+# by using the VSecM SDK, or leveraging VSecM Sidecar—which is the recommended way.
 #
 ##
 

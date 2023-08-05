@@ -73,7 +73,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Define image for VMware Secrets Manager sentinel
+Define image for VSecM Sentinel
 */}}
 {{- define "sentinel.repository" -}}
 {{- if eq (lower $.Values.global.baseImage) "distroless" }}

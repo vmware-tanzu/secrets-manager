@@ -12,7 +12,7 @@ package env
 
 import "os"
 
-// TlsPort returns the secure port for VMware Secrets Manager Safe to listen on.
+// TlsPort returns the secure port for VSecM Safe to listen on.
 // It checks the VSECM_SAFE_TLS_PORT environment variable. If the variable
 // is not set, it defaults to ":8443".
 func TlsPort() string {

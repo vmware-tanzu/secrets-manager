@@ -54,12 +54,12 @@ spec:
               mountPath: /key
               readOnly: true
           #
-          # You can configure VMware Secrets Manager Safe by providing environment variables.
+          # You can configure VSecM Safe by providing environment variables.
           #
           # See https://vsecm.com/configuration for more information about
           # these environment variables.
           #
-          # When you don’t explicitly provide env vars here, VMware Secrets Manager Safe
+          # When you don’t explicitly provide env vars here, VSecM Safe
           # will assume the default values outlined in the given link above.
           #
           env:

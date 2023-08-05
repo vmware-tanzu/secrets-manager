@@ -17,8 +17,7 @@ permalink: /docs/configuration/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0110-configuration.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0110-configuration.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction
@@ -37,7 +36,7 @@ The following section contain a breakdown of all of these environment variables.
 ### SPIFFE_ENDPOINT_SOCKET
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
-**VMware Secrets Manager SPIRE**.
+**SPIRE**.
 
 If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
 will be used.
@@ -303,11 +302,12 @@ First, by design, and for security reasons, the original Kubernetes `Secret`
 should exist, and it should be initiated to a default data as follows before
 it can be synced by **VSecM Safe**:
 
-```text
+```yaml
 {% raw %}apiVersion: v1
 kind: Secret
 metadata:
-  # The string after `vsecm-secret-` must match the workload’s name.
+  # The string after `vsecm-secret-` must match the 
+  # workload’s name.
   # For example, this is an VSecM-managed secret for `example`
   # with the SPIFFE ID 
   # `"spiffe://vsecm.com/workload/example\

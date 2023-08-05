@@ -57,7 +57,7 @@ spec:
           mountPath: /spire-agent-socket
           readOnly: true
         #
-        # You can configure VMware Secrets Manager Init Container by providing
+        # You can configure VSecM Init Container by providing
         # environment variables.
         #
         # See https://vsecm.com/configuration for more information

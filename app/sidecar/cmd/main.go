@@ -18,7 +18,7 @@ import (
 
 func main() {
 	id := "AEGSSDCR"
-	log.InfoLn(&id, "Starting VMware Secrets Manager Sidecar")
+	log.InfoLn(&id, "Starting VSecM Sidecar")
 	go sentry.Watch()
 	// Keep the main routine alive:
 	system.KeepAlive()

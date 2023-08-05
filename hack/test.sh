@@ -232,7 +232,7 @@ assert_workload_secret_no_value() {
   fi
 }
 
-# Ensures if VMware Secrets Manager Sentinel can encrypt a secret.
+# Ensures if VSecM Sentinel can encrypt a secret.
 assert_encrypted_secret() {
   local sentinel
   local value
@@ -352,7 +352,7 @@ pause_just_in_case() {
 
 ### Mutations ### _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
-# Encrypts a secret and stores it in VMware Secrets Manager Safe.
+# Encrypts a secret and stores it in VSecM Safe.
 set_encrypted_secret() {
   printf "set_encrypted_secret()\n"
 
@@ -390,7 +390,7 @@ set_encrypted_secret() {
   printf "done: set_encrypted_secret()\n"
 }
 
-# Registers a secret in VMware Secrets Manager Safe.
+# Registers a secret in VSecM Safe.
 set_secret() {
   printf "set_secret()\n"
 
@@ -411,7 +411,7 @@ set_secret() {
   printf "done: set_secret()\n"
 }
 
-# Registers a secret in VMware Secrets Manager Safe and transforms it as JSON.
+# Registers a secret in VSecM Safe and transforms it as JSON.
 set_json_secret() {
   printf "set_json_secret()\n"
 
@@ -436,7 +436,7 @@ set_json_secret() {
   printf "done: set_json_secret()\n"
 }
 
-# Registers a secret in VMware Secrets Manager Safe and transforms it as YAML.
+# Registers a secret in VSecM Safe and transforms it as YAML.
 set_yaml_secret() {
   printf "set_yaml_secret()\n"
 
@@ -461,7 +461,7 @@ set_yaml_secret() {
   printf "done: set_yaml_secret()\n"
 }
 
-# Registers a secret in VMware Secrets Manager Safe and transforms it as a Kubernetes secret.
+# Registers a secret in VSecM Safe and transforms it as a Kubernetes secret.
 set_kubernetes_secret() {
   printf "set_kubernetes_secret()\n"
 
@@ -509,7 +509,7 @@ append_secret() {
 
 ### Deployments ### _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
-# Deploys a workload that uses VMware Secrets Manager SDK.
+# Deploys a workload that uses VSecM SDK.
 deploy_workload_using_sdk() {
   printf "Deploying workload that uses the SDK…\n"
 
@@ -526,7 +526,7 @@ deploy_workload_using_sdk() {
   printf "Deployed workload that uses the SDK.\n"
 }
 
-# Deploys a workload that uses VMware Secrets Manager Sidecar.
+# Deploys a workload that uses VSecM Sidecar.
 deploy_workload_using_sidecar() {
   printf "Deploying workload that uses the sidecar…\n"
 
@@ -543,7 +543,7 @@ deploy_workload_using_sidecar() {
   printf "Deployed workload that uses the sidecar.\n"
 }
 
-# Deploys a workload that uses VMware Secrets Manager Init Container.
+# Deploys a workload that uses VSecM Init Container.
 deploy_workload_using_init_container() {
   printf "Deploying workload that uses the init container…\n"
 
@@ -702,7 +702,7 @@ test_secret_registration_yaml_format
 cleanup
 printf "\n"
 printf "________________________________________\n"
-printf "Case: Workload using VMware Secrets Manager Sidecar…\n"
+printf "Case: Workload using VSecM Sidecar…\n"
 printf "\n"
 deploy_workload_using_sidecar
 
@@ -711,7 +711,7 @@ deploy_workload_using_sidecar
 
 # ------------------------------------------------------------------------------
 
-# Tests the registration of secrets using VMware Secrets Manager Sidecar.
+# Tests the registration of secrets using VSecM Sidecar.
 test_secret_registration_sidecar() {
   printf "Testing: Secret registration…\n"
 
@@ -729,7 +729,7 @@ test_secret_registration_sidecar
 
 # ------------------------------------------------------------------------------
 
-# Tests the deletion of secrets using VMware Secrets Manager Sidecar.
+# Tests the deletion of secrets using VSecM Sidecar.
 test_secret_deletion_sidecar() {
   printf "Testing: Secret deletion (sidecar)…\n"
 
@@ -744,7 +744,7 @@ test_secret_deletion_sidecar
 
 # ------------------------------------------------------------------------------
 
-# Tests the registration of secrets in append mode using VMware Secrets Manager Sidecar.
+# Tests the registration of secrets in append mode using VSecM Sidecar.
 test_secret_registration_append_sidecar() {
   printf "Testing Secret registration (append mode)…\n"
 
@@ -769,7 +769,7 @@ test_secret_registration_append_sidecar
 
 # ------------------------------------------------------------------------------
 
-# Tests the registration of secrets in JSON format using VMware Secrets Manager Sidecar.
+# Tests the registration of secrets in JSON format using VSecM Sidecar.
 test_secret_registration_json_format_sidecar() {
   printf "Testing Secret registration (JSON transformation)…\n"
 
@@ -794,7 +794,7 @@ test_secret_registration_json_format_sidecar
 
 # ------------------------------------------------------------------------------
 
-# Tests the registration of secrets in YAML format using VMware Secrets Manager Sidecar.
+# Tests the registration of secrets in YAML format using VSecM Sidecar.
 test_secret_registration_yaml_format_sidecar() {
   printf "Testing Secret registration (YAML transformation)…\n"
 
@@ -825,10 +825,10 @@ test_secret_registration_yaml_format_sidecar
 cleanup
 printf "\n"
 printf "________________________________________\n"
-printf "Case: Workload using VMware Secrets Manager Init Container…\n"
+printf "Case: Workload using VSecM Init Container…\n"
 printf "\n"
 
-# Tests the registration of secrets using VMware Secrets Manager Init Container.
+# Tests the registration of secrets using VSecM Init Container.
 test_init_container() {
   printf "Testing: Init Container…\n"
 

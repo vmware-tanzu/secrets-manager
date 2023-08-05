@@ -31,7 +31,7 @@ each with their responsibilities outlined.
   * Esteban is a core contributor, focusing on integrating VSecM to various 
     external components and hardening it for production use-cases.
 
-- **Arun Thundyill Saseendran** [@ats0stv](https://github.com/ats0stv)
+* **Arun Thundyill Saseendran** [@ats0stv](https://github.com/ats0stv)
   * Arun is a core contributor, assisting in feature development and workflow 
     automation.
 

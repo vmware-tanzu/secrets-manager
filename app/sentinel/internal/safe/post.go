@@ -108,7 +108,7 @@ func respond(r *http.Response) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Post: Unable to read the response body from VMware Secrets Manager Safe.", err.Error())
+		fmt.Println("Post: Unable to read the response body from VSecM Safe.", err.Error())
 		fmt.Println("")
 		return
 	}
@@ -119,7 +119,7 @@ func respond(r *http.Response) {
 }
 
 func printEndpointError(err error) {
-	fmt.Println("Post: I am having problem generating VMware Secrets Manager Safe "+
+	fmt.Println("Post: I am having problem generating VSecM Safe "+
 		"secrets api endpoint URL.", err.Error())
 	fmt.Println("")
 }
@@ -132,14 +132,14 @@ func printPayloadError(err error) {
 func doDelete(client *http.Client, p string, md []byte) {
 	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
 	if err != nil {
-		fmt.Println("Post:Delete: Problem connecting to VMware Secrets Manager Safe API endpoint URL.", err.Error())
+		fmt.Println("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		fmt.Println("")
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 	r, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Post:Delete: Problem connecting to VMware Secrets Manager Safe API endpoint URL.", err.Error())
+		fmt.Println("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		fmt.Println("")
 		return
 	}
@@ -149,7 +149,7 @@ func doDelete(client *http.Client, p string, md []byte) {
 func doPost(client *http.Client, p string, md []byte) {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
 	if err != nil {
-		fmt.Println("Post: Problem connecting to VMware Secrets Manager Safe API endpoint URL.", err.Error())
+		fmt.Println("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		fmt.Println("")
 		return
 	}
