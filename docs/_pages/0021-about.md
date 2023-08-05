@@ -12,7 +12,7 @@
 title: What is VSecM?
 layout: post
 next_url: /docs/endorsements/
-prev_url: /
+prev_url: /docs/navigation/
 permalink: /docs/about/
 ---
 

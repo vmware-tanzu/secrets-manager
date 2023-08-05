@@ -12,7 +12,7 @@
 title: What People are Saying
 layout: post
 prev_url: /docs/about/
-next_url: /docs/community/
+next_url: /docs/quickstart/
 permalink: /docs/endorsements/
 ---
 

@@ -9,10 +9,10 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VSecM Maintainers
+title: Maintainers
 layout: post
+next_url: /docs/navigation/
 prev_url: /
-next_url: /docs/about/
 permalink: /docs/maintainers/
 ---
 
