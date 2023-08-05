@@ -12,7 +12,7 @@
 title: Preface
 layout: post
 next_url: /docs/about/
-prev_url: /
+prev_url: /docs/community/
 permalink: /docs/navigation/
 ---
 
