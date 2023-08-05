@@ -104,7 +104,7 @@ inspect
 # username: admin{% endraw %}
 ```
 
-# Registering a JSON String (with invalid JSON)
+## Registering a JSON String (with invalid JSON)
 
 Now we’ll deliberately make an error in our JSON. Notice the missing `"`
 in `username"`: That is not valid JSON.
@@ -120,7 +120,7 @@ inspect
 # {username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
-# Registering a YAML String (with invalid JSON)
+## Registering a YAML String (with invalid JSON)
 
 Since the JSON cannot be parsed, the output will not be a YAML:
 
@@ -197,7 +197,7 @@ inspect
 # {"username": "admin", "password": "VSecMRocks!"}{% endraw %}
 ```
 
-# Transforming a JSON Secret (invalid template and JSON)
+## Transforming a JSON Secret (invalid template and JSON)
 
 **VMware Secrets Manager** will still try its best:
 

@@ -25,6 +25,9 @@ href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000
 
 * Documentation updates to make the project align with the current status of
   **VSecM**.
+* Migrate existing Aegis documentation to the [new VMware Secrets Manager
+  documentation site](https://vsecm.com).
+
 
 ## [v0.20.0] - 2023-07-27
 

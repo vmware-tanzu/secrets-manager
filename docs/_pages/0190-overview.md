@@ -39,6 +39,7 @@ To complete the tutorials listed here, you will need the following:
 > **How Do I Set Up VMware Secrets Manager**?
 >
 > To set up **VMware Secrets Manager**, [follow the instructions in this quickstart guide][quickstart].
+{: .block-tip}
 
 [quickstart]: /docs/quickstart
 [repo]: https://github.com/vmware-tanzu/secrets-manager
@@ -75,6 +76,7 @@ make k8s-start
 > or even a full-blown managed Kubernetes cluster; however it will be virtually
 > impossible to cover all possible tooling and OS combinations. Therefore,
 > we’ll only provide instructions for **minikube** in this document.
+{: .block-tip}
 
 [minikube]: https://minikube.sigs.k8s.io/docs/ "minikube"
 [docker]: https://www.docker.com/ "Docker"
@@ -106,6 +108,7 @@ On the above diagram:
 >
 > [You can check out this “**VMware Secrets Manager** Deep Dive” article][architecture]
 > to learn more about these components.
+{: .block-tip}
 
 [architecture]: /docs/architecture
 

@@ -21,8 +21,6 @@ permalink: /docs/production/
 href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-## VMware Secrets Manager for Cloud Native Apps
-
 ## Introduction
 
 You need to pay attention to certain aspects and parts of the system that
@@ -161,11 +159,40 @@ namespace with an `vsecm-safe` service account.
 > Their actions will be recorded in the audit logs, so they can, and will be
 > held responsible; however, it is still a bad idea to have more than an
 > absolute minimum number of Cluster Administrators in your cluster.
+{: .block-tip}
 
 Kubernetes Secrets are, by default, stored **unencrypted** in the API server’s
 underlying data store (`etcd`). Anyone with API access and sufficient RBAC
 credentials can retrieve or modify a `Secret`, as can anyone with access
 to `etcd`.
+
+> **`Secret`less VSecM**
+>
+> For an additional layer of security, you can opt out of using Kubernetes 
+> `Secret`s altogether and use **VMware Secrets Manager** without any 
+> Kubernetes secrets to protect the master keys. In this mode, you’ll have to
+> manually provide the master keys to **VSecM Safe**; and you’ll need to 
+> re-provide the master keys every time you restart the **VSecM Safe** Pod or
+> the pod is evicted, crashed, or rescheduled.
+> 
+> This added layer of security comes with a cost of added complexity and 
+> operational overhead. You will need to manually intervene when **VSemM Safe**
+> crashes or restarts.
+> 
+> That said, **VSecM Safe** is designed to be resilient, and it rarely crashes.
+> 
+> If you let **VMware Secrets Manager** generate the root token for you, you
+> will not have to worry about this, and when the system crashes, it will
+> automatically unlock itself, so you can `#sleepmore`.
+> 
+> Our honest recommendation is to let **VMware Secrets Manager** manage your
+> keys unless you have special conformance or compliance requirements that 
+> necessitate you to do otherwise.
+> 
+> Check ou the [Configuration Reference][config-ref] for more information.
+{: .block-tip}
+
+[config-ref]: /docs/configuration/ "Configuration Reference"
 
 If you are **only** using **VMware Secrets Manager** for your configuration and secret storage
 needs, and your workloads do **not** bind any Kubernetes `Secret` (*i.e.,
@@ -308,6 +335,7 @@ needs][k8s-pv] for production setups.
 >
 > **VSecM Safe** may not emphasize high-availability, but its robustness is
 > so outstanding that the need for high-availability becomes almost negligible.
+{: .block-tip}
 
 Since **VSecM Safe** keeps all of it state in memory, using a pod with enough
 memory and compute resources is the most effective way to leverage it. Although,
@@ -349,7 +377,7 @@ it’s “*as good as*” highly-available.
 
 
 
-## Update VMware Secrets Manager’ Log Levels
+## Update VMware Secrets Manager’s Log Levels
 
 **VSecM Safe** and **VSecM Sidecar** are configured to log at `TRACE` level by
 default. This is to help you debug issues with **VMware Secrets Manager**. However, this can

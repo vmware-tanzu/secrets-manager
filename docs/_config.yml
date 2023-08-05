@@ -26,7 +26,7 @@ baseurl:          ''
 rss:              RSS
 
 toc:
-  enabled: true
+  enabled: false
   h_min: 1
   h_max: 3
 

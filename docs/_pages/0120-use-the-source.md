@@ -16,6 +16,8 @@ prev_url: /docs/configuration/
 permalink: /docs/use-the-source/
 ---
 
+## Introduction
+
 This section describes how to build **VMware Secrets Manager** from source.
 
 For a more detailed walkthrough about how to contribute to **VMware Secrets
