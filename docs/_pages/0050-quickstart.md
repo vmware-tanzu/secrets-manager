@@ -12,7 +12,7 @@
 title: Quickstart
 layout: post
 permalink: /docs/quickstart/
-prev_url: /docs/community/
+prev_url: /docs/endorsements/
 next_url: /docs/philosophy/
 ---
 

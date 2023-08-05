@@ -37,9 +37,13 @@
                         {% if post.url contains "release-management" %}
                             <li class="divider"></li>
                         {% endif %}
+                        {% if post.url contains "changelog" %}
+                            <li class="divider"></li>
+                        {% endif %}
 
 
-                        {% if page.url == post.url %}
+
+            {% if page.url == post.url %}
                         <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">
                         {% else %}
                         <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
