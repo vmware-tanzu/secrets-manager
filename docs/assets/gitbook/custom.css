@@ -247,8 +247,8 @@
     font-family: var(--font-family);
 
     background: #e7c000;
-    background: -webkit-linear-gradient(to right, #f0d862, #fdfeac);
-    background: linear-gradient(to right, #f0d862, #fdfeac);
+    background: -webkit-linear-gradient(to right, #f7ebb0, #fdfeac);
+    background: linear-gradient(to right, #f7ebb0, #fdfeac);
 
     border-radius: 4px;
 

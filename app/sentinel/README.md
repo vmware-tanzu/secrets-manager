@@ -5,11 +5,11 @@
 <>/ keep your secrets… secret
 ```
 
-## VMware Secrets Manager Sentinel
+## VSecM Sentinel
 
-**VMware Secrets Manager** *Sentinel* is the **only** place one (*a person, or 
+**VSecM Sentinel** is the **only** place one (*a person, or 
 a process*) can **register** (*but not read back, for security reasons*) secrets 
-to **VMware Secrets Manager Safe**.
+to **VSecM Safe**.
 
 You can think of it as your *bastion host*.
 

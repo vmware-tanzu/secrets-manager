@@ -17,8 +17,7 @@ permalink: /docs/production/
 ---
 
 <p class="github-button"
-><a
-href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction
@@ -95,7 +94,7 @@ Note that 1000m is 1 full CPU core.
 Based on these findings, the following resource and limit allocations can be
 a starting point for **VMware Secrets Manager**-managed containers:
 
-```text
+```yaml
   # Resource allocation will highly depend on the system.
   # Benchmark your deployment, monitor your resource utilization,
   # and adjust these values accordingly.
@@ -196,12 +195,12 @@ to `etcd`.
 
 If you are **only** using **VMware Secrets Manager** for your configuration and secret storage
 needs, and your workloads do **not** bind any Kubernetes `Secret` (*i.e.,
-instead of using Kubernetes `Secret` objects, you use tools like **VMware Secrets Manager SDK**
+instead of using Kubernetes `Secret` objects, you use tools like **VSecM SDK**
 or **VSecM Sidecar** to securely dispatch secrets to your workloads*) then
 as long as you secure access to the secret `vsecm-safe-age-key` inside the
 `vsecm-system` namespace, you should be good to go.
 
-With the help of **VMware Secrets Manager SDK**, **VSecM Sidecar**, and **VSecM Init Container**,
+With the help of **VSecM SDK**, **VSecM Sidecar**, and **VSecM Init Container**,
 and with some custom coding/shaping
 of your data, you should be able to use it.
 

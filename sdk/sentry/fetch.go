@@ -108,7 +108,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	r, err := client.Get(p)
 	if err != nil {
 		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "Fetch: problem connecting to VMware Secrets Manager Safe API endpoint",
+			err, "Fetch: problem connecting to VSecM Safe API endpoint",
 		)
 	}
 
@@ -132,7 +132,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "unable to read the response body from VMware Secrets Manager Safe API endpoint",
+			err, "unable to read the response body from VSecM Safe API endpoint",
 		)
 	}
 

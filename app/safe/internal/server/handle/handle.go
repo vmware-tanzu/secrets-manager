@@ -43,7 +43,7 @@ func InitializeRoutes() {
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
 
 		// Route to list secrets.
-		// Only VMware Secrets Manager Sentinel is allowed to call this API endpoint.
+		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler: will list")
@@ -52,9 +52,9 @@ func InitializeRoutes() {
 		}
 
 		// Route to define the master key when VSECM_SAFE_MANUAL_KEY_INPUT is set.
-		// Only VMware Secrets Manager Sentinel is allowed to call this API endpoint.
+		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// This method works only once. Once a key is set, there is no way to
-		// update it. You will have to kill the VMware Secrets Manager Sentinel pod and restart it
+		// update it. You will have to kill the VSecM Sentinel pod and restart it
 		// to be able to set a new key.
 		if r.Method == http.MethodPost && p == "/sentinel/v1/keys" {
 			log.DebugLn(&cid, "Handler: will receive keys")
@@ -62,8 +62,8 @@ func InitializeRoutes() {
 			return
 		}
 
-		// Route to add secrets to VMware Secrets Manager Safe.
-		// Only VMware Secrets Manager Sentinel is allowed to call this API endpoint.
+		// Route to add secrets to VSecM Safe.
+		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodPost && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
@@ -71,8 +71,8 @@ func InitializeRoutes() {
 			return
 		}
 
-		// Route to delete secrets from VMware Secrets Manager Safe.
-		// Only VMware Secrets Manager Sentinel is allowed to call this API endpoint.
+		// Route to delete secrets from VSecM Safe.
+		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodDelete && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will delete")

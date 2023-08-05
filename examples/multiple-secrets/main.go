@@ -33,7 +33,7 @@ func main() {
 		}
 	}()
 
-	// Fetch the secret from the VMware Secrets Manager Safe.
+	// Fetch the secret from the VSecM Safe.
 	d, err := sentry.Fetch()
 	if err != nil {
 		fmt.Println("Failed to fetch the secrets. Try again later.")

@@ -16,6 +16,10 @@ prev_url: /docs/philosophy/
 permalink: /docs/architecture/
 ---
 
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0070-architecture.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
 ## Introduction
 
 This section discusses **VMware Secrets Manager** architecture and building blocks

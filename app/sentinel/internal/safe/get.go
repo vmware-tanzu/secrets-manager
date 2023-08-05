@@ -83,7 +83,7 @@ func Get() {
 
 	p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 	if err != nil {
-		fmt.Println("I am having problem generating VMware Secrets Manager Safe secrets api endpoint URL.")
+		fmt.Println("I am having problem generating VSecM Safe secrets api endpoint URL.")
 		fmt.Println("")
 		return
 	}
@@ -97,7 +97,7 @@ func Get() {
 
 	r, err := client.Get(p)
 	if err != nil {
-		fmt.Println("Get: Problem connecting to VMware Secrets Manager Safe API endpoint URL.", err.Error())
+		fmt.Println("Get: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		fmt.Println("")
 		return
 	}
@@ -114,7 +114,7 @@ func Get() {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Get: Unable to read the response body from VMware Secrets Manager Safe.")
+		fmt.Println("Get: Unable to read the response body from VSecM Safe.")
 		fmt.Println("")
 		return
 	}
