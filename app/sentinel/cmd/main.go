@@ -12,9 +12,10 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/akamensky/argparse"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	"os"
 )
 
 func parseList(parser *argparse.Parser) *bool {
@@ -126,69 +127,27 @@ func printSecretNeeded() {
 	fmt.Println("")
 }
 
-func doPost(workload *string, secret *string, namespace *string,
-	backingStore *string, useKubernetes *bool, template *string, format *string,
-	encrypt *bool, deleteSecret *bool, appendSecret *bool, inputKeys *string,
-) {
-	workloadP := ""
-	if workload != nil {
-		workloadP = *workload
+func inputValidationFailure(workload *string, encrypt *bool, inputKeys *string, secret *string, deleteSecret *bool) bool {
+
+	// You need to provide a workload name if you are not encrypting a secret,
+	// or if you are not providing input keys.
+	if *workload == "" &&
+		!*encrypt &&
+		*inputKeys == "" {
+		printWorkloadNameNeeded()
+		return true
 	}
 
-	secretP := ""
-	if secret != nil {
-		secretP = *secret
+	// You need to provide a secret value if you are not deleting a secret,
+	// or if you are not providing input keys.
+	if *secret == "" &&
+		!*deleteSecret &&
+		*inputKeys == "" {
+		printSecretNeeded()
+		return true
 	}
 
-	namespaceP := ""
-	if namespace != nil {
-		namespaceP = *namespace
-	}
-
-	backingStoreP := ""
-	if backingStore != nil {
-		backingStoreP = *backingStore
-	}
-
-	useK8sP := false
-	if useKubernetes != nil {
-		useK8sP = *useKubernetes
-	}
-
-	templateP := ""
-	if template != nil {
-		templateP = *template
-	}
-
-	formatP := ""
-	if format != nil {
-		formatP = *format
-	}
-
-	encryptP := false
-	if encrypt != nil {
-		encryptP = *encrypt
-	}
-
-	deleteP := false
-	if deleteSecret != nil {
-		deleteP = *deleteSecret
-	}
-
-	appendP := false
-	if appendSecret != nil {
-		appendP = *appendSecret
-	}
-
-	inputKeysP := ""
-	if inputKeys != nil {
-		inputKeysP = *inputKeys
-	}
-
-	safe.Post(
-		workloadP, secretP, namespaceP, backingStoreP, useK8sP,
-		templateP, formatP, encryptP, deleteP, appendP, inputKeysP,
-	)
+	return false
 }
 
 func main() {
@@ -213,39 +172,21 @@ func main() {
 		return
 	}
 
-	if list != nil && *list == true {
+	if *list {
 		safe.Get()
 		return
 	}
 
-	// You need to provide a workload name if you are not encrypting a secret,
-	// or if you are not providing input keys.
-	if (workload == nil || *workload == "") &&
-		(encrypt == nil || !*encrypt) &&
-		(inputKeys == nil || *inputKeys == "") {
-		printWorkloadNameNeeded()
-		return
-	}
-
-	// You need to provide a secret value if you are not deleting a secret,
-	// or if you are not providing input keys.
-	if (secret == nil || *secret == "") &&
-		(deleteSecret == nil || !*deleteSecret) &&
-		(inputKeys == nil || *inputKeys == "") {
-		printSecretNeeded()
-		return
-	}
-
-	if namespace == nil || *namespace == "" {
+	if *namespace == "" {
 		*namespace = "default"
 	}
 
-	if inputKeys == nil || *inputKeys == "" {
-		*inputKeys = ""
+	if inputValidationFailure(workload, encrypt, inputKeys, secret, deleteSecret) {
+		return
 	}
 
-	doPost(workload, secret, namespace, backingStore,
-		useKubernetes, template, format, encrypt, deleteSecret, appendSecret,
-		inputKeys,
+	safe.Post(
+		*workload, *secret, *namespace, *backingStore, *useKubernetes,
+		*template, *format, *encrypt, *deleteSecret, *appendSecret, *inputKeys,
 	)
 }

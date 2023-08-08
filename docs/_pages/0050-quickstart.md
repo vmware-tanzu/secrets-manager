@@ -166,7 +166,7 @@ example-68997489c6-8j8kj   1/1     Running   0          1m51s
 Let’s check the logs of our example workload:
 
 ```bash
-kubectl get logs example-68997489c6-8j8kj
+kubectl logs example-68997489c6-8j8kj
 ```
 
 The output will be something similar to this:
@@ -362,7 +362,7 @@ Since we’ve registered a secret, let’s see if our example workload can fetch
 the secret now and display it in its logs.
 
 ```bash
-kubectl get logs example-68997489c6-8j8kj
+kubectl logs example-68997489c6-8j8kj
 ```
 
 And the output would be something like this:
