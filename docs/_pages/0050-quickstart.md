@@ -21,7 +21,7 @@ next_url: /docs/philosophy/
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Get Your Hands Dirty**
-> 
+>
 > This is a quickstart guide to get you up and running with **VSecM**.
 {: .block-tip}
 
@@ -190,7 +190,7 @@ Here’s the source code of our sample workload to provide some context:
 ```go
 package main
 
-// … truncated headers … 
+// … truncated headers …
 
 func main() {
 
@@ -214,7 +214,7 @@ func main() {
 		}
 
 		fmt.Printf(
-			"secret: updated: %s, created: %s, value: %s\n", 
+			"secret: updated: %s, created: %s, value: %s\n",
 			d.Updated, d.Created, d.Data,
 		)
 		time.Sleep(5 * time.Second)
@@ -225,7 +225,7 @@ func main() {
 What the demo workload does is to try to fetch a secret every 5 seconds
 using the `sentry.Fetch()` function.
 
-`sentery.Fetch()` is a function provided by the **VMware Secrets Manager**;
+`sentry.Fetch()` is a function provided by the **VMware Secrets Manager**;
 it establishes a secure mTLS connection between the workload and
 **VSecM Safe** to fetch the secret.
 
@@ -333,7 +333,7 @@ Spec:
   Pod Selector:
     Match Labels:
       app.kubernetes.io/name:  example
-  Spiffe ID Template:          
+  Spiffe ID Template:
   spiffe://vsecm.com/workload/example/
   ns/{{ .PodMeta.Namespace }}/
   sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
@@ -369,13 +369,13 @@ And the output would be something like this:
 
 ```text
 2023/07/28 06:06:39 fetch
-secret: updated: "2023-07-28T01:34:30Z", 
+secret: updated: "2023-07-28T01:34:30Z",
 created: "2023-07-28T01:34:30Z", value: VSecMRocks
 2023/07/28 06:06:44 fetch
-secret: updated: "2023-07-28T01:34:30Z", 
+secret: updated: "2023-07-28T01:34:30Z",
 created: "2023-07-28T01:34:30Z", value: VSecMRocks
 2023/07/28 06:06:49 fetch
-secret: updated: "2023-07-28T01:34:30Z", 
+secret: updated: "2023-07-28T01:34:30Z",
 created: "2023-07-28T01:34:30Z", value: VSecMRocks
 ```
 
