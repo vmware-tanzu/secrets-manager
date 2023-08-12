@@ -17,7 +17,7 @@ permalink: /docs/changelog/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-changelog.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0003-changelog.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Recent Updates
