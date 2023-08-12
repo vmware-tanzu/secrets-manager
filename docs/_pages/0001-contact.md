@@ -17,7 +17,7 @@ permalink: /docs/contact/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0040-contact.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0001-contact.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Hi 👋**
