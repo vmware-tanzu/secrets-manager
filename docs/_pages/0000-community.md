@@ -17,7 +17,7 @@ permalink: /docs/community/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0040-contact.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-community.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Hi 👋**
