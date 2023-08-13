@@ -17,7 +17,7 @@ permalink: /docs/navigation/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0022-navigation.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0020-preface.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Hey, This Website Looks Like a GitBook 📖
