@@ -75,7 +75,7 @@ tasks such as registering secrets for workloads.
 
 [safe]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/safe
 [sidecar]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sidecar
-[sentinel]: https://github.com/vmware-tanzu/tree/main/app/sentinel
+[sentinel]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sentinel
 
 Here is a simplified overview of how various actors on a 
 **VMware Secrets Manager** system interact with each other:

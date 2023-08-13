@@ -77,7 +77,7 @@ cd secrets-manager
 
 [fork]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks
 [contributing]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING_DCO.md
-[coc]: https://github.com/shieldworks/wmware-tanzu/secrets-manager/blob/CODE_OF_CONDUCT.md
+[coc]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md
 
 ## Getting Help
 
