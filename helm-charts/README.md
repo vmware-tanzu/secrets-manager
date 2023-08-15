@@ -1,4 +1,5 @@
 # VMware Secrets Manager (VSecM) Helm Chart
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
 
 VMware Secrets Manager keeps your secrets secret. With VSecM, you can rest assured that your sensitive data is always secure and protected. VSecM is perfect for securely storing arbitrary configuration information at a central location and securely dispatching it to workloads.
 

@@ -36,7 +36,7 @@ a project called [**Aegis**][aegis]. The project was [renamed to
 **VMware Secrets Manager** and moved under the **VMware Tanzu** GitHub 
 organization][vsecm].
 
-[aegis]: https://github.com/sheildworks/aegis "Aegis"
+[aegis]: https://github.com/shieldworks/aegis "Aegis"
 [vsecm]: https://github.com/vmware-tanzu/secrets-manager "VMware Secrets Manager for Cloud-Native Apps"
 
 
