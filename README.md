@@ -7,7 +7,7 @@
 <>/ keep your secrets… secret
 ```
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)  [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
 
 ## The Elevator Pitch
 
