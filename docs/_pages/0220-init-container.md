@@ -293,16 +293,6 @@ in a new tab for a larger version*):
 
 ![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 
-<!-- TODO: Update video link -->
-<!-- ## A Video Is Worth a Lot of Words
-
-You can also watch a demo video that implements the above flow. The video
-visually explains the above concepts in greater detail:
-
-[![Watch the video](/doks-theme/assets/images/capture.png)](https://vimeo.com/v0lkan/vsecm-secrets)
-
-[git-init-container]: https://github.com/shieldworks/example-using-init-container "VMware Secrets Manager Workload Demo Using Init Container" -->
-
 ## Conclusion
 
 That’s how you can register secrets as environment variables to workloads and
