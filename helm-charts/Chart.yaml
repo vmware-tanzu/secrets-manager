@@ -49,6 +49,7 @@ keywords:
   - secret-management
   - security
 
+
 dependencies:
   - name: spire
     repository: file://charts/spire
