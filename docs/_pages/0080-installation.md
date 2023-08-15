@@ -39,28 +39,23 @@ Before you start, make sure you have the following prerequisites:
   connect to it.
 * You have `make` installed on your system.
 
-## Installing Using `helm`
+## Installing Using <img src="/assets/helm-icon-color.png" alt="helm" width="20"/>`helm`
 
-> **🚧 Work In Progress 🚧️**
->
-> `helm` installation is a work in progress as we are migrating the
-> Helm charts to their new home at `https://vsecm.com/helm-charts`.
-> 
-> We will update this section with instructions as soon as the charts
-> are ready.
->
-> Thank you for your patience and understanding 🙏.
-{: .block-warning}
-
-`helm` is the easiest way to install **VMware Secrets Manager** to 
+`helm` is the easiest way to install **VMware Secrets Manager** to
 your Kubernetes cluster.
 
-Make sure you have the recent version of `helm` installed and
-execute the following commands:
+Make sure you have `helm` v3 installed and execute the following commands:
 
-```bash 
-TBD
+```bash
+helm repo add vsecm https://vmware-tanzu.github.io/secrets-manager/
+helm repo update
+helm install vsecm vsecm/vsecm
 ```
+
+For detailed instruction on **VMware Secrets Manager** installation
+through Helm Charts please refer to VSecM Helm Charts [README.md][README.md]
+
+[README.md]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/README.md
 
 ## Installing Using `make`
 
@@ -74,7 +69,7 @@ git clone https://github.com/vmware-tanzu/secrets-manager.git
 cd secrets-manager
 ```
 
-Then, run the following command to install **VMware Secrets Manager** to your 
+Then, run the following command to install **VMware Secrets Manager** to your
 cluster:
 
 ```bash
@@ -114,7 +109,7 @@ spire-server-6fb4f57c8-6s7ns   2/2     Running
 ```
 
 > **SPIRE Agent and Server Might Restart**
-> 
+>
 > It is okay if you see the SPIRE Agent and Server pods restarting once or twice.
 > They will *eventually* stabilize within a few moments.
 {: .block-tip}
@@ -123,16 +118,14 @@ spire-server-6fb4f57c8-6s7ns   2/2     Running
 
 Uninstallation can be done by running a script:
 
-```bash 
+```bash
 cd $WORKSPACE/secrets-manager
 ./hack/uninstall.sh
 ```
 
-Or, if you have installed **VMware Secrets Manager** using `helm`, you can 
-use `helm uninstall`:
+Or, if you have installed **VMware Secrets Manager** using `helm`, you can
+use `helm uninstall`  command:
 
 ```bash
-# Find the release name by running `helm list`; 
-# then, uninstall it:
 helm uninstall vsecm
 ```
