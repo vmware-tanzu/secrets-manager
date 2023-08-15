@@ -20,9 +20,12 @@ permalink: /docs/maintainers/
 ><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0002-maintainers.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-**VMware Secrets Manager** *for Cloud-Native Apps* is maintained by 
-a group of dedicated individuals [listed in the `CODEOWNERS` file][codeowners] 
-on the **VMware Secrets Manager** GitHub repository.
+> **Hi 👋**
+> 
+> **VMware Secrets Manager** *for Cloud-Native Apps* is maintained by 
+> a group of dedicated individuals [listed in the `CODEOWNERS` file][codeowners] 
+> on the **VMware Secrets Manager** GitHub repository.
+{: .block-tip }
 
 ## Lead Architect
 

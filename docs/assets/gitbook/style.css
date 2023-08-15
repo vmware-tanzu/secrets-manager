@@ -3683,6 +3683,7 @@ table {
 
     border-left: 0.3em #00af80 solid;
     color: #006c4f;
+    margin-top: 1.62em;
 
 }
 
@@ -4245,6 +4246,10 @@ h2 {
     margin-top: 3.26em !important;
     margin-bottom: 0.5em !important;
     border-left: 0.81em #BA1C3B solid;
+}
+
+h3 {
+    border-top: 1px #00af80 solid;
 }
 
 h4 {

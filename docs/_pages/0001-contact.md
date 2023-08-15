@@ -25,6 +25,7 @@ permalink: /docs/contact/
 > Thank you for wanting to contact us ❤️.
 >
 > This page outlines the various ways you can touch base.
+{: .block-tip }
 
 ## Ask Questions on Slack
 
