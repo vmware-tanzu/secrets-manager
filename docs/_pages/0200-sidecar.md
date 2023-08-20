@@ -281,7 +281,7 @@ the secret to our workload.
 ## **VSecM Sentinel** Commands
 
 You can execute
-`kubectl exec -it $sentinelPod -n vsecm-sytem -- safe --help`
+`kubectl exec -it $sentinelPod -n vsecm-system -- safe --help`
 for a list of all available commands and command-line flags
 that **VSecM Sentinel** has.
 
