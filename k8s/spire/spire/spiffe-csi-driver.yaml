@@ -12,7 +12,7 @@ spec:
   podInfoOnMount: true
 
   # We don't want (or need) K8s to change ownership on the contents of the mount
-  # when it is moutned into the pod, since the Workload API is completely open
+  # when it is mounted into the pod, since the Workload API is completely open
   # (i.e. 0777).
   # Note, this was added in Kubernetes 1.19, so omit
   fsGroupPolicy: None

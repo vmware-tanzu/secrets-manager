@@ -70,7 +70,7 @@ func handleSuccessResponse(cid string, w http.ResponseWriter, j audit.JournalEnt
 	resp, err := json.Marshal(sfr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "Problem unmarshaling response")
+		_, err2 := io.WriteString(w, "Problem unmarshalling response")
 		if err2 != nil {
 			log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
 		}

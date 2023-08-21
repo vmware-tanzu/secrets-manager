@@ -87,7 +87,7 @@ func List(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 	resp, err := json.Marshal(sfr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := io.WriteString(w, "List: Problem unmarshaling response")
+		_, err := io.WriteString(w, "List: Problem unmarshalling response")
 		if err != nil {
 			log.InfoLn(&cid, "List: Problem sending response", err.Error())
 		}
