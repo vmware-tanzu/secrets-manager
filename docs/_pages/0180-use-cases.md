@@ -11,9 +11,9 @@
 
 title: Use Cases
 layout: post
-next_url: /docs/use-cases-overview/
 prev_url: /docs/production/
 permalink: /docs/use-cases/
+next_url: /docs/use-cases-overview/
 ---
 
 <p class="github-button"

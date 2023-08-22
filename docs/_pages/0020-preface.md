@@ -11,9 +11,9 @@
 
 title: Preface
 layout: post
-next_url: /docs/about/
-prev_url: /docs/community/
+prev_url: /docs/roadmap/
 permalink: /docs/navigation/
+next_url: /docs/about/
 ---
 
 <p class="github-button"

@@ -11,9 +11,9 @@
 
 title: VSecM Architecture
 layout: post
-next_url: /docs/installation
 prev_url: /docs/philosophy/
 permalink: /docs/architecture/
+next_url: /docs/installation
 ---
 
 <p class="github-button"

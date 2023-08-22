@@ -11,9 +11,9 @@
 
 title: VSecM Installation
 layout: post
-next_url: /docs/cli/
 prev_url: /docs/architecture/
 permalink: /docs/installation/
+next_url: /docs/cli/
 ---
 
 <p class="github-button"

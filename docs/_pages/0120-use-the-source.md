@@ -11,9 +11,9 @@
 
 title: Building From Source
 layout: post
-next_url: /docs/contributing/
 prev_url: /docs/configuration/
 permalink: /docs/use-the-source/
+next_url: /docs/contributing/
 ---
 
 <p class="github-button"

@@ -11,9 +11,9 @@
 
 title: Secret Transformation
 layout: post
-next_url: /docs/showcase/
 prev_url: /docs/use-case-encryption/
 permalink: /docs/use-case-transformation/
+next_url: /docs/showcase/
 ---
 
 <p class="github-button"

@@ -11,9 +11,9 @@
 
 title: Contribute to VSecM
 layout: post
-next_url: /docs/production/
 prev_url: /docs/use-the-source/
 permalink: /docs/contributing/
+next_url: /docs/production/
 ---
 
 <p class="github-button"
