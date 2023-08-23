@@ -20,7 +20,7 @@ import (
 
 func parseList(parser *argparse.Parser) *bool {
 	return parser.Flag("l", "list", &argparse.Options{
-		Required: false, Default: false, Help: "lists all registered workloads.",
+		Required: false, Help: "lists all registered workloads.",
 	})
 }
 
