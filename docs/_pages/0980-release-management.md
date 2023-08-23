@@ -11,7 +11,7 @@
 
 title: Release Management
 layout: post
-prev_url: /docs/showcase/
+prev_url: /
 permalink: /docs/release-management/
 next_url: /docs/privacy/
 ---

@@ -13,7 +13,7 @@ title: VSecM Showcase
 layout: post
 prev_url: /docs/use-case-transformation/
 permalink: /docs/showcase/
-next_url: /docs/release-management/
+next_url: /
 ---
 
 <p class="github-button"
