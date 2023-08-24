@@ -11,9 +11,9 @@
 
 title: VSecM Showcase
 layout: post
-next_url: /
 prev_url: /docs/use-case-transformation/
 permalink: /docs/showcase/
+next_url: /
 ---
 
 <p class="github-button"

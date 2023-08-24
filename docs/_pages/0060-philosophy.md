@@ -12,8 +12,8 @@
 title: VSecM Design Philosophy
 layout: post
 prev_url: /docs/quickstart/
-next_url: /docs/architecture/
 permalink: /docs/philosophy/
+next_url: /docs/architecture/
 ---
 
 <p class="github-button"

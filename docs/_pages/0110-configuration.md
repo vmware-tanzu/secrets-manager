@@ -11,9 +11,9 @@
 
 title: Configuring VSecM
 layout: post
-next_url: /docs/use-the-source/
 prev_url: /docs/sdk/
 permalink: /docs/configuration/
+next_url: /docs/use-the-source/
 ---
 
 <p class="github-button"

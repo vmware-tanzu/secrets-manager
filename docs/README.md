@@ -11,9 +11,9 @@
 
 title: VMWare Secrets Manager for Cloud-Native Apps
 layout: post
+prev_url: /docs/showcase/
 permalink: /
 next_url: /docs/community/
-prev_url: /docs/showcase/
 ---
 
 <p class="github-button"

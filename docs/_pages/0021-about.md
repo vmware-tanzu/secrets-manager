@@ -11,9 +11,9 @@
 
 title: What is VSecM?
 layout: post
-next_url: /docs/endorsements/
 prev_url: /docs/navigation/
 permalink: /docs/about/
+next_url: /docs/endorsements/
 ---
 
 <p class="github-button"

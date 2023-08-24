@@ -11,8 +11,8 @@
 
 title: Quickstart
 layout: post
-permalink: /docs/quickstart/
 prev_url: /docs/endorsements/
+permalink: /docs/quickstart/
 next_url: /docs/philosophy/
 ---
 

@@ -11,9 +11,9 @@
 
 title: Roadmap
 layout: post
-next_url: /docs/navigation/
-prev_url: /
+prev_url: /docs/changelog/
 permalink: /docs/roadmap/
+next_url: /docs/navigation/
 ---
 
 <p class="github-button"

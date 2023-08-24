@@ -11,9 +11,9 @@
 
 title: Privacy Policy
 layout: post
-next_url: /
-prev_url: /
+prev_url: /docs/release-management/
 permalink: /docs/privacy/
+next_url: /
 ---
 
 <p class="github-button"
