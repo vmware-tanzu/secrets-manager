@@ -68,6 +68,8 @@ func main() {
 		if err != nil {
 			fmt.Println("Failed to decode the base64 string.")
 			fmt.Println(err.Error())
+			fmt.Println("Raw data:")
+			fmt.Println(d.Data)
 			return
 		}
 

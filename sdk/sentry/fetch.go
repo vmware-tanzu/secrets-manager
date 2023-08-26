@@ -56,7 +56,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	)
 	if err != nil {
 		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "Fetch: failed getting SVID Bundle from the SPIRE Workload API",
+			err, "Fetch: failed getting SVID Bundle from the SPIFFE Workload API",
 		)
 	}
 
@@ -69,7 +69,8 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	svid, err := source.GetX509SVID()
 	if err != nil {
-		return reqres.SecretFetchResponse{}, errors.Wrap(err, "Fetch: error getting SVID from source")
+		return reqres.SecretFetchResponse{},
+			errors.Wrap(err, "Fetch: error getting SVID from source")
 	}
 
 	// Make sure that we are calling Safe from a workload that VSecM knows about.

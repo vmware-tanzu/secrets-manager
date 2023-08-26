@@ -9,7 +9,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: What People are Saying
+title: Things People Say
 layout: post
 prev_url: /docs/about/
 next_url: /docs/quickstart/

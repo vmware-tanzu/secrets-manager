@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+  namespace: default
+  labels:
+    app.kubernetes.io/name: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: example
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: example
+    spec:
+      serviceAccountName: example
+      containers:
+      - name: main
+        image: vsecm/example-using-init-container:0.20.0
+        env:
+        - name: SECRET
+          valueFrom:
+            secretKeyRef:
+              name: vsecm-secret-example
+              key: VALUE
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: vsecm-secret-example
+              key: USERNAME
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: vsecm-secret-example
+              key: PASSWORD
+        - name: VALUE
+          valueFrom:
+            secretKeyRef:
+              name: vsecm-secret-example
+              key: VALUE
+
+      initContainers:
+      - name: init-container
+        image: vsecm/vsecm-ist-init-container:0.20.0
+        volumeMounts:
+        - name: spire-agent-socket
+          mountPath: /spire-agent-socket
+          readOnly: true
+        env:
+        - name: SPIFFE_ENDPOINT_SOCKET
+          value: "unix:///spire-agent-socket/agent.sock"
+        - name: VSECM_LOG_LEVEL
+          value: "1"
+        - name: VSECM_WORKLOAD_SVID_PREFIX
+          value: "spiffe://vsecm.com/workload/"
+        - name: VSECM_SAFE_SVID_PREFIX
+          value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+        - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
+          value: "5000"
+      volumes:
+      - name: spire-agent-socket
+        csi:
+          driver: "csi.spiffe.io"
+          readOnly: true
