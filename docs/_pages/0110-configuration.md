@@ -11,9 +11,9 @@
 
 title: Configuring VSecM
 layout: post
-next_url: /docs/use-the-source/
 prev_url: /docs/sdk/
 permalink: /docs/configuration/
+next_url: /docs/use-the-source/
 ---
 
 <p class="github-button"
@@ -145,7 +145,7 @@ the master crypto key and instead use the key provided by the operator using
 **VSecM Sentinel**. Defaults to `"false"`.
 
 When set to `"true"`, **VSecM Safe** will **not** store the master key in a
-Kubernetes `Secret`; the master key will reside soley in the memory of
+Kubernetes `Secret`; the master key will reside solely in the memory of
 **VSecM Safe**.
 
 The control offered by this approach regarding the threat boundary of

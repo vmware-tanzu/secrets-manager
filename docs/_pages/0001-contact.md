@@ -11,9 +11,9 @@
 
 title: Contact
 layout: post
-next_url: /docs/navigation/
-prev_url: /
+prev_url: /docs/community/
 permalink: /docs/contact/
+next_url: /docs/maintainers/
 ---
 
 <p class="github-button"

@@ -11,9 +11,9 @@
 
 title: Overview
 layout: post
-next_url: /docs/use-case-sidecar/
 prev_url: /docs/use-cases/
 permalink: /docs/use-cases-overview/
+next_url: /docs/use-case-sidecar/
 ---
 
 <p class="github-button"

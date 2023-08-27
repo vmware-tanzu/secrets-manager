@@ -11,9 +11,9 @@
 
 title: Maintainers
 layout: post
-next_url: /docs/navigation/
-prev_url: /
+prev_url: /docs/contact/
 permalink: /docs/maintainers/
+next_url: /docs/changelog/
 ---
 
 <p class="github-button"

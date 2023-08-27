@@ -11,9 +11,9 @@
 
 title: Community
 layout: post
-next_url: /docs/navigation/
 prev_url: /
 permalink: /docs/community/
+next_url: /docs/contact/
 ---
 
 <p class="github-button"

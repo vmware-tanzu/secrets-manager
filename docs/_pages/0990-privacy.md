@@ -11,9 +11,9 @@
 
 title: Privacy Policy
 layout: post
-next_url: /
-prev_url: /
+prev_url: /docs/release-management/
 permalink: /docs/privacy/
+next_url: /
 ---
 
 <p class="github-button"
@@ -32,7 +32,7 @@ regulations?—Good news: It does not use any tracking cookies.
 ## Your Personal Data is Safe
 
 We do not collect your data. Since we don’t have your data, we cannot share your
-data (*d’uh*). However, to make lawyers happy, I want to reiterate that
+data (*d’uh*). However, to make lawyers happy, we want to reiterate that
 we will never share your information with anyone without your prior consent.
 
 ## May the Source be With You 🦄

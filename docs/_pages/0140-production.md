@@ -11,9 +11,9 @@
 
 title: Production Setup
 layout: post
-next_url: /docs/use-cases/
 prev_url: /docs/contributing/
 permalink: /docs/production/
+next_url: /docs/use-cases/
 ---
 
 <p class="github-button"
