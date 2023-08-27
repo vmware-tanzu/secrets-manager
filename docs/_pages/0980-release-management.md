@@ -121,9 +121,9 @@ update your environment.
 
 Check the `make help` command first, as it includes important information.
 
-### 3. Test VSecM Istanbul Images
+### 3. Test VSecM Distroless Images
 
-**VMware Secrets Manager** Istanbul series use lightweight and secure 
+**VMware Secrets Manager** Distroless series use lightweight and secure 
 distroless images.
 
 ```bash 
@@ -172,6 +172,12 @@ make test-local
 Tagging needs to be done **on the build server**.
 
 There is no automation for this yet.
+
+> **Don’t forget to Bump the Version**
+> 
+> If you are cutting a new release, do not forget to bump the version,
+> before running the tagging script below.
+{: .block-tip }
 
 ```bash
 git checkout main

@@ -87,8 +87,12 @@ If not provided, it will default to:
 mode. Defaults to `"false"`, which means **VSecM Safe** will run in non-FIPS-compliant
 mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode.
 
-Note that this is not a guarantee that VSecM Safe will actually
-run in FIPS compliant mode, as it depends on the underlying base image.
+> **You Need Host Support for FIPS-Compliant Mode**
+> 
+> Note that this is not a guarantee that VSecM Safe will actually
+> run in FIPS compliant mode, as it depends on the underlying base image.
+> 
+> In addition, the host environment will need to be compliant too.
 
 If you are using one of the official FIPS-complaint VSecM Docker images,
 then it will be FIPS-compliant.
