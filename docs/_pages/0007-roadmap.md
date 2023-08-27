@@ -11,13 +11,13 @@
 
 title: Roadmap
 layout: post
-prev_url: /docs/changelog/
+prev_url: /docs/releases/
 permalink: /docs/roadmap/
 next_url: /docs/navigation/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0004-roadmap.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0007-roadmap.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction

@@ -13,7 +13,7 @@ title: Release Management
 layout: post
 prev_url: /
 permalink: /docs/release-management/
-next_url: /docs/privacy/
+next_url: /docs/governance/
 ---
 
 <p class="github-button"

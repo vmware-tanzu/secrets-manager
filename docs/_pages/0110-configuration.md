@@ -33,6 +33,15 @@ The following section contain a breakdown of all of these environment variables.
 
 ## Environment Variables
 
+> **Using VSecM Helm Charts**?
+> 
+> If you are using [**VMware Secrets Manager Helm Charts**][helm-charts],
+> you can configure these environment variables using the `values.yaml` file.
+{: .block-tip}
+
+[helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
+
+
 ### SPIFFE_ENDPOINT_SOCKET
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to

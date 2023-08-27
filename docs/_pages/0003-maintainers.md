@@ -13,11 +13,11 @@ title: Maintainers
 layout: post
 prev_url: /docs/contact/
 permalink: /docs/maintainers/
-next_url: /docs/changelog/
+next_url: /docs/security/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0002-maintainers.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0003-maintainers.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Hi 👋**

@@ -46,6 +46,8 @@ deploy-photon-fips-local:
 #
 
 # Integration tests.
+test:
+	./hack/test.sh "remote"
 test-remote:
 	./hack/test.sh "remote"
 test-local:
