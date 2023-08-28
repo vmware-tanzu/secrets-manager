@@ -27,7 +27,9 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func handleBadSvidResponse(cid string, w http.ResponseWriter, svid string, j audit.JournalEntry) {
+func handleBadSvidResponse(cid string, w http.ResponseWriter, svid string,
+	j audit.JournalEntry,
+) {
 	j.Event = audit.EventBadSvid
 	audit.Log(j)
 
@@ -40,7 +42,9 @@ func handleBadSvidResponse(cid string, w http.ResponseWriter, svid string, j aud
 	}
 }
 
-func handleBadPeerSvidResponse(cid string, w http.ResponseWriter, svid string, j audit.JournalEntry) {
+func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
+	svid string, j audit.JournalEntry,
+) {
 	j.Event = audit.EventBadPeerSvid
 	audit.Log(j)
 
@@ -51,7 +55,9 @@ func handleBadPeerSvidResponse(cid string, w http.ResponseWriter, svid string, j
 	}
 }
 
-func handleNoSecretResponse(cid string, w http.ResponseWriter, j audit.JournalEntry) {
+func handleNoSecretResponse(cid string, w http.ResponseWriter,
+	j audit.JournalEntry,
+) {
 	j.Event = audit.EventNoSecret
 	audit.Log(j)
 
@@ -62,7 +68,8 @@ func handleNoSecretResponse(cid string, w http.ResponseWriter, j audit.JournalEn
 	}
 }
 
-func handleSuccessResponse(cid string, w http.ResponseWriter, j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
+func handleSuccessResponse(cid string, w http.ResponseWriter,
+	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
 	j.Event = audit.EventOk
 	j.Entity = sfr
 	audit.Log(j)
@@ -188,5 +195,4 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 	}
 
 	handleSuccessResponse(cid, w, j, sfr)
-
 }

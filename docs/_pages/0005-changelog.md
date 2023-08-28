@@ -11,13 +11,13 @@
 
 title: Changelog
 layout: post
-prev_url: /docs/maintainers/
+prev_url: /docs/security/
 permalink: /docs/changelog/
 next_url: /docs/roadmap/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0003-changelog.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0005-changelog.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Recent Updates
@@ -28,7 +28,11 @@ next_url: /docs/roadmap/
   documentation site](https://vsecm.com).
 * Minor bugfixes after migration; ensuring feature and behavior parity with
   Aegis.
-
+* Updated the [security policy](https://vsecm.com/docs/security/), clarifying 
+  our ideal response time for security vulnerabilities.
+* Updated [contributing guidelines](https://vsecm.com/docs/contributing) to 
+  make it easier for first-time contributors.
+* Published a formal [project governance model](https://vsecm.com/docs/governance/)
 
 ## [v0.20.0] - 2023-07-27
 

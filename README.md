@@ -7,7 +7,14 @@
 <>/ keep your secrets… secret
 ```
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)  [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)  
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
+[![Twitch](https://img.shields.io/twitch/status/zerotoherodev)](https://twitch.tv/ZeroToHeroDev)
+[![Slack](https://img.shields.io/badge/slack-vsecm-brightgreen.svg?logo=slack)](https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA)
+[![Version](https://img.shields.io/github/v/release/vmware-tanzu/secrets-manager?color=blueviolet)](https://github.com/vmware-tanzu/secrets-manager/releases)
+[![Contributors](https://img.shields.io/github/contributors/vmware-tanzu/secrets-manager.svg?color=orange)](https://github.com/vmware-tanzu/secrets-manager/graphs/contributors)
+[![License](https://img.shields.io/github/license/vmware-tanzu/secrets-manager)](https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE)
+
 
 ## The Elevator Pitch
 
@@ -95,8 +102,10 @@ ensuring our software stays dependable and effective for production use.
 ## A Note on Security
 
 We take **VMware Secrets Manager**’s security seriously. If you believe you have
-found a vulnerability, please responsibly disclose it by contacting
-[security@vsecm.com](mailto:security@vsecm.com).
+found a vulnerability, please [**follow this guideline**][vuln]
+to responsibly disclose it.
+
+[vuln]: https://github.com/vmware-tanzu/secrets-manager/blob/main/SECURITY.md
 
 ## A Tour Of VMware Secrets Manager
 
@@ -148,6 +157,8 @@ install **VMware Secrets Manager**.
 [Here is a list of step-by-step tutorials][register] covers
 several usage scenarios that can show you where and how **VMware Secrets Manager**
 could be used.
+
+[register]: https://vsecm.com/docs/use-cases/
 
 [use-cases]: https://vsecm.com/docs/use-cases
 
@@ -217,8 +228,8 @@ Use GitHub issues to request features or file bugs.
 
 ## Maintainers
 
-Check out the [CODEOWNERS](CODEOWNERS) for a list of maintainers of
-**VMware Secrets Manager**.
+Check out the [Maintainers Page](https://vsecm.com/docs/maintainers/) for a list 
+of maintainers of **VMware Secrets Manager**.
 
 Please send your feedback, suggestions, recommendations, and comments to
 [feedback@vsecm.com](mailto:feedback@vsecm.com).

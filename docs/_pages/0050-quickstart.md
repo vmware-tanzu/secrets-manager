@@ -36,6 +36,15 @@ next_url: /docs/philosophy/
   the *Docker* driver. If you use a different driver, things will still likely
   work, but you might need to tweak some of the commands and configuration.
 
+> **I Have a Kubernetes Cluster Already**
+> 
+> If you are already have a cluster and a `kubectl` that you can use on that 
+> cluster, you won’t need Minikube, so you can skip the steps related to 
+> initializing Minikube and configuring Minikube-related environment variables.
+{: .block-tip }
+
+Also, if you are not using minikube, you will not need a local docker instance either.
+
 [minikube]: https://minikube.sigs.k8s.io/docs/ "Minikube"
 [make]: https://www.gnu.org/software/make/ "GNU Make"
 [docker]: https://www.docker.com "Docker"
@@ -308,6 +317,19 @@ example          4h33m
 vsecm-safe       4h35m
 vsecm-sentinel   4h35m
 ```
+> **ClusterSPIFFEID with an Analogy**
+> 
+> Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization. 
+> 
+> If anyone could create or modify badges (*SVIDs*), they could make one for 
+> themselves that mimics the CEO’s badge, gaining access to restricted areas. 
+> 
+> Hence, only trusted personnel (*with elevated privileges*) are allowed to 
+> manage the badge maker.
+> 
+> Make sure your guard your **ClusterSPIFFEID** with proper RBAC rules.
+{: .block-tip }
+
 
 Let’s see the details of this `example` SPIFFE ID:
 

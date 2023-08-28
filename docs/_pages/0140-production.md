@@ -122,6 +122,16 @@ Things happen. Make sure you back up your cluster [using a tool like
 **Velero**][velero], so that when things do happen, you can revert your
 cluster’s last known good state.
 
+> **Make Sure You Back Up `vsecm-safe-age-key`**
+> 
+> The Kubernetes `Secret` names `vsecm-safe-age-key` that resides in the 
+> `vsecm-system` namespace is especially important, and needs to be 
+> securely backed up.
+> 
+> The reason is; if you lose this secret, you will lose access to all the
+> encrypted secret backups, and you will not be able to restore your secrets.
+{: .block-warning }
+
 **Set up your backups from day zero**.
 
 [velero]: https://velero.io/ "Velero"

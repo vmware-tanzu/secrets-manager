@@ -33,6 +33,15 @@ The following section contain a breakdown of all of these environment variables.
 
 ## Environment Variables
 
+> **Using VSecM Helm Charts**?
+> 
+> If you are using [**VMware Secrets Manager Helm Charts**][helm-charts],
+> you can configure these environment variables using the `values.yaml` file.
+{: .block-tip}
+
+[helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
+
+
 ### SPIFFE_ENDPOINT_SOCKET
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
@@ -87,8 +96,12 @@ If not provided, it will default to:
 mode. Defaults to `"false"`, which means **VSecM Safe** will run in non-FIPS-compliant
 mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode.
 
-Note that this is not a guarantee that VSecM Safe will actually
-run in FIPS compliant mode, as it depends on the underlying base image.
+> **You Need Host Support for FIPS-Compliant Mode**
+> 
+> Note that this is not a guarantee that VSecM Safe will actually
+> run in FIPS compliant mode, as it depends on the underlying base image.
+> 
+> In addition, the host environment will need to be compliant too.
 
 If you are using one of the official FIPS-complaint VSecM Docker images,
 then it will be FIPS-compliant.

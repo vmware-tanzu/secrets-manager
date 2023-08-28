@@ -11,7 +11,7 @@
 
 title: Contact
 layout: post
-prev_url: /docs/community/
+prev_url: /docs/contributor-sync/
 permalink: /docs/contact/
 next_url: /docs/maintainers/
 ---

@@ -23,5 +23,5 @@ spec:
       app.kubernetes.io/name: vsecm-safe
       app.kubernetes.io/part-of: vsecm-system
   workloadSelectorTemplates:
-    - "k8s:ns:{{ .PodMeta.Namespace }}"
-    - "k8s:sa:{{ .PodSpec.ServiceAccountName }}"
+  - "k8s:ns:vsecm-system"
+  - "k8s:sa:vsecm-safe"

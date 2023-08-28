@@ -13,7 +13,7 @@ title: Community
 layout: post
 prev_url: /
 permalink: /docs/community/
-next_url: /docs/contact/
+next_url: /docs/contributor-sync/
 ---
 
 <p class="github-button"
@@ -34,7 +34,7 @@ Open Source is better together.
 [**Join VMware Secret Manager’s Slack Workspace**][slack]
 and let us change the world together 🤘.
 
-As a, small, dedicated team of security enthusiasts, we value focused, effective 
+As a small, dedicated team of security enthusiasts, we value focused, effective 
 communication. Thus, we prefer to consolidate our interactions into a single 
 channel, rather than dispersing them across multiple platforms.
 
