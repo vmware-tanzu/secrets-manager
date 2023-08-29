@@ -11,8 +11,9 @@
 
 title: Keep Your Secrets… Secret
 layout: post
-prev_url: /
+prev_url: /docs/blog/
 permalink: /blog/keep-your-secrets/
+next_url: /docs/blog/
 ---
 
 by [Volkan Özçelik](https://github.com/v0lkan); published on August 15, 2023.

@@ -27,6 +27,11 @@ next_url: /docs/contributor-sync/
 > This page outlines various community events and communication channels.
 {: .block-tip}
 
+## Empower Our Journey ✊
+
+[⭐️ Star **VMware Secrets Manager** to show your support](https://github.com/vmware-tanzu/secrets-manager).
+Your support helps us to reach out to even more people with this amazing tech.
+
 ## Join Our Community on Slack 
 
 Open Source is better together. 
