@@ -13,7 +13,7 @@ title: Security
 layout: post
 prev_url: /docs/maintainers/
 permalink: /docs/security/
-next_url: /docs/changelog/
+next_url: /docs/blog/
 ---
 
 <p class="github-button"
