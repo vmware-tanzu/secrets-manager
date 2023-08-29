@@ -21,9 +21,9 @@ next_url: /docs/security/
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Hi 👋**
-> 
-> **VMware Secrets Manager** *for Cloud-Native Apps* is maintained by 
-> a group of dedicated individuals [listed in the `CODEOWNERS` file][codeowners] 
+>
+> **VMware Secrets Manager** *for Cloud-Native Apps* is maintained by
+> a group of dedicated individuals [listed in the `CODEOWNERS` file][codeowners]
 > on the **VMware Secrets Manager** GitHub repository.
 {: .block-tip }
 
@@ -38,7 +38,7 @@ security, architecture decisions, and major feature developments.
 
 **Ramiro Salas** [@RamXX](https://github.com/RamXX)
 
-Ramiro is in charge of maintaining and enhancing the security aspects of the 
+Ramiro is in charge of maintaining and enhancing the security aspects of the
 project.
 
 ## Core Contributors

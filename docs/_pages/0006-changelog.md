@@ -11,9 +11,9 @@
 
 title: Changelog
 layout: post
-prev_url: /docs/security/
+prev_url: /docs/blog/
 permalink: /docs/changelog/
-next_url: /docs/roadmap/
+next_url: /docs/releases/
 ---
 
 <p class="github-button"
