@@ -11,7 +11,7 @@
 
 title: Changelog
 layout: post
-prev_url: /docs/blog/
+prev_url: /
 permalink: /docs/changelog/
 next_url: /docs/releases/
 ---

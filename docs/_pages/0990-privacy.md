@@ -11,7 +11,7 @@
 
 title: Privacy Policy
 layout: post
-prev_url: /docs/release-management/
+prev_url: /docs/governance/
 permalink: /docs/privacy/
 next_url: /
 ---
