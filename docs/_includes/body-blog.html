@@ -1,0 +1,60 @@
+<div class="page-wrapper" tabindex="-1" role="main">
+    {% if page.cover %}
+    <img src="{{ page.cover }}"
+         width="100%"
+         height="{{ page.cover_height | default: '100%' }}"
+         alt="{{ page.title | escape }}"
+         style="object-fit: cover;"
+    />
+    {% endif %}
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    <p><a href="/">VSecM Home</a>
+                        <svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16" width="16"><defs></defs><path d="M4 13.609333333333334 3.0573333333333332 12.666666666666666l4.666666666666666 -4.666666666666666 -4.666666666666666 -4.666666666666666L4 2.3906666666666663 9.609333333333332 8 4 13.609333333333334z" fill="#000000" stroke-width="0.6666666666666666"></path><path d="M7.333333333333333 13.609333333333334 6.390666666666666 12.666666666666666l4.666666666666666 -4.666666666666666 -4.666666666666666 -4.666666666666666L7.333333333333333 2.3906666666666663 12.942666666666668 8 7.333333333333333 13.609333333333334z" fill="#000000" stroke-width="0.6666666666666666"></path></svg>
+                        <a href="/docs/blog/">VSecM Blog</a>
+
+                        <svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="16" width="16"><defs></defs><path d="M8 9.609333333333332 2.3906666666666663 4 3.333333333333333 3.0573333333333332l4.666666666666666 4.666666666666666 4.666666666666666 -4.666666666666666L13.609333333333334 4 8 9.609333333333332z" fill="#000000" stroke-width="0.6666666666666666"></path><path d="M8 12.942666666666668 2.3906666666666663 7.333333333333333 3.333333333333333 6.390666666666666l4.666666666666666 4.666666666666666 4.666666666666666 -4.666666666666666L13.609333333333334 7.333333333333333 8 12.942666666666668z" fill="#000000" stroke-width="0.6666666666666666"></path></svg>
+
+                    </p>
+
+                    {% if page.title %}
+                    <h1 id="{{ page.id }}">{{ page.title | escape }}</h1>
+                    {% else %}
+                    <h1 id="{{ page.id }}">{{ site.title | escape }}</h1>
+                    {% endif %}
+
+                    <p class="blog-author-info">by <a href="{{ page.author_link }}"
+                    ><strong>{{ page.author }}</strong></a><span style="display:inline-block;padding:0 4px">·</span><span
+                    >{{ page.published_at }}</span></p>
+
+                    {{ content }}
+
+                    {%- if jekyll.environment != 'dev' and site.disqushandler -%}
+                    {%- include disqus.html -%}
+                    {%- endif -%}
+                </section>
+            </div>
+
+            {%- include search.html -%}
+        </div>
+    </div>
+</div>
+
+{% include mathjax.html %}
+
+
+<p class="copyright">
+    Copyright © 2023-present VMware, Inc.<br><br>
+    <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+    code is distributed under <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+    <br>
+    The documentation on this website<br>
+    is distributed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+    <br><br>
+    <a href="https://vsecm.com/docs/community/">contact</a> |
+    <a href="https://vsecm.com/docs/privacy/">privacy policy</a>
+    <br><br>
+</p>
