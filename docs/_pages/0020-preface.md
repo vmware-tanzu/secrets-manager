@@ -11,7 +11,7 @@
 
 title: Preface
 layout: post
-prev_url: /docs/roadmap/
+prev_url: /docs/blog/
 permalink: /docs/navigation/
 next_url: /docs/about/
 ---

@@ -23,5 +23,5 @@ spec:
       app.kubernetes.io/name: {{ include "safe.fullname" . }}
       app.kubernetes.io/part-of: {{ .Values.global.vsecm.namespace }}
   workloadSelectorTemplates:
-    - "k8s:ns:{{`{{ .PodMeta.Namespace }}`}}"
-    - "k8s:sa:{{`{{ .PodSpec.ServiceAccountName }}`}}"
+    - "k8s:ns:{{ .Values.global.vsecm.namespace }}"
+    - "k8s:sa:{{ include "safe.serviceAccountName" . }}"
