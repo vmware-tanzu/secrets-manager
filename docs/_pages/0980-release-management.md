@@ -51,7 +51,7 @@ be closed, move them to the next version.
 ## Make Sure You Update the Release Notes
 
 * Add any publicly-known vulnerabilities that are fixed in this release.
-* Add any significant changes completed to the release notes.
+* Add any significant changes completed to the release notes.t 
 
 [release]: https://github.com/orgs/vmware-tanzu/projects/70/views/1 
 

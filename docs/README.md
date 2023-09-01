@@ -20,7 +20,8 @@ next_url: /docs/community/
 ><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/README.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-<p class="badges"><a href="https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager"><img src="https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager" alt="Go Report Card"></a>
+<p class="badges"><a href="https://www.bestpractices.dev/projects/7793"><img src="https://www.bestpractices.dev/projects/7793/badge" alt="OpenSSF Best Practices"></a>
+<a href="https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager"><img src="https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager" alt="Go Report Card"></a>
 <a href="https://artifacthub.io/packages/helm/vsecm/vsecm"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm" alt="Artifact Hub"></a>
 <a href="https://twitch.tv/ZeroToHeroDev"><img src="https://img.shields.io/twitch/status/zerotoherodev" alt="Twitch"></a>
 <a href="https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA"><img src="https://img.shields.io/badge/slack-vsecm-brightgreen.svg?logo=slack" alt="Slack"></a>
