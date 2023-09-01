@@ -1,0 +1,73 @@
+<div class="page-wrapper" tabindex="-1" role="main">
+    {% if page.cover %}
+    <img src="{{ page.cover }}"
+         width="100%"
+         height="{{ page.cover_height | default: '100%' }}"
+         alt="{{ page.title | escape }}"
+         style="object-fit: cover;"
+    />
+    {% endif %}
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    <h1>VMware Secrets Manager Blog</h1>
+
+                    {% for collection in site.collections %}
+                        {% if collection.output %}
+                            {% if collection.label == "posts" %}
+                                {% assign reversed_posts = site[collection.label] | reverse %}
+                            {% else %}
+                                {% assign reversed_posts = site[collection.label] %}
+                            {% endif %}
+
+                        {% for post in reversed_posts %}
+
+
+                        {% if post.kind == "VSecMBlog" %}
+                        <a href="{{site.baseurl}}{{post.url}}" class="blog-listing-link">
+                            <h2>{{ post.title | escape }}</h2>
+                            <p>{{ post.excerpt | truncate: 250, "…" }}</p>
+                            <p class="blog-author-info">by <span
+                            ><strong>{{ post.author }}</strong></span><span
+                            style="display:inline-block;padding:0 4px">·</span><span
+                            >{{ post.published_at }}</span></p>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if reversed_posts.size > 0 %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+
+
+
+
+                    {%- if jekyll.environment != 'dev' and site.disqushandler -%}
+                    {%- include disqus.html -%}
+                    {%- endif -%}
+                </section>
+            </div>
+
+            {%- include search.html -%}
+        </div>
+    </div>
+</div>
+
+{% include mathjax.html %}
+
+
+<p class="copyright">
+    Copyright © 2023-present VMware, Inc.<br><br>
+    <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+    code is distributed under <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+    <br>
+    The documentation on this website<br>
+    is distributed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+    <br><br>
+    <a href="https://vsecm.com/docs/community/">contact</a> |
+    <a href="https://vsecm.com/docs/privacy/">privacy policy</a>
+    <br><br>
+</p>

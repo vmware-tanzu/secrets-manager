@@ -31,6 +31,26 @@ next_url: /
 > Thank you for your patience and understanding 🙏.
 {: .block-warning}
 
+## VSecM QuickStart
+
+<div style="padding:56.25% 0 0 0;position:relative;"
+><iframe src="https://player.vimeo.com/video/849328819?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"
+></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+## VSecM Installation
+
+<div style="padding:56.25% 0 0 0;position:relative;"
+><iframe src="https://player.vimeo.com/video/858886142?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="VMware Secrets Manager: Installation"
+></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+## Aegis
+
 **VMware Secrets Manager** *for Cloud-Native Apps* is a successor of 
 a project called [**Aegis**][aegis]. The project was [renamed to 
 **VMware Secrets Manager** and moved under the **VMware Tanzu** GitHub 

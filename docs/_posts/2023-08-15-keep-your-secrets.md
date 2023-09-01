@@ -10,12 +10,20 @@
 # */
 
 title: Keep Your Secrets… Secret
-layout: post
-prev_url: /
+layout: blog
+kind: VSecMBlog
+prev_url: /docs/blog/
 permalink: /blog/keep-your-secrets/
+next_url: /docs/blog/
+author: Volkan Özçelik
+author_link: https://github.com/v0lkan
+published_at: "August 15, 2023"
+excerpt: In the ever-evolving landscape of cloud-native applications, secrets 
+  management is critical to ensuring sensitive information’s security and integrity. 
+  While several solutions are available, the recent shift in Hashicorp’s licensing 
+  towards a Business Source License (BSL) has raised concerns and sparked 
+  discussions within the community.
 ---
-
-by [Volkan Özçelik](https://github.com/v0lkan); published on August 15, 2023.
 
 ## Introducing VMware Secrets Manager
 
@@ -97,7 +105,7 @@ Here's a glimpse of what's on the horizon:
 * **Integration and Compatibility**: Future iterations include integration with
   AWS KMS, Azure Key Vault, Google Cloud KMS, and even HashiCorp Vault, expanding
   the reach and compatibility of VSecM.
-* **Community Development and Collaboration**: We're investing in community
+* **Community Development and Collaboration**: We are investing in community
   development efforts, multi-cluster secret federation, and creating abstractions
   to make cloud integrations easier.
 

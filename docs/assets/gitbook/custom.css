@@ -354,3 +354,36 @@
     --c-danger-title: #c00;
     --font-family: "aglet-mono", mono, "divenire-mono", serif, "auger-mono", monospace, "lexia-mono-variable", sans-serif, "moby", sans-serif, "paradroid-mono-soft", sans-serif, "logic-monospace", mono, john-doe, sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
+.blog-author-info {
+    padding: 0.25em;
+    text-align: right;
+    font-size: 0.9em;
+    margin-top: -1.25em !important;
+    font-style: italic;
+}
+
+.blog-author-info a {
+    border-bottom: 0;
+    padding: 0;
+}
+
+.blog-author-info a:hover {
+    background: transparent;
+    border-bottom: 0;
+    text-decoration: underline;
+}
+
+a.blog-listing-link {
+    display: block;
+    color: #000000;
+    background: #fafafa;
+    margin: 1.62em;
+    padding: 1em;
+    transition: all 0.262s ease-out;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+
+a.blog-listing-link h2 {
+    margin-top: 0 !important;
+}
