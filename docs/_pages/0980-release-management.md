@@ -42,6 +42,14 @@ We (*still*) have a manual build process, so you will need access to the
 You can of course build **VSecM** locally, but without the build server, you
 won’t be able to push the images to the registry and tag the release.
 
+## Make Sure We Are Ready for a Release Cut
+
+Check out [this internal link][release] to see if there is any outstanding 
+issues for the release. If they can be closed, close them. If they cannot
+be closed, move them to the next version.
+
+[release]: https://github.com/orgs/vmware-tanzu/projects/70/views/1 
+
 ## Configuring Minikube Local Registry
 
 Switch to the `$WORKSPACE/secrets-manager` project folder
