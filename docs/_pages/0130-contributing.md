@@ -268,7 +268,7 @@ you have successfully set up your local docker registry for your
 > **Make a Big McTunnel**
 >
 > If you have `localhost:5000` unallocated, there is a `make mac-tunnel`
-> target in the **VMware Secrets Manager**’ project **Makefile** that will 
+> target in the **VMware Secrets Manager**’s project **Makefile** that will 
 > automatically find the exposed docker registry port, and establish a 
 > tunnel for you.
 >
