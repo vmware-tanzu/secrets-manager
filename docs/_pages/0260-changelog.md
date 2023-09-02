@@ -33,6 +33,12 @@ next_url: /docs/releases/
 * Updated [contributing guidelines](https://vsecm.com/docs/contributing) to 
   make it easier for first-time contributors.
 * Published a formal [project governance model](https://vsecm.com/docs/governance/)
+* Improvements in helm charts.
+* [Fixed a minor vulnerability in `activesupport` dependency
+  (CVE-2023-38037)](https://github.com/vmware-tanzu/secrets-manager/pull/215).
+  The vulnerability affects only the website build process, and not the
+  **VSecM** codebase itself. It is not exploitable in our case, but we still
+  wanted to fix it.
 
 ## [v0.20.0] - 2023-07-27
 
