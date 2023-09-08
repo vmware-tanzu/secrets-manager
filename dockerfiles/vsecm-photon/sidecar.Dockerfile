@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-sidecar ./app/side
 FROM photon:5.0
 
 LABEL "maintainers"="Volkan Özçelik <volkan@vsecm.com>"
-LABEL "version"="0.20.0"
+LABEL "version"="0.21.0"
 LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager"
 LABEL "documentation"="https://vsecm.com/"
