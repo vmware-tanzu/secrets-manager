@@ -22,23 +22,31 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+## [v0.21.0] - 2023-09-08
+
+### Added
+
 * Documentation updates to make the project align with the current status of
   **VSecM**.
 * Migrate existing Aegis documentation to the [new VMware Secrets Manager
   documentation site](https://vsecm.com).
+* Updated [contributing guidelines](https://vsecm.com/docs/contributing) to make it easier for first-time 
+  contributors.
+* Published a formal [project governance model](https://vsecm.com/docs/governance/)
+* Added a [blog section](https://vsecm.com/docs/blog/) to the website.
+* Decided to add a new helm chart per each release.
+* Added instructional video content to the [showcase section](https://vsecm.com/docs/showcase/).
+
+### Fixed
+
 * Minor bugfixes after migration; ensuring feature and behavior parity with
   Aegis.
-* Updated the [security policy](https://vsecm.com/docs/security/), clarifying 
-  our ideal response time for security vulnerabilities.
-* Updated [contributing guidelines](https://vsecm.com/docs/contributing) to 
-  make it easier for first-time contributors.
-* Published a formal [project governance model](https://vsecm.com/docs/governance/)
-* Improvements in helm charts.
-* [Fixed a minor vulnerability in `activesupport` dependency
-  (CVE-2023-38037)](https://github.com/vmware-tanzu/secrets-manager/pull/215).
-  The vulnerability affects only the website build process, and not the
-  **VSecM** codebase itself. It is not exploitable in our case, but we still
-  wanted to fix it.
+* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s `Identity.yaml`s.
+
+### Security
+
+* Updated the [security policy](https://vsecm.com/docs/security/), clarifying our ideal response time for security vulnerabilities.
+* Fixed a minor vulnerability in `activesupport` dependency (CVE-2023-38037) — [fix](https://github.com/vmware-tanzu/secrets-manager/pull/215); [dependabot](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/2). The vulnerability affects only the website build process, not the **VSecM** codebase itself. It is not exploitable in our case, but we still wanted to fix it.
 
 ## [v0.20.0] - 2023-07-27
 
@@ -58,6 +66,7 @@ next_url: /docs/releases/
 
 <!--
 Added
+Fixed
 Changed
 Deprecated
 Removed
