@@ -32,7 +32,7 @@ next_url: /docs/releases/
   documentation site](https://vsecm.com).
 * Updated [contributing guidelines](https://vsecm.com/docs/contributing) to make it easier for first-time 
   contributors.
-* Published a formal [project governance model](https://vsecm.com/docs/governance/)
+* Published a formal [project governance model](https://vsecm.com/docs/governance/).
 * Added a [blog section](https://vsecm.com/docs/blog/) to the website.
 * Decided to add a new helm chart per each release.
 * Added instructional video content to the [showcase section](https://vsecm.com/docs/showcase/).
@@ -41,12 +41,20 @@ next_url: /docs/releases/
 
 * Minor bugfixes after migration; ensuring feature and behavior parity with
   Aegis.
-* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s `Identity.yaml`s.
+* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s 
+  `Identity.yaml`s.
 
 ### Security
 
-* Updated the [security policy](https://vsecm.com/docs/security/), clarifying our ideal response time for security vulnerabilities.
-* Fixed a minor vulnerability in `activesupport` dependency (CVE-2023-38037) — [fix](https://github.com/vmware-tanzu/secrets-manager/pull/215); [dependabot](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/2). The vulnerability affects only the website build process, not the **VSecM** codebase itself. It is not exploitable in our case, but we still wanted to fix it.
+* Updated the [security policy](https://vsecm.com/docs/security/), clarifying 
+  our ideal response time for security vulnerabilities.
+* Fixed a minor vulnerability in `activesupport` dependency:
+  ([CVE-2023-38037](https://access.redhat.com/security/cve/cve-2023-38037)). 
+  [fix](https://github.com/vmware-tanzu/secrets-manager/pull/215);
+  [dependabot](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/2). 
+  The vulnerability affects only the website build process, not the **VSecM** 
+  codebase itself. It is not exploitable in our case, but we still wanted to 
+  fix it.
 
 ## [v0.20.0] - 2023-07-27
 
