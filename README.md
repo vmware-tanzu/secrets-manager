@@ -10,7 +10,7 @@ Before proceeding with the release process, please ensure that the following pre
 - The VMware Secrets Manager Helm Charts have been tested with the latest changes using the command:
 
   ```bash
-  helm install vsecm helm-charts/
+  helm install vsecm helm-charts/<version>
   ```
 
   If everything looks good, you can proceed with the release process.
@@ -22,7 +22,7 @@ Before proceeding with the release process, please ensure that the following pre
 
    ```bash
    git checkout main
-   helm package helm-charts/ --version=<version>
+   helm package helm-charts/<version> --version=<version>
    ```
 
    This command will produce an VSecM Helm Chart package. For example: `vsecm-0.1.0.tgz`
