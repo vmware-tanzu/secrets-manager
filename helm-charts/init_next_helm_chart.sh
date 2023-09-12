@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # initialise variables
+BOLD="\033[1m"
 gitRoot=$(git rev-parse --show-toplevel)
 helmChartDirName="helm-charts"
 filesToBeUpdated=("Chart.yaml" "charts/safe/Chart.yaml" "charts/sentinel/Chart.yaml" \
@@ -64,14 +65,17 @@ do
 done
 
 # success
-echo "\m/ helm-chart for next release($newHelmChartVersion) is successfully initialized \
-at ${newHelmChartPath} and ready for development"
-echo "***************************************************************************"
-echo "Create pull-request using following commands for new initialized helm-chart"
-echo "git checkout -b ${helmChartDirName}/${newHelmChartVersion}"
-echo "git add ${newHelmChartPath}"
-echo "git commit -s -m \"Introducing initial helm-chart for ${newHelmChartVersion} release\""
-echo "git push origin ${helmChartDirName}/${newHelmChartVersion}"
-echo "***************************************************************************"
+echo "\m/ helm-chart for next release($newHelmChartVersion) is successfully initialized at ${newHelmChartPath} and ready for development"
+
+echo "creating initial commit for helm-chart ${newHelmChartVersion}"
+localBranchName=initializing-helm-chart/"${newHelmChartVersion}"
+git checkout -b "${localBranchName}"
+git add "${newHelmChartPath}"
+git commit -s -m \"Introducing initial helm-chart for version "${newHelmChartVersion}"\"
+git push origin "${localBranchName}"
+printf '\n%s***********************************************************\n'"$BOLD"
+echo -e "Click on below link to create pull-request and merge the pull-request"
+echo -e "https://github.com/vmware-tanzu/secrets-manager/compare/main...$localBranchName"
+printf '\n%s***********************************************************\n'"$BOLD"
 
 exit 0
