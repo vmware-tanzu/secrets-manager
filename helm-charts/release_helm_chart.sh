@@ -64,7 +64,7 @@ case "$choice" in
     git checkout -b "$localBranchName"
     git add vsecm-"$releaseHelmChartVersion".tgz index.yaml
     echo "creating commit"
-    git commit -s -m "Releasing helm-chart for version $releaseHelmChartVersion"
+    git commit -S -s -m "Releasing helm-chart for version $releaseHelmChartVersion"
     git push origin "$localBranchName"
     printf '\n%s***********************************************************\n'"$BOLD"
     echo -e "Click on below link to create pull-request and merge the pull-request"
