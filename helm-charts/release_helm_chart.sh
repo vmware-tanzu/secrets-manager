@@ -56,7 +56,7 @@ case "$choice" in
     echo "Continuing with release process..."
     git checkout main
     git pull origin main
-    cd "$baseHelmChartDirectory" || exit 1
+    cd "$gitRoot" || exit 1
     helm package "$releaseHelmChartPath/" --version="$releaseHelmChartVersion"
     git checkout gh-pages
     echo "generate the Helm Repo Index"
