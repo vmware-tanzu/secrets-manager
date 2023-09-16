@@ -93,7 +93,7 @@ spec:
               value: "30000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
-            - name: POD_NAMESPACE
+            - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace

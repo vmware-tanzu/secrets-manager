@@ -12,7 +12,6 @@ package bootstrap
 
 import (
 	"context"
-	"os"
 	"github.com/pkg/errors"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
@@ -23,13 +22,16 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-var podNamespace string
-var id string = "VSECMSAFE"
+var (
+	vsecmSystemNamespace string
+	id string = "VSECMSAFE"
+)
+
 func init() {
-	podNamespace = os.Getenv("POD_NAMESPACE")
-	if len(podNamespace) == 0 {
+	// getting metadata.namespace, passed through environment variable VSECM_SYSTEM_NAMESPACE
+	if vsecmSystemNamespace = env.InitVsecmSystemNamespace(); len(vsecmSystemNamespace) == 0 {
 		log.FatalLn(&id, "Failed to get pod namespace",
-			"Pod namespace should be exported into environment as POD_NAMESPACE")
+			"Pod namespace should be exported into environment as VSECM_SYSTEM_NAMESPACE")
 	}
 }
 
@@ -49,7 +51,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 	data["KEY_TXT"] = ([]byte)(keysCombined)
 
 	// Update the Secret in the cluster
-	_, err = k8sApi.CoreV1().Secrets(podNamespace).Update(
+	_, err = k8sApi.CoreV1().Secrets(vsecmSystemNamespace).Update(
 		context.Background(),
 		&v1.Secret{
 			TypeMeta: metaV1.TypeMeta{
@@ -58,7 +60,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 			},
 			ObjectMeta: metaV1.ObjectMeta{
 				Name:      env.SafeAgeKeySecretName(),
-				Namespace: podNamespace,
+				Namespace: vsecmSystemNamespace,
 			},
 			Data: data,
 		},

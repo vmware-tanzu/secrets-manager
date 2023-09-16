@@ -75,7 +75,7 @@ spec:
               value: ":{{ .Values.livenessPort }}"
             - name: VSECM_PROBE_READINESS_PORT
               value: ":{{ .Values.readynessPort }}"
-            - name: POD_NAMESPACE
+            - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
