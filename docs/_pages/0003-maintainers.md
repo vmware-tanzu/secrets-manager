@@ -57,4 +57,9 @@ external components and hardening it for production use-cases.
 Arun is a core contributor, assisting in feature development and workflow
 automation.
 
+**Farhan Pasha** [@farhan-pasha](https://github.com/farhan-pasha)
+
+Farhan is a core contributor, actively contributing to the codebase and
+assisting in feature development.
+
 [codeowners]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODEOWNERS "VMware Secrets Manager CODEOWNERS"
