@@ -382,3 +382,14 @@ increasing the poll interval. Defaults to `2`.
 
 The next interval is calculated by multiplying the current interval with
 `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER`.
+
+### VSECM_SYSTEM_NAMESPACE
+
+`VSECM_SYSTEM_NAMESPACE` environment variable specifies the namespace in
+which a VSecM instance is deployed.
+
+Ensure this is set as an environment variable for your containers; it's a
+critical piece. VSecM Safe and Sentinel rely on it to precisely locate the
+deployment's namespace. For instance, Safe leverages this information to securely
+store age keys within a designated secret, as specified by the `VSECM_CRYPTO_KEY_NAME`
+configuration.
