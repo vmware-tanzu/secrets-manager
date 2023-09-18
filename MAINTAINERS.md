@@ -35,7 +35,7 @@ each with their responsibilities outlined.
   * Arun is a core contributor, assisting in feature development and workflow 
     automation.
 
-**Farhan Pasha** [@farhan-pasha](https://github.com/farhan-pasha)
+* **Farhan Pasha** [@farhan-pasha](https://github.com/farhan-pasha)
   * Farhan is a core contributor, actively contributing to the codebase and
     assisting in feature development.
 
