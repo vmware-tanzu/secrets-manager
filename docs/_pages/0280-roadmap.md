@@ -36,23 +36,9 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 > project. We will update the roadmap every release, and remove the completed
 > items from the list, and add a new iteration at the end of the list.
 
-## VSecM v0.21.0 (*codename: Andromeda*)
+## Active Iterations
 
-**Aug 15, 2023 – Sep, 11, 2023** 
-
-This is a stability-focused release. We will focus on fixing bugs, improving
-stability, and improving workflows and CI/CD pipelines. We will also create
-missing documentation and generate new video tutorials that feature the current
-version of **VMware Secrets Manager**.
-
-Here is a high-level list of features that we plan to deliver in this release:
-
-* Documentation improvements
-* Improvements in build automation
-* Video demos and tutorials
-* Bugfixes and stability improvements
-
-## VSecM v0.22.0 (*codename: Boötes*) 
+### VSecM v0.22.0 (*codename: Boötes*) 
 
 **Sep 12, 2023 – Oct 9, 2023**
 
@@ -67,7 +53,7 @@ and CI/CD pipelines. We will also focus on improving the overall user experience
 * Static code analysis.
 * More automation and tests.
 
-## VSecM v0.23.0 (*codename: Cassiopeia*) 
+### VSecM v0.23.0 (*codename: Cassiopeia*) 
 
 **Oct 10, 2023 – Nov 6, 2023**
 
@@ -80,7 +66,7 @@ logs and reports errors. We will also focus on improving the performance of the
 * Performance improvements on the website.
 * More use-case video lectures.
 
-## VSecM v0.24.0 (*codename: Draco*) 
+### VSecM v0.24.0 (*codename: Draco*) 
 
 **Nov 7, 2023 – Dec 4, 2023**
 
@@ -91,7 +77,7 @@ ingest large amounts of secrets, without crashing or slowing down.
   ability to ingest longer secrets.
 * More automation.
 
-## VSecM v0.25.0 (*codename: Eridanus*) 
+### VSecM v0.25.0 (*codename: Eridanus*) 
 
 **Dec 5, 2023 – Jan 1, 2024**
 
@@ -101,7 +87,7 @@ the **VSecM Sidecar** more robust.
 * Option for **VSecM** to run in-memory; without having to rely on any backing store.
 * Option for the **VSecM Sidecar** to kill the container when the bound secret changes.
 
-## VSecM v0.26.0 (*codename: Fornax*) 
+### VSecM v0.26.0 (*codename: Fornax*) 
 
 **Jan 2, 2024 – Jan 29, 2024**
 
@@ -111,7 +97,7 @@ This is an iteration focused on code stability, and community development.
 * Community development efforts.
 * Taking a stab at multi-cluster secret federation.
 
-## VSecM v0.27.0 (*codename: Gemini*) 
+### VSecM v0.27.0 (*codename: Gemini*) 
 
 **Jan 30, 2024 – Feb 26, 2024**
 
@@ -121,7 +107,7 @@ to make further cloud integrations easier.
 * Creating custom resources (`ClusterVSecMId`) for better abstraction.
 * Improving usability and developer experience.
 
-## VSecM v0.28.0 (*codename: Hydra*) 
+### VSecM v0.28.0 (*codename: Hydra*) 
 
 **Feb 27, 2024 – Mar 25, 2024**
 
@@ -138,7 +124,7 @@ iteration, thus impacting the overall roadmap.
 * Ability to deploy VSecM to any SPIFFE-compatible cluster that has agents
   that provide SPIFFE Workload API.
 
-## VSecM v0.29.0 (*codename: Indus*) 
+### VSecM v0.29.0 (*codename: Indus*) 
 
 **Mar 26, 2024 – Apr 22, 2024**
 
@@ -147,7 +133,7 @@ This iteration will be about integrating **VMware Secrets Manager** with
 
 * AWS KMS Integration
 
-## VSecM v0.30.0 (*codename: Lupus*) 
+### VSecM v0.30.0 (*codename: Lupus*) 
 
 **Apr 23, 2024 – May 20, 2024**
 
@@ -156,7 +142,7 @@ This iteration will be about integrating **VMware Secrets Manager** with
 
 * Azure Key Vault Integration
 
-## VSecM v0.31.0 (*codename: Mensa*) 
+### VSecM v0.31.0 (*codename: Mensa*) 
 
 **May 21, 2024 – Jun 17, 2024**
 
@@ -165,11 +151,28 @@ This iteration will be about integrating **VMware Secrets Manager** with
 
 * Google Cloud KMS Integration
 
-## VSecM v0.32.0 (*codename: Norma*) 
+### VSecM v0.32.0 (*codename: Norma*) 
 
 **Jun 18, 2024 – Jul 15, 2024**
 
-This iteration will be about integrating **VMware Secrets Manager** with
-**Hashicorp Vault**.
+TBD
 
-* Hashicorp Vault Integration
+### VSecM v0.32.0 (*codename: Orion*)
+
+**Jul 16, 2024 – Aug 12, 2024**
+
+TBD
+
+## Closed Iterations
+
+### VSecM v0.21.0 (*codename: Andromeda*)
+
+**Aug 15, 2023 – Sep, 11, 2023**
+
+This is a stability-focused release. We will focus on fixing bugs, improving
+stability, and improving workflows and CI/CD pipelines. We will also create
+missing documentation and generate new video tutorials that feature the current
+version of **VMware Secrets Manager**.
+
+[Check out the release notes](/docs/changelog/) to learn more about what has
+been added, changed, and fixed in this release.
