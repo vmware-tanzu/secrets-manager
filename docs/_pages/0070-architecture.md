@@ -173,7 +173,7 @@ any API requests that you make from **VSecM Sentinel**.
 
 > **You Can Swap the Encryption Mechanism**
 > 
-> In **FIPS-compliant** environments, you can use **VMare Secrets Manager**
+> In **FIPS-compliant** environments, you can use **VMware Secrets Manager**
 > FIPS-compliant container images that use **AES-256-GCM** encryption instead
 > of **Age**. 
 > 
