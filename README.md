@@ -37,7 +37,7 @@ information at a central location and securely dispatching it to workloads.
 It provides a minimal and intuitive API, ensuring practical security without
 compromising user experience.
 
-**VMare Secrets Manager** is resilient and **secure by default**, storing
+**VMware Secrets Manager** is resilient and **secure by default**, storing
 sensitive data in memory and encrypting any data saved to disk.
 
 [Endorsed by industry experts](https://vsecm.com/docs/endorsements/),

@@ -21,6 +21,8 @@ import (
 func main() {
 	id := "VSECMSAFE"
 
+	bootstrap.ValidateEnvironment()
+
 	log.InfoLn(&id, "Acquiring identity…")
 
 	timedOut := make(chan bool, 1)
