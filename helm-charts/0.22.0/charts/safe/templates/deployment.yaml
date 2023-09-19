@@ -74,7 +74,7 @@ spec:
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":{{ .Values.livenessPort }}"
             - name: VSECM_PROBE_READINESS_PORT
-              value: ":{{ .Values.readynessPort }}"
+              value: ":{{ .Values.readinessPort }}"
             - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -88,7 +88,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.readynessPort }}
+              port: {{ .Values.readinessPort }}
             initialDelaySeconds: 1
             periodSeconds: 10
           resources:

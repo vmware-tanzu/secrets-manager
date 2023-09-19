@@ -14,7 +14,7 @@
 replicaCount: 1
 
 livenessPort: 8081
-readynessPort: 8082
+readinessPort: 8082
 ageKeySecretName: &ageKeySecretName vsecm-safe-age-key
 
 environments:

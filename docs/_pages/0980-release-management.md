@@ -89,7 +89,7 @@ echo $DOCKER_HOST
 
 ## Creating a Local Deployment
 
-Follow these steps to build **Aegis** from scratch and deploy it to your
+Follow these steps to build **VSecM** from scratch and deploy it to your
 local **Minikube** cluster, to experiment it with your workloads.
 
 ```bash
@@ -241,12 +241,7 @@ make build
 make tag
 ```
 
-### 8. Publish a new Helm Chart Version
-
-We sync helm chart version with the release version. So, we need to
-publish a new helm chart version before publishing a new release.
-
-### 9. Create a Release PR
+### 8. Create a Release PR
 
 Since we successfully published a release to DockerHub, and ArtifactHub, we
 now can merge our changes to the `main` branch.
@@ -254,7 +249,7 @@ now can merge our changes to the `main` branch.
 Create a PR from the release branch you are on, and follow the regular merge
 approval process.
 
-### 10. Release helm-charts
+### 9. Release helm-charts
 
 We offer the [release_helm_chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
@@ -272,7 +267,7 @@ the `gh-pages` branch.
 
 [release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/release_helm_chart.sh
 
-### 11. Initializing helm-charts
+### 10. Initializing helm-charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
@@ -295,7 +290,7 @@ development cycle.
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/init_next_helm_chart.sh
 
-### 12. All Set 🎉
+### 11. All Set 🎉
 
 You’re all set.
 
