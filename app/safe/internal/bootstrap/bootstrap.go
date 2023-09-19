@@ -59,29 +59,32 @@ func Monitor(
 		case <-acquiredSvid:
 			log.InfoLn(correlationId, "Acquired identity.")
 			counter--
-			log.InfoLn(correlationId, "remaining:", counter)
+			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
+				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		case <-updatedSecret:
 			log.InfoLn(correlationId, "Updated age key.")
 			counter--
-			log.InfoLn(correlationId, "remaining:", counter)
+			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
+				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		case <-serverStarted:
 			log.InfoLn(correlationId, "Server ready.")
 			counter--
-			log.InfoLn(correlationId, "remaining:", counter)
+			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
+				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		case <-timedOut:
 			log.FatalLn(correlationId, "Failed to acquire an identity in a timely manner.")

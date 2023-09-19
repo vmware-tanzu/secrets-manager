@@ -61,14 +61,14 @@ Switch to the `$WORKSPACE/secrets-manager` project folder
 Then, delete any existing minikube cluster.
 
 ```bash
-cd $WORKSPACE/aegis
+cd $WORKSPACE/secrets-manager
 make k8s-delete
 ```
 
 Then start the **Minikube** cluster.
 
 ```bash 
-cd $WORKSPACE/aegis
+cd $WORKSPACE/secrets-manager
 make k8s-start
 ```
 
@@ -121,9 +121,14 @@ kubectl get po -n vsecm-system
 
 Before every release cut, follow the steps outlined below.
 
-### 1. Double Check
 
-Ensure that all the changes have been merge to `main`.
+### 0. Are you on a release branch?
+
+Make sure you are on a release branch, forked off of the most recent `main` branch.
+
+Also ensure that all changes have been merged to `main`.
+
+### 1. Check Docker and Minikube
 
 Also make sure your `docker` and `Minikube` are up and running.
 
@@ -180,7 +185,43 @@ make deploy-photon-local
 make test-local
 ```
 
-### 5. Tagging
+### 5. Test VSecM Distroless FIPS Images
+
+```bash 
+make k8s-delete
+make k8s-start
+eval $(minikube -p minikube docker-env)
+
+# For macOS, you might need to run `make mac-tunnel` 
+# on a separate terminal.
+# For other Linuxes, you might need it.
+#
+# make mac-tunnel
+
+make build-local
+make deploy-fips-local
+make test-local
+```
+
+### 6. Test VSecM Photon FIPS Images
+
+```bash 
+make k8s-delete
+make k8s-start
+eval $(minikube -p minikube docker-env)
+
+# For macOS, you might need to run `make mac-tunnel` 
+# on a separate terminal.
+# For other Linuxes, you might need it.
+#
+# make mac-tunnel
+
+make build-local
+make deploy-photon-fips-local
+make test-local
+```
+
+### 7. Tagging
 
 Tagging needs to be done **on the build server**.
 
@@ -197,12 +238,24 @@ git checkout main
 git stash
 git pull
 export DOCKER_CONTENT_TRUST=1
+make build
 make tag
 ```
 
-Follow the instructions, and you should be good to go.
+### 8. Publish a new Helm Chart Version
 
-### 6. All Set 🎉
+We sync helm chart version with the release version. So, we need to 
+publish a new helm chart version before publishing a new release.
+
+### 9. Create a Release PR
+
+Since we successfully published a release to DockerHub, and ArtifactHub, we
+now can merge our changes to the `main` branch.
+
+Create a PR from the release branch you are on, and follow the regular merge
+approval process.
+
+### 8. All Set 🎉
 
 You’re all set.
 

@@ -45,13 +45,15 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 This release will be more about enhancing deployment workflows, testing automation
 and CI/CD pipelines. We will also focus on improving the overall user experience.
 
-* `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
-  on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
-  without having to create Kubernetes `Secret`s at all—even for the master keys.
-* Adding subcommands to **VSecM Sentinel**’s `safe` command to make it easier
-  to use, and reduce unnecessary flags and arguments.
-* Static code analysis.
-* More automation and tests.
+* Ability for an operator to export secrets (*by providing a public key*), 
+  to use in other workflows.
+* Enhancements to template transformations.
+* Better, machine-readable logs.
+* Also, better audit logs.
+* More documentation updates.
+* Enabling automated tests and static code analysis.
+* Preventing log tampering.
+* Performance improvements on the website.
 
 ### VSecM v0.23.0 (*codename: Cassiopeia*) 
 
@@ -61,10 +63,14 @@ This iteration will be focused on improving how **VMware Secrets Manager**
 logs and reports errors. We will also focus on improving the performance of the
 **VMware Secrets Manager** website.
 
-* Better, machine-readable logs.
-* Preventing log tampering.
-* Performance improvements on the website.
+* `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
+  on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
+  without having to create Kubernetes `Secret`s at all—even for the master keys.
+* Ability to use VSecM across clusters (*multi-cluster federation support*).
+* Static code analysis.
+* More automation and tests.
 * More use-case video lectures.
+* Website enhancement: Versioned snapshots of the documentation.
 
 ### VSecM v0.24.0 (*codename: Draco*) 
 
@@ -76,6 +82,12 @@ ingest large amounts of secrets, without crashing or slowing down.
 * Stream manipulation: Ability to ingest large amounts of secrets; also 
   ability to ingest longer secrets.
 * More automation.
+* Our goal is 90% code coverage by this checkpoint; or as far as we can get.
+* Security: Ability to lock VSecM Safe.
+* Documentation: A user guide for those who want to develop their own
+  language-specific VSecM SDKs (*we’ll continue to support Go only for a while,
+  however we still want to make it easier for others to develop their own SDKs*).
+* Website optimization and asset cleanup.
 
 ### VSecM v0.25.0 (*codename: Eridanus*) 
 
@@ -86,6 +98,7 @@ the **VSecM Sidecar** more robust.
 
 * Option for **VSecM** to run in-memory; without having to rely on any backing store.
 * Option for the **VSecM Sidecar** to kill the container when the bound secret changes.
+* Introducing Operators to auto-inject VSecM sidecars and init containers to workloads.
 
 ### VSecM v0.26.0 (*codename: Fornax*) 
 
@@ -95,7 +108,7 @@ This is an iteration focused on code stability, and community development.
 
 * Validation and guardrails around VSecM-managed SVIDs.
 * Community development efforts.
-* Taking a stab at multi-cluster secret federation.
+* Focus on observability.
 
 ### VSecM v0.27.0 (*codename: Gemini*) 
 
@@ -119,6 +132,7 @@ The goals in this iteration could be a stretch and based on the workload of
 the core maintainers, we might have to push some of these goals to the next
 iteration, thus impacting the overall roadmap.
 
+* Focus on auto-scaling.
 * OIDC authentication.
 * Using Redis as a shared backing store.
 * Ability to deploy VSecM to any SPIFFE-compatible cluster that has agents
@@ -146,22 +160,37 @@ This iteration will be about integrating **VMware Secrets Manager** with
 
 **May 21, 2024 – Jun 17, 2024**
 
-This iteration will be about integrating **VMware Secrets Manager** with
-**Google Cloud KMS**.
+This release is about security auditing and hardening.
 
-* Google Cloud KMS Integration
+* Create a self-security assessment.
+* Perform security audit from a third-party security firm, or an internal
+  VMware security team.
 
 ### VSecM v0.32.0 (*codename: Norma*) 
 
 **Jun 18, 2024 – Jul 15, 2024**
 
-TBD
+This iteration will be about integrating **VMware Secrets Manager** with
+**Google Cloud KMS**.
+
+* Google Cloud KMS Integration
 
 ### VSecM v0.32.0 (*codename: Orion*)
 
 **Jul 16, 2024 – Aug 12, 2024**
 
-TBD
+This iteration will be about OIDC support, and improving our OpenSSF conformance.
+
+By this point, we expect to have at lest a silver, if not a gold badge from
+OpenSSF.
+
+We will also stretch our research into non-Kubernetes deployment options.
+
+* Get an OpenSSF Silver Badge.
+* Non-Kubernetes deployment options.
+* Other integration options.
+* Creating other official SDKs, along with VSecM Go SDK.
+* Stability improvements.
 
 ## Closed Iterations
 
