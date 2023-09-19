@@ -14,17 +14,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 	"strings"
 	"text/template"
 	"time"
+
+	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 )
 
 type JsonTime time.Time
 
-func (t JsonTime) MarshalJSON() ([]byte, error) {
+func (t JsonTime) MarshalJSON() []byte {
 	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
-	return []byte(stamp), nil
+	return []byte(stamp)
 }
 
 type Secret struct {

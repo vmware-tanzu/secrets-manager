@@ -14,12 +14,14 @@ import (
 	"crypto/rand"
 )
 
+var reader = rand.Read
+
 // RandomString generates a cryptographically-unique secure random string.
 func RandomString(n int) (string, error) {
 	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	bytes := make([]byte, n)
 
-	if _, err := rand.Read(bytes); err != nil {
+	if _, err := reader(bytes); err != nil {
 		return "", err
 	}
 
