@@ -70,7 +70,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			wantErr: errors.New("no values found for secret test"),
 		},
 		{
-			name: "error_empty_template",
+			name: "error_invalid_json_value",
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
@@ -86,6 +86,58 @@ func Test_parseForK8sSecret(t *testing.T) {
 			want:    map[string]string{},
 			wantErr: errors.New("invalid character 'v' looking for beginning of value"),
 		},
+		{
+			name: "empty_template",
+			args: args{
+				secret: SecretStored{
+					Name:             "test",
+					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					ValueTransformed: "",
+					Meta: SecretMeta{
+						Template: "",
+					},
+					Created: timeNow,
+					Updated: timeUpdated,
+				},
+			},
+			want:    map[string]string{"username": "admin", "password": "VSecMRocks"},
+			wantErr: nil,
+		},
+		{
+			name: "error_incorrect_template",
+			args: args{
+				secret: SecretStored{
+					Name:             "test",
+					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					ValueTransformed: "",
+					Meta: SecretMeta{
+						Template: "template-1",
+					},
+					Created: timeNow,
+					Updated: timeUpdated,
+				},
+			},
+			want:    map[string]string{},
+			wantErr: errors.New("invalid character 'e' in literal true (expecting 'r')"),
+		},
+		{
+			name: "success",
+			args: args{
+				secret: SecretStored{
+					Name:             "test",
+					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					ValueTransformed: "",
+					Meta: SecretMeta{
+						Template: "{\"USER\":\"{{.username}}\", \"PASS\":\"{{.password}}\"}",
+						Format:   "yaml",
+					},
+					Created: timeNow,
+					Updated: timeUpdated,
+				},
+			},
+			want:    map[string]string{"USER": "admin", "PASS": "VSecMRocks"},
+			wantErr: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -96,6 +148,392 @@ func Test_parseForK8sSecret(t *testing.T) {
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("parseForK8sSecret() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSecretStored_ToMapForK8s(t *testing.T) {
+	type fields struct {
+		Name             string
+		Values           []string
+		ValueTransformed string
+		Meta             SecretMeta
+		Created          time.Time
+		Updated          time.Time
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   map[string][]byte
+	}{
+		{
+			name: "empty_values_list",
+			fields: fields{
+				Values: []string{},
+			},
+			want: make(map[string][]byte),
+		},
+		{
+			name: "empty_template_failed_to_unmarshal_value",
+			fields: fields{
+				Values: []string{"secret"},
+			},
+			want: map[string][]byte{"VALUE": []byte("secret")},
+		},
+		{
+			//TODO: needs to this case, might be some issue with code
+			// here: https://github.com/vmware-tanzu/secrets-manager/blob/815c737ae2d08396fb0181ac0e6b5625f889f6c5/core/entity/data/v1/v1.go#L162-L170
+			name: "empty_template_valid_value",
+			fields: fields{
+				Values: []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+			},
+			want: map[string][]byte{"pass": []byte("secret")},
+		},
+		{
+			name: "valid_value_invalid_template",
+			fields: fields{
+				Values: []string{"{\"pass\":\"secret\"}"},
+				Meta: SecretMeta{
+					Template: "template-1",
+					Format:   "json",
+				},
+			},
+			want: map[string][]byte{"VALUE": []byte("{\"pass\":\"secret\"}")},
+		},
+		{
+			name: "success_case",
+			fields: fields{
+				Values: []string{"{\"pass\":\"secret\"}"},
+				Meta: SecretMeta{
+					Template: "{\"PASS\":\"{{.pass}}\"}",
+				},
+			},
+			want: map[string][]byte{"PASS": []byte("secret")},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			secret := SecretStored{
+				Name:             tt.fields.Name,
+				Values:           tt.fields.Values,
+				ValueTransformed: tt.fields.ValueTransformed,
+				Meta:             tt.fields.Meta,
+				Created:          tt.fields.Created,
+				Updated:          tt.fields.Updated,
+			}
+			if got := secret.ToMapForK8s(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SecretStored.ToMapForK8s() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSecretStored_ToMap(t *testing.T) {
+	type fields struct {
+		Name             string
+		Values           []string
+		ValueTransformed string
+		Meta             SecretMeta
+		Created          time.Time
+		Updated          time.Time
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   map[string]any
+	}{
+		{
+			name: "success_case",
+			fields: fields{
+				Name:    "test_name",
+				Values:  []string{"test_values"},
+				Created: timeNow,
+				Updated: timeUpdated,
+			},
+			want: map[string]any{
+				"Name":    "test_name",
+				"Values":  []string{"test_values"},
+				"Created": timeNow,
+				"Updated": timeUpdated,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			secret := SecretStored{
+				Name:             tt.fields.Name,
+				Values:           tt.fields.Values,
+				ValueTransformed: tt.fields.ValueTransformed,
+				Meta:             tt.fields.Meta,
+				Created:          tt.fields.Created,
+				Updated:          tt.fields.Updated,
+			}
+			if got := secret.ToMap(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SecretStored.ToMap() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_transform(t *testing.T) {
+	type args struct {
+		secret SecretStored
+		value  string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr bool
+		err     error
+	}{
+		{
+			name: "unsupported_format",
+			args: args{
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Format: "RAML",
+					},
+				},
+			},
+			want:    "",
+			wantErr: true,
+			err:     errors.New("unknown format: RAML"),
+		},
+		{
+			name: "invalid_json_template",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "\"PASS\":\"{{.pass}}\"",
+						Format:   "json",
+					},
+				},
+			},
+			want:    "{\"pass\":\"secret\"}",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "valid_json_template",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "{\"PASS\":\"{{.pass}}\"}",
+						Format:   "json",
+					},
+				},
+			},
+			want:    "{\"PASS\":\"secret\"}",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "valid_json_template_invalid_value",
+			args: args{
+				value: "\"pass\":\"secret\"",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "{\"PASS\":\"{{.pass}}\"}",
+						Format:   "json",
+					},
+				},
+			},
+			want:    "\"pass\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "invalid_json_template_invalid_value",
+			args: args{
+				value: "\"pass\":\"secret\"",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "\"PASS\":\"{{.pass}}\"",
+						Format:   "json",
+					},
+				},
+			},
+			want:    "\"pass\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "invalid_yaml_template",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "\"PASS\":\"{{.pass}}\"",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "\"PASS\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "valid_yaml_template",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "\"PASS\":\"{{.pass}}\"",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "\"PASS\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "valid_yaml_template_invalid_value",
+			args: args{
+				value: "\"pass\":\"secret\"",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "\"PASS\":\"{{.pass}}\"",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "\"pass\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "invalid_yaml_template_invalid_value",
+			args: args{
+				value: "\"pass\":\"secret\"",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "{\"PASS\":\"{{.pass}}\"}",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "\"pass\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, gotErr := transform(tt.args.secret, tt.args.value)
+			if tt.wantErr == true && tt.err.Error() != gotErr.Error() {
+				t.Errorf("transform() error = %v, wantErr %v", gotErr, tt.err)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("transform() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSecretStored_Parse(t *testing.T) {
+	type fields struct {
+		Name             string
+		Values           []string
+		ValueTransformed string
+		Meta             SecretMeta
+		Created          time.Time
+		Updated          time.Time
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		want    string
+		wantErr bool
+		err     error
+	}{
+		{
+			name: "empty_secret_value",
+			fields: fields{
+				Name:   "test",
+				Values: []string{},
+			},
+			wantErr: true,
+			err:     errors.New("no values found for secret test"),
+		},
+		{
+			name: "valid_values",
+			fields: fields{
+				Name:   "test-2",
+				Values: []string{"{\"pass\":\"secret\"}"},
+				Meta: SecretMeta{
+					Template: "\"PASS\":\"{{.pass}}\"",
+					Format:   "yaml",
+				},
+			},
+			want:    "\"PASS\":\"secret\"",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "multiple_valid_values",
+			fields: fields{
+				Name:   "test-2",
+				Values: []string{"{\"pass\":\"secret\"}", "{\"pass\":\"secret-2\"}"},
+				Meta: SecretMeta{
+					Template: "PASS:{{.pass}}",
+					Format:   "yaml",
+				},
+			},
+			want:    "[\"PASS:secret\",\"PASS:secret-2\"]",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "multiple_template",
+			fields: fields{
+				Name:   "test-2",
+				Values: []string{"{\"pass\":\"secret\"}", "{\"pass-2\":\"secret-2\"}"},
+				Meta: SecretMeta{
+					Template: "PASS:{{.pass}},PASS-2:{{.pass-2}}",
+					Format:   "yaml",
+				},
+			},
+			want:    "[\"paass:secret\\n\",\"pass-2:secret-2\\n\"]",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "unsupported_format",
+			fields: fields{
+				Name:   "test-3",
+				Values: []string{"{\"pass\":\"secret\"}"},
+				Meta: SecretMeta{
+					Template: "\"PASS\":\"{{.pass}}\"",
+					Format:   "RAML",
+				},
+			},
+			wantErr: true,
+			err:     errors.New("failed to parse secret test-3"),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			secret := SecretStored{
+				Name:             tt.fields.Name,
+				Values:           tt.fields.Values,
+				ValueTransformed: tt.fields.ValueTransformed,
+				Meta:             tt.fields.Meta,
+				Created:          tt.fields.Created,
+				Updated:          tt.fields.Updated,
+			}
+			got, gotErr := secret.Parse()
+			if tt.wantErr == true && gotErr.Error() != tt.err.Error() {
+				t.Errorf("SecretStored.Parse() error = %v, wantErr %v", gotErr, tt.err)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("SecretStored.Parse() = %v, want %v", got, tt.want)
 			}
 		})
 	}

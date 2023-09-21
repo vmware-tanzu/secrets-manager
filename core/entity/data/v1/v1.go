@@ -21,28 +21,24 @@ import (
 	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 )
 
-type JsonTime time.Time
+type (
+	JsonTime     time.Time
+	BackingStore string
+	SecretFormat string
+)
 
-func (t JsonTime) MarshalJSON() []byte {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
-	return []byte(stamp)
-}
+var (
+	Memory BackingStore = "memory"
+	File   BackingStore = "file"
+	Json   SecretFormat = "json"
+	Yaml   SecretFormat = "yaml"
+)
 
 type Secret struct {
 	Name    string   `json:"name"`
 	Created JsonTime `json:"created"`
 	Updated JsonTime `json:"updated"`
 }
-
-type BackingStore string
-
-var File BackingStore = "file"
-var Memory BackingStore = "memory"
-
-type SecretFormat string
-
-var Json SecretFormat = "json"
-var Yaml SecretFormat = "yaml"
 
 type SecretMeta struct {
 	// Overrides Env.SafeUseKubernetesSecrets()
@@ -83,6 +79,11 @@ type SecretStored struct {
 	// Timestamps
 	Created time.Time
 	Updated time.Time
+}
+
+func (t JsonTime) MarshalJSON() []byte {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
+	return []byte(stamp)
 }
 
 // parseForK8sSecret parses the provided `SecretStored` and applies a template
@@ -163,6 +164,8 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 	if secret.Meta.Template == "" {
 		err := json.Unmarshal(([]byte)(secret.Values[0]), &data)
 		if err != nil {
+			// need to reset data, if unmarshal failed
+			data = map[string][]byte{}
 			value := secret.Values[0]
 			data["VALUE"] = ([]byte)(value)
 		}
@@ -184,6 +187,8 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 	// If the template fails, use the secret’s value as is.
 	err = json.Unmarshal(([]byte)(secret.Values[0]), &data)
 	if err != nil {
+		// need to reset data if failed to unmarshal
+		data = map[string][]byte{}
 		value := secret.Values[0]
 		data["VALUE"] = ([]byte)(value)
 	}
@@ -289,6 +294,8 @@ func (secret SecretStored) Parse() (string, error) {
 	}
 
 	if len(results) == 1 {
+		// TODO: this might be dead code, we might never hit this case parse failed will never be true if result > 0
+		// because transform() fails with unsupported fromat error and format is same for all Values.
 		if parseFailed {
 			return results[0], fmt.Errorf("failed to parse secret %s", secret.Name)
 		}
@@ -300,7 +307,6 @@ func (secret SecretStored) Parse() (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	if parseFailed {
 		return string(marshaled), fmt.Errorf("failed to parse secret %s", secret.Name)
 	}
