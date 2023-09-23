@@ -54,9 +54,6 @@ func TestSafeEndpointUrl(t *testing.T) {
 			if got := SafeEndpointUrl(); got != tt.want {
 				t.Errorf("SafeEndpointUrl() = %v, want %v", got, tt.want)
 			}
-			if tt.cleanup != nil {
-				tt.cleanup()
-			}
 		})
 	}
 }
