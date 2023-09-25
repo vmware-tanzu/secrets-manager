@@ -13,8 +13,9 @@ package template
 import (
 	"bytes"
 	"encoding/json"
-	"gopkg.in/yaml.v3"
 	"text/template"
+
+	"gopkg.in/yaml.v3"
 )
 
 // ValidJSON checks if the provided string is a valid JSON object.
