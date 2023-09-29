@@ -20,16 +20,14 @@ next_url: /
 ><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0250-showcase.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-> **🚧 Work In Progress 🚧️**
->
-> The video tutorials that relate to **VMware Secrets Manager** are still work
-> in progress.
->
-> Please note that video content creation is a time-consuming process. We
-> will add more videos as our time permits.
->
-> Thank you for your patience and understanding 🙏.
-{: .block-warning}
+## Introduction
+
+This page contains various usage examples and tutorials about **VSecM**.
+
+We add more videos here as we develop the project, enable more features, and 
+cover more use cases.
+
+Enjoy, and may the source be with you.
 
 ## QuickStart
 
