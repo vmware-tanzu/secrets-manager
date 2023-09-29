@@ -9,8 +9,6 @@
 [![License](https://img.shields.io/github/license/vmware-tanzu/secrets-manager)](https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)
 
-
-
 ```text
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -77,7 +75,6 @@ at: <https://hub.docker.com/u/vsecm>.
 
 You can check it out to get a glimpse of the current planned features and how
 the future of **VMware Secrets Manager** looks like.
-
 
 ## Status of This Software
 
@@ -206,9 +203,6 @@ on [**VMware Secrets Manager**’s Changelog Page](https://vsecm.com/docs/change
 ## What’s Coming Up Next?
 
 You can see the project’s progress [in this **VMware Secrets Manager** roadmap][mdp].
-
-The board outlines what the current outstanding work items and what is are
-currently being worked on.
 
 [mdp]: https://vsecm.com/docs/roadmap/
 
