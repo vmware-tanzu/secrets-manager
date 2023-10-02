@@ -12,10 +12,12 @@
 
 cd docs || exit
 
-JEKYLL_ENV=production jekyll build
+JEKYLL_ENV=production bundle exec jekyll build
 
-echo $VSECM_S3_BUCKET
-echo $VSECM_DISTRIBUTION_ID
+if [[ -z "$VSECM_S3_BUCKET" || -z "$VSECM_DISTRIBUTION_ID" ]]; then
+  echo "Error: VSECM_S3_BUCKET and VSECM_DISTRIBUTION_ID must be set."
+  exit 1
+fi
 
 rm -rf _site/versions
 aws s3 sync _site/ "$VSECM_S3_BUCKET"

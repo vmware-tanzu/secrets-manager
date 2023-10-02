@@ -10,6 +10,8 @@
 
 # The common version tag is assigned to all the things.
 VERSION=0.21.0
+IMAGE=distroless
+DEPLOYMENT_NAME=vsecm
 
 # Utils
 include ./makefiles/VSecMMacOs.mk
@@ -32,3 +34,6 @@ include ./makefiles/VSecMBuild.mk
 
 ## Help
 include ./makefiles/VSecMHelp.mk
+
+## Helm-chart, k8s-manifests utils
+include makefiles/helmUtils.mk
