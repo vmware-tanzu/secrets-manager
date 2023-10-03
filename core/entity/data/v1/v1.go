@@ -86,6 +86,24 @@ func (t JsonTime) MarshalJSON() []byte {
 	return []byte(stamp)
 }
 
+// handleNoTemplate is used when there is no template defined.
+// It attempts to unmarshal the 'value' string as JSON. If successful, it returns
+// a map with the JSON key-value pairs converted to []byte values; otherwise, it
+// returns a map with a single entry, "VALUE", containing the original 'value' as []byte.
+func handleNoTemplate(data map[string][]byte, value string) map[string][]byte {
+	var jsonData map[string]string
+	err := json.Unmarshal(([]byte)(value), &jsonData)
+	if err != nil {
+		//If error in unmarshalling, add the whole as a part of VALUE
+		data["VALUE"] = ([]byte)(value)
+	} else {
+		//Use the secret’s value as a key-val pair
+		return convertMapToStringBytes(jsonData)
+	}
+
+	return data
+}
+
 // parseForK8sSecret parses the provided `SecretStored` and applies a template
 // if one is defined.
 //
@@ -144,6 +162,29 @@ func parseForK8sSecret(secret SecretStored) (map[string]string, error) {
 	return output, nil
 }
 
+// convertMapToStringBytes converts a map[string]string into a map[string][]byte,
+// by converting each string value into a []byte, and returns the resulting map.
+func convertMapToStringBytes(inputMap map[string]string) map[string][]byte {
+	data := make(map[string][]byte)
+	for k, v := range inputMap {
+		data[k] = []byte(v)
+	}
+	return data
+}
+
+// handleTemplateFailure is used when applying a template to the secret's value fails.
+// It attempts to unmarshal the 'value' string as JSON into the 'data' map. If the unmarshaling
+// fails, it creates a new empty 'data' map and populates it with a single entry, "VALUE",
+// containing the original 'value' as []byte.
+func handleTemplateFailure(data map[string][]byte, value string) map[string][]byte {
+	err := json.Unmarshal([]byte(value), &data)
+	if err != nil {
+		data = map[string][]byte{}
+		data["VALUE"] = []byte(value)
+	}
+	return data
+}
+
 // ToMapForK8s returns a map that can be used to create a Kubernetes secret.
 //
 //  1. If there is no template, attempt to unmarshal the secret’ss value
@@ -173,50 +214,6 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 
 	// If the template fails, use the secret’s value as is.
 	return handleTemplateFailure(data, secret.Values[0])
-}
-
-// handleNoTemplate is used when there is no template defined.
-// It attempts to unmarshal the 'value' string as JSON. If successful, it returns
-// a map with the JSON key-value pairs converted to []byte values; otherwise, it
-// returns a map with a single entry, "VALUE", containing the original 'value' as []byte.
-
-func handleNoTemplate(data map[string][]byte, value string) map[string][]byte {
-	var jsonData map[string]string
-	err := json.Unmarshal(([]byte)(value), &jsonData)
-	if err != nil {
-		//If error in unmarshalling, add the whole as a part of VALUE
-		data["VALUE"] = ([]byte)(value)
-	} else {
-		//Use the secret’s value as a key-val pair
-		return convertMapToStringBytes(jsonData)
-	}
-
-	return data
-}
-
-// convertMapToStringBytes converts a map[string]string into a map[string][]byte,
-// by converting each string value into a []byte, and returns the resulting map.
-
-func convertMapToStringBytes(inputMap map[string]string) map[string][]byte {
-	data := make(map[string][]byte)
-	for k, v := range inputMap {
-		data[k] = []byte(v)
-	}
-	return data
-}
-
-// handleTemplateFailure is used when applying a template to the secret's value fails.
-// It attempts to unmarshal the 'value' string as JSON into the 'data' map. If the unmarshaling
-// fails, it creates a new empty 'data' map and populates it with a single entry, "VALUE",
-// containing the original 'value' as []byte.
-
-func handleTemplateFailure(data map[string][]byte, value string) map[string][]byte {
-	err := json.Unmarshal([]byte(value), &data)
-	if err != nil {
-		data = map[string][]byte{}
-		data["VALUE"] = []byte(value)
-	}
-	return data
 }
 
 // ToMap converts the SecretStored struct to a map[string]any.

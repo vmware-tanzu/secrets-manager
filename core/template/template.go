@@ -15,6 +15,7 @@ import (
 	"encoding/json"
 	"strings"
 	"text/template"
+
 	"gopkg.in/yaml.v3"
 )
 
@@ -90,7 +91,6 @@ func TryParse(tmpStr, jason string) string {
 // The function then joins the filtered pairs back into a string and returns the resulting string.
 // This function effectively removes key-value pairs with "<no value>" from the input string.
 // Helpful when key-val pairs in template differs from the contents of the secret.
-
 func removeKeyValueWithNoValue(input string) string {
 	// Split the input string into key-value pairs
 	pairs := strings.Split(input, ",")

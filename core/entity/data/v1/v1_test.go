@@ -429,6 +429,21 @@ func Test_transform(t *testing.T) {
 			err:     nil,
 		},
 		{
+			name: "valid_values_json_passed_as_yaml",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "{\"PASS\":\"{{.pass}}\"}",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "PASS: secret\n",
+			wantErr: false,
+			err:     nil,
+		},
+		{
 			name: "valid_yaml_template_invalid_value",
 			args: args{
 				value: "\"pass\":\"secret\"",
@@ -523,20 +538,6 @@ func TestSecretStored_Parse(t *testing.T) {
 				},
 			},
 			want:    "{\"PASS\":\"secret\"}",
-			wantErr: false,
-			err:     nil,
-		},
-		{
-			name: "valid_values_json_passed_as_yaml",
-			fields: fields{
-				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}"},
-				Meta: SecretMeta{
-					Template: "{\"PASS\":\"{{.pass}}\"}",
-					Format:   "yaml",
-				},
-			},
-			want:    "PASS: secret\n",
 			wantErr: false,
 			err:     nil,
 		},
