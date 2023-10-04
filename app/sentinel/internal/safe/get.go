@@ -43,8 +43,8 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 
 		svid, err := source.GetX509SVID()
 		if err != nil {
-			fmt.Println("Post: I am having trouble fetching my identity from SPIRE.")
-			fmt.Println("Post: I won’t proceed until you put me in a secured container.")
+			fmt.Println("acquireSource: I am having trouble fetching my identity from SPIRE.")
+			fmt.Println("acquireSource: I won’t proceed until you put me in a secured container.")
 			fmt.Println("")
 			errorChan <- err
 			return
@@ -52,10 +52,10 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 
 		// Make sure that the binary is enclosed in a Pod that we trust.
 		if !validation.IsSentinel(svid.ID.String()) {
-			fmt.Println("I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
-			fmt.Println("`safe` can only run from within the Sentinel container.")
+			fmt.Println("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
+			fmt.Println("acquireSource: `safe` can only run from within the Sentinel container.")
 			fmt.Println("")
-			errorChan <- errors.New("Post: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
+			errorChan <- errors.New("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
 			return
 		}
 
@@ -66,10 +66,10 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 	case source := <-resultChan:
 		return source, true
 	case err := <-errorChan:
-		fmt.Println("Post: I cannot execute command because I cannot talk to SPIRE.", err.Error())
+		fmt.Println("acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
 		return nil, false
 	case <-ctx.Done():
-		fmt.Println("Operation was cancelled.")
+		fmt.Println("acquireSource: Operation was cancelled.")
 		return nil, false
 	}
 }
