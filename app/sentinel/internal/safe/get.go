@@ -85,7 +85,7 @@ func Get() {
 		}
 		err := source.Close()
 		if err != nil {
-			log.Println("Problem closing the workload source.")
+			log.Println("Get: Problem closing the workload source.")
 		}
 	}()
 	if !proceed {
@@ -102,7 +102,7 @@ func Get() {
 
 	p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 	if err != nil {
-		fmt.Println("I am having problem generating VSecM Safe secrets api endpoint URL.")
+		fmt.Println("Get: I am having problem generating VSecM Safe secrets api endpoint URL.")
 		fmt.Println("")
 		return
 	}

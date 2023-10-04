@@ -191,7 +191,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 			}
 			err := source.Close()
 			if err != nil {
-				log.Println("Problem closing the workload source.")
+				log.Println("Post: Problem closing the workload source.")
 			}
 		}()
 
