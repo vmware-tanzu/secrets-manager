@@ -160,7 +160,6 @@ func doPost(client *http.Client, p string, md []byte) {
 func Post(parentContext context.Context, workloadId, secret, namespace, backingStore string,
 	useKubernetes bool, template string, format string, encrypt, deleteSecret, appendSecret bool, inputKeys string,
 ) {
-	// TODO: add that env var to the configuration documentation.
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SafeSourceAcquisitionTimeout(),
