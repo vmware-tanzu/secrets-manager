@@ -22,6 +22,11 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+* Security update: VSecM Safe has stricter validation routines for its identity.
+* Performance update: VSecM Safe honors SIGTERM and SIGINT signals and gracefully
+  shuts down.
+* Minor updates to the documentation.
+
 ## [v0.21.0] - 2023-09-08
 
 ### Added

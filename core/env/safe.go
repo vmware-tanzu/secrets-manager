@@ -224,6 +224,30 @@ func SafeAgeKeyPath() string {
 	return p
 }
 
+// SafeSourceAcquisitionTimeout returns the timeout duration for acquiring
+// a SPIFFE source bundle.
+// It reads an environment variable `VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT`
+// to determine the timeout.
+// If the environment variable is not set, or cannot be parsed, it defaults to
+// 10000 milliseconds.
+//
+// The returned duration is in milliseconds.
+//
+// Returns:
+//
+//	time.Duration: The time duration in milliseconds for acquiring the source.
+func SafeSourceAcquisitionTimeout() time.Duration {
+	p := os.Getenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT")
+	if p == "" {
+		p = "10000"
+	}
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		return 10000 * time.Millisecond
+	}
+	return time.Duration(i) * time.Millisecond
+}
+
 // SafeBootstrapTimeout returns the allowed time for VSecM Safe to wait
 // before killing the pod to retrieve an SVID, in time.Duration.
 // The interval is determined by the VSECM_SAFE_BOOTSTRAP_TIMEOUT environment

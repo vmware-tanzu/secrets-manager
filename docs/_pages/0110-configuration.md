@@ -217,14 +217,22 @@ will serve.
 
 Defaults to `:8082`.
 
-### VSECM_SAFE_SVID_RETRIEVAL_TIMEOUT
+### VSECM_SAFE_BOOTSTRAP_TIMEOUT
 
 **VSecM Safe** uses this configuration.
 
-`VSECM_SAFE_SVID_RETRIEVAL_TIMEOUT` is how long (*in milliseconds*) **VSecM Safe**
+`VSECM_SAFE_BOOTSTRAP_TIMEOUT` is how long (*in milliseconds*) **VSecM Safe**
 will wait for an *SPIRE X.509 SVID* bundle before giving up and crashing.
 
 The default value is `30000` milliseconds.
+
+### VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
+
+`VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT` is the timeout duration for acquiring
+a SPIFFE source bundle.
+
+If the environment variable is not set, or cannot be parsed, defaults to 
+`10000` milliseconds.
 
 ### VSECM_SAFE_TLS_PORT
 

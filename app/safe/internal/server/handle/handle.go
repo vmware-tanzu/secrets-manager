@@ -11,18 +11,46 @@
 package handle
 
 import (
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/validation"
 	"io"
 	"net/http"
 )
 
-func InitializeRoutes() {
+// InitializeRoutes initializes the HTTP routes for the web server. It sets up an
+// HTTP handler function for the root URL ("/"). The handler uses the given
+// X509Source to retrieve X.509 SVIDs for validating incoming connections.
+//
+// Parameters:
+//   - source: A pointer to a `workloadapi.X509Source`, used to obtain X.509 SVIDs.
+//
+// Note: The InitializeRoutes function should be called only once, usually
+// during server initialization.
+func InitializeRoutes(source *workloadapi.X509Source) {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		cid, _ := crypto.RandomString(8)
 		if cid == "" {
 			cid = "VSECMFHN"
+		}
+
+		svid, err := source.GetX509SVID()
+		if err != nil {
+			log.FatalLn(
+				&cid,
+				"Unable to get X.509 SVID from source bundle", err.Error(),
+			)
+		}
+
+		svidId := svid.ID
+		if !validation.IsSafe(svidId.String()) {
+			log.FatalLn(
+				&cid,
+				"Svid check: I don’t know you, and it’s crazy:",
+				svidId.String(),
+			)
 		}
 
 		id, err := spiffeIdFromRequest(r)
