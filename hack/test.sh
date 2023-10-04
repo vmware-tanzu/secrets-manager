@@ -55,6 +55,10 @@ sad_cuddle() {
   exit 1
 }
 
+# Unit Test
+
+#  go test -json ./...
+
 # Removes the secret and the demo workload deployment.
 cleanup() {
   printf "Cleanup…\n"
@@ -557,6 +561,17 @@ deploy_workload_using_init_container() {
 
   printf "I should have something there.\n"
 }
+
+# ------------------------------------------------------------------------------
+
+# Run Go unit tests before running more expensive tests.
+
+# Run Go unit tests
+echo "Running Go unit tests..."
+if ! go test ./...; then
+    echo "Go unit tests failed, exiting."
+    exit 1
+fi
 
 # ------------------------------------------------------------------------------
 

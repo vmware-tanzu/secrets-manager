@@ -47,3 +47,14 @@ interested in the project to come together and discuss key aspects of
 
 * **VMware Secrets Manager** maintenance.
 * Triaging, troubleshooting, and resolving issues.
+
+## Meeting Recordings
+
+### VMware Secrets Manager Contributor Sync — 2023-09-29
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
+src="https://player.vimeo.com/video/869636733?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="VMware Secrets Manager Contributor Sync — 2023-09-29"
+></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>

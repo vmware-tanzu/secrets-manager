@@ -12,10 +12,7 @@ package bootstrap
 
 import (
 	"context"
-	"crypto/rand"
-	"encoding/hex"
 	"filippo.io/age"
-	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -56,6 +53,7 @@ func Monitor(
 			break
 		}
 		select {
+		// Acquired SVID for this workload from the SPIRE Agent via workload API:
 		case <-acquiredSvid:
 			log.InfoLn(correlationId, "Acquired identity.")
 			counter--
@@ -66,6 +64,7 @@ func Monitor(
 				go probe.CreateReadiness()
 				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
+		// Updated the master key:
 		case <-updatedSecret:
 			log.InfoLn(correlationId, "Updated age key.")
 			counter--
@@ -76,6 +75,7 @@ func Monitor(
 				go probe.CreateReadiness()
 				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
+		// VSecM Safe REST API is ready to serve:
 		case <-serverStarted:
 			log.InfoLn(correlationId, "Server ready.")
 			counter--
@@ -86,6 +86,7 @@ func Monitor(
 				go probe.CreateReadiness()
 				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
+		// Things didn’t start in a timely manner:
 		case <-timedOut:
 			log.FatalLn(correlationId, "Failed to acquire an identity in a timely manner.")
 		}
@@ -132,18 +133,6 @@ func AcquireSource(
 	log.TraceLn(id, "Sent: Acquired SVID", len(acquiredSvid))
 
 	return source
-}
-
-func generateAesSeed() (string, error) {
-	// Generate a 256 bit key
-	key := make([]byte, 32)
-
-	_, err := rand.Read(key)
-	if err != nil {
-		return "", errors.Wrap(err, "generateAesSeed: failed to generate random key")
-	}
-
-	return hex.EncodeToString(key), nil
 }
 
 // CreateCryptoKey generates or reuses a cryptographic key pair for the
