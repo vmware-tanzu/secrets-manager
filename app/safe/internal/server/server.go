@@ -21,12 +21,36 @@ import (
 	"net/http"
 )
 
+// Serve initializes and starts an mTLS-secured HTTP server using the given
+// X509Source and TLS configuration. It also signals that the server has started
+// by sending a message on the provided channel.
+//
+// Parameters:
+//   - source: A pointer to workloadapi.X509Source, which provides X.509 SVIDs for mTLS.
+//   - serverStarted: A channel that will receive a boolean value to signal server startup.
+//
+// Returns:
+//   - error: An error object if the server fails to start or run; otherwise, returns nil.
+//
+// The function performs the following operations:
+// 1. Validates the source and initializes routes.
+// 2. Sets up a custom authorizer using the TLS configuration.
+// 3. Configures and starts the HTTP server with mTLS enabled.
+// 4. Signals server startup by sending a boolean value on the `serverStarted` channel.
+// 5. Listens and serves incoming HTTP requests.
+//
+// The function will return an error if any of the following conditions occur:
+//   - The source is nil.
+//   - Server fails to listen and serve.
+//
+// Note: Serve should be called only once during the application lifecycle to
+// initialize the HTTP server.
 func Serve(source *workloadapi.X509Source, serverStarted chan<- bool) error {
 	if source == nil {
 		return errors.New("serve: got nil source while trying to serve")
 	}
 
-	handle.InitializeRoutes()
+	handle.InitializeRoutes(source)
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
 		if validation.IsWorkload(id.String()) {

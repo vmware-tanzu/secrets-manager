@@ -11,8 +11,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/akamensky/argparse"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
@@ -185,7 +188,22 @@ func main() {
 		return
 	}
 
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
+
+	go func() {
+		select {
+		case <-c:
+			fmt.Println("Operation was cancelled.")
+			cancel()
+		}
+	}()
+
 	safe.Post(
+		ctx,
 		*workload, *secret, *namespace, *backingStore, *useKubernetes,
 		*template, *format, *encrypt, *deleteSecret, *appendSecret, *inputKeys,
 	)

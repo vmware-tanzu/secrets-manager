@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -156,31 +157,84 @@ func doPost(client *http.Client, p string, md []byte) {
 	respond(r)
 }
 
-func Post(workloadId, secret, namespace, backingStore string, useKubernetes bool,
-	template string, format string, encrypt, deleteSecret, appendSecret bool,
-	inputKeys string,
+func Post(parentContext context.Context, workloadId, secret, namespace, backingStore string,
+	useKubernetes bool, template string, format string, encrypt, deleteSecret, appendSecret bool, inputKeys string,
 ) {
-	ctx, cancel := context.WithCancel(context.Background())
+	ctxWithTimeout, cancel := context.WithTimeout(
+		parentContext,
+		env.SafeSourceAcquisitionTimeout(),
+	)
 	defer cancel()
 
-	source, proceed := acquireSource(ctx)
-	defer func() {
-		if source == nil {
+	sourceChan := make(chan *workloadapi.X509Source)
+	proceedChan := make(chan bool)
+
+	go func() {
+		source, proceed := acquireSource(ctxWithTimeout)
+		sourceChan <- source
+		proceedChan <- proceed
+	}()
+
+	select {
+	case <-ctxWithTimeout.Done():
+		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
+			fmt.Println("Post: I cannot execute command because I cannot talk to SPIRE.")
+			fmt.Println("")
 			return
 		}
-		err := source.Close()
-		if err != nil {
-			log.Println("Problem closing the workload source.")
+
+		fmt.Println("Post: Operation was cancelled due to an unknown reason.")
+	case source := <-sourceChan:
+		defer func() {
+			if source == nil {
+				return
+			}
+			err := source.Close()
+			if err != nil {
+				log.Println("Post: Problem closing the workload source.")
+			}
+		}()
+
+		proceed := <-proceedChan
+
+		if !proceed {
+			return
 		}
-	}()
-	if !proceed {
-		return
-	}
 
-	authorizer := createAuthorizer()
+		authorizer := createAuthorizer()
 
-	if inputKeys != "" {
-		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/keys")
+		if inputKeys != "" {
+			p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/keys")
+			if err != nil {
+				printEndpointError(err)
+				return
+			}
+
+			tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
+			client := &http.Client{
+				Transport: &http.Transport{
+					TLSClientConfig: tlsConfig,
+				},
+			}
+
+			parts := strings.Split(inputKeys, "\n")
+			if len(parts) != 3 {
+				printPayloadError(errors.New("post: Bad data! Very bad data"))
+				return
+			}
+
+			sr := newInputKeysRequest(parts[0], parts[1], parts[2])
+			md, err := json.Marshal(sr)
+			if err != nil {
+				printPayloadError(err)
+				return
+			}
+
+			doPost(client, p, md)
+			return
+		}
+
+		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 		if err != nil {
 			printEndpointError(err)
 			return
@@ -193,48 +247,19 @@ func Post(workloadId, secret, namespace, backingStore string, useKubernetes bool
 			},
 		}
 
-		parts := strings.Split(inputKeys, "\n")
-		if len(parts) != 3 {
-			printPayloadError(errors.New("post: Bad data! Very bad data"))
-			return
-		}
-
-		sr := newInputKeysRequest(parts[0], parts[1], parts[2])
+		sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
+			useKubernetes, template, format, encrypt, appendSecret)
 		md, err := json.Marshal(sr)
 		if err != nil {
 			printPayloadError(err)
 			return
 		}
 
+		if deleteSecret {
+			doDelete(client, p, md)
+			return
+		}
+
 		doPost(client, p, md)
-		return
 	}
-
-	p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
-	if err != nil {
-		printEndpointError(err)
-		return
-	}
-
-	tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
-	client := &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: tlsConfig,
-		},
-	}
-
-	sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
-		useKubernetes, template, format, encrypt, appendSecret)
-	md, err := json.Marshal(sr)
-	if err != nil {
-		printPayloadError(err)
-		return
-	}
-
-	if deleteSecret {
-		doDelete(client, p, md)
-		return
-	}
-
-	doPost(client, p, md)
 }
