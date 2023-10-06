@@ -26,6 +26,8 @@ next_url: /docs/releases/
 * Performance update: VSecM Safe honors SIGTERM and SIGINT signals and gracefully
   shuts down.
 * Minor updates to the documentation.
+* Fixed `spire-controller-manager`’s version. The older setup was fixed on 
+  `nightly` which was causing ad-hoc issues.
 
 ## [v0.21.0] - 2023-09-08
 
