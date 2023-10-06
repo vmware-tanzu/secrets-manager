@@ -47,11 +47,14 @@ func main() {
 
 	source := bootstrap.AcquireSource(ctx, acquiredSvid)
 	defer func() {
+		// Close the source after the server (1) is done serving, likely
+		// when the app is shutting down due to an eviction or a panic.
 		if err := source.Close(); err != nil {
 			log.InfoLn(&id, "Problem closing SVID Bundle source: %v\n", err)
 		}
 	}()
 
+	// (1)
 	if err := server.Serve(source, serverStarted); err != nil {
 		log.FatalLn(&id, "failed to serve", err.Error())
 	}
