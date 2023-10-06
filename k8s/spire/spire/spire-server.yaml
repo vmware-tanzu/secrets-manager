@@ -188,7 +188,7 @@ spec:
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
         - name: spire-controller-manager
-          image: ghcr.io/spiffe/spire-controller-manager:nightly
+          image: ghcr.io/spiffe/spire-controller-manager:0.3.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9443
