@@ -121,6 +121,43 @@ func Test_parseForK8sSecret(t *testing.T) {
 			wantErr: errors.New("invalid character 'e' in literal true (expecting 'r')"),
 		},
 		{
+			name: "error_unparsable_template",
+			args: args{
+				secret: SecretStored{
+					Name:             "test",
+					Values:           []string{"{\"username\":\"admin\",\"password-1\":\"VSecMRocks\"}"},
+					ValueTransformed: "",
+					Meta: SecretMeta{
+						Template: "{\"USER\":\"{{.username}}\", \"PASS-1\":\"{{.password-1}}\"}",
+						Format:   "yaml",
+					},
+					Created: timeNow,
+					Updated: timeUpdated,
+				},
+			},
+			want:    map[string]string{"username": "admin", "password-1": "VSecMRocks"},
+			wantErr: errors.New("template: secret:1: bad character U+002D '-'"),
+		},
+
+		{
+			name: "error_executing_template",
+			args: args{
+				secret: SecretStored{
+					Name:             "test",
+					Values:           []string{"{\"user\":\"pass\"}"},
+					ValueTransformed: "",
+					Meta: SecretMeta{
+						Template: "{{.USER .PASS}}",
+						Format:   "yaml",
+					},
+					Created: timeNow,
+					Updated: timeUpdated,
+				},
+			},
+			want:    map[string]string{"user": "pass"},
+			wantErr: errors.New("template: secret:1:2: executing \"secret\" at <.USER>: USER is not a method but has arguments"),
+		},
+		{
 			name: "success",
 			args: args{
 				secret: SecretStored{
@@ -188,7 +225,7 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 			fields: fields{
 				Values: []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
 			},
-			want: map[string][]byte{"pass": []byte("secret")},
+			want: map[string][]byte{"username": []byte("admin"), "password": []byte("VSecMRocks")},
 		},
 		{
 			name: "valid_value_invalid_template",
@@ -392,6 +429,21 @@ func Test_transform(t *testing.T) {
 			err:     nil,
 		},
 		{
+			name: "valid_values_json_passed_as_yaml",
+			args: args{
+				value: "{\"pass\":\"secret\"}",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Template: "{\"PASS\":\"{{.pass}}\"}",
+						Format:   "yaml",
+					},
+				},
+			},
+			want:    "PASS: secret\n",
+			wantErr: false,
+			err:     nil,
+		},
+		{
 			name: "valid_yaml_template_invalid_value",
 			args: args{
 				value: "\"pass\":\"secret\"",
@@ -476,6 +528,20 @@ func TestSecretStored_Parse(t *testing.T) {
 			err:     nil,
 		},
 		{
+			name: "valid_values_json",
+			fields: fields{
+				Name:   "test-2",
+				Values: []string{"{\"pass\":\"secret\"}"},
+				Meta: SecretMeta{
+					Template: "{\"PASS\":\"{{.pass}}\"}",
+					Format:   "json",
+				},
+			},
+			want:    "{\"PASS\":\"secret\"}",
+			wantErr: false,
+			err:     nil,
+		},
+		{
 			name: "multiple_valid_values",
 			fields: fields{
 				Name:   "test-2",
@@ -490,16 +556,30 @@ func TestSecretStored_Parse(t *testing.T) {
 			err:     nil,
 		},
 		{
-			name: "multiple_template",
+			name: "multiple_templates",
 			fields: fields{
 				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}", "{\"pass-2\":\"secret-2\"}"},
+				Values: []string{"{\"pass\":\"secret\"}", "{\"pass_2\":\"secret-2\"}"},
 				Meta: SecretMeta{
-					Template: "PASS:{{.pass}},PASS-2:{{.pass-2}}",
+					Template: "PASS:{{.pass}},PASS_2:{{.pass_2}}",
 					Format:   "yaml",
 				},
 			},
-			want:    "[\"paass:secret\\n\",\"pass-2:secret-2\\n\"]",
+			want:    "[\"PASS:secret\",\"PASS_2:secret-2\"]",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "multiple_selected_template",
+			fields: fields{
+				Name:   "test-3",
+				Values: []string{"{\"pass\":\"secret\"}", "{\"pass_2\":\"secret-2\"}", "{\"pass_3\":\"secret-3\"}"},
+				Meta: SecretMeta{
+					Template: "PASS:{{.pass}},PASS_3:{{.pass_3}}",
+					Format:   "yaml",
+				},
+			},
+			want:    "[\"PASS:secret\",\"PASS_3:secret-3\"]",
 			wantErr: false,
 			err:     nil,
 		},

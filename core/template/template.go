@@ -13,6 +13,7 @@ package template
 import (
 	"bytes"
 	"encoding/json"
+	"strings"
 	"text/template"
 
 	"gopkg.in/yaml.v3"
@@ -81,5 +82,31 @@ func TryParse(tmpStr, jason string) string {
 		return jason
 	}
 
-	return tpl.String()
+	return removeKeyValueWithNoValue(tpl.String())
+}
+
+// removeKeyValueWithNoValue takes an input string containing key-value pairs and filters out
+// pairs where the value is "<no value>". It splits the input string into key-value pairs,
+// iterates through them, and retains only the pairs with values that are not equal to "<no value>".
+// The function then joins the filtered pairs back into a string and returns the resulting string.
+// This function effectively removes key-value pairs with "<no value>" from the input string.
+// Helpful when key-val pairs in template differs from the contents of the secret.
+func removeKeyValueWithNoValue(input string) string {
+	// Split the input string into key-value pairs
+	pairs := strings.Split(input, ",")
+
+	// Initialize a slice to store the filtered pairs
+	var filteredPairs []string
+
+	for _, pair := range pairs {
+		keyValue := strings.SplitN(pair, ":", 2)
+		if len(keyValue) == 2 && keyValue[1] != "<no value>" {
+			// Add the pair to the filtered pairs if the value is not "<no value>"
+			filteredPairs = append(filteredPairs, pair)
+		}
+	}
+
+	// Join the filtered pairs back into a string
+	result := strings.Join(filteredPairs, ",")
+	return result
 }
