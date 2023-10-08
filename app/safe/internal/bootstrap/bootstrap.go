@@ -12,9 +12,9 @@ package bootstrap
 
 import (
 	"context"
-	"filippo.io/age"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
@@ -174,21 +174,13 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	log.InfoLn(id, "Secret has not been set yet. Will compute a secure secret.")
 
-	identity, err := age.GenerateX25519Identity()
-	if err != nil {
-		log.FatalLn(id, "Failed to generate key pair", err.Error())
-	}
-
-	publicKey := identity.Recipient().String()
-	privateKey := identity.String()
-	aesSeed, err := generateAesSeed()
+	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
 
 	if err != nil {
-		log.FatalLn(id, "Failed to generate AES seed", err.Error())
+		log.FatalLn(id, "Failed to generate keys", err.Error())
 	}
 
-	log.TraceLn(id, "Public key: %s...  ", identity.Recipient().String()[:4])
-	log.TraceLn(id, "Private key: %s...  ", identity.String()[:16])
+	log.InfoLn(id, "Generated public key, private key, and aes seed")
 
 	if err = persistKeys(privateKey, publicKey, aesSeed); err != nil {
 		log.FatalLn(id, "Failed to persist keys", err.Error())

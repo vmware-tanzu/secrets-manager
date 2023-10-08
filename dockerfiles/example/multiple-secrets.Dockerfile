@@ -25,7 +25,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth \
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
 
-LABEL "maintainers"="Volkan Özçelik <volkan@vsecm.com>"
+LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"="0.21.0"
 LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager"

@@ -17,6 +17,9 @@ DEPLOYMENT_NAME=vsecm
 include ./makefiles/VSecMMacOs.mk
 include ./makefiles/VSecMDeploy.mk
 
+## Keygen
+include ./makefiles/VSecMKeyGen.mk
+
 ## VMware Secrets Manager
 include ./makefiles/VSecMSafe.mk
 include ./makefiles/VSecMSentinel.mk

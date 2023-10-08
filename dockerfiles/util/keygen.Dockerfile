@@ -10,16 +10,14 @@
 
 # builder image
 FROM golang:1.20.1-alpine3.17 as builder
+
 RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-
-# GOEXPERIMENT=boringcrypto is required for FIPS compliance.
-RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o safe ./app/sentinel/cmd/main.go
-RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/busywait/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-keygen ./app/keygen/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
@@ -27,22 +25,14 @@ FROM gcr.io/distroless/static-debian11
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"="0.21.0"
 LABEL "website"="https://vsecm.com/"
-LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager-sentinel"
+LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager-safe"
 LABEL "documentation"="https://vsecm.com/"
 LABEL "contact"="https://vsecm.com/contact/"
 LABEL "community"="https://vsecm.com/community"
 LABEL "changelog"="https://vsecm.com/changelog"
 
-# Copy the required binaries
-COPY --from=builder /build/safe /bin/safe
-COPY --from=builder /build/sloth /bin/sloth
+COPY --from=builder /build/vsecm-keygen .
 
-ENV HOSTNAME sentinel
-
-# Prevent root access.
-ENV USER nobody
-USER nobody
-
-# Keep the container alive.
-ENTRYPOINT ["/bin/sloth"]
-CMD [""]
+# executable
+ENTRYPOINT [ "./keygen" ]
+CMD [ "" ]
