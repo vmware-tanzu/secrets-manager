@@ -18,4 +18,4 @@ spec:
     spec:
       containers:
         - name: main
-          image: localhost:5000/vsecm-ist-fips-sentinel:0.21.0
+          image: localhost:5000/vsecm-ist-fips-sentinel:0.21.1

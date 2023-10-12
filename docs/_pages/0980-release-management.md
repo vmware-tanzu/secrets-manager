@@ -150,7 +150,7 @@ eval $(minikube -p minikube docker-env)
 
 # For macOS, you might need to run `make mac-tunnel` 
 # on a separate terminal.
-# For other Linuxes, you might need it.
+# For other Linuxes, you might not need it.
 #
 # make mac-tunnel
 
@@ -175,7 +175,7 @@ eval $(minikube -p minikube docker-env)
 
 # For macOS, you might need to run `make mac-tunnel` 
 # on a separate terminal.
-# For other Linuxes, you might need it.
+# For other Linuxes, you might not need it.
 #
 # make mac-tunnel
 
@@ -193,7 +193,7 @@ eval $(minikube -p minikube docker-env)
 
 # For macOS, you might need to run `make mac-tunnel` 
 # on a separate terminal.
-# For other Linuxes, you might need it.
+# For other Linuxes, you might not need it.
 #
 # make mac-tunnel
 
@@ -211,7 +211,7 @@ eval $(minikube -p minikube docker-env)
 
 # For macOS, you might need to run `make mac-tunnel` 
 # on a separate terminal.
-# For other Linuxes, you might need it.
+# For other Linuxes, you might not need it.
 #
 # make mac-tunnel
 

@@ -22,12 +22,27 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-* Security update: VSecM Safe has stricter validation routines for its identity.
-* Performance update: VSecM Safe honors SIGTERM and SIGINT signals and gracefully
-  shuts down.
-* Minor updates to the documentation.
-* Fixed `spire-controller-manager`’s version. The older setup was fixed on 
+## [v0.21.1] - 2023-10-11
+
+## Added
+
+* Fixed `spire-controller-manager`’s version. The older setup was fixed on
   `nightly` which was causing ad-hoc issues.
+
+## Changed
+
+* Performance update: VSecM Sentinel now honors `SIGTERM` and `SIGINT` signals 
+  and gracefully shuts down when the pod is killed.
+* Performance update: VSecM Safe is now leveraging several goroutines to speed 
+  up some of the blocking code paths during bootstrapping and initialization.
+* Minor updates to the documentation.
+
+## Security
+
+* VSecM Safe has stricter validation routines for its identity.
+* Added VSecM Keygen: a utility application that generates VSecM Safe’s
+  bootstrapping keys if you want an extra level of security and control the
+  creation of the master key.
 
 ## [v0.21.0] - 2023-09-08
 

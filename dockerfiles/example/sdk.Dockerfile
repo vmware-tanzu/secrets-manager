@@ -26,7 +26,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o env \
 FROM gcr.io/distroless/static-debian11
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
-LABEL "version"="0.21.0"
+LABEL "version"="0.21.1"
 LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager"
 LABEL "documentation"="https://vsecm.com/"
