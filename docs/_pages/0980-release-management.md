@@ -249,6 +249,18 @@ now can merge our changes to the `main` branch.
 Create a PR from the release branch you are on, and follow the regular merge
 approval process.
 
+### 9. Tag the `main` Branch
+
+We have created a release in the previous step, but we did it on a feature 
+branch. Now, we need to tag the `main` branch with the same version.
+
+Here’s an example:
+
+```bash
+git tag -s v0.22.0-000 -a v0.22.0-000
+git push origin --tags
+```
+
 ### 9. Release helm-charts
 
 We offer the [release_helm_chart.sh][release_script] script for your use.
