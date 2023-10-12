@@ -19,7 +19,8 @@ func main() {
 	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
 
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Failed to generate keys:")
+		fmt.Println(err.Error())
 		return
 	}
 
