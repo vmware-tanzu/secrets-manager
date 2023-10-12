@@ -24,10 +24,6 @@ next_url: /docs/releases/
 
 ## [v0.21.1] - 2023-10-11
 
-## Security
-
-* VSecM Safe has stricter validation routines for its identity.
-
 ## Added
 
 * Fixed `spire-controller-manager`’s version. The older setup was fixed on
@@ -40,6 +36,10 @@ next_url: /docs/releases/
 * Performance update: VSecM Safe is now leveraging several goroutines to speed 
   up some of the blocking code paths during bootstrapping and initialization.
 * Minor updates to the documentation.
+
+## Security
+
+* VSecM Safe has stricter validation routines for its identity.
 
 ## [v0.21.0] - 2023-09-08
 
