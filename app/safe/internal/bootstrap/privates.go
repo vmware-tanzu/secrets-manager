@@ -11,42 +11,59 @@
 package bootstrap
 
 import (
-	"crypto/rand"
-	"encoding/hex"
+	"context"
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	v1 "k8s.io/api/core/v1"
+	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 )
 
-// generateAesSeed generates a random 256-bit AES key, and returns it as a
-// hexadecimal encoded string.
-//
-// Returns:
-//  1. A hexadecimal string representation of the generated 256-bit AES key.
-//  2. An error value that indicates if any error occurs during key generation
-//     or encoding. A non-nil error indicates failure.
-//
-// Usage:
-//
-//	hexKey, err := generateAesSeed()
-//	if err != nil {
-//	    log.Fatal("Failed to generate AES key:", err)
-//	}
-//
-// Example output:
-//
-//	hexKey: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
-//
-// Note:
-//
-//		The function uses the crypto/rand package for secure random number
-//	 generation, suitable for cryptographic purposes.
-func generateAesSeed() (string, error) {
-	// Generate a 256 bit key
-	key := make([]byte, 32)
-
-	_, err := rand.Read(key)
+func persistKeys(privateKey, publicKey, aesSeed string) error {
+	config, err := rest.InClusterConfig()
 	if err != nil {
-		return "", errors.Wrap(err, "generateAesSeed: failed to generate random key")
+		return errors.Wrap(err, "Error creating client config")
 	}
 
-	return hex.EncodeToString(key), nil
+	k8sApi, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		return errors.Wrap(err, "Error creating k8sApi")
+	}
+
+	data := make(map[string][]byte)
+	keysCombined := crypto.CombineKeys(privateKey, publicKey, aesSeed)
+	data["KEY_TXT"] = ([]byte)(keysCombined)
+
+	// Update the Secret in the cluster
+	_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(
+		context.Background(),
+		&v1.Secret{
+			TypeMeta: metaV1.TypeMeta{
+				Kind:       "Secret",
+				APIVersion: "v1",
+			},
+			ObjectMeta: metaV1.ObjectMeta{
+				Name:      env.SafeAgeKeySecretName(),
+				Namespace: env.SystemNamespace(),
+			},
+			Data: data,
+		},
+		metaV1.UpdateOptions{
+			TypeMeta: metaV1.TypeMeta{
+				Kind:       "Secret",
+				APIVersion: "v1",
+			},
+		},
+	)
+
+	if err != nil {
+		return errors.Wrap(err, "Error creating the secret")
+	}
+
+	state.SetMasterKey(keysCombined)
+
+	return nil
 }

@@ -13,6 +13,8 @@ serve-docs:
 
 # Builds everything and pushes to public registries.
 build: \
+	keygen-bundle \
+	keygen-push \
 	example-sidecar-bundle \
 	example-sidecar-push \
 	example-sdk-bundle \
@@ -56,6 +58,8 @@ build: \
 
 # Builds everything and pushes to the local registry.
 build-local: \
+	keygen-bundle \
+	keygen-push \
 	example-sidecar-bundle \
 	example-sidecar-push-local \
 	example-sdk-bundle \
@@ -98,6 +102,7 @@ build-local: \
 	init-container-push-photon-fips-local
 
 build-essentials-local: \
+	keygen-bundle \
 	safe-bundle-ist \
 	safe-push-ist-local \
 	sidecar-bundle-ist \
