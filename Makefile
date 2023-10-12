@@ -9,7 +9,7 @@
 # */
 
 # The common version tag is assigned to all the things.
-VERSION=0.21.0
+VERSION=0.21.1
 IMAGE=distroless
 DEPLOYMENT_NAME=vsecm
 
