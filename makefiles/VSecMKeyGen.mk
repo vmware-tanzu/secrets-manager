@@ -14,6 +14,6 @@ keygen-bundle:
 		$(VERSION) "dockerfiles/util/keygen.Dockerfile"
 
 # Pushes the “Keygen” container image to the public registry.
-example-sidecar-push:
+keygen-push:
 	./hack/push.sh "vsecm-keygen" \
 		$(VERSION) "vsecm/vsecm-keygen"
