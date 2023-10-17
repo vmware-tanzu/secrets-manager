@@ -15,7 +15,7 @@
 # and we should not need to pull the images and sign them again.
 # So we’d rarely (if ever) need to use this script.
 
-VERSION="0.21.1"
+VERSION="0.21.2"
 
 export DOCKER_CONTENT_TRUST=0
 

@@ -18,4 +18,4 @@ spec:
     spec:
       containers:
         - name: main
-          image: vsecm/vsecm-photon-safe:0.21.1
+          image: vsecm/vsecm-photon-safe:0.21.2

@@ -19,7 +19,7 @@ k8sManifestsDirectory=$gitRoot/k8s/$version
 if [ "$version" == '' ]; then
     echo "VERSION has to be provided to the make target"
     echo "usage: make k8s-manifests-update VERSION=<helm-chart version>"
-    echo "example: make k8s-manifests-update VERSION=0.21.1"
+    echo "example: make k8s-manifests-update VERSION=0.21.2"
     exit 1
 else
     helmChartPath=$helmChartDirectory/$version

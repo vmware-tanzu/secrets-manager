@@ -17,8 +17,11 @@ import (
 	"encoding/hex"
 	"filippo.io/age"
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"io"
+	"math"
+	"time"
 )
 
 func encryptToWriterAge(out io.Writer, data string) error {
@@ -53,7 +56,20 @@ func encryptToWriterAge(out io.Writer, data string) error {
 	return nil
 }
 
+var lastEncryptToWriterAesCall time.Time
+
 func encryptToWriterAes(out io.Writer, data string) error {
+	// Calling this method too frequently can result in a less-than random IV,
+	// which can be used to break the encryption when combined with other
+	// attack vectors. Therefore, we throttle calls to this method.
+	if time.Since(lastEncryptToWriterAesCall) < time.Millisecond*time.Duration(
+		env.SafeIvInitializationInterval(),
+	) {
+		return errors.New("Calls too frequent")
+	}
+
+	lastEncryptToWriterAesCall = time.Now()
+
 	_, _, aesKey := ageKeyTriplet()
 
 	if aesKey == "" {
@@ -61,6 +77,13 @@ func encryptToWriterAes(out io.Writer, data string) error {
 	}
 
 	aesKeyDecoded, err := hex.DecodeString(aesKey)
+	defer func() {
+		// Clear the key from memory for security reasons.
+		for i := range aesKeyDecoded {
+			aesKeyDecoded[i] = 0
+		}
+	}()
+
 	if err != nil {
 		return errors.Wrap(err, "encryptToWriter: failed to decode AES key")
 	}
@@ -70,9 +93,15 @@ func encryptToWriterAes(out io.Writer, data string) error {
 		return errors.Wrap(err, "encryptToWriter: failed to create AES cipher block")
 	}
 
+	totalSize := uint64(aes.BlockSize) + uint64(len(data))
+	if totalSize > uint64(math.MaxInt64) {
+		return errors.New("encryptToWriter: data too large")
+	}
+
 	// The IV needs to be unique, but not secure. Therefore, it’s common to
 	// include it at the beginning of the ciphertext.
-	ciphertext := make([]byte, aes.BlockSize+len(data))
+	ciphertext := make([]byte, totalSize)
+
 	iv := ciphertext[:aes.BlockSize]
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
 		return err

@@ -261,7 +261,7 @@ git tag -s v0.22.0-000 -a v0.22.0-000
 git push origin --tags
 ```
 
-### 9. Release helm-charts
+### 10. Release helm-charts
 
 We offer the [release_helm_chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
