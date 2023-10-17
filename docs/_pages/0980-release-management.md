@@ -138,6 +138,8 @@ update your environment.
 
 Check the `make help` command first, as it includes important information.
 
+You can also check `make h` command that included release-related commands.
+
 ### 3. Test VSecM Distroless Images
 
 **VMware Secrets Manager** Distroless series use lightweight and secure
