@@ -22,14 +22,30 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+# [v0.21.2] - 2023-10-16
+
+This is a purely security-focused release that fixes several vulnerabilities and 
+also hardens the AES encryption flow against time-based attacks.
+
+### Security
+
+* Fixed CVE-2023-3978 [Improper rendering of text nodes in golang.org/x/net/html](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/4)
+* Fixed CVE-2023-39325 [HTTP/2 rapid reset can cause excessive work in net/http](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/5)
+* Fixed CVE-2023-44487 [swift-nio-http2 vulnerable to HTTP/2 Stream Cancellation Attack](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/6)
+* Fixed an issue with possible memory overflow when doing a cryptographic size
+  computation.
+* Added a configurable throttle to AES IV computation to make it harder to
+  perform time-based attacks.
+* The computed AES IV is zeroed out after use for additional security.
+
 ## [v0.21.1] - 2023-10-11
 
-## Added
+### Added
 
 * Fixed `spire-controller-manager`’s version. The older setup was fixed on
   `nightly` which was causing ad-hoc issues.
 
-## Changed
+### Changed
 
 * Performance update: VSecM Sentinel now honors `SIGTERM` and `SIGINT` signals 
   and gracefully shuts down when the pod is killed.
@@ -37,7 +53,7 @@ next_url: /docs/releases/
   up some of the blocking code paths during bootstrapping and initialization.
 * Minor updates to the documentation.
 
-## Security
+### Security
 
 * VSecM Safe has stricter validation routines for its identity.
 * Added VSecM Keygen: a utility application that generates VSecM Safe’s

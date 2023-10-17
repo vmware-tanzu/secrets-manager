@@ -18,6 +18,29 @@ import (
 	"time"
 )
 
+// SafeIvInitializationInterval fetches the Initialization Vector (IV) interval
+// from an environment variable. IV is used in AES encryption.
+//
+// The environment variable used is VSECM_SAFE_IV_INITIALIZATION_INTERVAL.
+// If the environment variable is not set or contains an invalid integer, the
+// function returns a default value of 50.
+// The returned value is intended to be used for rate-limiting or throttling the
+// initialization of IVs.
+//
+// Returns:
+// int: The IV initialization interval in milliseconds.
+func SafeIvInitializationInterval() int {
+	envInterval := os.Getenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL")
+	if envInterval == "" {
+		return 50
+	}
+	parsedInterval, err := strconv.Atoi(envInterval)
+	if err != nil {
+		return 50
+	}
+	return parsedInterval
+}
+
 // SafeSecretBufferSize returns the buffer size for the VSecM Safe secret queue.
 //
 // The buffer size is determined by the environment variable

@@ -28,7 +28,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-using-sdk:0.21.1
+        image: vsecm/example-using-sdk:0.21.2
         volumeMounts:
         # Volume mount for SPIRE unix domain socket.
         - name: spire-agent-socket

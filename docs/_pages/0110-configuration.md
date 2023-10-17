@@ -234,12 +234,24 @@ a SPIFFE source bundle.
 If the environment variable is not set, or cannot be parsed, defaults to 
 `10000` milliseconds.
 
+### VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+
+`VSECM_SAFE_IV_INITIALIZATION_INTERVAL` is used as a security measure to
+time-based attacks where too frequent call of a function can be used to
+generate less-randomized AES IV values.
+
+If the environment variable is not set or contains an invalid integer, it
+defaults to `50` milliseconds.
+
+The value in the environment variable is in milliseconds.
+
 ### VSECM_SAFE_TLS_PORT
 
 `VSECM_SAFE_TLS_PORT` is the port that **VSecM Safe** serves its API endpoints.
 
 When you change this port, you will likely need to make changes in more
-than one manifest, and restart or redeploy **VMware Secrets Manager** and **SPIRE**.
+than one manifest, and restart or redeploy **VMware Secrets Manager** and 
+**SPIRE**.
 
 Defaults to `":8443"`.
 
