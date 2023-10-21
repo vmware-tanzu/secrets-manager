@@ -22,7 +22,9 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-# [v0.21.2] - 2023-10-16
+TBD.
+
+## [v0.21.2] - 2023-10-18
 
 This is a purely security-focused release that fixes several vulnerabilities and 
 also hardens the AES encryption flow against time-based attacks.

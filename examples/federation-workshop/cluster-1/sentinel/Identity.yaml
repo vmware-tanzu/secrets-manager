@@ -1,0 +1,17 @@
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: vsecm-sentinel
+spec:
+  spiffeIDTemplate: "spiffe://cluster1.demo\
+    /workload/vsecm-sentinel\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-sentinel
+      app.kubernetes.io/part-of: vsecm-system
+  workloadSelectorTemplates:
+  - "k8s:ns:vsecm-system"
+  - "k8s:sa:vsecm-sentinel"

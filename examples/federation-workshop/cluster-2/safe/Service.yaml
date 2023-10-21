@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vsecm-safe
+  namespace: vsecm-system
+  labels:
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/part-of: vsecm-system
+spec:
+  selector:
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/part-of: vsecm-system
+  ports:
+    - protocol: TCP
+      port: 8443
+      targetPort: 8443

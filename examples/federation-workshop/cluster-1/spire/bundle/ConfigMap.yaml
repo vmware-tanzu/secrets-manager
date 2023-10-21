@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  vsecm-002-bundle.json: |
+    {
+      "keys": [
+        {
+          "use": "x509-svid",
+          "kty": "EC",
+          "crv": "P-256",
+          "x": "--redacted--",
+          "y": "--redacted--",
+          "x5c": [
+            "--redacted--"
+          ]
+        },
+        {
+          "use": "jwt-svid",
+          "kty": "EC",
+          "kid": "--redacted--",
+          "crv": "P-256",
+          "x": "--redacted--",
+          "y": "--redacted--"
+        }
+      ],
+      "spiffe_sequence": 1
+    }
