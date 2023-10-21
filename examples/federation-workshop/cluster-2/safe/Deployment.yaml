@@ -104,9 +104,12 @@ spec:
         # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
         # ref: https://github.com/spiffe/spiffe-csi
         - name: spire-agent-socket
-          csi:
-            driver: "csi.spiffe.io"
-            readOnly: true
+          #          csi:
+          #            driver: "csi.spiffe.io"
+          #            readOnly: true
+          hostPath:
+            path: /run/spire/sockets
+            type: DirectoryOrCreate
         # `vsecm-data` is used to persist the encrypted backups of the secrets.
         - name: vsecm-data
           hostPath:
