@@ -14,7 +14,7 @@ FROM golang:1.20.1-alpine3.17 as builder
 RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
-COPY vendor /build/vendor
+# COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-keygen ./app/keygen/cmd/main.go
