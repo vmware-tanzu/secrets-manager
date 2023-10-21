@@ -1,5 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
+metadata:
+  name: trust-bundle
+  namespace: spire-system
 data:
   vsecm-002-bundle.json: |
     {
