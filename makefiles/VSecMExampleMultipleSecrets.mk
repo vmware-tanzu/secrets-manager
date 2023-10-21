@@ -21,7 +21,7 @@ example-multiple-secrets-push:
 # Pushes the “multiple secrets” use case container image to the local registry.
 example-multiple-secrets-push-local:
 	./hack/push.sh "example-multiple-secrets" \
-		$(VERSION) "localhost:5000/example-multiple-secrets"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-multiple-secrets"
 
 # Deploys the “multiple secrets” use case app from the public registry into the cluster.
 example-multiple-secrets-deploy:

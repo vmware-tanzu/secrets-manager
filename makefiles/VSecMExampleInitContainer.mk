@@ -21,7 +21,7 @@ example-init-container-push:
 # Pushes the “Init Container” container image to the local registry.
 example-init-container-push-local:
 	./hack/push.sh "example-using-init-container" \
-		$(VERSION) "localhost:5000/example-using-init-container"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-init-container"
 
 # Deploys the “Init Container” app from the public registry into the cluster.
 example-init-container-deploy:

@@ -51,18 +51,18 @@ init-container-push-photon-fips:
 # Pushes the “VSecM Init Container” container image to the local registry.
 init-container-push-ist-local:
 	./hack/push.sh "vsecm-ist-init-container" $(VERSION) \
-		"localhost:5000/vsecm-ist-init-container"
+		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-init-container"
 
 init-container-push-ist-fips-local:
 	./hack/push.sh "vsecm-ist-fips-init-container" $(VERSION) \
-		"localhost:5000/vsecm-ist-fips-init-container"
+		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-fips-init-container"
 
 # Pushes the “VSecM Init Container” (Photon OS) container image to the local registry.
 init-container-push-photon-local:
 	./hack/push.sh "vsecm-photon-init-container" $(VERSION) \
-		"localhost:5000/vsecm-photon-init-container"
+		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-init-container"
 
 # Pushes the “VSecM Init Container” (Photon OS and FIPS) container image to the local registry.
 init-container-push-photon-fips-local:
 	./hack/push.sh "vsecm-photon-fips-init-container" $(VERSION) \
-		"localhost:5000/vsecm-photon-fips-init-container"
+		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-fips-init-container"

@@ -51,19 +51,19 @@ sentinel-push-photon-fips:
 # Pushes the “VSecM Sentinel” container image to the local registry.
 sentinel-push-ist-local:
 	./hack/push.sh "vsecm-ist-sentinel" \
-		$(VERSION) "localhost:5000/vsecm-ist-sentinel"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-sentinel"
 
 # Pushes the “VSecM Sentinel” (Photon OS) container image to the local registry.
 sentinel-push-ist-fips-local:
 	./hack/push.sh "vsecm-ist-fips-sentinel" \
-		$(VERSION) "localhost:5000/vsecm-ist-fips-sentinel"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-fips-sentinel"
 
 # Pushes the “VSecM Sentinel” (Photon OS) container image to the local registry.
 sentinel-push-photon-local:
 	./hack/push.sh "vsecm-photon-sentinel" \
-		$(VERSION) "localhost:5000/vsecm-photon-sentinel"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-sentinel"
 
 # Pushes the “VSecM Sentinel” (Photon OS) container image to the local registry.
 sentinel-push-photon-fips-local:
 	./hack/push.sh "vsecm-photon-fips-sentinel" \
-		$(VERSION) "localhost:5000/vsecm-photon-fips-sentinel"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-fips-sentinel"
