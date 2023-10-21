@@ -3,6 +3,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-sentinel
 spec:
+  federatesWith: ["cluster2.demo"]
   spiffeIDTemplate: "spiffe://cluster1.demo\
     /workload/vsecm-sentinel\
     /ns/{{ .PodMeta.Namespace }}\

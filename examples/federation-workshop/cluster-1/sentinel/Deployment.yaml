@@ -47,7 +47,7 @@ spec:
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://10.0.0.123:8443"
+              value: "https://10.0.0.71:8443"
           livenessProbe:
             httpGet:
               path: /

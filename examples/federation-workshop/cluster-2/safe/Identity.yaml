@@ -3,6 +3,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-safe
 spec:
+  federatesWith: ["cluster1.demo"]
   spiffeIDTemplate: "spiffe://cluster2.demo\
     /workload/vsecm-safe\
     /ns/{{ .PodMeta.Namespace }}\
