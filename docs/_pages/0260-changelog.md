@@ -22,7 +22,8 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD.
+* Started experimental work on multi-cluster secret federation.
+* Documentation updates. 
 
 ## [v0.21.2] - 2023-10-18
 
