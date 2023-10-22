@@ -17,3 +17,7 @@ keygen-bundle:
 keygen-push:
 	./hack/push.sh "vsecm-keygen" \
 		$(VERSION) "vsecm/vsecm-keygen"
+
+keygen-push-local:
+	./hack/push.sh "vsecm-keygen" $(VERSION) \
+		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-keygen"

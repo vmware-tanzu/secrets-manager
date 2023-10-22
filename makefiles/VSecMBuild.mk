@@ -59,7 +59,7 @@ build: \
 # Builds everything and pushes to the local registry.
 build-local: \
 	keygen-bundle \
-	keygen-push \
+	keygen-push-local \
 	example-sidecar-bundle \
 	example-sidecar-push-local \
 	example-sdk-bundle \

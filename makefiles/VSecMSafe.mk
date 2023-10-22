@@ -49,19 +49,19 @@ safe-push-photon-fips:
 
 # Pushes the “VSecM Safe” container image to the local registry.
 safe-push-ist-local:
-	./hack/push.sh "vsecm-ist-safe" $(VERSION) "localhost:5000/vsecm-ist-safe"
+	./hack/push.sh "vsecm-ist-safe" $(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-safe"
 
 # Pushes the “VSecM Safe” container image to the local registry.
 safe-push-ist-fips-local:
 	./hack/push.sh "vsecm-ist-fips-safe" \
-		$(VERSION) "localhost:5000/vsecm-ist-fips-safe"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-fips-safe"
 
 # Pushes the “VSecM Safe” (Photon OS) container image to the local registry.
 safe-push-photon-local:
 	./hack/push.sh "vsecm-photon-safe" \
-		$(VERSION) "localhost:5000/vsecm-photon-safe"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-safe"
 
 # Pushes the “VSecM Safe” (Photon OS) container image to the local registry.
 safe-push-photon-fips-local:
 	./hack/push.sh "vsecm-photon-fips-safe" \
-		$(VERSION) "localhost:5000/vsecm-photon-fips-safe"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-fips-safe"

@@ -22,7 +22,10 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-# [v0.21.2] - 2023-10-16
+* Started experimental work on multi-cluster secret federation.
+* Documentation updates. 
+
+## [v0.21.2] - 2023-10-18
 
 This is a purely security-focused release that fixes several vulnerabilities and 
 also hardens the AES encryption flow against time-based attacks.

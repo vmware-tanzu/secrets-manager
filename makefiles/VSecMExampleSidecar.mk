@@ -21,7 +21,7 @@ example-sidecar-push:
 # Pushes the “Sidecar” use case container image to the local registry.
 example-sidecar-push-local:
 	./hack/push.sh "example-using-sidecar" \
-		$(VERSION) "localhost:5000/example-using-sidecar"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-sidecar"
 
 # Deploys the “Sidecar” use case app from the public registry into the cluster.
 example-sidecar-deploy:

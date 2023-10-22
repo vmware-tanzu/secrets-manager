@@ -21,7 +21,7 @@ example-sdk-push:
 # Pushes the “SDK” use case container image to the local registry.
 example-sdk-push-local:
 	./hack/push.sh "example-using-sdk" \
-		$(VERSION) "localhost:5000/example-using-sdk"
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-sdk"
 
 # Deploys the “SDK” use case app from the public registry into the cluster.
 example-sdk-deploy:
