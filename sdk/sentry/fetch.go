@@ -105,6 +105,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	}
 
 	log.TraceLn(&cid, "Sentry:Fetch", p)
+	log.TraceLn(&cid, "Sentry:Fetch svid:id: ", svid.ID.String())
 
 	r, err := client.Get(p)
 	if err != nil {
