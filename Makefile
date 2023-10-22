@@ -12,7 +12,7 @@
 VERSION=0.21.2
 IMAGE=distroless
 DEPLOYMENT_NAME=vsecm
-VSECM_LOCAL_REGISTRY_URL ?= "localhost:32000"
+VSECM_LOCAL_REGISTRY_URL ?= "localhost:5000"
 
 # Utils
 include ./makefiles/VSecMMacOs.mk
