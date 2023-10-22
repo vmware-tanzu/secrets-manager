@@ -42,6 +42,8 @@ spec:
               value: "spiffe://cluster1.demo/workload/"
             - name: VSECM_SAFE_SVID_PREFIX
               value: "spiffe://cluster2.demo/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: "https://10.0.0.71:8443"
       volumes:
         - name: spire-agent-socket
           #          csi:
