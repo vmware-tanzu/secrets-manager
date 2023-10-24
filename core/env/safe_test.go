@@ -750,3 +750,58 @@ func TestSafeSecretNamePrefix(t *testing.T) {
 		})
 	}
 }
+
+func TestSafeIvInitializationInterval(t *testing.T) {
+	tests := []struct {
+		name    string
+		setup   func()
+		cleanup func()
+		want    int
+	}{
+		{
+			name: "get default IV initialization interval",
+			want: 50,
+		},
+		{
+			name: "get custom IV initialization interval",
+			setup: func() {
+				if err := os.Setenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL", "20"); err != nil {
+					t.Errorf("SafeIvInitializationInterval = failed to setup, with error: %+v", err)
+				}
+			},
+			cleanup: func() {
+				if err := os.Unsetenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL"); err != nil {
+					t.Errorf("SafeIvInitializationInterval = failed to cleanup, with error: %+v", err)
+				}
+			},
+			want: 20,
+		},
+		{
+			name: "invalid IV initialization interval",
+			setup: func() {
+				if err := os.Setenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL", "abc"); err != nil {
+					t.Errorf("SafeIvInitializationInterval = failed to setup, with error: %+v", err)
+				}
+			},
+			cleanup: func() {
+				if err := os.Unsetenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL"); err != nil {
+					t.Errorf("SafeIvInitializationInterval = failed to cleanup, with error: %+v", err)
+				}
+			},
+			want: 50,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if tt.setup != nil {
+				tt.setup()
+			}
+			if got := SafeIvInitializationInterval(); got != tt.want {
+				t.Errorf("SafeIvInitializationInterval() = %v, want %v", got, tt.want)
+			}
+			if tt.cleanup != nil {
+				tt.cleanup()
+			}
+		})
+	}
+}

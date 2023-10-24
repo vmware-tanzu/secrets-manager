@@ -954,6 +954,8 @@ spec:
               value: "30000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
+            - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+              value: "50"
             - name: VSECM_SENTINEL_SVID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_SAFE_SVID_PREFIX
@@ -1118,7 +1120,7 @@ spec:
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
         - name: spire-controller-manager
-          image: ghcr.io/spiffe/spire-controller-manager:nightly
+          image: ghcr.io/spiffe/spire-controller-manager:0.3.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9443
