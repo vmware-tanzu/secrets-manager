@@ -15,6 +15,7 @@ export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
 export PHOTON_IMAGE := --set global.baseImage=photon
 export PHOTON_FIPS_IMAGE := --set global.baseImage=photos-fips
 export HELM_CHART_PATH := "./helm-charts/${VERSION}"
+export NAME_TEMPLATE := --name-template vsecm
 
 # Render helm chart and save as kubernetes manifests
 k8s-manifests-update:
