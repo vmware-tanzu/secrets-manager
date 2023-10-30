@@ -50,6 +50,8 @@ environments:
    value: "30000"
  - name: VSECM_SAFE_FIPS_COMPLIANT
    value: "false"
+ - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+   value: "50"
 
 imagePullSecrets: []
 nameOverride: ""
