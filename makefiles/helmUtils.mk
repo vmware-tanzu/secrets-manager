@@ -38,7 +38,7 @@ helm-install:
 	name ${DEPLOYMENT_NAME}."
 	@echo "To change version, image, deployment name pass VERSION, IMAGE, DEPLOYMENT_NAME variable with another value."
 	@echo "**************************************************************"
-	@echo "Ex. make k8s-manifests-update VERSION=0.22.0 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
+	@echo "Ex. make helm-install VERSION=0.22.0 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
 	make helm-install-${IMAGE}
 
 helm-install-distroless:
