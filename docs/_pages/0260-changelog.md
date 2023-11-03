@@ -22,8 +22,19 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+* TBD
+
+## [v0.21.3] - 2023-11-03
+
+### Added
+
 * Started experimental work on multi-cluster secret federation.
-* Documentation updates. 
+* Various Documentation updates.
+* Automated Kubernetes manifest creation from Helm charts.
+
+### Security 
+
+* Fixed GHSA-m425-mq94-257g [gRPC-Go HTTP/2 Rapid Reset vulnerability](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/7) 
 
 ## [v0.21.2] - 2023-10-18
 
