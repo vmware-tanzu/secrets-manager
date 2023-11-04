@@ -1,0 +1,130 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsecm-safe
+  namespace: vsecm-system
+  labels:
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/part-of: vsecm-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-safe
+      app.kubernetes.io/part-of: vsecm-system
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vsecm-safe
+        app.kubernetes.io/part-of: vsecm-system
+    spec:
+      serviceAccountName: vsecm-safe
+      containers:
+        - name: main
+          image: vsecm/vsecm-ist-safe:0.21.3
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+            - name: vsecm-data
+              mountPath: /data
+            - name: vsecm-age
+              mountPath: /key
+              readOnly: true
+          #
+          # You can configure VSecM Safe by providing environment variables.
+          #
+          # See https://vsecm.com/configuration for more information about
+          # these environment variables.
+          #
+          # When you don’t explicitly provide env vars here, VMware Secrets Manager
+          # Safe will assume the default values outlined in the given link above.
+          #
+          env:
+            - name: SPIFFE_ENDPOINT_SOCKET
+              value: "unix:///spire-agent-socket/agent.sock"
+            - name: VSECM_LOG_LEVEL
+              value: "7"
+            - name: VSECM_WORKLOAD_SVID_PREFIX
+              value: "spiffe://vsecm.com/workload/"
+            - name: VSECM_SENTINEL_SVID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+            - name: VSECM_SAFE_SVID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_SAFE_DATA_PATH
+              value: "/data"
+            - name: VSECM_CRYPTO_KEY_NAME
+              value: "vsecm-safe-age-key"
+            - name: VSECM_CRYPTO_KEY_PATH
+              value: "/key/key.txt"
+            - name: VSECM_SAFE_MANUAL_KEY_INPUT
+              value: "false"
+            - name: VSECM_SAFE_SECRET_NAME_PREFIX
+              value: "vsecm-secret-"
+            - name: VSECM_PROBE_LIVENESS_PORT
+              value: ":8081"
+            - name: VSECM_PROBE_READINESS_PORT
+              value: ":8082"
+            - name: VSECM_SAFE_TLS_PORT
+              value: ":8443"
+            - name: VSECM_SAFE_SECRET_BUFFER_SIZE
+              value: "10"
+            - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
+              value: "10"
+            - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
+              value: "10"
+            - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
+              value: "10"
+            - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
+              value: "false"
+            - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
+              value: "30000"
+            - name: VSECM_SAFE_FIPS_COMPLIANT
+              value: "false"
+            - name: VSECM_SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8081
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8082
+            initialDelaySeconds: 1
+            periodSeconds: 10
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+        # `vsecm-data` is used to persist the encrypted backups of the secrets.
+        - name: vsecm-data
+          hostPath:
+            path: /var/local/vsecm/data
+            type: DirectoryOrCreate
+        # `vsecm-age` stores the encryption keys to restore secrets from vsecm-data.
+        - name: vsecm-age
+          secret:
+            secretName: vsecm-safe-age-key
+            items:
+              - key: KEY_TXT
+                path: key.txt

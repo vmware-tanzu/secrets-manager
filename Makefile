@@ -9,7 +9,7 @@
 # */
 
 # The common version tag is assigned to all the things.
-VERSION=0.21.2
+VERSION=0.21.3
 IMAGE=distroless
 DEPLOYMENT_NAME=vsecm
 VSECM_LOCAL_REGISTRY_URL ?= "localhost:5000"
