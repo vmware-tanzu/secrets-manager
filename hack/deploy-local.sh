@@ -47,6 +47,7 @@ if kubectl get secret -n vsecm-system | grep vsecm-safe-age-key; then
 else
   kubectl apply -f ./Secret.yaml
 fi
+
 kubectl apply -f ./ServiceAccount.yaml
 kubectl apply -f ./Identity.yaml
 kubectl apply -f ./Service.yaml
