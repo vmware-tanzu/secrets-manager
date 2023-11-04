@@ -21,8 +21,26 @@ kubectl wait --for=condition=Ready pod -n spire-system --selector=app=spire-agen
 echo "next"
 
 cd safe || exit
+
 kubectl apply -f ./Namespace.yaml
 kubectl apply -f ./Role.yaml
+
+echo "should have created clusterrole and clusterrolebinding:"
+# Get clusterroles and clusterrolebindings
+clusterrole_output=$(kubectl get clusterrole)
+clusterrolebinding_output=$(kubectl get clusterrolebinding)
+# Check for the presence of "vsecm" in the clusterrole output
+echo "$clusterrole_output" | grep "vsecm" > /dev/null
+clusterrole_status=$?
+# Check for the presence of "vsecm" in the clusterrolebinding output
+echo "$clusterrolebinding_output" | grep "vsecm" > /dev/null
+clusterrolebinding_status=$?
+# Exit if either clusterrole or clusterrolebinding is not present
+if [ $clusterrole_status -ne 0 ] || [ $clusterrolebinding_status -ne 0 ]; then
+    echo "Error: Required clusterrole or clusterrolebinding with 'vsecm' not found."
+    exit 1
+fi
+
 if kubectl get secret -n vsecm-system | grep vsecm-safe-age-key; then
   echo "!!! The secret 'vsecm-safe-age-key' already exists; not going to override it."
   echo "!!! If you want to modify it, make sure you back it up first."
