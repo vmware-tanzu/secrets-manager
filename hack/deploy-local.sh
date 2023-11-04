@@ -30,10 +30,10 @@ echo "should have created clusterrole and clusterrolebinding:"
 clusterrole_output=$(kubectl get clusterrole)
 clusterrolebinding_output=$(kubectl get clusterrolebinding)
 # Check for the presence of "vsecm" in the clusterrole output
-echo "$clusterrole_output" | grep "vsecm" > /dev/null
+echo "$clusterrole_output" | grep "secret-readwriter" > /dev/null
 clusterrole_status=$?
 # Check for the presence of "vsecm" in the clusterrolebinding output
-echo "$clusterrolebinding_output" | grep "vsecm" > /dev/null
+echo "$clusterrolebinding_output" | grep "secret-readwriter-binding" > /dev/null
 clusterrolebinding_status=$?
 # Exit if either clusterrole or clusterrolebinding is not present
 if [ $clusterrole_status -ne 0 ] || [ $clusterrolebinding_status -ne 0 ]; then
