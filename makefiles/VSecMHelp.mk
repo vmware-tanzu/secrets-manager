@@ -81,6 +81,8 @@ h:
 	@echo "˃ make build-local;make deploy-photon-fips-local;make test-local;"
 	@echo "--------------------------------------------------------------------"
 	@echo "Building and Remote Testing:"
+	@echo "    > Make sure you 'export DOCKER_CONTENT_TRUST=1' first."
+	@echo "    > --"
 	@echo "    > make build;make deployABC; make test"
 	@echo "    > (where ABC is one of: -fips, -photon, -photon-fips)"
 	@echo "Tagging:"
