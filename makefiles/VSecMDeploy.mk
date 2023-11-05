@@ -25,21 +25,29 @@ k8s-start:
 
 # Deploys VSecM to the cluster.
 deploy:
-	./hack/deploy.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-remote-distroless.yaml
 deploy-fips:
-	./hack/deploy-fips.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-remote-distrolesss-fips.yaml
 deploy-photon:
-	./hack/deploy-photon.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-remote-photon.yaml
 deploy-photon-fips:
-	./hack/deploy-photon-fips.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-remote-photon-fips.yaml
 deploy-local:
-	./hack/deploy-local.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-local-distroless.yaml
 deploy-fips-local:
-	./hack/deploy-fips-local.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-local-distrolesss-fips.yaml
 deploy-photon-local:
-	./hack/deploy-photon-local.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-local-photon.yaml
 deploy-photon-fips-local:
-	./hack/deploy-photon-fips-local.sh
+	kubectl apply -f ./k8s/${VERSION}/crds
+	kubectl apply -f ./k8s/${VERSION}/${VERSION}-local-photon-fips.yaml
 
 #
 # ## Tests ##

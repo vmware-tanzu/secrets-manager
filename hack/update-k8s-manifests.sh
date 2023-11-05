@@ -33,17 +33,19 @@ if [ ! -d "$helmChartPath" ]; then
 fi
 
 # Producing k8s manifests, using helm-template command
-mkdir -p "$k8sManifestsDirectory" || exit 1
+mkdir -p "$k8sManifestsDirectory/crds" || exit 1
+
+cp "$helmChartPath/crds/"* "$k8sManifestsDirectory/crds/"
 
 echo "producing manifests for local deployments"
-helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_IMAGE > "$k8sManifestsDirectory/$version-local-distrolesss.yaml" || exit 1
-helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_FIPS_IMAGE > "$k8sManifestsDirectory/$version-local-distrolesss-fips.yaml" || exit 1
+helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_IMAGE > "$k8sManifestsDirectory/$version-local-distroless.yaml" || exit 1
+helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_FIPS_IMAGE > "$k8sManifestsDirectory/$version-local-distroless-fips.yaml" || exit 1
 helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $PHOTON_IMAGE > "$k8sManifestsDirectory/$version-local-photon.yaml" || exit 1
 helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $PHOTON_FIPS_IMAGE > "$k8sManifestsDirectory/$version-local-photon-fips.yaml" || exit 1
 
 echo "producing manifests for remote deployments"
-helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_IMAGE > "$k8sManifestsDirectory/$version-remote-distrolesss.yaml" || exit 1
-helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_FIPS_IMAGE > "$k8sManifestsDirectory/$version-remote-distrolesss-fips.yaml" || exit 1
+helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_IMAGE > "$k8sManifestsDirectory/$version-remote-distroless.yaml" || exit 1
+helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_FIPS_IMAGE > "$k8sManifestsDirectory/$version-remote-distroless-fips.yaml" || exit 1
 helm template "$helmChartPath" $NAME_TEMPLATE $PHOTON_IMAGE > "$k8sManifestsDirectory/$version-remote-photon.yaml" || exit 1
 helm template "$helmChartPath" $NAME_TEMPLATE $PHOTON_FIPS_IMAGE > "$k8sManifestsDirectory/$version-remote-photon-fips.yaml" || exit 1
 
