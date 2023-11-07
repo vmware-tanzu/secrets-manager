@@ -1293,34 +1293,3 @@ webhooks:
         operations: ["CREATE", "UPDATE"]
         resources: ["clusterstaticentries"]
     sideEffects: None
----
-# Source: vsecm/charts/safe/templates/tests/test-connection.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets… secret
-# >/
-# <>/' Copyright 2023–present VMware, Inc.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "vsecm-safe-test-connection"
-  labels:
-    helm.sh/chart: safe-0.22.0
-    app.kubernetes.io/name: vsecm-safe
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    "helm.sh/hook": test
-spec:
-  containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['vsecm-safe:8443']
-  restartPolicy: Never
