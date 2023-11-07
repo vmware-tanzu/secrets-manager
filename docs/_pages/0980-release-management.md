@@ -279,7 +279,7 @@ Upon completion, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into
 the `gh-pages` branch.
 
-[release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/release_helm_chart.sh
+[release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/release-helm-chart.sh
 
 ### 10. Initializing helm-charts
 
@@ -302,7 +302,7 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-[init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/init_next_helm_chart.sh
+[init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
 ### 11. All Set 🎉
 
