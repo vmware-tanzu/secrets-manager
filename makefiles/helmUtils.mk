@@ -61,6 +61,11 @@ helm-uninstall:
 	@echo "Ex. make helm-uninstall DEPLOYMENT_NAME=vsecm"
 	helm uninstall ${DEPLOYMENT_NAME}
 
+# make target to release helm-chart
+# usage: make helm-chart-release VSECM_VERSION=0.21.1
+helm-chart-release:
+	./hack/release-helm-chart.sh ${VERSION}
+
 define validate_parameters
 	@if [ ${IMAGE} != "distroless" ] && [ ${IMAGE} != "distroless-fips" ] && [ ${IMAGE} != "photon" ] && [ ${IMAGE} != "photon-fips" ]; then\
 		echo "Invalid IMAGE, valid options for IMAGE are: [distroless, distroless-fips, photon, photon-fips] ";\
