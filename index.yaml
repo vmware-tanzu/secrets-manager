@@ -2,8 +2,43 @@ apiVersion: v1
 entries:
   vsecm:
   - apiVersion: v2
+    appVersion: 0.21.3
+    created: "2023-11-09T09:41:29.918158+05:30"
+    dependencies:
+    - condition: global.deploySpire
+      name: spire
+      repository: file://charts/spire
+      version: 0.21.3
+    - name: safe
+      repository: file://charts/safe
+      version: 0.21.3
+    - name: sentinel
+      repository: file://charts/sentinel
+      version: 0.21.3
+    description: Helm chart for VMware Secrets Manager
+    digest: 1351e40374014aaaab1057f0570e58f5eea496af8de824784f4d9a1a9b466c7a
+    home: https://vsecm.com/
+    keywords:
+    - secrets
+    - kubernetes
+    - secrets-manager
+    - spire
+    - spiffe
+    - zero-trust
+    - cloud-native
+    - edge
+    - secret-management
+    - security
+    name: vsecm
+    sources:
+    - https://github.com/vmware-tanzu/secrets-manager
+    type: application
+    urls:
+    - vsecm-0.21.3.tgz
+    version: 0.21.3
+  - apiVersion: v2
     appVersion: 0.21.2
-    created: "2023-11-09T01:24:49.256758+05:30"
+    created: "2023-11-09T09:41:29.916931+05:30"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -38,7 +73,7 @@ entries:
     version: 0.21.2
   - apiVersion: v2
     appVersion: 0.21.1
-    created: "2023-11-09T01:24:49.255292+05:30"
+    created: "2023-11-09T09:41:29.915628+05:30"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -73,7 +108,7 @@ entries:
     version: 0.21.1
   - apiVersion: v2
     appVersion: 0.21.0
-    created: "2023-11-09T01:24:49.25408+05:30"
+    created: "2023-11-09T09:41:29.914452+05:30"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -108,7 +143,7 @@ entries:
     version: 0.21.0
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2023-11-09T01:24:49.25274+05:30"
+    created: "2023-11-09T09:41:29.913283+05:30"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -132,4 +167,4 @@ entries:
     urls:
     - vsecm-0.1.0.tgz
     version: 0.1.0
-generated: "2023-11-09T01:24:49.250423+05:30"
+generated: "2023-11-09T09:41:29.910354+05:30"
