@@ -40,7 +40,11 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 
 ### VSecM v0.22.0 (*codename: Boötes*) 
 
-**Sep 12, 2023 – Oct 9, 2023**
+**Sep 12, 2023 – Jan 31, 2024**
+
+This is a relatively longer release because due to the “time-stop” effect of the
+holiday season, the majority of the core contributors will be spending quality
+time with their loved ones and recharging their batteries for the upcoming year.
 
 This release will be more about enhancing deployment workflows, testing automation
 and CI/CD pipelines. We will also focus on improving the overall user experience.
@@ -198,9 +202,9 @@ We will also stretch our research into non-Kubernetes deployment options.
 
 **Aug 15, 2023 – Sep, 11, 2023**
 
-This is a stability-focused release. We will focus on fixing bugs, improving
-stability, and improving workflows and CI/CD pipelines. We will also create
-missing documentation and generate new video tutorials that feature the current
+This was a stability-focused release. We focused on fixing bugs, improving
+stability, and improving workflows and CI/CD pipelines. We also created
+missing documentation and generated new video tutorials that feature the current
 version of **VMware Secrets Manager**.
 
 [Check out the release notes](/docs/changelog/) to learn more about what has
