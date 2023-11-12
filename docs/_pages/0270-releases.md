@@ -17,7 +17,7 @@ next_url: /docs/roadmap/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0006-releases.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0270-releases.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 **VMware Secrets Manager** signs all of its releases using GitHub’s built-in
