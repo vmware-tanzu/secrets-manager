@@ -17,7 +17,7 @@ next_url: /docs/releases/
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0005-changelog.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0260-changelog.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Recent Updates
