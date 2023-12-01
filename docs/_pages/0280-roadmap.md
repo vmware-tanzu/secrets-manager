@@ -17,7 +17,7 @@ next_url: /
 ---
 
 <p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0007-roadmap.md"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0280-roadmap.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 ## Introduction
