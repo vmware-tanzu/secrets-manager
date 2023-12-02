@@ -144,7 +144,7 @@ the [documentation](https://pkg.go.dev/github.com/spiffe/go-spiffe/v2).
 **VMware Secrets Manager** uses the `ClusterSPIFFEID` and `ClusterFederatedTrustDomain`
 to dispatch identities to workloads, and federate cluster, respectively. If you
 are new to these concepts, we recommend you [check out the SPIRE Controller Manager 
-repository](https://github.com/spiffe/spire-controller-manager/tree/main)
+repository](https://github.com/spiffe/spire-controller-manager/tree/main).
 
 ### VSecM Architecture
 
