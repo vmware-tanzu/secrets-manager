@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -8,14 +10,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: example
-  namespace: default
-spec:
-  template:
-    spec:
-      containers:
-      - name: main
-        image: localhost:5000/example-using-sdk:0.21.4
+. ./env.sh
+
+kubectl exec "$SENTINEL" -n vsecm-system -- safe -l

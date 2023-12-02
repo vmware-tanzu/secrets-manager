@@ -31,7 +31,7 @@ spec:
       serviceAccountName: vsecm-safe
       containers:
         - name: main
-          image: localhost:32000/vsecm-ist-safe:0.21.3
+          image: localhost:32000/vsecm-ist-safe:0.21.4
           ports:
             - containerPort: 8443
           volumeMounts:
