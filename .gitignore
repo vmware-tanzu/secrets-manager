@@ -1,0 +1,6 @@
+/vendor
+/helm-charts
+/examples
+/.idea
+/.DS_Store
+.DS_Store
