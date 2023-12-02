@@ -263,25 +263,7 @@ git tag -s v0.22.0-000 -a v0.22.0-000
 git push origin --tags
 ```
 
-### 10. Release helm-charts
-
-We offer the [release_helm_chart.sh][release_script] script for your use.
-To execute the script, provide the version of the helm-charts that you want
-to release as an argument.
-
-Use the following format: `./hack/release-helm-chart.sh <version>`
-For example, to release version 0.22.0, run:
-`./hack/release-helm-chart.sh 0.22.0`
-
-Follow the instructions provided by the script for successful execution.
-
-Upon completion, the script will display a link on the console.
-Use this link to create a pull request (PR) and merge it into
-the `gh-pages` branch.
-
-[release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/release-helm-chart.sh
-
-### 10. Initializing helm-charts
+### 10. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
@@ -302,9 +284,27 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
+### 11. Release Helm Charts
+
+We offer the [release_helm_chart.sh][release_script] script for your use.
+To execute the script, provide the version of the helm-charts that you want
+to release as an argument.
+
+Use the following format: `./hack/release-helm-chart.sh <version>`
+For example, to release version 0.22.0, run:
+`./hack/release-helm-chart.sh 0.22.0`
+
+Follow the instructions provided by the script for successful execution.
+
+Upon completion, the script will display a link on the console.
+Use this link to create a pull request (PR) and merge it into
+the `gh-pages` branch.
+
+[release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/release-helm-chart.sh
+
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 11. All Set 🎉
+### 12. All Set 🎉
 
 You’re all set.
 
