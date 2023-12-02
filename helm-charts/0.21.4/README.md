@@ -22,7 +22,7 @@ To use VMware Secrets Manager, follow the steps below:
 3. Install VMware Secrets Manager using Helm:
 
     ```bash
-    helm install vsecm vsecm/vsecm --version 0.21.3
+    helm install vsecm vsecm/vsecm --version 0.21.4
     ```
 
 ## Options
@@ -37,7 +37,7 @@ Default values are `true` and `distroless` for `global.deploySpire` and `global.
 Here's an example command with the above options:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.21.3 --set global.deploySpire=true --set global.baseImage=distroless
+helm install vsecm vsecm/helm-charts --version 0.21.4 --set global.deploySpire=true --set global.baseImage=distroless
 ```
 
 Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/photos-fips>` with the desired values.
