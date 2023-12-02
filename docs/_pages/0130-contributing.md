@@ -98,6 +98,70 @@ More items may be checked depending on the nature of the change.
 4. If the PR meets all the criteria, approve it; otherwise, request changes and 
    provide **constructive** feedback.
 
+## What Technologies Do I Need to Know?
+
+You don’t have to be an expert in all of these technologies to contribute to
+**VMware Secrets Manager**. However, being familiar with the following 
+concepts and technologies will help you get started faster.
+
+### Go
+
+**VMware Secrets Manager** is written in [Go](https://golang.org/), so you
+should be familiar with the language and its idioms. If you are new to Go,
+we recommend going through the [Go Tour](https://tour.golang.org/welcome/1)
+and the [Effective Go](https://golang.org/doc/effective_go.html) guide.
+
+### Kubernetes 
+
+**VMware Secrets Manager** is a Kubernetes-native application, so you should
+be familiar with the basics of Kubernetes. If you are new to Kubernetes, we
+recommend going through the 
+[Kubernetes Basics](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
+
+### Helm
+
+**VMware Secrets Manager** is packaged as a Helm chart, so you should be 
+familiar with the basics of Helm. If you are new to Helm, we recommend going
+through the [Helm Quickstart Guide](https://helm.sh/docs/intro/quickstart/).
+
+### SPIFFE and SPIRE
+
+**VMware Secrets Manager** uses [SPIFFE](https://spiffe.io/) and 
+[SPIRE](https://spiffe.io/spire/) to establish an identity control plane, so
+you should be familiar with the basics of SPIFFE and SPIRE. If you are new to
+SPIFFE and SPIRE, we recommend going through the quickstart guides on the
+[SPIFFE](https://spiffe.io/docs/latest/spiffe/getting-started/).
+
+### `go-spiffe`
+
+**VMware Secrets Manager** uses the [`go-spiffe`](https://github.com/spiffe/go-spiffe)
+to interact with the SPIFFE and SPIRE APIs, so you should be familiar with the
+basics of `go-spiffe`. If you are new to `go-spiffe`, we recommend going through
+the [documentation](https://pkg.go.dev/github.com/spiffe/go-spiffe/v2).
+
+### `ClusterSPIFFEID` and `ClusterFederatedTrustDomain`
+
+**VMware Secrets Manager** uses the `ClusterSPIFFEID` and `ClusterFederatedTrustDomain`
+to dispatch identities to workloads, and federate cluster, respectively. If you
+are new to these concepts, we recommend you [check out the SPIRE Controller Manager 
+repository](https://github.com/spiffe/spire-controller-manager/tree/main)
+
+### VSecM Architecture
+
+**VMware Secrets Manager** has several components, each with its own
+responsibilities. [Check out the architecture overview](/docs/architecture/)
+to get a high-level understanding of the components and their interactions. 
+
+While you are at there, we strongly recommend going through the entire 
+[documentation](/docs/) to get a good understanding of the product.
+
+### Docker
+
+We have several [Dockerfiles](https://docs.docker.com/engine/reference/builder/)
+in the repository, so you should be familiar with the basics of Docker. If you
+are new to Docker, we recommend going through the [Docker Get 
+Started](https://docs.docker.com/get-started/) guide.
+
 [fork]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks
 [contributing]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING_DCO.md
 [coc]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md
