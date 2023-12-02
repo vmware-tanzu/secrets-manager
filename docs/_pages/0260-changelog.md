@@ -26,6 +26,11 @@ next_url: /docs/releases/
 
 ## [v0.21.4] - 2023-11-30
 
+This patch release includes one security update, a minor refactoring, and 
+documentation updates.
+
+### Security
+
 * This is a patch release to address GHSA-2c7c-3mj9-8fqh [Decryption of malicious 
   PBES2 JWE objects can consume unbounded system resources](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/8)
 
