@@ -269,9 +269,9 @@ We offer the [release_helm_chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
 to release as an argument.
 
-Use the following format: `./helm-charts/release_helm_chart.sh <version>`
+Use the following format: `./hack/release-helm-chart.sh <version>`
 For example, to release version 0.22.0, run:
-`./helm-charts/release_helm_chart.sh 0.22.0`
+`./hack/release-helm-chart.sh 0.22.0`
 
 Follow the instructions provided by the script for successful execution.
 
@@ -287,7 +287,7 @@ To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
 during the release development process.
 
-At the beginning of a VSecM release, the [init_next_helm_chart.sh][init_script]
+At the beginning of a VSecM release, the [init-next-helm-chart.sh][init_script]
 script is used to initialize the helm-charts.
 
 To initialize a new helm-chart, run the following command using the init script:
