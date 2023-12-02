@@ -1,0 +1,1526 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head><meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><title>Production Setup · VMware Secrets Manager</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="VMware Secrets Manager for Cloud-Native Apps is a cloud-native secure store  for secrets management. It provides a minimal and intuitive API, ensuring  practical security without compromising user experience.
+Endorsed by industry experts, VMware Secrets Manager is a ground-up re-imagination  of secrets management, leveraging SPIRE for authentication and providing a  cloud-native way to manage secrets end-to-end.
+VMware Secrets Manager is resilient and secure by default, storing sensitive  data in memory and encrypting any data saved to disk.
+With VMware Secrets Manager, you can rest assured that your sensitive data is  always secure and protected.
+"><meta name="generator" content="Jekyll (using style of GitBook 3.2.3)"><meta name="author" content="Volkan Özçelik and Contributors"><link rel="stylesheet" href="https://use.typekit.net/sco6dym.css">
+
+<link rel="stylesheet" href="/assets/gitbook/style.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/assets/gitbook/custom.css">
+
+
+
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/assets/vsecm-32.png" type="image/png" sizes="32x32">
+<link rel="shortcut icon" href="/assets/vsecm-64.png" type="image/png" sizes="64x64">
+<link rel="shortcut icon" href="/assets/vsecm-128.png" type="image/png" sizes="128x128">
+<link rel="shortcut icon" href="/assets/vsecm-256.png" type="image/png" sizes="256x256">
+
+
+
+
+            <link rel="prev" href="/docs/dev-env/" />
+        
+
+        
+            <link rel="next" href="/docs/use-cases/" />
+        
+    </head>
+    <body>
+        <div class="book"><div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search" />
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="">
+            
+                <a href="/">
+                    VMware Secrets Manager
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            
+
+                <!-- <p>pages</p> -->
+                
+                    
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/community/">
+                            
+                                <a href="/docs/community/">
+                                    Community
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contributor-sync/">
+                            
+                                <a href="/docs/contributor-sync/">
+                                    Contributor Hours
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contact/">
+                            
+                                <a href="/docs/contact/">
+                                    Contact
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/maintainers/">
+                            
+                                <a href="/docs/maintainers/">
+                                    Maintainers
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/security/">
+                            
+                                <a href="/docs/security/">
+                                    Security
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/blog/">
+                            
+                                <a href="/docs/blog/">
+                                    VSecM Blog
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                            <li class="divider"></li>
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/navigation/">
+                            
+                                <a href="/docs/navigation/">
+                                    Preface
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/about/">
+                            
+                                <a href="/docs/about/">
+                                    What is VSecM?
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/endorsements/">
+                            
+                                <a href="/docs/endorsements/">
+                                    Things People Say
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/quickstart/">
+                            
+                                <a href="/docs/quickstart/">
+                                    Quickstart
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/philosophy/">
+                            
+                                <a href="/docs/philosophy/">
+                                    VSecM Design Philosophy
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/architecture/">
+                            
+                                <a href="/docs/architecture/">
+                                    VSecM Architecture
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/installation/">
+                            
+                                <a href="/docs/installation/">
+                                    VSecM Installation
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/cli/">
+                            
+                                <a href="/docs/cli/">
+                                    VSecM CLI
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/sdk/">
+                            
+                                <a href="/docs/sdk/">
+                                    VSecM SDK
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/configuration/">
+                            
+                                <a href="/docs/configuration/">
+                                    Configuring VSecM
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-the-source/">
+                            
+                                <a href="/docs/use-the-source/">
+                                    Building From Source
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contributing/">
+                            
+                                <a href="/docs/contributing/">
+                                    Contribute to VSecM
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/dev-env/">
+                            
+                                <a href="/docs/dev-env/">
+                                    Development Environment
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter active" data-level="1.2" data-path="/docs/production/">
+                            
+                                <a href="/docs/production/">
+                                    Production Setup
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-cases/">
+                            
+                                <a href="/docs/use-cases/">
+                                    Use Cases
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-cases-overview/">
+                            
+                                <a href="/docs/use-cases-overview/">
+                                    Overview
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-sidecar/">
+                            
+                                <a href="/docs/use-case-sidecar/">
+                                    Using VSecM Sidecar
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-sdk/">
+                            
+                                <a href="/docs/use-case-sdk/">
+                                    VSecM Developer SDK
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-init-container/">
+                            
+                                <a href="/docs/use-case-init-container/">
+                                    VSecM Init Container
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-encryption/">
+                            
+                                <a href="/docs/use-case-encryption/">
+                                    VSecM Encryption
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-transformation/">
+                            
+                                <a href="/docs/use-case-transformation/">
+                                    Secret Transformation
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/showcase/">
+                            
+                                <a href="/docs/showcase/">
+                                    VSecM Showcase
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+                            <li class="divider"></li>
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/changelog/">
+                            
+                                <a href="/docs/changelog/">
+                                    Changelog
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/releases/">
+                            
+                                <a href="/docs/releases/">
+                                    Releases
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/roadmap/">
+                            
+                                <a href="/docs/roadmap/">
+                                    Roadmap
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                            <li class="divider"></li>
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/release-management/">
+                            
+                                <a href="/docs/release-management/">
+                                    Release Management
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/governance/">
+                            
+                                <a href="/docs/governance/">
+                                    Governance
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/privacy/">
+                            
+                                <a href="/docs/privacy/">
+                                    Privacy Policy
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                    
+                        <li class="divider"></li>
+                    
+                
+            
+
+                <!-- <p>posts</p> -->
+                
+                    
+
+                    
+
+                        
+                        
+                        
+
+                        
+
+                    
+
+                    
+                        <li class="divider"></li>
+                    
+                
+            
+        </ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href="." >Production Setup</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner"><div class="page-wrapper" tabindex="-1" role="main"><div class="block-tip" style="border-color: var(--c-tip);
+    color: #143a29;
+    font-family: var(--font-family);
+    padding: 0.5em;
+    padding-left: 0.96em;
+    border-left-width: 0.5em;
+    text-align: center;
+    background: #fdfeac;
+    background: -webkit-linear-gradient(to right, #fdfeac, #d5eefe);
+    background: linear-gradient(to right, #fdfeac, #d5eefe);
+
+    border-radius: 4px;
+
+    max-width: 650px;
+    display: block;
+    margin: 1em auto 3em auto;
+
+    box-shadow:
+            rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+            rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
+    <p>The next <strong><a href="/docs/contributor-sync/"
+    style="text-decoration: underline; color: #0946EC"
+    >VSecM Contributor Sync</a></strong> will be on…<br>
+    <strong>Thursday, 2024-01-25</strong>
+    at <strong>8:00am</strong> Pacific time.</p>
+</div>
+
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+
+                    <svg style="margin: 0 auto; display:block" width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <linearGradient x1="96.643987%" y1="24.2510568%" x2="0%" y2="95.5884291%" id="linearGradient-dak4vz2qs8-1">
+                                <stop stop-color="#00C4F0" offset="0%"></stop>
+                                <stop stop-color="#0091DD" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M108.105505,68.6610169 L108.105505,68.2618702 L108.105505,33.6222863 C108.095283,30.8404845 106.266824,28.3319543 103.457131,27.2450106 C88.3812377,21.5102429 72.1842728,18.6261566 55.8486239,18.7676789 L55.8486239,68.6610169 L108.105505,68.6610169 Z" id="path-dak4vz2qs8-2"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-3">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="94.5118083%" y1="0%" x2="40.5044727%" y2="74.0732833%" id="linearGradient-dak4vz2qs8-4">
+                                <stop stop-color="#4083C4" offset="0%"></stop>
+                                <stop stop-color="#1E4C92" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M16.5458716,52.9576271 C17.0643668,78.2624453 34.468286,100.609782 60.208187,109.021808 L66.1633464,111.061401 C68.1372377,111.732731 70.2232412,112.076271 72.3256881,112.076271 L72.3256881,52.9576271 L16.5458716,52.9576271 Z" id="path-dak4vz2qs8-5"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-6">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="50%" y1="54.6798127%" x2="100%" y2="90.0117392%" id="linearGradient-dak4vz2qs8-7">
+                                <stop stop-color="#499D2F" offset="0%"></stop>
+                                <stop stop-color="#236415" offset="100%"></stop>
+                            </linearGradient>
+                            <rect id="path-dak4vz2qs8-8" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                            <filter x="-6.3%" y="-9.0%" width="112.5%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-9">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="4.36108893%" y1="22.880014%" x2="100%" y2="96.3321191%" id="linearGradient-dak4vz2qs8-10">
+                                <stop stop-color="#87CF66" offset="0%"></stop>
+                                <stop stop-color="#86CF66" offset="6.55855135%"></stop>
+                                <stop stop-color="#4FA236" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M55.7798165,0.00534492439 C38.3428878,-0.146945382 21.0539927,2.95658231 4.96174749,9.12769101 C1.96263647,10.297337 0.0109107404,12.9967336 0,15.9901943 L0,53.2653987 L0,53.6949153 L55.7798165,53.6949153 L55.7798165,0.00534492439 Z" id="path-dak4vz2qs8-11"></path>
+                            <filter x="-6.3%" y="-8.4%" width="112.5%" height="113.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-12">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M118.605505,59.6610169 L118.605505,59.2618702 L118.605505,24.6222863 C118.595283,21.8404845 116.766824,19.3319543 113.957131,18.2450106 C98.8812377,12.5102429 82.6842728,9.62615656 66.3486239,9.76767886 L66.3486239,59.6610169 L118.605505,59.6610169 Z" id="path-dak4vz2qs8-13"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-14">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="10.9331819%" y1="0%" x2="36.4422037%" y2="27.6798647%" id="linearGradient-dak4vz2qs8-15">
+                                <stop stop-color="#8129A8" offset="0%"></stop>
+                                <stop stop-color="#4A126F" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M66.3486239,63.4576271 L66.3486239,122.576271 C68.3182846,122.576271 70.2725406,122.232731 72.121765,121.561401 L77.7008091,119.521808 C101.815032,111.109782 118.119756,88.7624453 118.605505,63.4576271 L66.3486239,63.4576271 Z" id="path-dak4vz2qs8-16"></path>
+                            <filter x="-6.7%" y="-4.2%" width="113.4%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-17">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M7.04587156,63.4576271 C7.56436682,88.7624453 24.968286,111.109782 50.708187,119.521808 L56.6633464,121.561401 C58.6372377,122.232731 60.7232412,122.576271 62.8256881,122.576271 L62.8256881,63.4576271 L7.04587156,63.4576271 Z" id="path-dak4vz2qs8-18"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-19">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="5.48819172%" y1="0%" x2="65.4538788%" y2="68.8493983%" id="linearGradient-dak4vz2qs8-20">
+                                <stop stop-color="#AF3CDB" offset="0%"></stop>
+                                <stop stop-color="#771CB4" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M72.2201835,68.8813559 L72.2201835,128 C74.3226304,128 76.4086339,127.65646 78.3825251,126.98513 L84.3376846,124.945537 C110.077586,116.533511 127.481505,94.1861741 128,68.8813559 L72.2201835,68.8813559 Z" id="path-dak4vz2qs8-21"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-22">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                        </defs>
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Group-2">
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-3)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-6)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                </g>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-9)" xlink:href="#path-dak4vz2qs8-8"></use>
+                                    <rect stroke-linejoin="square" fill="url(#linearGradient-dak4vz2qs8-7)" fill-rule="evenodd" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-12)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-10)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-14)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-17)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-15)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-19)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-22)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-20)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+
+
+
+                    
+                        <h1 id="/docs/0140-production">Production Setup</h1>
+                    
+
+                    <p class="github-button"><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md">edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>You need to pay attention to certain aspects and parts of the system that
+you’d need to harden for a <strong>production</strong> <em>VMware Secrets Manager</em> setup.
+This article will overview them.</p>
+
+<h2 id="version-compatibility">Version Compatibility</h2>
+
+<p>We test <strong>VMware Secrets Manager</strong> with the recent stable version of Kubernetes and Minikube.</p>
+
+<p>As long as there isn’t a change in the <strong>major</strong> version number your
+Kubernetes client and server you use, things will likely work just fine.</p>
+
+<h2 id="resource-requirements">Resource Requirements</h2>
+
+<p><strong>VMware Secrets Manager</strong> is designed from the ground up to work in environments with limited
+resources, such as edge computing and IoT.</p>
+
+<p>That being said, <strong>VMware Secrets Manager</strong>, by design, is a memory-intensive application.
+However, even when you throw all your secrets at it, <strong>VSecM Safe</strong>’s peak
+memory consumption will be in the order or 10-20 megabytes of RAM. The CPU
+consumption will be within reasonable limits too.</p>
+
+<p>However, it’s crucial to understand that every system and user profile is unique.
+Factors such as the number and size of secrets, concurrent processes, and system
+specifications can influence these averages. Therefore, it is always advisable to
+benchmark <strong>VMware Secrets Manager</strong> and <strong>SPIRE</strong> on your own system under your specific usage
+conditions to accurately gauge the resource requirements to ensure optimal
+performance.</p>
+
+<p>Benchmark your system usage and set <strong>CPU</strong> and <strong>Memory</strong> limits to the
+<strong>VSecM Safe</strong> pod.</p>
+
+<p>We recommend you to:</p>
+
+<ul>
+  <li>Set a memory <strong>request</strong> and <strong>limit</strong> for <strong>VSecM Safe</strong>,</li>
+  <li>Set a CPU <strong>request</strong>; but <strong>not</strong> set a CPU limit for <strong>VSecM Safe</strong>
+(<em>i.e., the <strong>VSecM Safe</strong> pod will ask for a baseline CPU;
+yet burst for more upon need</em>).</li>
+</ul>
+
+<p>As in any secrets management solution, your compute and memory requirements
+will depend on several factors, such as:</p>
+
+<ul>
+  <li>The number of workloads in the cluster</li>
+  <li>The number of secrets <strong>Safe</strong> (<em>VMware Secrets Manager’ Secrets Store</em>) has to manage
+(<em>see <a href="/docs/architecture">architecture details</a> for more context</em>)</li>
+  <li>The number of workloads interacting with <strong>Safe</strong>
+(<em>see <a href="/docs/architecture">architecture details</a> for more context</em>)</li>
+  <li><strong>Sidecar</strong> poll frequency (<em>see <a href="/docs/architecture">architecture details</a> for
+more context</em>)</li>
+  <li>etc.</li>
+</ul>
+
+<p>We recommend you benchmark with a realistic production-like
+cluster and allocate your resources accordingly.</p>
+
+<p>That being said, here are the resource allocation reported by <code class="language-plaintext highlighter-rouge">kubectl top</code>
+for a demo setup on a single-node minikube cluster to give an idea:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAMESPACE     WORKLOAD            CPU(cores) MEMORY(bytes)
+vsecm-system  vsecm-safe          1m         9Mi
+vsecm-system  vsecm-sentinel      1m         3Mi
+default       example 2m         7Mi
+spire-system  spire-agent         4m         35Mi
+spire-system  spire-server        6m         41Mi
+</code></pre></div></div>
+
+<p>Note that 1000m is 1 full CPU core.</p>
+
+<p>Based on these findings, the following resource and limit allocations can be
+a starting point for <strong>VMware Secrets Manager</strong>-managed containers:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># Resource allocation will highly depend on the system.</span>
+  <span class="c1"># Benchmark your deployment, monitor your resource utilization,</span>
+  <span class="c1"># and adjust these values accordingly.</span>
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">128Mi"</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">250m"</span>
+    <span class="na">limits</span><span class="pi">:</span>
+      <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">128Mi"</span>
+      <span class="c1"># We recommend “NOT” setting a CPU limit.</span>
+      <span class="c1"># As long as you have configured your CPU “requests”</span>
+      <span class="c1"># correctly, everything would work fine.</span>
+</code></pre></div></div>
+
+<h2 id="back-up-your-cluster-regularly">Back Up Your Cluster Regularly</h2>
+
+<p><strong>VMware Secrets Manager</strong> is designed to be resilient; however, losing access to your sensitive
+data is possible by inadvertently deleting a Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> that you are
+not supposed to delete. Or, your backing store that contains the secrets can get
+corrupted for any reason.</p>
+
+<p>Cloud Native or not, you rely on hardware which—intrinsically—is unreliable.</p>
+
+<p>Things happen. Make sure you back up your cluster <a href="https://velero.io/" title="Velero">using a tool like
+<strong>Velero</strong></a>, so that when things do happen, you can revert your
+cluster’s last known good state.</p>
+
+<blockquote class="block-warning">
+  <p><strong>Make Sure You Back Up <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code></strong></p>
+
+  <p>The Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> names <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> that resides in the 
+<code class="language-plaintext highlighter-rouge">vsecm-system</code> namespace is especially important, and needs to be 
+securely backed up.</p>
+
+  <p>The reason is; if you lose this secret, you will lose access to all the
+encrypted secret backups, and you will not be able to restore your secrets.</p>
+</blockquote>
+
+<p><strong>Set up your backups from day zero</strong>.</p>
+
+<h2 id="restrict-access-to-vsecm-safe-age-key">Restrict Access To <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code></h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> secret that <strong>VSecM Safe</strong> stores in the <code class="language-plaintext highlighter-rouge">vsecm-system</code>
+namespace contains the keys to encrypt and decrypt secret data on the data
+volume of <strong>VSecM Safe</strong>.</p>
+
+<p>While reading the secret alone is not enough to plant an attack on the secrets
+(<em>because the attacker also needs to access the VSecM Safe Pod or the <code class="language-plaintext highlighter-rouge">/data</code>
+volume in that Pod</em>), it is still <strong>crucial</strong> to follow the <strong>principle of least
+privilege</strong> guideline and do not allow anyone on the cluster read or write
+to the <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> secret.</p>
+
+<p>The only entity allowed to have read/write (<em>but not delete</em>) access to
+<code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> should be the <strong>VSecM Safe</strong> Pod inside the <code class="language-plaintext highlighter-rouge">vsecm-system</code>
+namespace with an <code class="language-plaintext highlighter-rouge">vsecm-safe</code> service account.</p>
+
+<blockquote class="block-tip">
+  <p><strong>With Great Power Comes Great Responsibility</strong></p>
+
+  <p>It is worth noting that a <strong>Cluster Administrator</strong> due to their elevated
+privileges can read/write to any Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> in the cluster.</p>
+
+  <p>This includes access to the <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> secret. Therefore, it is
+highly recommended that you grant the <code class="language-plaintext highlighter-rouge">cluster-admin</code> role to a <strong>very</strong>
+small group of trusted individuals only.</p>
+
+  <p>Although, access to <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> does not give the attacker direct
+access to the secrets, due to their sheer power, a determined Cluster
+Administrator can still read the secrets by accessing the <code class="language-plaintext highlighter-rouge">/data</code> volume.</p>
+
+  <p>Their actions will be recorded in the audit logs, so they can, and will be
+held responsible; however, it is still a bad idea to have more than an
+absolute minimum number of Cluster Administrators in your cluster.</p>
+</blockquote>
+
+<p>Kubernetes Secrets are, by default, stored <strong>unencrypted</strong> in the API server’s
+underlying data store (<code class="language-plaintext highlighter-rouge">etcd</code>). Anyone with API access and sufficient RBAC
+credentials can retrieve or modify a <code class="language-plaintext highlighter-rouge">Secret</code>, as can anyone with access
+to <code class="language-plaintext highlighter-rouge">etcd</code>.</p>
+
+<blockquote class="block-tip">
+  <p><strong><code class="language-plaintext highlighter-rouge">Secret</code>less VSecM</strong></p>
+
+  <p>For an additional layer of security, you can opt out of using Kubernetes 
+<code class="language-plaintext highlighter-rouge">Secret</code>s altogether and use <strong>VMware Secrets Manager</strong> without any 
+Kubernetes secrets to protect the master keys. In this mode, you’ll have to
+manually provide the master keys to <strong>VSecM Safe</strong>; and you’ll need to 
+re-provide the master keys every time you restart the <strong>VSecM Safe</strong> Pod or
+the pod is evicted, crashed, or rescheduled.</p>
+
+  <p>This added layer of security comes with a cost of added complexity and 
+operational overhead. You will need to manually intervene when <strong>VSemM Safe</strong>
+crashes or restarts.</p>
+
+  <p>That said, <strong>VSecM Safe</strong> is designed to be resilient, and it rarely crashes.</p>
+
+  <p>If you let <strong>VMware Secrets Manager</strong> generate the root token for you, you
+will not have to worry about this, and when the system crashes, it will
+automatically unlock itself, so you can <code class="language-plaintext highlighter-rouge">#sleepmore</code>.</p>
+
+  <p>Our honest recommendation is to let <strong>VMware Secrets Manager</strong> manage your
+keys unless you have special conformance or compliance requirements that 
+necessitate you to do otherwise.</p>
+
+  <p>Check ou the <a href="/docs/configuration/" title="Configuration Reference">Configuration Reference</a> for more information.</p>
+</blockquote>
+
+<p>If you are <strong>only</strong> using <strong>VMware Secrets Manager</strong> for your configuration and secret storage
+needs, and your workloads do <strong>not</strong> bind any Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> (<em>i.e.,
+instead of using Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> objects, you use tools like <strong>VSecM SDK</strong>
+or <strong>VSecM Sidecar</strong> to securely dispatch secrets to your workloads</em>) then
+as long as you secure access to the secret <code class="language-plaintext highlighter-rouge">vsecm-safe-age-key</code> inside the
+<code class="language-plaintext highlighter-rouge">vsecm-system</code> namespace, you should be good to go.</p>
+
+<p>With the help of <strong>VSecM SDK</strong>, <strong>VSecM Sidecar</strong>, and <strong>VSecM Init Container</strong>,
+and with some custom coding/shaping
+of your data, you should be able to use it.</p>
+
+<p>However, <strong>VMware Secrets Manager</strong> also has the option to<a href="/docs/cli/#creating-kubernetes-secrets" title="VSecM Sentinel: Creating Kubernetes Secrets">persist the secrets stored in
+<strong>VSecM Safe</strong> as Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code> objects</a>. This approach can
+help support <strong>legacy</strong> systems where you want to start using
+<strong>VMware Secrets Manager</strong> without introducing much code and infrastructure change to the
+existing cluster—at least initially.</p>
+
+<p>If you are using <strong>VMware Secrets Manager</strong> to generate Kubernetes <code class="language-plaintext highlighter-rouge">Secrets</code> for the workloads
+to consume, then take regular precautions around those secrets,
+such as <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"><em>implementing restrictive RBACs</em></a>, and even <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">considering using
+a KMS to encrypt <code class="language-plaintext highlighter-rouge">etcd</code> at rest</a> if your security posture requires it.</p>
+
+<h3 id="do-i-really-need-to-encrypt-etcd"><strong>Do I Really Need to Encrypt <code class="language-plaintext highlighter-rouge">etcd</code>?</strong></h3>
+
+<h4 id="tldr">tl;dr:</h4>
+
+<p>Using plain Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code>s is good enough, and it is not the
+end of the world if you keep your <code class="language-plaintext highlighter-rouge">etcd</code> unencrypted.</p>
+
+<blockquote>
+  <p><strong>VMware Secrets Manager Keeps Your Secrets Safe</strong></p>
+
+  <p>If you use <strong>VMware Secrets Manager</strong> to store your sensitive data, your secrets
+will be securely stored in <strong>VSecM Safe</strong> (<em>instead of <code class="language-plaintext highlighter-rouge">etcd</code></em>),
+so you will have even fewer reasons to encrypt <code class="language-plaintext highlighter-rouge">etcd</code> 😉.</p>
+</blockquote>
+
+<h4 id="details">Details</h4>
+
+<p>This is an excellent question. And as in any profound answer to
+good questions, the answer is: “<em>it depends</em>” 🙂.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Secret</code>s are, by default, stored unencrypted in <code class="language-plaintext highlighter-rouge">etcd</code>. So if an adversary
+can read <code class="language-plaintext highlighter-rouge">etcd</code> in any way, it’s game over.</p>
+
+<h5 id="threat-analysis">Threat Analysis</h5>
+
+<p>Here are some ways this could happen:</p>
+
+<ol>
+  <li>Root access to a control plane node.</li>
+  <li>Root access to a worker node.</li>
+  <li>Access to the actual physical server (<em>i.e., physically removing the disk</em>).</li>
+  <li>Possible zero day attacks.</li>
+</ol>
+
+<p>For <code class="language-plaintext highlighter-rouge">1</code>, and <code class="language-plaintext highlighter-rouge">2</code>, server hardening, running secure Linux instances, patching,
+and preventing privileged pods from running in the cluster are the usual ways
+to mitigate the threat. Unfortunately, it is a relatively complex attack vector
+to guard against. Yet, once your node is compromised, you have <strong>a lot</strong>
+of things to worry about. In that case, <code class="language-plaintext highlighter-rouge">etcd</code> exposure will be just one of
+many, <em>many</em>, <strong>many</strong> concerns that you’ll have to worry about.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">3</code>, assuming your servers are in a data center, there should already be
+physical security to secure your servers. So the attack is <strong>unlikely</strong>
+to happen. In addition, your disks are likely encrypted, so unless the attacker
+can shell into the operating system, your data is already safe: Encrypting
+<code class="language-plaintext highlighter-rouge">etcd</code> once more will not provide any additional advantage in this particular
+case, given the disk is encrypted, and root login is improbable.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">4.</code>, the simpler your setup is, the lesser moving parts you have, and the
+lesser the likelihood of bumping into a zero-day. And Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code>s
+are as simple as it gets.</p>
+
+<p>Even when you encrypt <code class="language-plaintext highlighter-rouge">etcd</code> at rest using a <strong>KMS</strong> (<em>which is the most robust
+method proposed <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">in the Kubernetes guides</a></em>), an attacker can still
+impersonate <code class="language-plaintext highlighter-rouge">etcd</code> and decrypt the secrets: As long as you provide the correct
+encrypted DEK to KMS, the KMS will be more than happy to decrypt that DEK with
+its KEK and provide a plain text secret to the attacker.</p>
+
+<h5 id="secure-your-house-before-securing-your-jewelry">Secure Your House Before Securing Your Jewelry</h5>
+
+<p>So, <strong>yes</strong>, securing <code class="language-plaintext highlighter-rouge">etcd</code> will marginally increase your security posture.
+Yet, it does not make too much of a difference unless you have <strong>already</strong>
+secured your virtual infrastructure <strong>and</strong> physical data center. And
+if you haven’t secured your virtual and physical assets, then you are in big
+trouble at day zero, even before you set up your cluster, so encrypting
+<code class="language-plaintext highlighter-rouge">etcd</code> will not save you the slightest from losing other valuable data
+elsewhere anyway.</p>
+
+<h5 id="security-is-a-layered-cake">Security Is a Layered Cake</h5>
+
+<p>That being said, we are humans, and $#!% does happen: If a node is compromised
+due to a misconfiguration, it would be nice to make the job harder for the
+attacker.</p>
+
+<h2 id="restrict-access-to-vsecm-sentinel">Restrict Access to VSecM Sentinel</h2>
+
+<p>All <strong>VMware Secrets Manager</strong> images are based on <a href="https://github.com/GoogleContainerTools/distroless">distroless</a> containers for an
+additional layer of security. Thus, an operator cannot execute a shell on the
+Pod to try a privilege escalation or container escape attack. However, this does
+not mean you can leave the <code class="language-plaintext highlighter-rouge">vsecm-system</code> namespace like an open buffet.</p>
+
+<p>Always take a <strong>principle of least privilege</strong> stance. For example, do not let
+anyone who does not need to fiddle with the <code class="language-plaintext highlighter-rouge">vsecm-system</code> namespace see and use
+the resources there.</p>
+
+<p>This stance is especially important for the <strong>VSecM Sentinel</strong> Pod since an
+attacker with access to that pod can override (<em>but not read</em>) secrets on
+workloads.</p>
+
+<p><strong>VMware Secrets Manager</strong> leverages Kubernetes security primitives and modern cryptography
+to secure access to secrets. And <strong>VSecM Sentinel</strong> is the <strong>only</strong> system
+part that has direct write access to the <strong>VSecM Safe</strong> secrets store. Therefore,
+once you secure access to <strong>VSecM Sentinel</strong> with <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">proper RBAC and
+policies</a>, you secure access to your secrets.</p>
+
+<h2 id="volume-selection-for-vsecm-safe-backing-store">Volume Selection for VSecM Safe Backing Store</h2>
+
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/charts/safe/templates/Deployment.yaml"><strong>VSecM Safe</strong> default deployment descriptor</a>
+uses <a href="https://kubernetes.io/docs/concepts/storage/volumes/"><code class="language-plaintext highlighter-rouge">HostPath</code></a> to store encrypted backups for secrets.</p>
+
+<p>It is highly recommended to ensure that the backing store <strong>VSecM Safe</strong>
+uses is <strong>durable</strong>, <strong>performant</strong>, and <strong>reliable</strong>.</p>
+
+<p>It is a best practice to avoid <code class="language-plaintext highlighter-rouge">HostPath</code> volumes for production deployments.
+You are strongly encouraged to <a href="https://kubernetes.io/docs/concepts/storage/volumes/">choose a <code class="language-plaintext highlighter-rouge">PersistentVolume</code> that suits your
+needs</a> for production setups.</p>
+
+<h2 id="high-availability-of-vsecm-safe">High Availability of VSecM Safe</h2>
+
+<blockquote class="block-tip">
+  <p><strong>tl;dr:</strong></p>
+
+  <p><strong>VSecM Safe</strong> may not emphasize high-availability, but its robustness is
+so outstanding that the need for high-availability becomes almost negligible.</p>
+</blockquote>
+
+<p>Since <strong>VSecM Safe</strong> keeps all of it state in memory, using a pod with enough
+memory and compute resources is the most effective way to leverage it. Although,
+with some effort, it might be possible to make it highly available, the effort
+will likely bring unnecessary complexity without much added benefit.</p>
+
+<p><strong>VSecM Safe</strong> is, by design, a single pod; so technically-speaking, it is
+not highly-available. So in the rare case when <strong>VSecM Safe</strong> crashes, or
+gets evicted due to a resource contention, there will be minimal disruption
+until it restarts. However, <strong>VSecM Safe</strong> restarts fairly quickly, so the
+time window where it is unreachable will hardly be an issue.</p>
+
+<p>Moreover <strong>VSecM Safe</strong> employs “<em>lazy learning</em>” and does not load everything
+into memory all at once, allowing <strong>very</strong> fast restarts. In addition, its
+lightweight and focused code ensures that crashes are infrequent, making
+<strong>VSecM Safe</strong> <em>practically</em> highly available.</p>
+
+<p>While it is possible to modify the current architecture to include more than one
+<strong>VSecM Safe</strong> pod and place it behind a service to ensure high-availability,
+this would be a significant undertaking, with not much benefit to merit it:</p>
+
+<p>First of all, for that case to happen, the state would need to be moved away
+from the memory, and centralized into a common in-memory store (<em>such as Redis,
+or etcd</em>). This will introduce another moving part to manage. Or alternatively
+all <strong>VSecM Safe</strong> pods could be set up to broadcast their operations and reach
+a quorum. A quorum-based solution would be more complex than using a share store,
+besides reaching a quorum means a performance it (<em>both in terms of decision time
+and also compute required</em>).</p>
+
+<p>On top of all these bootstrapping coordination would be necessary to prevent
+two pods from creating different bootstrap secrets simultaneously.</p>
+
+<p>Also, for a backing store like Redis, the data would need to be encrypted
+(<em>and Redis, for example, does not support encryption at rest by default</em>).</p>
+
+<p>When considering all these, <strong>VSecM Safe</strong> has not been created highly-available
+<strong>by design</strong>; however, it is so robust, and it restarts from crashes so fast that
+it’s “<em>as good as</em>” highly-available.</p>
+
+<h2 id="update-vmware-secrets-managers-log-levels">Update VMware Secrets Manager’s Log Levels</h2>
+
+<p><strong>VSecM Safe</strong> and <strong>VSecM Sidecar</strong> are configured to log at <code class="language-plaintext highlighter-rouge">TRACE</code> level by
+default. This is to help you debug issues with <strong>VMware Secrets Manager</strong>. However, this can
+cause a lot of noise in your logs. Once you are confident that <strong>VMware Secrets Manager</strong>
+works as expected, you can reduce the log level to <code class="language-plaintext highlighter-rouge">INFO</code> or <code class="language-plaintext highlighter-rouge">WARN</code>.</p>
+
+<p>For this, you will need to modify the <code class="language-plaintext highlighter-rouge">VSECM_LOG_LEVEL</code> environment variable
+in the <strong>VSecM Safe</strong> and <strong>VSecM Sidecar</strong> Deployment manifests.</p>
+
+<p>See <a href="/docs/configuration"><strong>Configuring VMware Secrets Manager</strong></a> for details.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Since <strong>VMware Secrets Manager</strong> is a <em>Kubernetes-native</em> framework, its security is strongly
+related to how you secure your cluster. You should be safe if you keep your
+cluster and the <code class="language-plaintext highlighter-rouge">vsecm-system</code> namespace secure and follow
+“<em>the principle of least privilege</em>” as a guideline.</p>
+
+<p><strong>VMware Secrets Manager</strong> is a lightweight secrets manager; however, that does not mean it
+runs on water: It needs CPU and Memory resources. The amount of resources you
+need will depend on the criteria outlined in the former sections. You can either
+benchmark your system and set your resources accordingly. Or set generous-enough
+limits and adjust your settings as time goes by.</p>
+
+<p>Also, you are strongly encouraged <strong>not</strong> to set a limit on <strong>VMware Secrets Manager</strong> Pods’ CPU
+usage. Instead, it is recommended to let <strong>VSecM Safe</strong> burst the CPU when
+it needs.</p>
+
+<p>On the same topic, you are encouraged to set a <strong>request</strong> for <strong>VSecM Safe</strong>
+to guarantee a baseline compute allocation.</p>
+<svg style="display:block; margin:5em auto" width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <linearGradient x1="96.643987%" y1="24.2510568%" x2="0%" y2="95.5884291%" id="linearGradient-dak4vz2qs8-1">
+                                <stop stop-color="#00C4F0" offset="0%"></stop>
+                                <stop stop-color="#0091DD" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M108.105505,68.6610169 L108.105505,68.2618702 L108.105505,33.6222863 C108.095283,30.8404845 106.266824,28.3319543 103.457131,27.2450106 C88.3812377,21.5102429 72.1842728,18.6261566 55.8486239,18.7676789 L55.8486239,68.6610169 L108.105505,68.6610169 Z" id="path-dak4vz2qs8-2"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-3">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="94.5118083%" y1="0%" x2="40.5044727%" y2="74.0732833%" id="linearGradient-dak4vz2qs8-4">
+                                <stop stop-color="#4083C4" offset="0%"></stop>
+                                <stop stop-color="#1E4C92" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M16.5458716,52.9576271 C17.0643668,78.2624453 34.468286,100.609782 60.208187,109.021808 L66.1633464,111.061401 C68.1372377,111.732731 70.2232412,112.076271 72.3256881,112.076271 L72.3256881,52.9576271 L16.5458716,52.9576271 Z" id="path-dak4vz2qs8-5"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-6">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="50%" y1="54.6798127%" x2="100%" y2="90.0117392%" id="linearGradient-dak4vz2qs8-7">
+                                <stop stop-color="#499D2F" offset="0%"></stop>
+                                <stop stop-color="#236415" offset="100%"></stop>
+                            </linearGradient>
+                            <rect id="path-dak4vz2qs8-8" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                            <filter x="-6.3%" y="-9.0%" width="112.5%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-9">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="4.36108893%" y1="22.880014%" x2="100%" y2="96.3321191%" id="linearGradient-dak4vz2qs8-10">
+                                <stop stop-color="#87CF66" offset="0%"></stop>
+                                <stop stop-color="#86CF66" offset="6.55855135%"></stop>
+                                <stop stop-color="#4FA236" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M55.7798165,0.00534492439 C38.3428878,-0.146945382 21.0539927,2.95658231 4.96174749,9.12769101 C1.96263647,10.297337 0.0109107404,12.9967336 0,15.9901943 L0,53.2653987 L0,53.6949153 L55.7798165,53.6949153 L55.7798165,0.00534492439 Z" id="path-dak4vz2qs8-11"></path>
+                            <filter x="-6.3%" y="-8.4%" width="112.5%" height="113.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-12">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M118.605505,59.6610169 L118.605505,59.2618702 L118.605505,24.6222863 C118.595283,21.8404845 116.766824,19.3319543 113.957131,18.2450106 C98.8812377,12.5102429 82.6842728,9.62615656 66.3486239,9.76767886 L66.3486239,59.6610169 L118.605505,59.6610169 Z" id="path-dak4vz2qs8-13"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-14">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="10.9331819%" y1="0%" x2="36.4422037%" y2="27.6798647%" id="linearGradient-dak4vz2qs8-15">
+                                <stop stop-color="#8129A8" offset="0%"></stop>
+                                <stop stop-color="#4A126F" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M66.3486239,63.4576271 L66.3486239,122.576271 C68.3182846,122.576271 70.2725406,122.232731 72.121765,121.561401 L77.7008091,119.521808 C101.815032,111.109782 118.119756,88.7624453 118.605505,63.4576271 L66.3486239,63.4576271 Z" id="path-dak4vz2qs8-16"></path>
+                            <filter x="-6.7%" y="-4.2%" width="113.4%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-17">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M7.04587156,63.4576271 C7.56436682,88.7624453 24.968286,111.109782 50.708187,119.521808 L56.6633464,121.561401 C58.6372377,122.232731 60.7232412,122.576271 62.8256881,122.576271 L62.8256881,63.4576271 L7.04587156,63.4576271 Z" id="path-dak4vz2qs8-18"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-19">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="5.48819172%" y1="0%" x2="65.4538788%" y2="68.8493983%" id="linearGradient-dak4vz2qs8-20">
+                                <stop stop-color="#AF3CDB" offset="0%"></stop>
+                                <stop stop-color="#771CB4" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M72.2201835,68.8813559 L72.2201835,128 C74.3226304,128 76.4086339,127.65646 78.3825251,126.98513 L84.3376846,124.945537 C110.077586,116.533511 127.481505,94.1861741 128,68.8813559 L72.2201835,68.8813559 Z" id="path-dak4vz2qs8-21"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-22">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                        </defs>
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Group-2">
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-3)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-6)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                </g>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-9)" xlink:href="#path-dak4vz2qs8-8"></use>
+                                    <rect stroke-linejoin="square" fill="url(#linearGradient-dak4vz2qs8-7)" fill-rule="evenodd" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-12)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-10)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-14)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-17)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-15)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-19)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-22)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-20)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </section>
+            </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div></div>
+    </div>
+</div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script
+  type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+<p class="copyright">
+    Copyright © 2023-present VMware, Inc.<br><br>
+    <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+    code is distributed under <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+<br>
+  The documentation on this website<br>
+    is distributed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+    <br><br>
+    <a href="https://vsecm.com/docs/community/">contact</a> |
+    <a href="https://vsecm.com/docs/privacy/">privacy policy</a>
+    <br><br>
+</p>
+                    <a href="/docs/contributing/" class="navigation navigation-prev navigation-unique">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    
+
+                    
+                    <a href="/docs/use-cases/" class="navigation navigation-next navigation-unique">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "Use Cases",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_pages/0180-use-cases.md",
+            "ref": "_pages/0180-use-cases.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper", "github", "telegram"],
+                "facebook": true,
+                "google": false,
+                "github": true,
+                "github_link": "https://github.com",
+                "telegram": false,
+                "telegram_link": "https://t.me",
+                "instapaper": false,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+"theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "VMware Secrets Manager",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_pages/0140-production.md",
+        "mtime": "2023-12-01 22:22:30 -0800",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 22:22:30 -0800"
+    },
+    "basePath": "",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div><script src="/assets/gitbook/gitbook.js"></script>
+<script src="/assets/gitbook/theme.js"></script>
+
+<script src="/assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+
+
+<script src="/assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-copy-code-button/toggle.js"></script>
+
+</body>
+</html>

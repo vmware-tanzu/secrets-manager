@@ -1,0 +1,1462 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head><meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><title>VSecM CLI · VMware Secrets Manager</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="VMware Secrets Manager for Cloud-Native Apps is a cloud-native secure store  for secrets management. It provides a minimal and intuitive API, ensuring  practical security without compromising user experience.
+Endorsed by industry experts, VMware Secrets Manager is a ground-up re-imagination  of secrets management, leveraging SPIRE for authentication and providing a  cloud-native way to manage secrets end-to-end.
+VMware Secrets Manager is resilient and secure by default, storing sensitive  data in memory and encrypting any data saved to disk.
+With VMware Secrets Manager, you can rest assured that your sensitive data is  always secure and protected.
+"><meta name="generator" content="Jekyll (using style of GitBook 3.2.3)"><meta name="author" content="Volkan Özçelik and Contributors"><link rel="stylesheet" href="https://use.typekit.net/sco6dym.css">
+
+<link rel="stylesheet" href="/assets/gitbook/style.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/assets/gitbook/custom.css">
+
+
+
+<meta name="HandheldFriendly" content="true"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/assets/vsecm-32.png" type="image/png" sizes="32x32">
+<link rel="shortcut icon" href="/assets/vsecm-64.png" type="image/png" sizes="64x64">
+<link rel="shortcut icon" href="/assets/vsecm-128.png" type="image/png" sizes="128x128">
+<link rel="shortcut icon" href="/assets/vsecm-256.png" type="image/png" sizes="256x256">
+
+
+
+
+            <link rel="prev" href="/docs/installation/" />
+        
+
+        
+            <link rel="next" href="/docs/sdk/" />
+        
+    </head>
+    <body>
+        <div class="book"><div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search" />
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="">
+            
+                <a href="/">
+                    VMware Secrets Manager
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            
+
+                <!-- <p>pages</p> -->
+                
+                    
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/community/">
+                            
+                                <a href="/docs/community/">
+                                    Community
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contributor-sync/">
+                            
+                                <a href="/docs/contributor-sync/">
+                                    Contributor Hours
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contact/">
+                            
+                                <a href="/docs/contact/">
+                                    Contact
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/maintainers/">
+                            
+                                <a href="/docs/maintainers/">
+                                    Maintainers
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/security/">
+                            
+                                <a href="/docs/security/">
+                                    Security
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/blog/">
+                            
+                                <a href="/docs/blog/">
+                                    VSecM Blog
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                            <li class="divider"></li>
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/navigation/">
+                            
+                                <a href="/docs/navigation/">
+                                    Preface
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/about/">
+                            
+                                <a href="/docs/about/">
+                                    What is VSecM?
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/endorsements/">
+                            
+                                <a href="/docs/endorsements/">
+                                    Things People Say
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/quickstart/">
+                            
+                                <a href="/docs/quickstart/">
+                                    Quickstart
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/philosophy/">
+                            
+                                <a href="/docs/philosophy/">
+                                    VSecM Design Philosophy
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/architecture/">
+                            
+                                <a href="/docs/architecture/">
+                                    VSecM Architecture
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/installation/">
+                            
+                                <a href="/docs/installation/">
+                                    VSecM Installation
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter active" data-level="1.2" data-path="/docs/cli/">
+                            
+                                <a href="/docs/cli/">
+                                    VSecM CLI
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/sdk/">
+                            
+                                <a href="/docs/sdk/">
+                                    VSecM SDK
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/configuration/">
+                            
+                                <a href="/docs/configuration/">
+                                    Configuring VSecM
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-the-source/">
+                            
+                                <a href="/docs/use-the-source/">
+                                    Building From Source
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/contributing/">
+                            
+                                <a href="/docs/contributing/">
+                                    Contribute to VSecM
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/dev-env/">
+                            
+                                <a href="/docs/dev-env/">
+                                    Development Environment
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/production/">
+                            
+                                <a href="/docs/production/">
+                                    Production Setup
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-cases/">
+                            
+                                <a href="/docs/use-cases/">
+                                    Use Cases
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-cases-overview/">
+                            
+                                <a href="/docs/use-cases-overview/">
+                                    Overview
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-sidecar/">
+                            
+                                <a href="/docs/use-case-sidecar/">
+                                    Using VSecM Sidecar
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-sdk/">
+                            
+                                <a href="/docs/use-case-sdk/">
+                                    VSecM Developer SDK
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-init-container/">
+                            
+                                <a href="/docs/use-case-init-container/">
+                                    VSecM Init Container
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-encryption/">
+                            
+                                <a href="/docs/use-case-encryption/">
+                                    VSecM Encryption
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/use-case-transformation/">
+                            
+                                <a href="/docs/use-case-transformation/">
+                                    Secret Transformation
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/showcase/">
+                            
+                                <a href="/docs/showcase/">
+                                    VSecM Showcase
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+                            <li class="divider"></li>
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/changelog/">
+                            
+                                <a href="/docs/changelog/">
+                                    Changelog
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/releases/">
+                            
+                                <a href="/docs/releases/">
+                                    Releases
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/roadmap/">
+                            
+                                <a href="/docs/roadmap/">
+                                    Roadmap
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                            <li class="divider"></li>
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/release-management/">
+                            
+                                <a href="/docs/release-management/">
+                                    Release Management
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/governance/">
+                            
+                                <a href="/docs/governance/">
+                                    Governance
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                        
+                        
+                        
+
+                        
+                            
+                                <li class="chapter" data-level="1.1" data-path="/docs/privacy/">
+                            
+                                <a href="/docs/privacy/">
+                                    Privacy Policy
+                                </a>
+                                
+                            </li>
+                        
+
+                    
+
+                    
+                        <li class="divider"></li>
+                    
+                
+            
+
+                <!-- <p>posts</p> -->
+                
+                    
+
+                    
+
+                        
+                        
+                        
+
+                        
+
+                    
+
+                    
+                        <li class="divider"></li>
+                    
+                
+            
+        </ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href="." >VSecM CLI</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner"><div class="page-wrapper" tabindex="-1" role="main"><div class="block-tip" style="border-color: var(--c-tip);
+    color: #143a29;
+    font-family: var(--font-family);
+    padding: 0.5em;
+    padding-left: 0.96em;
+    border-left-width: 0.5em;
+    text-align: center;
+    background: #fdfeac;
+    background: -webkit-linear-gradient(to right, #fdfeac, #d5eefe);
+    background: linear-gradient(to right, #fdfeac, #d5eefe);
+
+    border-radius: 4px;
+
+    max-width: 650px;
+    display: block;
+    margin: 1em auto 3em auto;
+
+    box-shadow:
+            rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+            rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;">
+    <p>The next <strong><a href="/docs/contributor-sync/"
+    style="text-decoration: underline; color: #0946EC"
+    >VSecM Contributor Sync</a></strong> will be on…<br>
+    <strong>Thursday, 2024-01-25</strong>
+    at <strong>8:00am</strong> Pacific time.</p>
+</div>
+
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+
+                    <svg style="margin: 0 auto; display:block" width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <linearGradient x1="96.643987%" y1="24.2510568%" x2="0%" y2="95.5884291%" id="linearGradient-dak4vz2qs8-1">
+                                <stop stop-color="#00C4F0" offset="0%"></stop>
+                                <stop stop-color="#0091DD" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M108.105505,68.6610169 L108.105505,68.2618702 L108.105505,33.6222863 C108.095283,30.8404845 106.266824,28.3319543 103.457131,27.2450106 C88.3812377,21.5102429 72.1842728,18.6261566 55.8486239,18.7676789 L55.8486239,68.6610169 L108.105505,68.6610169 Z" id="path-dak4vz2qs8-2"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-3">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="94.5118083%" y1="0%" x2="40.5044727%" y2="74.0732833%" id="linearGradient-dak4vz2qs8-4">
+                                <stop stop-color="#4083C4" offset="0%"></stop>
+                                <stop stop-color="#1E4C92" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M16.5458716,52.9576271 C17.0643668,78.2624453 34.468286,100.609782 60.208187,109.021808 L66.1633464,111.061401 C68.1372377,111.732731 70.2232412,112.076271 72.3256881,112.076271 L72.3256881,52.9576271 L16.5458716,52.9576271 Z" id="path-dak4vz2qs8-5"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-6">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="50%" y1="54.6798127%" x2="100%" y2="90.0117392%" id="linearGradient-dak4vz2qs8-7">
+                                <stop stop-color="#499D2F" offset="0%"></stop>
+                                <stop stop-color="#236415" offset="100%"></stop>
+                            </linearGradient>
+                            <rect id="path-dak4vz2qs8-8" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                            <filter x="-6.3%" y="-9.0%" width="112.5%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-9">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="4.36108893%" y1="22.880014%" x2="100%" y2="96.3321191%" id="linearGradient-dak4vz2qs8-10">
+                                <stop stop-color="#87CF66" offset="0%"></stop>
+                                <stop stop-color="#86CF66" offset="6.55855135%"></stop>
+                                <stop stop-color="#4FA236" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M55.7798165,0.00534492439 C38.3428878,-0.146945382 21.0539927,2.95658231 4.96174749,9.12769101 C1.96263647,10.297337 0.0109107404,12.9967336 0,15.9901943 L0,53.2653987 L0,53.6949153 L55.7798165,53.6949153 L55.7798165,0.00534492439 Z" id="path-dak4vz2qs8-11"></path>
+                            <filter x="-6.3%" y="-8.4%" width="112.5%" height="113.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-12">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M118.605505,59.6610169 L118.605505,59.2618702 L118.605505,24.6222863 C118.595283,21.8404845 116.766824,19.3319543 113.957131,18.2450106 C98.8812377,12.5102429 82.6842728,9.62615656 66.3486239,9.76767886 L66.3486239,59.6610169 L118.605505,59.6610169 Z" id="path-dak4vz2qs8-13"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-14">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="10.9331819%" y1="0%" x2="36.4422037%" y2="27.6798647%" id="linearGradient-dak4vz2qs8-15">
+                                <stop stop-color="#8129A8" offset="0%"></stop>
+                                <stop stop-color="#4A126F" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M66.3486239,63.4576271 L66.3486239,122.576271 C68.3182846,122.576271 70.2725406,122.232731 72.121765,121.561401 L77.7008091,119.521808 C101.815032,111.109782 118.119756,88.7624453 118.605505,63.4576271 L66.3486239,63.4576271 Z" id="path-dak4vz2qs8-16"></path>
+                            <filter x="-6.7%" y="-4.2%" width="113.4%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-17">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M7.04587156,63.4576271 C7.56436682,88.7624453 24.968286,111.109782 50.708187,119.521808 L56.6633464,121.561401 C58.6372377,122.232731 60.7232412,122.576271 62.8256881,122.576271 L62.8256881,63.4576271 L7.04587156,63.4576271 Z" id="path-dak4vz2qs8-18"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-19">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="5.48819172%" y1="0%" x2="65.4538788%" y2="68.8493983%" id="linearGradient-dak4vz2qs8-20">
+                                <stop stop-color="#AF3CDB" offset="0%"></stop>
+                                <stop stop-color="#771CB4" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M72.2201835,68.8813559 L72.2201835,128 C74.3226304,128 76.4086339,127.65646 78.3825251,126.98513 L84.3376846,124.945537 C110.077586,116.533511 127.481505,94.1861741 128,68.8813559 L72.2201835,68.8813559 Z" id="path-dak4vz2qs8-21"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-22">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                        </defs>
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Group-2">
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-3)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-6)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                </g>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-9)" xlink:href="#path-dak4vz2qs8-8"></use>
+                                    <rect stroke-linejoin="square" fill="url(#linearGradient-dak4vz2qs8-7)" fill-rule="evenodd" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-12)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-10)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-14)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-17)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-15)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-19)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-22)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-20)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+
+
+
+                    
+                        <h1 id="/docs/0090-cli">VSecM CLI</h1>
+                    
+
+                    <p class="github-button"><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0090-cli.md">edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This section contains usage examples and documentation for
+<a href="https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sentinel"><strong>VSecM Sentinel</strong></a>’s Command Line Interface (<em>CLI</em>).</p>
+
+<h2 id="finding-vsecm-sentinel">Finding <strong>VSecM Sentinel</strong></h2>
+
+<p>First, find which pod belongs to <code class="language-plaintext highlighter-rouge">vsecm-system</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubetctl get po <span class="nt">-n</span> vsecm-system
+</code></pre></div></div>
+
+<p>The response to the above command will be similar to the following:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAME                              READY
+vsecm-safe-5f6948c84c-vkrdh       1/1
+vsecm-sentinel-5998b5dbfc-lvw44   1/1
+</code></pre></div></div>
+
+<p>There, <code class="language-plaintext highlighter-rouge">vsecm-sentinel-5998b5dbfc-lvw44</code> is the name of the Pod you’d need.</p>
+
+<p>You can also execute a script similar to the following to save the Pod’s name
+into an environment variable:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SENTINEL</span><span class="o">=</span><span class="si">$(</span>kubectl get po <span class="nt">-n</span> vsecm-system <span class="se">\</span>
+  | <span class="nb">grep</span> <span class="s2">"vsecm-sentinel-"</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span>
+</code></pre></div></div>
+
+<p>In the following examples, we’ll use <code class="language-plaintext highlighter-rouge">$SENTINEL</code> in lieu of the <strong>VSecM Sentinel</strong>’s
+Pod name.</p>
+
+<h2 id="displaying-help-information">Displaying Help Information</h2>
+
+<p><strong>VSecM Sentinel</strong> has a binary called <code class="language-plaintext highlighter-rouge">safe</code> that can be used to interact with
+<strong>VSecM Safe</strong> API. You can use the following command to display help information
+for <code class="language-plaintext highlighter-rouge">safe</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="nt">--help</span>
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>About <code class="language-plaintext highlighter-rouge">--help</code></strong></p>
+
+  <p>The output of <code class="language-plaintext highlighter-rouge">safe --help</code> will depend on the version of <code class="language-plaintext highlighter-rouge">safe</code> you
+use; however, it will contain useful information about how to use the program.</p>
+</blockquote>
+
+<h2 id="registering-a-secret-for-a-workload">Registering a Secret for a Workload</h2>
+
+<p>Given our workload has the SPIFFE ID <code class="language-plaintext highlighter-rouge">"spiffe://vsecm.com/workload/billing/: …[truncated]"</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"very secret value"</span>
+</code></pre></div></div>
+
+<p>will register the secret <code class="language-plaintext highlighter-rouge">"very secret value"</code> to <code class="language-plaintext highlighter-rouge">billing</code>.</p>
+
+<h2 id="registering-multiple-secrets">Registering Multiple Secrets</h2>
+
+<p>You can use the <code class="language-plaintext highlighter-rouge">-a</code> (<em>append</em>) argument to register more than one secret
+to a workload.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"first part of the token"</span> <span class="se">\</span>
+  <span class="nt">-a</span>
+
+kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"second part of the token"</span> <span class="se">\</span>
+  <span class="nt">-a</span>
+</code></pre></div></div>
+
+<h2 id="encrypting-a-secret">Encrypting a Secret</h2>
+
+<p>Use the <code class="language-plaintext highlighter-rouge">-e</code> flag to encrypt a secret.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"very secret value"</span> <span class="se">\</span>
+  <span class="nt">-e</span> 
+
+<span class="c"># The above command outputs an encrypted string that can be</span>
+<span class="c"># securely stored anywhere, including source control systems.</span>
+</code></pre></div></div>
+
+<h2 id="registering-an-encrypted-secret">Registering an Encrypted Secret</h2>
+
+<p>Again, <code class="language-plaintext highlighter-rouge">-e</code> flag can be used to register an encrypted secret to a workload:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="nv">$ENCRYPTED_SECRET</span> <span class="se">\</span>
+  <span class="nt">-e</span>
+</code></pre></div></div>
+
+<h2 id="deleting-a-secret">Deleting a Secret</h2>
+
+<p>To delete the secret associated to a workload, use the <code class="language-plaintext highlighter-rouge">-d</code> flag:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-d</span>
+</code></pre></div></div>
+
+<h2 id="choosing-a-backing-store">Choosing a Backing Store</h2>
+
+<p>The registered secrets will be encrypted and backed up to
+<strong>VSecM Safe</strong>’s Kubernetes volume by default. This behavior can be configured
+by changing the <code class="language-plaintext highlighter-rouge">VSECM_SAFE_BACKING_STORE</code> environment variable that
+<strong>VSecM Safe</strong> sees. In addition, this behavior can be overridden on a per-secret
+basis too.</p>
+
+<p>The following commands stores the secret to the backing volume
+(<em>default behavior</em>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"very secret value"</span> <span class="se">\</span>
+  <span class="nt">-b</span> file
+</code></pre></div></div>
+
+<p>This one, will <strong>not</strong> store the secret on file; the secret will only be
+persisted in memory, and will be lost if <strong>VSecM Sentinel</strong> needs to restart:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"very secret value"</span> <span class="se">\</span>
+  <span class="nt">-b</span> memory
+</code></pre></div></div>
+
+<p>The following will stored the secret on the cluster itself as a Kubernetes
+<code class="language-plaintext highlighter-rouge">Secret</code>. The value of the secret will be <strong>encrypted</strong> with the public key
+of <strong>VSecM Safe</strong> before storing it on the Secret.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="nv">$SENTINEL</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> billing <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s2">"very secret value"</span> <span class="se">\</span>
+  <span class="nt">-b</span> cluster
+</code></pre></div></div>
+
+<h2 id="template-transformations">Template Transformations</h2>
+
+<p>You can transform how the stored secret is displayed to the consuming workloads:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'{"username": "root", \
+    "password": "SuperSecret", \
+    "value": "VSecMRocks"}'</span> <span class="se">\</span>
+  <span class="nt">-t</span> <span class="s1">'{"USER":"{{.username}}", \
+    "PASS":"{{.password}}", \
+    "VALUE": "{{.value}}"}'</span>
+</code></pre></div></div>
+
+<p>When the workload fetches the secret through the workload API, this is what
+it sees as the value:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"USER": "root", "PASS": "SuperSecret", "VALUE": "VSecMRocks"}
+</code></pre></div></div>
+
+<p>Instead of this default transformation, you can output it as <code class="language-plaintext highlighter-rouge">yaml</code> too:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'{"username": "root", \
+    "password": "SuperSecret", \
+    "value": "VSecMRocks"}'</span> <span class="se">\</span>
+  <span class="nt">-t</span> <span class="s1">'{"USER":"{{.username}}", \
+    "PASS":"{{.password}}", \
+    "VALUE": "{{.value}}"}'</span> <span class="se">\</span>
+  <span class="nt">-f</span> yaml
+</code></pre></div></div>
+
+<p>The above command will result in the following secret value to the workload
+that receives it:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USER: root
+PASS: SuperSecret
+VALUE: VSecMRocks
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong><code class="language-plaintext highlighter-rouge">"json"</code> Is the Default Value</strong></p>
+
+  <p>If you don’t specify the <code class="language-plaintext highlighter-rouge">-f</code> flag, it will default to <code class="language-plaintext highlighter-rouge">"json"</code>.</p>
+</blockquote>
+
+<p>You can create a YAML secret value without the <code class="language-plaintext highlighter-rouge">-t</code> flag too. In that case
+<strong>VSecM Safe</strong> will assume an identity transformation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'{"username": "root", \
+    "password": "SuperSecret", \
+    "value": "VSecMRocks"}'</span> <span class="se">\</span>
+  <span class="nt">-f</span> yaml
+</code></pre></div></div>
+
+<p>The above command will result in the following secret value to the workload
+that receives it:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>username: root
+password: SuperSecret
+value: VSecMRocks
+</code></pre></div></div>
+
+<p>If you provide <code class="language-plaintext highlighter-rouge">-f json</code> as the format argument, the secret will have to be
+a strict JSON. Otherwise, <strong>VSecM Sentinel</strong> will try to come up with a
+reasonable value, and not raise an error; however the output will likely be
+in a format that the workload is not expecting.</p>
+
+<blockquote class="block-warning">
+  <p><strong>Gotcha</strong></p>
+
+  <p>If <code class="language-plaintext highlighter-rouge">-t</code> is given, the <code class="language-plaintext highlighter-rouge">-s</code> argument will have to be a valid JSON regardless
+of what is chosen for <code class="language-plaintext highlighter-rouge">-f</code>.</p>
+</blockquote>
+
+<p>The following is also possible:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'USER»»»{{.username}}'</span>
+</code></pre></div></div>
+
+<p>and will result in the following as the secret value for the workload:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USER»»»root
+</code></pre></div></div>
+
+<p>Or, equivalently:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'USER»»»{{.username}}'</span> <span class="se">\</span>
+  <span class="nt">-f</span> json
+</code></pre></div></div>
+
+<p>Will provide the following to the workload:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USER»»»root
+</code></pre></div></div>
+
+<p>Similarly, the following will <strong>not</strong> raise an error:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"example"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'USER»»»{{.username}}'</span> <span class="se">\</span>
+  <span class="nt">-f</span> yaml
+</code></pre></div></div>
+
+<p>To transform the value to <em>YAML</em>, or <em>JSON</em>, <code class="language-plaintext highlighter-rouge">-s</code> has to be a <strong>valid</strong> <em>JSON</em>.</p>
+
+<h2 id="creating-kubernetes-secrets">Creating Kubernetes Secrets</h2>
+
+<p><strong>VSecM Safe</strong>-managed secrets can be interpolated onto Kubernetes secrets if
+a template transformation is given.</p>
+
+<p>Let’s take the following as an example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> safe <span class="se">\</span>
+  <span class="nt">-w</span> <span class="s2">"billing"</span> <span class="se">\</span>
+  <span class="nt">-n</span> <span class="s2">"finance"</span> <span class="se">\</span>
+  <span class="nt">-s</span> <span class="s1">'{"username": "root", "password": "SuperSecret"}'</span> <span class="se">\</span>
+  <span class="nt">-t</span> <span class="s1">'{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"'</span> <span class="se">\</span>
+  <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">-k</code> flag hints <strong>VSecM Safe</strong> that the secret will be synced with a
+Kubernetes <code class="language-plaintext highlighter-rouge">Secret</code>. <code class="language-plaintext highlighter-rouge">-n</code> tells that the namespace of the secret is <code class="language-plaintext highlighter-rouge">"finance"</code>.</p>
+
+<p>Before running this command, a secret with the following manifest should exist
+in the cluster:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Secret</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">vsecm-secret-billing</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">finance</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">Opaque</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">vsecm-secret-</code> prefix is required for <strong>VSecM Safe</strong> to locate the
+<code class="language-plaintext highlighter-rouge">Secret</code>. Also <code class="language-plaintext highlighter-rouge">metadata.namespace</code> attribute should match the namespace
+that’s provided with the <code class="language-plaintext highlighter-rouge">-n</code> flag to <strong>VSecM Sentinel</strong>.</p>
+
+<p>After executing the command the secret will contain the new values in its
+<code class="language-plaintext highlighter-rouge">data:</code> section.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl describe secret vsecm-secret-billing <span class="nt">-n</span> finance
+
+<span class="c"># Output:</span>
+<span class="c">#   Name:         vsecm-secret-billing</span>
+<span class="c">#   Namespace:    finance</span>
+<span class="c">#   Labels:       &lt;none&gt;</span>
+<span class="c">#   Annotations:  &lt;none&gt;</span>
+<span class="c">#</span>
+<span class="c">#   Type:  Opaque</span>
+<span class="c">#</span>
+<span class="c">#   Data</span>
+<span class="c">#   ====</span>
+<span class="c">#   USERNAME:  137 bytes</span>
+<span class="c">#   PASSWORD:  196 bytes</span>
+</code></pre></div></div>
+
+<h2 id="setting-the-master-secret-manually">Setting the Master Secret Manually</h2>
+
+<p><strong>VSecM Safe</strong> uses a master secret to encrypt the secrets that are stored.
+Typically, this master secret is stored as a Kubernetes secret for your
+convenience. However, if you want you can set <code class="language-plaintext highlighter-rouge">VSECM_MANUAL_KEY_INPUT</code> to
+<code class="language-plaintext highlighter-rouge">"true"</code> and provide the master secret manually.</p>
+
+<p>Although this approach enhances security, it also means that you will have to
+provide the master secret to <strong>VSecM Safe</strong> whenever the pod is evicted, or
+crashes, or restarts for any reason. Since, this brings a mild operational
+inconvenience, it is not enabled by default.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl <span class="nb">exec</span> <span class="s2">"</span><span class="nv">$SENTINEL</span><span class="s2">"</span> <span class="nt">-n</span> vsecm-system <span class="nt">--</span> vsecm <span class="se">\</span>
+  <span class="nt">--input-keys</span> <span class="s2">"AGE-SECRET-KEY-1RZU…</span><span class="se">\n</span><span class="s2">age1…</span><span class="se">\n</span><span class="s2">a6…ceec"</span>
+  
+<span class="c"># Output:</span>
+<span class="c">#</span>
+<span class="c"># OK</span>
+</code></pre></div></div>
+<svg style="display:block; margin:5em auto" width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+                            <linearGradient x1="96.643987%" y1="24.2510568%" x2="0%" y2="95.5884291%" id="linearGradient-dak4vz2qs8-1">
+                                <stop stop-color="#00C4F0" offset="0%"></stop>
+                                <stop stop-color="#0091DD" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M108.105505,68.6610169 L108.105505,68.2618702 L108.105505,33.6222863 C108.095283,30.8404845 106.266824,28.3319543 103.457131,27.2450106 C88.3812377,21.5102429 72.1842728,18.6261566 55.8486239,18.7676789 L55.8486239,68.6610169 L108.105505,68.6610169 Z" id="path-dak4vz2qs8-2"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-3">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="94.5118083%" y1="0%" x2="40.5044727%" y2="74.0732833%" id="linearGradient-dak4vz2qs8-4">
+                                <stop stop-color="#4083C4" offset="0%"></stop>
+                                <stop stop-color="#1E4C92" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M16.5458716,52.9576271 C17.0643668,78.2624453 34.468286,100.609782 60.208187,109.021808 L66.1633464,111.061401 C68.1372377,111.732731 70.2232412,112.076271 72.3256881,112.076271 L72.3256881,52.9576271 L16.5458716,52.9576271 Z" id="path-dak4vz2qs8-5"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-6">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="50%" y1="54.6798127%" x2="100%" y2="90.0117392%" id="linearGradient-dak4vz2qs8-7">
+                                <stop stop-color="#499D2F" offset="0%"></stop>
+                                <stop stop-color="#236415" offset="100%"></stop>
+                            </linearGradient>
+                            <rect id="path-dak4vz2qs8-8" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                            <filter x="-6.3%" y="-9.0%" width="112.5%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-9">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="4.36108893%" y1="22.880014%" x2="100%" y2="96.3321191%" id="linearGradient-dak4vz2qs8-10">
+                                <stop stop-color="#87CF66" offset="0%"></stop>
+                                <stop stop-color="#86CF66" offset="6.55855135%"></stop>
+                                <stop stop-color="#4FA236" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M55.7798165,0.00534492439 C38.3428878,-0.146945382 21.0539927,2.95658231 4.96174749,9.12769101 C1.96263647,10.297337 0.0109107404,12.9967336 0,15.9901943 L0,53.2653987 L0,53.6949153 L55.7798165,53.6949153 L55.7798165,0.00534492439 Z" id="path-dak4vz2qs8-11"></path>
+                            <filter x="-6.3%" y="-8.4%" width="112.5%" height="113.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-12">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M118.605505,59.6610169 L118.605505,59.2618702 L118.605505,24.6222863 C118.595283,21.8404845 116.766824,19.3319543 113.957131,18.2450106 C98.8812377,12.5102429 82.6842728,9.62615656 66.3486239,9.76767886 L66.3486239,59.6610169 L118.605505,59.6610169 Z" id="path-dak4vz2qs8-13"></path>
+                            <filter x="-6.7%" y="-9.0%" width="113.4%" height="114.0%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-14">
+                                <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="10.9331819%" y1="0%" x2="36.4422037%" y2="27.6798647%" id="linearGradient-dak4vz2qs8-15">
+                                <stop stop-color="#8129A8" offset="0%"></stop>
+                                <stop stop-color="#4A126F" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M66.3486239,63.4576271 L66.3486239,122.576271 C68.3182846,122.576271 70.2725406,122.232731 72.121765,121.561401 L77.7008091,119.521808 C101.815032,111.109782 118.119756,88.7624453 118.605505,63.4576271 L66.3486239,63.4576271 Z" id="path-dak4vz2qs8-16"></path>
+                            <filter x="-6.7%" y="-4.2%" width="113.4%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-17">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <path d="M7.04587156,63.4576271 C7.56436682,88.7624453 24.968286,111.109782 50.708187,119.521808 L56.6633464,121.561401 C58.6372377,122.232731 60.7232412,122.576271 62.8256881,122.576271 L62.8256881,63.4576271 L7.04587156,63.4576271 Z" id="path-dak4vz2qs8-18"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-19">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                            <linearGradient x1="5.48819172%" y1="0%" x2="65.4538788%" y2="68.8493983%" id="linearGradient-dak4vz2qs8-20">
+                                <stop stop-color="#AF3CDB" offset="0%"></stop>
+                                <stop stop-color="#771CB4" offset="100%"></stop>
+                            </linearGradient>
+                            <path d="M72.2201835,68.8813559 L72.2201835,128 C74.3226304,128 76.4086339,127.65646 78.3825251,126.98513 L84.3376846,124.945537 C110.077586,116.533511 127.481505,94.1861741 128,68.8813559 L72.2201835,68.8813559 Z" id="path-dak4vz2qs8-21"></path>
+                            <filter x="-6.3%" y="-4.2%" width="112.5%" height="111.8%" filterUnits="objectBoundingBox" id="filter-dak4vz2qs8-22">
+                                <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+                                <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+                                <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+                            </filter>
+                        </defs>
+                        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <g id="Group-2">
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-3)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-2"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-6)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-5"></use>
+                                </g>
+                                <g id="Rectangle">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-9)" xlink:href="#path-dak4vz2qs8-8"></use>
+                                    <rect stroke-linejoin="square" fill="url(#linearGradient-dak4vz2qs8-7)" fill-rule="evenodd" x="7.04587156" y="9.76271186" width="55.7798165" height="49.8983051"></rect>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-12)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-10)" xlink:href="#path-dak4vz2qs8-11"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-14)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-1)" xlink:href="#path-dak4vz2qs8-13"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-17)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-15)" xlink:href="#path-dak4vz2qs8-16"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-19)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-4)" xlink:href="#path-dak4vz2qs8-18"></use>
+                                </g>
+                                <g id="Path" fill-rule="nonzero">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-dak4vz2qs8-22)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                    <use fill="url(#linearGradient-dak4vz2qs8-20)" xlink:href="#path-dak4vz2qs8-21"></use>
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                </section>
+            </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div></div>
+    </div>
+</div>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script
+  type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+<p class="copyright">
+    Copyright © 2023-present VMware, Inc.<br><br>
+    <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+    code is distributed under <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+<br>
+  The documentation on this website<br>
+    is distributed under <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+    <br><br>
+    <a href="https://vsecm.com/docs/community/">contact</a> |
+    <a href="https://vsecm.com/docs/privacy/">privacy policy</a>
+    <br><br>
+</p>
+                    <a href="/docs/installation/" class="navigation navigation-prev navigation-unique">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    
+
+                    
+                    <a href="/docs/sdk/" class="navigation navigation-next navigation-unique">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "VSecM SDK",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_pages/0100-sdk.md",
+            "ref": "_pages/0100-sdk.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper", "github", "telegram"],
+                "facebook": true,
+                "google": false,
+                "github": true,
+                "github_link": "https://github.com",
+                "telegram": false,
+                "telegram_link": "https://t.me",
+                "instapaper": false,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+"theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "VMware Secrets Manager",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_pages/0090-cli.md",
+        "mtime": "2023-12-01 22:22:30 -0800",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 22:22:30 -0800"
+    },
+    "basePath": "",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div><script src="/assets/gitbook/gitbook.js"></script>
+<script src="/assets/gitbook/theme.js"></script>
+
+<script src="/assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+
+
+<script src="/assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-copy-code-button/toggle.js"></script>
+
+</body>
+</html>
