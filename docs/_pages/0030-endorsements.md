@@ -13,7 +13,7 @@ title: Things People Say
 layout: post
 prev_url: /docs/about/
 permalink: /docs/endorsements/
-next_url: /docs/quickstart/
+next_url: /docs/doc-snapshots/
 ---
 
 <p class="github-button"
