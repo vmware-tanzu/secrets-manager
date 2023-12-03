@@ -66,7 +66,7 @@ always secure and protected.
 configuration information at a central location and securely dispatching it to 
 workloads, offering *centralized* and *secure* secrets store for your clusters.
 
-> **VSEcM is Perfect for the Edge**
+> **VSecM is Perfect for the Edge**
 > 
 > The *ease of configuration* and *small footprint* make **VMware Secrets Manager** 
 > perfect not only for standard deployments but also for **edge deployments** where 
