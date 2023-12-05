@@ -286,7 +286,7 @@ development cycle.
 
 ### 11. Release Helm Charts
 
-We offer the [release_helm_chart.sh][release_script] script for your use.
+We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
 to release as an argument.
 
@@ -299,6 +299,16 @@ Follow the instructions provided by the script for successful execution.
 Upon completion, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into
 the `gh-pages` branch.
+
+Alternatively, you can use a make target too: 
+`make helm-chart-release VSECM_VERSION=0.22.0`
+
+> **Keep The Most Recent Version of the Helm Charts**
+> 
+> Make sure you keep only the most recent version of the Helm Charts in the
+> `main` branch. Older versions should be snapshotted in the `gh-pages` branch
+> using the workflow described above.
+{: .block-tip }
 
 ### 12. Add a Snapshot of the Current Documentation
 
