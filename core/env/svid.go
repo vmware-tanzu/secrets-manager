@@ -38,21 +38,6 @@ func SafeSvidPrefix() string {
 	return p
 }
 
-// NotarySvidPrefix returns the prefix for the VSecM Notary SVID
-// (SPIFFE Verifiable Identity Document) used in the VSecM system.
-// The prefix is obtained from the environment variable VSECM_NOTARY_SVID_PREFIX.
-// If the variable is not set, the default prefix is used.
-//
-// THIS IS NOT USED AT THE MOMENT.
-// IT IS EXPERIMENTAL.
-func NotarySvidPrefix() string {
-	p := os.Getenv("VSECM_NOTARY_SVID_PREFIX")
-	if p == "" {
-		p = "spiffe://vsecm.com/workload/vsecm-notary/ns/vsecm-system/sa/vsecm-notary/n/"
-	}
-	return p
-}
-
 // WorkloadSvidPrefix returns the prefix for the Workload SVID
 // (SPIFFE Verifiable Identity Document) used in the VSecM system.
 // The prefix is obtained from the environment variable VSECM_WORKLOAD_SVID_PREFIX.

@@ -48,7 +48,7 @@ help:
 	@echo "--------------------------------------------------------------------"
 	@echo "  Installation:"
 	@echo "    ⦿ Distroless images:"
-	@echo "          ˃ make make deploy;make test;"
+	@echo "          ˃ make deploy;make test;"
 	@echo "    ⦿ Distroless FIPS images:"
 	@echo "          ˃ make deploy-fips;make test;"
 	@echo "    ⦿ Distroless images:"
