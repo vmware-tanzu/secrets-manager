@@ -18,39 +18,39 @@ next_url: /docs/use-the-source/
 
 <!--
 variable                                     used by
-VSECM_SAFE_ENDPOINT_URL                      sentinel, sidecar, workload, init-container
+SPIFFE_ENDPOINT_SOCKET                       safe, sidecar, sentinel, workload
+VSECM_CRYPTO_KEY_NAME                        safe
+VSECM_CRYPTO_KEY_PATH                        safe
 VSECM_INIT_CONTAINER_POLL_INTERVAL           init-container
-VSECM_SYSTEM_NAMESPACE                       safe
 VSECM_LOG_LEVEL                              safe, sentinel
-VSECM_SIDECAR_MAX_POLL_INTERVAL              sidecar
-VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER sidecar
-VSECM_SIDECAR_SUCCESS_THRESHOLD              sidecar
-VSECM_SIDECAR_ERROR_THRESHOLD                sidecar
-VSECM_SIDECAR_POLL_INTERVAL                  sidecar
 VSECM_PROBE_LIVENESS_PORT                    safe, sentinel
 VSECM_PROBE_READINESS_PORT                   safe
-VSECM_SAFE_IV_INITIALIZATION_INTERVAL        safe
-VSECM_SAFE_SECRET_BUFFER_SIZE                safe
-VSECM_SAFE_K8S_SECRET_BUFFER_SIZE            safe
-VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE         safe
-VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE     safe
-VSECM_SAFE_FIPS_COMPLIANT                    safe
 VSECM_SAFE_BACKING_STORE                     safe
-VSECM_SAFE_USE_KUBERNETES_SECRETS            safe
-VSECM_SAFE_SECRET_BACKUP_COUNT               safe
-VSECM_SAFE_MANUAL_KEY_INPUT                  safe
-VSECM_SAFE_DATA_PATH                         safe
-VSECM_CRYPTO_KEY_PATH                        safe
-VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT        safe
 VSECM_SAFE_BOOTSTRAP_TIMEOUT                 safe
-VSECM_CRYPTO_KEY_NAME                        safe
+VSECM_SAFE_DATA_PATH                         safe
+VSECM_SAFE_ENDPOINT_URL                      sentinel, sidecar, workload, init-container
+VSECM_SAFE_FIPS_COMPLIANT                    safe
+VSECM_SAFE_IV_INITIALIZATION_INTERVAL        safe
+VSECM_SAFE_K8S_SECRET_BUFFER_SIZE            safe
+VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE     safe
+VSECM_SAFE_MANUAL_KEY_INPUT                  safe
+VSECM_SAFE_SECRET_BACKUP_COUNT               safe
+VSECM_SAFE_SECRET_BUFFER_SIZE                safe
+VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE         safe
 VSECM_SAFE_SECRET_NAME_PREFIX                safe
-VSECM_SIDECAR_SECRETS_PATH                   sidecar, worklaod
-SPIFFE_ENDPOINT_SOCKET                       safe, sidecar, sentinel, workload
-VSECM_SENTINEL_SVID_PREFIX                   safe, sentinel
+VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT        safe
 VSECM_SAFE_SVID_PREFIX                       safe, sentinel, workload
-VSECM_WORKLOAD_SVID_PREFIX                   workload, safe
 VSECM_SAFE_TLS_PORT                          safe
+VSECM_SAFE_USE_KUBERNETES_SECRETS            safe
+VSECM_SENTINEL_SVID_PREFIX                   safe, sentinel
+VSECM_SIDECAR_ERROR_THRESHOLD                sidecar
+VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER sidecar
+VSECM_SIDECAR_MAX_POLL_INTERVAL              sidecar
+VSECM_SIDECAR_POLL_INTERVAL                  sidecar
+VSECM_SIDECAR_SECRETS_PATH                   sidecar, worklaod
+VSECM_SIDECAR_SUCCESS_THRESHOLD              sidecar
+VSECM_SYSTEM_NAMESPACE                       safe
+VSECM_WORKLOAD_SVID_PREFIX                   workload, safe
 
 -->
 
@@ -82,16 +82,38 @@ The following section contain a breakdown of all of these environment variables.
 
 ### SPIFFE_ENDPOINT_SOCKET
 
-> **Used By**
->
-> **VSecM Sentinel**, **VSecM Sidecar**,
-> **VSecM Init Container**, **VSecM Safe**, **Workload**.
+**Used By**: *VSecM Sentinel*, *VSecM Sidecar*,
+*VSecM Init Container*, *VSecM Safe*, *Workload*s.
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
 **SPIRE**.
 
 If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
 will be used.
+
+### VSECM_CRYPTO_KEY_NAME
+
+**Used By**: *VSecM Safe*.
+
+`VSECM_CRYPTO_KEY_NAME` is how the age secret key is referenced by
+name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-safe-age-key"`.
+
+If you change the value of this environment variable, make sure to change the
+relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
+this is to do a project wide search and find and replace places where reference
+`"vsecm-safe-age-key"` to your new name of choice.
+
+### VSECM_CRYPTO_KEY_PATH
+
+> **Used By**
+>
+> **VSecM Safe*.
+
+`VSECM_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
+that contains the encryption keys.
+
+If not given, it will default to `"/key/key.txt"`.
+
 
 ### VSECM_LOG_LEVEL
 
@@ -206,30 +228,9 @@ If not provided, it will default to:
 
 If not given, defaults to `"/data"`.
 
-### VSECM_CRYPTO_KEY_PATH
 
-> **Used By**
->
-> **VSecM Safe*.
 
-`VSECM_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
-that contains the encryption keys.
 
-If not given, it will default to `"/key/key.txt"`.
-
-### VSECM_CRYPTO_KEY_NAME
-
-> **Used By**
->
-> **VSecM Safe*.
-
-`VSECM_CRYPTO_KEY_NAME` is how the age secret key is referenced by
-name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-safe-age-key"`.
-
-If you change the value of this environment variable, make sure to change the
-relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
-this is to do a project wide search and find and replace places where reference
-`"vsecm-safe-age-key"` to your new name of choice.
 
 ### VSECM_MANUAL_KEY_INPUT
 
