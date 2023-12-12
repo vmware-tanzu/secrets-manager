@@ -422,4 +422,4 @@ After successfully completing this quickstart, you can try the following:
   with [its architecture, and design philosophy](/docs/architecture).
 * [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases).
 
-[slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
+[slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"

@@ -78,4 +78,4 @@ channel, rather than dispersing them across multiple platforms.
 Thanks so much for your interest: It means a lot 🙏.
 
 [ticket]: https://github.com/vmware-tanzu/secrets-manager/issues/new/choose
-[slack]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
+[slack]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"

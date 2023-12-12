@@ -256,4 +256,4 @@ This was a deeper overview of **VMware Secrets Manager** architecture. If you
 have further questions, feel free to [join the **VMware Secrets Manager**
 community on **Slack**][slack-invite] and ask them out.
 
-[slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-1zrr2yepf-2P3EJhfoGNn05l5_4jvYSA "Join VSecM Slack"
+[slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
