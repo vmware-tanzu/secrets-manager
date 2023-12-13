@@ -13,7 +13,7 @@ package env
 import "os"
 
 // SafeEndpointUrl returns the URL for the VSecM Safe endpoint
-// used in the VMware Secres Manager system.
+// used in the VMware Secrets Manager system.
 // The URL is obtained from the environment variable VSECM_SAFE_ENDPOINT_URL.
 // If the variable is not set, the default URL is used.
 func SafeEndpointUrl() string {
