@@ -177,7 +177,7 @@ If not given, defaults to `"/data"`.
 ### VSECM_SAFE_ENDPOINT_URL
 
 **Used By**: *VSecM Sentinel*, *VSecM Sidecar*, *VSecM Init Container*, 
-*VSecM Safe**, *Workload*.
+*VSecM Safe*, *Workload*.
 
 `VSECM_SAFE_ENDPOINT_URL` is the **REST API** endpoint that **VSecM Safe**
 exposes from its `Service`.
