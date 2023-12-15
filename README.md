@@ -1,19 +1,23 @@
 # VMware Secrets Manager Helm Chart Release
 
-This [README.md](./README.md) file provides instructions on how to release a new version of the VMware Secrets Manager Helm Chart.
+This [README.md](./README.md) file provides instructions on how to release a new 
+version of the VMware Secrets Manager Helm Chart.
 
 ## Prerequisites
 
-Before proceeding with the release process, please ensure that the following prerequisites are met:
+Before proceeding with the release process, please ensure that the following 
+prerequisites are met:
 
-- The necessary changes to the VMware Secrets Manager Helm Charts have been made in the `helm-charts/` directory.
-- The VMware Secrets Manager Helm Charts have been tested with the latest changes using the command:
+- The necessary changes to the VMware Secrets Manager Helm Charts have been made 
+  in the `helm-charts/` directory.
+- The VMware Secrets Manager Helm Charts have been tested with the latest changes 
+  using the command:
 
   ```bash
   helm install vsecm helm-charts/
   ```
 
-  If everything looks good, you can proceed with the release process.
+If everything looks good, you can proceed with the release process.
 
 ## Release Process
 
@@ -34,7 +38,8 @@ Before proceeding with the release process, please ensure that the following pre
    ```
 
 3. Generate the Helm Repo Index:
-   Run the following command to generate the Helm repository index file and merge it with the existing `index.yaml` file:
+   Run the following command to generate the Helm repository index file and 
+   merge it with the existing `index.yaml` file:
 
    ```bash
    helm repo index ./ --merge index.yaml
