@@ -10,6 +10,8 @@
 
 global:
   deploySpire: true
+  deploySafe: true
+  deploySentinel: true
   # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
   baseImage: distroless
   registry: vsecm
@@ -31,23 +33,23 @@ global:
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
-      tag: 1.8.0
+      tag: 1.8.6
       pullPolicy: IfNotPresent
     spiffeCsiDriver:
       repository: ghcr.io/spiffe/spiffe-csi-driver
-      tag: 0.2.3
+      tag: 0.2.4
       pullPolicy: IfNotPresent
     nodeDriverRegistrar:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
-      tag: v2.8.0
+      tag: v2.9.2
       pullPolicy: IfNotPresent
     spireServer:
       repository: ghcr.io/spiffe/spire-server
-      tag: 1.8.0
+      tag: 1.8.6
       pullPolicy: IfNotPresent
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
-      tag: 0.3.0
+      tag: 0.4.0
       pullPolicy: IfNotPresent
   vsecm:
     namespace: vsecm-system
