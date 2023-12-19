@@ -26,8 +26,20 @@ next_url: /docs/releases/
 
 ## [v0.21.5] - 2023-12-18
 
-TODO: update me.
-TODO: merge the recent security patch too.
+### Changed
+
+* **BREAKING**: Environment variables related to SPIFFEID are renamed from
+  i.e. `VSECM_SENTINEL_SVID_PREFIX` to `VSECM_SENTINEL_SPIFFEID_PREFIX`.
+
+### Added
+
+* Documentation updates on security, production installation recommendations,
+  and `kind` cluster usage for development.
+* Minor code enhancements.
+
+### Security 
+
+* Fixed CVE-2023-48795 [Russh vulnerable to Prefix Truncation Attack against ChaCha20-Poly1305 and Encrypt-then-MAC](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/9)
 
 ## [v0.21.4] - 2023-11-30
 
