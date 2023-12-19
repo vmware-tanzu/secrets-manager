@@ -269,22 +269,35 @@ To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
 during the release development process.
 
-At the beginning of a VSecM release, the [init-next-helm-chart.sh][init_script]
+At the beginning of a VSecM release, the [./hack/init-next-helm-chart.sh][init_script]
 script is used to initialize the helm-charts.
 
 To initialize a new helm-chart, run the following command using the init script:
-`./helm-charts/init_next_helm_chart.sh <base-version> <new-version>`
+`./hack/init_next_helm_chart.sh <base-version> <new-version>`
 base-version: the existing helm-charts version to be used as the base helm-chart.
 new-version: the version helm-charts to be initialized.
 
-For example: `./helm-charts/init_next_helm_chart.sh 0.21.0 0.22.0`
+For example: `./hack/init_next_helm_chart.sh 0.21.0 0.22.0`
 
 After execution, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 11. Release Helm Charts
+### 11. Update Kubernetes Manifests
+
+Based on the generated helm charts run the [./hack/update-k8s-manifests.sh][update-script]
+to update the Kubernetes manifests for the new release.
+
+These manifests are used by people who want to install VSecM without using
+Helm. To generate the manifests you need to have generated the helm charts 
+first.
+
+For example `./hack/update-k8s-manifests.sh 0.22.0`
+
+[update-script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/update-k8s-manifests.sh
+
+### 12. Release Helm Charts
 
 We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
@@ -310,15 +323,15 @@ Alternatively, you can use a make target too:
 > using the workflow described above.
 {: .block-tip }
 
-### 12. Add a Snapshot of the Current Documentation
+### 13. Add a Snapshot of the Current Documentation
 
-The `gh-pages` branch contains a snapshot of each documentation in versioned 
+The `docs` branch contains a snapshot of each documentation in versioned 
 folders.
 
 To add a snapshot of the current documentation: 
 
 1. Copy the `docs` folder into a temporary place like `/tmp/docs`.
-2. Checkout the `gh-pages` branch.
+2. Checkout the `docs` branch.
 3. Copy the `docs` folder from `/tmp/docs` to the `gh-pages` branch:
    `cp -r /tmp/docs $WORKSPACE/secrets-manager/docs/<version>`.
 4. Update the `secrets-manager/docs/<version>/_includes/notification.html` file
@@ -336,7 +349,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 13. All Set 🎉
+### 14. All Set 🎉
 
 You’re all set.
 

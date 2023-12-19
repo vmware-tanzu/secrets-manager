@@ -24,6 +24,11 @@ next_url: /docs/releases/
 
 * TBD
 
+## [v0.21.5] - 2023-12-18
+
+TODO: update me.
+TODO: merge the recent security patch too.
+
 ## [v0.21.4] - 2023-11-30
 
 This patch release includes one security update, a minor refactoring, and 

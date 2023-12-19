@@ -28,7 +28,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-using-sdk:0.21.4
+        image: vsecm/example-using-sdk:0.21.5
         volumeMounts:
         # Volume mount for SPIRE unix domain socket.
         - name: spire-agent-socket
@@ -48,9 +48,9 @@ spec:
           value: "unix:///spire-agent-socket/agent.sock"
         - name: VSECM_LOG_LEVEL
           value: "7"
-        - name: VSECM_WORKLOAD_SVID_PREFIX
+        - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/"
-        - name: VSECM_SAFE_SVID_PREFIX
+        - name: VSECM_SAFE_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
       volumes:
       # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket

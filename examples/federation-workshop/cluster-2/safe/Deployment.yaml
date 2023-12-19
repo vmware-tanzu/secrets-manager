@@ -31,7 +31,7 @@ spec:
       serviceAccountName: vsecm-safe
       containers:
         - name: main
-          image: localhost:32000/vsecm-ist-safe:0.21.4
+          image: localhost:32000/vsecm-ist-safe:0.21.5
           ports:
             - containerPort: 8443
           volumeMounts:
@@ -58,11 +58,11 @@ spec:
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
               value: "7"
-            - name: VSECM_WORKLOAD_SVID_PREFIX
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://cluster1.demo/workload/"
-            - name: VSECM_SENTINEL_SVID_PREFIX
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://cluster1.demo/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SVID_PREFIX
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: "spiffe://cluster2.demo/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_SAFE_DATA_PATH
               value: "/data"

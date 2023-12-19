@@ -926,7 +926,7 @@ spec:
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
               value: "7"
-            - name: VSECM_WORKLOAD_SVID_PREFIX
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_SAFE_DATA_PATH
               value: "/data"
@@ -956,9 +956,9 @@ spec:
               value: "false"
             - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
               value: "50"
-            - name: VSECM_SENTINEL_SVID_PREFIX
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SVID_PREFIX
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
@@ -1063,9 +1063,9 @@ spec:
           env:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: unix:///spire-agent-socket/agent.sock
-            - name: VSECM_SENTINEL_SVID_PREFIX
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SVID_PREFIX
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"

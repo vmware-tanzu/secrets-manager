@@ -48,7 +48,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		if !validation.IsSafe(svidId.String()) {
 			log.FatalLn(
 				&cid,
-				"Svid check: I don’t know you, and it’s crazy:",
+				"SpiffeId check: I don’t know you, and it’s crazy:",
 				svidId.String(),
 			)
 		}

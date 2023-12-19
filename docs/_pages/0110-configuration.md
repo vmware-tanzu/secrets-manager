@@ -359,14 +359,14 @@ a SPIFFE source bundle.
 If the environment variable is not set, or cannot be parsed, defaults to
 `10000` milliseconds.
 
-### VSECM_SAFE_SVID_PREFIX
+### VSECM_SAFE_SPIFFEID_PREFIX
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*, **Workload**s.
 
 Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
 
-`VSECM_SAFE_SVID_PREFIX` is required for validation.
+`VSECM_SAFE_SPIFFEID_PREFIX` is required for validation.
 
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"`
@@ -426,13 +426,13 @@ over the source code to enable a tighter **Safe** integration. Or, you might
 temporarily want to establish behavior parity of your legacy system before
 starting a more canonical **VMware Secrets Manager** implementation.
 
-### VSECM_SENTINEL_SVID_PREFIX
+### VSECM_SENTINEL_SPIFFEID_PREFIX
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*.
 
 Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
 
-`VSECM_SENTINEL_SVID_PREFIX` is required for validation.
+`VSECM_SENTINEL_SPIFFEID_PREFIX` is required for validation.
 
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"`
@@ -513,11 +513,11 @@ store age keys within a designated secret, as specified by the
 
 If not specified, it has a default value of `"/opt/vsecm/secrets.json"`.
 
-### VSECM_WORKLOAD_SVID_PREFIX
+### VSECM_WORKLOAD_SPIFFEID_PREFIX
 
 **Used By**: *VSecM Safe*, *Workload*.
 
 Both **VSecM Safe** and **workloads** use this environment variable.
 
-`VSECM_WORKLOAD_SVID_PREFIX` is required for validation. If not provided,
+`VSECM_WORKLOAD_SPIFFEID_PREFIX` is required for validation. If not provided,
 it will default to: `"spiffe://vsecm.com/workload/"`

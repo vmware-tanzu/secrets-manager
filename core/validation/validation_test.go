@@ -16,7 +16,7 @@ import (
 
 func TestIsSentinel(t *testing.T) {
 	type args struct {
-		svid string
+		spiffeid string
 	}
 	tests := []struct {
 		name string
@@ -26,21 +26,21 @@ func TestIsSentinel(t *testing.T) {
 		{
 			name: "has_prefix",
 			args: args{
-				svid: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/test",
+				spiffeid: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/test",
 			},
 			want: true,
 		},
 		{
 			name: "does_not_have_prefix",
 			args: args{
-				svid: "test",
+				spiffeid: "test",
 			},
 			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsSentinel(tt.args.svid); got != tt.want {
+			if got := IsSentinel(tt.args.spiffeid); got != tt.want {
 				t.Errorf("IsSentinel() = %v, want %v", got, tt.want)
 			}
 		})
@@ -49,7 +49,7 @@ func TestIsSentinel(t *testing.T) {
 
 func TestIsSafe(t *testing.T) {
 	type args struct {
-		svid string
+		spiffeid string
 	}
 	tests := []struct {
 		name string
@@ -59,55 +59,22 @@ func TestIsSafe(t *testing.T) {
 		{
 			name: "has_prefix",
 			args: args{
-				svid: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/test",
+				spiffeid: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/test",
 			},
 			want: true,
 		},
 		{
 			name: "does_not_have_prefix",
 			args: args{
-				svid: "test",
+				spiffeid: "test",
 			},
 			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsSafe(tt.args.svid); got != tt.want {
+			if got := IsSafe(tt.args.spiffeid); got != tt.want {
 				t.Errorf("IsSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIsNotary(t *testing.T) {
-	type args struct {
-		svid string
-	}
-	tests := []struct {
-		name string
-		args args
-		want bool
-	}{
-		{
-			name: "has_prefix",
-			args: args{
-				svid: "spiffe://vsecm.com/workload/vsecm-notary/ns/vsecm-system/sa/vsecm-notary/n/test",
-			},
-			want: true,
-		},
-		{
-			name: "does_not_have_prefix",
-			args: args{
-				svid: "test",
-			},
-			want: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := IsNotary(tt.args.svid); got != tt.want {
-				t.Errorf("IsNotary() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -115,7 +82,7 @@ func TestIsNotary(t *testing.T) {
 
 func TestIsWorkload(t *testing.T) {
 	type args struct {
-		svid string
+		spiffeid string
 	}
 	tests := []struct {
 		name string
@@ -125,21 +92,21 @@ func TestIsWorkload(t *testing.T) {
 		{
 			name: "has_prefix",
 			args: args{
-				svid: "spiffe://vsecm.com/workload/test",
+				spiffeid: "spiffe://vsecm.com/workload/test",
 			},
 			want: true,
 		},
 		{
 			name: "does_not_have_prefix",
 			args: args{
-				svid: "test",
+				spiffeid: "test",
 			},
 			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsWorkload(tt.args.svid); got != tt.want {
+			if got := IsWorkload(tt.args.spiffeid); got != tt.want {
 				t.Errorf("IsWorkload() = %v, want %v", got, tt.want)
 			}
 		})

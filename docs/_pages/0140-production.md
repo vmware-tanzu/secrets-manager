@@ -203,9 +203,9 @@ to `etcd`.
 
 [config-ref]: /docs/configuration/ "Configuration Reference"
 
-If you are **only** using **VMware Secrets Manager** for your configuration and secret storage
-needs, and your workloads do **not** bind any Kubernetes `Secret` (*i.e.,
-instead of using Kubernetes `Secret` objects, you use tools like **VSecM SDK**
+If you are **only** using **VMware Secrets Manager** for your configuration and 
+secret storage needs, and your workloads do **not** bind any Kubernetes `Secret` 
+(*i.e., instead of using Kubernetes `Secret` objects, you use tools like **VSecM SDK**
 or **VSecM Sidecar** to securely dispatch secrets to your workloads*) then
 as long as you secure access to the secret `vsecm-safe-age-key` inside the
 `vsecm-system` namespace, you should be good to go.
@@ -302,8 +302,8 @@ attacker.
 
 ## Restrict Access to VSecM Sentinel
 
-All **VMware Secrets Manager** images are based on [distroless][distroless] containers for an
-additional layer of security. Thus, an operator cannot execute a shell on the
+All **VMware Secrets Manager** images are based on [distroless][distroless] containers 
+for an additional layer of security. Thus, an operator cannot execute a shell on the
 Pod to try a privilege escalation or container escape attack. However, this does
 not mean you can leave the `vsecm-system` namespace like an open buffet.
 
@@ -315,11 +315,187 @@ This stance is especially important for the **VSecM Sentinel** Pod since an
 attacker with access to that pod can override (*but not read*) secrets on
 workloads.
 
-**VMware Secrets Manager** leverages Kubernetes security primitives and modern cryptography
-to secure access to secrets. And **VSecM Sentinel** is the **only** system
-part that has direct write access to the **VSecM Safe** secrets store. Therefore,
-once you secure access to **VSecM Sentinel** with [proper RBAC and
+**VMware Secrets Manager** leverages Kubernetes security primitives and modern 
+cryptography to secure access to secrets. And **VSecM Sentinel** is the **only** 
+system part that has direct write access to the **VSecM Safe** secrets store. 
+Therefore, once you secure access to **VSecM Sentinel** with [proper RBAC and
 policies][rbac], you secure access to your secrets.
+
+
+> **You Can Delete `vsecm-sentinel` When You No Longer Need It**
+> 
+> For an added layer of security and to reduce the attack surface, you can
+> delete the `vsecm-sentinel` Pod after registering your secrets to **VSecM Safe**.
+
+## SPIRE Configuration
+
+**VMware Secrets Manager** uses [SPIRE][spire] as its underlying identity control 
+plane. The default SPIRE configuration bundled with **VMware Secrets Manager**
+is secure enough for most use cases. 
+
+While VSecM uses sane defaults for SPIRE installation, it can be further hardened
+according to specific deployment needs, providing a more robust and secure 
+environment.
+
+
+Here are some suggestions to consider; as always, you should consult
+the [SPIRE documentation][spire-docs] for more details.
+
+### Enabling Kubelet Verification
+
+For ease of installation the **SPIRE Agent** is configured to trust all kubelets
+by setting `skip_kubelet_verification` to `true` in the `agent.conf` file.
+
+The `skip_kubelet_verification` flag is used when **SPIRE** is validating the 
+identity of workloads running in Kubernetes.
+
+Normally, **SPIRE** interacts with the kubelet API to verify the identity of a workload. 
+This includes validating the serving certificate of the kubelet.
+When `skip_kubelet_verification` is set to `true`, **SPIRE** does not validate 
+the kubelet’s serving certificate. This can be useful in environments where the 
+kubelet’s serving certificate is not properly configured or cannot be trusted for 
+some reason.
+
+That being said, skipping kubelet verification reduces security. It should be used 
+cautiously and only in environments where the risks are understood and deemed 
+acceptable.
+
+To ensure kubelet verification is enabled:
+
+* **Flag Setup**: Ensure the `skip_kubelet_verification` flag is either set to 
+  `false` or omitted. 
+  By default, if the flag is not specified, kubelet verification is enabled.
+* **Kubelet Certificate**: Make sure the kubelet’s serving certificate is properly 
+  configured and trusted within your Kubernetes cluster. This may involve configuring 
+  the Kubernetes cluster to issue valid serving certificates for kubelets.
+* **Restart SPIRE Agent**: After making changes to the configuration, restart 
+ the **SPIRE Agent** to apply the new settings.
+
+> **Plan Carefully**  
+>
+> Remember, enabling kubelet verification might require updates to your cluster’s 
+> configuration and careful planning to avoid disruption to existing workloads.
+{: .block-tip }
+
+### Configuration Files
+
+**SPIRE Server** and **SPIRE Agent** are configured using `server.conf` and 
+`agent.conf` files, respectively. For Kubernetes deployments, these can be stored 
+in `ConfigMaps` and mounted into containers. This ensures configuration consistency 
+and ease of updating.
+
+To secure these configuration files, you can:
+
+* Use a `Secret` instead of a `ConfigMap` to store the configuration files.
+* Encrypt `etcd` at rest using a **KMS** (*which is the most robust method
+  proposed [in the Kubernetes guides][kms]*).
+* **Audit Logs**: Enable and monitor audit logs to track access and changes to `ConfigMaps`. 
+  This helps in identifying unauthorized access or modifications.
+* **Regular Reviews and Updates**: Periodically review and update the access policies 
+  and configurations to ensure they remain secure and relevant.
+* **Minimize Configuration**: Only include necessary configuration settings in 
+  `server.conf` and `agent.conf`. Avoid any sensitive data unless absolutely 
+  necessary.
+
+[spire]: https://spiffe.io/spire/
+[spire-docs]: https://spiffe.io/docs/latest/
+
+### Trust Domain Configuration
+
+Set the `trust_domain` parameter in both server and agent `ConfigMaps`. This parameter 
+is crucial for ensuring that all workloads in the trust domain are issued identity 
+documents that can be verified against the trust domain’s root keys.
+
+### Port Configuration
+
+The `bind_port` parameter in the server `ConfigMap` sets the port on which the 
+**SPIRE Server** listens for **SPIRE Agent** connections. Ensure this port is 
+securely configured and matches the setting on the agents.
+
+### Node Attestation
+
+Choose and configure appropriate Node Attestor plugins for both **SPIRE Server** and 
+**SPIRE Agent**. This is critical for securely identifying and attesting agents. 
+
+### Data Storage
+
+For SPIRE runtime data, set the `data_dir` in both server and agent `ConfigMap`s. 
+Use **absolute paths** in production for stability and security. 
+
+Consider the choice of database for storing SPIRE Server data, especially in 
+high-availability configurations. 
+
+By default, SPIRE uses SQLite, but for production, an alternative SQL-compatible 
+storage like MySQL can be a better fit.
+
+### Key Management
+
+**SPIRE** supports *in-memory* and *on-disk* storage strategies for keys and certificates. 
+
+For production, the **on-disk** strategy may offer advantages in terms of persistence 
+across restarts but requires additional security measures to protect the stored keys.
+
+### Trust Root/Upstream Authority Configuration
+
+Configure the `UpstreamAuthority` section in the server `ConfigMap`. 
+
+This is pivotal for maintaining the integrity of the SPIRE Server’s root signing 
+key, which is central to establishing trust and generating identities.
+
+### SPIRE Needs hostPath Access for SPIRE Agent DaemonSets
+
+**SPIRE Agent** primarily uses `hostPath` for managing [Unix domain 
+socket][unix-domain-socket]s on Linux systems. This specific usage is focused 
+on facilitating communication between the **SPIRE Agent** and **workloads** 
+running on the same host. 
+
+The **Unix domain socket** used by the **SPIRE Agent** is typically configured 
+to be read-only for workloads. This read-only configuration is an important 
+security feature for several reasons:
+
+* **Principle of Least Privilege**: Setting the Unix domain socket to read-only 
+  for workloads adheres to the principle of least privilege. Workloads generally 
+  only need to read data from the socket (*such as fetching SVIDs*) and do not 
+  require write permissions. Limiting these permissions reduces the risk of 
+  unauthorized actions.
+* **Mitigating Risks of Tampering**: By making the socket **read-only** for 
+  workloads, the risk of these workloads tampering with the socket’s data or 
+  behavior is minimized. This is crucial as SPIRE Agents deal with sensitive 
+  identity credentials.
+* **Reducing Attack Surface**: A **read-only** configuration limits the potential 
+  actions an attacker can perform if they compromise a workload. 
+* **Ensuring Data Integrity**: **Read-only** access helps ensure the integrity of 
+ the data being transmitted through the socket. Workloads receive the data as 
+ intended by the SPIRE Agent without the risk of accidental or malicious alteration.
+* **Compliance with Security Best Practices**: This configuration aligns with 
+ broader security best practices in systems design, where components are given only 
+ the permissions necessary for their function, reducing potential vulnerabilities.
+
+> **OpenShift Support**
+> 
+> For Kubernetes deployments such as [OpenShift][openshift] where enabling `hostPath`
+> requires additional permissions [you can follow SPIRE’s official documentation][spire-openshift]
+{: .block-tip }
+
+[spire-openshift]: https://spiffe.io/docs/latest/deploying/spire_agent/#openshift-support
+[openshift]: https://www.openshift.com/ "OpenShift"
+
+To make the `hostPath` binding extra secure, you can:
+
+* Use **Pod Security Admission** and custom **Admission Controllers** to restrict 
+  the use of `hostPath` to certain paths and ensure that only authorized pods have 
+  access to those paths.
+* **Node-Level Security**: Ensure that the nodes themselves are secure. This includes 
+  regular updates, patch management, and following best practices for host security. 
+  Secure nodes reduce the risk of compromising the directories accessed through `hostPath`.
+* **Network Policies**: Configure network policies to control the traffic to and from 
+  the SPIRE Agent pods. This can limit the potential for network-based attacks 
+  against the agents.
+* **Regular Security Reviews**: Regularly review and update your security configurations. 
+  This includes checking for updates in Kubernetes security recommendations and ensuring 
+  your configurations align with the latest best practices.
+
+[unix-domain-socket]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
 [distroless]: https://github.com/GoogleContainerTools/distroless
 
@@ -384,7 +560,37 @@ When considering all these, **VSecM Safe** has not been created highly-available
 **by design**; however, it is so robust, and it restarts from crashes so fast that
 it’s “*as good as*” highly-available.
 
+## DO NOT LIMIT CPU on VSecM Pods
 
+**VSecM Safe** uses CPU resources only when it needs it. It is designed to be
+lightweight and it does not consume CPU resources unless it needs to. So
+unless you have a very specific reason to limit CPU on **VSecM Safe** pods,
+it is recommended to let it burst when it needs.
+
+Moreover, **VSecM Safe** is a go-based application. Limiting CPU on Go-based 
+workloads can be problematic due to the nature of [Go’s garbage collector 
+(*GC*) and concurrency management][go-gc]. 
+
+
+In Go, a significant portion of CPU usage can be attributed to the garbage collector 
+(*GC*). It’s designed to be fast and optimized, so altering its behavior is generally 
+**not** recommended. 
+
+Limiting CPU directly for Go-based workloads might not be the best approach due
+to the intricacies of Go’s garbage collection and concurrency model. And
+**VSecM Safe** is no exception to this.
+
+Instead, profiling it to understand its specific needs in your cluster and 
+adjusting the relevant environment variables (like `GOGC` and `GOMAXPROCS`) can 
+lead to better overall performance.
+
+Having said that, please note that each cluster has its own characteristics
+and this is not a one-size-fits-all recommendation. Kubernetes is a complex
+machine and there are many factors that can influence the performance of
+**VSecM Safe** including, but not limited to Node Capacity, Node Utilization,
+CPU Throttling and Overcommitment, QoS Classes, and so on.
+
+[go-gc]: https://tip.golang.org/doc/gc-guide.html
 
 ## Update VMware Secrets Manager’s Log Levels
 

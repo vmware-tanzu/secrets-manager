@@ -22,7 +22,7 @@ func Test_printAudit(t *testing.T) {
 		entityName    string
 		method        string
 		url           string
-		svid          string
+		spiffeid      string
 		message       string
 	}
 	tests := []struct {
@@ -36,14 +36,14 @@ func Test_printAudit(t *testing.T) {
 				entityName:    "abcd",
 				method:        "GET",
 				url:           "http://localhost:5000/",
-				svid:          "abcd1234",
+				spiffeid:      "abcd1234",
 				message:       "testing audit func",
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			printAudit(tt.args.correlationId, tt.args.entityName, tt.args.method, tt.args.url, tt.args.svid, tt.args.message)
+			printAudit(tt.args.correlationId, tt.args.entityName, tt.args.method, tt.args.url, tt.args.spiffeid, tt.args.message)
 		})
 	}
 }
@@ -72,7 +72,7 @@ func TestLog(t *testing.T) {
 					Entity:        "",
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -85,7 +85,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretDeleteRequest{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -98,7 +98,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretDeleteResponse{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -111,7 +111,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretFetchRequest{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -124,7 +124,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretFetchResponse{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -137,7 +137,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretUpsertRequest{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -150,7 +150,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretUpsertResponse{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -163,7 +163,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretListRequest{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},
@@ -176,7 +176,7 @@ func TestLog(t *testing.T) {
 					Entity:        reqres.SecretListResponse{},
 					Method:        "test_method",
 					Url:           "test_url",
-					Svid:          "test_svid",
+					SpiffeId:      "test_spiffeid",
 					Event:         "test_event",
 				},
 			},

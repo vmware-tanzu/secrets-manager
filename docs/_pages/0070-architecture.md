@@ -103,7 +103,7 @@ to **VSecM Safe**.
 
 ![Creating Secrets](/assets/vsecm-create-secrets.png "Creating Secrets")
 
-### Component and Workload SVID Schemas
+### Component and Workload SPIFFE ID Schemas
 
 SPIFFE ID format wor workloads is as follows:
 
@@ -137,16 +137,28 @@ the service account and namespace*):
 
 ## Persisting Secrets
 
-**VSecM Safe** uses [`age`][age] to securely persist the secrets to disk so that
-when its Pod is replaced by another pod for any reason
-(*eviction, crash, system restart, etc.*). When that happens, **VSecM Safe**
-can retrieve secrets from a persistent storage.
+**VSecM Safe** uses [`age`][age] encryption by default to securely persist the 
+secrets to disk so that when its Pod is replaced by another Pod for any reason
+(*eviction, crash, system restart, etc.*) it can retrieve secrets from a 
+persistent storage.
 
-> **Age Algorithm Can We Swapped With SHA-256**
-> 
-> The `age` algorithm can be swapped with `SHA-256`. 
-> 
-> Check out the [**VSecM Configuration**](/docs/configuration/) for more information.
+> **You Can Swap the Encryption Mechanism**
+>
+> In **FIPS-compliant** environments, you can use **VMware Secrets Manager**
+> FIPS-compliant container images that use **AES-256-GCM** encryption instead
+> of **Age**.
+>
+> Check out the [**Configuration**](/docs/configuration) section for more
+> details.
+>
+> Also, you can opt-out from auto-generating the private and public keys
+> and provide your own keys. However, when you do this, you will have to
+> manually unlock **VSecM Safe** by providing your keys every time it
+> crashes. If you let **VSecM Safe** auto-generate the keys,
+> you won’t have to do this; so you can `#sleepmore`.
+>
+> Again, check out the [**Configuration**](/docs/configuration)
+> section for more details.
 {: .block-tip}
 
 Since decryption is relatively expensive, once a secret is retrieved,
@@ -157,38 +169,16 @@ your workloads **has to** fit in the memory you allocate to **VSecM Safe**.
 ## **VSecM Safe** Bootstrapping Flow
 
 To persist secrets, **VSecM Safe** needs a way to generate and securely store
-the private and public `age` keys that are utilized for decrypting and
-encrypting the secrets, respectively.
-
-* Key generation is conveniently provided by `age` Go SDK.
-* After generation, the keys are stored in a Kubernetes `Secret` that only
-  **VSecM Safe** can access.
+the initial cryptographic keys that are utilized for decrypting and encrypting 
+the secrets, respectively. After generation, the keys are stored in a Kubernetes 
+`Secret` that only **VSecM Safe** can access.
 
 Here is a sequence diagram of the **VSecM Safe** bootstrapping flow:
 
-![VSecM Safe Bootstrapping](/assets/vsecm-bootstrap.jpg "VSecM Safe Bootstrapping Flow")
+![VSecM Safe Bootstrapping](/assets/vsecm-bootstrap.png "VSecM Safe Bootstrapping Flow")
 
 Note that, until bootstrapping is complete, **VSecM Safe** will not respond to
 any API requests that you make from **VSecM Sentinel**.
-
-> **You Can Swap the Encryption Mechanism**
-> 
-> In **FIPS-compliant** environments, you can use **VMware Secrets Manager**
-> FIPS-compliant container images that use **AES-256-GCM** encryption instead
-> of **Age**. 
-> 
-> Check out the [**Configuration**](/docs/configuration) section for more
-> details.
-> 
-> Also, you can opt-out from auto-generating the private and public keys
-> and provide your own keys. However, when you do this, you will have to
-> manually unlock **VSecM Safe** by providing your keys every time it
-> crashes. If you let **VSecM Safe** auto-generate the keys,
-> you won’t have to do this; so you can `#sleepmore`.
->
-> Again, check out the [**Configuration**](/docs/configuration)
-> section for more details.
-{: .block-tip}
 
 [age]: https://github.com/FiloSottile/age
 

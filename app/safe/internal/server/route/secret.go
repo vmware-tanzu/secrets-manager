@@ -22,14 +22,14 @@ import (
 	"net/http"
 )
 
-func createDefaultJournalEntry(cid, svid string,
+func createDefaultJournalEntry(cid, spiffeid string,
 	r *http.Request) audit.JournalEntry {
 	return audit.JournalEntry{
 		CorrelationId: cid,
 		Entity:        reqres.SecretFetchRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
-		Svid:          svid,
+		SpiffeId:      spiffeid,
 		Event:         audit.EventEnter,
 	}
 }
@@ -164,22 +164,22 @@ func upsert(secretToStore entity.SecretStored,
 	}
 }
 
-func Secret(cid string, w http.ResponseWriter, r *http.Request, svid string) {
+func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "Secret: Master key not set")
 		return
 	}
 
-	j := createDefaultJournalEntry(cid, svid, r)
+	j := createDefaultJournalEntry(cid, spiffeid, r)
 	audit.Log(j)
 
-	if !isSentinel(j, cid, w, svid) {
+	if !isSentinel(j, cid, w, spiffeid) {
 		j.Event = audit.EventBadSvid
 		audit.Log(j)
 		return
 	}
 
-	log.DebugLn(&cid, "Secret: sentinel svid:", svid)
+	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
 	body := readBody(cid, r, w, j)
 	if body == nil {

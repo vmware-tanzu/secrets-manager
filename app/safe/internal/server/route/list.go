@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-func List(cid string, w http.ResponseWriter, r *http.Request, svid string) {
+func List(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "List: Master key not set")
 		return
@@ -33,14 +33,14 @@ func List(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 		Entity:        reqres.SecretListRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
-		Svid:          svid,
+		SpiffeId:      spiffeid,
 		Event:         audit.EventEnter,
 	}
 
 	audit.Log(j)
 
 	// Only sentinel can list.
-	if !isSentinel(j, cid, w, svid) {
+	if !isSentinel(j, cid, w, spiffeid) {
 		return
 	}
 
@@ -55,7 +55,7 @@ func List(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 
 	log.TraceLn(&cid, "List: after defer")
 
-	tmp := strings.Replace(svid, env.SentinelSvidPrefix(), "", 1)
+	tmp := strings.Replace(spiffeid, env.SentinelSpiffeIdPrefix(), "", 1)
 	parts := strings.Split(tmp, "/")
 	if len(parts) == 0 {
 		j.Event = audit.EventBadPeerSvid
@@ -64,7 +64,7 @@ func List(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
 		if err != nil {
-			log.InfoLn(&cid, "List: Problem with svid", svid)
+			log.InfoLn(&cid, "List: Problem with spiffeid", spiffeid)
 		}
 		return
 	}

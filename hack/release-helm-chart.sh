@@ -6,7 +6,7 @@ gitRoot=$(git rev-parse --show-toplevel)
 helmChartDirName="helm-charts"
 baseHelmChartDirectory=$gitRoot/$helmChartDirName
 
-if [[ "$1" == "-h" || "$1" == "help" ]]; then
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "This script is used to release helm-chart"
     echo "-----------------------------------------------------------------"
     echo "Usage: ${gitRoot}/${helmChartDirName}/release_helm_chart.sh <version>"

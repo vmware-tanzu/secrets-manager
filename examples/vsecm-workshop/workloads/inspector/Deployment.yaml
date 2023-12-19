@@ -28,7 +28,7 @@ spec:
       serviceAccountName: vsecm-inspector
       containers:
       - name: main
-        image: vsecm/example-multiple-secrets:0.21.4
+        image: vsecm/example-multiple-secrets:0.21.5
         volumeMounts:
         - name: spire-agent-socket
           mountPath: /spire-agent-socket
@@ -38,9 +38,9 @@ spec:
           value: "unix:///spire-agent-socket/agent.sock"
         - name: VSECM_LOG_LEVEL
           value: "7"
-        - name: VSECM_WORKLOAD_SVID_PREFIX
+        - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/"
-        - name: VSECM_SAFE_SVID_PREFIX
+        - name: VSECM_SAFE_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
       volumes:
       - name: spire-agent-socket

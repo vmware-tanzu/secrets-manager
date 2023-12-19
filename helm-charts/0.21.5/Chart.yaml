@@ -57,6 +57,8 @@ dependencies:
   - name: safe
     repository: file://charts/safe
     version: 0.21.5
+    condition: global.deploySafe
   - name: sentinel
     repository: file://charts/sentinel
     version: 0.21.5
+    condition: global.deploySentinel

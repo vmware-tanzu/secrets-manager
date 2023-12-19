@@ -20,18 +20,18 @@ import (
 	"strings"
 )
 
-func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, svid string) {
-	j := createDefaultJournalEntry(cid, svid, r)
+func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+	j := createDefaultJournalEntry(cid, spiffeid, r)
 	j.Entity = reqres.KeyInputRequest{}
 	audit.Log(j)
 
-	if !isSentinel(j, cid, w, svid) {
+	if !isSentinel(j, cid, w, spiffeid) {
 		j.Event = audit.EventBadSvid
 		audit.Log(j)
 		return
 	}
 
-	log.DebugLn(&cid, "ReceiveKeys: sentinel svid:", svid)
+	log.DebugLn(&cid, "ReceiveKeys: sentinel spiffeid:", spiffeid)
 
 	body := readBody(cid, r, w, j)
 	if body == nil {

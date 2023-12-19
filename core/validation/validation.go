@@ -15,23 +15,20 @@ import (
 	"strings"
 )
 
-// IsSentinel returns true if the given SVID (SPIFFE Verifiable Identity Document)
-// is a Sentinel SVID.
-// It does this by checking if the SVID has the SentinelSvidPrefix as its prefix.
-func IsSentinel(svid string) bool {
-	return strings.HasPrefix(svid, env.SentinelSvidPrefix())
+// IsSentinel returns true if the given SPIFFEID is a Sentinel ID.
+// It does this by checking if the SPIFFEID has the SentinelSpiffeIdPrefix as its prefix.
+func IsSentinel(spiffeid string) bool {
+	return strings.HasPrefix(spiffeid, env.SentinelSpiffeIdPrefix())
 }
 
-// IsSafe returns true if the given SVID (SPIFFE Verifiable Identity Document)
-// is a Safe SVID.
-// It does this by checking if the SVID has the SafeSvidPrefix as its prefix.
-func IsSafe(svid string) bool {
-	return strings.HasPrefix(svid, env.SafeSvidPrefix())
+// IsSafe returns true if the given SPIFFEID is a Safe ID.
+// It does this by checking if the SPIFFEID has the SafeSpiffeIdPrefix as its prefix.
+func IsSafe(spiffeid string) bool {
+	return strings.HasPrefix(spiffeid, env.SafeSpiffeIdPrefix())
 }
 
-// IsWorkload returns true if the given SVID (SPIFFE Verifiable Identity Document)
-// is a Workload SVID.
-// It does this by checking if the SVID has the WorkloadSvidPrefix as its prefix.
-func IsWorkload(svid string) bool {
-	return strings.HasPrefix(svid, env.WorkloadSvidPrefix())
+// IsWorkload returns true if the given SPIFFEID is a Workload ID.
+// It does this by checking if the SPIFFEID has the WorkloadSpiffeIdPrefix as its prefix.
+func IsWorkload(spiffeid string) bool {
+	return strings.HasPrefix(spiffeid, env.WorkloadSpiffeIdPrefix())
 }
