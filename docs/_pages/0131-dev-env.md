@@ -122,6 +122,11 @@ container registry running on port `5000`:
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
+You may also want to check out [`kind`’s instructions for setting up a local
+registry][kind-local-registry].
+
+[kind]: https://kind.sigs.k8s.io/docs/user/local-registry/
+
 Then initialize `kind` with the following command:
 
 ```bash
