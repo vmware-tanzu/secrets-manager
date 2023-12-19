@@ -1,0 +1,24 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        image: localhost:5000/example-multiple-secrets:0.21.5
+        env:
+        - name: VSECM_LOG_LEVEL
+          value: "0"
