@@ -269,15 +269,15 @@ To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
 during the release development process.
 
-At the beginning of a VSecM release, the [init-next-helm-chart.sh][init_script]
+At the beginning of a VSecM release, the [./hack/init-next-helm-chart.sh][init_script]
 script is used to initialize the helm-charts.
 
 To initialize a new helm-chart, run the following command using the init script:
-`./helm-charts/init_next_helm_chart.sh <base-version> <new-version>`
+`./hack/init_next_helm_chart.sh <base-version> <new-version>`
 base-version: the existing helm-charts version to be used as the base helm-chart.
 new-version: the version helm-charts to be initialized.
 
-For example: `./helm-charts/init_next_helm_chart.sh 0.21.0 0.22.0`
+For example: `./hack/init_next_helm_chart.sh 0.21.0 0.22.0`
 
 After execution, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into the main branch.
@@ -318,7 +318,7 @@ folders.
 To add a snapshot of the current documentation: 
 
 1. Copy the `docs` folder into a temporary place like `/tmp/docs`.
-2. Checkout the `gh-pages` branch.
+2. Checkout the `docs` branch.
 3. Copy the `docs` folder from `/tmp/docs` to the `gh-pages` branch:
    `cp -r /tmp/docs $WORKSPACE/secrets-manager/docs/<version>`.
 4. Update the `secrets-manager/docs/<version>/_includes/notification.html` file
