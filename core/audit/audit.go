@@ -18,10 +18,10 @@ import (
 type Event string
 
 const EventEnter Event = "vsecm-enter"
-const EventBadSvid Event = "vsecm-bad-svid"
+const EventBadSvid Event = "vsecm-bad-spiffeid"
 const EventBrokenBody Event = "vsecm-broken-body"
 const EventRequestTypeMismatch Event = "vsecm-request-type-mismatch"
-const EventBadPeerSvid Event = "vsecm-bad-peer-svid"
+const EventBadPeerSvid Event = "vsecm-bad-peer-spiffeid"
 const EventNoSecret Event = "vsecm-no-secret"
 const EventOk Event = "vsecm-ok"
 const EventNoWorkloadId Event = "vsecm-no-wl-id"
@@ -35,18 +35,18 @@ type JournalEntry struct {
 	Entity        any
 	Method        string
 	Url           string
-	Svid          string
+	SpiffeId      string
 	Event         Event
 }
 
-func printAudit(correlationId, entityName, method, url, svid, message string) {
+func printAudit(correlationId, entityName, method, url, spiffeid, message string) {
 	log.AuditLn(
 		&correlationId,
 		entityName,
 		"{{"+
 			"method:[["+method+"]],"+
 			"url:[["+url+"]],"+
-			"svid:[["+svid+"]],"+
+			"spiffeid:[["+spiffeid+"]],"+
 			"msg:[["+message+"]]}}",
 	)
 }
@@ -56,7 +56,7 @@ func Log(e JournalEntry) {
 		printAudit(
 			e.CorrelationId,
 			"nil",
-			e.Method, e.Url, e.Svid, string(e.Event),
+			e.Method, e.Url, e.SpiffeId, string(e.Event),
 		)
 	}
 
@@ -65,63 +65,63 @@ func Log(e JournalEntry) {
 		printAudit(
 			e.CorrelationId,
 			"SecretDeleteRequest",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"w:'"+v.WorkloadId+"',e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretDeleteResponse:
 		printAudit(
 			e.CorrelationId,
 			"SecretDeleteResponse",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretFetchRequest:
 		printAudit(
 			e.CorrelationId,
 			"SecretFetchRequest",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretFetchResponse:
 		printAudit(
 			e.CorrelationId,
 			"SecretFetchResponse",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+",'c:'"+v.Created+",'u:'"+v.Updated+",'m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretUpsertRequest:
 		printAudit(
 			e.CorrelationId,
 			"SecretUpsertRequest",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretUpsertResponse:
 		printAudit(
 			e.CorrelationId,
 			"SecretUpsertResponse",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretListRequest:
 		printAudit(
 			e.CorrelationId,
 			"SecretListRequest",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretListResponse:
 		printAudit(
 			e.CorrelationId,
 			"SecretListResponse",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	default:
 		printAudit(
 			e.CorrelationId,
 			"UnknownEntity",
-			e.Method, e.Url, e.Svid,
+			e.Method, e.Url, e.SpiffeId,
 			"e: UNKNOWN ENTITY in AUDIT LOG",
 		)
 	}

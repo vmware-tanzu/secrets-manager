@@ -124,7 +124,7 @@ func AcquireSource(
 	svidId := svid.ID
 	if !validation.IsSafe(svid.ID.String()) {
 		log.FatalLn(
-			id, "Svid check: I don’t know you, and it’s crazy:", svidId.String(),
+			id, "SpiffeId check: I don’t know you, and it’s crazy:", svidId.String(),
 		)
 	}
 

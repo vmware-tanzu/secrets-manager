@@ -22,7 +22,7 @@ environments:
    value: "unix:///spire-agent-socket/agent.sock"
  - name: VSECM_LOG_LEVEL
    value: "7"
- - name: VSECM_WORKLOAD_SVID_PREFIX
+ - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/"
  - name: VSECM_SAFE_DATA_PATH
    value: "/data"

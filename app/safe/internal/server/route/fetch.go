@@ -27,13 +27,13 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func handleBadSvidResponse(cid string, w http.ResponseWriter, svid string,
+func handleBadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 	j audit.JournalEntry,
 ) {
 	j.Event = audit.EventBadSvid
 	audit.Log(j)
 
-	log.DebugLn(&cid, "Fetch: bad svid", svid)
+	log.DebugLn(&cid, "Fetch: bad spiffeid", spiffeid)
 
 	w.WriteHeader(http.StatusBadRequest)
 	_, err := io.WriteString(w, "")
@@ -43,7 +43,7 @@ func handleBadSvidResponse(cid string, w http.ResponseWriter, svid string,
 }
 
 func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
-	svid string, j audit.JournalEntry,
+	spiffeid string, j audit.JournalEntry,
 ) {
 	j.Event = audit.EventBadPeerSvid
 	audit.Log(j)
@@ -51,7 +51,7 @@ func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
 	w.WriteHeader(http.StatusBadRequest)
 	_, err := io.WriteString(w, "")
 	if err != nil {
-		log.InfoLn(&cid, "Fetch: Problem with svid", svid)
+		log.InfoLn(&cid, "Fetch: Problem with spiffeid", spiffeid)
 	}
 }
 
@@ -94,8 +94,8 @@ func handleSuccessResponse(cid string, w http.ResponseWriter,
 	log.DebugLn(&cid, "Fetch: after response")
 }
 
-func getWorkloadIDAndParts(svid string) (string, []string) {
-	tmp := strings.Replace(svid, env.WorkloadSvidPrefix(), "", 1)
+func getWorkloadIDAndParts(spiffeid string) (string, []string) {
+	tmp := strings.Replace(spiffeid, env.WorkloadSpiffeIdPrefix(), "", 1)
 	parts := strings.Split(tmp, "/")
 	if len(parts) > 0 {
 		return parts[0], parts
@@ -129,7 +129,7 @@ func getSecretValue(cid string, secret *v1.SecretStored) string {
 	return ""
 }
 
-func Fetch(cid string, w http.ResponseWriter, r *http.Request, svid string) {
+func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "Fetch: Master key not set")
 		return
@@ -140,15 +140,15 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 		Entity:        reqres.SecretFetchRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
-		Svid:          svid,
+		SpiffeId:      spiffeid,
 		Event:         audit.EventEnter,
 	}
 
 	audit.Log(j)
 
 	// Only workloads can fetch.
-	if !validation.IsWorkload(svid) {
-		handleBadSvidResponse(cid, w, svid, j)
+	if !validation.IsWorkload(spiffeid) {
+		handleBadSvidResponse(cid, w, spiffeid, j)
 		return
 	}
 
@@ -163,9 +163,9 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 
 	log.DebugLn(&cid, "Fetch: preparing request")
 
-	workloadId, parts := getWorkloadIDAndParts(svid)
+	workloadId, parts := getWorkloadIDAndParts(spiffeid)
 	if len(parts) == 0 {
-		handleBadPeerSvidResponse(cid, w, svid, j)
+		handleBadPeerSvidResponse(cid, w, spiffeid, j)
 		return
 	}
 

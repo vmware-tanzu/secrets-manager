@@ -60,7 +60,6 @@ style="position:absolute;top:0;left:0;width:100%;height:100%;"
 title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"></iframe></div>
 <script src="https://player.vimeo.com/api/player.js"></script>
 
-
 ## Clone the Repository
 
 Let’s start by cloning the **VMware Secrets Manager** repository first:

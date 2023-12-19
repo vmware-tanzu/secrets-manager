@@ -34,10 +34,12 @@ environment to be able to locally develop **VMware Secrets Manager**:
 * [Minikube][minikube] installed on your system.
 * [Make][make] installed on your system.
 * [Git][git] installed on your system.
+* [Go][go] installed and configured on your system.
 
 [minikube]: https://minikube.sigs.k8s.io/docs/
 [make]: https://www.gnu.org/software/make/
 [git]: https://git-scm.com/
+[go]: https://go.dev/
 
 > **Can I Use Something Other than Minikube and Docker**?
 >
@@ -110,6 +112,27 @@ And you should be all set.
 You can run `make build-local` to build local images, and `make deploy-local` to
 build and install **VMware Secrets Manager** locally.
 
+## Alternate Non-Minikube Setup Using Kind
+
+If you are using [Kind][kind] to set up your local Kubernetes cluster, you
+don’t need to do anything special. Just make sure that you have a local 
+container registry running on port `5000`:
+
+```bash
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+```
+
+Then initialize `kind` with the following command:
+
+```bash
+kind create cluster
+```
+
+Then you can run `make build-local` to build local images, and 
+`make deploy-local` install **VMware Secrets Manager** locally.
+
+[kind]: https://kind.sigs.k8s.io/
+
 ## Cloning VMware Secrets Manager
 
 Create a workspace folder and clone **VMware Secrets Manager** into it.
@@ -142,6 +165,17 @@ with the `Makefile` at the project root.
 ```bash
 make help
 ```
+
+Additionally, you can run `make he` at the root of each project to get
+a more release-specific help output.
+
+```bash
+make h
+```
+
+Both of these commands gives a brief overview of what you can do with the
+make targets. If you want to learn more about a specific target, you can
+read the source code of the relevant file inside the `./makefiles` folder.
 
 ## Building, Deploying, and Testing
 
@@ -352,6 +386,23 @@ acquiring images from the local registry, try these:
   that might be helpful.
 
 [minikube-push]: https://minikube.sigs.k8s.io/docs/handbook/pushing/
+
+## Checking Logs
+
+It’s always a good idea to check **SPIRE Server**’s and **VSecM Safe**’s logs
+to ensure that they are running as expected.
+
+To check **SPIRE Server**’s logs, execute the following:
+
+```bash
+kubectl logs -n spire-system $NAME_OF_SPIRE_SERVER_POD -f
+```
+
+To check **VSecM Safe**’s logs, execute the following:
+
+```bash
+kubectl logs -n vsecm-system $NAME_OF_VSECM_SAFE_POD -f 
+```
 
 ## Enjoy 🎉
 

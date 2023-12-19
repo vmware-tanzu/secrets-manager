@@ -23,10 +23,10 @@ import (
 	"net/http"
 )
 
-func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, svid string) bool {
+func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, spiffeid string) bool {
 	audit.Log(j)
 
-	if validation.IsSentinel(svid) {
+	if validation.IsSentinel(spiffeid) {
 		return true
 	}
 
@@ -42,7 +42,7 @@ func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, svid st
 	return false
 }
 
-func Delete(cid string, w http.ResponseWriter, r *http.Request, svid string) {
+func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "Delete: Master key not set")
 		return
@@ -53,15 +53,15 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, svid string) {
 		Entity:        reqres.SecretDeleteRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
-		Svid:          svid,
+		SpiffeId:      spiffeid,
 		Event:         audit.EventEnter,
 	}
 
-	if !isSentinel(j, cid, w, svid) {
+	if !isSentinel(j, cid, w, spiffeid) {
 		return
 	}
 
-	log.DebugLn(&cid, "Delete: sentinel svid:", svid)
+	log.DebugLn(&cid, "Delete: sentinel spiffeid:", spiffeid)
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
