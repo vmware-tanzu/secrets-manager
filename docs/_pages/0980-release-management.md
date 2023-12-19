@@ -222,7 +222,11 @@ make deploy-photon-fips-local
 make test-local
 ```
 
-### 7. Tagging
+### 7. Merge the Release Branch to `main`
+
+If all tests pass, merge the release branch to `main`.
+
+### 8. Tagging
 
 Tagging needs to be done **on the build server**.
 
@@ -243,27 +247,7 @@ make build
 make tag
 ```
 
-### 8. Create a Release PR
-
-Since we successfully published a release to DockerHub, and ArtifactHub, we
-now can merge our changes to the `main` branch.
-
-Create a PR from the release branch you are on, and follow the regular merge
-approval process.
-
-### 9. Tag the `main` Branch
-
-We have created a release in the previous step, but we did it on a feature 
-branch. Now, we need to tag the `main` branch with the same version.
-
-Here’s an example:
-
-```bash
-git tag -s v0.22.0-000 -a v0.22.0-000
-git push origin --tags
-```
-
-### 10. Initializing Helm Charts
+### 9. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm-charts are continuously developed and updated
@@ -284,7 +268,7 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 11. Update Kubernetes Manifests
+### 10. Update Kubernetes Manifests
 
 Based on the generated helm charts run the [./hack/update-k8s-manifests.sh][update-script]
 to update the Kubernetes manifests for the new release.
@@ -297,7 +281,7 @@ For example `./hack/update-k8s-manifests.sh 0.22.0`
 
 [update-script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/update-k8s-manifests.sh
 
-### 12. Release Helm Charts
+### 11. Release Helm Charts
 
 We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
@@ -323,7 +307,7 @@ Alternatively, you can use a make target too:
 > using the workflow described above.
 {: .block-tip }
 
-### 13. Add a Snapshot of the Current Documentation
+### 12. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned 
 folders.
@@ -349,7 +333,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 14. All Set 🎉
+### 13. All Set 🎉
 
 You’re all set.
 
