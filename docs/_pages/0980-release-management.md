@@ -284,7 +284,20 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 11. Release Helm Charts
+### 11. Update Kubernetes Manifests
+
+Based on the generated helm charts run the [./hack/update-k8s-manifests.sh][update-script]
+to update the Kubernetes manifests for the new release.
+
+These manifests are used by people who want to install VSecM without using
+Helm. To generate the manifests you need to have generated the helm charts 
+first.
+
+For example `./hack/update-k8s-manifests.sh 0.22.0`
+
+[update-script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/update-k8s-manifests.sh
+
+### 12. Release Helm Charts
 
 We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
@@ -310,7 +323,7 @@ Alternatively, you can use a make target too:
 > using the workflow described above.
 {: .block-tip }
 
-### 12. Add a Snapshot of the Current Documentation
+### 13. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned 
 folders.
@@ -336,7 +349,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 13. All Set 🎉
+### 14. All Set 🎉
 
 You’re all set.
 
