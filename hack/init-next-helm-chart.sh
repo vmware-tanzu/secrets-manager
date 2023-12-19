@@ -7,7 +7,7 @@ helmChartDirName="helm-charts"
 filesToBeUpdated=("Chart.yaml" "charts/safe/Chart.yaml" "charts/sentinel/Chart.yaml" \
 "charts/spire/Chart.yaml")
 
-if [[ "$1" == "--h" || "$1" == "--help" ]]; then
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "This script is used to initialize new VSecM helm-chart from an existing helm-chart"
     echo "-----------------------------------------------------------------"
     echo "Usage: ${gitRoot}/${helmChartDirName}/init_next_helm_chart.sh <base-version> <new-version>"
