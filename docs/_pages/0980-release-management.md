@@ -312,7 +312,7 @@ Alternatively, you can use a make target too:
 
 ### 12. Add a Snapshot of the Current Documentation
 
-The `gh-pages` branch contains a snapshot of each documentation in versioned 
+The `docs` branch contains a snapshot of each documentation in versioned 
 folders.
 
 To add a snapshot of the current documentation: 
