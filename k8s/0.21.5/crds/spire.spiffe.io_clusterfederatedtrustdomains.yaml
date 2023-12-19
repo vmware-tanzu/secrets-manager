@@ -64,9 +64,6 @@ spec:
                 description: BundleEndpointURL is the URL of the bundle endpoint.
                   It must be an HTTPS URL and cannot contain userinfo (i.e. username/password).
                 type: string
-              className:
-                description: Set the class of controller to handle this object.
-                type: string
               trustDomain:
                 description: TrustDomain is the name of the trust domain to federate
                   with (e.g. example.org)
@@ -91,9 +88,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

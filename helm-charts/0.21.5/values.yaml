@@ -47,7 +47,7 @@ global:
       pullPolicy: IfNotPresent
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
-      tag: 0.4.0
+      tag: 0.3.0
       pullPolicy: IfNotPresent
   vsecm:
     namespace: vsecm-system

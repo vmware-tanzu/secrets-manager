@@ -40,13 +40,6 @@ spec:
                   access the SPIRE administrative APIs. Extra care should be taken
                   to only apply this SPIFFE ID to admin workloads.
                 type: boolean
-              autoPopulateDNSNames:
-                description: AutoPopulateDNSNames indicates whether or not to auto
-                  populate service DNS names.
-                type: boolean
-              className:
-                description: Set the class of controller to handle this object.
-                type: string
               dnsNameTemplates:
                 description: DNSNameTemplate represents templates for extra DNS names
                   that are applicable to SVIDs minted for this ClusterSPIFFEID. The
@@ -230,9 +223,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []
