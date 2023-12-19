@@ -12,7 +12,7 @@
 ifdef VSECM_VERSION
 	VERSION := $(VSECM_VERSION)
 else
-	VERSION := 0.21.4
+	VERSION := 0.21.5
 endif
 
 IMAGE=distroless

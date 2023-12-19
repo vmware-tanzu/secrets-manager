@@ -28,7 +28,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-using-init-container:0.21.4
+        image: vsecm/example-using-init-container:0.21.5
         env:
         - name: SECRET
           valueFrom:
