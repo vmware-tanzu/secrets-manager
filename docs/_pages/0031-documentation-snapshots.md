@@ -24,4 +24,5 @@ Here are the **VMware Secrets Manager** documentations captured in time for
 specific releases:
 
 * [Latest](https://vsecm.com/)
+* [v0.21.5](https://vsecm.com/v0.21.5/)
 * [v0.21.4](https://vsecm.com/v0.21.4/)
