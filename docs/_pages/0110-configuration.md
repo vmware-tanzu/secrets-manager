@@ -54,11 +54,11 @@ The following section contain a breakdown of all of these environment variables.
 If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
 will be used.
 
-### VSECM_CRYPTO_KEY_NAME
+### VSECM_SAFE_CRYPTO_KEY_NAME
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_CRYPTO_KEY_NAME` is how the age secret key is referenced by
+`VSECM_SAFE_CRYPTO_KEY_NAME` is how the age secret key is referenced by
 name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-safe-age-key"`.
 
 If you change the value of this environment variable, make sure to change the
@@ -502,7 +502,7 @@ Ensure this is set as an environment variable for your containers; it's a
 critical piece. VSecM Safe and Sentinel rely on it to precisely locate the
 deployment's namespace. For instance, Safe leverages this information to securely
 store age keys within a designated secret, as specified by the 
-`VSECM_CRYPTO_KEY_NAME` configuration.
+`VSECM_SAFE_CRYPTO_KEY_NAME` configuration.
 
 ### VSECM_SIDECAR_SECRETS_PATH
 

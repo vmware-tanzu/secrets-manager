@@ -290,10 +290,10 @@ func SafeBootstrapTimeout() time.Duration {
 
 // SafeAgeKeySecretName returns the name of the environment variable that holds
 // the VSecM Safe age key. The value is retrieved using the
-// "VSECM_CRYPTO_KEY_NAME" environment variable. If this variable is
+// "VSECM_SAFE_CRYPTO_KEY_NAME" environment variable. If this variable is
 // not set or is empty, the default value "vsecm-safe-age-key" is returned.
 func SafeAgeKeySecretName() string {
-	p := os.Getenv("VSECM_CRYPTO_KEY_NAME")
+	p := os.Getenv("VSECM_SAFE_CRYPTO_KEY_NAME")
 	if p == "" {
 		p = "vsecm-safe-age-key"
 	}

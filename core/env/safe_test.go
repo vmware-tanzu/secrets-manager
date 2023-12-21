@@ -679,10 +679,10 @@ func TestSafeAgeKeySecretName(t *testing.T) {
 		{
 			name: "crypto_key_name_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_CRYPTO_KEY_NAME", "vsecm-safe-age-key-test")
+				return os.Setenv("VSECM_SAFE_CRYPTO_KEY_NAME", "vsecm-safe-age-key-test")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_CRYPTO_KEY_NAME")
+				return os.Unsetenv("VSECM_SAFE_CRYPTO_KEY_NAME")
 			},
 			want: "vsecm-safe-age-key-test",
 		},

@@ -26,7 +26,7 @@ environments:
    value: "spiffe://vsecm.com/workload/"
  - name: VSECM_SAFE_DATA_PATH
    value: "/data"
- - name:  VSECM_CRYPTO_KEY_NAME
+ - name:  VSECM_SAFE_CRYPTO_KEY_NAME
    value: *ageKeySecretName
  - name: VSECM_SAFE_CRYPTO_KEY_PATH
    value: "/key/key.txt"
