@@ -583,10 +583,10 @@ func TestSafeAgeKeyPath(t *testing.T) {
 		{
 			name: "crypto_key_path_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_CRYPTO_KEY_PATH", "/opt/test_key.txt")
+				return os.Setenv("VSECM_SAFE_CRYPTO_KEY_PATH", "/opt/test_key.txt")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_CRYPTO_KEY_PATH")
+				return os.Unsetenv("VSECM_SAFE_CRYPTO_KEY_PATH")
 			},
 			want: "/opt/test_key.txt",
 		},

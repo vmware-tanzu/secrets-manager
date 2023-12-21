@@ -15,22 +15,6 @@ kind: Namespace
 metadata:
   name: spire-system
 ---
-# Source: vsecm/templates/hook-preinstall-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets… secret
-# >/
-# <>/' Copyright 2023–present VMware, Inc.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: vsecm-system
----
 # Source: vsecm/charts/safe/templates/serviceaccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -48,11 +32,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.0
-    app.kubernetes.io/name: vsecm-safe
-    app.kubernetes.io/instance: vsecm
+    helm.sh/chart: safe-0.21.6
+    app.kubernetes.io/name: release-name-safe
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
+    app.kubernetes.io/version: "0.21.6"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
@@ -73,11 +57,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.22.0
-    app.kubernetes.io/name: vsecm-sentinel
-    app.kubernetes.io/instance: vsecm
+    helm.sh/chart: sentinel-0.21.6
+    app.kubernetes.io/name: release-name-sentinel
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
+    app.kubernetes.io/version: "0.21.6"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -654,14 +638,14 @@ roleRef:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vsecm-safe
+  name: release-name-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.0
-    app.kubernetes.io/name: vsecm-safe
-    app.kubernetes.io/instance: vsecm
+    helm.sh/chart: safe-0.21.6
+    app.kubernetes.io/name: release-name-safe
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
+    app.kubernetes.io/version: "0.21.6"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -671,8 +655,8 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: vsecm-safe
-    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/name: release-name-safe
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server.yaml
@@ -750,7 +734,7 @@ spec:
       serviceAccountName: spire-agent
       containers:
         - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.8.0
+          image: ghcr.io/spiffe/spire-agent:1.8.6
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/config/agent.conf"]
           volumeMounts:
@@ -766,7 +750,7 @@ spec:
               mountPath: /run/spire/sockets
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
-          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.3
+          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.4
           imagePullPolicy: IfNotPresent
           args: [
             "-workload-api-socket-dir", "/spire-agent-socket",
@@ -799,7 +783,7 @@ spec:
         # of all the little details required to register a CSI driver with
         # the kubelet.
         - name: node-driver-registrar
-          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.8.0
+          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.2
           imagePullPolicy: IfNotPresent
           args: [
             "-csi-address", "/spiffe-csi/csi.sock",
@@ -857,7 +841,7 @@ spec:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
 ---
-# Source: vsecm/charts/safe/templates/deployment.yaml
+# Source: vsecm/charts/safe/templates/Deployment.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -871,27 +855,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vsecm-safe
+  name: release-name-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.0
-    app.kubernetes.io/name: vsecm-safe
-    app.kubernetes.io/instance: vsecm
+    helm.sh/chart: safe-0.21.6
+    app.kubernetes.io/name: release-name-safe
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
+    app.kubernetes.io/version: "0.21.6"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: vsecm-safe
-      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/name: release-name-safe
+      app.kubernetes.io/instance: release-name
       app.kubernetes.io/part-of: vsecm-system
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: vsecm-safe
-        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/name: release-name-safe
+        app.kubernetes.io/instance: release-name
         app.kubernetes.io/part-of: vsecm-system
     spec:
       serviceAccountName: vsecm-safe
@@ -899,7 +883,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-safe:0.21.0"
+          image: "vsecm/vsecm-ist-safe:0.21.5"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -954,8 +938,6 @@ spec:
               value: "30000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
-            - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
-              value: "50"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
@@ -1016,27 +998,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vsecm-sentinel
+  name: release-name-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.22.0
-    app.kubernetes.io/name: vsecm-sentinel
-    app.kubernetes.io/instance: vsecm
+    helm.sh/chart: sentinel-0.21.6
+    app.kubernetes.io/name: release-name-sentinel
+    app.kubernetes.io/instance: release-name
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.0"
+    app.kubernetes.io/version: "0.21.6"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: vsecm-sentinel
-      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/name: release-name-sentinel
+      app.kubernetes.io/instance: release-name
       app.kubernetes.io/part-of: vsecm-system
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: vsecm-sentinel
-        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/name: release-name-sentinel
+        app.kubernetes.io/instance: release-name
         app.kubernetes.io/part-of: vsecm-system
     spec:
       serviceAccountName: vsecm-sentinel
@@ -1044,7 +1026,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-sentinel:0.21.0"
+          image: "vsecm/vsecm-ist-sentinel:0.21.5"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -1108,7 +1090,7 @@ spec:
       shareProcessNamespace: true
       containers:
         - name: spire-server
-          image: ghcr.io/spiffe/spire-server:1.8.0
+          image: ghcr.io/spiffe/spire-server:1.8.6
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
           ports:
@@ -1191,16 +1173,16 @@ spec:
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: vsecm-safe
+  name: release-name-safe
 spec:
   spiffeIDTemplate: "spiffe://vsecm.com\
-    /workload/vsecm-safe\
+    /workload/release-name-safe\
     /ns/{{ .PodMeta.Namespace }}\
     /sa/{{ .PodSpec.ServiceAccountName }}\
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: vsecm-safe
+      app.kubernetes.io/name: release-name-safe
       app.kubernetes.io/part-of: vsecm-system
   workloadSelectorTemplates:
     - "k8s:ns:vsecm-system"
@@ -1220,16 +1202,16 @@ spec:
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: vsecm-sentinel
+  name: release-name-sentinel
 spec:
   spiffeIDTemplate: "spiffe://vsecm.com\
-    /workload/vsecm-sentinel\
+    /workload/release-name-sentinel\
     /ns/{{ .PodMeta.Namespace }}\
     /sa/{{ .PodSpec.ServiceAccountName }}\
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: vsecm-sentinel
+      app.kubernetes.io/name: release-name-sentinel
       app.kubernetes.io/part-of: vsecm-system
   workloadSelectorTemplates:
     - "k8s:ns:vsecm-system"
@@ -1293,3 +1275,22 @@ webhooks:
         operations: ["CREATE", "UPDATE"]
         resources: ["clusterstaticentries"]
     sideEffects: None
+---
+# Source: vsecm/templates/hook-preinstall-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vsecm-system
+  annotations:
+    helm.sh/hook: pre-install
+    "helm.sh/hook-weight": "1"

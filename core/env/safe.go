@@ -236,11 +236,11 @@ func SafeDataPath() string {
 }
 
 // SafeAgeKeyPath returns the path to the safe age key directory.
-// The path is determined by the VSECM_CRYPTO_KEY_PATH environment variable.
+// The path is determined by the VSECM_SAFE_CRYPTO_KEY_PATH environment variable.
 // If the environment variable is not set, the default path "/key/key.txt"
 // is returned.
 func SafeAgeKeyPath() string {
-	p := os.Getenv("VSECM_CRYPTO_KEY_PATH")
+	p := os.Getenv("VSECM_SAFE_CRYPTO_KEY_PATH")
 	if p == "" {
 		p = "/key/key.txt"
 	}

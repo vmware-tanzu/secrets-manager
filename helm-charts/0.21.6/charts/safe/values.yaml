@@ -28,7 +28,7 @@ environments:
    value: "/data"
  - name:  VSECM_CRYPTO_KEY_NAME
    value: *ageKeySecretName
- - name: VSECM_CRYPTO_KEY_PATH
+ - name: VSECM_SAFE_CRYPTO_KEY_PATH
    value: "/key/key.txt"
  - name: VSECM_SAFE_MANUAL_KEY_INPUT
    value: "false"

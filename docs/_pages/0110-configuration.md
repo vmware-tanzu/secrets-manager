@@ -66,11 +66,11 @@ relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
 this is to do a project wide search and find and replace places where reference
 `"vsecm-safe-age-key"` to your new name of choice.
 
-### VSECM_CRYPTO_KEY_PATH
+### VSECM_SAFE_CRYPTO_KEY_PATH
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
+`VSECM_SAFE_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
 that contains the encryption keys.
 
 If not given, it will default to `"/key/key.txt"`.
