@@ -57,8 +57,6 @@ global:
     serverPort: 8081
 
 
-podAnnotations:
-  "helm.sh/hook": pre-install
 
 replicaCount: 1
 

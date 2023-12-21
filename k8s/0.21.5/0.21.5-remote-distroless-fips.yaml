@@ -15,6 +15,24 @@ kind: Namespace
 metadata:
   name: spire-system
 ---
+# Source: vsecm/templates/hook-preinstall-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vsecm-system
+  annotations:
+    "helm.sh/hook-weight": "1"
+---
 # Source: vsecm/charts/safe/templates/serviceaccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -883,7 +901,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-safe:0.21.5"
+          image: "vsecm/vsecm-ist-fips-safe:0.21.5"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -914,9 +932,9 @@ spec:
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_SAFE_DATA_PATH
               value: "/data"
-            - name: VSECM_CRYPTO_KEY_NAME
+            - name: VSECM_SAFE_CRYPTO_KEY_NAME
               value: "vsecm-safe-age-key"
-            - name: VSECM_CRYPTO_KEY_PATH
+            - name: VSECM_SAFE_CRYPTO_KEY_PATH
               value: "/key/key.txt"
             - name: VSECM_SAFE_MANUAL_KEY_INPUT
               value: "false"
@@ -1026,7 +1044,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-sentinel:0.21.5"
+          image: "vsecm/vsecm-ist-fips-sentinel:0.21.5"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -1275,22 +1293,3 @@ webhooks:
         operations: ["CREATE", "UPDATE"]
         resources: ["clusterstaticentries"]
     sideEffects: None
----
-# Source: vsecm/templates/hook-preinstall-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets… secret
-# >/
-# <>/' Copyright 2023–present VMware, Inc.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: vsecm-system
-  annotations:
-    helm.sh/hook: pre-install
-    "helm.sh/hook-weight": "1"
