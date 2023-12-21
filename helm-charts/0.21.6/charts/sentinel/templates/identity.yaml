@@ -13,7 +13,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: {{ include "sentinel.fullname" . }}
 spec:
-  spiffeIDTemplate: "spiffe://vsecm.com\
+  spiffeIDTemplate: "spiffe://{{ .Values.global.spire.trustDomain }}\
     /workload/{{ include "sentinel.fullname" . }}\
     /ns/{{`{{ .PodMeta.Namespace }}`}}\
     /sa/{{`{{ .PodSpec.ServiceAccountName }}`}}\

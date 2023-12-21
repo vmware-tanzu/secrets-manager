@@ -112,7 +112,7 @@ data:
     server {
       bind_address = "0.0.0.0"
       bind_port = "8081"
-      trust_domain = "vsecm.com"
+      trust_domain = {{ .Values.global.spire.trustDomain | quote }}
       data_dir = "/run/spire/server/data"
       log_level = "DEBUG"
       federation {
