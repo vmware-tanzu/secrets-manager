@@ -21,35 +21,51 @@ environments:
  - name: SPIFFE_ENDPOINT_SOCKET
    value: "unix:///spire-agent-socket/agent.sock"
  - name: VSECM_LOG_LEVEL
-   value: "7"
- - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
-   value: "spiffe://vsecm.com/workload/"
- - name: VSECM_SAFE_DATA_PATH
-   value: "/data"
+   value: "3"
+ - name: VSECM_PROBE_LIVENESS_PORT
+   value: ":8081"
+ - name: VSECM_PROBE_READINESS_PORT
+   value: ":8082"
+ - name: VSECM_SAFE_BACKING_STORE
+   value: "file"
+ - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
+   value: "30000"
  - name:  VSECM_SAFE_CRYPTO_KEY_NAME
    value: *ageKeySecretName
  - name: VSECM_SAFE_CRYPTO_KEY_PATH
    value: "/key/key.txt"
- - name: VSECM_SAFE_MANUAL_KEY_INPUT
+ - name: VSECM_SAFE_DATA_PATH
+   value: "/data"
+ - name: VSECM_SAFE_ENDPOINT_URL
+   value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+ - name: VSECM_SAFE_FIPS_COMPLIANT
    value: "false"
- - name: VSECM_SAFE_SECRET_NAME_PREFIX
-   value: "VSECM-secret-"
- - name: VSECM_SAFE_TLS_PORT
-   value: ":8443"
- - name: VSECM_SAFE_SECRET_BUFFER_SIZE
-   value: "10"
+ - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+   value: "50"
  - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
-   value: "10"
- - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
    value: "10"
  - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
    value: "10"
+ - name: VSECM_SAFE_MANUAL_KEY_INPUT
+   value: "false"
+ - name: VSECM_SAFE_SECRET_BACKUP_COUNT
+   value: "3"
+ - name: VSECM_SAFE_SECRET_BUFFER_SIZE
+   value: "10"
+ - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
+   value: "10"
+ - name: VSECM_SAFE_SECRET_NAME_PREFIX
+   value: "vsecm-secret-"
+ - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
+   value: "10000"
+ - name: VSECM_SAFE_TLS_PORT
+   value: ":8443"
  - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
    value: "false"
- - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
-   value: "30000"
- - name: VSECM_SAFE_FIPS_COMPLIANT
-   value: "false"
+ - name: VSECM_SAFE_SPIFFEID_PREFIX
+   value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+ - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+   value: "spiffe://vsecm.com/workload/"
 
 imagePullSecrets: []
 nameOverride: ""
