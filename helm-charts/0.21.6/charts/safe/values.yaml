@@ -64,8 +64,6 @@ environments:
    value: "false"
  - name: VSECM_SAFE_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
- - name: VSECM_SYSTEM_NAMESPACE
-   value: "vsecm-system"
  - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/"
 

@@ -67,14 +67,6 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-safe/n/"
-            - name: VSECM_PROBE_LIVENESS_PORT
-              value: ":{{ .Values.livenessPort }}"
-            - name: VSECM_PROBE_READINESS_PORT
-              value: ":{{ .Values.readynessPort }}"
             - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:

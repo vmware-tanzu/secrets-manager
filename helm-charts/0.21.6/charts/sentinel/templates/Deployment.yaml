@@ -59,14 +59,8 @@ spec:
           env:
             {{- range .Values.environments }}
             - name: {{ .name }}
-              value: {{ .value }}
+              value: {{ .value | quote }}
             {{- end }}
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-safe/n/"
-            - name: VSECM_PROBE_LIVENESS_PORT
-              value: ":{{ .Values.livenessPort }}"
           livenessProbe:
             httpGet:
               path: /
