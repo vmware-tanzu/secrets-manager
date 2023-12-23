@@ -909,7 +909,7 @@ spec:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
-              value: "7"
+              value: "3"
             - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_SAFE_DATA_PATH
@@ -921,7 +921,7 @@ spec:
             - name: VSECM_SAFE_MANUAL_KEY_INPUT
               value: "false"
             - name: VSECM_SAFE_SECRET_NAME_PREFIX
-              value: "VSECM-secret-"
+              value: "vsecm-secret-"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
             - name: VSECM_SAFE_SECRET_BUFFER_SIZE
@@ -938,6 +938,26 @@ spec:
               value: "30000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
+            - name: VSECM_PROBE_LIVENESS_PORT
+              value: ":8081"
+            - name: VSECM_PROBE_READINESS_PORT
+              value: ":8082"
+            - name: VSECM_SAFE_BACKING_STORE
+              value: "file"
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+            - name: VSECM_SAFE_FIPS_COMPLIANT
+              value: "false"
+            - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+              value: "50"
+            - name: VSECM_SAFE_SECRET_BACKUP_COUNT
+              value: "3"
+            - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
+              value: "10000"
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_SYSTEM_NAMESPACE
+              value: "vsecm-system"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
@@ -1045,6 +1065,18 @@ spec:
           env:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: unix:///spire-agent-socket/agent.sock
+            - name: VSECM_LOG_LEVEL
+              value: 3
+            - name: VSECM_PROBE_LIVENESS_PORT
+              value: :8081
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: https://vsecm-safe.vsecm-system.svc.cluster.local:8443/
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/
+            - name: VSECM_SAFE_TLS_PORT
+              value: :8443
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+              value: spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
