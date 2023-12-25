@@ -15,11 +15,11 @@ else
 	VERSION := 0.21.6
 endif
 
-# Set DEPLOY_SPIRE to false, if you want to use existing spire deployment
-ifdef DEPLOY_SPIRE
-	DEPLOY_SPIRE := $(DEPLOY_SPIRE)
+# Set deploySpire to false, if you want to use existing spire deployment
+ifdef deploySpire
+	DEPLOY_SPIRE := $(deploySpire)
 else
-	DEPLOY_SPIRE := "True"
+	DEPLOY_SPIRE := "true"
 endif
 
 IMAGE=distroless
