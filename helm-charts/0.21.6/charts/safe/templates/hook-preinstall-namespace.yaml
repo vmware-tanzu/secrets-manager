@@ -12,8 +12,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .Values.global.vsecm.namespace }}
-  {{- with .Values.podAnnotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-    "helm.sh/hook-weight": "1"
-  {{- end }}

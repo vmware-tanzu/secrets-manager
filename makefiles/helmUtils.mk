@@ -13,9 +13,12 @@ export LOCAL_REGISTRY := --set global.registry=localhost:5000
 export DISTROLESSS_IMAGE := --set global.baseImage=distroless
 export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
 export PHOTON_IMAGE := --set global.baseImage=photon
-export PHOTON_FIPS_IMAGE := --set global.baseImage=photos-fips
+export PHOTON_FIPS_IMAGE := --set global.baseImage=photon-fips
 export HELM_CHART_PATH := "./helm-charts/${VERSION}"
 export NAME_TEMPLATE := --name-template vsecm
+export DEPLOY_SAFE_FALSE := --set global.deploySafe=false
+export DEPLOY_SENTINEL_FALSE := --set global.deploySentinel=false
+export DEPLOY_SPIRE_FALSE := --set global.deploySpire=false
 
 # Render helm chart and save as kubernetes manifests
 k8s-manifests-update:
@@ -50,7 +53,7 @@ helm-install-distroless-fips:
 helm-install-photon:
 	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_IMAGE}
 
-helm-install-photos-fips:
+helm-install-photon-fips:
 	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_FIPS_IMAGE}
 
 helm-uninstall:

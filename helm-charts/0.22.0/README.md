@@ -1,9 +1,9 @@
 # VMware Secrets Manager (VSecM) Helm Chart
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
 
-**VMware Secrets Manager** keeps your secrets secret. With **VSecM**, you can 
-rest assured that your sensitive data is always secure and protected. **VSecM** 
-is perfect for securely storing arbitrary configuration information at a central 
+**VMware Secrets Manager** keeps your secrets secret. With **VSecM**, you can
+rest assured that your sensitive data is always secure and protected. **VSecM**
+is perfect for securely storing arbitrary configuration information at a central
 location and securely dispatching it to workloads.
 
 ## Installation
@@ -30,15 +30,15 @@ To use **VMware Secrets Manager**, follow the steps below:
 
 ## Options
 
-The following options can be passed to the `helm install` command to set global 
+The following options can be passed to the `helm install` command to set global
 variables:
 
-- `--set global.deploySpire=<true/false>`: This flag can be passed to install or 
+- `--set global.deploySpire=<true/false>`: This flag can be passed to install or
   skip Spire.
-- `--set global.baseImage=<distroless/distroless-fips/photon/photos-fips>`: 
+- `--set global.baseImage=<distroless/distroless-fips/photon/photon-fips>`:
   This flag can be passed to install **VSecM** with the given baseImage Docker image.
 
-Default values are `true` and `distroless` for `global.deploySpire` and 
+Default values are `true` and `distroless` for `global.deploySpire` and
 `global.baseImage` respectively.
 
 Here's an example command with the above options:
@@ -49,7 +49,7 @@ helm install vsecm vsecm/helm-charts \
   --set global.baseImage=distroless
 ```
 
-Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/photos-fips>` 
+Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/photon-fips>`
 with the desired values.
 
 ## License
