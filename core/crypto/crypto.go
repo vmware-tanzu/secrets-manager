@@ -13,6 +13,7 @@ package crypto
 import (
 	"crypto/rand"
 	"encoding/hex"
+
 	"filippo.io/age"
 	"github.com/pkg/errors"
 )
@@ -62,7 +63,7 @@ func generateAesSeed() (string, error) {
 	// Generate a 256 bit key
 	key := make([]byte, 32)
 
-	_, err := rand.Read(key)
+	_, err := reader(key)
 	if err != nil {
 		return "", errors.Wrap(err, "generateAesSeed: failed to generate random key")
 	}

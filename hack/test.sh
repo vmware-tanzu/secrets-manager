@@ -568,7 +568,7 @@ deploy_workload_using_init_container() {
 
 # Run Go unit tests
 echo "Running Go unit tests..."
-if ! go test ./...; then
+if ! go test ./... -cover; then
     echo "Go unit tests failed, exiting."
     exit 1
 fi

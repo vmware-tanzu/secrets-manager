@@ -31,26 +31,43 @@ deploy-spire:
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds;\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml;\
+		echo "waiting for SPIRE server to be ready.";\
+		kubectl wait --for=condition=Ready pod -n spire-system --selector=app=spire-server;\
+		echo "waiting for SPIRE agent to be ready.";\
+		kubectl wait --for=condition=Ready pod -n spire-system --selector=app=spire-agent;\
 	fi
-	@sleep 5
 
 # Deploys VSecM to the cluster.
 deploy: deploy-spire
 	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless.yaml
+	$(MAKE) post-deploy
 deploy-fips: deploy-spire
 	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless-fips.yaml
+	$(MAKE) post-deploy
 deploy-photon: deploy-spire
 	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-photon.yaml
+	$(MAKE) post-deploy
 deploy-photon-fips: deploy-spire
 	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-photon-fips.yaml
+	$(MAKE) post-deploy
 deploy-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless.yaml
+	$(MAKE) post-deploy
 deploy-fips-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml
+	$(MAKE) post-deploy
 deploy-photon-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon.yaml
+	$(MAKE) post-deploy
 deploy-photon-fips-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon-fips.yaml
+	$(MAKE) post-deploy
+post-deploy:
+	echo "waiting for vsecm-sentinel to be ready"
+	kubectl wait --for=condition=Ready pod -n vsecm-system --selector=app.kubernetes.io/name=vsecm-sentinel
+	echo "waiting for vsecm-safe to be ready"
+	kubectl wait --for=condition=Ready pod -n vsecm-system --selector=app.kubernetes.io/name=vsecm-safe
+	echo "deployment successful!!"
 
 #
 # ## Tests ##
