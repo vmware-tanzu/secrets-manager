@@ -11,6 +11,7 @@
 package crypto
 
 import (
+	"crypto/rand"
 	"errors"
 	"testing"
 )
@@ -25,6 +26,7 @@ func TestRandomString(t *testing.T) {
 		args    args
 		want    int
 		wantErr error
+		cleanup func()
 	}{
 		{
 			name: "success_case",
@@ -46,12 +48,16 @@ func TestRandomString(t *testing.T) {
 			},
 			want:    0,
 			wantErr: errors.New("failed during rand.Read() call"),
+			cleanup: func() {
+				reader = rand.Read
+			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				tt.setup()
+				defer tt.cleanup()
 			}
 			got, err := RandomString(tt.args.n)
 			if (err != nil) && err.Error() != tt.wantErr.Error() {
@@ -60,6 +66,117 @@ func TestRandomString(t *testing.T) {
 			}
 			if len(got) != tt.want {
 				t.Errorf("RandomString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_generateAesSeed(t *testing.T) {
+	tests := []struct {
+		setup   func()
+		name    string
+		want    int
+		wantErr error
+		cleanup func()
+	}{
+		{
+			name:    "success_case",
+			want:    64,
+			wantErr: nil,
+		},
+		{
+			setup: func() {
+				reader = func(b []byte) (n int, err error) {
+					return 0, errors.New("failed during rand.Read() call")
+				}
+			},
+			name:    "failure_case",
+			want:    0,
+			wantErr: errors.New("generateAesSeed: failed to generate random key: failed during rand.Read() call"),
+			cleanup: func() {
+				reader = rand.Read
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if tt.setup != nil {
+				tt.setup()
+				defer tt.cleanup()
+			}
+			got, err := generateAesSeed()
+			if (err != nil) && err.Error() != tt.wantErr.Error() {
+				t.Errorf("generateAesSeed() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if len(got) != tt.want {
+				t.Errorf("generateAesSeed() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGenerateKeys(t *testing.T) {
+	tests := []struct {
+		name    string
+		want    int
+		want1   int
+		want2   int
+		wantErr bool
+	}{
+		{
+			name:    "success_case",
+			want:    74,
+			want1:   62,
+			want2:   64,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1, got2, err := GenerateKeys()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GenerateKeys() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if len(got) != tt.want {
+				t.Errorf("GenerateKeys() got = %v, want %v", got, tt.want)
+			}
+			if len(got1) != tt.want1 {
+				t.Errorf("GenerateKeys() got1 = %v, want %v", got1, tt.want1)
+			}
+			if len(got2) != tt.want2 {
+				t.Errorf("GenerateKeys() got2 = %v, want %v", got2, tt.want2)
+			}
+		})
+	}
+}
+
+func TestCombineKeys(t *testing.T) {
+	type args struct {
+		privateKey string
+		publicKey  string
+		aesSeed    string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "success_case",
+			args: args{
+				privateKey: "key-1",
+				publicKey:  "key-2",
+				aesSeed:    "key-3",
+			},
+			want: "key-1" + "\n" + "key-2" + "\n" + "key-3",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CombineKeys(tt.args.privateKey, tt.args.publicKey, tt.args.aesSeed); got != tt.want {
+				t.Errorf("CombineKeys() = %v, want %v", got, tt.want)
 			}
 		})
 	}
