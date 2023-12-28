@@ -28,7 +28,7 @@ k8s-start:
 	./hack/minikube-start.sh
 
 deploy-spire:
-	@if [ ${DEPLOY_SPIRE} == "true" ]; then\
+	@if [ "${DEPLOY_SPIRE}" = "true" ]; then\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds;\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml;\
 	fi
