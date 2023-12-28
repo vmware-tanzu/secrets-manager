@@ -61,5 +61,4 @@ global:
     logLevel: DEBUG
     serverPort: 8081
 
-podAnnotations:
-  "helm.sh/hook": pre-install
+podAnnotations: {}

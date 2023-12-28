@@ -72,4 +72,3 @@ docker trust sign vsecm/vsecm-photon-sidecar:"$VERSION"
 docker trust sign vsecm/vsecm-photon-sidecar:latest
 docker trust sign vsecm/vsecm-photon-init-container:"$VERSION"
 docker trust sign vsecm/vsecm-photon-init-container:latest
-

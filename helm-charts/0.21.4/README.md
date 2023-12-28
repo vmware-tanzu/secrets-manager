@@ -30,7 +30,7 @@ To use VMware Secrets Manager, follow the steps below:
 The following options can be passed to the `helm install` command to set global variables:
 
 - `--set global.deploySpire=<true/false>`: This flag can be passed to install or skip Spire.
-- `--set global.baseImage=<distroless/distroless-fips/photon/photos-fips>`: This flag can be passed to install VSecM with the given baseImage Docker image.
+- `--set global.baseImage=<distroless/distroless-fips/photon/photon-fips>`: This flag can be passed to install VSecM with the given baseImage Docker image.
 
 Default values are `true` and `distroless` for `global.deploySpire` and `global.baseImage` respectively.
 
@@ -40,7 +40,7 @@ Here's an example command with the above options:
 helm install vsecm vsecm/helm-charts --version 0.21.4 --set global.deploySpire=true --set global.baseImage=distroless
 ```
 
-Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/photos-fips>` with the desired values.
+Make sure to replace `<true/false>` and `<distroless/distroless-fips/photon/photon-fips>` with the desired values.
 
 ## License
 

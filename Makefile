@@ -15,6 +15,13 @@ else
 	VERSION := 0.21.6
 endif
 
+# Set deploySpire to false, if you want to use existing spire deployment
+ifdef deploySpire
+	DEPLOY_SPIRE := $(deploySpire)
+else
+	DEPLOY_SPIRE := "true"
+endif
+
 IMAGE=distroless
 DEPLOYMENT_NAME=vsecm
 VSECM_LOCAL_REGISTRY_URL ?= "localhost:5000"
