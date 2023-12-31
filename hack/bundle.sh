@@ -14,6 +14,13 @@ PACKAGE="$1"
 VERSION="$2"
 DOCKERFILE="$3"
 
+# Check if go binary is present
+if ! command -v go &> /dev/null
+then
+    echo "Go binary could not be found. Please install go first."
+    exit 1
+fi
+
 go mod vendor
 docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
 
