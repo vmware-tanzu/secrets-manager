@@ -410,6 +410,34 @@ To check **VSecM Safe**’s logs, execute the following:
 kubectl logs -n vsecm-system $NAME_OF_VSECM_SAFE_POD -f 
 ```
 
+## Inspecting SPIRE Server via CLI
+
+**SPIRE Server** has a command lin interface that you can use to directly 
+interact with it. This can prove to be useful when you are debugging issues.
+
+Here’s an example:
+
+```bash
+# $SPIRE_SERVER is the name of the SPIRE Server pod.
+kubectl exec -n spire-system $SPIRE_SERVER -- \
+  /opt/spire/bin/spire-server
+
+## Output:
+# Usage: spire-server [--version] [--help] <command> [<args>]
+#
+# Available commands are:
+#    agent
+#    bundle
+#    entry
+#    federation
+#    healthcheck    Determines server health status
+#    jwt
+#    run            Runs the server
+#    token
+#    validate       Validates a SPIRE server configuration file
+#    x509
+```
+
 ## Enjoy 🎉
 
 Just explore the [Makefile][makefile] and get a feeling of it.
