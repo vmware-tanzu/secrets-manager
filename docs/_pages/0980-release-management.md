@@ -250,18 +250,18 @@ make tag
 ### 9. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
-release of VSecM. Helm-charts are continuously developed and updated
+release of VSecM. Helm charts are continuously developed and updated
 during the release development process.
 
 At the beginning of a VSecM release, the [./hack/init-next-helm-chart.sh][init_script]
 script is used to initialize the helm-charts.
 
 To initialize a new helm-chart, run the following command using the init script:
-`./hack/init_next_helm_chart.sh <base-version> <new-version>`
+`./hack/init-next-helm-chart.sh <base-version> <new-version>`
 base-version: the existing helm-charts version to be used as the base helm-chart.
 new-version: the version helm-charts to be initialized.
 
-For example: `./hack/init_next_helm_chart.sh 0.21.0 0.22.0`
+For example: `./hack/init-next-helm-chart.sh 0.21.0 0.22.0`
 
 After execution, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into the main branch.
@@ -316,14 +316,14 @@ To add a snapshot of the current documentation:
 
 1. Copy the `docs` folder into a temporary place like `/tmp/docs`.
 2. Checkout the `docs` branch.
-3. Copy the `docs` folder from `/tmp/docs` to the `gh-pages` branch:
+3. Copy the `docs` folder from `/tmp/docs` to the `docs` branch:
    `cp -r /tmp/docs $WORKSPACE/secrets-manager/docs/<version>`.
 4. Update the `secrets-manager/docs/<version>/_includes/notification.html` file
    to include a link to the new documentation. You can copy the message from
    one of the existing versioned `notification.html` files.
 5. Edit `./hack/publish-docs.sh` to include the new version.
 6. Execute `./hack/publish-docs.sh` to publish the archived documentation.
-7. Create a PR and merge it into the `gh-pages` branch.
+7. Create a PR and merge it into the `docs` branch.
 8. Checkout the `main` branch.
 9. Update `… 0031-documentation-snapshots.md` to include a link to the new
    documentation snapshot.

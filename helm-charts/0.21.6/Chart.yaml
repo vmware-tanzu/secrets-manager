@@ -35,8 +35,9 @@ version: 0.21.6
 # It is recommended to use it with quotes.
 appVersion: "0.21.6"
 home: https://vsecm.com/
-# TODO: update icon when available
-# icon: 
+
+icon: https://vsecm.com/assets/vsecm-256.png
+
 keywords:
   - secrets
   - kubernetes

@@ -46,7 +46,7 @@ The following section contain a breakdown of all of these environment variables.
 ### SPIFFE_ENDPOINT_SOCKET
 
 **Used By**: *VSecM Sentinel*, *VSecM Sidecar*,
-*VSecM Init Container*, *VSecM Safe*, *Workload*s.
+*VSecM Init Container*, *VSecM Safe*, *Workloads*.
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
 **SPIRE**.
@@ -177,7 +177,7 @@ If not given, defaults to `"/data"`.
 ### VSECM_SAFE_ENDPOINT_URL
 
 **Used By**: *VSecM Sentinel*, *VSecM Sidecar*, *VSecM Init Container*, 
-*VSecM Safe*, *Workload*.
+*VSecM Safe*, *Workloads*.
 
 `VSECM_SAFE_ENDPOINT_URL` is the **REST API** endpoint that **VSecM Safe**
 exposes from its `Service`.
@@ -227,7 +227,7 @@ As a FIPS-compliant base image you can choose from the following:
 
 ### VSECM_SAFE_IV_INITIALIZATION_INTERVAL
 
-**Used By**: **VSecM Safe**.
+**Used By**: *VSecM Safe*.
 
 `VSECM_SAFE_IV_INITIALIZATION_INTERVAL` is used as a security measure to
 time-based attacks where too frequent call of a function can be used to
@@ -264,10 +264,46 @@ If the environment variable is not set, the default buffer size is `10`.
 cryptographic key input for **VSecM Safe**, instead of letting the bootstrap
 flow automatically compute cryptographic keys.
 
-If the environment variable is not set or its value is not `"true"`, the bootstrap
-flow will compute the cryptographic keys manually. If this variable is set to
-`"true"` then a human operator has to provide the necessary cryptographic keys
-using **VSecM Sentinel**.
+If the environment variable is not set or its value is not `"true"`, the 
+bootstrap flow will **not** compute the cryptographic keys automatically. 
+
+If this variable is set to `"true"` then a human operator has to provide the 
+necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe** to
+unlock itself and start serving API requests.
+
+> **Setting the Master Key Manually**
+>
+> You can [set the master key programmatically using 
+> **VSecM Sentinel**][vsecm-sentinel-master]. 
+{: .block-tip}
+
+[vsecm-sentinel-master]: https://vsecm.com/docs/cli/
+
+The control offered by this approach changes the threat boundary of 
+**VSecM Safe**. With this approach, the responsibility of securing the
+master key is on you as the operator. This is different than the default 
+behavior of **VSecM Safe** where the master key is randomly-generated in a 
+cryptographically secure way and stored in a Kubernetes `Secret`.
+
+Using a Kubernetes `Secret` to store the master key is still secure, 
+especially if you encrypt your `etcd` and establish a **tight RBAC** over the 
+Kubernetes `Secret`that stores the master key.
+
+> **Master Key Storage in Manual Input Mode**
+> 
+> As of *v0.21.5* of **VMware Secrets Manager**, the master key is not stored 
+> in a Kubernetes `Secret` if you use the manual key input approach. This 
+> behavior is subject to change in the future, depending on a configuration 
+> environment variable, the master key might be stored in a Kubernetes `Secret` 
+> even if you use the manual key input approach.
+> 
+> However, this means that if you use the manual key input approach, you will
+> have to re-enter the master key every time you restart **VSecM Safe** or
+> every time the pod is evicted by the scheduler.
+{: .block-warning}
+
+Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
+respond to API requests until a master key is provided, using **VSecM Sentinel**.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
@@ -306,38 +342,6 @@ secret deletion queue.
 
 If the environment variable is not set, the default buffer size is `10`.
 
-### VSECM_MANUAL_KEY_INPUT
-
-`VSECM_MANUAL_KEY_INPUT` is used to tell **VSecM Safe** to bypass generating
-the master crypto key and instead use the key provided by the operator using
-**VSecM Sentinel**. Defaults to `"false"`.
-
-When set to `"true"`, **VSecM Safe** will **not** store the master key in a
-Kubernetes `Secret`; the master key will reside solely in the memory of
-**VSecM Safe**.
-
-The control offered by this approach regarding the threat boundary of
-**VSecM Safe** provides enhanced security compared to the default behavior where
-the master key is randomly-generated in a cryptographically secure way and
-stored in a Kubernetes `Secret` (*which is still **pretty secure**, especially if
-you encrypt your `etcd` and establish a tight RBAC over the Kubernetes `Secret`
-that stores the master key*).
-
-That being said, in manual input mode, all the cryptographic material will be kept
-in memory, and no Kubernetes `Secret`s will be harmed (*which is even more secure*).
-
-However, this approach does place the onus of securing the master key on you.
-
-Yet, don’t worry, storing the master key can be easily handled depending on your
-infrastructure: With the right setup, managing the master key is just another cog
-in the machinery of your security measures, not an additional burden.
-
-That’s why, although it’s not enabled by default, adopting this measure could be
-an additional step in bolstering your system’s security.
-
-Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
-respond to API requests until a master key is provided, using **VSecM Sentinel**.
-
 ### VSECM_SAFE_SECRET_NAME_PREFIX
 
 **Used By**: *VSecM Safe*.
@@ -361,7 +365,7 @@ If the environment variable is not set, or cannot be parsed, defaults to
 
 ### VSECM_SAFE_SPIFFEID_PREFIX
 
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, **Workload**s.
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
 
 Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
@@ -373,7 +377,7 @@ If not provided, it will default to:
 
 ### VSECM_SAFE_TLS_PORT
 
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workload*s.
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
 
 Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
@@ -515,7 +519,7 @@ If not specified, it has a default value of `"/opt/vsecm/secrets.json"`.
 
 ### VSECM_WORKLOAD_SPIFFEID_PREFIX
 
-**Used By**: *VSecM Safe*, *Workload*.
+**Used By**: *VSecM Safe*, *Workloads*.
 
 Both **VSecM Safe** and **workloads** use this environment variable.
 

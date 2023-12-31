@@ -9,10 +9,10 @@ baseHelmChartDirectory=$gitRoot/$helmChartDirName
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "This script is used to release helm-chart"
     echo "-----------------------------------------------------------------"
-    echo "Usage: ${gitRoot}/${helmChartDirName}/release_helm_chart.sh <version>"
+    echo "Usage: ${gitRoot}/hack/release-helm-chart.sh <version>"
     echo "<version>: helm-chart version to be releases"
     echo "-----------------------------------------------------------------"
-    echo "example: ${gitRoot}/${helmChartDirName}/init_next_helm_chart.sh 0.21.0 0.22.0"
+    echo "example: ${gitRoot}/hack/init-next-helm-chart.sh 0.21.0 0.22.0"
     exit 0
 fi
 
@@ -23,7 +23,7 @@ if [ "$#" -eq 1 ]; then
     localBranchName="releasing-helm-chart/$releaseHelmChartVersion"
 else
     echo "Insufficient arguments, helm-chart release version has to be provided as argument"
-    echo "execute: release_helm_chart.sh script with -h or --help for more help"
+    echo "execute: release-helm-chart.sh script with -h or --help for more help"
     exit 1
 fi
 
