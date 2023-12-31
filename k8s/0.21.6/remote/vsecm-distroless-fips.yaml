@@ -101,7 +101,7 @@ data:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: secret-readwriter
+  name: vsecm-secret-readwriter
 #
 # Creating a `ClusterRole` will make the role applicable to all namespaces
 # within the cluster. This approach is easier to maintain, and still secure
@@ -110,7 +110,7 @@ metadata:
 #
 #   kind: Role
 #   metadata:
-#     name: secret-readwriter
+#     name: vsecm-secret-readwriter
 #     namespace: vsecm-system
 #
 ##
@@ -175,14 +175,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: secret-readwriter-binding
+  name: vsecm-secret-readwriter-binding
 subjects:
   - kind: ServiceAccount
     name: vsecm-safe
     namespace: vsecm-system
 roleRef:
   kind: ClusterRole
-  name: secret-readwriter
+  name: vsecm-secret-readwriter
   apiGroup: rbac.authorization.k8s.io
 
 ##
@@ -194,7 +194,7 @@ roleRef:
 #   apiVersion: rbac.authorization.k8s.io/v1
 #   kind: RoleBinding
 #   metadata:
-#     name: secret-readwriter-binding
+#     name: vsecm-secret-readwriter-binding
 #     namespace: vsecm-system
 #   subjects:
 #     - kind: ServiceAccount
@@ -202,7 +202,7 @@ roleRef:
 #       namespace: vsecm-system
 #   roleRef:
 #     kind: Role
-#     name: secret-readwriter
+#     name: vsecm-secret-readwriter
 #     apiGroup: rbac.authorization.k8s.io
 #
 ##

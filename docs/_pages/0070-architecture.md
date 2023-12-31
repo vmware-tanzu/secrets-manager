@@ -196,7 +196,7 @@ Here is what an **VSecM Safe** Pod looks like at a high level:
 * `/key` is where the secret `vsecm-safe-age-key` mounts. For security reasons,
   ensure that **only** the pod **VSecM Safe** can read and write to `vsecm-safe-age-key`
   and no one else has access. In this diagram, this is achieved by assigning
-  a `secret-readwriter` role to **VSecM Safe** and using that role to update
+  a `vsecm-secret-readwriter` role to **VSecM Safe** and using that role to update
   the secret. Any pod that does not have the role will be unable to read or
   write to this secret.
 

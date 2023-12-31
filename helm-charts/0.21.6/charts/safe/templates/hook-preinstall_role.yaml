@@ -11,7 +11,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: secret-readwriter
+  name: vsecm-secret-readwriter
 #
 # Creating a `ClusterRole` will make the role applicable to all namespaces
 # within the cluster. This approach is easier to maintain, and still secure
@@ -20,7 +20,7 @@ metadata:
 #
 #   kind: Role
 #   metadata:
-#     name: secret-readwriter
+#     name: vsecm-secret-readwriter
 #     namespace: {{ .Values.global.vsecm.namespace }}
 #
 ##
