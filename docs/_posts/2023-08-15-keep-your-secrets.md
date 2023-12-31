@@ -74,7 +74,7 @@ Here’s why it stands out:
   development. Our [**Contributing Guide**](https://vsecm.com/docs/contributing/)
   invites developers to get involved, ask questions, and contribute to the project.
 * **Secure by Default**: **VSecM** offers advanced security features, including
-  encryption, manual master secret setting, and integration with various backing
+  encryption, manual root secret setting, and integration with various backing
   stores.
 
 ## Join the Future of Secrets Management

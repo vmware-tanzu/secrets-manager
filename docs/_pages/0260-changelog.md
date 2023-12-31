@@ -99,7 +99,7 @@ also hardens the AES encryption flow against time-based attacks.
 * VSecM Safe has stricter validation routines for its identity.
 * Added VSecM Keygen: a utility application that generates VSecM Safe’s
   bootstrapping keys if you want an extra level of security and control the
-  creation of the master key.
+  creation of the root key.
 
 ## [v0.21.0] - 2023-09-08
 

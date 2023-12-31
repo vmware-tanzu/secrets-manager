@@ -179,9 +179,9 @@ to `etcd`.
 >
 > For an additional layer of security, you can opt out of using Kubernetes 
 > `Secret`s altogether and use **VMware Secrets Manager** without any 
-> Kubernetes secrets to protect the master keys. In this mode, you’ll have to
-> manually provide the master keys to **VSecM Safe**; and you’ll need to 
-> re-provide the master keys every time you restart the **VSecM Safe** Pod or
+> Kubernetes secrets to protect the *root keys. In this mode, you’ll have to
+> manually provide the root keys to **VSecM Safe**; and you’ll need to 
+> re-provide the root keys every time you restart the **VSecM Safe** Pod or
 > the pod is evicted, crashed, or rescheduled.
 > 
 > This added layer of security comes with a cost of added complexity and 

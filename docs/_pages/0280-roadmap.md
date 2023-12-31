@@ -72,7 +72,7 @@ logs and reports errors. We will also focus on improving the performance of the
 
 * `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
   on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
-  without having to create Kubernetes `Secret`s at all—even for the master keys.
+  without having to create Kubernetes `Secret`s at all—even for the root keys.
 * Ability to use VSecM across clusters (*multi-cluster federation support*).
 
 
@@ -150,7 +150,7 @@ iteration, thus impacting the overall roadmap.
 * Using Redis as a shared backing store.
 * Ability to deploy VSecM to any SPIFFE-compatible cluster that has agents
   that provide SPIFFE Workload API.
-* Using a separate VSecM Safe instance to store the master cryptographic keys
+* Using a separate VSecM Safe instance to store the root cryptographic keys
   as VSecM Safe secrets for better security.
 * Introducing refresh hint for sidecars and other consumers.
 
