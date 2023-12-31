@@ -518,7 +518,7 @@ If **SPIRE Server** if offline for a long time then its root certificate will
 expire. The expiry time of the root certificate is configurable, but by default
 it’s CA TTL is *24 hours*.
 
-> **SPIRE** Is Designed to Be Resilient
+> **SPIRE Is Designed to Be Resilient**
 > 
 > Occasional disruptions, evictions, and restarts of SPIRE Server are not
 > a problem. **SPIRE Server** is designed to be resilient and it will
@@ -526,7 +526,7 @@ it’s CA TTL is *24 hours*.
 > 
 > However, if the **SPIRE Server** is offline for more than its TTL, then
 > it will not be able to renew its root certificate, and this will disrupt
-> the trust mechanism within the SPIRE environment.
+> the trust mechanism within the **SPIRE** environment.
 {: .block-info }
 
 Regarding the implications of the **SPIRE Server** being offline for more than
@@ -539,6 +539,12 @@ before expiration, this will disrupt the trust mechanism within the SPIRE
 environment. Agents and workloads will not be able to validate the authenticity
 of new SVIDs issued after the CA certificate has expired, leading to trust and
 authentication issues across the system.
+
+> **Know Your TTLs**
+> 
+> Although **SPIRE** has sane defaults, it is still important to know your 
+> tolerance and set TTLs (*both CA TTLs, and agent SVID TTLs*) accordingly. 
+{: .block-warning }
 
 From the **VMware Secrets Manager** perspective, this will result in workloads
 not being able to receive secrets from the **VSecM Safe**, and the **VSecM Safe**
