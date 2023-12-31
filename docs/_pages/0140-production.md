@@ -300,6 +300,17 @@ attacker.
 [rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [kms]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
 
+## Restrict Access to `vsecm-system` and `spire-system` Namespaces
+
+Rigorously define and enforce access policies for the `vsecm-system` and
+`spire-system` namespaces. These namespaces contain the **VSecM Safe** and
+**SPIRE** components, respectively, and are critical to the security of
+**VMware Secrets Manager**. Only a **Cluster Administrator** should have
+access to these namespaces.
+
+In addition, make sure you implement continuous monitoring and auditing
+mechanisms to ensure that the access policies are not violated.
+
 ## Restrict Access to VSecM Sentinel
 
 All **VMware Secrets Manager** images are based on [distroless][distroless] containers 
