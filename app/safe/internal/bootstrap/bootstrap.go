@@ -32,6 +32,12 @@ func NotifyTimeout(timedOut chan<- bool) {
 	timedOut <- true
 }
 
+type ChannelsToMonitor struct {
+	AcquiredSvid  <-chan bool
+	UpdatedSecret <-chan bool
+	ServerStarted <-chan bool
+}
+
 // Monitor listens to various channels to track the progress of acquiring an
 // identity, updating the age key, and starting the server. It takes a
 // correlationId for logging purposes and four channels: acquiredSvid,
@@ -42,9 +48,7 @@ func NotifyTimeout(timedOut chan<- bool) {
 // fatal message.
 func Monitor(
 	correlationId *string,
-	acquiredSvid <-chan bool,
-	updatedSecret <-chan bool,
-	serverStarted <-chan bool,
+	channels ChannelsToMonitor,
 	timedOut <-chan bool,
 ) {
 	counter := 3
@@ -54,7 +58,7 @@ func Monitor(
 		}
 		select {
 		// Acquired SVID for this workload from the SPIRE Agent via workload API:
-		case <-acquiredSvid:
+		case <-channels.AcquiredSvid:
 			log.InfoLn(correlationId, "Acquired identity.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
@@ -65,7 +69,7 @@ func Monitor(
 				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		// Updated the master key:
-		case <-updatedSecret:
+		case <-channels.UpdatedSecret:
 			log.InfoLn(correlationId, "Updated age key.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
@@ -76,7 +80,7 @@ func Monitor(
 				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		// VSecM Safe REST API is ready to serve:
-		case <-serverStarted:
+		case <-channels.ServerStarted:
 			log.InfoLn(correlationId, "Server ready.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)

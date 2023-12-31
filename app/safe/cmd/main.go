@@ -25,16 +25,31 @@ func main() {
 
 	log.InfoLn(&id, "Acquiring identity…")
 
+	// Channel to notify when the bootstrap timeout has been reached.
 	timedOut := make(chan bool, 1)
-	// These channels mus complete in a timely manner, otherwise
+
+	// These channels must complete in a timely manner, otherwise
 	// the timeOut will be fired and will crash the app.
 	acquiredSvid := make(chan bool, 1)
 	updatedSecret := make(chan bool, 1)
 	serverStarted := make(chan bool, 1)
 
+	// Monitor the progress of acquiring an identity, updating the age key,
+	// and starting the server. If the timeout occurs before all three events
+	// happen, the function logs a fatal message and the process crashes.
+	go bootstrap.Monitor(&id,
+		bootstrap.ChannelsToMonitor{
+			AcquiredSvid:  acquiredSvid,
+			UpdatedSecret: updatedSecret,
+			ServerStarted: serverStarted,
+		}, timedOut,
+	)
+
+	// Time out if things take too long.
 	go bootstrap.NotifyTimeout(timedOut)
+
+	// Create initial cryptographic seeds off-cycle.
 	go bootstrap.CreateCryptoKey(&id, updatedSecret)
-	go bootstrap.Monitor(&id, acquiredSvid, updatedSecret, serverStarted, timedOut)
 
 	// App is alive; however, not yet ready to accept connections.
 	go probe.CreateLiveness()

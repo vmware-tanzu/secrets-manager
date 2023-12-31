@@ -12,6 +12,7 @@ package bootstrap
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/pkg/errors"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
@@ -37,6 +38,22 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 	keysCombined := crypto.CombineKeys(privateKey, publicKey, aesSeed)
 	data["KEY_TXT"] = ([]byte)(keysCombined)
 
+	// Serialize the Secret's configuration to JSON
+	secretConfigJSON, err := json.Marshal(v1.Secret{
+		TypeMeta: metaV1.TypeMeta{
+			Kind:       "Secret",
+			APIVersion: "v1",
+		},
+		ObjectMeta: metaV1.ObjectMeta{
+			Name:      env.SafeAgeKeySecretName(),
+			Namespace: env.SystemNamespace(),
+		},
+		Data: data,
+	})
+	if err != nil {
+		return errors.Wrap(err, "Error marshalling the secret")
+	}
+
 	// Update the Secret in the cluster
 	_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(
 		context.Background(),
@@ -48,6 +65,9 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 			ObjectMeta: metaV1.ObjectMeta{
 				Name:      env.SafeAgeKeySecretName(),
 				Namespace: env.SystemNamespace(),
+				Annotations: map[string]string{
+					"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
+				},
 			},
 			Data: data,
 		},
