@@ -44,7 +44,11 @@ func main() {
 	}
 
 	if *list {
-		safe.Get()
+		if *encrypt {
+			safe.Get(true)
+			return
+		}
+		safe.Get(false)
 		return
 	}
 
