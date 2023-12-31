@@ -79,6 +79,12 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
+		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets?reveal=true" {
+			log.DebugLn(&cid, "Handler: will list encrypted secrets")
+			route.ListEncrypted(cid, w, r, sid)
+			return
+		}
+
 		// Route to define the master key when VSECM_SAFE_MANUAL_KEY_INPUT is set.
 		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// This method works only once. Once a key is set, there is no way to

@@ -66,6 +66,11 @@ type SecretListResponse struct {
 	Err     string        `json:"err,omitempty"`
 }
 
+type SecretEncryptedListResponse struct {
+	Secrets   []data.SecretEncrypted `json:"secrets"`
+	Algorithm string                 `json:"algorithm"`
+}
+
 type GenericRequest struct {
 	Err string `json:"err,omitempty"`
 }

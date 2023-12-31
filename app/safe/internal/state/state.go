@@ -147,6 +147,40 @@ func AllSecrets(cid string) []entity.Secret {
 	return result
 }
 
+func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
+	var result []entity.SecretEncrypted
+
+	// Check existing stored secrets files.
+	// If VSecM pod is evicted and revived, it will not have knowledge about
+	// the secret it has. This loop helps it re-populate its cache.
+	if !secretsPopulated {
+		err := populateSecrets(cid)
+		if err != nil {
+			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
+		}
+	}
+
+	// Range over all existing secrets.
+	secrets.Range(func(key any, value any) bool {
+		v := value.(entity.SecretStored)
+
+		result = append(result, entity.SecretEncrypted{
+			Name:           v.Name,
+			EncryptedValue: v.Values,
+			Created:        entity.JsonTime(v.Created),
+			Updated:        entity.JsonTime(v.Updated),
+		})
+
+		return true
+	})
+
+	if result == nil {
+		return []entity.SecretEncrypted{}
+	}
+
+	return result
+}
+
 func contains(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {

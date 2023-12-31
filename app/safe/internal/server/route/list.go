@@ -22,7 +22,9 @@ import (
 	"strings"
 )
 
-func List(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+func doList(cid string, w http.ResponseWriter, r *http.Request,
+	spiffeid string, encrypted bool,
+) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "List: Master key not set")
 		return
@@ -74,8 +76,44 @@ func List(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 
 	log.DebugLn(&cid, "List: will send. workload id:", workloadId)
 
-	// RFC3339 is what Go uses internally when marshaling dates.
-	// Choosing it to be consistent.
+	if encrypted {
+		algo := "age"
+		if env.SafeFipsCompliant() {
+			algo = "aes"
+		}
+
+		secrets := state.AllSecretsEncrypted(cid)
+
+		sfr := reqres.SecretEncryptedListResponse{
+			Secrets:   secrets,
+			Algorithm: algo,
+		}
+
+		j.Event = audit.EventOk
+		j.Entity = sfr
+		audit.Log(j)
+
+		resp, err := json.Marshal(sfr)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			_, err := io.WriteString(w, "List: Problem unmarshalling response")
+			if err != nil {
+				log.InfoLn(&cid, "List: Problem sending response", err.Error())
+			}
+			return
+		}
+
+		log.DebugLn(&cid, "List: before response")
+
+		_, err = io.WriteString(w, string(resp))
+		if err != nil {
+			log.InfoLn(&cid, "List: Problem sending response", err.Error())
+		}
+
+		log.DebugLn(&cid, "List: after response")
+		return
+	}
+
 	sfr := reqres.SecretListResponse{
 		Secrets: secrets,
 	}
@@ -102,4 +140,27 @@ func List(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	}
 
 	log.DebugLn(&cid, "List: after response")
+}
+
+// List returns all registered workloads to the system with some metadata
+// that is secure to share. For example, it returns secret names but not values.
+//
+// - cid: A string representing the client identifier.
+// - w: An http.ResponseWriter used to write the HTTP response.
+// - r: A pointer to an http.Request representing the received HTTP request.
+// - spiffeid: spiffe id of the caller.
+func List(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+	doList(cid, w, r, spiffeid, false)
+}
+
+// ListEncrypted returns all registered workloads to the system. Similar to `List`
+// it return meta information; however, it also returns encrypted secret values
+// where an operator can decrypt if they know the VSecM root key.
+//
+// - cid: A string representing the client identifier.
+// - w: An http.ResponseWriter used to write the HTTP response.
+// - r: A pointer to an http.Request representing the received HTTP request.
+// - spiffeid: spiffe id of the caller.
+func ListEncrypted(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+	doList(cid, w, r, spiffeid, true)
 }

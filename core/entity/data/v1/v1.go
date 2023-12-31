@@ -40,6 +40,13 @@ type Secret struct {
 	Updated JsonTime `json:"updated"`
 }
 
+type SecretEncrypted struct {
+	Name           string   `json:"name"`
+	EncryptedValue []string `json:"value"`
+	Created        JsonTime `json:"created"`
+	Updated        JsonTime `json:"updated"`
+}
+
 type SecretMeta struct {
 	// Overrides Env.SafeUseKubernetesSecrets()
 	UseKubernetesSecret bool `json:"k8s"`
