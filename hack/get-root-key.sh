@@ -10,18 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-PACKAGE="$1"
-VERSION="$2"
-DOCKERFILE="$3"
-
-# Check if go binary is present
-if ! command -v go &> /dev/null
-then
-    echo "Go binary could not be found. Please install go first."
-    exit 1
-fi
-
-go mod vendor
-docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
-
-sleep 10
+echo ""
+kubectl get secret vsecm-safe-age-key -n vsecm-system \
+  -o jsonpath="{.data.KEY_TXT}" | base64 --decode
+echo ""

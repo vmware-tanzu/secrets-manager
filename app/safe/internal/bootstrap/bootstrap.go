@@ -59,36 +59,36 @@ func Monitor(
 		select {
 		// Acquired SVID for this workload from the SPIRE Agent via workload API:
 		case <-channels.AcquiredSvid:
-			log.InfoLn(correlationId, "Acquired identity.")
+			log.AuditLn(correlationId, "Acquired identity.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
-				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
+				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		// Updated the master key:
 		case <-channels.UpdatedSecret:
-			log.InfoLn(correlationId, "Updated age key.")
+			log.DebugLn(correlationId, "Updated age key.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
-				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
+				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		// VSecM Safe REST API is ready to serve:
 		case <-channels.ServerStarted:
-			log.InfoLn(correlationId, "Server ready.")
+			log.DebugLn(correlationId, "Server ready.")
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
 				state.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
-				log.DebugLn(correlationId, "VSecM Safe is ready to serve.")
+				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
 			}
 		// Things didn’t start in a timely manner:
 		case <-timedOut:

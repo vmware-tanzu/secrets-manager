@@ -179,9 +179,9 @@ to `etcd`.
 >
 > For an additional layer of security, you can opt out of using Kubernetes 
 > `Secret`s altogether and use **VMware Secrets Manager** without any 
-> Kubernetes secrets to protect the master keys. In this mode, you’ll have to
-> manually provide the master keys to **VSecM Safe**; and you’ll need to 
-> re-provide the master keys every time you restart the **VSecM Safe** Pod or
+> Kubernetes secrets to protect the *root keys. In this mode, you’ll have to
+> manually provide the root keys to **VSecM Safe**; and you’ll need to 
+> re-provide the root keys every time you restart the **VSecM Safe** Pod or
 > the pod is evicted, crashed, or rescheduled.
 > 
 > This added layer of security comes with a cost of added complexity and 
@@ -300,6 +300,17 @@ attacker.
 [rbac]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 [kms]: https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/
 
+## Restrict Access to `vsecm-system` and `spire-system` Namespaces
+
+Rigorously define and enforce access policies for the `vsecm-system` and
+`spire-system` namespaces. These namespaces contain the **VSecM Safe** and
+**SPIRE** components, respectively, and are critical to the security of
+**VMware Secrets Manager**. Only a **Cluster Administrator** should have
+access to these namespaces.
+
+In addition, make sure you implement continuous monitoring and auditing
+mechanisms to ensure that the access policies are not violated.
+
 ## Restrict Access to VSecM Sentinel
 
 All **VMware Secrets Manager** images are based on [distroless][distroless] containers 
@@ -333,10 +344,9 @@ policies][rbac], you secure access to your secrets.
 plane. The default SPIRE configuration bundled with **VMware Secrets Manager**
 is secure enough for most use cases. 
 
-While VSecM uses sane defaults for SPIRE installation, it can be further hardened
-according to specific deployment needs, providing a more robust and secure 
-environment.
-
+While **VSecM** uses sane defaults for SPIRE installation, it can be further 
+hardened according to specific deployment needs, providing a more robust and 
+secure environment.
 
 Here are some suggestions to consider; as always, you should consult
 the [SPIRE documentation][spire-docs] for more details.
@@ -498,6 +508,51 @@ To make the `hostPath` binding extra secure, you can:
 [unix-domain-socket]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
 [distroless]: https://github.com/GoogleContainerTools/distroless
+
+## Keep the SPIRE Server Alive
+
+This is more of a **stability** than a **security** concern; however, it is
+important.
+
+If **SPIRE Server** if offline for a long time then its root certificate will
+expire. The expiry time of the root certificate is configurable, but by default
+it’s CA TTL is *24 hours*.
+
+> **SPIRE Is Designed to Be Resilient**
+> 
+> Occasional disruptions, evictions, and restarts of SPIRE Server are not
+> a problem. **SPIRE Server** is designed to be resilient and it will
+> automatically recover from such disruptions.
+> 
+> However, if the **SPIRE Server** is offline for more than its TTL, then
+> it will not be able to renew its root certificate, and this will disrupt
+> the trust mechanism within the **SPIRE** environment.
+{: .block-info }
+
+Regarding the implications of the **SPIRE Server** being offline for more than
+its TTL, it’s important to understand the role of the server's CA certificate in
+the SPIRE architecture:
+
+The CA certificate is central to the trust establishment in the **SPIRE**
+infrastructure. If the server is offline and unable to renew its CA certificate
+before expiration, this will disrupt the trust mechanism within the SPIRE
+environment. Agents and workloads will not be able to validate the authenticity
+of new SVIDs issued after the CA certificate has expired, leading to trust and
+authentication issues across the system.
+
+> **Know Your TTLs**
+> 
+> Although **SPIRE** has sane defaults, it is still important to know your 
+> tolerance and set TTLs (*both CA TTLs, and agent SVID TTLs*) accordingly. 
+{: .block-warning }
+
+From the **VMware Secrets Manager** perspective, this will result in workloads
+not being able to receive secrets from the **VSecM Safe**, and the **VSecM Safe**
+failing to respond to the requests made by the **VSecM Sentinel**.
+
+Therefore, it’s important to ensure that the **SPIRE Server** is online and able
+to renew its CA certificate before it expires. Otherwise, manual intervention
+will be required to fix the trust issue.
 
 ## Volume Selection for VSecM Safe Backing Store
 

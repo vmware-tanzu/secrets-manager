@@ -11,14 +11,14 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: secret-readwriter-binding
+  name: vsecm-secret-readwriter-binding
 subjects:
   - kind: ServiceAccount
     name: vsecm-safe
     namespace: {{ .Values.global.vsecm.namespace }}
 roleRef:
   kind: ClusterRole
-  name: secret-readwriter
+  name: vsecm-secret-readwriter
   apiGroup: rbac.authorization.k8s.io
 
 ##
@@ -30,7 +30,7 @@ roleRef:
 #   apiVersion: rbac.authorization.k8s.io/v1
 #   kind: RoleBinding
 #   metadata:
-#     name: secret-readwriter-binding
+#     name: vsecm-secret-readwriter-binding
 #     namespace: {{ .Values.global.vsecm.namespace }}
 #   subjects:
 #     - kind: ServiceAccount
@@ -38,7 +38,7 @@ roleRef:
 #       namespace: {{ .Values.global.vsecm.namespace }}
 #   roleRef:
 #     kind: Role
-#     name: secret-readwriter
+#     name: vsecm-secret-readwriter
 #     apiGroup: rbac.authorization.k8s.io
 #
 ##

@@ -271,39 +271,39 @@ If this variable is set to `"true"` then a human operator has to provide the
 necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe** to
 unlock itself and start serving API requests.
 
-> **Setting the Master Key Manually**
+> **Setting the Root Key Manually**
 >
-> You can [set the master key programmatically using 
-> **VSecM Sentinel**][vsecm-sentinel-master]. 
+> You can [set the root key programmatically using 
+> **VSecM Sentinel**][vsecm-sentinel-root]. 
 {: .block-tip}
 
-[vsecm-sentinel-master]: https://vsecm.com/docs/cli/
+[vsecm-sentinel-root]: https://vsecm.com/docs/cli/
 
 The control offered by this approach changes the threat boundary of 
 **VSecM Safe**. With this approach, the responsibility of securing the
-master key is on you as the operator. This is different than the default 
-behavior of **VSecM Safe** where the master key is randomly-generated in a 
+*root key* is on you as the operator. This is different than the default 
+behavior of **VSecM Safe** where the *root key* is randomly-generated in a 
 cryptographically secure way and stored in a Kubernetes `Secret`.
 
-Using a Kubernetes `Secret` to store the master key is still secure, 
+Using a Kubernetes `Secret` to store the *root key* is still secure, 
 especially if you encrypt your `etcd` and establish a **tight RBAC** over the 
-Kubernetes `Secret`that stores the master key.
+Kubernetes `Secret`that stores the *root key*.
 
-> **Master Key Storage in Manual Input Mode**
+> **Root Key Storage in Manual Input Mode**
 > 
-> As of *v0.21.5* of **VMware Secrets Manager**, the master key is not stored 
+> As of *v0.21.5* of **VMware Secrets Manager**, the *root key* is not stored 
 > in a Kubernetes `Secret` if you use the manual key input approach. This 
 > behavior is subject to change in the future, depending on a configuration 
-> environment variable, the master key might be stored in a Kubernetes `Secret` 
+> environment variable, the *root key* might be stored in a Kubernetes `Secret` 
 > even if you use the manual key input approach.
 > 
 > However, this means that if you use the manual key input approach, you will
-> have to re-enter the master key every time you restart **VSecM Safe** or
+> have to re-enter the *root key* every time you restart **VSecM Safe** or
 > every time the pod is evicted by the scheduler.
 {: .block-warning}
 
 Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
-respond to API requests until a master key is provided, using **VSecM Sentinel**.
+respond to API requests until a *root key* is provided, using **VSecM Sentinel**.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
