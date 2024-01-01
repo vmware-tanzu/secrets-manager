@@ -13,6 +13,7 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -148,6 +149,8 @@ func AllSecrets(cid string) []entity.Secret {
 }
 
 func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
+	fmt.Println("DO NOT FORGET TO ACTUALLY ENCRYPT ME!!!!!")
+
 	var result []entity.SecretEncrypted
 
 	// Check existing stored secrets files.

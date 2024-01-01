@@ -12,6 +12,7 @@ package route
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
@@ -94,6 +95,11 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		audit.Log(j)
 
 		resp, err := json.Marshal(sfr)
+
+		fmt.Println("----- RESPONSE ------")
+		fmt.Println(string(resp))
+		fmt.Println("---------------------")
+
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			_, err := io.WriteString(w, "List: Problem unmarshalling response")
