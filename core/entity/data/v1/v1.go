@@ -27,6 +27,11 @@ type (
 	SecretFormat string
 )
 
+func (t JsonTime) MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
+	return []byte(stamp), nil
+}
+
 var (
 	Memory BackingStore = "memory"
 	File   BackingStore = "file"
@@ -86,11 +91,6 @@ type SecretStored struct {
 	// Timestamps
 	Created time.Time
 	Updated time.Time
-}
-
-func (t JsonTime) MarshalJSON() []byte {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
-	return []byte(stamp)
 }
 
 // handleNoTemplate is used when there is no template defined.
