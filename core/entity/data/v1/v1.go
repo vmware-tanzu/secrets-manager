@@ -32,6 +32,10 @@ func (t JsonTime) MarshalJSON() ([]byte, error) {
 	return []byte(stamp), nil
 }
 
+func (t JsonTime) String() string {
+	return time.Time(t).Format(time.RFC3339)
+}
+
 var (
 	Memory BackingStore = "memory"
 	File   BackingStore = "file"
