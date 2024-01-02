@@ -167,9 +167,15 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 	secrets.Range(func(key any, value any) bool {
 		v := value.(entity.SecretStored)
 
+		var vals []string
+		for _, val := range v.Values {
+			ve, _ := EncryptValue(val)
+			vals = append(vals, ve)
+		}
+
 		result = append(result, entity.SecretEncrypted{
 			Name:           v.Name,
-			EncryptedValue: v.Values,
+			EncryptedValue: vals,
 			Created:        entity.JsonTime(v.Created),
 			Updated:        entity.JsonTime(v.Updated),
 		})

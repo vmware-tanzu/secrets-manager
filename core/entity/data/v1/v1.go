@@ -325,8 +325,7 @@ func (secret SecretStored) Parse() (string, error) {
 	}
 
 	if len(results) == 1 {
-		// TODO: this might be dead code, we might never hit this case parse failed will never be true if result > 0
-		// because transform() fails with unsupported fromat error and format is same for all Values.
+		// Can happen if there are N values, but only 1 was successfully parsed.
 		if parseFailed {
 			return results[0], fmt.Errorf("failed to parse secret %s", secret.Name)
 		}
