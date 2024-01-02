@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -77,9 +78,9 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	log.DebugLn(&cid, "List: will send. workload id:", workloadId)
 
 	if encrypted {
-		algo := "age"
+		algo := crypto.Age
 		if env.SafeFipsCompliant() {
-			algo = "aes"
+			algo = crypto.Aes
 		}
 
 		secrets := state.AllSecretsEncrypted(cid)
@@ -89,26 +90,30 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			Algorithm: algo,
 		}
 
+		sfrToLog := reqres.SecretEncryptedListResponse{
+			// hide secrets from the log
+			Secrets:   nil,
+			Algorithm: algo,
+		}
+
 		j.Event = audit.EventOk
-		j.Entity = sfr
+		j.Entity = sfrToLog
 		audit.Log(j)
 
 		resp, err := json.Marshal(sfr)
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			_, err := io.WriteString(w, "List: Problem unmarshalling response")
+			_, err := io.WriteString(w, "List: Problem marshalling response")
 			if err != nil {
-				log.InfoLn(&cid, "List: Problem sending response", err.Error())
+				log.ErrorLn(&cid, "List: Problem sending response", err.Error())
 			}
 			return
 		}
 
-		log.DebugLn(&cid, "List: before response")
-
 		_, err = io.WriteString(w, string(resp))
 		if err != nil {
-			log.InfoLn(&cid, "List: Problem sending response", err.Error())
+			log.ErrorLn(&cid, "List: Problem sending response", err.Error())
 		}
 
 		log.DebugLn(&cid, "List: after response")
@@ -126,18 +131,16 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	resp, err := json.Marshal(sfr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := io.WriteString(w, "List: Problem unmarshalling response")
+		_, err := io.WriteString(w, "List: Problem marshalling response")
 		if err != nil {
-			log.InfoLn(&cid, "List: Problem sending response", err.Error())
+			log.ErrorLn(&cid, "List: Problem sending response", err.Error())
 		}
 		return
 	}
 
-	log.DebugLn(&cid, "List: before response")
-
 	_, err = io.WriteString(w, string(resp))
 	if err != nil {
-		log.InfoLn(&cid, "List: Problem sending response", err.Error())
+		log.ErrorLn(&cid, "List: Problem sending response", err.Error())
 	}
 
 	log.DebugLn(&cid, "List: after response")

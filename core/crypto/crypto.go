@@ -18,6 +18,11 @@ import (
 	"github.com/pkg/errors"
 )
 
+type Algorithm string
+
+const Age = Algorithm("age")
+const Aes = Algorithm("aes")
+
 var reader = rand.Read
 
 // RandomString generates a cryptographically-unique secure random string.
