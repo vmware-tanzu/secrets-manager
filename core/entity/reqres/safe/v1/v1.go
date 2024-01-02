@@ -11,6 +11,7 @@
 package v1
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 )
 
@@ -64,6 +65,11 @@ type SecretListRequest struct {
 type SecretListResponse struct {
 	Secrets []data.Secret `json:"secrets"`
 	Err     string        `json:"err,omitempty"`
+}
+
+type SecretEncryptedListResponse struct {
+	Secrets   []data.SecretEncrypted `json:"secrets"`
+	Algorithm crypto.Algorithm       `json:"algorithm"`
 }
 
 type GenericRequest struct {

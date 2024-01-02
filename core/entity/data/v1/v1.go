@@ -27,6 +27,15 @@ type (
 	SecretFormat string
 )
 
+func (t JsonTime) MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
+	return []byte(stamp), nil
+}
+
+func (t JsonTime) String() string {
+	return time.Time(t).Format(time.RFC3339)
+}
+
 var (
 	Memory BackingStore = "memory"
 	File   BackingStore = "file"
@@ -38,6 +47,13 @@ type Secret struct {
 	Name    string   `json:"name"`
 	Created JsonTime `json:"created"`
 	Updated JsonTime `json:"updated"`
+}
+
+type SecretEncrypted struct {
+	Name           string   `json:"name"`
+	EncryptedValue []string `json:"value"`
+	Created        JsonTime `json:"created"`
+	Updated        JsonTime `json:"updated"`
 }
 
 type SecretMeta struct {
@@ -79,11 +95,6 @@ type SecretStored struct {
 	// Timestamps
 	Created time.Time
 	Updated time.Time
-}
-
-func (t JsonTime) MarshalJSON() []byte {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
-	return []byte(stamp)
 }
 
 // handleNoTemplate is used when there is no template defined.
@@ -314,8 +325,7 @@ func (secret SecretStored) Parse() (string, error) {
 	}
 
 	if len(results) == 1 {
-		// TODO: this might be dead code, we might never hit this case parse failed will never be true if result > 0
-		// because transform() fails with unsupported fromat error and format is same for all Values.
+		// Can happen if there are N values, but only 1 was successfully parsed.
 		if parseFailed {
 			return results[0], fmt.Errorf("failed to parse secret %s", secret.Name)
 		}

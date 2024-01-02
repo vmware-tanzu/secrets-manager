@@ -74,7 +74,7 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 	}
 }
 
-func Get() {
+func Get(showEncryptedSecrets bool) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -100,7 +100,12 @@ func Get() {
 		return errors.New("I don’t know you, and it’s crazy: '" + id.String() + "'")
 	})
 
-	p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
+	safeUrl := "/sentinel/v1/secrets"
+	if showEncryptedSecrets {
+		safeUrl = "/sentinel/v1/secrets?reveal=true"
+	}
+
+	p, err := url.JoinPath(env.SafeEndpointUrl(), safeUrl)
 	if err != nil {
 		fmt.Println("Get: I am having problem generating VSecM Safe secrets api endpoint URL.")
 		fmt.Println("")
