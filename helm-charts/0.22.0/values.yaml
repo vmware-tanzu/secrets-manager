@@ -1,0 +1,64 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+global:
+  deploySpire: true
+  # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
+  baseImage: distroless
+  registry: vsecm
+  logLevel: "7"
+  images:
+    safe:
+      distrolessRepository: vsecm-ist-safe
+      distrolessFipsRepository: vsecm-ist-fips-safe
+      photonRepository: vsecm-photon-safe
+      photonFipsRepository: vsecm-photon-fips-safe
+      tag: 0.21.6
+      pullPolicy: IfNotPresent
+    sentinel:
+      distrolessRepository: vsecm-ist-sentinel
+      distrolessFipsRepository: vsecm-ist-fips-sentinel
+      photonRepository: vsecm-photon-sentinel
+      photonFipsRepository: vsecm-photon-fips-sentinel
+      tag: 0.21.6
+      pullPolicy: IfNotPresent
+    spireAgent:
+      repository: ghcr.io/spiffe/spire-agent
+      tag: 1.8.6
+      pullPolicy: IfNotPresent
+    spiffeCsiDriver:
+      repository: ghcr.io/spiffe/spiffe-csi-driver
+      tag: 0.2.4
+      pullPolicy: IfNotPresent
+    nodeDriverRegistrar:
+      repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+      tag: v2.9.2
+      pullPolicy: IfNotPresent
+    spireServer:
+      repository: ghcr.io/spiffe/spire-server
+      tag: 1.8.6
+      pullPolicy: IfNotPresent
+    spireControllerManager:
+      repository: ghcr.io/spiffe/spire-controller-manager
+      tag: 0.4.0
+      pullPolicy: IfNotPresent
+  vsecm:
+    namespace: vsecm-system
+  spire:
+    # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
+    # identify the trust domain of a workload. If you use anything other than
+    # the default `vsecm.com`, you must also update the relevant environment
+    # variables that does SPIFFE ID validation.
+    trustDomain: "vsecm.com"
+    namespace: spire-system
+    logLevel: DEBUG
+    serverPort: 8081
+
+podAnnotations: {}
