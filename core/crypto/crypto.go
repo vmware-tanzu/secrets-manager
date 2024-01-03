@@ -65,7 +65,7 @@ func RandomString(n int) (string, error) {
 //		The function uses the crypto/rand package for secure random number
 //	 generation, suitable for cryptographic purposes.
 func generateAesSeed() (string, error) {
-	// Generate a 256 bit key
+	// Generate a 256-bit key
 	key := make([]byte, 32)
 
 	_, err := reader(key)
