@@ -31,10 +31,10 @@ deploy-spire:
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds;\
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml;\
-		echo "waiting for SPIRE server to be ready.";\
-		kubectl wait --for=condition=Ready pod -n spire-system --selector=app=spire-server;\
-		echo "waiting for SPIRE agent to be ready.";\
-		kubectl wait --for=condition=Ready pod -n spire-system --selector=app=spire-agent;\
+		echo "verifying spire installation";\
+		kubectl wait --for=condition=Available deployment -n spire-system spire-server;\
+		echo "spire-server: deployment available";\
+		echo "spire installation successful";\
 	fi
 
 # Deploys VSecM to the cluster.
@@ -62,12 +62,15 @@ deploy-photon-local: deploy-spire
 deploy-photon-fips-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon-fips.yaml
 	$(MAKE) post-deploy
+.SILENT:
+.PHONY: post-deploy
 post-deploy:
-	echo "waiting for vsecm-sentinel to be ready"
-	kubectl wait --for=condition=Ready pod -n vsecm-system --selector=app.kubernetes.io/name=vsecm-sentinel
-	echo "waiting for vsecm-safe to be ready"
-	kubectl wait --for=condition=Ready pod -n vsecm-system --selector=app.kubernetes.io/name=vsecm-safe
-	echo "deployment successful!!"
+	echo "verifying vsecm installation"
+	kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-sentinel
+	echo "vsecm-sentinel: deployment available"
+	kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-safe
+	echo "vsecm-safe: deployment available"
+	echo "vsecm installation successful"
 
 #
 # ## Tests ##
