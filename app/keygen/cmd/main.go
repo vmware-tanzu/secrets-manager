@@ -11,6 +11,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
@@ -116,13 +117,26 @@ func main() {
 func decrypt(value []byte, algorithm crypto.Algorithm) (string, error) {
 	privateKey, _, aesKey := keys()
 
-	if algorithm == crypto.Age {
-		res, err := crypto.DecryptBytesAge(value, privateKey)
-
-		return string(res), err
+	decodedValue, err := base64.StdEncoding.DecodeString(string(value))
+	if err != nil {
+		return "", err
 	}
 
-	res, err := crypto.DecryptBytesAes(value, aesKey)
+	if algorithm == crypto.Age {
+		res, err := crypto.DecryptBytesAge(decodedValue, privateKey)
 
-	return string(res), err
+		if err != nil {
+			return "", err
+		}
+
+		return string(res), nil
+	}
+
+	res, err := crypto.DecryptBytesAes(decodedValue, aesKey)
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(res), nil
 }
