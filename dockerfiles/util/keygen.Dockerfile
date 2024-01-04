@@ -31,7 +31,7 @@ LABEL "contact"="https://vsecm.com/contact/"
 LABEL "community"="https://vsecm.com/community"
 LABEL "changelog"="https://vsecm.com/changelog"
 
-COPY --from=builder /build/vsecm-keygen .
+COPY --from=builder /build/vsecm-keygen /keygen
 
 # executable
 ENTRYPOINT [ "./keygen" ]
