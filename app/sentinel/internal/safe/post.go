@@ -19,6 +19,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -232,6 +233,17 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 
 			doPost(client, p, md)
 			return
+		}
+
+		// Generate pattern-based random secrets if the secret has the prefix.
+		if strings.HasPrefix(secret, env.SecretGenerationPrefix()) {
+			secret = strings.Replace(secret, env.SecretGenerationPrefix(), "", 1)
+			newSecret, err := crypto.GenerateValue(secret)
+			if err != nil {
+				secret = "ParseError:" + secret
+			} else {
+				secret = newSecret
+			}
 		}
 
 		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
