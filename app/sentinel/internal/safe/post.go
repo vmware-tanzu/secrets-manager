@@ -237,6 +237,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 
 		// Generate pattern-based random secrets if the secret has the prefix.
 		if strings.HasPrefix(secret, env.SecretGenerationPrefix()) {
+			secret = strings.Replace(secret, env.SecretGenerationPrefix(), "", 1)
 			newSecret, err := crypto.GenerateValue(secret)
 			if err != nil {
 				secret = "ParseError:" + secret
