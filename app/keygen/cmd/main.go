@@ -19,6 +19,7 @@ func main() {
 
 	if d {
 		printDecryptedKeys()
+		return
 	}
 
 	printGeneratedKeys()
