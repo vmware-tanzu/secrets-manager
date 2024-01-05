@@ -11,20 +11,16 @@
 package main
 
 import (
-	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func main() {
-	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
+	d := env.KeyGenDecrypt()
 
-	if err != nil {
-		fmt.Println("Failed to generate keys:")
-		fmt.Println(err.Error())
+	if d {
+		printDecryptedKeys()
 		return
 	}
 
-	fmt.Println()
-	fmt.Println(crypto.CombineKeys(privateKey, publicKey, aesSeed))
-	fmt.Println()
+	printGeneratedKeys()
 }

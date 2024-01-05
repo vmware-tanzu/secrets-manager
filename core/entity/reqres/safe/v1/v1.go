@@ -72,6 +72,11 @@ type SecretEncryptedListResponse struct {
 	Algorithm crypto.Algorithm       `json:"algorithm"`
 }
 
+type SecretStringTimeListResponse struct {
+	Secrets   []data.SecretStringTime `json:"secrets"`
+	Algorithm crypto.Algorithm        `json:"algorithm"`
+}
+
 type GenericRequest struct {
 	Err string `json:"err,omitempty"`
 }
