@@ -84,6 +84,28 @@ poll in the `Watch()` function. The interval is specified in milliseconds.
 If the environment variable is not set or is not a valid integer value, 
 a default interval of `5000` milliseconds is used.
 
+// KeyGenExportedSecretPath returns the path where the exported secrets are stored.
+// It reads the environment variable VSECM_KEYGEN_EXPORTED_SECRET_PATH to determine
+// the path.
+// If the environment variable is not set, it defaults to "/opt/vsecm/secrets.json".
+//
+// Returns:
+//
+//	string: The path to the exported secrets.
+
+// KeyGenDecrypt determines if the decryption process should be executed.
+// It reads the environment variable VSECM_KEYGEN_DECRYPT and checks if it is
+// set to "true".
+//
+// If this value is `false`, VSecM Keygen will generate a new root key.
+//
+// If this value is `true`, VSecM Keygen will attempt to decrypt the secrets
+// provided to it.
+//
+// Returns:
+//
+//	bool: True if decryption should proceed, false otherwise.
+
 ### VSECM_LOG_LEVEL
 
 **Used By**: *VSecM Sentinel*, *VSecM Safe*.
@@ -187,6 +209,16 @@ exposes from its `Service`.
 
 If not provided, it will default to:
 `"https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"`.
+
+
+// SecretGenerationPrefix returns a prefix that’s used by VSecM Sentinel to
+// generate random pattern-based secrets. If a secret is prefixed with this value,
+// then VSecM sentinel will consider it as a “template” rather than a literal value.
+//
+// It retrieves this prefix from the environment variable
+// "VSECM_SAFE_SECRET_GENERATION_PREFIX".
+// If the environment variable is not set or is empty, it defaults to "gen:".
+
 
 ### VSECM_SAFE_FIPS_COMPLIANT
 
