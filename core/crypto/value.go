@@ -10,6 +10,8 @@
 
 package crypto
 
+import "github.com/pkg/errors"
+
 // GenerateValue creates a string based on a template with embedded generator expressions.
 // The generator expressions specify character ranges and lengths for random string parts.
 //
@@ -50,6 +52,9 @@ func GenerateValue(template string) (string, error) {
 	result := template
 
 	matches := generatorsExp.FindAllStringIndex(template, -1)
+	if matches == nil {
+		return "", errors.New("no generator expressions found")
+	}
 
 	for _, r := range matches {
 		ranges, length, err := rangesAndLength(template[r[0]:r[1]])
