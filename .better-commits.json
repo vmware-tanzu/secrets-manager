@@ -4,14 +4,26 @@
     "enable": true,
     "initial_value": "feat",
     "infer_type_from_branch": true,
-    "append_emoji_to_label": false,
-    "append_emoji_to_commit": false,
+    "append_emoji_to_label": true,
+    "append_emoji_to_commit": true,
     "options": [
       {
         "value": "feat",
         "label": "feat",
         "hint": "A new feature",
         "emoji": "✨"
+      },
+      {
+        "value": "BREAKING",
+        "label": "BREAKING",
+        "hint": "A breaking change",
+        "emoji": "💥"
+      },
+      {
+        "value": "security",
+        "label": "security",
+        "hint": "A vulnerability fix",
+        "emoji": "🛡️"
       },
       {
         "value": "fix",
@@ -69,7 +81,7 @@
   },
   "commit_scope": {
     "enable": true,
-    "custom_scope": false,
+    "custom_scope": true,
     "initial_value": "VSecM",
     "options": [
       {
@@ -79,6 +91,18 @@
       {
         "value": "VSecM Sentinel",
         "label": "vsecm-sentinel"
+      },
+      {
+        "value": "VSecM Keygen",
+        "label": "vsecm-keygen"
+      },
+      {
+        "value": "VSecM Web",
+        "label": "vsecm-web"
+      },
+      {
+        "value": "VSecM Helm Charts",
+        "label": "vsecm-helm-charts"
       },
       {
         "value": "VSecM",
