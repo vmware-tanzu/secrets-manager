@@ -107,8 +107,16 @@ You are **strongly encouraged** (*but not required*) to follow the Conventional
 Commits specification when writing commit messages.
 
 You are encouraged (*but not required*) to use the 
-[better-commits](https://github.com/Everduin94/better-commits) tool to help you
+[better-commits][better-commits] tool to help you
 create commit messages.
+
+> **`make commit`**
+> 
+> If you have [better-commits][better-commits] installed, then you can execute
+> `make commit` to create a commit message.
+{: .block-tip}
+
+[better-commits]: https://github.com/Everduin94/better-commits "Better Commits"
 
 ## Signing Off Commits
 

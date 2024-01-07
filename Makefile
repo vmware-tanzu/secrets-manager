@@ -54,6 +54,5 @@ include ./makefiles/VSecMHelp.mk
 ## Helm-chart, k8s-manifests utils
 include makefiles/VSecMHelmUtils.mk
 
-commit:
-	npx better-commits
-	git commit --amend --signoff
+## Git Helper
+include makefiles/Git.mk

@@ -82,6 +82,19 @@ Here is a simplified overview of how various actors on a
 
 ![VMware Secrets Manager Components](/assets/actors.jpg "VMware Secrets Manager Component Interaction")
 
+### VSecM Keygen
+
+[`vsecm-keygen`][keygen] is a utility that generates the root key that 
+**VSecM Safe** uses, if manual input mode is set. By default, **VSecM Safe**
+generates the root key automatically; however, you can opt-out from this
+if want to control the root key yourself and provide your own key.
+
+You can check out the [CLI documentation][cli] for more information
+about how to use **VSecM Keygen**.
+
+[keygen]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/keygen
+[cli]: https://vsecm.com/docs/cli
+
 ## High-Level Architecture
 
 ### Dispatching Identities

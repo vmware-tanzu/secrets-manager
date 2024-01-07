@@ -154,6 +154,36 @@ will serve.
 
 Defaults to `:8082`.
 
+### VSECM_KEYGEN_DECRYPT
+
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_DECRYPT` determines if **VSecM Keygen** should decrypt the secrets 
+JSON file instead of generation a root key (*which is its default behavior*).
+
+If this value is  anything but `"true"`, **VSecM Keygen** will generate a new 
+root key. Otherwise, it will attempt to decrypt the secrets provided to it.
+
+Defaults to `"false"`.
+
+### VSECM_KEYGEN_EXPORTED_SECRET_PATH
+
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_EXPORTED_SECRET_PATH` is the path where the exported secrets are
+stored. This needs to be mounted to the container that you run **VSecM Keygen**.
+
+If not given, it defaults to `"/opt/vsecm/secrets.json"`.
+
+### VSECM_KEYGEN_ROOT_KEY_PATH
+
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_ROOT_KEY_PATH` is the path where the root key is stored. This
+needs to be mounted to the container that you run **VSecM Keygen**.
+
+If not given, it defaults to `"/opt/vsecm/keys.txt"`.
+
 ### VSECM_SAFE_BACKING_STORE
 
 **Used By**: *VSecM Safe*.
