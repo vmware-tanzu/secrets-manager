@@ -1,0 +1,148 @@
+{
+  "check_status": true,
+  "commit_type": {
+    "enable": true,
+    "initial_value": "feat",
+    "infer_type_from_branch": true,
+    "append_emoji_to_label": false,
+    "append_emoji_to_commit": false,
+    "options": [
+      {
+        "value": "feat",
+        "label": "feat",
+        "hint": "A new feature",
+        "emoji": "✨"
+      },
+      {
+        "value": "fix",
+        "label": "fix",
+        "hint": "A bug fix",
+        "emoji": "🐛"
+      },
+      {
+        "value": "docs",
+        "label": "docs",
+        "hint": "Documentation only changes",
+        "emoji": "📚"
+      },
+      {
+        "value": "refactor",
+        "label": "refactor",
+        "hint": "A code change that neither fixes a bug nor adds a feature",
+        "emoji": "🔨"
+      },
+      {
+        "value": "perf",
+        "label": "perf",
+        "hint": "A code change that improves performance",
+        "emoji": "🚀"
+      },
+      {
+        "value": "test",
+        "label": "test",
+        "hint": "Adding missing tests or correcting existing tests",
+        "emoji": "🚨"
+      },
+      {
+        "value": "build",
+        "label": "build",
+        "hint": "Changes that affect the build system or external dependencies",
+        "emoji": "🚧"
+      },
+      {
+        "value": "ci",
+        "label": "ci",
+        "hint": "Changes to our CI configuration files and scripts",
+        "emoji": "🤖"
+      },
+      {
+        "value": "chore",
+        "label": "chore",
+        "hint": "Other changes that do not modify src or test files",
+        "emoji": "🧹"
+      },
+      {
+        "value": "",
+        "label": "none"
+      }
+    ]
+  },
+  "commit_scope": {
+    "enable": true,
+    "custom_scope": false,
+    "initial_value": "VSecM",
+    "options": [
+      {
+        "value": "VSecM Safe",
+        "label": "vsecm-safe"
+      },
+      {
+        "value": "VSecM Sentinel",
+        "label": "vsecm-sentinel"
+      },
+      {
+        "value": "VSecM",
+        "label": "vsecm"
+      },
+      {
+        "value": "",
+        "label": "none"
+      }
+    ]
+  },
+  "check_ticket": {
+    "infer_ticket": true,
+    "confirm_ticket": true,
+    "add_to_title": true,
+    "append_hashtag": false,
+    "title_position": "start"
+  },
+  "commit_title": {
+    "max_size": 70
+  },
+  "commit_body": {
+    "enable": true,
+    "required": false
+  },
+  "commit_footer": {
+    "enable": true,
+    "initial_value": [],
+    "options": [
+      "closes",
+      "breaking-change",
+      "deprecated",
+      "custom"
+    ]
+  },
+  "breaking_change": {
+    "add_exclamation_to_title": true
+  },
+  "confirm_commit": true,
+  "print_commit_output": true,
+  "branch_pre_commands": [],
+  "branch_post_commands": [],
+  "worktree_pre_commands": [],
+  "worktree_post_commands": [],
+  "branch_user": {
+    "enable": true,
+    "required": false,
+    "separator": "/"
+  },
+  "branch_type": {
+    "enable": true,
+    "separator": "/"
+  },
+  "branch_ticket": {
+    "enable": true,
+    "required": false,
+    "separator": "-"
+  },
+  "branch_description": {
+    "max_length": 70
+  },
+  "branch_action_default": "branch",
+  "enable_worktrees": true,
+  "overrides": {
+    "shell": "/bin/sh"
+  }
+}
