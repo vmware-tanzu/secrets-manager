@@ -143,6 +143,23 @@ git commit --amend --signoff
 If you miss series of commits, you can use `git rebase` with `-i` or `--interactive` 
 flags to edit and append.
 
+## Add Tests for New Features
+
+As you contribute major new functionalities to the software, it's essential to 
+adhere to a policy that requires the addition of corresponding tests. 
+
+This **policy** underscores the importance of validating new features through 
+thorough testing. For every significant addition you make, ensure that robust 
+tests are included. 
+
+This practice is **crucial** for maintaining the **VSecM**’s quality, reliability, 
+and stability. By integrating tests for new features, you contribute not only to 
+the early detection of defects but also to the facilitation of smoother future 
+enhancements and modifications. 
+
+Your commitment to this testing policy is integral to our collective success in 
+software development.
+
 ## What Technologies Do I Need to Know?
 
 You don’t have to be an expert in all of these technologies to contribute to
