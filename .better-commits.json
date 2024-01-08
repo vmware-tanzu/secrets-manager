@@ -91,6 +91,10 @@
     "initial_value": "VSecM",
     "options": [
       {
+        "value": "SPIRE",
+        "label": "spire"
+      },
+      {
         "value": "VSecM Safe",
         "label": "vsecm-safe"
       },
