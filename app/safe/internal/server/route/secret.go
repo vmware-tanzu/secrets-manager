@@ -210,6 +210,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	format := sr.Format
 	encrypt := sr.Encrypt
 	appendValue := sr.AppendValue
+	notBefore := sr.NotBefore
+	expiresAfter := sr.ExpiresAfter
 
 	if workloadId == "" && encrypt {
 		// has side effect of sending response.

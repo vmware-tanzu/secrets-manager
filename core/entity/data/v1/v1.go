@@ -27,13 +27,28 @@ type (
 	SecretFormat string
 )
 
-func (t JsonTime) MarshalJSON() ([]byte, error) {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
+func (t *JsonTime) MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(*t).Format(time.RFC3339))
 	return []byte(stamp), nil
 }
 
-func (t JsonTime) String() string {
-	return time.Time(t).Format(time.RFC3339)
+func (t *JsonTime) String() string {
+	return time.Time(*t).Format(time.RFC3339)
+}
+
+func (t *JsonTime) UnmarshalJSON(data []byte) error {
+	str := string(data)
+	str = strings.Trim(str, "\"")
+
+	parsedTime, err := time.Parse(time.RFC3339, str)
+	if err != nil {
+		return err
+	}
+
+	// Set the time value.
+	*t = JsonTime(parsedTime)
+
+	return nil
 }
 
 var (
@@ -80,6 +95,10 @@ type SecretMeta struct {
 	Format SecretFormat
 	// For tracking purposes
 	CorrelationId string `json:"correlationId"`
+	// Invalid before
+	NotBefore JsonTime `json:"notBefore"`
+	// Invalid after
+	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
 type SecretStored struct {
