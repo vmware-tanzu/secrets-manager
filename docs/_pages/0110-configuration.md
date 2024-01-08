@@ -240,15 +240,17 @@ exposes from its `Service`.
 If not provided, it will default to:
 `"https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"`.
 
+### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
 
-// SecretGenerationPrefix returns a prefix that’s used by VSecM Sentinel to
-// generate random pattern-based secrets. If a secret is prefixed with this value,
-// then VSecM sentinel will consider it as a “template” rather than a literal value.
-//
-// It retrieves this prefix from the environment variable
-// "VSECM_SAFE_SECRET_GENERATION_PREFIX".
-// If the environment variable is not set or is empty, it defaults to "gen:".
+**Used By**: *VSecM Sentinel*.
 
+`VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that’s used by
+that’s used by **VSecM Sentinel** to generate random pattern-based secrets. 
+
+If a secret is prefixed with this value, then **VSecM Sentinel** will consider 
+it as a “*template*” rather than a literal value.
+
+If the environment variable is not set or is empty, it defaults to `"gen:"`.
 
 ### VSECM_SAFE_FIPS_COMPLIANT
 
