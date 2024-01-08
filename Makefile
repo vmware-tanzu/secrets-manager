@@ -53,3 +53,6 @@ include ./makefiles/VSecMHelp.mk
 
 ## Helm-chart, k8s-manifests utils
 include makefiles/VSecMHelmUtils.mk
+
+## Git Helper
+include makefiles/Git.mk

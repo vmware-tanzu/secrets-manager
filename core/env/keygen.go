@@ -37,7 +37,9 @@ func KeyGenExportedSecretPath() string {
 	return p
 }
 
-// KeyGenDecrypt determines if the decryption process should be executed.
+// KeyGenDecrypt determines if VSecM Keygen should decrypt the secrets json
+// file instead of generating a new root key (which is its default behavior).
+//
 // It reads the environment variable VSECM_KEYGEN_DECRYPT and checks if it is
 // set to "true".
 //
