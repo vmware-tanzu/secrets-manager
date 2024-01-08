@@ -14,6 +14,12 @@
         "emoji": "✨"
       },
       {
+        "value": "enhancement",
+        "label": "enhancement",
+        "hint": "An enhancement to an existing feature",
+        "emoji": "🌟"
+      },
+      {
         "value": "BREAKING",
         "label": "BREAKING",
         "hint": "A breaking change",
