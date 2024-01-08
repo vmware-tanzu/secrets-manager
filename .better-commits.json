@@ -20,6 +20,12 @@
         "emoji": "🌟"
       },
       {
+        "value": "cosmetic",
+        "label": "cosmetic",
+        "hint": "A small change or enhancement that does not affect functionality",
+        "emoji": "💄"
+      },
+      {
         "value": "BREAKING",
         "label": "BREAKING",
         "hint": "A breaking change",
