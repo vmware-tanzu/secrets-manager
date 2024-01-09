@@ -261,7 +261,7 @@ To initialize a new helm-chart, run the following command using the init script:
 base-version: the existing helm-charts version to be used as the base helm-chart.
 new-version: the version helm-charts to be initialized.
 
-For example: `./hack/init-next-helm-chart.sh 0.21.0 0.22.0`
+For example: `./hack/init-next-helm-chart.sh 0.21.0 0.22.1`
 
 After execution, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into the main branch.
@@ -277,7 +277,7 @@ These manifests are used by people who want to install VSecM without using
 Helm. To generate the manifests you need to have generated the helm charts 
 first.
 
-For example `./hack/update-k8s-manifests.sh 0.22.0`
+For example `./hack/update-k8s-manifests.sh 0.22.1`
 
 [update-script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/update-k8s-manifests.sh
 
@@ -288,8 +288,8 @@ To execute the script, provide the version of the helm-charts that you want
 to release as an argument.
 
 Use the following format: `./hack/release-helm-chart.sh <version>`
-For example, to release version 0.22.0, run:
-`./hack/release-helm-chart.sh 0.22.0`
+For example, to release version 0.22.1, run:
+`./hack/release-helm-chart.sh 0.22.1`
 
 Follow the instructions provided by the script for successful execution.
 
@@ -298,7 +298,7 @@ Use this link to create a pull request (PR) and merge it into
 the `gh-pages` branch.
 
 Alternatively, you can use a make target too: 
-`make helm-chart-release VSECM_VERSION=0.22.0`
+`make helm-chart-release VSECM_VERSION=0.22.1`
 
 > **Keep The Most Recent Version of the Helm Charts**
 > 

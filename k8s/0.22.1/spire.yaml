@@ -1053,7 +1053,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-sentinel:0.22.0"
+          image: "vsecm/vsecm-ist-sentinel:0.22.1"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket

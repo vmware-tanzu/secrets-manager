@@ -30,7 +30,7 @@ k8s-manifests-update:
 	@echo "**************************************************************"
 	@echo "Producing k8s manifest files for helm-chart version ${VERSION}, to change version pass VERSION variable with another value."
 	@echo "**************************************************************"
-	@echo "Ex. make k8s-manifests-update VERSION=0.22.0"
+	@echo "Ex. make k8s-manifests-update VERSION=0.22.1"
 	./hack/update-k8s-manifests.sh ${VERSION}
 
 # add an echo statement to publish to user default version is being installed
@@ -41,7 +41,7 @@ helm-install:
 	name ${DEPLOYMENT_NAME}."
 	@echo "To change version, image, deployment name pass VERSION, IMAGE, DEPLOYMENT_NAME variable with another value."
 	@echo "**************************************************************"
-	@echo "Ex. make helm-install VERSION=0.22.0 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
+	@echo "Ex. make helm-install VERSION=0.22.1 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
 	make helm-install-${IMAGE}
 
 helm-install-distroless:
