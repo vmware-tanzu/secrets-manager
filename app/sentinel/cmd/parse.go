@@ -102,3 +102,17 @@ func parseEncrypt(parser *argparse.Parser) *bool {
 			"with `-s` and `-w`.",
 	})
 }
+
+func parseExpires(parser *argparse.Parser) *string {
+	return parser.String("E", "exp", &argparse.Options{
+		Required: false, Default: "never",
+		Help: "is the expiration date of the secret.",
+	})
+}
+
+func parseNotBefore(parser *argparse.Parser) *string {
+	return parser.String("N", "nbf", &argparse.Options{
+		Required: false, Default: "now",
+		Help: "secret is not valid before this time.",
+	})
+}

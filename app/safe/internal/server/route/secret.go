@@ -20,6 +20,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"io"
 	"net/http"
+	"time"
 )
 
 func createDefaultJournalEntry(cid, spiffeid string,
@@ -211,7 +212,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	encrypt := sr.Encrypt
 	appendValue := sr.AppendValue
 	notBefore := sr.NotBefore
-	expiresAfter := sr.ExpiresAfter
+	expiresAfter := sr.Expires
 
 	if workloadId == "" && encrypt {
 		// has side effect of sending response.
@@ -226,7 +227,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	log.DebugLn(&cid, "Secret:Upsert: ", "workloadId:", workloadId,
 		"namespace:", namespace, "backingStore:", backingStore,
 		"template:", template, "format:", format, "encrypt:", encrypt,
-		"appendValue:", appendValue, "useK8s", useK8s)
+		"appendValue:", appendValue, "useK8s", useK8s,
+		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if workloadId == "" && !encrypt {
 		j.Event = audit.EventNoWorkloadId
@@ -246,6 +248,38 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 	}
 
+	nb := entity.JsonTime{}
+	exp := entity.JsonTime{}
+
+	if notBefore == "now" {
+		nb = entity.JsonTime(time.Now())
+	} else {
+		nbTime, err := time.Parse(time.RFC3339, notBefore)
+		if err != nil {
+			nb = entity.JsonTime(time.Now())
+		} else {
+			nb = entity.JsonTime(nbTime)
+		}
+	}
+
+	if expiresAfter == "never" {
+		// This is the largest time go std. lib can represent.
+		// It is far enough into the future that the author does not care
+		// what happens after.
+		exp = entity.JsonTime(
+			time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+		)
+	} else {
+		expTime, err := time.Parse(time.RFC3339, expiresAfter)
+		if err != nil {
+			exp = entity.JsonTime(
+				time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+			)
+		} else {
+			exp = entity.JsonTime(expTime)
+		}
+	}
+
 	secretToStore := entity.SecretStored{
 		Name: workloadId,
 		Meta: entity.SecretMeta{
@@ -255,6 +289,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			Template:            template,
 			Format:              format,
 			CorrelationId:       cid,
+			NotBefore:           nb,
+			ExpiresAfter:        exp,
 		},
 		Values: []string{value},
 	}

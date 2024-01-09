@@ -25,7 +25,8 @@ type SecretUpsertRequest struct {
 	Format        data.SecretFormat `json:"format"`
 	Encrypt       bool              `json:"encrypt"`
 	AppendValue   bool              `json:"appendValue"`
-	NotBefore     data.JsonTime     `json:"notBefore"`
+	NotBefore     string            `json:"notBefore"`
+	Expires       string            `json:"expires"`
 
 	Err string `json:"err,omitempty"`
 }

@@ -36,6 +36,8 @@ func main() {
 	template := parseTemplate(parser)
 	format := parseFormat(parser)
 	encrypt := parseEncrypt(parser)
+	notBefore := parseNotBefore(parser)
+	expires := parseExpires(parser)
 
 	err := parser.Parse(os.Args)
 	if err != nil {
@@ -78,5 +80,6 @@ func main() {
 		ctx,
 		*workload, *secret, *namespace, *backingStore, *useKubernetes,
 		*template, *format, *encrypt, *deleteSecret, *appendSecret, *inputKeys,
+		*notBefore, *expires,
 	)
 }
