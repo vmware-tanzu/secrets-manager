@@ -304,8 +304,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			CorrelationId:       cid,
 		},
 		Values:       []string{value},
-		NotBefore:    nb,
-		ExpiresAfter: exp,
+		NotBefore:    time.Time(nb),
+		ExpiresAfter: time.Time(exp),
 	}
 
 	upsert(secretToStore, appendValue, workloadId, cid, j, w)
