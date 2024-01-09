@@ -58,10 +58,15 @@ var (
 	Yaml   SecretFormat = "yaml"
 )
 
+// Secret___ types are what is shown to the user.
+// SecretMeta is what’s used internally.
+
 type Secret struct {
-	Name    string   `json:"name"`
-	Created JsonTime `json:"created"`
-	Updated JsonTime `json:"updated"`
+	Name         string   `json:"name"`
+	Created      JsonTime `json:"created"`
+	Updated      JsonTime `json:"updated"`
+	NotBefore    JsonTime `json:"notBefore"`
+	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
 type SecretEncrypted struct {
@@ -69,6 +74,8 @@ type SecretEncrypted struct {
 	EncryptedValue []string `json:"value"`
 	Created        JsonTime `json:"created"`
 	Updated        JsonTime `json:"updated"`
+	NotBefore      JsonTime `json:"notBefore"`
+	ExpiresAfter   JsonTime `json:"expiresAfter"`
 }
 
 type SecretStringTime struct {
@@ -76,6 +83,8 @@ type SecretStringTime struct {
 	EncryptedValue []string `json:"value"`
 	Created        string   `json:"created"`
 	Updated        string   `json:"updated"`
+	NotBefore      JsonTime `json:"notBefore"`
+	ExpiresAfter   JsonTime `json:"expiresAfter"`
 }
 
 type SecretMeta struct {
@@ -95,10 +104,6 @@ type SecretMeta struct {
 	Format SecretFormat
 	// For tracking purposes
 	CorrelationId string `json:"correlationId"`
-	// Invalid before
-	NotBefore JsonTime `json:"notBefore"`
-	// Invalid after
-	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
 type SecretStored struct {
@@ -116,11 +121,15 @@ type SecretStored struct {
 	// a valid YAML is stored here. If the format is none, then just
 	// apply transformation (if needed) and do not do any validity check.
 	ValueTransformed string `json:"valuesTransformed"`
-	// Additional information that helps formatting and storing the secret.
+	// Additional information that helps format and store the secret.
 	Meta SecretMeta
 	// Timestamps
 	Created time.Time
 	Updated time.Time
+	// Invalid before this time.
+	NotBefore JsonTime `json:"notBefore"`
+	// Invalid after this time.
+	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
 // handleNoTemplate is used when there is no template defined.

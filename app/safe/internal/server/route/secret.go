@@ -289,10 +289,10 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			Template:            template,
 			Format:              format,
 			CorrelationId:       cid,
-			NotBefore:           nb,
-			ExpiresAfter:        exp,
 		},
-		Values: []string{value},
+		Values:       []string{value},
+		NotBefore:    nb,
+		ExpiresAfter: exp,
 	}
 
 	upsert(secretToStore, appendValue, workloadId, cid, j, w)
