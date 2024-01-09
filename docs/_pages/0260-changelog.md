@@ -24,6 +24,34 @@ next_url: /docs/releases/
 
 * TBD
 
+## [v0.22.0] - 2024-01-08
+
+### Added 
+
+* Documentation updated, especially around production usage and security.
+* Added a `make commit` helper for a `better-commits` workflow.
+* Added a PR template.
+* Achieved great progress towards Open SSF Best Practices compliance; reaching
+  93% of the requirements.
+* Added ability to generate random secrets based on a pattern.
+* Added ability to export encrypted secrets.
+
+### Changed
+
+* **BREAKING**: Certain environment variables are renamed to be more consistent
+  with the rest of the project. The old variables are not supported anymore. 
+  check out the **configuration** section of the documentation for more details.
+* Updated SPIRE, SPIRE Controller Manager, and SPIFFE CSI Driver to the latest
+  versions.
+* Moved older versions of the manifests to a `k8s` branch, and older snapshots
+  of documentation to a `docs` branch to keep the `main` branch clean.
+
+### Fixed
+
+* Fixes on workflow scripts to have a more streamlined build process and
+  development experience.
+* Minor bugfixes and code enhancements.
+
 ## [v0.21.5] - 2023-12-18
 
 ### Changed
