@@ -1,9 +1,9 @@
 # VMware Secrets Manager (VSecM) Helm Chart
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
 
-VMware Secrets Manager keeps your secrets secret. With VSecM, you can rest assured 
-that your sensitive data is always secure and protected. VSecM is perfect for 
-securely storing arbitrary configuration information at a central location and 
+VMware Secrets Manager keeps your secrets secret. With VSecM, you can rest assured
+that your sensitive data is always secure and protected. VSecM is perfect for
+securely storing arbitrary configuration information at a central location and
 securely dispatching it to workloads.
 
 ## Installation
@@ -25,44 +25,44 @@ To use VMware Secrets Manager, follow the steps below:
 3. Install VMware Secrets Manager using Helm:
 
     ```bash
-    helm install vsecm vsecm/vsecm --version 0.21.6
+    helm install vsecm vsecm/vsecm --version 0.22.1
     ```
 
 ## Options
 
-The following options can be passed to the `helm install` command to set global 
+The following options can be passed to the `helm install` command to set global
 variables:
 
-*`--set global.deploySpire=<true/false>`: 
+*`--set global.deploySpire=<true/false>`:
   This flag can be passed to install or skip SPIRE.
-*`--set global.baseImage=<distroless/distroless-fips/photon/photos-fips>`: 
+*`--set global.baseImage=<distroless/distroless-fips/photon/photos-fips>`:
   This flag can be passed to install VSecM with the given baseImage Docker image.
 
-Default values are `true` and `distroless` for `global.deploySpire` 
+Default values are `true` and `distroless` for `global.deploySpire`
 and `global.baseImage` respectively.
 
 Here's an example command with the above options:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.21.6 \
+helm install vsecm vsecm/helm-charts --version 0.22.1 \
   --set global.deploySpire=true --set global.baseImage=distroless
 ```
 
-Make sure to replace `<true/false>` and 
+Make sure to replace `<true/false>` and
 `<distroless/distroless-fips/photon/photos-fips>` with the desired values.
 
 ## Environment Configuration
 
 **VMware Secrets Manager** can be tweaked further using environment variables.
 
-[Check out **Configuring VSecM** on the official documentation][configuring-vsecm] 
+[Check out **Configuring VSecM** on the official documentation][configuring-vsecm]
 for details.
 
-These environment variable configurations are expose through subcharts. 
+These environment variable configurations are expose through subcharts.
 You can modify them as follows:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.21.6 \
+helm install vsecm vsecm/helm-charts --version 0.22.1 \
 --set safe.environments.VSECM_LOG_LEVEL="7"
 --set sentinel.environments.VSECM_LOGL_LEVEL="5"
 # You can update other environment variables too.
