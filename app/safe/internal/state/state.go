@@ -13,6 +13,7 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -257,6 +258,11 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	log.InfoLn(&cid, "UpsertSecret:",
 		"created", secret.Created, "updated", secret.Updated, "name", secret.Name,
 		"len(vs)", len(vs),
+	)
+
+	fmt.Println(&cid, "UpsertSecret:",
+		"created", secret.Created, "updated", secret.Updated, "name", secret.Name,
+		"len(vs)", len(vs), "nb", secret.NotBefore, "ea", secret.ExpiresAfter,
 	)
 
 	log.TraceLn(&cid, "UpsertSecret: Will parse secret.")
