@@ -49,8 +49,8 @@ metadata:
   namespace: vsecm-system
   labels:
     helm.sh/chart: safe-0.22.1
-    app.kubernetes.io/name: release-name-safe
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.22.1"
     app.kubernetes.io/managed-by: Helm
@@ -74,8 +74,8 @@ metadata:
   namespace: vsecm-system
   labels:
     helm.sh/chart: sentinel-0.22.1
-    app.kubernetes.io/name: release-name-sentinel
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-sentinel
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.22.1"
     app.kubernetes.io/managed-by: Helm
@@ -657,12 +657,12 @@ roleRef:
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-safe
+  name: vsecm-safe
   namespace: vsecm-system
   labels:
     helm.sh/chart: safe-0.22.1
-    app.kubernetes.io/name: release-name-safe
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.22.1"
     app.kubernetes.io/managed-by: Helm
@@ -674,8 +674,8 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: release-name-safe
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server.yaml
@@ -874,12 +874,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name-safe
+  name: vsecm-safe
   namespace: vsecm-system
   labels:
     helm.sh/chart: safe-0.22.1
-    app.kubernetes.io/name: release-name-safe
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.22.1"
     app.kubernetes.io/managed-by: Helm
@@ -887,14 +887,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: release-name-safe
-      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: vsecm-safe
+      app.kubernetes.io/instance: vsecm
       app.kubernetes.io/part-of: vsecm-system
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: release-name-safe
-        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: vsecm-safe
+        app.kubernetes.io/instance: vsecm
         app.kubernetes.io/part-of: vsecm-system
     spec:
       serviceAccountName: vsecm-safe
@@ -1025,12 +1025,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name-sentinel
+  name: vsecm-sentinel
   namespace: vsecm-system
   labels:
     helm.sh/chart: sentinel-0.22.1
-    app.kubernetes.io/name: release-name-sentinel
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/name: vsecm-sentinel
+    app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.22.1"
     app.kubernetes.io/managed-by: Helm
@@ -1038,14 +1038,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: release-name-sentinel
-      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/name: vsecm-sentinel
+      app.kubernetes.io/instance: vsecm
       app.kubernetes.io/part-of: vsecm-system
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: release-name-sentinel
-        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/name: vsecm-sentinel
+        app.kubernetes.io/instance: vsecm
         app.kubernetes.io/part-of: vsecm-system
     spec:
       serviceAccountName: vsecm-sentinel
@@ -1206,16 +1206,16 @@ spec:
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: release-name-safe
+  name: vsecm-safe
 spec:
   spiffeIDTemplate: "spiffe://vsecm.com\
-    /workload/release-name-safe\
+    /workload/vsecm-safe\
     /ns/{{ .PodMeta.Namespace }}\
     /sa/{{ .PodSpec.ServiceAccountName }}\
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: release-name-safe
+      app.kubernetes.io/name: vsecm-safe
       app.kubernetes.io/part-of: vsecm-system
   workloadSelectorTemplates:
     - "k8s:ns:vsecm-system"
@@ -1235,16 +1235,16 @@ spec:
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: release-name-sentinel
+  name: vsecm-sentinel
 spec:
   spiffeIDTemplate: "spiffe://vsecm.com\
-    /workload/release-name-sentinel\
+    /workload/vsecm-sentinel\
     /ns/{{ .PodMeta.Namespace }}\
     /sa/{{ .PodSpec.ServiceAccountName }}\
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: release-name-sentinel
+      app.kubernetes.io/name: vsecm-sentinel
       app.kubernetes.io/part-of: vsecm-system
   workloadSelectorTemplates:
     - "k8s:ns:vsecm-system"
