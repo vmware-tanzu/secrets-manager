@@ -127,9 +127,9 @@ type SecretStored struct {
 	Created time.Time
 	Updated time.Time
 	// Invalid before this time.
-	NotBefore JsonTime `json:"notBefore"`
+	NotBefore time.Time `json:"notBefore"`
 	// Invalid after this time.
-	ExpiresAfter JsonTime `json:"expiresAfter"`
+	ExpiresAfter time.Time `json:"expiresAfter"`
 }
 
 // handleNoTemplate is used when there is no template defined.
