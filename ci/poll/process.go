@@ -11,6 +11,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 )
@@ -20,7 +21,7 @@ func runCommand(command string, args ...string) error {
 	cmd.Stdout = os.Stdout // Forward stdout
 	cmd.Stderr = os.Stderr // Forward stderr
 
-	log.Printf("Executing command: %s %v", command, args)
+	fmt.Printf("Executing command: %s %v", command, args)
 	if err := cmd.Run(); err != nil {
 		return err
 	}

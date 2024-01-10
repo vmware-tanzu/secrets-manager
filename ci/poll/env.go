@@ -28,24 +28,33 @@ func setMinikubeDockerEnv() error {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		// Parse lines that look like export commands
-		if strings.HasPrefix(line, "export ") {
-			parts := strings.SplitN(line, " ", 3)
-			if len(parts) == 3 {
-				keyValue := strings.SplitN(parts[1], "=", 2)
-				if len(keyValue) == 2 {
-					key := keyValue[0]
-					value := strings.Trim(keyValue[1], "\"") // Remove any quotes
-					err := os.Setenv(key, value)
-					if err != nil {
-						return err
-					}
-				}
-			}
+		if !strings.HasPrefix(line, "export ") {
+			continue
+		}
+
+		parts := strings.SplitN(line, " ", 3)
+
+		if len(parts) != 3 {
+			continue
+		}
+
+		keyValue := strings.SplitN(parts[1], "=", 2)
+		if len(keyValue) != 2 {
+			continue
+		}
+
+		key := keyValue[0]
+		value := strings.Trim(keyValue[1], "\"")
+
+		err := os.Setenv(key, value)
+		if err != nil {
+			return err
 		}
 	}
+
 	if scanner.Err() != nil {
 		return scanner.Err()
 	}
+
 	return nil
 }

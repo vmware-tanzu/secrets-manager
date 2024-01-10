@@ -19,6 +19,7 @@ func readCommitHashFromFile() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	return string(data), nil
 }
 
