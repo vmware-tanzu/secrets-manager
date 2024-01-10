@@ -12,7 +12,6 @@ package route
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
@@ -231,12 +230,6 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		"appendValue:", appendValue, "useK8s", useK8s,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
-	fmt.Println("########", &cid, "Secret:Upsert: ", "workloadId:", workloadId,
-		"namespace:", namespace, "backingStore:", backingStore,
-		"template:", template, "format:", format, "encrypt:", encrypt,
-		"appendValue:", appendValue, "useK8s", useK8s,
-		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
-
 	if workloadId == "" && !encrypt {
 		j.Event = audit.EventNoWorkloadId
 		audit.Log(j)
@@ -263,11 +256,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	} else {
 		nbTime, err := time.Parse(time.RFC3339, notBefore)
 		if err != nil {
-			fmt.Println("0000")
-			fmt.Println(err.Error())
 			nb = entity.JsonTime(time.Now())
 		} else {
-			fmt.Println("0001")
 			nb = entity.JsonTime(nbTime)
 		}
 	}
@@ -282,13 +272,10 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	} else {
 		expTime, err := time.Parse(time.RFC3339, expiresAfter)
 		if err != nil {
-			fmt.Println("0002")
-			fmt.Println(err.Error())
 			exp = entity.JsonTime(
 				time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
 			)
 		} else {
-			fmt.Println("00003")
 			exp = entity.JsonTime(expTime)
 		}
 	}
