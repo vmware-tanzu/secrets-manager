@@ -2,46 +2,8 @@ apiVersion: v1
 entries:
   vsecm:
   - apiVersion: v2
-    appVersion: 0.22.0
-    created: "2024-01-08T22:54:34.553277-08:00"
-    dependencies:
-    - condition: global.deploySpire
-      name: spire
-      repository: file://charts/spire
-      version: 0.22.0
-    - condition: global.deploySafe
-      name: safe
-      repository: file://charts/safe
-      version: 0.22.0
-    - condition: global.deploySentinel
-      name: sentinel
-      repository: file://charts/sentinel
-      version: 0.22.0
-    description: Helm chart for VMware Secrets Manager
-    digest: 50c65fe9777e79dd3c7e352071718ba042966fd20a4f31a107aa168613a8058e
-    home: https://vsecm.com/
-    icon: https://vsecm.com/assets/vsecm-256.png
-    keywords:
-    - secrets
-    - kubernetes
-    - secrets-manager
-    - spire
-    - spiffe
-    - zero-trust
-    - cloud-native
-    - edge
-    - secret-management
-    - security
-    name: vsecm
-    sources:
-    - https://github.com/vmware-tanzu/secrets-manager
-    type: application
-    urls:
-    - vsecm-0.22.0.tgz
-    version: 0.22.0
-  - apiVersion: v2
     appVersion: 0.21.5
-    created: "2024-01-08T22:54:34.552477-08:00"
+    created: "2023-12-19T12:51:13.812102-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -78,7 +40,7 @@ entries:
     version: 0.21.5
   - apiVersion: v2
     appVersion: 0.21.4
-    created: "2024-01-08T22:54:34.551626-08:00"
+    created: "2023-12-19T12:51:13.811276-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -113,7 +75,7 @@ entries:
     version: 0.21.4
   - apiVersion: v2
     appVersion: 0.21.3
-    created: "2024-01-08T22:54:34.550856-08:00"
+    created: "2023-12-19T12:51:13.810359-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -148,7 +110,7 @@ entries:
     version: 0.21.3
   - apiVersion: v2
     appVersion: 0.21.2
-    created: "2024-01-08T22:54:34.54995-08:00"
+    created: "2023-12-19T12:51:13.808665-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -183,7 +145,7 @@ entries:
     version: 0.21.2
   - apiVersion: v2
     appVersion: 0.21.1
-    created: "2024-01-08T22:54:34.548323-08:00"
+    created: "2023-12-19T12:51:13.807942-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -218,7 +180,7 @@ entries:
     version: 0.21.1
   - apiVersion: v2
     appVersion: 0.21.0
-    created: "2024-01-08T22:54:34.547589-08:00"
+    created: "2023-12-19T12:51:13.807234-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -253,7 +215,7 @@ entries:
     version: 0.21.0
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2024-01-08T22:54:34.546864-08:00"
+    created: "2023-12-19T12:51:13.80647-08:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -277,4 +239,4 @@ entries:
     urls:
     - vsecm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-08T22:54:34.545973-08:00"
+generated: "2023-12-19T12:51:13.805498-08:00"
