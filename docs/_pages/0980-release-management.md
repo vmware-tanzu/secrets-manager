@@ -270,16 +270,14 @@ development cycle.
 
 ### 10. Update Kubernetes Manifests
 
-Based on the generated helm charts run the [./hack/update-k8s-manifests.sh][update-script]
+Based on the generated helm charts run `make k8s-manifests-update VERSION=<version>` target
 to update the Kubernetes manifests for the new release.
 
 These manifests are used by people who want to install VSecM without using
-Helm. To generate the manifests you need to have generated the helm charts 
+Helm. To generate the manifests you need to have generated the helm charts
 first.
 
-For example `./hack/update-k8s-manifests.sh 0.22.1`
-
-[update-script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/update-k8s-manifests.sh
+For example `make k8s-manifests-update VERSION=0.22.1`
 
 ### 11. Release Helm Charts
 
@@ -297,11 +295,8 @@ Upon completion, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into
 the `gh-pages` branch.
 
-Alternatively, you can use a make target too: 
-`make helm-chart-release VSECM_VERSION=0.22.1`
-
 > **Keep The Most Recent Version of the Helm Charts**
-> 
+>
 > Make sure you keep only the most recent version of the Helm Charts in the
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
@@ -309,10 +304,10 @@ Alternatively, you can use a make target too:
 
 ### 12. Add a Snapshot of the Current Documentation
 
-The `docs` branch contains a snapshot of each documentation in versioned 
+The `docs` branch contains a snapshot of each documentation in versioned
 folders.
 
-To add a snapshot of the current documentation: 
+To add a snapshot of the current documentation:
 
 1. Copy the `docs` folder into a temporary place like `/tmp/docs`.
 2. Checkout the `docs` branch.
