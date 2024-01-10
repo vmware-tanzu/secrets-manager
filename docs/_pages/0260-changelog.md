@@ -22,7 +22,7 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-* TBD
+* Added expiration and “invalid before” dates to secrets. 
 
 ## [v0.22.0] - 2024-01-08
 

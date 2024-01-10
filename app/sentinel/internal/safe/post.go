@@ -76,9 +76,18 @@ func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 
 func newSecretUpsertRequest(workloadId, secret, namespace, backingStore string,
 	useKubernetes bool, template string, format string, encrypt, appendSecret bool,
+	notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
 	bs := decideBackingStore(backingStore)
 	f := decideSecretFormat(format)
+
+	if notBefore == "" {
+		notBefore = "now"
+	}
+
+	if expires == "" {
+		expires = "never"
+	}
 
 	return reqres.SecretUpsertRequest{
 		WorkloadId:    workloadId,
@@ -90,6 +99,8 @@ func newSecretUpsertRequest(workloadId, secret, namespace, backingStore string,
 		Encrypt:       encrypt,
 		AppendValue:   appendSecret,
 		Value:         secret,
+		NotBefore:     notBefore,
+		Expires:       expires,
 	}
 }
 
@@ -159,7 +170,8 @@ func doPost(client *http.Client, p string, md []byte) {
 }
 
 func Post(parentContext context.Context, workloadId, secret, namespace, backingStore string,
-	useKubernetes bool, template string, format string, encrypt, deleteSecret, appendSecret bool, inputKeys string,
+	useKubernetes bool, template string, format string, encrypt, deleteSecret,
+	appendSecret bool, inputKeys string, notBefore string, expires string,
 ) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
@@ -260,7 +272,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 		}
 
 		sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
-			useKubernetes, template, format, encrypt, appendSecret)
+			useKubernetes, template, format, encrypt, appendSecret, notBefore, expires)
 		md, err := json.Marshal(sr)
 		if err != nil {
 			printPayloadError(err)

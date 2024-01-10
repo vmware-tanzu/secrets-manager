@@ -12,8 +12,6 @@ package state
 
 import "encoding/json"
 
-const selfName = "vsecm-safe"
-
 type VSecMInternalCommand struct {
 	LogLevel int `json:"logLevel"`
 }

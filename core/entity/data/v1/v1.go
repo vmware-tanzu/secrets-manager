@@ -27,13 +27,28 @@ type (
 	SecretFormat string
 )
 
-func (t JsonTime) MarshalJSON() ([]byte, error) {
-	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format(time.RubyDate))
+func (t *JsonTime) MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(*t).Format(time.RFC3339))
 	return []byte(stamp), nil
 }
 
-func (t JsonTime) String() string {
-	return time.Time(t).Format(time.RFC3339)
+func (t *JsonTime) String() string {
+	return time.Time(*t).Format(time.RFC3339)
+}
+
+func (t *JsonTime) UnmarshalJSON(data []byte) error {
+	str := string(data)
+	str = strings.Trim(str, "\"")
+
+	parsedTime, err := time.Parse(time.RFC3339, str)
+	if err != nil {
+		return err
+	}
+
+	// Set the time value.
+	*t = JsonTime(parsedTime)
+
+	return nil
 }
 
 var (
@@ -43,10 +58,15 @@ var (
 	Yaml   SecretFormat = "yaml"
 )
 
+// Secret___ types are what is shown to the user.
+// SecretMeta is what’s used internally.
+
 type Secret struct {
-	Name    string   `json:"name"`
-	Created JsonTime `json:"created"`
-	Updated JsonTime `json:"updated"`
+	Name         string   `json:"name"`
+	Created      JsonTime `json:"created"`
+	Updated      JsonTime `json:"updated"`
+	NotBefore    JsonTime `json:"notBefore"`
+	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
 type SecretEncrypted struct {
@@ -54,6 +74,8 @@ type SecretEncrypted struct {
 	EncryptedValue []string `json:"value"`
 	Created        JsonTime `json:"created"`
 	Updated        JsonTime `json:"updated"`
+	NotBefore      JsonTime `json:"notBefore"`
+	ExpiresAfter   JsonTime `json:"expiresAfter"`
 }
 
 type SecretStringTime struct {
@@ -61,6 +83,8 @@ type SecretStringTime struct {
 	EncryptedValue []string `json:"value"`
 	Created        string   `json:"created"`
 	Updated        string   `json:"updated"`
+	NotBefore      JsonTime `json:"notBefore"`
+	ExpiresAfter   JsonTime `json:"expiresAfter"`
 }
 
 type SecretMeta struct {
@@ -97,11 +121,15 @@ type SecretStored struct {
 	// a valid YAML is stored here. If the format is none, then just
 	// apply transformation (if needed) and do not do any validity check.
 	ValueTransformed string `json:"valuesTransformed"`
-	// Additional information that helps formatting and storing the secret.
+	// Additional information that helps format and store the secret.
 	Meta SecretMeta
 	// Timestamps
 	Created time.Time
 	Updated time.Time
+	// Invalid before this time.
+	NotBefore time.Time `json:"notBefore"`
+	// Invalid after this time.
+	ExpiresAfter time.Time `json:"expiresAfter"`
 }
 
 // handleNoTemplate is used when there is no template defined.

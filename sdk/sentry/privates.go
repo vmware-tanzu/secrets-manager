@@ -51,7 +51,7 @@ func fetchSecrets() error {
 	// that is: if the user wants to keep the existing secret even
 	// if it has been deleted from VSecM Safe, then the user should
 	// use VSecM SDK directly, instead of using VSecM Sidecar.
-	if eFetch == ErrSecretNotFound {
+	if errors.Is(eFetch, ErrSecretNotFound) {
 		return saveData("")
 	}
 

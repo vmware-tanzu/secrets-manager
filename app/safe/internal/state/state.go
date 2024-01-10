@@ -132,9 +132,11 @@ func AllSecrets(cid string) []entity.Secret {
 		v := value.(entity.SecretStored)
 
 		result = append(result, entity.Secret{
-			Name:    v.Name,
-			Created: entity.JsonTime(v.Created),
-			Updated: entity.JsonTime(v.Updated),
+			Name:         v.Name,
+			Created:      entity.JsonTime(v.Created),
+			Updated:      entity.JsonTime(v.Updated),
+			NotBefore:    entity.JsonTime(v.NotBefore),
+			ExpiresAfter: entity.JsonTime(v.ExpiresAfter),
 		})
 
 		return true
@@ -178,6 +180,8 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 			EncryptedValue: vals,
 			Created:        entity.JsonTime(v.Created),
 			Updated:        entity.JsonTime(v.Updated),
+			NotBefore:      entity.JsonTime(v.NotBefore),
+			ExpiresAfter:   entity.JsonTime(v.ExpiresAfter),
 		})
 
 		return true

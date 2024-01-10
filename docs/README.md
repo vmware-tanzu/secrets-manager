@@ -27,7 +27,8 @@ next_url: /docs/community/
 <a href="https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ"><img src="https://img.shields.io/badge/slack-vsecm-brightgreen.svg?logo=slack" alt="Slack"></a>
 <a href="https://github.com/vmware-tanzu/secrets-manager/releases"><img src="https://img.shields.io/github/v/release/vmware-tanzu/secrets-manager?color=blueviolet" alt="Version"></a>
 <a href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors"><img src="https://img.shields.io/github/contributors/vmware-tanzu/secrets-manager.svg?color=orange" alt="Contributors"></a>
-<a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vmware-tanzu/secrets-manager" alt="License"></a></p>
+<a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vmware-tanzu/secrets-manager" alt="License"></a>
+<a href="https://github.com/Everduin94/better-commits" ><img src="https://img.shields.io/badge/better--commits-enabled?style=for-the-badge&logo=git&color=a6e3a1&logoColor=D9E0EE&labelColor=302D41" alt="Using Better Commits"></a></p>
 
 > 🛡️ **Welcome** 🛡
 > 

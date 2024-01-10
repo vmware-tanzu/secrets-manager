@@ -54,7 +54,7 @@ func TestSetLevel(t *testing.T) {
 		{
 			name: "set_level_less_than_off",
 			args: args{
-				l: (-1),
+				l: -1,
 			},
 			setup: func() {
 				SetLevel(Audit)
