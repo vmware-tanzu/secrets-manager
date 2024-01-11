@@ -12,6 +12,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -28,13 +29,16 @@ func setMinikubeDockerEnv() error {
 	for scanner.Scan() {
 		line := scanner.Text()
 
+		fmt.Println("LINE")
+		fmt.Println(line)
+
 		if !strings.HasPrefix(line, "export ") {
 			continue
 		}
 
 		parts := strings.SplitN(line, " ", 3)
 
-		if len(parts) != 3 {
+		if len(parts) != 2 {
 			continue
 		}
 

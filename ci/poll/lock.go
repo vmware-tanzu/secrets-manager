@@ -13,6 +13,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 const lockFilePath = "/opt/vsecm/git_poller.lock"
@@ -20,14 +21,39 @@ const lockFilePath = "/opt/vsecm/git_poller.lock"
 // createLockFile tries to create a lock file and returns an error if it already exists
 func createLockFile() error {
 	lockFile, err := os.OpenFile(lockFilePath, os.O_CREATE|os.O_EXCL, 0666)
-	if err != nil {
+	if err == nil {
+		return nil
+	}
+	defer func(lockFile *os.File) {
+		err := lockFile.Close()
+		if err != nil {
+			fmt.Printf("Error closing lock file: %s", err)
+		}
+	}(lockFile)
+
+	if !os.IsExist(err) {
 		return err
 	}
-	err = lockFile.Close()
-	if err != nil {
-		return err
+
+	// Check if the lock file is more than one day old
+	fileInfo, statErr := os.Stat(lockFilePath)
+	if statErr != nil {
+		return statErr
 	}
-	return nil
+
+	if time.Since(fileInfo.ModTime()) > 24*time.Hour {
+
+		// File is older than one day, attempt to remove it and create a new one
+		removeErr := os.Remove(lockFilePath)
+		if removeErr != nil {
+			return removeErr
+		}
+
+		return createLockFile()
+	}
+
+	// File is new; return the error instead.
+	return err
 }
 
 // removeLockFile deletes the lock file

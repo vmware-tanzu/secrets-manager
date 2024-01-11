@@ -69,7 +69,7 @@ func runPipeline() bool {
 		fmt.Printf("make deploy-local failed: %s", err)
 		return false
 	}
-	if err := runCommand("make", "test-local"); err != nil {
+	if err := runCommand("make", "test-local-ci"); err != nil {
 		fmt.Printf("make test-local failed: %s", err)
 		return false
 	}

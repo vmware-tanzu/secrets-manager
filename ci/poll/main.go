@@ -35,7 +35,5 @@ func main() {
 	if err := writeCommitHashToFile(currentCommitHash); err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
-
 	}
-
 }

@@ -83,6 +83,8 @@ test-remote:
 	./hack/test.sh "remote"
 test-local:
 	./hack/test.sh
+test-local-ci:
+	./hack/test.sh "local" "ci"
 
 #
 # ## Versioning ##
