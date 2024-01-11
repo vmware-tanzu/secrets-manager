@@ -18,14 +18,18 @@ if [[ "$ORIGIN" != "remote" ]]; then
   ORIGIN="local"
 fi
 
-printf "\n"
-printf "This script assumes that you have a local minikube cluster running,\n"
-printf "and you have already installed SPIRE and VMware Secrets Manager.\n"
-printf "Also, make sure you have executed 'eval \$(minikube docker-env)\'\n"
-printf "before running this script.\n"
-printf "\n"
-read -n 1 -s -r -p "Press any key to proceed…"
-printf "\n\n"
+CI="$2"
+
+if [[ -z "$CI" ]]; then
+  printf "\n"
+  printf "This script assumes that you have a local minikube cluster running,\n"
+  printf "and you have already installed SPIRE and VMware Secrets Manager.\n"
+  printf "Also, make sure you have executed 'eval \$(minikube docker-env)\'\n"
+  printf "before running this script.\n"
+  printf "\n"
+  read -n 1 -s -r -p "Press any key to proceed…"
+  printf "\n\n"
+fi
 
 # ----- Helper Functions -------------------------------------------------------
 
@@ -114,10 +118,30 @@ define_example_workload() {
 # Retrieves the name of the 'vsecm-sentinel' pod.
 define_sentinel() {
   local sentinel
-  readonly sentinel=$(kubectl get po -n vsecm-system \
-    | grep "vsecm-sentinel-" | awk '{print $1}'; exit $?)
-  if [ $? -ne 0 ]; then
-    sad_cuddle "define_sentinel: Failed to define sentinel."
+  local max_retries=5
+  local retry_count=0
+
+  while [ $retry_count -lt $max_retries ]; do
+    sentinel=$(kubectl get po -n vsecm-system \
+      | grep "vsecm-sentinel-" | awk '{print $1}'; exit $?)
+
+    # shellcheck disable=SC2181
+    if [ $? -ne 0 ]; then
+      sad_cuddle "define_sentinel: Failed to define sentinel."
+    fi
+
+    if [[ "$sentinel" != *$'\n'* ]]; then
+      break
+    else
+      sleep 10
+      retry_count=$((retry_count + 1))
+    fi
+  done
+
+  # If the maximum number of retries has been reached
+  if [ $retry_count -eq $max_retries ]; then
+    sad_cuddle "define_sentinel: Maximum retries reached."
+    return 1
   fi
 
   printf "%s" "$sentinel"
@@ -126,10 +150,30 @@ define_sentinel() {
 # Retrieves the name of the 'vsecm-safe' pod.
 define_safe() {
   local safe
-  readonly safe=$(kubectl get po -n vsecm-system \
-    | grep "vsecm-safe-" | awk '{print $1}'; exit $?)
-  if [ $? -ne 0 ]; then
-    sad_cuddle "define_safe: Failed to define safe."
+  local max_retries=5
+  local retry_count=0
+
+  while [ $retry_count -lt $max_retries ]; do
+    safe=$(kubectl get po -n vsecm-system \
+      | grep "vsecm-safe-" | awk '{print $1}'; exit $?)
+
+    # shellcheck disable=SC2181
+    if [ $? -ne 0 ]; then
+      sad_cuddle "define_safe: Failed to define safe."
+    fi
+
+    if [[ "safe" != *$'\n'* ]]; then
+      break
+    else
+      sleep 10
+      retry_count=$((retry_count + 1))
+    fi
+  done
+
+  # If the maximum number of retries has been reached
+  if [ $retry_count -eq $max_retries ]; then
+    sad_cuddle "define_safe: Maximum retries reached."
+    return 1
   fi
 
   printf "%s" "$safe"
