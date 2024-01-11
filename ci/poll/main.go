@@ -24,11 +24,14 @@ func main() {
 
 	move, currentCommitHash := proceed()
 	if !move {
+		fmt.Println("No commit hash change… exiting.")
 		return
 	}
 
 	done := runPipeline()
 	if !done {
+		fmt.Println("Pipeline failed: exiting.")
+		notifyBuildFailure()
 		return
 	}
 

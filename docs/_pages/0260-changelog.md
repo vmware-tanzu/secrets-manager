@@ -23,6 +23,8 @@ next_url: /docs/releases/
 ## Recent Updates
 
 * Added expiration and “invalid before” dates to secrets. 
+* Implemented a basic CI automation that runs test whenever there is a change
+  in the `main` branch.
 
 ## [v0.22.0] - 2024-01-08
 
