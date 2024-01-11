@@ -15,12 +15,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 )
 
 const (
 	githubAPIURL = "https://api.github.com/repos/vmware-tanzu/secrets-manager/git/refs/heads/main"
-	pollInterval = 15 * time.Minute
 )
 
 type GitHubResponse struct {
@@ -44,6 +42,10 @@ func getLatestCommitHash() (string, error) {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("error fetching latest commit hash: %s", body)
 	}
 
 	var gitHubResponse GitHubResponse
