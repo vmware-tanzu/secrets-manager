@@ -22,7 +22,7 @@ version:          0.22.1
 gitbook_version:  3.2.3
 
 url:              'https://vsecm.com'
-baseurl:          '/v0.21.1'
+baseurl:          '/v0.22.1'
 rss:              RSS
 
 toc:
