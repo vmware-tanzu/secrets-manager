@@ -22,9 +22,18 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+TBD
+
+## [v0.22.1] - 2024-01-11
+
+### Added
+
 * Added expiration and “invalid before” dates to secrets. 
 * Implemented a basic CI automation that runs test whenever there is a change
-  in the `main` branch.
+  in the `main` branch. The automation runs unit and integration tests and
+  send status updates upon failure.
+* Upgraded SPIRE and SPIFFE CSI Driver to the latest versions.
+* Minor fixes and documentation updates.
 
 ## [v0.22.0] - 2024-01-08
 
