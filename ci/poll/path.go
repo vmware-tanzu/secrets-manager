@@ -11,6 +11,4 @@
 package main
 
 const projectDirectory = "/home/aegis/WORKSPACE/VSecM"
-
-// const projectDirectory = "/Users/volkan/Desktop/WORKSPACE/secrets-manager"
 const osPath = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/go/bin"

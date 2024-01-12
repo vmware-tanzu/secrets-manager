@@ -11,12 +11,12 @@
 package main
 
 import (
-	"fmt"
+	"log"
 )
 
 func main() {
 	if err := createLockFile(); err != nil {
-		fmt.Println("Another instance is already running. Exiting.")
+		log.Println("Another instance is already running. Exiting.")
 		return
 	}
 
@@ -24,19 +24,19 @@ func main() {
 
 	move, currentCommitHash := proceed()
 	if !move {
-		fmt.Println("No commit hash change… exiting.")
+		log.Println("No commit hash change… exiting.")
 		return
 	}
 
 	done := runPipeline()
 	if !done {
-		fmt.Println("Pipeline failed: exiting.")
+		log.Println("Pipeline failed: exiting.")
 		notifyBuildFailure()
 		return
 	}
 
 	if err := writeCommitHashToFile(currentCommitHash); err != nil {
-		fmt.Println("Error writing to file:", err)
+		log.Println("Error writing to file:", err)
 		return
 	}
 }
