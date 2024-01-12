@@ -5,16 +5,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 )
 
+const apiKeyPath = "/opt/vsecm/ifttt.key"
+
 func notifyBuildFailure() {
-	fmt.Println("Build failed, notifying")
+	log.Println("Build failed, notifying interested parties…")
 
 	// Read the API key from a file
-	apiKeyBytes, err := os.ReadFile("/opt/vsecm/ifttt.key") // apikey.txt contains your API key
+	apiKeyBytes, err := os.ReadFile(apiKeyPath)
 	if err != nil {
 		fmt.Println("Error reading API key file:", err)
 		return
@@ -31,13 +34,13 @@ func notifyBuildFailure() {
 
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
-		fmt.Println("Error encoding JSON:", err)
+		log.Println("Error encoding JSON:", err)
 		return
 	}
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 	if err != nil {
-		fmt.Println("Error creating request:", err)
+		log.Println("Error creating request:", err)
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -45,21 +48,21 @@ func notifyBuildFailure() {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
+		log.Println("Error sending request:", err)
 		return
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			fmt.Println("Error closing response body:", err)
+			log.Println("Error closing response body:", err)
 		}
 	}(resp.Body)
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error reading response body:", err)
+		log.Println("Error reading response body:", err)
 		return
 	}
 
-	fmt.Println("Response:", string(body))
+	log.Println("Response:", string(body))
 }

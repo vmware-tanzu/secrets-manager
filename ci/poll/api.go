@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 )
 
@@ -35,7 +36,7 @@ func getLatestCommitHash() (string, error) {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			fmt.Printf("Error closing response body: %s", err)
+			log.Printf("Error closing response body: %s", err)
 		}
 	}(resp.Body)
 

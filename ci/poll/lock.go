@@ -11,7 +11,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"time"
 )
@@ -24,12 +24,12 @@ func createLockFile() error {
 	if err == nil {
 		return nil
 	}
-	defer func(lockFile *os.File) {
+	defer func() {
 		err := lockFile.Close()
 		if err != nil {
-			fmt.Printf("Error closing lock file: %s", err)
+			log.Printf("Error closing lock file: %s", err)
 		}
-	}(lockFile)
+	}()
 
 	if !os.IsExist(err) {
 		return err
@@ -60,6 +60,6 @@ func createLockFile() error {
 func removeLockFile() {
 	err := os.Remove(lockFilePath)
 	if err != nil {
-		fmt.Printf("Error removing lock file: %s", err)
+		log.Printf("Error removing lock file: %s", err)
 	}
 }
