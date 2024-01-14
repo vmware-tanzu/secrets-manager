@@ -439,6 +439,16 @@ variable.
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"`
 
+### VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+
+**Used By**: *VSecM Safe*.
+
+`VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX` retrieves the prefix that 
+indicates the secret shall be stored as a Kubernetes `Secret`. The prefix
+is as part of the `-w` flag (*as in `-w k8s:my-secret`*).
+
+If this environment variable is not set or is empty, it defaults to `"k8s:"`.
+
 ### VSECM_SAFE_TLS_PORT
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.

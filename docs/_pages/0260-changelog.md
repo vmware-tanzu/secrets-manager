@@ -24,6 +24,15 @@ next_url: /docs/releases/
 
 TBD
 
+## [v0.22.2] - 2024-01-14
+
+### Added
+
+* Documentation updates.
+* Ability to create and update Kubernetes secrets without attaching the secret
+  to a workload. This is useful for legacy use cases, or when you don’t have
+  direct access to the app’s source code or deployment manifests.
+
 ## [v0.22.1] - 2024-01-11
 
 ### Added

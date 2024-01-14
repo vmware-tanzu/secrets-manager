@@ -284,7 +284,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "localhost:5000/vsecm-photon-safe:0.22.1"
+          image: "localhost:5000/vsecm-photon-safe:0.22.2"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -435,7 +435,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "localhost:5000/vsecm-photon-sentinel:0.22.1"
+          image: "localhost:5000/vsecm-photon-sentinel:0.22.2"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
