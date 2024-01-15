@@ -13,6 +13,7 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -291,6 +292,14 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 
 	useK8sSecrets := secret.Meta.UseKubernetesSecret
 
+	fmt.Println("############ BEFORE PUSHING TO QUEUE")
+	fmt.Println("############ secret.Name", secret.Name)
+	fmt.Println("############ secret.Meta.UseKubernetesSecret", secret.Meta.UseKubernetesSecret)
+	fmt.Println("############ env.SafeUseKubernetesSecrets()", env.SafeUseKubernetesSecrets())
+	fmt.Println("############ env.StoreWorkloadAsK8sSecretPrefix()", env.StoreWorkloadAsK8sSecretPrefix())
+	fmt.Println("############ strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix())", strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()))
+	fmt.Printltn("############ secret.Values[0]", secret.Values[0])
+
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
 	// If the "name" of the secret has the prefix "k8s:", then store it as a
@@ -298,6 +307,7 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	if useK8sSecrets ||
 		env.SafeUseKubernetesSecrets() ||
 		strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+		fmt.Println("############ PUSHING TO K8S QUEUE")
 		log.TraceLn(
 			&cid,
 			"UpsertSecret: will push Kubernetes secret. len", len(k8sSecretQueue),
@@ -309,6 +319,7 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 			"UpsertSecret: pushed Kubernetes secret. len", len(k8sSecretQueue),
 			"cap", cap(k8sSecretQueue),
 		)
+		fmt.Println("############ PUSHED TO K8S QUEUE")
 	}
 }
 
