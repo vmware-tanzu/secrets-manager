@@ -16,6 +16,7 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"strings"
 	"sync"
 	"time"
 )
@@ -292,7 +293,11 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
-	if useK8sSecrets || env.SafeUseKubernetesSecrets() {
+	// If the "name" of the secret has the prefix "k8s:", then store it as a
+	// Kubernetes secret too.
+	if useK8sSecrets ||
+		env.SafeUseKubernetesSecrets() ||
+		strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
 		log.TraceLn(
 			&cid,
 			"UpsertSecret: will push Kubernetes secret. len", len(k8sSecretQueue),

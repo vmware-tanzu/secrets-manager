@@ -133,7 +133,7 @@ metadata:
 #    - apiGroups: [""]
 #      resources: ["secrets"]
 #      resourceNames: ["vsecm-safe-age-key"]
-#      verbs: ["get", "watch", "list", "update"]
+#      verbs: ["get", "watch", "list", "update", "create"]
 #
 # When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
 # environment variable is either not set, or set to anything other than "true",
@@ -148,7 +148,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "watch", "list", "update"]
+    verbs: ["get", "watch", "list", "update", "create"]
 #
 # This `rules` configuration is the recommended, more secure, way:
 #
@@ -156,7 +156,7 @@ rules:
 #   - apiGroups: [""]
 #     resources: ["secrets"]
 #     resourceNames: ["vsecm-safe-age-key"]
-#     verbs: ["get", "watch", "list", "update"]
+#     verbs: ["get", "watch", "list", "update", "create"]
 #
 #
 ##
