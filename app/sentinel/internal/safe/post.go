@@ -247,6 +247,8 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 			return
 		}
 
+		fmt.Println("###### BEFORE GENERATING RANDOM VALUES")
+
 		// Generate pattern-based random secrets if the secret has the prefix.
 		if strings.HasPrefix(secret, env.SecretGenerationPrefix()) {
 			secret = strings.Replace(secret, env.SecretGenerationPrefix(), "", 1)
@@ -257,6 +259,8 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 				secret = newSecret
 			}
 		}
+
+		fmt.Println("###### AFTER GENERATING RANDOM VALUES")
 
 		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 		if err != nil {
@@ -273,6 +277,14 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 
 		sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
 			useKubernetes, template, format, encrypt, appendSecret, notBefore, expires)
+
+		fmt.Println("#####", "newSecretUpsertRequest",
+			"workloadId:", workloadId,
+			"secret:", secret,
+			"namespace:", namespace,
+			"store", backingStore,
+			"other stuff:", useKubernetes, template, format, encrypt, appendSecret, notBefore, expires)
+
 		md, err := json.Marshal(sr)
 		if err != nil {
 			printPayloadError(err)
