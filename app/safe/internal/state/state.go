@@ -298,7 +298,7 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	fmt.Println("############ env.SafeUseKubernetesSecrets()", env.SafeUseKubernetesSecrets())
 	fmt.Println("############ env.StoreWorkloadAsK8sSecretPrefix()", env.StoreWorkloadAsK8sSecretPrefix())
 	fmt.Println("############ strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix())", strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()))
-	fmt.Printltn("############ secret.Values[0]", secret.Values[0])
+	fmt.Println("############ secret.Values[0]", secret.Values[0])
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
