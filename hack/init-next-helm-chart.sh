@@ -24,7 +24,7 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "<base-version>: existing helm-chart version, this will be used as base helm-chart"
     echo "<new-version>: new helm-chart will be initialized for this version"
     echo "-----------------------------------------------------------------"
-    echo "example: ${gitRoot}/hack/init-next-helm-chart.sh 0.22.1 0.22.2"
+    echo "example: ${gitRoot}/hack/init-next-helm-chart.sh 0.22.2 0.22.3"
     exit 0
 fi
 
