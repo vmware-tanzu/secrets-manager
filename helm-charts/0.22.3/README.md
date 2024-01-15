@@ -25,7 +25,7 @@ To use VMware Secrets Manager, follow the steps below:
 3. Install VMware Secrets Manager using Helm:
 
     ```bash
-    helm install vsecm vsecm/vsecm --version 0.22.2
+    helm install vsecm vsecm/vsecm --version 0.22.3
     ```
 
 ## Options
@@ -44,7 +44,7 @@ and `global.baseImage` respectively.
 Here's an example command with the above options:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.22.2 \
+helm install vsecm vsecm/helm-charts --version 0.22.3 \
   --set global.deploySpire=true --set global.baseImage=distroless
 ```
 
@@ -62,7 +62,7 @@ These environment variable configurations are expose through subcharts.
 You can modify them as follows:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.22.2 \
+helm install vsecm vsecm/helm-charts --version 0.22.3 \
 --set safe.environments.VSECM_LOG_LEVEL="7"
 --set sentinel.environments.VSECM_LOGL_LEVEL="5"
 # You can update other environment variables too.
