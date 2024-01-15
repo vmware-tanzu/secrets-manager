@@ -247,8 +247,6 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 			return
 		}
 
-		fmt.Println("###### BEFORE GENERATING RANDOM VALUES")
-
 		// Generate pattern-based random secrets if the secret has the prefix.
 		if strings.HasPrefix(secret, env.SecretGenerationPrefix()) {
 			secret = strings.Replace(secret, env.SecretGenerationPrefix(), "", 1)
@@ -259,8 +257,6 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 				secret = newSecret
 			}
 		}
-
-		fmt.Println("###### AFTER GENERATING RANDOM VALUES")
 
 		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 		if err != nil {
