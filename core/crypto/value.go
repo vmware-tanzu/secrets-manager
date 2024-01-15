@@ -10,8 +10,6 @@
 
 package crypto
 
-import "fmt"
-
 // GenerateValue creates a string based on a template with embedded generator expressions.
 // The generator expressions specify character ranges and lengths for random string parts.
 //
@@ -49,8 +47,6 @@ import "fmt"
 //	2024/01/04 06:37:30 result4=; err=invalid range specified: z-a
 //	2024/01/04 06:37:30 result5=foo73579557bar
 func GenerateValue(template string) (string, error) {
-	fmt.Println("###### IN GENERATE VALUE")
-
 	result := template
 
 	matches := generatorsExp.FindAllStringIndex(template, -1)
@@ -59,7 +55,6 @@ func GenerateValue(template string) (string, error) {
 		ranges, length, err := rangesAndLength(template[r[0]:r[1]])
 
 		if err != nil {
-			fmt.Println("###### EXIT 000")
 			return "", err
 		}
 
@@ -67,12 +62,9 @@ func GenerateValue(template string) (string, error) {
 
 		if err := replaceWithGenerated(&result, template[r[0]:r[1]],
 			positions, length); err != nil {
-			fmt.Println("###### EXIT 001")
 			return "", err
 		}
 	}
 
-	fmt.Println("###### EXIT 002")
-	fmt.Println("result:", result)
 	return result, nil
 }
