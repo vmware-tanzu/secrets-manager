@@ -12,7 +12,7 @@
 ifdef VSECM_VERSION
 	VERSION := $(VSECM_VERSION)
 else
-	VERSION := 0.22.0
+	VERSION := 0.22.3
 endif
 
 # Set deploySpire to false, if you want to use existing spire deployment
@@ -53,3 +53,6 @@ include ./makefiles/VSecMHelp.mk
 
 ## Helm-chart, k8s-manifests utils
 include makefiles/VSecMHelmUtils.mk
+
+## Git Helper
+include makefiles/Git.mk

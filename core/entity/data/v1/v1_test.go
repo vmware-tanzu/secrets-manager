@@ -32,7 +32,7 @@ func TestJsonTime_MarshalJSON(t *testing.T) {
 		{
 			name: "success_case",
 			tr:   JsonTime(timeNow),
-			want: []byte(fmt.Sprintf("\"%s\"", time.Time(timeNow).Format(time.RubyDate))),
+			want: []byte(fmt.Sprintf("\"%s\"", timeNow.Format(time.RFC3339))),
 		},
 	}
 	for _, tt := range tests {

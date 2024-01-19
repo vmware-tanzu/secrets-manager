@@ -17,15 +17,45 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	apiV1 "k8s.io/api/core/v1"
+	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
+	"strings"
 	"time"
 )
 
+// saveSecretToKubernetes saves a given SecretStored entity to a Kubernetes cluster.
+// It handles the process of configuring a Kubernetes client, determining the
+// appropriate  secret name, and either creating or updating the secret in the
+// specified namespace.
+//
+// The secret name is derived from the input secret entity. If the secret’s name
+// has a specific prefix  (determined by env.StoreWorkloadAsK8sSecretPrefix), that
+// prefix is removed. Otherwise, a default prefix (from env.SafeSecretNamePrefix)
+// is appended to the secret name.
+//
+// The secret data is prepared by converting the input secret entity into a
+// map suitable for Kubernetes. The namespace for the secret is extracted from
+// the secret’s metadata.
+//
+// Parameters:
+// - secret: An entity.SecretStored object containing the secret data to be stored.
+//
+// Returns:
+//   - error: An error object that will be non-nil if an error occurs at any step of
+//     the process.
+//
+// Example:
+// err := saveSecretToKubernetes(mySecret)
+//
+//	if err != nil {
+//	    log.Fatalf("Failed to save secret: %v", err)
+//	}
+//
+// Note: This function assumes it is running within a Kubernetes cluster as it
+// uses InClusterConfig to generate the Kubernetes client configuration.
 func saveSecretToKubernetes(secret entity.SecretStored) error {
-	// updates the Kubernetes Secret assuming it already exists.
-
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Wrap(err, "could not create client config")
@@ -36,8 +66,53 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		return errors.Wrap(err, "could not create client")
 	}
 
+	secretName := env.SafeSecretNamePrefix() + secret.Name
+	// If the secret has k8s: prefix, then do not append a prefix; use the name
+	// as is.
+	if strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+		secretName = strings.TrimPrefix(
+			secret.Name, env.StoreWorkloadAsK8sSecretPrefix(),
+		)
+	}
+
 	// Transform the data if there is a transformation defined.
 	data := secret.ToMapForK8s()
+	namespace := secret.Meta.Namespace
+
+	// First, try to get the existing secret
+	_, err = clientset.CoreV1().Secrets(namespace).Get(
+		context.Background(), secretName, metaV1.GetOptions{})
+
+	if kErrors.IsNotFound(err) {
+
+		// Create the Secret in the cluster
+		_, err = clientset.CoreV1().Secrets(namespace).Create(
+			context.Background(),
+			&apiV1.Secret{
+				TypeMeta: metaV1.TypeMeta{
+					Kind:       "Secret",
+					APIVersion: "v1",
+				},
+				ObjectMeta: metaV1.ObjectMeta{
+					Name:      secretName,
+					Namespace: namespace,
+				},
+				Data: data,
+			},
+			metaV1.CreateOptions{
+				TypeMeta: metaV1.TypeMeta{
+					Kind:       "Secret",
+					APIVersion: "v1",
+				},
+			},
+		)
+
+		if err != nil {
+			return errors.Wrap(err, "error creating the secret")
+		}
+
+		return nil
+	}
 
 	// Update the Secret in the cluster
 	_, err = clientset.CoreV1().Secrets(secret.Meta.Namespace).Update(

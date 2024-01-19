@@ -78,11 +78,13 @@ post-deploy:
 
 # Integration tests.
 test:
-	./hack/test.sh "remote"
+	./hack/test.sh "remote" ""
 test-remote:
-	./hack/test.sh "remote"
+	./hack/test.sh "remote" ""
 test-local:
-	./hack/test.sh
+	./hack/test.sh "local" ""
+test-local-ci:
+	./hack/test.sh "local" "ci"
 
 #
 # ## Versioning ##
