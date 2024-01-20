@@ -56,3 +56,6 @@ include makefiles/VSecMHelmUtils.mk
 
 ## Git Helper
 include makefiles/Git.mk
+
+## Coverage
+include makefiles/Test.mk
