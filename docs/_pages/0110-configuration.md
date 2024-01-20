@@ -84,27 +84,23 @@ poll in the `Watch()` function. The interval is specified in milliseconds.
 If the environment variable is not set or is not a valid integer value, 
 a default interval of `5000` milliseconds is used.
 
-// KeyGenExportedSecretPath returns the path where the exported secrets are stored.
-// It reads the environment variable VSECM_KEYGEN_EXPORTED_SECRET_PATH to determine
-// the path.
-// If the environment variable is not set, it defaults to "/opt/vsecm/secrets.json".
-//
-// Returns:
-//
-//	string: The path to the exported secrets.
+### VSECM_KEYGEN_DECRYPT
 
-// KeyGenDecrypt determines if the decryption process should be executed.
-// It reads the environment variable VSECM_KEYGEN_DECRYPT and checks if it is
-// set to "true".
-//
-// If this value is `false`, VSecM Keygen will generate a new root key.
-//
-// If this value is `true`, VSecM Keygen will attempt to decrypt the secrets
-// provided to it.
-//
-// Returns:
-//
-//	bool: True if decryption should proceed, false otherwise.
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_DECRYPT` determines if the decryption process should be executed.
+
+If this value is not `"true"`, **VSecM Keygen** will generate a new root key.
+Otherwise, **VSecM Keygen** will attempt to decrypt the secrets
+
+### VSECM_KEYGEN_EXPORTED_SECRET_PATH
+
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_EXPORTED_SECRET_PATH` is the path where the exported secrets are
+stored. This needs to be mounted to the container that you run **VSecM Keygen**.
+
+If the environment variable is not set, it defaults to `"/opt/vsecm/secrets.json"`.
 
 ### VSECM_LOG_LEVEL
 

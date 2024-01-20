@@ -22,7 +22,8 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* Added coverage targets to tests
+* Documentation updates, especially around secure production deployment.
 
 ## [v0.22.2] - 2024-01-14
 
