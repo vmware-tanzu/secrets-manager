@@ -338,6 +338,39 @@ policies][rbac], you secure access to your secrets.
 > For an added layer of security and to reduce the attack surface, you can
 > delete the `vsecm-sentinel` Pod after registering your secrets to **VSecM Safe**.
 
+## Scaling SPIRE
+
+**SPIRE** is designed to scale horizontally. This means that you can add more
+**SPIRE Server** and **SPIRE Agent** instances to your cluster to increase
+the capacity of your **SPIRE** deployment.
+
+Although **VMware Secrets Manager** comes with a default SPIRE configuration,
+depending on your deployment needs, you may need to scale SPIRE to meet your
+specific requirements.
+
+SPIRE supports:
+
+* Horizontal scaling with multiple SPIRE server,
+* Nested topologies to have separate failure domains,
+* Federated deployments with multiple trust roots,
+* And more.
+
+Check out [Scaling SPIRE][scaling-spire] and [Extending SPIRE][extending-spire]
+sections in the official SPIRE documentation for more information.
+
+[scaling-spire]: https://spiffe.io/docs/latest/planning/scaling_spire/ "Scaling SPIRE"
+[extending-spire]: https://spiffe.io/docs/latest/planning/extending/ "Extending SPIRE"
+
+## Use of Attestation
+
+In **VSecM**, the security of your secrets depends on the `ClusterSPIFFEID`s
+that you assign to your workloads. Therefore, it is crucial to ensure that
+you specify proper attestors in your `ClusterSPIFFEID`s.
+
+You can check the [SPIRE Documentation][spire-docs] and
+also [VSecM Usage Examples][usage-examples] for examples on how to create
+`ClusterSPIFFEID`s with proper attestors.
+
 ## SPIRE Configuration
 
 **VMware Secrets Manager** uses [SPIRE][spire] as its underlying identity control 
@@ -350,6 +383,8 @@ secure environment.
 
 Here are some suggestions to consider; as always, you should consult
 the [SPIRE documentation][spire-docs] for more details.
+
+[usage-examples]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples "VSecM Usage Examples"
 
 ### Enabling Kubelet Verification
 
@@ -508,6 +543,20 @@ To make the `hostPath` binding extra secure, you can:
 [unix-domain-socket]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
 [distroless]: https://github.com/GoogleContainerTools/distroless
+
+### Further Security and Configuration Considerations
+
+As in any distributed system, regularly monitor and audit **SPIRE** and **VSecM**
+operations to detect any unusual or suspicious activity. This includes monitoring 
+the issuance and use of `SVID`s, as well as the performance and status of the 
+**SPIRE Server** and **SPIRE Agent*(s.
+
+Regularly conduct security audits of your **SPIRE** deployment to identify and 
+address any vulnerabilities. 
+
+To reduce the blast radius in unlikely breaches, if needed, use a **nested 
+topology** and **federated deployments** to segment failure domains and provide 
+multiple roots of trust. 
 
 ## Keep the SPIRE Server Alive
 
