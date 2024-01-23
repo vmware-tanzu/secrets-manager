@@ -92,6 +92,10 @@ if want to control the root key yourself and provide your own key.
 You can check out the [CLI documentation][cli] for more information
 about how to use **VSecM Keygen**.
 
+You can also use **VSecM Keygen** to decrypt secrets that **VSecM Safe** stores.
+This will require you to provide the root key that **VSecM Safe** uses.
+Again, can check out the [CLI documentation][cli] for more information.
+
 [keygen]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/keygen
 [cli]: https://vsecm.com/docs/cli
 

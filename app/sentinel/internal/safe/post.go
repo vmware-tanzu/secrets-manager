@@ -273,6 +273,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 
 		sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
 			useKubernetes, template, format, encrypt, appendSecret, notBefore, expires)
+
 		md, err := json.Marshal(sr)
 		if err != nil {
 			printPayloadError(err)
