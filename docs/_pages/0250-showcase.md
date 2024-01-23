@@ -29,6 +29,8 @@ cover more use cases.
 
 Enjoy, and may the source be with you.
 
+<div><script src="https://player.vimeo.com/api/player.js"></script></div>
+
 ## QuickStart
 
 <div style="padding:56.25% 0 0 0;position:relative;"
@@ -36,7 +38,7 @@ Enjoy, and may the source be with you.
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
 title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"
-></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+></iframe></div>
 
 ## Installation
 
@@ -45,7 +47,7 @@ title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
 title="VMware Secrets Manager: Installation"
-></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+></iframe></div>
 
 ## Building Blocks
 
@@ -53,7 +55,7 @@ title="VMware Secrets Manager: Installation"
 <iframe src="https://player.vimeo.com/video/860987109?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Building Blocks"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Building Blocks"></iframe></div>
 
 ## Local Deployment and Testing
 
@@ -61,7 +63,7 @@ title="VMware Secrets Manager: Building Blocks"></iframe></div><script src="http
 <iframe src="https://player.vimeo.com/video/861625632?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Local Deployment and Testing"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Local Deployment and Testing"></iframe></div>
 
 ## Configuration and Testing Options
 
@@ -69,7 +71,7 @@ title="VMware Secrets Manager: Local Deployment and Testing"></iframe></div><scr
 <iframe src="https://player.vimeo.com/video/861914262?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Configuration and Testing Options"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Configuration and Testing Options"></iframe></div>
 
 ## Using VSecM Sentinel
 
@@ -77,7 +79,7 @@ title="VMware Secrets Manager: Configuration and Testing Options"></iframe></div
 <iframe src="https://player.vimeo.com/video/862682312?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Using VSecM Sentinel"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Using VSecM Sentinel"></iframe></div>
 
 ## Creating Helper Scripts and an Inspector
 
@@ -85,7 +87,7 @@ title="VMware Secrets Manager: Using VSecM Sentinel"></iframe></div><script src=
 <iframe src="https://player.vimeo.com/video/862925309?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Creating Helper Scripts and an Inspector"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Creating Helper Scripts and an Inspector"></iframe></div>
 
 ## Assigning Secrets to Workloads
 
@@ -93,7 +95,7 @@ title="VMware Secrets Manager: Creating Helper Scripts and an Inspector"></ifram
 <iframe src="https://player.vimeo.com/video/862925370?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Assigning Secrets to Workloads"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Assigning Secrets to Workloads"></iframe></div>
 
 ## Encrypting Secrets
 
@@ -101,7 +103,7 @@ title="VMware Secrets Manager: Assigning Secrets to Workloads"></iframe></div><s
 <iframe src="https://player.vimeo.com/video/862925216?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Encrypting Secrets"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Encrypting Secrets"></iframe></div>
 
 ## Secret Template Transformations
 
@@ -109,7 +111,7 @@ title="VMware Secrets Manager: Encrypting Secrets"></iframe></div><script src="h
 <iframe src="https://player.vimeo.com/video/862925117?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Secret Template Transformations"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Secret Template Transformations"></iframe></div>
 
 ## Interpolating VSecM Secrets to Kubernetes Secrets
 
@@ -117,7 +119,45 @@ title="VMware Secrets Manager: Secret Template Transformations"></iframe></div><
 <iframe src="https://player.vimeo.com/video/863075540?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-title="VMware Secrets Manager: Interpolating VSecM Secrets to Kubernetes Secrets"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+title="VMware Secrets Manager: Interpolating VSecM Secrets to Kubernetes Secrets"></iframe></div>
+
+## A Blitz Introduction to VMware Secrets Manager (*community talk*)
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
+src="https://player.vimeo.com/video/874557551?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="A Blitz Intro to VMware Secrets Manager"></iframe></div>
+
+## Cross-Cluster Secrets Federation with VMware Secrets Manager
+
+<div style="padding:56.25% 0 0 0;position:relative;">
+<iframe src="https://player.vimeo.com/video/876814597?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="Cross-Cluster Secrets Federation with VMware Secrets Manager, SPIFFE, and SPIRE in Under 10 Minutes"></iframe></div>
+
+## Federated Secrets Sharing Using VMware Secrets Manager (*community talk*)
+
+<div style="padding:56.25% 0 0 0;position:relative;">
+<iframe src="https://player.vimeo.com/video/878578526?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="Federated Secrets Sharing Using VMware Secrets Manager (at sig-spire)"></iframe></div>
+
+## Multi-Cluster Secret Federation Using VMware Secrets Manager
+
+<div style="padding:56.25% 0 0 0;position:relative;">
+<iframe src="https://player.vimeo.com/video/888367939?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="Multi-Cluster Secret Federation Using VMware Secrets Manager"></iframe></div>
+
+## Solving for the Bottom Turtle (*community talk*)
+
+<div style="padding:75% 0 0 0;position:relative;">
+<iframe src="https://player.vimeo.com/video/905578485?h=9d12117e21&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="Enlightning - Solving for the Bottom Turtle with SPIFFE and SPIRE"></iframe></div>
 
 ## Aegis
 
