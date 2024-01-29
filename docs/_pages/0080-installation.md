@@ -124,8 +124,11 @@ cd $WORKSPACE/secrets-manager
 ```
 
 Or, if you have installed **VMware Secrets Manager** using `helm`, you can
-use `helm uninstall`  command:
+use `make helm-delete`  command:
 
 ```bash
-helm uninstall vsecm
+# note that using `helm uninstall vsecm` is not recommended as it may
+# leave some resources behind in the cluster.
+# You are encouraged to use `make helm-delete` instead.
+make helm-delete
 ```

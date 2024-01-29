@@ -28,13 +28,13 @@ k8s-start:
 	./hack/minikube-start.sh
 
 deploy-spire:
-	@if [ "${DEPLOY_SPIRE}" = "true" ]; then\
-		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds;\
-		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml;\
-		echo "verifying spire installation";\
-		kubectl wait --for=condition=Available deployment -n spire-system spire-server;\
-		echo "spire-server: deployment available";\
-		echo "spire installation successful";\
+	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
+		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
+		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
+		echo "verifying spire installation"; \
+		kubectl wait --for=condition=Available deployment -n spire-system spire-server; \
+		echo "spire-server: deployment available"; \
+		echo "spire installation successful"; \
 	fi
 
 # Deploys VSecM to the cluster.
@@ -71,20 +71,6 @@ post-deploy:
 	kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-safe
 	echo "vsecm-safe: deployment available"
 	echo "vsecm installation successful"
-
-#
-# ## Tests ##
-#
-
-# Integration tests.
-test:
-	./hack/test.sh "remote" ""
-test-remote:
-	./hack/test.sh "remote" ""
-test-local:
-	./hack/test.sh "local" ""
-test-local-ci:
-	./hack/test.sh "local" "ci"
 
 #
 # ## Versioning ##
