@@ -302,7 +302,7 @@ the `gh-pages` branch.
 > using the workflow described above.
 {: .block-tip }
 
-### 13. Test the Released Helm Charts on a Cloud Cluster
+### 12. Test the Released Helm Charts on a Cloud Cluster
 
 We have a AWS EKS test cluster that we test the helm charts on a production-like
 cloud cluster.
@@ -313,7 +313,7 @@ To test the new helm chart run the following on the build server:
 make test-eks
 ```
 
-### 12. Add a Snapshot of the Current Documentation
+### 13. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned
 folders.
