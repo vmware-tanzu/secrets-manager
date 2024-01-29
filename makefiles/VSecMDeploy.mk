@@ -84,7 +84,7 @@ test-remote:
 test-local:
 	./hack/test.sh "local" ""
 test-eks:
-	eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
+	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
 	@if [ -z "$(EKS_CONTEXT)" ]; then \
 	echo "Error: No EKS context found."; \
 		exit 1; \
