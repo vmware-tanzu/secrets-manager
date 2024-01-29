@@ -7,15 +7,16 @@
 # <>/' Copyright 2023–present VMware, Inc.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
+
 #
-# This file contains the make targets for testing the VSecM project.
+# ## Coverage ##
 #
-# Usage:
-#   # Run all tests and check coverage against the threshold.
-#   make cover
+
 coverage_file := coverage.out
 threshold = 70
 
+#  To run all tests and check coverage against the threshold:
+#  make cover
 cover:
 	@echo "Running tests with coverage..."
 	@go test -v -coverprofile=$(coverage_file) ./... > /dev/null
@@ -30,4 +31,37 @@ cover:
 	@echo "Test coverage is greater than $(threshold)"
 	@rm -f $(coverage_file)
 
+#
+# ## Tests ##
+#
 
+# Integration tests.
+test:
+	./hack/test.sh "remote" ""
+test-remote:
+	./hack/test.sh "remote" ""
+test-local:
+	./hack/test.sh "local" ""
+test-eks:
+	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
+	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
+	echo "Error: No EKS context found."; \
+		exit 1; \
+	fi
+	@echo "Using EKS context: $VSECM_EKS_CONTEXT)"
+	kubectl config use-context $(VSECM_EKS_CONTEXT)
+
+	$(eval VSECM_EKS_VERSION=$(shell helm search repo vsecm/vsecm -o json | jq -r '.[0].version'))
+	@if [ -z "$(VSECM_EKS_VERSION)" ]; then \
+		echo "Error: Unable to determine VSECM_EKS_VERSION."; \
+		exit 1; \
+	fi
+	@echo "Using VERSION: $$VSECM_EKS_VERSION"
+
+	./hack/helm-delete.sh
+	./hack/install-vsecm-to-eks.sh
+
+	(VERSION=$$VSECM_EKS_VERSION; ./hack/test.sh "remote" "eks")
+	kubectl config use-context minikube
+test-local-ci:
+	./hack/test.sh "local" "ci"
