@@ -17,23 +17,6 @@
 # This script takes care of deleting dangling resources after a `helm delete`
 # and then re-deploys vsecm.
 
-NAMESPACE="vsecm-system"
-
-# Due to SPIFFE CSI Driver, pods in Terminating state may not be deleted.
-# We’ll need to forcefully terminate them.
-PODS=$(kubectl get pods -n "$NAMESPACE" \
-  --field-selector=status.phase=Terminating -o name)
-if [ -z "$PODS" ]; then
-  echo "No pods in Terminating state found in namespace $NAMESPACE."
-  echo "This is perfectly fine."
-else
-  for pod in $PODS; do
-    echo "Force deleting $pod"
-    kubectl delete $pod -n "$NAMESPACE" --grace-period=0 --force --timeout=0
-  done
-fi
-kubectl delete namespace "$NAMESPACE" --grace-period=0 --force --timeout=0
-
 helm install vsecm vsecm/vsecm
 
 echo "verifying vsecm installation"
