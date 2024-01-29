@@ -28,13 +28,13 @@ k8s-start:
 	./hack/minikube-start.sh
 
 deploy-spire:
-	@if [ "${DEPLOY_SPIRE}" = "true" ]; then\
-		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds;\
-		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml;\
-		echo "verifying spire installation";\
-		kubectl wait --for=condition=Available deployment -n spire-system spire-server;\
-		echo "spire-server: deployment available";\
-		echo "spire installation successful";\
+	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
+		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
+		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
+		echo "verifying spire installation"; \
+		kubectl wait --for=condition=Available deployment -n spire-system spire-server; \
+		echo "spire-server: deployment available"; \
+		echo "spire installation successful"; \
 	fi
 
 # Deploys VSecM to the cluster.
@@ -83,6 +83,26 @@ test-remote:
 	./hack/test.sh "remote" ""
 test-local:
 	./hack/test.sh "local" ""
+test-eks:
+	.eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
+	@if [ -z "$(EKS_CONTEXT)" ]; then \
+	echo "Error: No EKS context found."; \
+		exit 1; \
+	fi
+	@echo "Using EKS context: $(EKS_CONTEXT)"
+	kubectl config use-context $(EKS_CONTEXT)
+
+	$(eval VSECM_EKS_VERSION=$(shell helm search repo vsecm/vsecm -o json | jq -r '.[0].version'))
+	@if [ -z "$(VSECM_EKS_VERSION)" ]; then \
+		echo "Error: Unable to determine VSECM_EKS_VERSION."; \
+		exit 1; \
+	fi
+	@echo "Using VERSION: $$VSECM_EKS_VERSION"
+
+	./hack/install-eks.sh
+
+	(VERSION=$$VSECM_EKS_VERSION; ./hack/test.sh "remote" "eks")
+	kubectl config use-context minikube
 test-local-ci:
 	./hack/test.sh "local" "ci"
 

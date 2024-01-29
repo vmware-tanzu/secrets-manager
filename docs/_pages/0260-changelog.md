@@ -24,6 +24,7 @@ next_url: /docs/releases/
 
 * Added coverage targets to tests
 * Documentation updates, especially around secure production deployment.
+* Added scripts to test the project on a cloud AWS EKS cluster.
 
 ## [v0.22.2] - 2024-01-14
 
@@ -38,7 +39,7 @@ next_url: /docs/releases/
 
 ### Added
 
-* Added expiration and “invalid before” dates to secrets. 
+* Added expiration and “invalid before” dates to secrets.
 * Implemented a basic CI automation that runs test whenever there is a change
   in the `main` branch. The automation runs unit and integration tests and
   send status updates upon failure.
@@ -47,7 +48,7 @@ next_url: /docs/releases/
 
 ## [v0.22.0] - 2024-01-08
 
-### Added 
+### Added
 
 * Documentation updated, especially around production usage and security.
 * Added a `make commit` helper for a `better-commits` workflow.
@@ -60,7 +61,7 @@ next_url: /docs/releases/
 ### Changed
 
 * **BREAKING**: Certain environment variables are renamed to be more consistent
-  with the rest of the project. The old variables are not supported anymore. 
+  with the rest of the project. The old variables are not supported anymore.
   check out the **configuration** section of the documentation for more details.
 * Updated SPIRE, SPIRE Controller Manager, and SPIFFE CSI Driver to the latest
   versions.
@@ -86,18 +87,18 @@ next_url: /docs/releases/
   and `kind` cluster usage for development.
 * Minor code enhancements.
 
-### Security 
+### Security
 
 * Fixed CVE-2023-48795 [Russh vulnerable to Prefix Truncation Attack against ChaCha20-Poly1305 and Encrypt-then-MAC](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/9)
 
 ## [v0.21.4] - 2023-11-30
 
-This patch release includes one security update, a minor refactoring, and 
+This patch release includes one security update, a minor refactoring, and
 documentation updates.
 
 ### Security
 
-* This is a patch release to address GHSA-2c7c-3mj9-8fqh [Decryption of malicious 
+* This is a patch release to address GHSA-2c7c-3mj9-8fqh [Decryption of malicious
   PBES2 JWE objects can consume unbounded system resources](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/8)
 
 ## [v0.21.3] - 2023-11-03
@@ -108,13 +109,13 @@ documentation updates.
 * Various Documentation updates.
 * Automated Kubernetes manifest creation from Helm charts.
 
-### Security 
+### Security
 
-* Fixed GHSA-m425-mq94-257g [gRPC-Go HTTP/2 Rapid Reset vulnerability](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/7) 
+* Fixed GHSA-m425-mq94-257g [gRPC-Go HTTP/2 Rapid Reset vulnerability](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/7)
 
 ## [v0.21.2] - 2023-10-18
 
-This is a purely security-focused release that fixes several vulnerabilities and 
+This is a purely security-focused release that fixes several vulnerabilities and
 also hardens the AES encryption flow against time-based attacks.
 
 ### Security
@@ -137,9 +138,9 @@ also hardens the AES encryption flow against time-based attacks.
 
 ### Changed
 
-* Performance update: VSecM Sentinel now honors `SIGTERM` and `SIGINT` signals 
+* Performance update: VSecM Sentinel now honors `SIGTERM` and `SIGINT` signals
   and gracefully shuts down when the pod is killed.
-* Performance update: VSecM Safe is now leveraging several goroutines to speed 
+* Performance update: VSecM Safe is now leveraging several goroutines to speed
   up some of the blocking code paths during bootstrapping and initialization.
 * Minor updates to the documentation.
 
@@ -158,7 +159,7 @@ also hardens the AES encryption flow against time-based attacks.
   **VSecM**.
 * Migrate existing Aegis documentation to the [new VMware Secrets Manager
   documentation site](https://vsecm.com).
-* Updated [contributing guidelines](https://vsecm.com/docs/contributing) to make it easier for first-time 
+* Updated [contributing guidelines](https://vsecm.com/docs/contributing) to make it easier for first-time
   contributors.
 * Published a formal [project governance model](https://vsecm.com/docs/governance/).
 * Added a [blog section](https://vsecm.com/docs/blog/) to the website.
@@ -169,19 +170,19 @@ also hardens the AES encryption flow against time-based attacks.
 
 * Minor bugfixes after migration; ensuring feature and behavior parity with
   Aegis.
-* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s 
+* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s
   `Identity.yaml`s.
 
 ### Security
 
-* Updated the [security policy](https://vsecm.com/docs/security/), clarifying 
+* Updated the [security policy](https://vsecm.com/docs/security/), clarifying
   our ideal response time for security vulnerabilities.
 * Fixed a minor vulnerability in `activesupport` dependency:
-  ([CVE-2023-38037](https://access.redhat.com/security/cve/cve-2023-38037)). 
+  ([CVE-2023-38037](https://access.redhat.com/security/cve/cve-2023-38037)).
   [fix](https://github.com/vmware-tanzu/secrets-manager/pull/215);
-  [dependabot](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/2). 
-  The vulnerability affects only the website build process, not the **VSecM** 
-  codebase itself. It is not exploitable in our case, but we still wanted to 
+  [dependabot](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/2).
+  The vulnerability affects only the website build process, not the **VSecM**
+  codebase itself. It is not exploitable in our case, but we still wanted to
   fix it.
 
 ## [v0.20.0] - 2023-07-27
@@ -196,7 +197,7 @@ also hardens the AES encryption flow against time-based attacks.
 ### Changed
 
 * Minor changes to build and deployment scripts.
-* **BREAKING**: The binary that `vsecm-sentinel` uses is called `safe` right 
+* **BREAKING**: The binary that `vsecm-sentinel` uses is called `safe` right
   now (*formerly it was `aegis`*).
 
 

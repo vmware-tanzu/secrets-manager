@@ -83,7 +83,7 @@ eval $(minikube docker-env)
 echo $DOCKER_HOST
 # example: tcp://192.168.49.2:2376
 #
-# Any non-empty value to `echo $DOCKER_HOST` means that 
+# Any non-empty value to `echo $DOCKER_HOST` means that
 # the environment has been set up correctly.
 ```
 
@@ -93,14 +93,14 @@ Follow these steps to build **VSecM** from scratch and deploy it to your
 local **Minikube** cluster, to experiment it with your workloads.
 
 ```bash
-# Temporarily disable Docker Content Trust 
+# Temporarily disable Docker Content Trust
 # to deploy Minikube:
 export DOCKER_CONTENT_TRUST=0
 
 make k8s-delete
 make k8s-start
 
-# The environment has changed; re-evaluate 
+# The environment has changed; re-evaluate
 # the environment variables:
 eval $(minikube docker-env)
 
@@ -150,7 +150,7 @@ make k8s-delete
 make k8s-start
 eval $(minikube -p minikube docker-env)
 
-# For macOS, you might need to run `make mac-tunnel` 
+# For macOS, you might need to run `make mac-tunnel`
 # on a separate terminal.
 # For other Linuxes, you might not need it.
 #
@@ -175,7 +175,7 @@ make k8s-delete
 make k8s-start
 eval $(minikube -p minikube docker-env)
 
-# For macOS, you might need to run `make mac-tunnel` 
+# For macOS, you might need to run `make mac-tunnel`
 # on a separate terminal.
 # For other Linuxes, you might not need it.
 #
@@ -193,7 +193,7 @@ make k8s-delete
 make k8s-start
 eval $(minikube -p minikube docker-env)
 
-# For macOS, you might need to run `make mac-tunnel` 
+# For macOS, you might need to run `make mac-tunnel`
 # on a separate terminal.
 # For other Linuxes, you might not need it.
 #
@@ -211,7 +211,7 @@ make k8s-delete
 make k8s-start
 eval $(minikube -p minikube docker-env)
 
-# For macOS, you might need to run `make mac-tunnel` 
+# For macOS, you might need to run `make mac-tunnel`
 # on a separate terminal.
 # For other Linuxes, you might not need it.
 #
@@ -301,6 +301,17 @@ the `gh-pages` branch.
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
 {: .block-tip }
+
+### 13. Test the Released Helm Charts on a Cloud Cluster
+
+We have a AWS EKS test cluster that we test the helm charts on a production-like
+cloud cluster.
+
+To test the new helm chart run the following on the build server:
+
+```bash
+make test-eks
+```
 
 ### 12. Add a Snapshot of the Current Documentation
 
