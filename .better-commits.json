@@ -129,6 +129,10 @@
         "label": "DevEx"
       },
       {
+        "value": "CI/CD and Workflows",
+        "label": "ci"
+      },
+      {
         "value": "",
         "label": "none"
       }
@@ -151,12 +155,7 @@
   "commit_footer": {
     "enable": true,
     "initial_value": [],
-    "options": [
-      "closes",
-      "breaking-change",
-      "deprecated",
-      "custom"
-    ]
+    "options": ["closes", "breaking-change", "deprecated", "custom"]
   },
   "breaking_change": {
     "add_exclamation_to_title": true
