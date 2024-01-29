@@ -85,12 +85,12 @@ test-local:
 	./hack/test.sh "local" ""
 test-eks:
 	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
-	@if [ -z "$(EKS_CONTEXT)" ]; then \
+	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
 	echo "Error: No EKS context found."; \
 		exit 1; \
 	fi
-	@echo "Using EKS context: $(EKS_CONTEXT)"
-	kubectl config use-context $(EKS_CONTEXT)
+	@echo "Using EKS context: $VSECM_EKS_CONTEXT)"
+	kubectl config use-context $(VSECM_EKS_CONTEXT)
 
 	$(eval VSECM_EKS_VERSION=$(shell helm search repo vsecm/vsecm -o json | jq -r '.[0].version'))
 	@if [ -z "$(VSECM_EKS_VERSION)" ]; then \
