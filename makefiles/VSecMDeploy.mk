@@ -99,7 +99,8 @@ test-eks:
 	fi
 	@echo "Using VERSION: $$VSECM_EKS_VERSION"
 
-	./hack/install-eks.sh
+	./hack/helm-delete.sh
+	./hack/install-vsecm-to-eks.sh
 
 	(VERSION=$$VSECM_EKS_VERSION; ./hack/test.sh "remote" "eks")
 	kubectl config use-context minikube

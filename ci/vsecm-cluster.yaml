@@ -1,0 +1,24 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: vsecm-cluster-eks-v1
+  region: us-west-2
+
+nodeGroups:
+  - name: vsecm-ng-eks-v1
+    instanceType: t3.small
+    desiredCapacity: 2
+    volumeSize: 80
+    ssh:
+      allow: true
