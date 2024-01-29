@@ -50,7 +50,7 @@ else
   echo "vsecm-safe deployment does not exist. Skipping delete."
 fi
 
-if helm list --namespace vsecm-system | grep -q 'vsecm'; then
+if helm list | grep -q 'vsecm'; then
   helm delete vsecm || { echo "Failed to delete Helm release vsecm"; exit 1; }
 else
   echo "Helm release vsecm does not exist. Exiting script with success status."
