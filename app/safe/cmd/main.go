@@ -12,10 +12,12 @@ package main
 
 import (
 	"context"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
+	"github.com/vmware-tanzu/secrets-manager/core/util"
 )
 
 func main() {
@@ -44,6 +46,10 @@ func main() {
 			ServerStarted: serverStarted,
 		}, timedOut,
 	)
+
+	//Print the diagnostic information about the environment.
+	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_SAFE_FIPS_COMPLIANT", "VSECM_SAFE_SPIFFEID_PREFIX", "VSECM_SAFE_TLS_PORT"}
+	go util.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	// Time out if things take too long.
 	go bootstrap.NotifyTimeout(timedOut)
