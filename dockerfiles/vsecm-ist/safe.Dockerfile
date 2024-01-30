@@ -22,8 +22,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cm
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
 
+ENV APP_VERSION="0.21.2"
+
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
-LABEL "version"="0.21.2"
+LABEL "version"=$APP_VERSION
 LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager-safe"
 LABEL "documentation"="https://vsecm.com/"
