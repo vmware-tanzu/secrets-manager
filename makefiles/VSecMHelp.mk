@@ -16,8 +16,8 @@ help:
 	@echo "        ℹ️ This Makefile assumes you use Minikube and Docker"
 	@echo "        ℹ️ for most operations."
 	@echo "--------------------------------------------------------------------"
-	@echo "If you are on the build server, stop the cronjob first: `crontab -e`"
-	@echo "Or `sudo service cron stop`"
+	@echo "If you are on the build server, stop the cronjob first: \`crontab -e\`"
+	@echo "Or \`sudo service cron stop\`"
 	@echo "--------------------------------------------------------------------"
 
 	@if [ "`uname`" = "Darwin" ]; then \
@@ -78,8 +78,8 @@ h:
 	@echo "˃ make build;make deploy;make test;"
 	@echo "˃ make tag;"
 	@echo "--------------------------------------------------------------------"
-	@echo "If you are on the build server, stop the cronjob first: `crontab -e`"
-	@echo "Or `sudo service cron stop`"
+	@echo "If you are on the build server, stop the cronjob first: \`crontab -e\`"
+	@echo "Or \`sudo service cron stop\`"
 	@echo "--------------------------------------------------------------------"
 	@echo "˃ make build-local;make deploy-local;make test-local;"
 	@echo "˃ make build-local;make deploy-fips-local;make test-local;"

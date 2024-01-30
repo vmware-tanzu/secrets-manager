@@ -35,7 +35,7 @@ if [ "$#" -eq 2 ]; then
     srcBaseHelmChartPath=$gitRoot/$helmChartDirName/$baseHelmChartVersion
     newHelmChartPath=$gitRoot/$helmChartDirName/$newHelmChartVersion
 else
-    echo "Insufficient arguments, base helm chart and new helm chart verions has to be provided"
+    echo "Insufficient arguments, base helm chart and new helm chart versions have to be provided"
     exit 1
 fi
 
