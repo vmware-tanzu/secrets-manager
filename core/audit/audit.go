@@ -117,6 +117,13 @@ func Log(e JournalEntry) {
 			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
+	case reqres.SecretEncryptedListResponse:
+		printAudit(
+			e.CorrelationId,
+			"SecretEncryptedListResponse",
+			e.Method, e.Url, e.SpiffeId,
+			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
+		)
 	default:
 		printAudit(
 			e.CorrelationId,
