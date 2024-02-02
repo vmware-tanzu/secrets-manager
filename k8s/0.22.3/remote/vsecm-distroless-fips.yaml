@@ -15,7 +15,7 @@ kind: Namespace
 metadata:
   name: vsecm-system
 ---
-# Source: vsecm/charts/safe/templates/serviceaccount.yaml
+# Source: vsecm/charts/safe/templates/ServiceAccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -40,7 +40,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
-# Source: vsecm/charts/sentinel/templates/serviceaccount.yaml
+# Source: vsecm/charts/sentinel/templates/ServiceAccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -482,7 +482,7 @@ spec:
             driver: "csi.spiffe.io"
             readOnly: true
 ---
-# Source: vsecm/charts/safe/templates/identity.yaml
+# Source: vsecm/charts/safe/templates/Identity.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -511,7 +511,7 @@ spec:
     - "k8s:ns:vsecm-system"
     - "k8s:sa:vsecm-safe"
 ---
-# Source: vsecm/charts/sentinel/templates/identity.yaml
+# Source: vsecm/charts/sentinel/templates/Identity.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/

@@ -1,0 +1,17 @@
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: keycloak
+spec:
+  spiffeIDTemplate: "spiffe://vsecm.com\
+    /workload/keycloak\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: keycloak
+  workloadSelectorTemplates:
+  - "k8s:ns:default"
+  - "k8s:sa:default"
