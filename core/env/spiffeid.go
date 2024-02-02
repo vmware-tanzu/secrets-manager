@@ -36,7 +36,7 @@ func SafeSpiffeIdPrefix() string {
 	return p
 }
 
-// WorkloadSpiffeIdPrefix returns the prefix for the Workload’s SPIFFE ID.
+// WorkloadSpiffeIdPrefix returns the prefix for the WorkloadId’s SPIFFE ID.
 // The prefix is obtained from the environment variable VSECM_WORKLOAD_SPIFFEID_PREFIX.
 // If the variable is not set, the default prefix is used.
 func WorkloadSpiffeIdPrefix() string {

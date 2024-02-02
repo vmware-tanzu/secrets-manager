@@ -21,6 +21,22 @@ import (
 	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 )
 
+type SentinelCommand struct {
+	WorkloadId    string
+	Namespace     string
+	Secret        string
+	Template      string
+	UseKubernetes bool
+	DeleteSecret  bool
+	AppendSecret  bool
+	BackingStore  string
+	Format        string
+	Encrypt       bool
+	NotBefore     string
+	Expires       string
+	InputKeys     string
+}
+
 type (
 	JsonTime     time.Time
 	BackingStore string

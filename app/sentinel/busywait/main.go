@@ -13,7 +13,9 @@ package main
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
@@ -35,22 +37,7 @@ const namespace command = "n"
 const secret command = "s"
 const transformation command = "t"
 
-type SentinelCommand struct {
-	Workload       string
-	Namespace      string
-	Secret         string
-	Transformation string
-	UseKubernetes  bool
-	DeleteSecret   bool
-	AppendSecret   bool
-	BackingStore   string
-	Format         string
-	Encrypt        bool
-	NotBefore      string
-	Expires        string
-}
-
-func processCommandBlock(ctx context.Context, sc SentinelCommand) {
+func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) {
 	// TODO: change the signature of the function to accept the context.
 	safe.Post(ctx, sc)
 }
@@ -60,10 +47,14 @@ func doSleep(seconds int) {
 }
 
 func executeInitCommand() {
+	fmt.Println("####### 000 in executeInitCommand")
+
 	cid := "VSECMSENTINEL"
 	filePath := env.SentinelInitCommandPath()
 	file, err := os.Open(filePath)
 	if err != nil {
+		fmt.Println("####### 001 init command file not found")
+
 		log.InfoLn(
 			&cid,
 			"no initialization file found… skipping custom initialization.",
@@ -73,34 +64,43 @@ func executeInitCommand() {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			panic(err)
+			log.ErrorLn(&cid, "Error closing initialization file: ", err.Error())
 		}
 	}(file)
+
+	fmt.Println("####### 002 init command file not found")
 
 	ctx := context.Background()
 
 	scanner := bufio.NewScanner(file)
-	var sc SentinelCommand
+	var sc entity.SentinelCommand
+
+	fmt.Println("####### 003 beginning scan")
+
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 
 		if line == "" {
+			fmt.Println("####### 004 skipping empty line")
 			continue
 		}
 
 		if line == delimiter {
+			fmt.Println("####### 005 processing command block")
 			processCommandBlock(ctx, sc)
-			sc = SentinelCommand{}
+			sc = entity.SentinelCommand{}
 			continue
 		}
 
 		parts := strings.SplitN(line, separator, 2)
 
 		if len(parts) != 2 {
+			fmt.Println("####### 006 part count mismatch")
 			continue
 		}
 
 		if parts[0] == sleep {
+			fmt.Println("####### 007 sleeping")
 			seconds, _ := strconv.Atoi(parts[1])
 			doSleep(seconds)
 			continue
@@ -109,19 +109,25 @@ func executeInitCommand() {
 		key := parts[0]
 		value := parts[1]
 
+		fmt.Println("####### 008 key: ", key, " value: ", value)
+
 		switch command(key) {
 		case workload:
-			sc.Workload = value
+			sc.WorkloadId = value
 		case namespace:
 			sc.Namespace = value
 		case secret:
 			sc.Secret = value
 		case transformation:
-			sc.Transformation = value
+			sc.Template = value
+		default:
+			fmt.Println("####### 009 unknown command: ", key)
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
+		fmt.Println("####### 011 error reading init file")
+
 		log.ErrorLn(
 			&cid,
 			"Error reading initialization file: ",

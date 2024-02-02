@@ -13,6 +13,7 @@ package main
 import (
 	"context"
 	"fmt"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"os"
 	"os/signal"
 	"syscall"
@@ -31,7 +32,7 @@ func main() {
 	namespace := parseNamespace(parser)
 	inputKeys := parseInputKeys(parser)
 	backingStore := parseBackingStore(parser)
-	workload := parseWorkload(parser)
+	workloadId := parseWorkload(parser)
 	secret := parseSecret(parser)
 	template := parseTemplate(parser)
 	format := parseFormat(parser)
@@ -58,7 +59,7 @@ func main() {
 		*namespace = "default"
 	}
 
-	if inputValidationFailure(workload, encrypt, inputKeys, secret, deleteSecret) {
+	if inputValidationFailure(workloadId, encrypt, inputKeys, secret, deleteSecret) {
 		return
 	}
 
@@ -76,10 +77,19 @@ func main() {
 		}
 	}()
 
-	safe.Post(
-		ctx,
-		*workload, *secret, *namespace, *backingStore, *useKubernetes,
-		*template, *format, *encrypt, *deleteSecret, *appendSecret, *inputKeys,
-		*notBefore, *expires,
-	)
+	safe.Post(ctx, entity.SentinelCommand{
+		WorkloadId:    *workloadId,
+		Secret:        *secret,
+		Namespace:     *namespace,
+		BackingStore:  *backingStore,
+		UseKubernetes: *useKubernetes,
+		Template:      *template,
+		Format:        *format,
+		Encrypt:       *encrypt,
+		DeleteSecret:  *deleteSecret,
+		AppendSecret:  *appendSecret,
+		InputKeys:     *inputKeys,
+		NotBefore:     *notBefore,
+		Expires:       *expires,
+	})
 }
