@@ -20,15 +20,6 @@ export DEPLOY_SAFE_FALSE := --set global.deploySafe=false
 export DEPLOY_SENTINEL_FALSE := --set global.deploySentinel=false
 export DEPLOY_SPIRE_FALSE := --set global.deploySpire=false
 
-# Deletes the vsecm helm chart, whiletaking care of the SPIFFE CSI driver related
-# resource deletion prioritization issues.
-# Simply executing `helm delete` can result in dangling resources, which can
-# cause the helm chart to not be deleted, and installation of a new chart to fail.
-# This make target ensures that the SPIFFE CSI driver’s dependent resources are
-# deleted before the helm chart is deleted, hence avoiding the above issue.
-helm-delete:
-	./hack/helm-delete.sh
-
 # Render helm chart and save as kubernetes manifests
 k8s-manifests-update:
 	@if [ ! -d ${HELM_CHART_PATH} ]; then\
@@ -65,12 +56,19 @@ helm-install-photon:
 helm-install-photon-fips:
 	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_FIPS_IMAGE}
 
+# Deletes the vsecm helm chart, whiletaking care of the SPIFFE CSI driver related
+# resource deletion prioritization issues.
+# Simply executing `helm uninstall` can result in dangling resources, which can
+# cause the helm chart to not be deleted, and installation of a new chart to fail.
+# This make target ensures that the SPIFFE CSI driver’s dependent resources are
+# deleted before the helm chart is deleted, hence avoiding the above issue.
 helm-uninstall:
 	@echo "**************************************************************"
 	@echo "Uninstalling VSecM for helm deployment name \"${DEPLOYMENT_NAME}\", to change helm"
 	@echo "deployment name value pass DEPLOYMENT_NAME variable with another value"
 	@echo "**************************************************************"
 	@echo "Ex. make helm-uninstall DEPLOYMENT_NAME=vsecm"
+	make clean
 	helm uninstall ${DEPLOYMENT_NAME}
 
 # make target to release helm-chart
