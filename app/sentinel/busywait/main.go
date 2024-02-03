@@ -118,6 +118,7 @@ func executeInitCommand() {
 				fmt.Println("####### 007 sleeping")
 				doSleep(sc.SleepIntervalMs)
 				fmt.Println("Should have slept")
+				sc = entity.SentinelCommand{}
 				continue
 			}
 
