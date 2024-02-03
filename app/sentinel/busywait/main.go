@@ -36,6 +36,7 @@ const workload command = "w"
 const namespace command = "n"
 const secret command = "s"
 const transformation command = "t"
+const sleep = "sleep"
 
 func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) {
 	// TODO: change the signature of the function to accept the context.
@@ -47,7 +48,7 @@ func doSleep(seconds int) {
 }
 
 func executeInitCommand() {
-	fmt.Println("####### 000 in executeInitCommand")
+	fmt.Println("####### 000 in executeInitCommand !!!!!")
 
 	cid := "VSECMSENTINEL"
 	filePath := env.SentinelInitCommandPath()
@@ -96,16 +97,48 @@ func executeInitCommand() {
 			continue
 		}
 
+		//fmt.Println("####### 007 delimiter found")
+		//fmt.Println("####### PARTS[0]: ", parts[0])
+		//
+		//if len(parts) >= 2 {
+		//	fmt.Println("##### PARTS[1]: ", parts[1])
+		//} else {
+		//	fmt.Println("##### PARTS[1]: <empty>")
+		//}
+		//
+		//if parts[0] == sleep {
+		//	fmt.Println("####### 007 sleeping")
+		//	milliSeconds, _ := strconv.Atoi(parts[1])
+		//
+		//	doSleep(milliSeconds)
+		//	continue
+		//}
+
 		if line == delimiter {
-			if parts[0] == sleep {
+			if sc.ShouldSleep {
 				fmt.Println("####### 007 sleeping")
 				milliSeconds, _ := strconv.Atoi(parts[1])
+
 				doSleep(milliSeconds)
 				continue
 			}
 
 			fmt.Println("####### 005 processing command block")
+			fmt.Println("inputKeys: ", sc.InputKeys)
+			fmt.Println("workloadId: ", sc.WorkloadId)
+			fmt.Println("namespace: ", sc.Namespace)
+			fmt.Println("secret: ", sc.Secret)
+			fmt.Println("template: ", sc.Template)
+			fmt.Println("format: ", sc.Format)
+			fmt.Println("encrypt: ", sc.Encrypt)
+			fmt.Println("appendSecret: ", sc.AppendSecret)
+			fmt.Println("notBefore: ", sc.NotBefore)
+			fmt.Println("expires: ", sc.Expires)
+			fmt.Println("deleteSecret: ", sc.DeleteSecret)
+			fmt.Println("shouldSleep: ", sc.ShouldSleep)
+			fmt.Println("###### 005 processing command block")
 			processCommandBlock(ctx, sc)
+			fmt.Println("####### 006 processed command block")
 			sc = entity.SentinelCommand{}
 			continue
 		}
@@ -124,6 +157,8 @@ func executeInitCommand() {
 			sc.Secret = value
 		case transformation:
 			sc.Template = value
+		case sleep:
+			sc.ShouldSleep = true
 		default:
 			fmt.Println("####### 009 unknown command: ", key)
 		}

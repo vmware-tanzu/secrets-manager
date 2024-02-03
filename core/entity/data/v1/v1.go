@@ -35,6 +35,7 @@ type SentinelCommand struct {
 	NotBefore     string
 	Expires       string
 	InputKeys     string
+	ShouldSleep   bool
 }
 
 type (
