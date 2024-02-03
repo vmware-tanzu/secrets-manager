@@ -95,7 +95,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "sleep:30000\n--\nw:\"k8s:keycloak-admin-secret\"\nn:\"smo-app\"\ns:'gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}'\nt:'{\"KEYCLOAK_ADMIN_USER\":\"{{.username}}\",\"KEYCLOAK_ADMIN_PASSWORD\":\"{{.password}}\"}'\n--\nw:\"k8s:keycloak-db-secret\"\nn:\"smo-app\"\ns:'gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}'\nt:'{\"KEYCLOAK_DB_USER\":\"{{.username}}\",\"KEYCLOAK_DB_PASSWORD\":\"{{.password}}\"}'\n--\nsleep:5000\n--\nw:keycloak\nn:default\ns:trigger-init\n--\n"
+  data: "sleep:30000\n--\nw:k8s:keycloak-admin-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_ADMIN_USER\":\"{{.username}}\",\"KEYCLOAK_ADMIN_PASSWORD\":\"{{.password}}\"}\n--\nw:k8s:keycloak-db-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_DB_USER\":\"{{.username}}\",\"KEYCLOAK_DB_PASSWORD\":\"{{.password}}\"}\n--\nsleep:5000\n--\nw:keycloak\nn:default\ns:trigger-init\n--\n"
 ---
 # Source: vsecm/charts/safe/templates/hook-preinstall_role.yaml
 # /*

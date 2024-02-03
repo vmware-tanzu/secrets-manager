@@ -281,6 +281,11 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 	}
 
+	fmt.Println("##### Preparing upsert secret:name", workloadId)
+	fmt.Println("##### Preparing upsert secret:name", workloadId)
+	fmt.Println("##### Preparing upsert secret:name", workloadId)
+	fmt.Println("##### Preparing upsert secret:name", workloadId)
+
 	secretToStore := entity.SecretStored{
 		Name: workloadId,
 		Meta: entity.SecretMeta{
