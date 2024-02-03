@@ -28,7 +28,6 @@ import (
 
 const delimiter = "--"
 const separator = ":"
-const sleep = "sleep"
 
 type command string
 
