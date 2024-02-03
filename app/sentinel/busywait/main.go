@@ -89,24 +89,24 @@ func executeInitCommand() {
 			continue
 		}
 
-		if line == delimiter {
-			fmt.Println("####### 005 processing command block")
-			processCommandBlock(ctx, sc)
-			sc = entity.SentinelCommand{}
-			continue
-		}
-
 		parts := strings.SplitN(line, separator, 2)
 
-		if len(parts) != 2 {
+		if len(parts) != 2 && line != delimiter {
 			fmt.Println("####### 006 part count mismatch")
 			continue
 		}
 
-		if parts[0] == sleep {
-			fmt.Println("####### 007 sleeping")
-			milliSeconds, _ := strconv.Atoi(parts[1])
-			doSleep(milliSeconds)
+		if line == delimiter {
+			if parts[0] == sleep {
+				fmt.Println("####### 007 sleeping")
+				milliSeconds, _ := strconv.Atoi(parts[1])
+				doSleep(milliSeconds)
+				continue
+			}
+
+			fmt.Println("####### 005 processing command block")
+			processCommandBlock(ctx, sc)
+			sc = entity.SentinelCommand{}
 			continue
 		}
 
