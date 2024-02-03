@@ -13,6 +13,7 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
+	"fmt"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -290,6 +291,13 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	}
 
 	useK8sSecrets := secret.Meta.UseKubernetesSecret
+
+	fmt.Println("############## WILL DECIDE WHERE TO STORE THE SECRET")
+	fmt.Println("useK8sSecrets", useK8sSecrets)
+	fmt.Println("env.SafeUseKubernetesSecrets()", env.SafeUseKubernetesSecrets())
+	fmt.Println("secret.Name", secret.Name)
+	fmt.Println("strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix())", strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()))
+	fmt.Println("------------------##############")
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.

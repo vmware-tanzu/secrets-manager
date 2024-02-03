@@ -12,6 +12,7 @@ package route
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
@@ -294,6 +295,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		NotBefore:    time.Time(nb),
 		ExpiresAfter: time.Time(exp),
 	}
+
+	fmt.Println("##################### REALLY UPSERTING SECRET")
 
 	upsert(secretToStore, appendValue, workloadId, cid, j, w)
 }
