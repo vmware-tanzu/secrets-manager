@@ -116,9 +116,8 @@ func executeInitCommand() {
 		if line == delimiter {
 			if sc.ShouldSleep {
 				fmt.Println("####### 007 sleeping")
-				milliSeconds, _ := strconv.Atoi(parts[1])
-
-				doSleep(milliSeconds)
+				doSleep(sc.SleepIntervalMs)
+				fmt.Println("Should have slept")
 				continue
 			}
 
@@ -158,6 +157,8 @@ func executeInitCommand() {
 			sc.Template = value
 		case sleep:
 			sc.ShouldSleep = true
+			intms, _ := strconv.Atoi(value)
+			sc.SleepIntervalMs = intms
 		default:
 			fmt.Println("####### 009 unknown command: ", key)
 		}
