@@ -34,8 +34,9 @@ environments:
 initCommand:
   enabled: true # TODO: will be false when the feature is completed.
   #  Add any initialization command here, separated by a line with only "--"
-  command:
-    # TODO: comment out these commands when the feature is completed.
+  # TODO: comment out these commands when the feature is completed.
+  command: |
+    sleep:30000
     --
     w:"k8s:keycloak-admin-secret"
     n:"smo-app"

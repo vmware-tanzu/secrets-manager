@@ -43,7 +43,7 @@ func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) {
 }
 
 func doSleep(seconds int) {
-	time.Sleep(time.Duration(seconds) * time.Second)
+	time.Sleep(time.Duration(seconds) * time.Millisecond)
 }
 
 func executeInitCommand() {
@@ -68,7 +68,7 @@ func executeInitCommand() {
 		}
 	}(file)
 
-	fmt.Println("####### 002 init command file not found")
+	fmt.Println("####### 002 init command file FOUND")
 
 	ctx := context.Background()
 
@@ -79,6 +79,10 @@ func executeInitCommand() {
 
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
+
+		fmt.Println("##### LINE")
+		fmt.Println(line)
+		fmt.Println("###### LINE")
 
 		if line == "" {
 			fmt.Println("####### 004 skipping empty line")
@@ -101,8 +105,8 @@ func executeInitCommand() {
 
 		if parts[0] == sleep {
 			fmt.Println("####### 007 sleeping")
-			seconds, _ := strconv.Atoi(parts[1])
-			doSleep(seconds)
+			milliSeconds, _ := strconv.Atoi(parts[1])
+			doSleep(milliSeconds)
 			continue
 		}
 
