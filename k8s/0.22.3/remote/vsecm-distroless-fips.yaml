@@ -320,7 +320,7 @@ spec:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
-              value: "3"
+              value: "7"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_PROBE_READINESS_PORT

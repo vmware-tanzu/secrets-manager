@@ -75,6 +75,8 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 }
 
 func Get(showEncryptedSecrets bool) {
+	fmt.Println("######## GET called ######")
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
