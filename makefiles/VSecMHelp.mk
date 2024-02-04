@@ -48,6 +48,8 @@ help:
 	@echo "  Prep/Cleanup:"
 	@echo "          ˃ make k8s-delete;make k8s-start;"
 	@echo "          ˃ make clean;"
+	@echo "  Optional Minikube Settings:"
+	@echo "          > make k8s-start CPU=4 MEMORY=4096"
 	@echo "--------------------------------------------------------------------"
 	@echo "  Installation:"
 	@echo "    ⦿ Distroless images:"
