@@ -15,8 +15,8 @@
 MANIFESTS_BASE_PATH="./k8s/${VERSION}"
 MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
-CPU ?= 2
-MEMORY ?= 4096
+CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
+MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 
 # Removes the former VSecM deployment without entirely destroying the cluster.
 clean:

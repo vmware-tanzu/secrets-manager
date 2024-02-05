@@ -50,6 +50,8 @@ help:
 	@echo "          ˃ make clean;"
 	@echo "  Optional Minikube Settings:"
 	@echo "          > make k8s-start CPU=4 MEMORY=4096"
+	@echo "          or"
+	@echo "          > make k8s-start VSECM_MINIKUBE_CPU_COUNT=4 VSECM_MINIKUBE_MEMORY=4096"
 	@echo "--------------------------------------------------------------------"
 	@echo "  Installation:"
 	@echo "    ⦿ Distroless images:"
