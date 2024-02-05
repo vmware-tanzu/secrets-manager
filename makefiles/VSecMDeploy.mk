@@ -15,6 +15,8 @@
 MANIFESTS_BASE_PATH="./k8s/${VERSION}"
 MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
+CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
+MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 
 # Removes the former VSecM deployment without entirely destroying the cluster.
 clean:
@@ -25,7 +27,7 @@ k8s-delete:
 	./hack/minikube-delete.sh
 # Brings up a fresh Minikube cluster.
 k8s-start:
-	./hack/minikube-start.sh
+	@CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
 
 deploy-spire:
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \

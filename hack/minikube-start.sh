@@ -10,10 +10,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-# Get CPU and Memory from environment variables or default
-CPU_COUNT="${VSECM_MINIKUBE_CPU_COUNT:-2}"
-MEMORY="${VSECM_MINIKUBE_MEMORY:-4096m}"
-
 # Minikube might need additional flags for SPIRE to work properly.
 # A bare-metal or cloud Kubernetes cluster will not need these extra configs.
 minikube start \
@@ -23,7 +19,7 @@ minikube start \
     --extra-config=apiserver.api-audiences=api,spire-server \
     --extra-config=apiserver.authorization-mode=Node,RBAC \
     --memory="$MEMORY" \
-    --cpus="$CPU_COUNT" \
+    --cpus="$CPU" \
     --insecure-registry "10.0.0.0/24"
 
 echo "waiting 10 secs before enabling registry"
