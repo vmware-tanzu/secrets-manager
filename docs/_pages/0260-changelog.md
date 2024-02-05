@@ -22,10 +22,24 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-* Added coverage targets to tests
-* Documentation updates, especially around secure production deployment.
+## [v0.22.3] - 2024-02-04
+
+### Added
+
+* Added the ability to run init commands during bootstrap to VSecM Sentinel.
+* Added more test cases to the project.
+* Added coverage targets to tests.
 * Added scripts to test the project on a cloud AWS EKS cluster.
-* Added ability to run init commands during bootstrap to VSecM Sentinel.
+
+### Fixed
+
+* Bug fixes and performance improvements.
+* `make h` and `make help` had a cosmetic regression, which is now fixed. 
+
+### Changed
+
+* Upgraded SPIRE Controller Manager to v0.4.1.
+* Documentation updates, especially around establishing a secure production deployment.
 
 ## [v0.22.2] - 2024-01-14
 
