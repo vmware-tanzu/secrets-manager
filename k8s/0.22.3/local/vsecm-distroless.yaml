@@ -87,6 +87,25 @@ data:
   # is not initialized. DO NOT remove or change it.
   KEY_TXT: "e30="
 ---
+# Source: vsecm/charts/sentinel/templates/Secret.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware, Inc.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsecm-sentinel-init-secret
+  namespace: vsecm-system
+type: Opaque
+stringData:
+  data: "sleep:1\n--\n"
+---
 # Source: vsecm/charts/safe/templates/hook-preinstall_role.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -441,6 +460,9 @@ spec:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
+            - name: init-command-volume
+              # /opt/vsecm-sentinel/init/data will contain the init script.
+              mountPath: /opt/vsecm-sentinel/init
           #
           # You can configure VSecM Sentinel by providing
           # environment variables.
@@ -481,6 +503,9 @@ spec:
           csi:
             driver: "csi.spiffe.io"
             readOnly: true
+        - name: init-command-volume
+          secret:
+            secretName: vsecm-sentinel-init-secret
 ---
 # Source: vsecm/charts/safe/templates/identity.yaml
 # /*

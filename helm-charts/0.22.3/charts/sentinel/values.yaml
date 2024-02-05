@@ -32,9 +32,11 @@ environments:
    value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
 
 initCommand:
-  enabled: false
+  enabled: true
   #  Add any initialization command here, separated by a line with only "--"
-  command: ""
+  command: |
+    sleep:1
+    --
   # Example:
   #   command: |
   #     sleep:30000
