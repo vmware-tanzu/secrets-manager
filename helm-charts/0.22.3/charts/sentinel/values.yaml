@@ -32,28 +32,29 @@ environments:
    value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
 
 initCommand:
-  enabled: true # TODO: will be false when the feature is completed.
+  enabled: false
   #  Add any initialization command here, separated by a line with only "--"
-  # TODO: comment out these commands when the feature is completed.
-  command: |
-    sleep:30000
-    --
-    w:k8s:keycloak-admin-secret
-    n:smo-app
-    s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
-    t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
-    --
-    w:k8s:keycloak-db-secret
-    n:smo-app
-    s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
-    t:{"KEYCLOAK_DB_USER":"{{.username}}","KEYCLOAK_DB_PASSWORD":"{{.password}}"}
-    --
-    sleep:5000
-    --
-    w:keycloak
-    n:default
-    s:trigger-init
-    --
+  command: ""
+  # Example:
+  #   command: |
+  #     sleep:30000
+  #     --
+  #     w:k8s:keycloak-admin-secret
+  #     n:smo-app
+  #     s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
+  #     t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
+  #     --
+  #     w:k8s:keycloak-db-secret
+  #     n:smo-app
+  #     s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
+  #     t:{"KEYCLOAK_DB_USER":"{{.username}}","KEYCLOAK_DB_PASSWORD":"{{.password}}"}
+  #     --
+  #     sleep:5000
+  #     --
+  #     w:keycloak
+  #     n:default
+  #     s:trigger-init
+  #     --
 
 imagePullSecrets: []
 nameOverride: ""

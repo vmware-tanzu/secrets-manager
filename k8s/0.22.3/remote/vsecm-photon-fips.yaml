@@ -87,16 +87,6 @@ data:
   # is not initialized. DO NOT remove or change it.
   KEY_TXT: "e30="
 ---
-# Source: vsecm/charts/sentinel/templates/Secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vsecm-sentinel-init-secret
-  namespace: vsecm-system
-type: Opaque
-stringData:
-  data: "sleep:30000\n--\nw:k8s:keycloak-admin-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_ADMIN_USER\":\"{{.username}}\",\"KEYCLOAK_ADMIN_PASSWORD\":\"{{.password}}\"}\n--\nw:k8s:keycloak-db-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_DB_USER\":\"{{.username}}\",\"KEYCLOAK_DB_PASSWORD\":\"{{.password}}\"}\n--\nsleep:5000\n--\nw:keycloak\nn:default\ns:trigger-init\n--\n"
----
 # Source: vsecm/charts/safe/templates/hook-preinstall_role.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -320,7 +310,7 @@ spec:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
-              value: "7"
+              value: "3"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_PROBE_READINESS_PORT
@@ -451,9 +441,6 @@ spec:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
-            - name: init-command-volume
-              # /opt/vsecm-sentinel/init/data will contain the init script.
-              mountPath: /opt/vsecm-sentinel/init
           #
           # You can configure VSecM Sentinel by providing
           # environment variables.
@@ -494,9 +481,6 @@ spec:
           csi:
             driver: "csi.spiffe.io"
             readOnly: true
-        - name: init-command-volume
-          secret:
-            secretName: vsecm-sentinel-init-secret
 ---
 # Source: vsecm/charts/safe/templates/identity.yaml
 # /*
