@@ -46,6 +46,11 @@ spec:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
+          {{- if .Values.initCommand.enabled }}
+            - name: init-command-volume
+              # /opt/vsecm-sentinel/init/data will contain the init script.
+              mountPath: /opt/vsecm-sentinel/init
+          {{- end }}
           #
           # You can configure VSecM Sentinel by providing
           # environment variables.
@@ -76,3 +81,8 @@ spec:
           csi:
             driver: "csi.spiffe.io"
             readOnly: true
+        {{- if .Values.initCommand.enabled }}
+        - name: init-command-volume
+          secret:
+            secretName: vsecm-sentinel-init-secret
+        {{- end }}

@@ -21,6 +21,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -169,9 +170,8 @@ func doPost(client *http.Client, p string, md []byte) {
 	respond(r)
 }
 
-func Post(parentContext context.Context, workloadId, secret, namespace, backingStore string,
-	useKubernetes bool, template string, format string, encrypt, deleteSecret,
-	appendSecret bool, inputKeys string, notBefore string, expires string,
+func Post(parentContext context.Context,
+	sc entity.SentinelCommand,
 ) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
@@ -216,7 +216,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 
 		authorizer := createAuthorizer()
 
-		if inputKeys != "" {
+		if sc.InputKeys != "" {
 			p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/keys")
 			if err != nil {
 				printEndpointError(err)
@@ -230,7 +230,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 				},
 			}
 
-			parts := strings.Split(inputKeys, "\n")
+			parts := strings.Split(sc.InputKeys, "\n")
 			if len(parts) != 3 {
 				printPayloadError(errors.New("post: Bad data! Very bad data"))
 				return
@@ -248,13 +248,15 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 		}
 
 		// Generate pattern-based random secrets if the secret has the prefix.
-		if strings.HasPrefix(secret, env.SecretGenerationPrefix()) {
-			secret = strings.Replace(secret, env.SecretGenerationPrefix(), "", 1)
-			newSecret, err := crypto.GenerateValue(secret)
+		if strings.HasPrefix(sc.Secret, env.SecretGenerationPrefix()) {
+			sc.Secret = strings.Replace(
+				sc.Secret, env.SecretGenerationPrefix(), "", 1,
+			)
+			newSecret, err := crypto.GenerateValue(sc.Secret)
 			if err != nil {
-				secret = "ParseError:" + secret
+				sc.Secret = "ParseError:" + sc.Secret
 			} else {
-				secret = newSecret
+				sc.Secret = newSecret
 			}
 		}
 
@@ -271,8 +273,9 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 			},
 		}
 
-		sr := newSecretUpsertRequest(workloadId, secret, namespace, backingStore,
-			useKubernetes, template, format, encrypt, appendSecret, notBefore, expires)
+		sr := newSecretUpsertRequest(sc.WorkloadId, sc.Secret, sc.Namespace,
+			sc.BackingStore, sc.UseKubernetes, sc.Template, sc.Format,
+			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
 
 		md, err := json.Marshal(sr)
 		if err != nil {
@@ -280,7 +283,7 @@ func Post(parentContext context.Context, workloadId, secret, namespace, backingS
 			return
 		}
 
-		if deleteSecret {
+		if sc.DeleteSecret {
 			doDelete(client, p, md)
 			return
 		}

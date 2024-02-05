@@ -13,7 +13,6 @@ package main
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
-	"github.com/vmware-tanzu/secrets-manager/core/util"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
 
@@ -23,7 +22,7 @@ func main() {
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL"}
-	go util.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	go sentry.Watch()
 	// Keep the main routine alive:

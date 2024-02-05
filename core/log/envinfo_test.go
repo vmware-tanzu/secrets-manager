@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package util
+package log
 
 import (
 	"bufio"

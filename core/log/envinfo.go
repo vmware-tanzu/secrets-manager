@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package util
+package log
 
 import (
 	"fmt"
@@ -16,8 +16,6 @@ import (
 	"runtime"
 	"sort"
 	"strings"
-
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 )
 
 // PrintEnvironmentInfo prints information about specific environment variables, enabled features, and binary version.
@@ -42,7 +40,7 @@ func printSpecificEnvironmentVariables(id *string, envVarsToPrint []string, info
 		if value, exists := os.LookupEnv(envVar); exists {
 			info[envVar] = value
 		} else {
-			log.WarnLn(id, "Warning: Environment variable "+envVar+" not found")
+			WarnLn(id, "Warning: Environment variable "+envVar+" not found")
 		}
 	}
 }

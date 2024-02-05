@@ -25,6 +25,7 @@ next_url: /docs/releases/
 * Added coverage targets to tests
 * Documentation updates, especially around secure production deployment.
 * Added scripts to test the project on a cloud AWS EKS cluster.
+* Added ability to run init commands during bootstrap to VSecM Sentinel.
 
 ## [v0.22.2] - 2024-01-14
 

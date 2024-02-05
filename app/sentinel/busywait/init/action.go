@@ -1,0 +1,26 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets… secret
+>/
+<>/' Copyright 2023–present VMware, Inc.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
+package init
+
+import (
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"golang.org/x/net/context"
+	"time"
+)
+
+func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) {
+	safe.Post(ctx, sc)
+}
+
+func doSleep(seconds int) {
+	time.Sleep(time.Duration(seconds) * time.Millisecond)
+}
