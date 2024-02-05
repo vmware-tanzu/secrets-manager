@@ -24,7 +24,7 @@ func main() {
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_SAFE_ENDPOINT_URL"}
-	go log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	// Block the process from exiting, but also be graceful and honor the
 	// termination signals that may come from the orchestrator.

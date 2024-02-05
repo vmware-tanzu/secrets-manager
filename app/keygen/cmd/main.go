@@ -20,7 +20,7 @@ func main() {
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_KEYGEN_DECRYPT"}
-	go log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	d := env.KeyGenDecrypt()
 
