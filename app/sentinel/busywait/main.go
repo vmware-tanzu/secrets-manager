@@ -11,7 +11,7 @@
 package main
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/init"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/initialization"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
@@ -33,7 +33,7 @@ func main() {
 	// If we end up adding more functionality to this process,
 	// we should refactor this and create a new process for the
 	// new functionality.
-	init.RunInitCommands()
+	initialization.RunInitCommands()
 	log.InfoLn(&id, "Initialization commands executed successfully")
 
 	// Run on the main thread to wait forever.

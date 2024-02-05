@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package init
+package initialization
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
