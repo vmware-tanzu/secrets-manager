@@ -173,23 +173,6 @@ func doPost(client *http.Client, p string, md []byte) {
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
 ) {
-	fmt.Println("######## POST: command",
-		"workloadId:", sc.WorkloadId,
-		"secret:", sc.Secret,
-		"namespace:", sc.Namespace,
-		"backingStore:", sc.BackingStore,
-		"useKubernetes:", sc.UseKubernetes,
-		"template:", sc.Template,
-		"format:", sc.Format,
-		"encrypt:", sc.Encrypt,
-		"appendSecret:", sc.AppendSecret,
-		"notBefore:", sc.NotBefore,
-		"expires:", sc.Expires,
-		"deleteSecret:", sc.DeleteSecret,
-		"inputKeys:", sc.InputKeys,
-		"######",
-	)
-
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SafeSourceAcquisitionTimeout(),

@@ -11,7 +11,6 @@
 package handle
 
 import (
-	"fmt"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
@@ -101,8 +100,6 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodPost && p == "/sentinel/v1/secrets" {
-			fmt.Println("####### 001 POST in /sentinel/v1/secrets")
-
 			log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
 			route.Secret(cid, w, r, sid)
 			return
