@@ -104,7 +104,17 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "sleep:1\n--\n"
+  data: "sleep:30000\n--\nw:k8s:keycloak-admin-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_ADMIN_USER\":\"{{.username}}\",\"KEYCLOAK_ADMIN_PASSWORD\":\"{{.password}}\"}\n--\nw:k8s:keycloak-db-secret\nn:smo-app\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_DB_USER\":\"{{.username}}\",\"KEYCLOAK_DB_PASSWORD\":\"{{.password}}\"}\n--\nsleep:5000\n--\nw:keycloak\nn:default\ns:trigger-init\n--\n"
+---
+# Source: vsecm/charts/sentinel/templates/Secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsecm-sentinel-init-tombstone
+  namespace: vsecm-system
+type: Opaque
+stringData:
+  init: "not-initialized"
 ---
 # Source: vsecm/charts/safe/templates/hook-preinstall_role.yaml
 # /*
@@ -463,6 +473,9 @@ spec:
             - name: init-command-volume
               # /opt/vsecm-sentinel/init/data will contain the init script.
               mountPath: /opt/vsecm-sentinel/init
+            - name : tombstone-volume
+              # /opt/vsecm-sentinel/tombstone/init will contain the tombstone file.
+              mountPath: /opt/vsecm-sentinel/tombstone
           #
           # You can configure VSecM Sentinel by providing
           # environment variables.
@@ -506,6 +519,9 @@ spec:
         - name: init-command-volume
           secret:
             secretName: vsecm-sentinel-init-secret
+        - name: tombstone-volume
+          secret:
+            secretName: vsecm-sentinel-init-tombstone
 ---
 # Source: vsecm/charts/safe/templates/identity.yaml
 # /*
