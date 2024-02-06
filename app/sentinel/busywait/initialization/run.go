@@ -13,6 +13,7 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -50,8 +51,37 @@ import (
 // logged as errors.
 func RunInitCommands() {
 	cid := "VSECMSENTINEL"
+
+	// Parse tombstone file first:
+	tombstonePath := env.SentinelInitCommandTombstonePath()
+	file, err := os.Open(tombstonePath)
+	if err != nil {
+		log.InfoLn(
+			&cid,
+			"no initialization file found… skipping custom initialization.",
+		)
+		return
+	}
+
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.ErrorLn(&cid, "Error closing tombstone file: ", err.Error())
+		}
+	}(file)
+
+	data, err := os.ReadFile(tombstonePath)
+
+	if strings.TrimSpace(string(data)) == "complete" {
+		log.InfoLn(
+			&cid,
+			"Initialization already complete… skipping custom initialization.",
+		)
+		return
+	}
+
 	filePath := env.SentinelInitCommandPath()
-	file, err := os.Open(filePath)
+	file, err = os.Open(filePath)
 
 	if err != nil {
 		log.InfoLn(
@@ -126,4 +156,6 @@ func RunInitCommands() {
 			err.Error(),
 		)
 	}
+
+	safe.PostInitializationComplete(ctx)
 }

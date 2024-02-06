@@ -42,6 +42,14 @@ type SecretUpsertResponse struct {
 	Err string `json:"err,omitempty"`
 }
 
+type SentinelInitCompleteRequest struct {
+	Err string `json:"err,omitempty"`
+}
+
+type SentinelInitCompleteResponse struct {
+	Err string `json:"err,omitempty"`
+}
+
 type SecretFetchRequest struct {
 	Err string `json:"err,omitempty"`
 }

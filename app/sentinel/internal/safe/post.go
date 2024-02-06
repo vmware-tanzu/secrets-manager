@@ -75,6 +75,10 @@ func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 	}
 }
 
+func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
+	return reqres.SentinelInitCompleteRequest{}
+}
+
 func newSecretUpsertRequest(workloadId, secret, namespace, backingStore string,
 	useKubernetes bool, template string, format string, encrypt, appendSecret bool,
 	notBefore string, expires string,
@@ -168,6 +172,75 @@ func doPost(client *http.Client, p string, md []byte) {
 		return
 	}
 	respond(r)
+}
+
+func PostInitializationComplete(parentContext context.Context) {
+	ctxWithTimeout, cancel := context.WithTimeout(
+		parentContext,
+		env.SafeSourceAcquisitionTimeout(),
+	)
+	defer cancel()
+
+	sourceChan := make(chan *workloadapi.X509Source)
+	proceedChan := make(chan bool)
+
+	go func() {
+		source, proceed := acquireSource(ctxWithTimeout)
+		sourceChan <- source
+		proceedChan <- proceed
+	}()
+
+	select {
+	case <-ctxWithTimeout.Done():
+		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
+			fmt.Println("PostInit: I cannot execute command because I cannot talk to SPIRE.")
+			fmt.Println("")
+			return
+		}
+
+		fmt.Println("PostInit: Operation was cancelled due to an unknown reason.")
+	case source := <-sourceChan:
+		defer func() {
+			if source == nil {
+				return
+			}
+			err := source.Close()
+			if err != nil {
+				log.Println("Post: Problem closing the workload source.")
+			}
+		}()
+
+		proceed := <-proceedChan
+
+		if !proceed {
+			return
+		}
+
+		authorizer := createAuthorizer()
+
+		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/init-completed")
+		if err != nil {
+			printEndpointError(err)
+			return
+		}
+
+		tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
+		client := &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: tlsConfig,
+			},
+		}
+
+		sr := newInitCompletedRequest()
+
+		md, err := json.Marshal(sr)
+		if err != nil {
+			printPayloadError(err)
+			return
+		}
+
+		doPost(client, p, md)
+	}
 }
 
 func Post(parentContext context.Context,
