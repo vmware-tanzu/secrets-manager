@@ -35,6 +35,7 @@ type KeyInputRequest struct {
 	AgeSecretKey string `json:"ageSecretKey"`
 	AgePublicKey string `json:"agePublicKey"`
 	AesCipherKey string `json:"aesCipherKey"`
+	Err          string `json:"err,omitempty"`
 }
 
 type SecretUpsertResponse struct {

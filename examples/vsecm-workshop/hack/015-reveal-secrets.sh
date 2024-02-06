@@ -9,6 +9,7 @@
 # <>/' Copyright 2023–present VMware, Inc.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
+VERSION="0.22.4"
 
 eval $(minikube docker-env -u)
 
@@ -17,4 +18,4 @@ docker run --rm \
   -e VSECM_KEYGEN_EXPORTED_SECRET_PATH="/vsecm/secrets.json" \
   -e VSECM_KEYGEN_ROOT_KEY_PATH="/vsecm/key.txt" \
   -e VSECM_KEYGEN_DECRYPT="true" \
-  vsecm/vsecm-keygen:0.22.2
+  vsecm/vsecm-keygen:"${VERSION}"

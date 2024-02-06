@@ -194,6 +194,19 @@ func TestLog(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "Entity_type_KeyInputRequest",
+			args: args{
+				e: JournalEntry{
+					CorrelationId: "1234",
+					Entity:        reqres.KeyInputRequest{},
+					Method:        "test_method",
+					Url:           "test_url",
+					SpiffeId:      "test_spiffeid",
+					Event:         "test_event",
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

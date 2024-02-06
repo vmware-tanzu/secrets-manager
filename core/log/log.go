@@ -89,7 +89,7 @@ func WarnLn(correlationId *string, v ...any) {
 	}
 
 	var args []any
-	args = append(args, "[WARN ]")
+	args = append(args, "[WARN]")
 	args = append(args, *correlationId)
 	args = append(args, v...)
 	log.Println(args...)
