@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -23,25 +23,25 @@ next_url: /docs/philosophy/
 > **Get Your Hands Dirty**
 >
 > This is a quickstart guide to get you up and running with **VSecM**.
-{: .block-tip}
+> {: .block-tip}
 
 ## Prerequisites
 
-* [**Minikube**][minikube]: You can install **VMware Secrets Manager** on any
-  Kubernetes cluster, but we’ll use *Minikube* in this quickstart example.
-  Minikube is a tool that makes it easy to run Kubernetes locally.
-* [**make**][make]: You’ll need `make` to run certain build tasks. You can
-  install `make` using your favorite package manager.
-* [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses
-  the *Docker* driver. If you use a different driver, things will still likely
-  work, but you might need to tweak some of the commands and configuration.
+-   [**Minikube**][minikube]: You can install **VMware Secrets Manager** on any
+    Kubernetes cluster, but we’ll use _Minikube_ in this quickstart example.
+    Minikube is a tool that makes it easy to run Kubernetes locally.
+-   [**make**][make]: You’ll need `make` to run certain build tasks. You can
+    install `make` using your favorite package manager.
+-   [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses
+    the _Docker_ driver. If you use a different driver, things will still likely
+    work, but you might need to tweak some of the commands and configuration.
 
 > **I Have a Kubernetes Cluster Already**
-> 
-> If you are already have a cluster and a `kubectl` that you can use on that 
-> cluster, you won’t need Minikube, so you can skip the steps related to 
+>
+> If you are already have a cluster and a `kubectl` that you can use on that
+> cluster, you won’t need Minikube, so you can skip the steps related to
 > initializing Minikube and configuring Minikube-related environment variables.
-{: .block-tip }
+> {: .block-tip }
 
 Also, if you are not using minikube, you will not need a local docker instance either.
 
@@ -72,7 +72,7 @@ cd secrets-manager
 
 ## Initialize Minikube
 
-Next, let’s initialize *Minikube*:
+Next, let’s initialize _Minikube_:
 
 ```bash
 cd $WORKSPACE/secrets-manager
@@ -286,7 +286,7 @@ safe -w "example" -n "default" -s "VSecMRocks"
 >
 > You can execute `safe -h` or `safe --help` to get a list of available
 > commands and options.
-{: .block-tip }
+> {: .block-tip }
 
 You’ll get an `OK` as a response:
 
@@ -296,9 +296,9 @@ OK
 
 For the command `safe -w "example" -n "default" -s "VSecMRocks"`
 
-* `-w` is the workload name
-* `-n` is the namespace
-* `-s` is the secret value
+-   `-w` is the workload name
+-   `-n` is the namespace
+-   `-s` is the secret value
 
 But how do you know what the workload name is?
 
@@ -316,19 +316,19 @@ example          4h33m
 vsecm-safe       4h35m
 vsecm-sentinel   4h35m
 ```
-> **ClusterSPIFFEID with an Analogy**
-> 
-> Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization. 
-> 
-> If anyone could create or modify badges (*SVIDs*), they could make one for 
-> themselves that mimics the CEO’s badge, gaining access to restricted areas. 
-> 
-> Hence, only trusted personnel (*with elevated privileges*) are allowed to 
-> manage the badge maker.
-> 
-> Make sure your guard your **ClusterSPIFFEID** with proper RBAC rules.
-{: .block-tip }
 
+> **ClusterSPIFFEID with an Analogy**
+>
+> Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization.
+>
+> If anyone could create or modify badges (_SVIDs_), they could make one for
+> themselves that mimics the CEO’s badge, gaining access to restricted areas.
+>
+> Hence, only trusted personnel (_with elevated privileges_) are allowed to
+> manage the badge maker.
+>
+> Make sure your guard your **ClusterSPIFFEID** with proper RBAC rules.
+> {: .block-tip }
 
 Let’s see the details of this `example` SPIFFE ID:
 
@@ -414,11 +414,11 @@ clusters.
 
 After successfully completing this quickstart, you can try the following:
 
-* [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite]
-  where helpful community members and **VMware Secrets Manager** engineers
-  hang out and answer questions.
-* Navigate this website to learn more about **VMware Secrets Manager**, starting
-  with [its architecture, and design philosophy](/docs/architecture).
-* [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases).
+-   [Join the **VMware Secrets Manager** Community on **Slack**][slack-invite]
+    where helpful community members and **VMware Secrets Manager** engineers
+    hang out and answer questions.
+-   Navigate this website to learn more about **VMware Secrets Manager**, starting
+    with [its architecture, and design philosophy](/docs/architecture).
+-   [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases).
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"

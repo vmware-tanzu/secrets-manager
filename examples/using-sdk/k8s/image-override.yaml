@@ -4,18 +4,18 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example
-  namespace: default
+    name: example
+    namespace: default
 spec:
-  template:
-    spec:
-      containers:
-      - name: main
-        image: localhost:5000/example-using-sdk:0.22.4
+    template:
+        spec:
+            containers:
+                - name: main
+                  image: localhost:5000/example-using-sdk:0.22.4

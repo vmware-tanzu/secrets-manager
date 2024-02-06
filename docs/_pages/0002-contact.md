@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -25,11 +25,11 @@ next_url: /docs/maintainers/
 > Thank you for wanting to contact us ❤️.
 >
 > This page outlines the various ways you can touch base.
-{: .block-tip }
+> {: .block-tip }
 
 ## Ask Questions on Slack
 
-[*VMware Secret Manager’s Slack Workspace**][slack] if one of the best ways to
+[\*VMware Secret Manager’s Slack Workspace\*\*][slack] if one of the best ways to
 get in touch with the community, ask questions and get help.
 
 ## Create a GitHub Issue
@@ -46,7 +46,6 @@ If you have found a security vulnerability, please [**follow this guideline**][v
 to responsibly disclose it.
 
 [ticket]: https://github.com/vmware-tanzu/secrets-manager/issues/new "Create a new issue"
-
 [vuln]: https://github.com/vmware-tanzu/secrets-manager/blob/main/SECURITY.md
 [code-of-conduct]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md
 
@@ -62,7 +61,7 @@ else.
 [contributing]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING.md
 [code-of-conduct]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md
 
-## Thank You  ❤️
+## Thank You ❤️
 
 Thanks so much for your interest: It means a lot 🙏.
 

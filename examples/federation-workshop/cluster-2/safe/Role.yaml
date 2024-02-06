@@ -4,7 +4,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -14,7 +14,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 #
 kind: ClusterRole
 metadata:
-  name: vsecm-secret-readwriter
+    name: vsecm-secret-readwriter
 #
 # Creating a `ClusterRole` will make the role applicable to all namespaces
 # within the cluster. This approach is easier to maintain, and still secure
@@ -59,9 +59,9 @@ metadata:
 #
 # This `rules` setting is for legacy support (see the above discussion):
 rules:
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "watch", "list", "update", "create"]
+    - apiGroups: [""]
+      resources: ["secrets"]
+      verbs: ["get", "watch", "list", "update", "create"]
 #
 # This `rules` configuration is the recommended, more secure, way:
 #
@@ -75,20 +75,18 @@ rules:
 ##
 
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: vsecm-secret-readwriter-binding
+    name: vsecm-secret-readwriter-binding
 subjects:
-  - kind: ServiceAccount
-    name: vsecm-safe
-    namespace: vsecm-system
+    - kind: ServiceAccount
+      name: vsecm-safe
+      namespace: vsecm-system
 roleRef:
-  kind: ClusterRole
-  name: vsecm-secret-readwriter
-  apiGroup: rbac.authorization.k8s.io
-
+    kind: ClusterRole
+    name: vsecm-secret-readwriter
+    apiGroup: rbac.authorization.k8s.io
 ##
 #
 # Alternatively, for a tighter security, you can define a `RoleBinding`

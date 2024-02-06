@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,10 +22,10 @@ next_url: /docs/security/
 
 > **Hi 👋**
 >
-> **VMware Secrets Manager** *for Cloud-Native Apps* is maintained by
+> **VMware Secrets Manager** _for Cloud-Native Apps_ is maintained by
 > a group of dedicated individuals [listed in the `CODEOWNERS` file][codeowners]
 > on the **VMware Secrets Manager** GitHub repository.
-{: .block-tip }
+> {: .block-tip }
 
 ## Lead Architect
 

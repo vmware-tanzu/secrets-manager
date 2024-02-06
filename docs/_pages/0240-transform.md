@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -37,7 +37,7 @@ it, before you proceed, please [navigate to that lecture and install
 
 Let us define a few aliases first, they will speed things up:
 
-```bash 
+```bash
 SENTINEL=$(kubectl get po -n vsecm-system \
   | grep "vsecm-sentinel-" | awk '{print $1}')
 SAFE=$(kubectl get po -n vsecm-system \
@@ -61,7 +61,7 @@ Now, we can start experimenting.
 
 Let’s start with a blank slate again:
 
-```bash 
+```bash
 delete-secret
 # Output: OK
 
@@ -75,8 +75,8 @@ inspect
 
 **VSecM Sentinel** CLI accepts a format flag (`-f`), the possible values are
 
-* `"json"`
-* and `"yaml"`
+-   `"json"`
+-   and `"yaml"`
 
 If it is not given, it defaults to `"json"`; however, in the upcoming examples
 we’ll be explicit and provide this argument at all times.
@@ -96,7 +96,7 @@ inspect
 
 ## Registering a YAML Secret
 
-```bash 
+```bash
 {% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
   -s '{"username": "admin", "password": "VSecMRocks!"}' \
@@ -128,7 +128,7 @@ inspect
 
 Since the JSON cannot be parsed, the output will not be a YAML:
 
-```bash 
+```bash
 {% raw %}kubectl exec $SENTINEL -n vsecm-system -- safe \
   -w example \
   -s '{username": "admin", "password": "VSecMRocks!"}' \
@@ -268,5 +268,3 @@ transform the secret, or both of them.
 
 The next section introduces a video tutorial that covers everything that has
 been mentioned so far and some more.
-
-

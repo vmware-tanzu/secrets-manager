@@ -4,23 +4,21 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "safe.fullname" . }}
-  namespace: {{ .Values.global.vsecm.namespace }}
-  labels:
-    {{- include "safe.labels" . | nindent 4 }}
+    name: { { include "safe.fullname" . } }
+    namespace: { { .Values.global.vsecm.namespace } }
+    labels: { { - include "safe.labels" . | nindent 4 } }
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "safe.selectorLabels" . | nindent 4 }}
+    type: { { .Values.service.type } }
+    ports:
+        - port: { { .Values.service.port } }
+          targetPort: { { .Values.service.targetPort } }
+          protocol: TCP
+          name: http
+    selector: { { - include "safe.selectorLabels" . | nindent 4 } }

@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -37,12 +37,12 @@ knowing what happens under the hood will serve you well.
 
 ## Components of VMware Secrets Manager
 
-**VMware Secrets Manager** (*VSecM*), as a system, has the following components.
+**VMware Secrets Manager** (_VSecM_), as a system, has the following components.
 
 ### SPIRE
 
 [**SPIRE**][spiffe] is not strictly a part of **VMware Secrets Manager**. However,
-**VMware Secrets Manager** uses **SPIRE** to establish an *Identity Control Plane*.
+**VMware Secrets Manager** uses **SPIRE** to establish an _Identity Control Plane_.
 
 **SPIRE** is what makes communication within **VMware Secrets Manager**
 components and workloads possible. It dispatches **x.509 SVID Certificates**
@@ -65,26 +65,26 @@ about how **SPIRE** works internally.
 
 ### VSecM Sidecar
 
-[`vsecm-sidecar`][sidecar] is a sidecar that facilitates delivering secrets to 
+[`vsecm-sidecar`][sidecar] is a sidecar that facilitates delivering secrets to
 workloads.
 
 ### VSecM Sentinel
 
-[`vsecm-sentinel`][sentinel] is a pod you can shell in and do administrative 
+[`vsecm-sentinel`][sentinel] is a pod you can shell in and do administrative
 tasks such as registering secrets for workloads.
 
 [safe]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/safe
 [sidecar]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sidecar
 [sentinel]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/sentinel
 
-Here is a simplified overview of how various actors on a 
+Here is a simplified overview of how various actors on a
 **VMware Secrets Manager** system interact with each other:
 
 ![VMware Secrets Manager Components](/assets/actors.jpg "VMware Secrets Manager Component Interaction")
 
 ### VSecM Keygen
 
-[`vsecm-keygen`][keygen] is a utility that generates the root key that 
+[`vsecm-keygen`][keygen] is a utility that generates the root key that
 **VSecM Safe** uses, if manual input mode is set. By default, **VSecM Safe**
 generates the root key automatically; however, you can opt-out from this
 if want to control the root key yourself and provide your own key.
@@ -135,8 +135,8 @@ For the non-`vsecm-system` workloads that **Safe** injects secrets,
 `$workloadName` is determined by the workload’s `ClusterSPIFFEID` CRD.
 
 For `vsecm-system` components, we use `vsecm-safe` and `vsecm-sentinel`
-for the `$workloadName` (*along with other attestors such as attesting
-the service account and namespace*):
+for the `$workloadName` (_along with other attestors such as attesting
+the service account and namespace_):
 
 ```text
 {% raw %}spiffe://vsecm.com/workload/vsecm-safe
@@ -154,9 +154,9 @@ the service account and namespace*):
 
 ## Persisting Secrets
 
-**VSecM Safe** uses [`age`][age] encryption by default to securely persist the 
+**VSecM Safe** uses [`age`][age] encryption by default to securely persist the
 secrets to disk so that when its Pod is replaced by another Pod for any reason
-(*eviction, crash, system restart, etc.*) it can retrieve secrets from a 
+(_eviction, crash, system restart, etc._) it can retrieve secrets from a
 persistent storage.
 
 > **You Can Swap the Encryption Mechanism**
@@ -176,7 +176,7 @@ persistent storage.
 >
 > Again, check out the [**Configuration**](/docs/configuration)
 > section for more details.
-{: .block-tip}
+> {: .block-tip}
 
 Since decryption is relatively expensive, once a secret is retrieved,
 it is kept in memory and served from memory for better performance.
@@ -186,8 +186,8 @@ your workloads **has to** fit in the memory you allocate to **VSecM Safe**.
 ## **VSecM Safe** Bootstrapping Flow
 
 To persist secrets, **VSecM Safe** needs a way to generate and securely store
-the initial cryptographic keys that are utilized for decrypting and encrypting 
-the secrets, respectively. After generation, the keys are stored in a Kubernetes 
+the initial cryptographic keys that are utilized for decrypting and encrypting
+the secrets, respectively. After generation, the keys are stored in a Kubernetes
 `Secret` that only **VSecM Safe** can access.
 
 Here is a sequence diagram of the **VSecM Safe** bootstrapping flow:
@@ -205,17 +205,17 @@ Here is what an **VSecM Safe** Pod looks like at a high level:
 
 ![VSedM Safe Pod](/assets/vsecm-crypto.jpg "VSecM Safe Pod")
 
-* `spire-agent-socket`: Is a [SPIFFE CSI Driver][csi-driver]-managed volume that
-  enables **SPIRE** to distribute **X.509 SVID**s to the Pod.
-* `/data` is the volume where secrets are stored in an encrypted format. You are
-  **strongly encouraged** to use a **persistent volume** for production setups
-  to retrieve the secrets if the Pod crashes and restarts.
-* `/key` is where the secret `vsecm-safe-age-key` mounts. For security reasons,
-  ensure that **only** the pod **VSecM Safe** can read and write to `vsecm-safe-age-key`
-  and no one else has access. In this diagram, this is achieved by assigning
-  a `vsecm-secret-readwriter` role to **VSecM Safe** and using that role to update
-  the secret. Any pod that does not have the role will be unable to read or
-  write to this secret.
+-   `spire-agent-socket`: Is a [SPIFFE CSI Driver][csi-driver]-managed volume that
+    enables **SPIRE** to distribute **X.509 SVID**s to the Pod.
+-   `/data` is the volume where secrets are stored in an encrypted format. You are
+    **strongly encouraged** to use a **persistent volume** for production setups
+    to retrieve the secrets if the Pod crashes and restarts.
+-   `/key` is where the secret `vsecm-safe-age-key` mounts. For security reasons,
+    ensure that **only** the pod **VSecM Safe** can read and write to `vsecm-safe-age-key`
+    and no one else has access. In this diagram, this is achieved by assigning
+    a `vsecm-secret-readwriter` role to **VSecM Safe** and using that role to update
+    the secret. Any pod that does not have the role will be unable to read or
+    write to this secret.
 
 If the `main` container does not have a public/private key pair in memory, it
 will attempt to retrieve it from the `/key` volume. If that fails, it will
@@ -225,16 +225,16 @@ generate a brand new key pair and then store it in the `vsecm-safe-age-key` secr
 
 ## Template Transformation and K8S Secret Generation
 
-Here is a sequence diagram of how the and **VSecM Safe**-managed *secret*
-is transformed into a **Kubernetes** `Secret` (*open the image in a
-new tab for a larger version*):
+Here is a sequence diagram of how the and **VSecM Safe**-managed _secret_
+is transformed into a **Kubernetes** `Secret` (_open the image in a
+new tab for a larger version_):
 
 ![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 
 There are two parts to this:
 
-* Transforming secrets using a Go template transformation
-* Updating the relevant **Kubernetes** `Secret`
+-   Transforming secrets using a Go template transformation
+-   Updating the relevant **Kubernetes** `Secret`
 
 You can check [**VSecM Sentinel** CLI Documentation](/docs/cli) for
 various ways this transformation can be done. In addition, you can check
@@ -249,8 +249,8 @@ about how the **Kubernetes** `Secret` object is generated and used in workloads.
 These probes are tiny web servers that serve at ports `8081` and `8082` by
 default, respectively.
 
-You can set `VSECM_PROBE_LIVENESS_PORT` (*default `:8081`*) and
-`VSECM_PROBE_READINESS_PORT` (*default `:8082`*) environment variables to change
+You can set `VSECM_PROBE_LIVENESS_PORT` (_default `:8081`_) and
+`VSECM_PROBE_READINESS_PORT` (_default `:8082`_) environment variables to change
 the ports used for these probes.
 
 When the service is healthy, the liveness probe will return an `HTTP 200` success

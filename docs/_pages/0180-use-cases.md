@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -51,5 +51,5 @@ introduce more advanced techniques as we build upon our knowledge.
 The use cases above leverage **VSecM Sentinel** and **VSecM SDK**. For the
 interested, the following sections cover these tools in greater detail:
 
-* [**VSecM SDK** Documentation](/docs/sdk)
-* [**VSecM Sentinel** Command Line Reference](/docs/cli)
+-   [**VSecM SDK** Documentation](/docs/sdk)
+-   [**VSecM Sentinel** Command Line Reference](/docs/cli)

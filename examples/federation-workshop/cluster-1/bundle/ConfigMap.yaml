@@ -4,37 +4,37 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trust-bundle
-  namespace: spire-system
+    name: trust-bundle
+    namespace: spire-system
 data:
-  vsecm-002-bundle.json: |
-    {
-      "keys": [
+    vsecm-002-bundle.json: |
         {
-          "use": "x509-svid",
-          "kty": "EC",
-          "crv": "P-256",
-          "x": "--redacted--",
-          "y": "--redacted--",
-          "x5c": [
-            "--redacted--"
-          ]
-        },
-        {
-          "use": "jwt-svid",
-          "kty": "EC",
-          "kid": "--redacted--",
-          "crv": "P-256",
-          "x": "--redacted--",
-          "y": "--redacted--"
+          "keys": [
+            {
+              "use": "x509-svid",
+              "kty": "EC",
+              "crv": "P-256",
+              "x": "--redacted--",
+              "y": "--redacted--",
+              "x5c": [
+                "--redacted--"
+              ]
+            },
+            {
+              "use": "jwt-svid",
+              "kty": "EC",
+              "kid": "--redacted--",
+              "crv": "P-256",
+              "x": "--redacted--",
+              "y": "--redacted--"
+            }
+          ],
+          "spiffe_sequence": 1
         }
-      ],
-      "spiffe_sequence": 1
-    }

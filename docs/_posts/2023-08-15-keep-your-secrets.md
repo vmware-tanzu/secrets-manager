@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -18,11 +18,11 @@ next_url: /docs/blog/
 author: Volkan Özçelik
 author_link: https://github.com/v0lkan
 published_at: "August 15, 2023"
-excerpt: In the ever-evolving landscape of cloud-native applications, secrets 
-  management is critical to ensuring sensitive information’s security and integrity. 
-  While several solutions are available, the recent shift in Hashicorp’s licensing 
-  towards a Business Source License (BSL) has raised concerns and sparked 
-  discussions within the community.
+excerpt: In the ever-evolving landscape of cloud-native applications, secrets
+    management is critical to ensuring sensitive information’s security and integrity.
+    While several solutions are available, the recent shift in Hashicorp’s licensing
+    towards a Business Source License (BSL) has raised concerns and sparked
+    discussions within the community.
 ---
 
 ## Introducing VMware Secrets Manager
@@ -32,7 +32,7 @@ excerpt: In the ever-evolving landscape of cloud-native applications, secrets
 In the ever-evolving landscape of cloud-native applications, secrets management
 is critical to ensuring sensitive information’s security and integrity. While
 several solutions are available, the recent shift in Hashicorp’s licensing towards
-a Business Source License (*BSL*) has raised concerns and sparked discussions
+a Business Source License (_BSL_) has raised concerns and sparked discussions
 within the community.
 
 As the lead architect of [**VMware Secrets Manager** (**_VSecM_**)](https://vsecm.com/),
@@ -45,7 +45,7 @@ flexible, and **permissive** alternative to Hashicorp’s Vault.
 > technology, **[star our GitHub repository](https://github.com/vmware-tanzu/secrets-manager)**.
 > Your support helps increase visibility and encourages more collaboration and
 > innovation within the community.
-{: .block-tip }
+> {: .block-tip }
 
 ## A New Licensing Landscape
 
@@ -63,19 +63,19 @@ and freedom of use.
 **VSecM** is designed with modern developers and DevOps professionals in mind.
 Here’s why it stands out:
 
-* **Ease of Use**: With a [**Quickstart Guide**](https://vsecm.com/docs/quickstart/),
-  intuitive [**CLI**](https://vsecm.com/docs/cli/?ref=zerotohero.dev), and
-  developer-friendly [**SDK**](https://vsecm.com/docs/sdk/), **VSecM**
-  simplifies secrets management without compromising security.
-* **Kubernetes Is a First-Class Citizen**: **VSecM** seamlessly integrates with
-  Kubernetes, leveraging [**SPIRE**](https://spiffe.io/docs/latest/spire-about/)
-  for authentication and offering flexible secret storage and transformation options.
-* **Community Engagement**: We believe in open collaboration and community-driven
-  development. Our [**Contributing Guide**](https://vsecm.com/docs/contributing/)
-  invites developers to get involved, ask questions, and contribute to the project.
-* **Secure by Default**: **VSecM** offers advanced security features, including
-  encryption, manual root secret setting, and integration with various backing
-  stores.
+-   **Ease of Use**: With a [**Quickstart Guide**](https://vsecm.com/docs/quickstart/),
+    intuitive [**CLI**](https://vsecm.com/docs/cli/?ref=zerotohero.dev), and
+    developer-friendly [**SDK**](https://vsecm.com/docs/sdk/), **VSecM**
+    simplifies secrets management without compromising security.
+-   **Kubernetes Is a First-Class Citizen**: **VSecM** seamlessly integrates with
+    Kubernetes, leveraging [**SPIRE**](https://spiffe.io/docs/latest/spire-about/)
+    for authentication and offering flexible secret storage and transformation options.
+-   **Community Engagement**: We believe in open collaboration and community-driven
+    development. Our [**Contributing Guide**](https://vsecm.com/docs/contributing/)
+    invites developers to get involved, ask questions, and contribute to the project.
+-   **Secure by Default**: **VSecM** offers advanced security features, including
+    encryption, manual root secret setting, and integration with various backing
+    stores.
 
 ## Join the Future of Secrets Management
 
@@ -97,17 +97,17 @@ community.
 
 Here's a glimpse of what's on the horizon:
 
-* **Stability and Usability Enhancements**: Upcoming releases focus on improving
-  stability, documentation, build automation, and overall user experience.
-* **Innovative Features**: From Secretless VSecM to machine-readable logs,
-  performance improvements, and large-scale secret ingestion, we're pushing the
-  boundaries of what's possible in secrets management.
-* **Integration and Compatibility**: Future iterations include integration with
-  AWS KMS, Azure Key Vault, Google Cloud KMS, and even HashiCorp Vault, expanding
-  the reach and compatibility of VSecM.
-* **Community Development and Collaboration**: We are investing in community
-  development efforts, multi-cluster secret federation, and creating abstractions
-  to make cloud integrations easier.
+-   **Stability and Usability Enhancements**: Upcoming releases focus on improving
+    stability, documentation, build automation, and overall user experience.
+-   **Innovative Features**: From Secretless VSecM to machine-readable logs,
+    performance improvements, and large-scale secret ingestion, we're pushing the
+    boundaries of what's possible in secrets management.
+-   **Integration and Compatibility**: Future iterations include integration with
+    AWS KMS, Azure Key Vault, Google Cloud KMS, and even HashiCorp Vault, expanding
+    the reach and compatibility of VSecM.
+-   **Community Development and Collaboration**: We are investing in community
+    development efforts, multi-cluster secret federation, and creating abstractions
+    to make cloud integrations easier.
 
 Our roadmap is not just a plan; it’s a promise to our users and contributors that
 we have a lot planned for the future of **VMware Secrets Manager**.
@@ -120,7 +120,7 @@ We’re excited about the journey ahead and invite you to be a part of it.
 > outstanding technology, **[star our GitHub repository](https://github.com/vmware-tanzu/secrets-manager)**.
 > Your support helps increase visibility and encourages more collaboration and
 > innovation within the community.
-{: .block-tip }
+> {: .block-tip }
 
 ### Help Us Shape the Future
 

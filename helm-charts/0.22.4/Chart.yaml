@@ -4,7 +4,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,7 +22,7 @@ description: Helm chart for VMware Secrets Manager
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
 sources:
-- https://github.com/vmware-tanzu/secrets-manager
+    - https://github.com/vmware-tanzu/secrets-manager
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
@@ -39,27 +39,27 @@ home: https://vsecm.com/
 icon: https://vsecm.com/assets/vsecm-256.png
 
 keywords:
-  - secrets
-  - kubernetes
-  - secrets-manager
-  - spire
-  - spiffe
-  - zero-trust
-  - cloud-native
-  - edge
-  - secret-management
-  - security
+    - secrets
+    - kubernetes
+    - secrets-manager
+    - spire
+    - spiffe
+    - zero-trust
+    - cloud-native
+    - edge
+    - secret-management
+    - security
 
 dependencies:
-  - name: spire
-    repository: file://charts/spire
-    version: 0.22.4
-    condition: global.deploySpire
-  - name: safe
-    repository: file://charts/safe
-    version: 0.22.4
-    condition: global.deploySafe
-  - name: sentinel
-    repository: file://charts/sentinel
-    version: 0.22.4
-    condition: global.deploySentinel
+    - name: spire
+      repository: file://charts/spire
+      version: 0.22.4
+      condition: global.deploySpire
+    - name: safe
+      repository: file://charts/safe
+      version: 0.22.4
+      condition: global.deploySafe
+    - name: sentinel
+      repository: file://charts/sentinel
+      version: 0.22.4
+      condition: global.deploySentinel

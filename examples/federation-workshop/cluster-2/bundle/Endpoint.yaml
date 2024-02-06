@@ -4,20 +4,20 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: spire-server-bundle-endpoint
-  namespace: spire-system
+    name: spire-server-bundle-endpoint
+    namespace: spire-system
 spec:
-  type: LoadBalancer
-  ports:
-    - name: api
-      port: 8443
-      protocol: TCP
-  selector:
-    app: spire-server
+    type: LoadBalancer
+    ports:
+        - name: api
+          port: 8443
+          protocol: TCP
+    selector:
+        app: spire-server

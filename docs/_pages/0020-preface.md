@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -25,7 +25,7 @@ next_url: /docs/about/
 Yes, this website is intentionally created like a book. We wanted to make
 sure that you have a great experience reading our documentation, and we
 believe that following the documentation cover-to-cover as if it were a book
-is the best way to learn about **VMware Secrets Manager** (*VSecM*) for
+is the best way to learn about **VMware Secrets Manager** (_VSecM_) for
 Cloud-Native Apps.
 
 We use a heavily customized version of [the Jekyll GitBook Theme][gitbook-theme]
@@ -37,12 +37,12 @@ GitHub][github] to see how that is done.
 
 ## Terminology: A Tale of Two Secrets
 
-There are two kinds of “*secret*”s mentioned throughout this documentation:
+There are two kinds of “_secret_”s mentioned throughout this documentation:
 
-* Secrets that are stored in **VSecM Safe**: When discussing these, they will
-  be used like a regular word “secret” or, emphasized “**secret**”; however,
-  you will never see them in `monotype text`.
-* The other kind of secret is Kubernetes `Secret` objects. Those types
-  will be explicitly mentioned as “*Kubernetes `Secret`s*” in the documentation.
+-   Secrets that are stored in **VSecM Safe**: When discussing these, they will
+    be used like a regular word “secret” or, emphasized “**secret**”; however,
+    you will never see them in `monotype text`.
+-   The other kind of secret is Kubernetes `Secret` objects. Those types
+    will be explicitly mentioned as “_Kubernetes `Secret`s_” in the documentation.
 
 We hope this will clarify any confusion going forward.

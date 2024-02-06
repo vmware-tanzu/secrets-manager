@@ -4,23 +4,23 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: example
+    name: example
 spec:
-  spiffeIDTemplate: "spiffe://vsecm.com\
-    /workload/example\
-    /ns/{{ .PodMeta.Namespace }}\
-    /sa/{{ .PodSpec.ServiceAccountName }}\
-    /n/{{ .PodMeta.Name }}"
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: example
-  workloadSelectorTemplates:
-  - "k8s:ns:default"
-  - "k8s:sa:example"
+    spiffeIDTemplate: "spiffe://vsecm.com\
+        /workload/example\
+        /ns/{{ .PodMeta.Namespace }}\
+        /sa/{{ .PodSpec.ServiceAccountName }}\
+        /n/{{ .PodMeta.Name }}"
+    podSelector:
+        matchLabels:
+            app.kubernetes.io/name: example
+    workloadSelectorTemplates:
+        - "k8s:ns:default"
+        - "k8s:sa:example"

@@ -4,22 +4,22 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: keycloak
-  labels:
-    app: keycloak
-    app.kubernetes.io/name: keycloak
+    name: keycloak
+    labels:
+        app: keycloak
+        app.kubernetes.io/name: keycloak
 spec:
-  ports:
-    - name: http
-      port: 8080
-      targetPort: 8080
-  selector:
-    app: keycloak
-  type: LoadBalancer
+    ports:
+        - name: http
+          port: 8080
+          targetPort: 8080
+    selector:
+        app: keycloak
+    type: LoadBalancer

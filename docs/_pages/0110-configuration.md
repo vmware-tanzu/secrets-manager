@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,31 +22,31 @@ next_url: /docs/use-the-source/
 
 ## Introduction
 
-**VMware Secrets Manager** system components can be configured using environment 
+**VMware Secrets Manager** system components can be configured using environment
 variables.
 
 The following section contain a breakdown of all of these environment variables.
 
 > **Looking for VMware Secrets Manager Production Tips**?
 >
-> For **production setup**, check out [**VMware Secrets Manager Production 
+> For **production setup**, check out [**VMware Secrets Manager Production
 > Deployment**](/docs/production).
-{: .block-warning}
+> {: .block-warning}
 
 ## Environment Variables
 
 > **Using VSecM Helm Charts**?
-> 
+>
 > If you are using [**VMware Secrets Manager Helm Charts**][helm-charts],
 > you can configure these environment variables using the `values.yaml` file.
-{: .block-tip}
+> {: .block-tip}
 
 [helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
 
 ### SPIFFE_ENDPOINT_SOCKET
 
-**Used By**: *VSecM Sentinel*, *VSecM Sidecar*,
-*VSecM Init Container*, *VSecM Safe*, *Workloads*.
+**Used By**: _VSecM Sentinel_, _VSecM Sidecar_,
+_VSecM Init Container_, _VSecM Safe_, _Workloads_.
 
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
 **SPIRE**.
@@ -56,7 +56,7 @@ will be used.
 
 ### VSECM_SAFE_CRYPTO_KEY_NAME
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_CRYPTO_KEY_NAME` is how the age secret key is referenced by
 name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-safe-age-key"`.
@@ -68,7 +68,7 @@ this is to do a project wide search and find and replace places where reference
 
 ### VSECM_SAFE_CRYPTO_KEY_PATH
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
 that contains the encryption keys.
@@ -77,16 +77,16 @@ If not given, it will default to `"/key/key.txt"`.
 
 ### VSECM_INIT_CONTAINER_POLL_INTERVAL
 
-**Used By**: *VSecM Init Container*.
+**Used By**: _VSecM Init Container_.
 
-`VSECM_INIT_CONTAINER_POLL_INTERVAL` determines the time interval between each 
+`VSECM_INIT_CONTAINER_POLL_INTERVAL` determines the time interval between each
 poll in the `Watch()` function. The interval is specified in milliseconds.
-If the environment variable is not set or is not a valid integer value, 
+If the environment variable is not set or is not a valid integer value,
 a default interval of `5000` milliseconds is used.
 
 ### VSECM_KEYGEN_DECRYPT
 
-**Used By**: *VSecM Keygen*.
+**Used By**: _VSecM Keygen_.
 
 `VSECM_KEYGEN_DECRYPT` determines if the decryption process should be executed.
 
@@ -95,7 +95,7 @@ Otherwise, **VSecM Keygen** will attempt to decrypt the secrets
 
 ### VSECM_KEYGEN_EXPORTED_SECRET_PATH
 
-**Used By**: *VSecM Keygen*.
+**Used By**: _VSecM Keygen_.
 
 `VSECM_KEYGEN_EXPORTED_SECRET_PATH` is the path where the exported secrets are
 stored. This needs to be mounted to the container that you run **VSecM Keygen**.
@@ -104,7 +104,7 @@ If the environment variable is not set, it defaults to `"/opt/vsecm/secrets.json
 
 ### VSECM_LOG_LEVEL
 
-**Used By**: *VSecM Sentinel*, *VSecM Safe*.
+**Used By**: _VSecM Sentinel_, _VSecM Safe_.
 
 `VSECM_LOG_LEVEL` determines the verbosity of the logs in **VSecM Safe**.
 
@@ -130,7 +130,7 @@ Trace = 7
 
 ### VSECM_PROBE_LIVENESS_PORT
 
-**Used By**: *VSecM Sentinel*, *VSecM Safe*.
+**Used By**: _VSecM Sentinel_, _VSecM Safe_.
 
 **VSecM Safe** and **VSecM Sentinel** use this configuration.
 
@@ -141,7 +141,7 @@ Defaults to `:8081`.
 
 ### VSECM_PROBE_READINESS_PORT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 **VSecM Safe** uses this configuration.
 
@@ -152,19 +152,19 @@ Defaults to `:8082`.
 
 ### VSECM_KEYGEN_DECRYPT
 
-**Used By**: *VSecM Keygen*.
+**Used By**: _VSecM Keygen_.
 
-`VSECM_KEYGEN_DECRYPT` determines if **VSecM Keygen** should decrypt the secrets 
-JSON file instead of generation a root key (*which is its default behavior*).
+`VSECM_KEYGEN_DECRYPT` determines if **VSecM Keygen** should decrypt the secrets
+JSON file instead of generation a root key (_which is its default behavior_).
 
-If this value is  anything but `"true"`, **VSecM Keygen** will generate a new 
+If this value is anything but `"true"`, **VSecM Keygen** will generate a new
 root key. Otherwise, it will attempt to decrypt the secrets provided to it.
 
 Defaults to `"false"`.
 
 ### VSECM_KEYGEN_EXPORTED_SECRET_PATH
 
-**Used By**: *VSecM Keygen*.
+**Used By**: _VSecM Keygen_.
 
 `VSECM_KEYGEN_EXPORTED_SECRET_PATH` is the path where the exported secrets are
 stored. This needs to be mounted to the container that you run **VSecM Keygen**.
@@ -173,7 +173,7 @@ If not given, it defaults to `"/opt/vsecm/secrets.json"`.
 
 ### VSECM_KEYGEN_ROOT_KEY_PATH
 
-**Used By**: *VSecM Keygen*.
+**Used By**: _VSecM Keygen_.
 
 `VSECM_KEYGEN_ROOT_KEY_PATH` is the path where the root key is stored. This
 needs to be mounted to the container that you run **VSecM Keygen**.
@@ -182,7 +182,7 @@ If not given, it defaults to `"/opt/vsecm/keys.txt"`.
 
 ### VSECM_SAFE_BACKING_STORE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 This environment variable is used by **VSecM Sentinel** to let **VSecM Safe**
 know where to persist the secret. To reiterate, this environment variable shall
@@ -192,11 +192,11 @@ has no effect.
 `VSECM_SAFE_BACKING_STORE` is the type of the storage where the secrets
 will be encrypted and persisted.
 
-* If not given, defaults to `"file"`.
-* The other option is  `"in-memory"`.
+-   If not given, defaults to `"file"`.
+-   The other option is `"in-memory"`.
 
 A `"file"` backing store means **VSecM Safe** persists an encrypted version
-of its state in a volume (*ideally a `PersistedVolume`*).
+of its state in a volume (_ideally a `PersistedVolume`_).
 
 An `"in-memory"` backing store means **VSecM Safe** does not persist backups
 of the secrets it created to disk. When that option is selected, you will
@@ -205,18 +205,18 @@ manually restarted by an operator.
 
 ### VSECM_SAFE_BOOTSTRAP_TIMEOUT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 **VSecM Safe** uses this configuration.
 
-`VSECM_SAFE_BOOTSTRAP_TIMEOUT` is how long (*in milliseconds*) **VSecM Safe**
-will wait for an *SPIRE X.509 SVID* bundle before giving up and crashing.
+`VSECM_SAFE_BOOTSTRAP_TIMEOUT` is how long (_in milliseconds_) **VSecM Safe**
+will wait for an _SPIRE X.509 SVID_ bundle before giving up and crashing.
 
 The default value is `30000` milliseconds.
 
 ### VSECM_SAFE_DATA_PATH
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_DATA_PATH` is where **VSecM Safe** stores its encrypted secrets.
 
@@ -224,8 +224,8 @@ If not given, defaults to `"/data"`.
 
 ### VSECM_SAFE_ENDPOINT_URL
 
-**Used By**: *VSecM Sentinel*, *VSecM Sidecar*, *VSecM Init Container*, 
-*VSecM Safe*, *Workloads*.
+**Used By**: _VSecM Sentinel_, _VSecM Sidecar_, _VSecM Init Container_,
+_VSecM Safe_, _Workloads_.
 
 `VSECM_SAFE_ENDPOINT_URL` is the **REST API** endpoint that **VSecM Safe**
 exposes from its `Service`.
@@ -238,40 +238,40 @@ If not provided, it will default to:
 
 ### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
 
-**Used By**: *VSecM Sentinel*.
+**Used By**: _VSecM Sentinel_.
 
 `VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that’s used by
-that’s used by **VSecM Sentinel** to generate random pattern-based secrets. 
+that’s used by **VSecM Sentinel** to generate random pattern-based secrets.
 
-If a secret is prefixed with this value, then **VSecM Sentinel** will consider 
-it as a “*template*” rather than a literal value.
+If a secret is prefixed with this value, then **VSecM Sentinel** will consider
+it as a “_template_” rather than a literal value.
 
 If the environment variable is not set or is empty, it defaults to `"gen:"`.
 
 ### VSECM_SAFE_FIPS_COMPLIANT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_FIPS_COMPLIANT` is required for **VSecM Safe** to run in FIPS-compliant
 mode. Defaults to `"false"`, which means **VSecM Safe** will run in non-FIPS-compliant
 mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode.
 
 > **You Need Host Support for FIPS-Compliant Mode**
-> 
+>
 > Note that this is not a guarantee that VSecM Safe will actually
 > run in FIPS compliant mode, as it depends on the underlying base image.
-> 
+>
 > In addition, the host environment will need to be compliant too.
-> 
-> Furthermore, compliance with FIPS (*Federal Information Processing Standards*) 
-> requires not just a technically compliant binary and system but also 
-> **formal approval** by the United States National Institute of Standards and 
-> Technology (*NIST*). This involves a certification process where **NIST** 
-> validates that the cryptographic modules used in the software meet the 
-> **FIPS 140-2 standard**. 
-> 
-> Therefore, even if the binary and the underlying system are FIPS-compliant, 
-> **VSecM Safe** will still need to undergo this formal FIPS approval process 
+>
+> Furthermore, compliance with FIPS (_Federal Information Processing Standards_)
+> requires not just a technically compliant binary and system but also
+> **formal approval** by the United States National Institute of Standards and
+> Technology (_NIST_). This involves a certification process where **NIST**
+> validates that the cryptographic modules used in the software meet the
+> **FIPS 140-2 standard**.
+>
+> Therefore, even if the binary and the underlying system are FIPS-compliant,
+> **VSecM Safe** will still need to undergo this formal FIPS approval process
 > to be officially recognized as FIPS compliant.
 
 If you are using one of the official FIPS-complaint VSecM Docker images,
@@ -279,15 +279,15 @@ then it will be FIPS-compliant.
 
 As a FIPS-compliant base image you can choose from the following:
 
-* [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless base*)
-* [vsecm/vsecm-photon-fips-safe][vsecm-safe-photon-fips] (*using VMware Photon OS as a base*)
+-   [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (_using a Distroless base_)
+-   [vsecm/vsecm-photon-fips-safe][vsecm-safe-photon-fips] (_using VMware Photon OS as a base_)
 
 [vsecm-safe-istanbul-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-ist-fips-safe/general
 [vsecm-safe-photon-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-photon-fips-safe/general
 
 ### VSECM_SAFE_IV_INITIALIZATION_INTERVAL
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_IV_INITIALIZATION_INTERVAL` is used as a security measure to
 time-based attacks where too frequent call of a function can be used to
@@ -300,7 +300,7 @@ The value in the environment variable is in milliseconds.
 
 ### VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_K8S_SECRET_BUFFER_SIZE` is the buffer size for the **VSecM Safe**
 Kubernetes secret queue.
@@ -309,7 +309,7 @@ If the environment variable is not set, the default buffer size is `10`.
 
 ### VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE` the buffer size for the
 **VSecM Safe** Kubernetes secret deletion queue.
@@ -318,56 +318,56 @@ If the environment variable is not set, the default buffer size is `10`.
 
 ### VSECM_SAFE_MANUAL_KEY_INPUT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_MANUAL_KEY_INPUT` is a boolean indicating whether to use manual
 cryptographic key input for **VSecM Safe**, instead of letting the bootstrap
 flow automatically compute cryptographic keys.
 
-If the environment variable is not set or its value is not `"true"`, the 
-bootstrap flow will **not** compute the cryptographic keys automatically. 
+If the environment variable is not set or its value is not `"true"`, the
+bootstrap flow will **not** compute the cryptographic keys automatically.
 
-If this variable is set to `"true"` then a human operator has to provide the 
-necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe** to
+If this variable is set to `"true"` then a human operator has to provide the
+necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe\*\* to
 unlock itself and start serving API requests.
 
 > **Setting the Root Key Manually**
 >
-> You can [set the root key programmatically using 
-> **VSecM Sentinel**][vsecm-sentinel-root]. 
-{: .block-tip}
+> You can [set the root key programmatically using
+> **VSecM Sentinel**][vsecm-sentinel-root].
+> {: .block-tip}
 
 [vsecm-sentinel-root]: https://vsecm.com/docs/cli/
 
-The control offered by this approach changes the threat boundary of 
+The control offered by this approach changes the threat boundary of
 **VSecM Safe**. With this approach, the responsibility of securing the
-*root key* is on you as the operator. This is different than the default 
-behavior of **VSecM Safe** where the *root key* is randomly-generated in a 
+_root key_ is on you as the operator. This is different than the default
+behavior of **VSecM Safe** where the _root key_ is randomly-generated in a
 cryptographically secure way and stored in a Kubernetes `Secret`.
 
-Using a Kubernetes `Secret` to store the *root key* is still secure, 
-especially if you encrypt your `etcd` and establish a **tight RBAC** over the 
-Kubernetes `Secret`that stores the *root key*.
+Using a Kubernetes `Secret` to store the _root key_ is still secure,
+especially if you encrypt your `etcd` and establish a **tight RBAC** over the
+Kubernetes `Secret`that stores the _root key_.
 
 > **Root Key Storage in Manual Input Mode**
-> 
-> As of *v0.21.5* of **VMware Secrets Manager**, the *root key* is not stored 
-> in a Kubernetes `Secret` if you use the manual key input approach. This 
-> behavior is subject to change in the future, depending on a configuration 
-> environment variable, the *root key* might be stored in a Kubernetes `Secret` 
+>
+> As of _v0.21.5_ of **VMware Secrets Manager**, the _root key_ is not stored
+> in a Kubernetes `Secret` if you use the manual key input approach. This
+> behavior is subject to change in the future, depending on a configuration
+> environment variable, the _root key_ might be stored in a Kubernetes `Secret`
 > even if you use the manual key input approach.
-> 
+>
 > However, this means that if you use the manual key input approach, you will
-> have to re-enter the *root key* every time you restart **VSecM Safe** or
+> have to re-enter the _root key_ every time you restart **VSecM Safe** or
 > every time the pod is evicted by the scheduler.
-{: .block-warning}
+> {: .block-warning}
 
 Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
-respond to API requests until a *root key* is provided, using **VSecM Sentinel**.
+respond to API requests until a _root key_ is provided, using **VSecM Sentinel**.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_SECRET_BACKUP_COUNT` indicates the number of backups to keep for
 **VSecM Safe** secrets.
@@ -380,7 +380,7 @@ set to `"in-memory"`.
 
 ### VSECM_SAFE_SECRET_BUFFER_SIZE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_SECRET_BUFFER_SIZE` is the amount of secret insertion operations
 to be buffered until **VSecM Safe API** blocks and waits for the buffer to have
@@ -389,13 +389,13 @@ an empty slot.
 If the environment variable is not set, this buffer size defaults to `10`.
 
 Two separate buffers of the same size are used for IO operations, and
-Kubernetes `Secret` creation (*depending on the type of the API request*). The
+Kubernetes `Secret` creation (_depending on the type of the API request_). The
 Kubernetes Secrets buffer, and File IO buffer work asynchronously and
 independent of each other int two separate goroutines.
 
 ### VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE` isd the buffer size for the **VSecM Safe**
 secret deletion queue.
@@ -404,7 +404,7 @@ If the environment variable is not set, the default buffer size is `10`.
 
 ### VSECM_SAFE_SECRET_NAME_PREFIX
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_SECRET_NAME_PREFIX` is the prefix that is used to prepend to the
 secret names that **VSecM Safe** stores in the cluster as `Secret` objects when
@@ -415,7 +415,7 @@ is used.
 
 ### VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT` is the timeout duration for acquiring
 a SPIFFE source bundle.
@@ -425,7 +425,7 @@ If the environment variable is not set, or cannot be parsed, defaults to
 
 ### VSECM_SAFE_SPIFFEID_PREFIX
 
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
+**Used By**: _VSecM Safe_, _VSecM Sentinel_, _Workloads_.
 
 Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
@@ -437,17 +437,17 @@ If not provided, it will default to:
 
 ### VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
-`VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX` retrieves the prefix that 
+`VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX` retrieves the prefix that
 indicates the secret shall be stored as a Kubernetes `Secret`. The prefix
-is as part of the `-w` flag (*as in `-w k8s:my-secret`*).
+is as part of the `-w` flag (_as in `-w k8s:my-secret`_).
 
 If this environment variable is not set or is empty, it defaults to `"k8s:"`.
 
 ### VSECM_SAFE_TLS_PORT
 
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
+**Used By**: _VSecM Safe_, _VSecM Sentinel_, _Workloads_.
 
 Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
@@ -462,7 +462,7 @@ Defaults to `":8443"`.
 
 ### VSECM_SAFE_USE_KUBERNETES_SECRETS
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SAFE_USE_KUBERNETES_SECRETS` is a flag indicating whether to create a
 plain text Kubernetes secret for the workloads registered.
@@ -480,10 +480,10 @@ it can be synced by **VSecM Safe**:
 {% raw %}apiVersion: v1
 kind: Secret
 metadata:
-  # The string after `vsecm-secret-` must match the 
+  # The string after `vsecm-secret-` must match the
   # workload’s name.
   # For example, this is an VSecM-managed secret for `example`
-  # with the SPIFFE ID 
+  # with the SPIFFE ID
   # `"spiffe://vsecm.com/workload/example\
   #  /ns/{{ .PodMeta.Namespace }}\
   #  /sa/{{ .PodSpec.ServiceAccountName }}\
@@ -502,7 +502,7 @@ starting a more canonical **VMware Secrets Manager** implementation.
 
 ### VSECM_SENTINEL_SPIFFEID_PREFIX
 
-**Used By**: *VSecM Safe*, *VSecM Sentinel*.
+**Used By**: _VSecM Safe_, _VSecM Sentinel_.
 
 Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
 
@@ -513,7 +513,7 @@ If not provided, it will default to:
 
 ### VSECM_SIDECAR_ERROR_THRESHOLD
 
-**Used By**: *VSecM Sidecar*.
+**Used By**: _VSecM Sidecar_.
 
 **VSecM Sidecar** uses this environment variable.
 
@@ -525,7 +525,7 @@ The next interval is calculated by multiplying the current interval with
 
 ### VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER
 
-**Used By**: *VSecM Sidecar*.
+**Used By**: _VSecM Sidecar_.
 
 **VSecM Sidecar** uses this environment variable.
 
@@ -536,26 +536,26 @@ current one.
 
 ### VSECM_SIDECAR_MAX_POLL_INTERVAL
 
-**Used By**: *VSecM Sidecar*.
+**Used By**: _VSecM Sidecar_.
 
 **VSecM Sidecar** has an **exponential backoff** algorithm to execute fetch
 in longer intervals when an error occurs. `VSECM_SIDECAR_MAX_POLL_INTERVAL`
-is the maximum wait time (*in milliseconds*) before executing the next.
+is the maximum wait time (_in milliseconds_) before executing the next.
 
 Defaults to `300000` milliseconds, if not provided.
 
 ### VSECM_SIDECAR_POLL_INTERVAL
 
-**Used By**: *VSecM Sidecar*.
+**Used By**: _VSecM Sidecar_.
 
-`VSECM_SIDECAR_POLL_INTERVAL` is the interval (*in milliseconds*)
+`VSECM_SIDECAR_POLL_INTERVAL` is the interval (_in milliseconds_)
 that the sidecar polls **VSecM Safe** for new secrets.
 
 Defaults to `20000` milliseconds, if not provided.
 
 ### VSECM_SIDECAR_SUCCESS_THRESHOLD
 
-**Used By**:  *VSecM Sidecar*.
+**Used By**: _VSecM Sidecar_.
 
 **VSecM Sidecar** uses this environment variable.
 
@@ -567,7 +567,7 @@ The next interval is calculated by dividing the current interval with
 
 ### VSECM_SYSTEM_NAMESPACE
 
-**Used By**: *VSecM Safe*.
+**Used By**: _VSecM Safe_.
 
 `VSECM_SYSTEM_NAMESPACE` environment variable specifies the namespace in
 which a VSecM instance is deployed.
@@ -575,21 +575,21 @@ which a VSecM instance is deployed.
 Ensure this is set as an environment variable for your containers; it's a
 critical piece. VSecM Safe and Sentinel rely on it to precisely locate the
 deployment's namespace. For instance, Safe leverages this information to securely
-store age keys within a designated secret, as specified by the 
+store age keys within a designated secret, as specified by the
 `VSECM_SAFE_CRYPTO_KEY_NAME` configuration.
 
 ### VSECM_SIDECAR_SECRETS_PATH
 
-**Used By**: *VSecM Sidecar*
+**Used By**: _VSecM Sidecar_
 
-`VSECM_SIDECAR_SECRETS_PATH` is path to the secrets file used by the 
+`VSECM_SIDECAR_SECRETS_PATH` is path to the secrets file used by the
 **VSecM Sidecar**.
 
 If not specified, it has a default value of `"/opt/vsecm/secrets.json"`.
 
 ### VSECM_WORKLOAD_SPIFFEID_PREFIX
 
-**Used By**: *VSecM Safe*, *Workloads*.
+**Used By**: _VSecM Safe_, _Workloads_.
 
 Both **VSecM Safe** and **workloads** use this environment variable.
 

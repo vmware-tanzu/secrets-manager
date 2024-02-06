@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -24,8 +24,8 @@ next_url: /docs/cli/
 
 There are several ways to install **VMware Secrets Manager** to a Kubernetes cluster:
 
-* You can use **helm charts**,
-* Or you can use the `Makefile` targets
+-   You can use **helm charts**,
+-   Or you can use the `Makefile` targets
 
 This page covers both approaches.
 
@@ -33,11 +33,11 @@ This page covers both approaches.
 
 Before you start, make sure you have the following prerequisites:
 
-* You have `helm` installed on your system.
-* You have `kubectl` installed on your system.
-* You have a Kubernetes cluster running and `kubectl` is configured to
-  connect to it.
-* You have `make` installed on your system.
+-   You have `helm` installed on your system.
+-   You have `kubectl` installed on your system.
+-   You have a Kubernetes cluster running and `kubectl` is configured to
+    connect to it.
+-   You have `make` installed on your system.
 
 ## Installing Using <img src="/assets/helm-icon-color.png" alt="helm" width="20"/>`helm`
 
@@ -111,8 +111,8 @@ spire-server-6fb4f57c8-6s7ns   2/2     Running
 > **SPIRE Agent and Server Might Restart**
 >
 > It is okay if you see the SPIRE Agent and Server pods restarting once or twice.
-> They will *eventually* stabilize within a few moments.
-{: .block-tip}
+> They will _eventually_ stabilize within a few moments.
+> {: .block-tip}
 
 ## Uninstalling VMware Secrets Manager
 
@@ -124,7 +124,7 @@ cd $WORKSPACE/secrets-manager
 ```
 
 Or, if you have installed **VMware Secrets Manager** using `helm`, you can
-use `make helm-delete`  command:
+use `make helm-delete` command:
 
 ```bash
 # note that using `helm uninstall vsecm` is not recommended as it may

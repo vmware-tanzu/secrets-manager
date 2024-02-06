@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -36,7 +36,7 @@ here.
 > Docker Content Trust root key, and the private key for signing
 > the **VSecM** images.
 
-We (*still*) have a manual build process, so you will need access to the
+We (_still_) have a manual build process, so you will need access to the
 **VSecM** build server to be able to cut a release.
 
 You can of course build **VSecM** locally, but without the build server, you
@@ -50,8 +50,8 @@ be closed, move them to the next version.
 
 ## Make Sure You Update the Release Notes
 
-* Add any publicly-known vulnerabilities that are fixed in this release.
-* Add any significant changes completed to the release notes.
+-   Add any publicly-known vulnerabilities that are fixed in this release.
+-   Add any significant changes completed to the release notes.
 
 [release]: https://github.com/orgs/vmware-tanzu/projects/70/views/1
 
@@ -236,7 +236,7 @@ There is no automation for this yet.
 >
 > If you are cutting a new release, do not forget to bump the version,
 > before running the tagging script below.
-{: .block-tip }
+> {: .block-tip }
 
 ```bash
 git checkout main
@@ -300,7 +300,7 @@ the `gh-pages` branch.
 > Make sure you keep only the most recent version of the Helm Charts in the
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
-{: .block-tip }
+> {: .block-tip }
 
 ### 12. Test the Released Helm Charts on a Cloud Cluster
 
@@ -336,7 +336,6 @@ To add a snapshot of the current documentation:
 10. Create a PR and merge it into the `main` branch.
 
 [release_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/release-helm-chart.sh
-
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
 ### 13. All Set 🎉

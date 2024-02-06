@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -37,7 +37,7 @@ To deploy our workload using that manifest, execute the following:
 cd $WORKSPACE/secrets-manager
 # Install the workload:
 make example-sidecar-deploy
-# If you are building from the source, 
+# If you are building from the source,
 # use `make example-sidecar-deploy-local` instead.
 ```
 
@@ -51,9 +51,9 @@ of what kinds of entities you’ve deployed to your cluster.
 You’ll see that there are two images in the `Deployment` object declared inside
 that folder:
 
-* `vsecm/example`: This is the container that has the business logic.
-* `vsecm/vsecm-ist-sidecar`: This **VMware Secrets Manager**-managed container injects
-  secrets to a place that our demo container can consume.
+-   `vsecm/example`: This is the container that has the business logic.
+-   `vsecm/vsecm-ist-sidecar`: This **VMware Secrets Manager**-managed container injects
+    secrets to a place that our demo container can consume.
 
 ## The Demo App
 
@@ -65,7 +65,7 @@ sake of completeness.
 When you check the source code, you’ll see that our demo app tries to read a
 secret file every 5 seconds forever:
 
-```go 
+```go
 for {
     dat, err := os.ReadFile(sidecarSecretsPath())
     if err != nil {
@@ -94,9 +94,9 @@ the workload:
 metadata:
   name: example
 spec:
-  # SPIFFE ID `MUST` start with 
+  # SPIFFE ID `MUST` start with
   # "spiffe://vsecm.com/workload/$workloadName/ns/"
-  # for `safe` to recognize the workload and 
+  # for `safe` to recognize the workload and
   # dispatch secrets to it.
   spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/example\
@@ -113,14 +113,14 @@ spec:
 
 This identity descriptor, tells **VMware Secrets Manager** that the workload:
 
-* Lives under a certain namespace,
-* Is bound to a certain service account,
-* And as a certain name.
+-   Lives under a certain namespace,
+-   Is bound to a certain service account,
+-   And as a certain name.
 
-When the time comes, **VMware Secrets Manager** will read this identity and learn 
+When the time comes, **VMware Secrets Manager** will read this identity and learn
 about which workload is requesting secrets. Then it can decide to deliver
-the secrets (*because the workload is registered*) or deny dispatching them
-(*because the workload is unknown/unregistered*).
+the secrets (_because the workload is registered_) or deny dispatching them
+(_because the workload is unknown/unregistered_).
 
 > **ClusterSPIFFEID is an Abstraction**
 >
@@ -129,7 +129,7 @@ the secrets (*because the workload is registered*) or deny dispatching them
 > behind the scenes.
 >
 > For every `ClusterSPIFFEID` created this way,
-> `SPIRE` (*VSecM’ identity control plane*) will deliver an **X.509 SVID**
+> `SPIRE` (_VSecM’ identity control plane_) will deliver an **X.509 SVID**
 > bundle to the workload.
 >
 > Therefore, creating a `ClusterSPIFFEID` is a way to **irrefutably**,
@@ -140,7 +140,7 @@ the secrets (*because the workload is registered*) or deny dispatching them
 If you have been following along so far, when you execute `kubectl get po` will
 give you something like this:
 
-```bash 
+```bash
 {% raw %}kubectl get po
 
 NAME                              STATUS    AGE
@@ -171,7 +171,7 @@ find it for a while, and displays a failure message.
 
 Let’s register a secret and see how the logs change:
 
-```bash 
+```bash
 {% raw %}# Find the name of the VSecM Sentinel pod.
 kubectl get po -n vsecm-system
 
@@ -180,14 +180,14 @@ kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n vsecm-system \
   -- safe \
   -w "example" \
   -s "VSecMRocks!"
-  
-# Response: 
+
+# Response:
 # OK{% endraw %}
 ```
 
 Now let’s check the logs again:
 
-```bash 
+```bash
 {% raw %}kubectl logs example-5d564458b6-vsmtm -f
 
 secret: ' VSecMRocks! '
@@ -205,32 +205,32 @@ through **VSecM Sidecar** behind the scenes.
 > **What Is VSecM Sentinel**?
 >
 > For all practical purposes, you can think of **VSecM Sentinel** as the
-> “*bastion host*” you log in and execute sensitive operations.
+> “_bastion host_” you log in and execute sensitive operations.
 >
 > In our case, we will register secrets to workloads using it.
 
 ## Registering Multiple Secrets
 
 If needed, you can associate more than one secret to a worklad, for this, you’ll
-need to use the `-a` (for “*append*”) flag.
+need to use the `-a` (for “_append_”) flag.
 
-```bash 
+```bash
 {% raw %}kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n vsecm-system \
   -- safe \
   -w "example" \
   -s "VSecMRocks!" \
   -a
-  
+
 # Response:
 # OK
-  
+
 kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n vsecm-system \
   -- safe \
   -w "example" \
   -s "YouRockToo!" \
   -a
-  
-# Response: 
+
+# Response:
 # OK{% endraw %}
 ```
 
@@ -243,7 +243,7 @@ secret: ' ["YouRockToo!","VSecMRocks!"] '
 secret: ' ["YouRockToo!","VSecMRocks!"] '
 secret: ' ["YouRockToo!","VSecMRocks!"] '
 secret: ' ["YouRockToo!","VSecMRocks!"] '
-````
+```
 
 Yes, we have two secrets in an array.
 

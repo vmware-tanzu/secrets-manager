@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -42,8 +42,8 @@ looking for.
 
 **VMware Secrets Manager** is designed to run on Kubernetes and **only** on Kubernetes.
 
-That helps us leverage Kubernetes concepts like *Operators*, *Custom Resources*,
-and *Controllers* to our advantage to simplify workflow and state management.
+That helps us leverage Kubernetes concepts like _Operators_, _Custom Resources_,
+and _Controllers_ to our advantage to simplify workflow and state management.
 
 If you are looking for a solution that runs outside Kubernetes or as a
 standalone binary, then VMware Secrets Manager is not the Secrets Store you’re looking for.
@@ -81,7 +81,7 @@ RAM can store a lot of plain text secrets, so it’s good enough for most
 practical purposes.
 
 More importantly, almost all modern instruction set architectures and
-operating systems implement [*memory protection*][memory-protection]. The primary
+operating systems implement [_memory protection_][memory-protection]. The primary
 purpose of memory protection is to prevent a process from accessing memory that
 has not been allocated to it. This prevents a bug or malware within a process
 from affecting other processes or the operating system itself.
@@ -90,9 +90,9 @@ from affecting other processes or the operating system itself.
 
 Therefore, reading a variable’s value from a process’s memory is practically
 impossible unless you attach a debugger to it. And that makes keeping
-plain text secrets in memory (*and nowhere else than memory*) crucial.
+plain text secrets in memory (_and nowhere else than memory_) crucial.
 
-For disaster recovery, VMware Secrets Manager (*by default*) backs up encrypted version of
+For disaster recovery, VMware Secrets Manager (_by default_) backs up encrypted version of
 its state on the file system; however, the
 plain text secrets that **VSecM Safe** dispatches to
 workloads will always be stored in memory.

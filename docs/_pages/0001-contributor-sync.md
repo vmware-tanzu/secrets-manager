@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -23,30 +23,30 @@ next_url: /docs/contact/
 > **Welcome 👋**
 >
 > Welcome to the **VMware Secrets Manager** Contributor Hour, a monthly meeting
-> dedicated to the **VMware Secrets Manager** (*VSecM*) project.
-{: .block-tip}
+> dedicated to the **VMware Secrets Manager** (_VSecM_) project.
+> {: .block-tip}
 
 This meeting serves as a platform for contributors, maintainers, and anyone
 interested in the project to come together and discuss key aspects of
 **VMware Secrets Manager**’s future.
 
-* **Date/Time**: Every last Thursday on every month @ 08:00am Pacific
-* [**Calendar ICS**](https://calendar.google.com/calendar/ical/0ef770e47ae11cea2b00a743eed3812768cc3f9c2a45fee6207f4c9c8b0dc5ce%40group.calendar.google.com/public/basic.ics)
-* [**Meetings Notes**](https://docs.google.com/document/d/19Al-IEEdvrcted9HdXCYyiHRCJSJs2Di9uYPZ_ssygs)
-* [**Zoom Meeting**](https://us06web.zoom.us/j/82734769083?pwd=NDJBR2RIZjR6KzhhK2pNL1ZsRzRJZz09)
+-   **Date/Time**: Every last Thursday on every month @ 08:00am Pacific
+-   [**Calendar ICS**](https://calendar.google.com/calendar/ical/0ef770e47ae11cea2b00a743eed3812768cc3f9c2a45fee6207f4c9c8b0dc5ce%40group.calendar.google.com/public/basic.ics)
+-   [**Meetings Notes**](https://docs.google.com/document/d/19Al-IEEdvrcted9HdXCYyiHRCJSJs2Di9uYPZ_ssygs)
+-   [**Zoom Meeting**](https://us06web.zoom.us/j/82734769083?pwd=NDJBR2RIZjR6KzhhK2pNL1ZsRzRJZz09)
 
 ## Goals
 
-* Discuss **VMware Secrets Manager** project direction and roadmap.
-* Provide a high-bandwidth forum in which the community can voice needs and
-  make proposals.
-* Achieve maintainer consensus on architectural decisions related to major
-  **VMware Secrets Manager** features.
+-   Discuss **VMware Secrets Manager** project direction and roadmap.
+-   Provide a high-bandwidth forum in which the community can voice needs and
+    make proposals.
+-   Achieve maintainer consensus on architectural decisions related to major
+    **VMware Secrets Manager** features.
 
 ## Non-Goals
 
-* **VMware Secrets Manager** maintenance.
-* Triaging, troubleshooting, and resolving issues.
+-   **VMware Secrets Manager** maintenance.
+-   Triaging, troubleshooting, and resolving issues.
 
 ## Meeting Recordings
 

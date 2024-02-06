@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -32,7 +32,7 @@ regulations?—Good news: It does not use any tracking cookies.
 ## Your Personal Data is Safe
 
 We do not collect your data. Since we don’t have your data, we cannot share your
-data (*d’uh*). However, to make lawyers happy, we want to reiterate that
+data (_d’uh_). However, to make lawyers happy, we want to reiterate that
 we will never share your information with anyone without your prior consent.
 
 ## May the Source be With You 🦄

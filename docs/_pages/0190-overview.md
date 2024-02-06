@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -30,15 +30,15 @@ suffice to get you started and familiar with the basics.
 
 To complete the tutorials listed here, you will need the following:
 
-* A **Kubernetes** cluster that you have sufficient admin rights.
-* **VMware Secrets Manager** up and running on that cluster.
-* [The `vmware-tanzu/secrets-manager` repository][repo] cloned inside a workspace
-  folder (such as `/home/WORKSPACE/secrets-manager`)
+-   A **Kubernetes** cluster that you have sufficient admin rights.
+-   **VMware Secrets Manager** up and running on that cluster.
+-   [The `vmware-tanzu/secrets-manager` repository][repo] cloned inside a workspace
+    folder (such as `/home/WORKSPACE/secrets-manager`)
 
 > **How Do I Set Up VMware Secrets Manager**?
 >
 > To set up **VMware Secrets Manager**, [follow the instructions in this quickstart guide][quickstart].
-{: .block-tip}
+> {: .block-tip}
 
 [quickstart]: /docs/quickstart
 [repo]: https://github.com/vmware-tanzu/secrets-manager
@@ -64,7 +64,7 @@ git clone https://github.com/vmware-tanzu/secrets-manager.git
 # cd into the cloned project folder
 cd secrets-manager
 # Test if `make` is working, if it fails, install `make` first
-make help 
+make help
 # Install minikube
 make k8s-start
 ```
@@ -75,7 +75,7 @@ make k8s-start
 > or even a full-blown managed Kubernetes cluster; however it will be virtually
 > impossible to cover all possible tooling and OS combinations. Therefore,
 > we’ll only provide instructions for **minikube** in this document.
-{: .block-tip}
+> {: .block-tip}
 
 [minikube]: https://minikube.sigs.k8s.io/docs/ "minikube"
 [docker]: https://www.docker.com/ "Docker"
@@ -94,10 +94,10 @@ each other in the upcoming tutorials:
 
 On the above diagram:
 
-* **SPIRE** is the identity provider for all intents and purposes.
-* **VSecM Safe** is where secrets are stored.
-* **VSecM Sentinel** can be considered a bastion host.
-* **Demo Workload** is a typical Kubernetes Pod that needs secrets.
+-   **SPIRE** is the identity provider for all intents and purposes.
+-   **VSecM Safe** is where secrets are stored.
+-   **VSecM Sentinel** can be considered a bastion host.
+-   **Demo Workload** is a typical Kubernetes Pod that needs secrets.
 
 > **Want a Deeper Dive**?
 >
@@ -107,7 +107,7 @@ On the above diagram:
 >
 > [You can check out this “**VMware Secrets Manager** Deep Dive” article][architecture]
 > to learn more about these components.
-{: .block-tip}
+> {: .block-tip}
 
 [architecture]: /docs/architecture
 

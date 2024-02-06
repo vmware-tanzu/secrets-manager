@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -24,7 +24,7 @@ next_url: /
 
 This page contains various usage examples and tutorials about **VSecM**.
 
-We add more videos here as we develop the project, enable more features, and 
+We add more videos here as we develop the project, enable more features, and
 cover more use cases.
 
 Enjoy, and may the source be with you.
@@ -121,7 +121,7 @@ frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
 title="VMware Secrets Manager: Interpolating VSecM Secrets to Kubernetes Secrets"></iframe></div>
 
-## A Blitz Introduction to VMware Secrets Manager (*community talk*)
+## A Blitz Introduction to VMware Secrets Manager (_community talk_)
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe 
 src="https://player.vimeo.com/video/874557551?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
@@ -137,7 +137,7 @@ frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
 title="Cross-Cluster Secrets Federation with VMware Secrets Manager, SPIFFE, and SPIRE in Under 10 Minutes"></iframe></div>
 
-## Federated Secrets Sharing Using VMware Secrets Manager (*community talk*)
+## Federated Secrets Sharing Using VMware Secrets Manager (_community talk_)
 
 <div style="padding:56.25% 0 0 0;position:relative;">
 <iframe src="https://player.vimeo.com/video/878578526?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
@@ -152,7 +152,7 @@ frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
 style="position:absolute;top:0;left:0;width:100%;height:100%;" 
 title="Multi-Cluster Secret Federation Using VMware Secrets Manager"></iframe></div>
 
-## Solving for the Bottom Turtle (*community talk*)
+## Solving for the Bottom Turtle (_community talk_)
 
 <div style="padding:75% 0 0 0;position:relative;">
 <iframe src="https://player.vimeo.com/video/905578485?h=9d12117e21&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
@@ -161,24 +161,23 @@ title="Enlightning - Solving for the Bottom Turtle with SPIFFE and SPIRE"></ifra
 
 ## Aegis
 
-**VMware Secrets Manager** *for Cloud-Native Apps* is a successor of 
-a project called [**Aegis**][aegis]. The project was [renamed to 
-**VMware Secrets Manager** and moved under the **VMware Tanzu** GitHub 
+**VMware Secrets Manager** _for Cloud-Native Apps_ is a successor of
+a project called [**Aegis**][aegis]. The project was [renamed to
+**VMware Secrets Manager** and moved under the **VMware Tanzu** GitHub
 organization][vsecm].
 
 [aegis]: https://github.com/shieldworks/aegis "Aegis"
 [vsecm]: https://github.com/vmware-tanzu/secrets-manager "VMware Secrets Manager for Cloud-Native Apps"
 
-
 In the meantime, you can check out the videos that relate to **Aegis**. Aside
-from the name, the videos are still relevant. 
+from the name, the videos are still relevant.
 
 > **Replace “Aegis” with “VSecM”**
-> 
+>
 > When watching the videos remember to replace **Aegis** with **VMware Secrets Manager**,
-> and the `aegis` command in **Aegis Sentinel** with the `safe` command in 
+> and the `aegis` command in **Aegis Sentinel** with the `safe` command in
 > **VSecM Sentinel**. The rest of the content shall still be relevant.
-{: .block-tip}
+> {: .block-tip}
 
 Without further ado, here is a playlist of videos that relate to **Aegis**:
 
@@ -187,4 +186,3 @@ Without further ado, here is a playlist of videos that relate to **Aegis**:
     allowfullscreen frameborder='0' 
     style='position:absolute;top:0;left:0;width:100%;height:100%;'></iframe>
 </div>
-

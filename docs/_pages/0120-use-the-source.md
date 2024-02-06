@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -31,9 +31,9 @@ Manager**, see the [**Contributing**](/docs/contributing/) section.
 
 Make you have the following installed on your system:
 
-* [`make`](https://www.gnu.org/software/make/)
-* [`git`](https://git-scm.com/)
-* [`docker`](https://www.docker.com/)
+-   [`make`](https://www.gnu.org/software/make/)
+-   [`git`](https://git-scm.com/)
+-   [`docker`](https://www.docker.com/)
 
 ## Clone the Project
 
@@ -51,30 +51,10 @@ Make sure you have a running local Docker daemon and execute the following:
 make build-local
 ```
 
-That’s it 🎉. You now have images of **VMware Secrets Manager** and other 
+That’s it 🎉. You now have images of **VMware Secrets Manager** and other
 related components built locally on your Docker registry.
 
 ## Next Up
 
 For a more detailed guide about how you can use these local container images
 in your custer [check out the **Contributing** section](/docs/contributing/).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -44,7 +44,7 @@ clean slate:
 # Remove the workload deployment:
 kubectl delete deployment example
 # Find the sentinel pod’s name:
-kubectl get po -n vsecm-system 
+kubectl get po -n vsecm-system
 # Delete the secret:
 kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
   vsecm-system -- safe -w example -d
@@ -74,7 +74,7 @@ The following is the main application that the workload runs:
 
 func main() {
     // … Truncated …
-    
+
 	for {
 		fmt.Printf("My secret: '%s'.\n", os.Getenv("SECRET"))
 		fmt.Printf("My creds: username:'%s' password:'%s'.\n",
@@ -96,42 +96,41 @@ For that let’s look into the [`Deployment.yaml`][deployment-yaml] manifest:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example
-  namespace: default
-  labels:
-    app.kubernetes.io/name: example
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: example
-  template:
-    metadata:
-      labels:
+    name: example
+    namespace: default
+    labels:
         app.kubernetes.io/name: example
-    spec:
-      serviceAccountName: example
-      containers:
-      - name: main
-        image: vsecm/example-using-init-container:latest
-        env:
-          - name: SECRET
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: VALUE
-          - name: USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: USERNAME
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: PASSWORD
-
-# … Truncated  … 
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app.kubernetes.io/name: example
+    template:
+        metadata:
+            labels:
+                app.kubernetes.io/name: example
+        spec:
+            serviceAccountName: example
+            containers:
+                - name: main
+                  image: vsecm/example-using-init-container:latest
+                  env:
+                      - name: SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: vsecm-secret-example
+                                key: VALUE
+                      - name: USERNAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: vsecm-secret-example
+                                key: USERNAME
+                      - name: PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: vsecm-secret-example
+                                key: PASSWORD
+# … Truncated  …
 ```
 
 In the deployment manifest, there are environment variable bindings from a
@@ -143,8 +142,8 @@ Let’s [look into that secret too][secret-yaml]:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: vsecm-secret-example
-  namespace: default
+    name: vsecm-secret-example
+    namespace: default
 type: Opaque
 ```
 
@@ -158,13 +157,13 @@ We will dynamically populate it using **VSecM Sentinel** soon.
 
 To begin, let’s deploy our demo workload:
 
-```bash 
+```bash
 # Switch to the project folder:
 cd $WORKSPACE/secrets-manager
 # Deploy the demo workload:
 # Install the workload:
 make example-init-container-deploy
-# If you are building from the source, 
+# If you are building from the source,
 # use `make example-init-container-deploy-local` instead.
 ```
 
@@ -172,7 +171,7 @@ When we list the pods, you’ll see that it’s not ready yet because
 **VSecM Init Container** is waiting for a secret to be registered to this pod.
 
 ```bash
-kubectl get po 
+kubectl get po
 
 NAME                                  READY   STATUS
 example-5d8c6c4865-dlt8r   0/1     Init:0/1   0
@@ -181,15 +180,15 @@ example-5d8c6c4865-dlt8r   0/1     Init:0/1   0
 Here are the containers in that [`Deployment.yaml`][deployment-yaml]
 
 ```yaml
-      containers:
-      - name: main
-        image: vsecm/example-using-init-container:latest
-      
-      # … Truncated  … 
-      
-      initContainers:
-      - name: init-container
-        image: vsecm/vsecm-ist-init-container:latest
+containers:
+    - name: main
+      image: vsecm/example-using-init-container:latest
+
+# … Truncated  …
+
+initContainers:
+    - name: init-container
+      image: vsecm/vsecm-ist-init-container:latest
 ```
 
 It’s the `init-container` that waits until the workload acquires a secret.
@@ -221,15 +220,15 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 
 Here are the meanings of the parameters in the above command:
 
-* `-w` is the name of the workload.
-* `-n` identifies the namespace of the Kubernetes `Secret`.
-* `-k` means **VMware Secrets Manager** will update an associated Kubernetes `Secret`.
-* `-t` is the template to be used to transform the fields of the payload.
-* `-s` is the actual value of the secret.
+-   `-w` is the name of the workload.
+-   `-n` identifies the namespace of the Kubernetes `Secret`.
+-   `-k` means **VMware Secrets Manager** will update an associated Kubernetes `Secret`.
+-   `-t` is the template to be used to transform the fields of the payload.
+-   `-s` is the actual value of the secret.
 
 Now let’s check if our pod has initialized:
 
-```bash 
+```bash
 kubectl get po
 
 NAME                                 READY   STATUS
@@ -254,7 +253,7 @@ My creds: username:'root' password:'SuperSecret'.
 Which means, our secret should also have been populated; let’s check tha too:
 
 ```bash
-kubectl get secret 
+kubectl get secret
 
 NAME                   TYPE     DATA   AGE
 vsecm-secret-example   Opaque   3      7h9m
@@ -288,8 +287,8 @@ Once you register secrets using the above command, **VSecM Init Container** will
 exit with a success status code and let the main container initialize with the
 updated Kubernetes `Secret`.
 
-Here is a sequence diagram of how the secret is transformed (*open the image
-in a new tab for a larger version*):
+Here is a sequence diagram of how the secret is transformed (_open the image
+in a new tab for a larger version_):
 
 ![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 

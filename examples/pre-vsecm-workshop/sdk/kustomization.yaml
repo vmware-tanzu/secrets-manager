@@ -4,15 +4,15 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # *//
 
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- Deployment.yaml
+    - Deployment.yaml
 patches:
-- path: image-override.yaml
+    - path: image-override.yaml
 generatorOptions:
-  disableNameSuffixHash: true
+    disableNameSuffixHash: true
