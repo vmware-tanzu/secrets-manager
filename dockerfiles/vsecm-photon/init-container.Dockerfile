@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-init-container \
 # generate clean, final image for end users
 FROM photon:5.0
 
-ENV APP_VERSION="0.21.2"
+ENV APP_VERSION="0.22.4"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION

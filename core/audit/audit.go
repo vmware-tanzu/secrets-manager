@@ -124,6 +124,13 @@ func Log(e JournalEntry) {
 			e.Method, e.Url, e.SpiffeId,
 			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
+	case reqres.KeyInputRequest:
+		printAudit(
+			e.CorrelationId,
+			"KeyInputRequest",
+			e.Method, e.Url, e.SpiffeId,
+			"e:'"+v.Err+"',m:'"+string(e.Event)+"'",
+		)
 	default:
 		printAudit(
 			e.CorrelationId,

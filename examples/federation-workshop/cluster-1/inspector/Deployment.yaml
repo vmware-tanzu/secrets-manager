@@ -28,7 +28,7 @@ spec:
       serviceAccountName: vsecm-inspector
       containers:
         - name: main
-          image: localhost:32000/example-multiple-secrets:0.22.3
+          image: localhost:32000/example-multiple-secrets:0.22.4
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
