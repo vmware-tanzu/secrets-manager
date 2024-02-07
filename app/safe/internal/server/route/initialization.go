@@ -120,8 +120,6 @@ func InitComplete(cid string, w http.ResponseWriter, r *http.Request, spiffeid s
 
 	log.DebugLn(&cid, "InitComplete: preparing request")
 
-	// TODO: Create initialization Secret
-	// TODO: handle error.
 	err := markInitializationSecretAsCompleted()
 	if err != nil {
 		log.WarnLn(
