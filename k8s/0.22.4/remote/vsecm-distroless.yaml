@@ -6,7 +6,7 @@
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,7 +22,7 @@ metadata:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -47,7 +47,7 @@ automountServiceAccountToken: true
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -72,7 +72,7 @@ automountServiceAccountToken: false
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -94,7 +94,7 @@ data:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 apiVersion: v1
@@ -123,7 +123,7 @@ stringData:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -197,7 +197,7 @@ rules:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -243,7 +243,7 @@ roleRef:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -278,7 +278,7 @@ spec:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -429,7 +429,7 @@ spec:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -530,7 +530,7 @@ spec:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -559,7 +559,7 @@ spec:
 # </
 # <>/  keep your secrets… secret
 # >/
-# <>/' Copyright 2023–present VMware, Inc.
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
