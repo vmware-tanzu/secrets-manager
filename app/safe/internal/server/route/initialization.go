@@ -27,7 +27,7 @@ import (
 	"net/http"
 )
 
-func createInitializationSecret() error {
+func markInitializationSecretAsCompleted() error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Wrap(err, "could not create client config")
@@ -80,6 +80,13 @@ func createInitializationSecret() error {
 	return nil
 }
 
+// InitComplete is called when the Sentinel has completed its initialization
+// process. It is responsible for marking the initialization process as
+// complete in the Kubernetes cluster, by updating the value of a
+// "vsecm-sentinel-init-tombstone" Secret in the "vsecm-system" namespace.
+//
+// See ./app/sentinel/internal/safe/post.go:PostInitializationComplete for the
+// corresponding sentinel-side implementation.
 func InitComplete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	if env.SafeManualKeyInput() && !state.MasterKeySet() {
 		log.InfoLn(&cid, "InitComplete: Master key not set")
@@ -115,7 +122,7 @@ func InitComplete(cid string, w http.ResponseWriter, r *http.Request, spiffeid s
 
 	// TODO: Create initialization Secret
 	// TODO: handle error.
-	err := createInitializationSecret()
+	err := markInitializationSecretAsCompleted()
 	if err != nil {
 		log.WarnLn(
 			&cid,
