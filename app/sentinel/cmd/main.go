@@ -29,7 +29,7 @@ func main() {
 	useKubernetes := parseUseKubernetes(parser)
 	deleteSecret := parseDeleteSecret(parser)
 	appendSecret := parseAppendSecret(parser)
-	namespace := parseNamespace(parser)
+	namespace := parseNamespaces(parser)
 	inputKeys := parseInputKeys(parser)
 	backingStore := parseBackingStore(parser)
 	workloadId := parseWorkload(parser)
