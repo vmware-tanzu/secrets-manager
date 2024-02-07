@@ -42,6 +42,8 @@ func main() {
 
 	err := parser.Parse(os.Args)
 	if err != nil {
+		fmt.Println(err.Error())
+		fmt.Println()
 		printUsage(parser)
 		return
 	}
