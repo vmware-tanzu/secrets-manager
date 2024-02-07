@@ -78,16 +78,52 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 	// Transform the data if there is a transformation defined.
 	data := secret.ToMapForK8s()
-	namespace := secret.Meta.Namespace
+	namespaces := secret.Meta.Namespaces
 
-	// First, try to get the existing secret
-	_, err = clientset.CoreV1().Secrets(namespace).Get(
-		context.Background(), secretName, metaV1.GetOptions{})
+	for i, ns := range namespaces {
+		if ns == "" {
+			namespaces[i] = "default"
+		}
 
-	if kErrors.IsNotFound(err) {
+		// First, try to get the existing secret
+		_, err = clientset.CoreV1().Secrets(ns).Get(
+			context.Background(), secretName, metaV1.GetOptions{})
 
-		// Create the Secret in the cluster
-		_, err = clientset.CoreV1().Secrets(namespace).Create(
+		if kErrors.IsNotFound(err) {
+
+			// Create the Secret in the cluster
+			_, err = clientset.CoreV1().Secrets(ns).Create(
+				context.Background(),
+				&apiV1.Secret{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+					ObjectMeta: metaV1.ObjectMeta{
+						Name:      secretName,
+						Namespace: ns,
+					},
+					Data: data,
+				},
+				metaV1.CreateOptions{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+				},
+			)
+
+			if err != nil {
+				return errors.Wrap(err, "error creating the secret")
+			}
+
+			continue
+		}
+
+		// Secret is found in the cluster.
+
+		// Update the Secret in the cluster
+		_, err = clientset.CoreV1().Secrets(ns).Update(
 			context.Background(),
 			&apiV1.Secret{
 				TypeMeta: metaV1.TypeMeta{
@@ -95,12 +131,12 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 					APIVersion: "v1",
 				},
 				ObjectMeta: metaV1.ObjectMeta{
-					Name:      secretName,
-					Namespace: namespace,
+					Name:      env.SafeSecretNamePrefix() + secret.Name,
+					Namespace: ns,
 				},
 				Data: data,
 			},
-			metaV1.CreateOptions{
+			metaV1.UpdateOptions{
 				TypeMeta: metaV1.TypeMeta{
 					Kind:       "Secret",
 					APIVersion: "v1",
@@ -109,36 +145,8 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		)
 
 		if err != nil {
-			return errors.Wrap(err, "error creating the secret")
+			return errors.Wrap(err, "error updating the secret")
 		}
-
-		return nil
-	}
-
-	// Update the Secret in the cluster
-	_, err = clientset.CoreV1().Secrets(secret.Meta.Namespace).Update(
-		context.Background(),
-		&apiV1.Secret{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
-			ObjectMeta: metaV1.ObjectMeta{
-				Name:      env.SafeSecretNamePrefix() + secret.Name,
-				Namespace: secret.Meta.Namespace,
-			},
-			Data: data,
-		},
-		metaV1.UpdateOptions{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
-		},
-	)
-
-	if err != nil {
-		return errors.Wrap(err, "error updating the secret")
 	}
 
 	return nil

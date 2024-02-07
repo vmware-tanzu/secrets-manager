@@ -55,8 +55,8 @@ func main() {
 		return
 	}
 
-	if *namespace == "" {
-		*namespace = "default"
+	if *namespace == nil || len(*namespace) == 0 {
+		*namespace = []string{"default"}
 	}
 
 	if inputValidationFailure(workloadId, encrypt, inputKeys, secret, deleteSecret) {
@@ -80,7 +80,7 @@ func main() {
 	safe.Post(ctx, entity.SentinelCommand{
 		WorkloadId:    *workloadId,
 		Secret:        *secret,
-		Namespace:     *namespace,
+		Namespaces:    *namespace,
 		BackingStore:  *backingStore,
 		UseKubernetes: *useKubernetes,
 		Template:      *template,

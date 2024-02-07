@@ -85,17 +85,6 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
-		// Route to define the master key when VSECM_SAFE_MANUAL_KEY_INPUT is set.
-		// Only VSecM Sentinel is allowed to call this API endpoint.
-		// This method works only once. Once a key is set, there is no way to
-		// update it. You will have to kill the VSecM Sentinel pod and restart it
-		// to be able to set a new key.
-		if r.Method == http.MethodPost && p == "/sentinel/v1/keys" {
-			log.DebugLn(&cid, "Handler: will receive keys")
-			route.ReceiveKeys(cid, w, r, sid)
-			return
-		}
-
 		// Route to add secrets to VSecM Safe.
 		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// Calling it from anywhere else will error out.
@@ -121,6 +110,17 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		if r.Method == http.MethodGet && p == "/workload/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/workload/v1/secrets: will fetch")
 			route.Fetch(cid, w, r, sid)
+			return
+		}
+
+		// Route to define the master key when VSECM_SAFE_MANUAL_KEY_INPUT is set.
+		// Only VSecM Sentinel is allowed to call this API endpoint.
+		// This method works only once. Once a key is set, there is no way to
+		// update it. You will have to kill the VSecM Sentinel pod and restart it
+		// to be able to set a new key.
+		if r.Method == http.MethodPost && p == "/sentinel/v1/keys" {
+			log.DebugLn(&cid, "Handler: will receive keys")
+			route.ReceiveKeys(cid, w, r, sid)
 			return
 		}
 
