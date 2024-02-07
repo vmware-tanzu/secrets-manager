@@ -68,6 +68,32 @@ func handleNoSecretResponse(cid string, w http.ResponseWriter,
 	}
 }
 
+func handleInitCompleteSuccessResponse(cid string, w http.ResponseWriter,
+	j audit.JournalEntry, sfr reqres.SentinelInitCompleteResponse) {
+	j.Event = audit.EventOk
+	j.Entity = sfr
+	audit.Log(j)
+
+	resp, err := json.Marshal(sfr)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err2 := io.WriteString(w, "Problem unmarshalling response")
+		if err2 != nil {
+			log.InfoLn(&cid, "Problem sending response", err2.Error())
+		}
+		return
+	}
+
+	log.DebugLn(&cid, "before response")
+
+	_, err = io.WriteString(w, string(resp))
+	if err != nil {
+		log.InfoLn(&cid, "Problem sending response", err.Error())
+	}
+
+	log.DebugLn(&cid, "after response")
+}
+
 func handleSuccessResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
 	j.Event = audit.EventOk
