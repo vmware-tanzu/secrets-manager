@@ -27,6 +27,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -187,12 +188,11 @@ func PostInitializationComplete(parentContext context.Context) {
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			fmt.Println("PostInit: I cannot execute command because I cannot talk to SPIRE.")
-			fmt.Println("")
+			logger.SendLog("PostInit: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		fmt.Println("PostInit: Operation was cancelled due to an unknown reason.")
+		logger.SendLog("PostInit: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
