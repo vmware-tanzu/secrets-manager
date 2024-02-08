@@ -12,6 +12,7 @@ package main
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/initialization"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/logger"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
@@ -35,6 +36,8 @@ func main() {
 	// new functionality.
 	initialization.RunInitCommands()
 	log.InfoLn(&id, "Initialization commands executed successfully")
+
+	logger.CreateLogger()
 
 	// Run on the main thread to wait forever.
 	system.KeepAlive()

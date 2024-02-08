@@ -17,10 +17,10 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/logger"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -43,18 +43,16 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 
 		svid, err := source.GetX509SVID()
 		if err != nil {
-			fmt.Println("acquireSource: I am having trouble fetching my identity from SPIRE.")
-			fmt.Println("acquireSource: I won’t proceed until you put me in a secured container.")
-			fmt.Println("")
+			logger.SendLog("acquireSource: I am having trouble fetching my identity from SPIRE.")
+			logger.SendLog("acquireSource: I won’t proceed until you put me in a secured container.")
 			errorChan <- err
 			return
 		}
 
 		// Make sure that the binary is enclosed in a Pod that we trust.
 		if !validation.IsSentinel(svid.ID.String()) {
-			fmt.Println("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
-			fmt.Println("acquireSource: `safe` can only run from within the Sentinel container.")
-			fmt.Println("")
+			logger.SendLog("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
+			logger.SendLog("acquireSource: `safe` can only run from within the Sentinel container.")
 			errorChan <- errors.New("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
 			return
 		}
@@ -66,10 +64,10 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 	case source := <-resultChan:
 		return source, true
 	case err := <-errorChan:
-		fmt.Println("acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
+		logger.SendLog("acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
 		return nil, false
 	case <-ctx.Done():
-		fmt.Println("acquireSource: Operation was cancelled.")
+		logger.SendLog("acquireSource: Operation was cancelled.")
 		return nil, false
 	}
 }
@@ -85,7 +83,7 @@ func Get(showEncryptedSecrets bool) {
 		}
 		err := source.Close()
 		if err != nil {
-			log.Println("Get: Problem closing the workload source.")
+			logger.SendLog("Get: Problem closing the workload source.")
 		}
 	}()
 	if !proceed {
@@ -107,8 +105,7 @@ func Get(showEncryptedSecrets bool) {
 
 	p, err := url.JoinPath(env.SafeEndpointUrl(), safeUrl)
 	if err != nil {
-		fmt.Println("Get: I am having problem generating VSecM Safe secrets api endpoint URL.")
-		fmt.Println("")
+		logger.SendLog("Get: I am having problem generating VSecM Safe secrets api endpoint URL.")
 		return
 	}
 
@@ -121,8 +118,7 @@ func Get(showEncryptedSecrets bool) {
 
 	r, err := client.Get(p)
 	if err != nil {
-		fmt.Println("Get: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		fmt.Println("")
+		logger.SendLog("Get: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 
@@ -132,14 +128,13 @@ func Get(showEncryptedSecrets bool) {
 		}
 		err := b.Close()
 		if err != nil {
-			log.Println("Get: Problem closing request body.")
+			logger.SendLog("Get: Problem closing request body.")
 		}
 	}(r.Body)
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Get: Unable to read the response body from VSecM Safe.")
-		fmt.Println("")
+		logger.SendLog("Get: Unable to read the response body from VSecM Safe.")
 		return
 	}
 
