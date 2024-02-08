@@ -43,7 +43,7 @@ func parseAppendSecret(parser *argparse.Parser) *bool {
 
 func parseNamespaces(parser *argparse.Parser) *[]string {
 	return parser.StringList("n", "namespace", &argparse.Options{
-		Required: false, Default: "default",
+		Required: false, Default: []string{"default"},
 		Help: "the namespaces of the workloads or Kubernetes secrets",
 	})
 }
