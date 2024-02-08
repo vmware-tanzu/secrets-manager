@@ -66,12 +66,12 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		return errors.Wrap(err, "could not create client")
 	}
 
-	secretName := env.SafeSecretNamePrefix() + secret.Name
+	k8sSecretName := env.SafeSecretNamePrefix() + secret.Name
 
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.
 	if strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
-		secretName = strings.TrimPrefix(
+		k8sSecretName = strings.TrimPrefix(
 			secret.Name, env.StoreWorkloadAsK8sSecretPrefix(),
 		)
 	}
@@ -87,7 +87,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 		// First, try to get the existing secret
 		_, err = clientset.CoreV1().Secrets(ns).Get(
-			context.Background(), secretName, metaV1.GetOptions{})
+			context.Background(), k8sSecretName, metaV1.GetOptions{})
 
 		if kErrors.IsNotFound(err) {
 
@@ -100,7 +100,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 						APIVersion: "v1",
 					},
 					ObjectMeta: metaV1.ObjectMeta{
-						Name:      secretName,
+						Name:      k8sSecretName,
 						Namespace: ns,
 					},
 					Data: data,
@@ -131,7 +131,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 					APIVersion: "v1",
 				},
 				ObjectMeta: metaV1.ObjectMeta{
-					Name:      env.SafeSecretNamePrefix() + secret.Name,
+					Name:      k8sSecretName,
 					Namespace: ns,
 				},
 				Data: data,
