@@ -67,6 +67,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 	}
 
 	secretName := env.SafeSecretNamePrefix() + secret.Name
+
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.
 	if strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {

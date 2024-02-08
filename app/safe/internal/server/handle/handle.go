@@ -124,6 +124,15 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
+		if r.Method == http.MethodPost && p == "/sentinel/v1/init-completed" {
+			log.DebugLn(
+				&cid,
+				"Handler:/sentinel/v1/init-completed: will mark init completion",
+			)
+			route.InitComplete(cid, w, r, sid)
+			return
+		}
+
 		log.DebugLn(&cid, "Handler: route mismatch")
 
 		w.WriteHeader(http.StatusBadRequest)

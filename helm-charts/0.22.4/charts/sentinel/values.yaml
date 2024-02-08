@@ -19,7 +19,7 @@ environments:
  - name: SPIFFE_ENDPOINT_SOCKET
    value: "unix:///spire-agent-socket/agent.sock"
  - name: VSECM_LOG_LEVEL
-   value: "7"
+   value: "3"
  - name: VSECM_PROBE_LIVENESS_PORT
    value: ":8081"
  - name: VSECM_SAFE_ENDPOINT_URL
@@ -30,33 +30,6 @@ environments:
    value: ":8443"
  - name: VSECM_SENTINEL_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-
-initCommand:
-  enabled: true
-  #  Add any initialization command here, separated by a line with only "--"
-  command: |
-    sleep:1
-    --
-  # Example:
-  #   command: |
-  #     sleep:30000
-  #     --
-  #     w:k8s:keycloak-admin-secret
-  #     n:smo-app
-  #     s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
-  #     t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
-  #     --
-  #     w:k8s:keycloak-db-secret
-  #     n:smo-app
-  #     s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
-  #     t:{"KEYCLOAK_DB_USER":"{{.username}}","KEYCLOAK_DB_PASSWORD":"{{.password}}"}
-  #     --
-  #     sleep:5000
-  #     --
-  #     w:keycloak
-  #     n:default
-  #     s:trigger-init
-  #     --
 
 imagePullSecrets: []
 nameOverride: ""
