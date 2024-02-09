@@ -22,6 +22,11 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+* Added the ability to associate multiple namespaces with a single VSecM secret.
+* Added a tombstone feature to VSecM Sentinel, so that when the init commands run to
+  completion, they will not run again if VSecM Sentinel is evicted and restarted.
+* Security update: https://github.com/vmware-tanzu/secrets-manager/pull/494
+
 ## [v0.22.3] - 2024-02-04
 
 ### Added

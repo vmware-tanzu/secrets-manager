@@ -12,3 +12,4 @@ package initialization
 
 const delimiter = "--"
 const separator = ":"
+const itemSeparator = ","

@@ -41,7 +41,7 @@ import (
 //
 // Key commands include:
 // - workload: (w) Sets the WorkloadId field in the SentinelCommand.
-// - namespace: (n) Sets the Namespace field.
+// - namespace: (n) Sets the Namespaces field.
 // - secret: (s) Sets the Secret field.
 // - transformation: (t) Sets the Template field.
 // - sleep: (sleep) Enables sleep mode and sets the SleepIntervalMs field.
@@ -135,14 +135,17 @@ func RunInitCommands() {
 		case workload:
 			sc.WorkloadId = value
 		case namespace:
-			sc.Namespace = value
+			sc.Namespaces = strings.SplitN(value, itemSeparator, -1)
 		case secret:
 			sc.Secret = value
 		case transformation:
 			sc.Template = value
 		case sleep:
 			sc.ShouldSleep = true
-			intms, _ := strconv.Atoi(value)
+			intms, err := strconv.Atoi(value)
+			if err != nil {
+				log.ErrorLn(&cid, "Error parsing sleep interval: ", err.Error())
+			}
 			sc.SleepIntervalMs = intms
 		default:
 			log.InfoLn(&cid, "unknown command: ", key)
