@@ -16,7 +16,7 @@ func CreateLogger() {
 	if err != nil {
 		log.Printf("Failed to remove %s : %s\n", LogPipePath, err)
 	}
-	err = syscall.Mkfifo(LogPipePath, 0666)
+	err = syscall.Mkfifo(LogPipePath, 0640)
 	if err != nil {
 		log.Printf("Failed to create %s : %s\n", LogPipePath, err)
 	} else {
@@ -30,7 +30,7 @@ func SendLog(a ...any) {
 
 	pipeFile, err := os.OpenFile(LogPipePath, os.O_WRONLY, os.ModeNamedPipe)
 	if err != nil {
-		log.Printf("LogPiper.SendLog error opening file: %v\n", err)
+		log.Printf("Logger.SendLog error opening file: %v\n", err)
 		return
 	}
 	defer pipeFile.Close()
@@ -39,7 +39,7 @@ func SendLog(a ...any) {
 
 	_, err = pipeFile.WriteString(logMessage)
 	if err != nil {
-		log.Printf("LogPiper.SendLog error writing file: %v\n", err)
+		log.Printf("Logger.SendLog error writing file: %v\n", err)
 	}
 }
 

@@ -12,7 +12,6 @@ package system
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/logger"
 	"os"
 	"os/signal"
 	"syscall"
@@ -33,7 +32,5 @@ func KeepAlive() {
 	case e := <-s:
 		fmt.Println(e)
 		panic("bye cruel world!")
-	default:
-		logger.ReceiveLog()
 	}
 }

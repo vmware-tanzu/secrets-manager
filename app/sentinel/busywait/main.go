@@ -23,6 +23,9 @@ func main() {
 
 	go probe.CreateLiveness()
 
+	logger.CreateLogger()
+	go logger.ReceiveLog()
+
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
 		"VSECM_SENTINEL_SECRET_GENERATION_PREFIX"}
@@ -36,8 +39,6 @@ func main() {
 	// new functionality.
 	initialization.RunInitCommands()
 	log.InfoLn(&id, "Initialization commands executed successfully")
-
-	logger.CreateLogger()
 
 	// Run on the main thread to wait forever.
 	system.KeepAlive()
