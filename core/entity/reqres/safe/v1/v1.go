@@ -19,7 +19,7 @@ type SecretUpsertRequest struct {
 	WorkloadId    string            `json:"key"`
 	BackingStore  data.BackingStore `json:"backingStore"`
 	UseKubernetes bool              `json:"useKubernetes"`
-	Namespace     string            `json:"namespace"`
+	Namespaces    []string          `json:"namespaces"`
 	Value         string            `json:"value"`
 	Template      string            `json:"template"`
 	Format        data.SecretFormat `json:"format"`

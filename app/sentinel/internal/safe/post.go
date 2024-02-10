@@ -80,9 +80,9 @@ func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
 	return reqres.SentinelInitCompleteRequest{}
 }
 
-func newSecretUpsertRequest(workloadId, secret, namespace, backingStore string,
-	useKubernetes bool, template string, format string, encrypt, appendSecret bool,
-	notBefore string, expires string,
+func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
+	backingStore string, useKubernetes bool, template string, format string,
+	encrypt, appendSecret bool, notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
 	bs := decideBackingStore(backingStore)
 	f := decideSecretFormat(format)
@@ -98,7 +98,7 @@ func newSecretUpsertRequest(workloadId, secret, namespace, backingStore string,
 	return reqres.SecretUpsertRequest{
 		WorkloadId:    workloadId,
 		BackingStore:  bs,
-		Namespace:     namespace,
+		Namespaces:    namespaces,
 		UseKubernetes: useKubernetes,
 		Template:      template,
 		Format:        f,
@@ -339,7 +339,7 @@ func Post(parentContext context.Context,
 			},
 		}
 
-		sr := newSecretUpsertRequest(sc.WorkloadId, sc.Secret, sc.Namespace,
+		sr := newSecretUpsertRequest(sc.WorkloadId, sc.Secret, sc.Namespaces,
 			sc.BackingStore, sc.UseKubernetes, sc.Template, sc.Format,
 			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
 

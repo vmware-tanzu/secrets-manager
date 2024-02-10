@@ -206,7 +206,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	value := sr.Value
 	backingStore := sr.BackingStore
 	useK8s := sr.UseKubernetes
-	namespace := sr.Namespace
+	namespaces := sr.Namespaces
 	template := sr.Template
 	format := sr.Format
 	encrypt := sr.Encrypt
@@ -220,12 +220,12 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		return
 	}
 
-	if namespace == "" {
-		namespace = "default"
+	if len(namespaces) == 0 {
+		namespaces = []string{"default"}
 	}
 
 	log.DebugLn(&cid, "Secret:Upsert: ", "workloadId:", workloadId,
-		"namespace:", namespace, "backingStore:", backingStore,
+		"namespaces:", namespaces, "backingStore:", backingStore,
 		"template:", template, "format:", format, "encrypt:", encrypt,
 		"appendValue:", appendValue, "useK8s", useK8s,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
@@ -284,7 +284,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		Name: workloadId,
 		Meta: entity.SecretMeta{
 			UseKubernetesSecret: useK8s,
-			Namespace:           namespace,
+			Namespaces:          namespaces,
 			BackingStore:        backingStore,
 			Template:            template,
 			Format:              format,

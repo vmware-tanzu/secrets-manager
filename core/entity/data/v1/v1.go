@@ -23,7 +23,7 @@ import (
 
 type SentinelCommand struct {
 	WorkloadId      string
-	Namespace       string
+	Namespaces      []string
 	Secret          string
 	Template        string
 	UseKubernetes   bool
@@ -111,7 +111,7 @@ type SecretMeta struct {
 	// Overrides Env.SafeBackingStoreType()
 	BackingStore BackingStore `json:"storage"`
 	// Defaults to "default"
-	Namespace string `json:"namespace"`
+	Namespaces []string `json:"namespaces"`
 	// Go template used to transform the secret.
 	// Sample secret:
 	// '{"username":"admin","password":"VSecMRocks"}'
