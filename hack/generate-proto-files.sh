@@ -16,9 +16,6 @@ then
     exit 1
 fi
 
-# Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
-go mod vendor
-
 # Install or update the Google protocol buffers compiler plugin for Go.
 go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 
@@ -33,4 +30,12 @@ export PATH=$PATH:/$GO_PATH/bin
 
 # Compile the log.proto file into Go source code using protocol buffers.
 # Generate both standard Go code and gRPC service code.
-protoc --go_out=. --go-grpc_out=. log.proto
+protoc --proto_path=. \
+       --go_out=./generated \
+       --go-grpc_out=./generated \
+       --go_opt=paths=source_relative \
+       --go-grpc_opt=paths=source_relative \
+       log.proto
+
+# Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
+go mod vendor
