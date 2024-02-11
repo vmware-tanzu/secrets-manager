@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets… secret
+>/
+<>/' Copyright 2023–present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package backoff
 
 import (
@@ -95,7 +105,7 @@ func TestRetryExponential(t *testing.T) {
 	}
 }
 
-func TestRetryLinear(t *testing.T) {
+func TestRetryFixed(t *testing.T) {
 	tests := []struct {
 		name                  string
 		failuresBeforeSuccess int
@@ -117,7 +127,7 @@ func TestRetryLinear(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			f := mockOperation(tt.failuresBeforeSuccess)
-			err := RetryLinear("testLinear: "+tt.name, f)
+			err := RetryFixed("testFixed: "+tt.name, f)
 			if (err != nil) != tt.expectError {
 				t.Errorf("%s: expected error: %v, got: %v", tt.name, tt.expectError, err != nil)
 			}

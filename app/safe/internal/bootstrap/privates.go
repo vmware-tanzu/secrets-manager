@@ -56,7 +56,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 	}
 
 	// Update the Secret in the cluster
-	err = backoff.RetryLinear(
+	err = backoff.RetryFixed(
 		env.SystemNamespace(),
 		func() error {
 			_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(

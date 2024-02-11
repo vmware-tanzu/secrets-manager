@@ -92,7 +92,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 		if kErrors.IsNotFound(err) {
 			// Create the Secret in the cluster with a backoff.
-			err = backoff.RetryLinear(
+			err = backoff.RetryFixed(
 				ns,
 				func() error {
 					// Create the Secret in the cluster
@@ -129,7 +129,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		// Secret is found in the cluster.
 
 		// Update the Secret in the cluster
-		err = backoff.RetryLinear(
+		err = backoff.RetryFixed(
 			ns,
 			func() error {
 				_, err = clientset.CoreV1().Secrets(ns).Update(

@@ -10,3 +10,4 @@
 **VSecM Safe** is the store that keeps your secrets secret.
 
 Check out more details in the [official documentation](https://vsecm.com/).
+    - 

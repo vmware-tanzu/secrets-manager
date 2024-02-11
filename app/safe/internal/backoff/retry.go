@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets… secret
+>/
+<>/' Copyright 2023–present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package backoff
 
 import (
@@ -69,8 +79,8 @@ func RetryExponential(ns string, f func() error) error {
 	})
 }
 
-// RetryLinear is a helper function to retry an operation with linear backoff.
-func RetryLinear(ns string, f func() error) error {
+// RetryFixed is a helper function to retry an operation with fixed backoff.
+func RetryFixed(ns string, f func() error) error {
 	return Retry(ns, f, Strategy{
 		MaxRetries: 5,
 		Delay:      1000,

@@ -51,7 +51,7 @@ func markInitializationSecretAsCompleted() error {
 	}
 
 	// Update the Secret in the cluster
-	err = backoff.RetryLinear(
+	err = backoff.RetryFixed(
 		namespace,
 		func() error {
 			_, err = clientset.CoreV1().Secrets(namespace).Update(
