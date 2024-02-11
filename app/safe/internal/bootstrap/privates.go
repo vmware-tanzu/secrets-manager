@@ -14,6 +14,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -55,30 +56,35 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 	}
 
 	// Update the Secret in the cluster
-	_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(
-		context.Background(),
-		&v1.Secret{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
-			ObjectMeta: metaV1.ObjectMeta{
-				Name:      env.SafeAgeKeySecretName(),
-				Namespace: env.SystemNamespace(),
-				Annotations: map[string]string{
-					"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
+	err = backoff.RetryFixed(
+		env.SystemNamespace(),
+		func() error {
+			_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(
+				context.Background(),
+				&v1.Secret{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+					ObjectMeta: metaV1.ObjectMeta{
+						Name:      env.SafeAgeKeySecretName(),
+						Namespace: env.SystemNamespace(),
+						Annotations: map[string]string{
+							"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
+						},
+					},
+					Data: data,
 				},
-			},
-			Data: data,
-		},
-		metaV1.UpdateOptions{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
+				metaV1.UpdateOptions{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+				},
+			)
+			return err
 		},
 	)
-
 	if err != nil {
 		return errors.Wrap(err, "Error creating the secret")
 	}
