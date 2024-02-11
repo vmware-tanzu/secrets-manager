@@ -12,7 +12,6 @@ package main
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/initialization"
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/logger"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
@@ -22,7 +21,6 @@ func main() {
 	id := "VSECMSENTINEL"
 
 	go probe.CreateLiveness()
-	go logger.CreateLogServer()
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
