@@ -13,6 +13,7 @@ package state
 import (
 	"context"
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log"
@@ -90,29 +91,34 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 			context.Background(), k8sSecretName, metaV1.GetOptions{})
 
 		if kErrors.IsNotFound(err) {
-
-			// Create the Secret in the cluster
-			_, err = clientset.CoreV1().Secrets(ns).Create(
-				context.Background(),
-				&apiV1.Secret{
-					TypeMeta: metaV1.TypeMeta{
-						Kind:       "Secret",
-						APIVersion: "v1",
-					},
-					ObjectMeta: metaV1.ObjectMeta{
-						Name:      k8sSecretName,
-						Namespace: ns,
-					},
-					Data: data,
-				},
-				metaV1.CreateOptions{
-					TypeMeta: metaV1.TypeMeta{
-						Kind:       "Secret",
-						APIVersion: "v1",
-					},
+			// Create the Secret in the cluster with a backoff.
+			err = backoff.RetryLinear(
+				ns,
+				func() error {
+					// Create the Secret in the cluster
+					_, err = clientset.CoreV1().Secrets(ns).Create(
+						context.Background(),
+						&apiV1.Secret{
+							TypeMeta: metaV1.TypeMeta{
+								Kind:       "Secret",
+								APIVersion: "v1",
+							},
+							ObjectMeta: metaV1.ObjectMeta{
+								Name:      k8sSecretName,
+								Namespace: ns,
+							},
+							Data: data,
+						},
+						metaV1.CreateOptions{
+							TypeMeta: metaV1.TypeMeta{
+								Kind:       "Secret",
+								APIVersion: "v1",
+							},
+						},
+					)
+					return err
 				},
 			)
-
 			if err != nil {
 				return errors.Wrap(err, "error creating the secret")
 			}
@@ -123,27 +129,32 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		// Secret is found in the cluster.
 
 		// Update the Secret in the cluster
-		_, err = clientset.CoreV1().Secrets(ns).Update(
-			context.Background(),
-			&apiV1.Secret{
-				TypeMeta: metaV1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "v1",
-				},
-				ObjectMeta: metaV1.ObjectMeta{
-					Name:      k8sSecretName,
-					Namespace: ns,
-				},
-				Data: data,
-			},
-			metaV1.UpdateOptions{
-				TypeMeta: metaV1.TypeMeta{
-					Kind:       "Secret",
-					APIVersion: "v1",
-				},
+		err = backoff.RetryLinear(
+			ns,
+			func() error {
+				_, err = clientset.CoreV1().Secrets(ns).Update(
+					context.Background(),
+					&apiV1.Secret{
+						TypeMeta: metaV1.TypeMeta{
+							Kind:       "Secret",
+							APIVersion: "v1",
+						},
+						ObjectMeta: metaV1.ObjectMeta{
+							Name:      k8sSecretName,
+							Namespace: ns,
+						},
+						Data: data,
+					},
+					metaV1.UpdateOptions{
+						TypeMeta: metaV1.TypeMeta{
+							Kind:       "Secret",
+							APIVersion: "v1",
+						},
+					},
+				)
+				return err
 			},
 		)
-
 		if err != nil {
 			return errors.Wrap(err, "error updating the secret")
 		}

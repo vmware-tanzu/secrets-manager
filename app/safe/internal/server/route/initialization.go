@@ -13,6 +13,7 @@ package route
 import (
 	"context"
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
@@ -50,29 +51,34 @@ func markInitializationSecretAsCompleted() error {
 	}
 
 	// Update the Secret in the cluster
-	_, err = clientset.CoreV1().Secrets(namespace).Update(
-		context.Background(),
-		&apiV1.Secret{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
-			ObjectMeta: metaV1.ObjectMeta{
-				Name:      secretName,
-				Namespace: namespace,
-			},
-			Data: map[string][]byte{
-				"init": []byte("complete"),
-			},
-		},
-		metaV1.UpdateOptions{
-			TypeMeta: metaV1.TypeMeta{
-				Kind:       "Secret",
-				APIVersion: "v1",
-			},
+	err = backoff.RetryLinear(
+		namespace,
+		func() error {
+			_, err = clientset.CoreV1().Secrets(namespace).Update(
+				context.Background(),
+				&apiV1.Secret{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+					ObjectMeta: metaV1.ObjectMeta{
+						Name:      secretName,
+						Namespace: namespace,
+					},
+					Data: map[string][]byte{
+						"init": []byte("complete"),
+					},
+				},
+				metaV1.UpdateOptions{
+					TypeMeta: metaV1.TypeMeta{
+						Kind:       "Secret",
+						APIVersion: "v1",
+					},
+				},
+			)
+			return err
 		},
 	)
-
 	if err != nil {
 		return errors.Wrap(err, "error updating the secret")
 	}
