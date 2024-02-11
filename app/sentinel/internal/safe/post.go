@@ -19,6 +19,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/logger"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
@@ -126,8 +127,7 @@ func respond(r *http.Response) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		fmt.Println("Post: Unable to read the response body from VSecM Safe.", err.Error())
-		fmt.Println("")
+		logger.SendLogMessage("Post: Unable to read the response body from VSecM Safe.", err.Error())
 		return
 	}
 
@@ -137,28 +137,24 @@ func respond(r *http.Response) {
 }
 
 func printEndpointError(err error) {
-	fmt.Println("Post: I am having problem generating VSecM Safe "+
+	logger.SendLogMessage("Post: I am having problem generating VSecM Safe "+
 		"secrets api endpoint URL.", err.Error())
-	fmt.Println("")
 }
 
 func printPayloadError(err error) {
-	fmt.Println("Post: I am having problem generating the payload.", err.Error())
-	fmt.Println("")
+	logger.SendLogMessage("Post: I am having problem generating the payload.", err.Error())
 }
 
 func doDelete(client *http.Client, p string, md []byte) {
 	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
 	if err != nil {
-		fmt.Println("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		fmt.Println("")
+		logger.SendLogMessage("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 	r, err := client.Do(req)
 	if err != nil {
-		fmt.Println("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		fmt.Println("")
+		logger.SendLogMessage("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	respond(r)
@@ -167,8 +163,7 @@ func doDelete(client *http.Client, p string, md []byte) {
 func doPost(client *http.Client, p string, md []byte) {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
 	if err != nil {
-		fmt.Println("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		fmt.Println("")
+		logger.SendLogMessage("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	respond(r)
@@ -193,12 +188,11 @@ func PostInitializationComplete(parentContext context.Context) {
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			fmt.Println("PostInit: I cannot execute command because I cannot talk to SPIRE.")
-			fmt.Println("")
+			logger.SendLogMessage("PostInit: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		fmt.Println("PostInit: Operation was cancelled due to an unknown reason.")
+		logger.SendLogMessage("PostInit: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -206,7 +200,7 @@ func PostInitializationComplete(parentContext context.Context) {
 			}
 			err := source.Close()
 			if err != nil {
-				log.Println("Post: Problem closing the workload source.")
+				logger.SendLogMessage("Post: Problem closing the workload source.")
 			}
 		}()
 
@@ -264,12 +258,11 @@ func Post(parentContext context.Context,
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			fmt.Println("Post: I cannot execute command because I cannot talk to SPIRE.")
-			fmt.Println("")
+			logger.SendLogMessage("Post: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		fmt.Println("Post: Operation was cancelled due to an unknown reason.")
+		logger.SendLogMessage("Post: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -277,7 +270,7 @@ func Post(parentContext context.Context,
 			}
 			err := source.Close()
 			if err != nil {
-				log.Println("Post: Problem closing the workload source.")
+				logger.SendLogMessage("Post: Problem closing the workload source.")
 			}
 		}()
 
