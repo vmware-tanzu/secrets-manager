@@ -10,12 +10,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-PACKAGE="$1"
-VERSION="$2"
-DOCKERFILE="$3"
-gitRoot=$(git rev-parse --show-toplevel)
-
-# Check if go binary is present
 if ! command -v go &> /dev/null
 then
     echo "Go binary could not be found. Please install go first."
@@ -40,10 +34,3 @@ export PATH=$PATH:/$GO_PATH/bin
 # Compile the log.proto file into Go source code using protocol buffers.
 # Generate both standard Go code and gRPC service code.
 protoc --go_out=. --go-grpc_out=. log.proto
-
-# Change directory to the root of the git repository.
-cd "$gitRoot" || exit 1
-
-docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
-
-sleep 10

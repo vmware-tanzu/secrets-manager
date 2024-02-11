@@ -59,3 +59,6 @@ include makefiles/Git.mk
 
 ## Coverage
 include makefiles/Test.mk
+
+## Generate Proto Files
+include makefiles/VSecMGenerateProtoFiles.mk
