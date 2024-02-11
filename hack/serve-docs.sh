@@ -24,4 +24,5 @@ cd ./docs || exit
 #   bundle install
 #   jekyll serve
 
-jekyll serve
+# bundle install
+bundle exec jekyll serve
