@@ -10,12 +10,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-PACKAGE="$1"
-VERSION="$2"
-DOCKERFILE="$3"
-gitRoot=$(git rev-parse --show-toplevel)
-
-# Check if go binary is present
 if ! command -v go &> /dev/null
 then
     echo "Go binary could not be found. Please install go first."
@@ -43,12 +37,5 @@ protoc --proto_path=. \
        --go-grpc_opt=paths=source_relative \
        log.proto
 
-# Change directory to the root of the git repository.
-cd "$gitRoot" || exit 1
-
 # Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
 go mod vendor
-
-docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
-
-sleep 10
