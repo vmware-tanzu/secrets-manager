@@ -132,6 +132,23 @@ func SafeK8sSecretDeleteBufferSize() int {
 	return l
 }
 
+// SafeRemoveLinkedK8sSecrets returns a boolean indicating whether VSecM Safe
+// should delete linked Kubernetes secrets when as safe managed secret is deleted.
+//
+// The removal of linked Kubernetes secrets is determined by the environment variable
+// VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS.
+//
+// If the environment variable is not set or its value is not "true",
+// the function returns false. Otherwise, the function returns true.
+func SafeRemoveLinkedK8sSecrets() bool {
+	p := strings.ToLower(os.Getenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"))
+	if p == "" {
+		return false
+	}
+
+	return p == "true"
+}
+
 // SafeFipsCompliant returns a boolean indicating whether VSecM Safe should run in
 // FIPS compliant mode. Note that this is not a guarantee that VSecM Safe will
 // run in FIPS compliant mode, as it depends on the underlying base image.
