@@ -2,7 +2,6 @@ package logger
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"strings"
 	"sync"
 	"time"
@@ -34,7 +33,7 @@ var currentTime = func() string {
 
 func init() {
 	// Initialize currentLevel with the value from the environment.
-	currentLevel = Level(env.LogLevel())
+	currentLevel = Level(LogLevel())
 }
 
 // SetLevel updates the global log level to the provided level if it is valid.
