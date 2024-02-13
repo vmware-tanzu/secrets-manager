@@ -127,7 +127,7 @@ func respond(r *http.Response) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		logger.SendLogMessage("Post: Unable to read the response body from VSecM Safe.", err.Error())
+		logger.ErrorLn("Post: Unable to read the response body from VSecM Safe.", err.Error())
 		return
 	}
 
@@ -137,24 +137,24 @@ func respond(r *http.Response) {
 }
 
 func printEndpointError(err error) {
-	logger.SendLogMessage("Post: I am having problem generating VSecM Safe "+
+	logger.ErrorLn("Post: I am having problem generating VSecM Safe "+
 		"secrets api endpoint URL.", err.Error())
 }
 
 func printPayloadError(err error) {
-	logger.SendLogMessage("Post: I am having problem generating the payload.", err.Error())
+	logger.ErrorLn("Post: I am having problem generating the payload.", err.Error())
 }
 
 func doDelete(client *http.Client, p string, md []byte) {
 	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
 	if err != nil {
-		logger.SendLogMessage("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 	r, err := client.Do(req)
 	if err != nil {
-		logger.SendLogMessage("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	respond(r)
@@ -163,7 +163,7 @@ func doDelete(client *http.Client, p string, md []byte) {
 func doPost(client *http.Client, p string, md []byte) {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
 	if err != nil {
-		logger.SendLogMessage("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	respond(r)
@@ -188,11 +188,11 @@ func PostInitializationComplete(parentContext context.Context) {
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			logger.SendLogMessage("PostInit: I cannot execute command because I cannot talk to SPIRE.")
+			logger.ErrorLn("PostInit: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		logger.SendLogMessage("PostInit: Operation was cancelled due to an unknown reason.")
+		logger.ErrorLn("PostInit: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -200,7 +200,7 @@ func PostInitializationComplete(parentContext context.Context) {
 			}
 			err := source.Close()
 			if err != nil {
-				logger.SendLogMessage("Post: Problem closing the workload source.")
+				logger.ErrorLn("Post: Problem closing the workload source.")
 			}
 		}()
 
@@ -258,11 +258,11 @@ func Post(parentContext context.Context,
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			logger.SendLogMessage("Post: I cannot execute command because I cannot talk to SPIRE.")
+			logger.ErrorLn("Post: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		logger.SendLogMessage("Post: Operation was cancelled due to an unknown reason.")
+		logger.ErrorLn("Post: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -270,7 +270,7 @@ func Post(parentContext context.Context,
 			}
 			err := source.Close()
 			if err != nil {
-				logger.SendLogMessage("Post: Problem closing the workload source.")
+				logger.ErrorLn("Post: Problem closing the workload source.")
 			}
 		}()
 

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func SendLogMessage(a ...any) {
+func SendLogMessage(message string) {
 	conn, err := grpc.Dial(
 		LOGGER_PORT,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -25,7 +25,7 @@ func SendLogMessage(a ...any) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	_, err = c.SendLog(ctx, &pb.LogRequest{Message: LogTextBuilder(a...)})
+	_, err = c.SendLog(ctx, &pb.LogRequest{Message: message})
 	if err != nil {
 		log.Printf("Logger.SendLogMessage could not send message: %v\n", err)
 		return

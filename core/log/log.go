@@ -21,6 +21,7 @@ import (
 // Level represents log levels.
 type Level int
 
+// Define log levels as constants.
 const (
 	Off Level = iota
 	Fatal
@@ -32,122 +33,85 @@ const (
 	Trace
 )
 
-var currentLevel = Level(env.LogLevel())
-var mux sync.RWMutex
+var (
+	currentLevel Level        // Holds the current log level.
+	mux          sync.RWMutex // Protects access to currentLevel.
+)
 
-// SetLevel sets the global log level to the provided level.
-//
-// The log level is only updated if the provided level is valid (Off, Fatal,
-// Error, Warn, Info, Audit, Debug, or Trace).
-func SetLevel(l Level) {
-	mux.Lock()
-	defer mux.Unlock()
-	if l < Off || l > Trace {
-		return
-	}
-	currentLevel = l
+func init() {
+	// Initialize currentLevel with the value from the environment.
+	currentLevel = Level(env.LogLevel())
 }
 
-// GetLevel returns the current global log level.
+// SetLevel updates the global log level to the provided level if it is valid.
+func SetLevel(level Level) {
+	mux.Lock()
+	defer mux.Unlock()
+
+	if level >= Off && level <= Trace {
+		currentLevel = level
+	}
+}
+
+// GetLevel retrieves the current global log level.
 func GetLevel() Level {
 	mux.RLock()
 	defer mux.RUnlock()
 	return currentLevel
 }
 
-// FatalLn logs a fatal message with the provided correlationId and message
-// arguments. The application will exit after the message is logged.
-func FatalLn(correlationId *string, v ...any) {
-	var args []any
-	args = append(args, "[FATAL]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Fatalln(args...)
-}
-
-// ErrorLn logs an error message with the provided correlationId and message
-// arguments if the current log level is Error or lower.
-func ErrorLn(correlationId *string, v ...any) {
-	l := GetLevel()
-	if l < Error {
+// logMessage logs a message with the specified level, correlation ID, and message arguments.
+// It checks the current log level to decide if the message should be logged.
+func logMessage(level Level, prefix string, correlationID *string, v ...any) {
+	if level != Audit && GetLevel() < level {
 		return
 	}
 
-	var args []any
-	args = append(args, "[ERROR]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Println(args...)
-}
-
-// WarnLn logs a warning message with the provided correlationId and message
-// arguments if the current log level is Warn or lower.
-func WarnLn(correlationId *string, v ...any) {
-	l := GetLevel()
-	if l < Warn {
-		return
+	args := make([]any, 0, len(v)+2)
+	args = append(args, prefix)
+	if correlationID != nil {
+		args = append(args, *correlationID)
 	}
-
-	var args []any
-	args = append(args, "[WARN]")
-	args = append(args, *correlationId)
 	args = append(args, v...)
-	log.Println(args...)
-}
 
-// InfoLn logs an informational message with the provided correlationId and
-// message arguments if the current log level is Info or lower.
-func InfoLn(correlationId *string, v ...any) {
-	l := GetLevel()
-	if l < Info {
-		return
+	if level == Fatal {
+		log.Fatalln(args...)
+	} else {
+		log.Println(args...)
 	}
-
-	var args []any
-	args = append(args, "[INFO ]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Println(args...)
 }
 
-// AuditLn logs an audit message with the provided correlationId and message
-// arguments. Audit messages are always logged, regardless of the current log
-// level.
-func AuditLn(correlationId *string, v ...any) {
-	// Audit is always logged.
-	var args []any
-	args = append(args, "[AUDIT]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Println(args...)
+// FatalLn logs a fatal level message and exits.
+func FatalLn(correlationID *string, v ...any) {
+	logMessage(Fatal, "[FATAL]", correlationID, v...)
 }
 
-// DebugLn logs a debug message with the provided correlationId and message
-// arguments if the current log level is Debug or lower.
-func DebugLn(correlationId *string, v ...any) {
-	l := GetLevel()
-	if l < Debug {
-		return
-	}
-
-	var args []any
-	args = append(args, "[DEBUG]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Println(args...)
+// ErrorLn logs an error level message.
+func ErrorLn(correlationID *string, v ...any) {
+	logMessage(Error, "[ERROR]", correlationID, v...)
 }
 
-// TraceLn logs a trace message with the provided correlationId and message
-// arguments if the current log level is Trace or lower.
-func TraceLn(correlationId *string, v ...any) {
-	l := GetLevel()
-	if l < Trace {
-		return
-	}
+// WarnLn logs a warning level message.
+func WarnLn(correlationID *string, v ...any) {
+	logMessage(Warn, "[WARN]", correlationID, v...)
+}
 
-	var args []any
-	args = append(args, "[TRACE]")
-	args = append(args, *correlationId)
-	args = append(args, v...)
-	log.Println(args...)
+// InfoLn logs an info level message.
+func InfoLn(correlationID *string, v ...any) {
+	logMessage(Info, "[INFO]", correlationID, v...)
+}
+
+// AuditLn logs an audit level message.
+func AuditLn(correlationID *string, v ...any) {
+	logMessage(Audit, "[AUDIT]", correlationID, v...)
+}
+
+// DebugLn logs a debug level message.
+func DebugLn(correlationID *string, v ...any) {
+	logMessage(Debug, "[DEBUG]", correlationID, v...)
+}
+
+// TraceLn logs a trace level message.
+func TraceLn(correlationID *string, v ...any) {
+	logMessage(Trace, "[TRACE]", correlationID, v...)
 }
