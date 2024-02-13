@@ -27,7 +27,6 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -121,7 +120,7 @@ func respond(r *http.Response) {
 		}
 		err := b.Close()
 		if err != nil {
-			log.Println("Post: Problem closing request body.", err.Error())
+			logger.ErrorLn("Post: Problem closing request body.", err.Error())
 		}
 	}(r.Body)
 
