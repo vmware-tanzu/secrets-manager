@@ -19,7 +19,7 @@ func (s *server) SendLog(ctx context.Context, in *pb.LogRequest) (*pb.LogRespons
 }
 
 func CreateLogServer() {
-	lis, err := net.Listen("tcp", LOGGER_PORT)
+	lis, err := net.Listen("tcp", SentinelLoggerUrl())
 	if err != nil {
 		log.Printf("Logger.CreateLogServer error creating log server: %v\n", err)
 		return

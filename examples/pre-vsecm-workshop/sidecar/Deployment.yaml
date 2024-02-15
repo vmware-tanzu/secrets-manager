@@ -71,6 +71,8 @@ spec:
           value: "3"
         - name: VSECM_SIDECAR_ERROR_THRESHOLD
           value: "2"
+        - name: SENTINEL_LOGGER_URL
+          value: "[::]:50051"
       volumes:
       # A memory-backed volume is recommended (but not required) to keep
       # the secrets. The secrets can be stored in any kind of volume.
