@@ -30,7 +30,8 @@ environments:
    value: ":8443"
  - name: VSECM_SENTINEL_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-
+ - name: SENTINEL_LOGGER_URL
+   value: "[::]:50051"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

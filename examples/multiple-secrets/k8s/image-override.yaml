@@ -20,5 +20,7 @@ spec:
       - name: main
         image: localhost:5000/example-multiple-secrets:0.22.4
         env:
-        - name: VSECM_LOG_LEVEL
-          value: "3"
+          - name: VSECM_LOG_LEVEL
+            value: "3"
+          - name: SENTINEL_LOGGER_URL
+            value: "[::]:50051"

@@ -42,6 +42,8 @@ spec:
           value: "spiffe://vsecm.com/workload/"
         - name: VSECM_SAFE_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+        - name: SENTINEL_LOGGER_URL
+          value: "[::]:50051"
       volumes:
       - name: spire-agent-socket
         csi:

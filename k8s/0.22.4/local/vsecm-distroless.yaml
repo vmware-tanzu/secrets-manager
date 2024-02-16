@@ -388,6 +388,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: SENTINEL_LOGGER_URL
+              value: "[::]:50051"
           livenessProbe:
             httpGet:
               path: /
@@ -501,6 +503,8 @@ spec:
               value: ":8443"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+            - name: SENTINEL_LOGGER_URL
+              value: "[::]:50051"
           livenessProbe:
             httpGet:
               path: /
