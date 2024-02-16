@@ -231,6 +231,70 @@ func TestSafeK8sSecretDeleteBufferSize(t *testing.T) {
 	}
 }
 
+func TestSafeRemoveLinkedK8sSecrets(t *testing.T) {
+	tests := []struct {
+		name    string
+		setup   func() error
+		cleanup func() error
+		want    bool
+	}{
+		{
+			name: "default_safe_remove_linked_k8s_secrets",
+			want: false,
+		},
+		{
+			name: "safe_remove_linked_k8s_secrets_from_env_true",
+			setup: func() error {
+				return os.Setenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS", "true")
+			},
+			cleanup: func() error {
+				return os.Unsetenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS")
+			},
+			want: true,
+		},
+		{
+			name: "safe_remove_linked_k8s_secrets_from_env_false",
+			setup: func() error {
+				return os.Setenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS", "false")
+			},
+			cleanup: func() error {
+				return os.Unsetenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS")
+			},
+			want: false,
+		},
+		{
+			name: "invalid_safe_remove_linked_k8s_secrets_from_env",
+			setup: func() error {
+				return os.Setenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS", "test")
+			},
+			cleanup: func() error {
+				return os.Unsetenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS")
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if tt.setup != nil {
+				if err := tt.setup(); err != nil {
+					t.Errorf("SafeRemoveLinkedK8sSecrets() = failed to setup, with error: %+v", err)
+				}
+			}
+			defer func() {
+				if tt.cleanup != nil {
+					if err := tt.cleanup(); err != nil {
+						t.Errorf("SafeRemoveLinkedK8sSecrets() = failed to cleanup, with error: %+v", err)
+					}
+				}
+			}()
+			if got := SafeRemoveLinkedK8sSecrets(); got != tt.want {
+				t.Errorf("SafeRemoveLinkedK8sSecrets() = %v, want %v", got, tt.want)
+			}
+		},
+		)
+	}
+}
+
 func TestSafeFipsCompliant(t *testing.T) {
 	tests := []struct {
 		name    string

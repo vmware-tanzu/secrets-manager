@@ -49,7 +49,7 @@ func main() {
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
 		"VSECM_SAFE_FIPS_COMPLIANT", "VSECM_SAFE_SPIFFEID_PREFIX",
-		"VSECM_SAFE_TLS_PORT"}
+		"VSECM_SAFE_TLS_PORT", "VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"}
 	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	// Time out if things take too long.
