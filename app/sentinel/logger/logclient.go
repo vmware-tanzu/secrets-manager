@@ -11,7 +11,7 @@ import (
 
 func SendLogMessage(message string) {
 	conn, err := grpc.Dial(
-		LOGGER_PORT,
+		SentinelLoggerUrl(),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
 	)

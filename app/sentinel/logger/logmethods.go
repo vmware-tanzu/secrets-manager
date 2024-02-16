@@ -86,7 +86,7 @@ func WarnLn(v ...any) {
 
 // InfoLn logs an informational message with the provided correlationId and
 // message arguments if the current log level is Info or lower.
-func InfoLn(correlationId *string, v ...any) {
+func InfoLn(v ...any) {
 	l := GetLevel()
 	if l < Info {
 		return

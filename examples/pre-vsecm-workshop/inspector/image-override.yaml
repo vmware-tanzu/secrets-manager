@@ -22,3 +22,5 @@ spec:
         env:
           - name: VSECM_LOG_LEVEL
             value: "3"
+          - name: SENTINEL_LOGGER_URL
+            value: "[::]:50051"

@@ -37,6 +37,8 @@ spec:
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
         - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
           value: "5000"
+        - name: SENTINEL_LOGGER_URL
+          value: "[::]:50051"
       volumes:
       - name: spire-agent-socket
         csi:

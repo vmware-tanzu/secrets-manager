@@ -52,6 +52,8 @@ spec:
           value: "spiffe://vsecm.com/workload/"
         - name: VSECM_SAFE_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+        - name: SENTINEL_LOGGER_URL
+          value: "[::]:50051"
       volumes:
       # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
       # ref: https://github.com/spiffe/spiffe-csi

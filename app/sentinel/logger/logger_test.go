@@ -3,6 +3,7 @@ package logger
 import (
 	"context"
 	"net"
+	"os"
 	"strings"
 	"testing"
 
@@ -20,39 +21,15 @@ func (s *MockLogServiceServer) SendLog(ctx context.Context, in *pb.LogRequest) (
 	return &pb.LogResponse{}, nil
 }
 
-func TestSendLogMessage(t *testing.T) {
-	server := &MockLogServiceServer{}
-	grpcServer := grpc.NewServer()
-	pb.RegisterLogServiceServer(grpcServer, server)
-
-	lis, err := net.Listen("tcp", LOGGER_PORT)
-	if err != nil {
-		t.Fatalf("error creating log server: %v", err)
-	}
-	defer lis.Close()
-
-	go func() {
-		if err := grpcServer.Serve(lis); err != nil {
-			t.Fatalf("failed to serve: %v", err)
-		}
-	}()
-	defer grpcServer.Stop()
-
-	message := "Test log message"
-	SendLogMessage(message)
-
-	if !strings.Contains(server.ReceivedMessage, message) {
-		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
-	}
-}
-
 func TestCreateLogServer(t *testing.T) {
 	server := &MockLogServiceServer{}
-	lis, err := net.Listen("tcp", LOGGER_PORT)
+	lis, err := net.Listen("tcp", ":0")
 	if err != nil {
 		t.Fatalf("error creating log server: %v", err)
 	}
 	defer lis.Close()
+
+	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterLogServiceServer(grpcServer, server)
@@ -67,6 +44,64 @@ func TestCreateLogServer(t *testing.T) {
 	CreateLogServer()
 }
 
+func TestSendLogMessage(t *testing.T) {
+	server := &MockLogServiceServer{}
+	grpcServer := grpc.NewServer()
+	pb.RegisterLogServiceServer(grpcServer, server)
+
+	lis, err := net.Listen("tcp", ":0")
+	if err != nil {
+		t.Fatalf("error creating log server: %v", err)
+	}
+	defer lis.Close()
+
+	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
+
+	go func() {
+		if err := grpcServer.Serve(lis); err != nil {
+			t.Fatalf("failed to serve: %v", err)
+		}
+	}()
+	defer grpcServer.Stop()
+
+	message := "Test log message"
+
+	ErrorLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_ERROR]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	FatalLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_FATAL]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	WarnLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_WARN]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	InfoLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_INFO]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	AuditLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_AUDIT]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	DebugLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_DEBUG]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+
+	TraceLn(message)
+	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_TRACE]") && !strings.Contains(server.ReceivedMessage, message) {
+		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
+	}
+}
+
 func TestLogServiceSendLog(t *testing.T) {
 	// Define a mock LogRequest
 	mockRequest := &pb.LogRequest{
@@ -75,11 +110,13 @@ func TestLogServiceSendLog(t *testing.T) {
 
 	// Start a mock gRPC server
 	server := &MockLogServiceServer{}
-	lis, err := net.Listen("tcp", LOGGER_PORT)
+	lis, err := net.Listen("tcp", ":0")
 	if err != nil {
 		t.Fatalf("error creating log server: %v", err)
 	}
 	defer lis.Close()
+
+	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterLogServiceServer(grpcServer, server)
