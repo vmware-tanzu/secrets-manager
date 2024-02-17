@@ -13,21 +13,21 @@ global:
   # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
   baseImage: distroless
   registry: vsecm
-  logLevel: "7"
+  logLevel: "3"
   images:
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe
       photonRepository: vsecm-photon-safe
       photonFipsRepository: vsecm-photon-fips-safe
-      tag: 0.22.4
+      tag: 0.23.0
       pullPolicy: IfNotPresent
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
       photonRepository: vsecm-photon-sentinel
       photonFipsRepository: vsecm-photon-fips-sentinel
-      tag: 0.22.4
+      tag: 0.23.0
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent

@@ -32,11 +32,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.4
+    helm.sh/chart: safe-0.23.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.4"
+    app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
@@ -57,15 +57,15 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.22.4
+    helm.sh/chart: sentinel-0.23.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.4"
+    app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: vsecm/charts/safe/templates/Secret.yaml
+# Source: vsecm/charts/safe/templates/secret.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -236,7 +236,7 @@ roleRef:
 #
 ##
 ---
-# Source: vsecm/charts/safe/templates/Service.yaml
+# Source: vsecm/charts/safe/templates/service.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -253,11 +253,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.4
+    helm.sh/chart: safe-0.23.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.4"
+    app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -288,11 +288,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.22.4
+    helm.sh/chart: safe-0.23.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.4"
+    app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -313,7 +313,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-safe:0.22.4"
+          image: "vsecm/vsecm-photon-fips-safe:0.23.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -384,12 +384,12 @@ spec:
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/"
+            - name: SENTINEL_LOGGER_URL
+              value: "[::]:50051"
             - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: SENTINEL_LOGGER_URL
-              value: "[::]:50051"
           livenessProbe:
             httpGet:
               path: /
@@ -441,11 +441,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.22.4
+    helm.sh/chart: sentinel-0.23.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.22.4"
+    app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -466,7 +466,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-sentinel:0.22.4"
+          image: "vsecm/vsecm-photon-fips-sentinel:0.23.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -527,7 +527,7 @@ spec:
           secret:
             secretName: vsecm-sentinel-init-tombstone
 ---
-# Source: vsecm/charts/safe/templates/Identity.yaml
+# Source: vsecm/charts/safe/templates/identity.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/

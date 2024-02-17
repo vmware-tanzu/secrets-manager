@@ -205,7 +205,7 @@ data:
       ready_path = "/ready"
     }
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/hook-preinstall-role.yaml
+# Source: vsecm/charts/spire/templates/crd-rbac/hook-preinstall_role.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -291,7 +291,7 @@ rules:
     resources: ["tokenreviews"]
     verbs: ["get", "create"]
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/RoleBinding.yaml
+# Source: vsecm/charts/spire/templates/crd-rbac/role_binding.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
