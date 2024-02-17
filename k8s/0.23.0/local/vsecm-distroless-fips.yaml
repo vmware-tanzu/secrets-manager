@@ -65,7 +65,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: vsecm/charts/safe/templates/secret.yaml
+# Source: vsecm/charts/safe/templates/Secret.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -236,7 +236,7 @@ roleRef:
 #
 ##
 ---
-# Source: vsecm/charts/safe/templates/service.yaml
+# Source: vsecm/charts/safe/templates/Service.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -527,7 +527,7 @@ spec:
           secret:
             secretName: vsecm-sentinel-init-tombstone
 ---
-# Source: vsecm/charts/safe/templates/identity.yaml
+# Source: vsecm/charts/safe/templates/Identity.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
