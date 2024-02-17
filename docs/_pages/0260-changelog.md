@@ -22,10 +22,36 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+TBD
+
+## [v0.22.4] - 2024-02-17
+
+### Added
+
 * Added the ability to associate multiple namespaces with a single VSecM secret.
 * Added a tombstone feature to VSecM Sentinel, so that when the init commands run to
   completion, they will not run again if VSecM Sentinel is evicted and restarted.
-* Security update: https://github.com/vmware-tanzu/secrets-manager/pull/494
+* Created an ECR repository to test edge versions of VSecM container images that
+  have not been released yet.
+* Added audit logging capabilities to VSecM Sentinel.
+
+### Fixed
+
+* Secrets creation now has a backoff policy and will retry if the first attempt fails.
+* `VSECM_LOG_LEVEL` was left at `7` (verbose) in the charts, defaulting to `3` (warn).
+
+### Changed
+
+* Moved “*VMware, Inc.*” from the copyright headers, replacing it with “*VMware
+  Secrets Manager contributors*”.
+* Default resource limits for Minikube initialization scripts to a more reasonable
+  values for development. These are still configurable via environment variables.
+
+### Security
+
+* Fixed CVE-2024-25062 [When using the XML Reader interface with DTD validation 
+  and XInclude expansion enabled, processing crafted XML documents can lead to 
+  an xmlValidatePopElement use-after-free](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/10)
 
 ## [v0.22.3] - 2024-02-04
 

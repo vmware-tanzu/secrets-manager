@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: localhost:5000/example-using-init-container:0.22.4
+        image: localhost:5000/example-using-init-container:0.23.0
       initContainers:
       - name: init-container
-        image: localhost:5000/vsecm-ist-init-container:0.22.4
+        image: localhost:5000/vsecm-ist-init-container:0.23.0
