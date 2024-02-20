@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server"
@@ -20,7 +21,14 @@ import (
 )
 
 func main() {
-	id := "VSECMSAFE"
+	id, err := crypto.RandomString(8)
+	if err != nil {
+		id = "VSECMSAFE"
+	}
+
+	ctx, cancel := context.WithCancel(
+		context.WithValue(context.Background(), "correlationId", &id),
+	)
 
 	bootstrap.ValidateEnvironment()
 
@@ -60,10 +68,6 @@ func main() {
 
 	// App is alive; however, not yet ready to accept connections.
 	go probe.CreateLiveness()
-
-	ctx, cancel := context.WithCancel(
-		context.WithValue(context.Background(), "correlationId", &id),
-	)
 
 	defer cancel()
 

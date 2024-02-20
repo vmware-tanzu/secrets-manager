@@ -22,18 +22,29 @@ const (
 	Trace
 )
 
-var (
-	currentLevel Level        // Holds the current log level.
-	mux          sync.RWMutex // Protects access to currentLevel.
-)
+var mux sync.RWMutex // Protects access to currentLevel.
+var currentLevel = Level(LogLevel())
 
 var currentTime = func() string {
 	return time.Now().Local().Format(time.DateTime)
 }
 
-func init() {
-	// Initialize currentLevel with the value from the environment.
-	currentLevel = Level(LogLevel())
+func build(logHeader string, correlationId *string, a ...any) string {
+	logPrefix := fmt.Sprintf("%s[%s]", logHeader, currentTime())
+	var messageParts []string
+
+	if correlationId != nil {
+		messageParts = append(messageParts, *correlationId)
+	}
+
+	for _, element := range a {
+		messageParts = append(messageParts, fmt.Sprintf("%v", element))
+	}
+
+	message := strings.Join(messageParts, " ")
+	finalLog := fmt.Sprintf("%s %s\n", logPrefix, message)
+
+	return finalLog
 }
 
 // SetLevel updates the global log level to the provided level if it is valid.
@@ -55,89 +66,75 @@ func GetLevel() Level {
 
 // FatalLn logs a fatal message with the provided correlationId and message
 // arguments. The application will exit after the message is logged.
-func FatalLn(v ...any) {
-	message := LogTextBuilder("[SENTINEL_FATAL]", v)
+func FatalLn(correlationId *string, v ...any) {
+	message := build("[FATAL]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // ErrorLn logs an error message with the provided correlationId and message
 // arguments if the current log level is Error or lower.
-func ErrorLn(v ...any) {
+func ErrorLn(correlationId *string, v ...any) {
 	l := GetLevel()
 	if l < Error {
 		return
 	}
 
-	message := LogTextBuilder("[SENTINEL_ERROR]", v)
+	message := build("[ERROR]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // WarnLn logs a warning message with the provided correlationId and message
 // arguments if the current log level is Warn or lower.
-func WarnLn(v ...any) {
+func WarnLn(correlationId *string, v ...any) {
 	l := GetLevel()
 	if l < Warn {
 		return
 	}
 
-	message := LogTextBuilder("[SENTINEL_WARN]", v)
+	message := build("[WARN]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // InfoLn logs an informational message with the provided correlationId and
 // message arguments if the current log level is Info or lower.
-func InfoLn(v ...any) {
+func InfoLn(correlationId *string, v ...any) {
 	l := GetLevel()
 	if l < Info {
 		return
 	}
 
-	message := LogTextBuilder("[SENTINEL_INFO]", v)
+	message := build("[INFO]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // AuditLn logs an audit message with the provided correlationId and message
 // arguments. Audit messages are always logged, regardless of the current log
 // level.
-func AuditLn(v ...any) {
-	message := LogTextBuilder("[SENTINEL_AUDIT]", v)
+func AuditLn(correlationId *string, v ...any) {
+	message := build("[AUDIT]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // DebugLn logs a debug message with the provided correlationId and message
 // arguments if the current log level is Debug or lower.
-func DebugLn(v ...any) {
+func DebugLn(correlationId *string, v ...any) {
 	l := GetLevel()
 	if l < Debug {
 		return
 	}
 
-	message := LogTextBuilder("[SENTINEL_DEBUG]", v)
+	message := build("[DEBUG]", correlationId, v)
 	SendLogMessage(message)
 }
 
 // TraceLn logs a trace message with the provided correlationId and message
 // arguments if the current log level is Trace or lower.
-func TraceLn(v ...any) {
+func TraceLn(correlationId *string, v ...any) {
 	l := GetLevel()
 	if l < Trace {
 		return
 	}
 
-	message := LogTextBuilder("[SENTINEL_TRACE]", v)
+	message := build("[TRACE]", correlationId, v)
 	SendLogMessage(message)
-}
-
-func LogTextBuilder(logHeader string, a ...any) string {
-	logPrefix := fmt.Sprintf("%s[%s]", logHeader, currentTime())
-	var messageParts []string
-
-	for _, element := range a {
-		messageParts = append(messageParts, fmt.Sprintf("%v", element))
-	}
-
-	message := strings.Join(messageParts, " ")
-	finalLog := fmt.Sprintf("%s %s\n", logPrefix, message)
-
-	return finalLog
 }

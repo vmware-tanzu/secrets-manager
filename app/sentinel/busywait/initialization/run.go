@@ -98,7 +98,7 @@ func RunInitCommands() {
 		}
 	}(file)
 
-	ctx := context.Background()
+	ctx := context.WithValue(context.Background(), "correlationId", &cid)
 
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand

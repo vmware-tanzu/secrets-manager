@@ -16,6 +16,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"strings"
+
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -26,10 +31,6 @@ import (
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
-	"net/url"
-	"strings"
 )
 
 func createAuthorizer() tlsconfig.Authorizer {
@@ -109,7 +110,7 @@ func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
 	}
 }
 
-func respond(r *http.Response) {
+func respond(cid *string, r *http.Response) {
 	if r == nil {
 		return
 	}
@@ -120,13 +121,13 @@ func respond(r *http.Response) {
 		}
 		err := b.Close()
 		if err != nil {
-			logger.ErrorLn("Post: Problem closing request body.", err.Error())
+			logger.ErrorLn(cid, "Post: Problem closing request body.", err.Error())
 		}
 	}(r.Body)
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		logger.ErrorLn("Post: Unable to read the response body from VSecM Safe.", err.Error())
+		logger.ErrorLn(cid, "Post: Unable to read the response body from VSecM Safe.", err.Error())
 		return
 	}
 
@@ -135,45 +136,68 @@ func respond(r *http.Response) {
 	fmt.Println("")
 }
 
-func printEndpointError(err error) {
-	logger.ErrorLn("Post: I am having problem generating VSecM Safe "+
+func printEndpointError(cid *string, err error) {
+	logger.ErrorLn(cid, "Post: I am having problem generating VSecM Safe "+
 		"secrets api endpoint URL.", err.Error())
 }
 
-func printPayloadError(err error) {
-	logger.ErrorLn("Post: I am having problem generating the payload.", err.Error())
+func printPayloadError(cid *string, err error) {
+	logger.ErrorLn(cid, "Post: I am having problem generating the payload.", err.Error())
 }
 
-func doDelete(client *http.Client, p string, md []byte) {
+func doDelete(cid *string, client *http.Client, p string, md []byte) {
 	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
 	if err != nil {
-		logger.ErrorLn("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn(cid, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
 	r, err := client.Do(req)
 	if err != nil {
-		logger.ErrorLn("Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn(cid, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
-	respond(r)
+	respond(cid, r)
 }
 
-func doPost(client *http.Client, p string, md []byte) {
+func doPost(cid *string, client *http.Client, p string, md []byte) {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
 	if err != nil {
-		logger.ErrorLn("Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
+		logger.ErrorLn(cid, "Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
 		return
 	}
-	respond(r)
+	respond(cid, r)
 }
 
+// PostInitializationComplete is a function that signals the completion of a
+// post-initialization process.
+// It takes a parent context as an argument and performs several steps involving
+// timeout management, source acquisition, error handling, and sending a
+// notification about the initialization completion.
+//
+// In a separate goroutine, it tries to acquire a source and sends the source and
+// a proceed signal back to the main function through channels. The main function
+// then waits for either a timeout or a source to be returned.
+//
+// If a timeout occurs, it logs an error depending on whether it’s due to deadline
+// exceeded or an unknown reason. If a source is received, it checks whether to
+// proceed. If not, it returns early.
+//
+// If proceeding, the function then creates an authorizer and builds a client with
+// mutual TLS configuration. It creates a new request payload, marshals it to
+// JSON, and sends a POST request to a specified endpoint.
+//
+// Parameters:
+//   - parentContext (context.Context): The parent context from which the function
+//     will derive its context.
 func PostInitializationComplete(parentContext context.Context) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SafeSourceAcquisitionTimeout(),
 	)
 	defer cancel()
+
+	cid := ctxWithTimeout.Value("correlationId").(*string)
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)
@@ -187,11 +211,11 @@ func PostInitializationComplete(parentContext context.Context) {
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			logger.ErrorLn("PostInit: I cannot execute command because I cannot talk to SPIRE.")
+			logger.ErrorLn(cid, "PostInit: I cannot execute command because I cannot talk to SPIRE.")
 			return
 		}
 
-		logger.ErrorLn("PostInit: Operation was cancelled due to an unknown reason.")
+		logger.ErrorLn(cid, "PostInit: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -199,7 +223,7 @@ func PostInitializationComplete(parentContext context.Context) {
 			}
 			err := source.Close()
 			if err != nil {
-				logger.ErrorLn("Post: Problem closing the workload source.")
+				logger.ErrorLn(cid, "Post: Problem closing the workload source.")
 			}
 		}()
 
@@ -213,7 +237,7 @@ func PostInitializationComplete(parentContext context.Context) {
 
 		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/init-completed")
 		if err != nil {
-			printEndpointError(err)
+			printEndpointError(cid, err)
 			return
 		}
 
@@ -228,11 +252,11 @@ func PostInitializationComplete(parentContext context.Context) {
 
 		md, err := json.Marshal(sr)
 		if err != nil {
-			printPayloadError(err)
+			printPayloadError(cid, err)
 			return
 		}
 
-		doPost(client, p, md)
+		doPost(cid, client, p, md)
 	}
 }
 
@@ -244,6 +268,8 @@ func Post(parentContext context.Context,
 		env.SafeSourceAcquisitionTimeout(),
 	)
 	defer cancel()
+
+	cid := ctxWithTimeout.Value("correlationId").(*string)
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)
@@ -257,11 +283,17 @@ func Post(parentContext context.Context,
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			logger.ErrorLn("Post: I cannot execute command because I cannot talk to SPIRE.")
+			logger.ErrorLn(
+				cid,
+				"Post: I cannot execute command because I cannot talk to SPIRE.",
+			)
 			return
 		}
 
-		logger.ErrorLn("Post: Operation was cancelled due to an unknown reason.")
+		logger.ErrorLn(
+			cid,
+			"Post: Operation was cancelled due to an unknown reason.",
+		)
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -269,7 +301,7 @@ func Post(parentContext context.Context,
 			}
 			err := source.Close()
 			if err != nil {
-				logger.ErrorLn("Post: Problem closing the workload source.")
+				logger.ErrorLn(cid, "Post: Problem closing the workload source.")
 			}
 		}()
 
@@ -284,7 +316,7 @@ func Post(parentContext context.Context,
 		if sc.InputKeys != "" {
 			p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/keys")
 			if err != nil {
-				printEndpointError(err)
+				printEndpointError(cid, err)
 				return
 			}
 
@@ -297,18 +329,18 @@ func Post(parentContext context.Context,
 
 			parts := strings.Split(sc.InputKeys, "\n")
 			if len(parts) != 3 {
-				printPayloadError(errors.New("post: Bad data! Very bad data"))
+				printPayloadError(cid, errors.New("post: Bad data! Very bad data"))
 				return
 			}
 
 			sr := newInputKeysRequest(parts[0], parts[1], parts[2])
 			md, err := json.Marshal(sr)
 			if err != nil {
-				printPayloadError(err)
+				printPayloadError(cid, err)
 				return
 			}
 
-			doPost(client, p, md)
+			doPost(cid, client, p, md)
 			return
 		}
 
@@ -327,7 +359,7 @@ func Post(parentContext context.Context,
 
 		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
 		if err != nil {
-			printEndpointError(err)
+			printEndpointError(cid, err)
 			return
 		}
 
@@ -344,15 +376,15 @@ func Post(parentContext context.Context,
 
 		md, err := json.Marshal(sr)
 		if err != nil {
-			printPayloadError(err)
+			printPayloadError(cid, err)
 			return
 		}
 
 		if sc.DeleteSecret {
-			doDelete(client, p, md)
+			doDelete(cid, client, p, md)
 			return
 		}
 
-		doPost(client, p, md)
+		doPost(cid, client, p, md)
 	}
 }

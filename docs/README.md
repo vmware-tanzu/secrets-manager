@@ -9,7 +9,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VMWare Secrets Manager for Cloud-Native Apps
+title: VMware Secrets Manager for Cloud-Native Apps
 layout: post
 prev_url: /docs/showcase/
 permalink: /

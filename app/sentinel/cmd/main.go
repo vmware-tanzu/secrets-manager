@@ -13,6 +13,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"os"
 	"os/signal"
@@ -24,6 +25,17 @@ import (
 
 func main() {
 	parser := argparse.NewParser("safe", "Assigns secrets to workloads.")
+
+	id, err := crypto.RandomString(8)
+	if err != nil {
+		id = "VSECMSENTINEL"
+	}
+
+	ctx, cancel := context.WithCancel(
+		context.WithValue(context.Background(), "correlationId", &id),
+	)
+
+	defer cancel()
 
 	list := parseList(parser)
 	useKubernetes := parseUseKubernetes(parser)
@@ -40,7 +52,7 @@ func main() {
 	notBefore := parseNotBefore(parser)
 	expires := parseExpires(parser)
 
-	err := parser.Parse(os.Args)
+	err = parser.Parse(os.Args)
 	if err != nil {
 		fmt.Println(err.Error())
 		fmt.Println()
@@ -50,10 +62,10 @@ func main() {
 
 	if *list {
 		if *encrypt {
-			safe.Get(true)
+			safe.Get(ctx, true)
 			return
 		}
-		safe.Get(false)
+		safe.Get(ctx, false)
 		return
 	}
 
@@ -64,9 +76,6 @@ func main() {
 	if inputValidationFailure(workloadId, encrypt, inputKeys, secret, deleteSecret) {
 		return
 	}
-
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)

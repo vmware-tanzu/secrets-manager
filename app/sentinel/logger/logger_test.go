@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets… secret
+>/
+<>/' Copyright 2023–present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package logger
 
 import (
@@ -10,6 +20,8 @@ import (
 	pb "github.com/vmware-tanzu/secrets-manager/app/sentinel/logger/generated"
 	"google.golang.org/grpc"
 )
+
+var cid = "test-correlation-id"
 
 type MockLogServiceServer struct {
 	pb.UnimplementedLogServiceServer
@@ -66,37 +78,37 @@ func TestSendLogMessage(t *testing.T) {
 
 	message := "Test log message"
 
-	ErrorLn(message)
+	ErrorLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_ERROR]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	FatalLn(message)
+	FatalLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_FATAL]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	WarnLn(message)
+	WarnLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_WARN]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	InfoLn(message)
+	InfoLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_INFO]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	AuditLn(message)
+	AuditLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_AUDIT]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	DebugLn(message)
+	DebugLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_DEBUG]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
-	TraceLn(message)
+	TraceLn(&cid, message)
 	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_TRACE]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}

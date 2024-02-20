@@ -54,3 +54,5 @@ vendor
 /vsecm-ist-sentinel
 /vsecm-ist-sidecar
 
+/app/sentinel/logger/generated/log_grpc.pb.go
+/app/sentinel/logger/generated/log.pb.go
