@@ -51,9 +51,11 @@ func TestLogTextBuilder(t *testing.T) {
 		},
 	}
 
+	cid := "VSECMSENTINEL"
+
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got := build(tc.logHeader, tc.messages...)
+			got := build(tc.logHeader, &cid, tc.messages...)
 			if got != tc.want {
 				t.Errorf("build() = %q, want %q", got, tc.want)
 			}
