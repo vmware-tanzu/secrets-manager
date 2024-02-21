@@ -11,7 +11,7 @@
 package rpc
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	core "github.com/vmware-tanzu/secrets-manager/core/log"
 	"regexp"
 	"testing"
 )
@@ -19,18 +19,18 @@ import (
 func TestSetAndGetLevel(t *testing.T) {
 	tests := []struct {
 		name     string
-		setLevel log.Level
-		want     log.Level
+		setLevel core.Level
+		want     core.Level
 	}{
-		{"Set to Off", log.Off, log.Off},
-		{"Set to Error", log.Error, log.Error},
-		{"Set to Debug", log.Debug, log.Debug},
+		{"Set to Off", core.Off, core.Off},
+		{"Set to Error", core.Error, core.Error},
+		{"Set to Debug", core.Debug, core.Debug},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			log.SetLevel(tc.setLevel)
-			if got := log.GetLevel(); got != tc.want {
+			core.SetLevel(tc.setLevel)
+			if got := core.GetLevel(); got != tc.want {
 				t.Errorf("After SetLevel(%v), GetLevel() = %v, want %v", tc.setLevel, got, tc.want)
 			}
 		})
