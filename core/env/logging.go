@@ -11,6 +11,7 @@
 package env
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -22,6 +23,7 @@ import (
 // 0: logs are off, 7: highest verbosity (TRACE).
 func LogLevel() int {
 	p := os.Getenv("VSECM_LOG_LEVEL")
+	fmt.Println("#### log level: '", p, "'")
 	if p == "" {
 		return 3 // WARN
 	}
