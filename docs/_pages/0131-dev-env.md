@@ -172,7 +172,7 @@ with the `Makefile` at the project root.
 make help
 ```
 
-Additionally, you can run `make he` at the root of each project to get
+Additionally, you can run `make h` at the root of each project to get
 a more release-specific help output.
 
 ```bash
@@ -182,6 +182,16 @@ make h
 Both of these commands gives a brief overview of what you can do with the
 make targets. If you want to learn more about a specific target, you can
 read the source code of the relevant file inside the `./makefiles` folder.
+
+## Generate Proto Files
+The following dependencies are essential for the generation of proto files.
+They facilitate the creation of Sentinel Logger gRPC server and client files.
+Once installed, these dependencies do not require reinstallation for subsequent uses.
+
+```bash
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
 
 ## Building, Deploying, and Testing
 

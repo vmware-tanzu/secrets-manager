@@ -53,7 +53,13 @@ help:
 	@echo "          or"
 	@echo "          > make k8s-start VSECM_MINIKUBE_CPU_COUNT=4 VSECM_MINIKUBE_MEMORY=4096"
 	@echo "   ⦿ Generate Proto files:"
-	@echo "          ˃ make generate-proto-files"
+	@if [ $$(command -v protoc-gen-go >/dev/null 2>&1; echo $$?) -eq 0 ] && [ $$(command -v protoc-gen-go-grpc >/dev/null 2>&1; echo $$?) -eq 0 ]; then \
+		echo "          ˃ make generate-proto-files"; \
+	else \
+		echo "          ˃ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest"; \
+		echo "          ˃ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"; \
+		echo "          ˃ make generate-proto-files"; \
+	fi
 	@echo "--------------------------------------------------------------------"
 	@echo "  Installation:"
 	@echo "    ⦿ Distroless images:"
@@ -80,7 +86,13 @@ h:
 	@echo "˃ make k8s-delete;make k8s-start;"
 	@echo '⦿ eval $$(minikube -p minikube docker-env)';
 	@echo "˃ make clean;"
-	@echo "˃ make generate-proto-files"
+	@if [ $$(command -v protoc-gen-go >/dev/null 2>&1; echo $$?) -eq 0 ] && [ $$(command -v protoc-gen-go-grpc >/dev/null 2>&1; echo $$?) -eq 0 ]; then \
+		echo "˃ make generate-proto-files"; \
+	else \
+		echo "˃ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest"; \
+		echo "˃ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"; \
+		echo "˃ make generate-proto-files"; \
+	fi
 	@echo "˃ make build-local;make deploy-local;make test-local;"
 	@echo "˃ make build;make deploy;make test;"
 	@echo "˃ make tag;"
