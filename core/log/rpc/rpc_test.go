@@ -48,7 +48,8 @@ func TestCreateLogServer(t *testing.T) {
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
-			t.Fatalf("failed to serve: %v", err)
+			t.Errorf("failed to serve: %v", err)
+			return
 		}
 	}()
 	defer grpcServer.Stop()
@@ -71,7 +72,8 @@ func TestSendLogMessage(t *testing.T) {
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
-			t.Fatalf("failed to serve: %v", err)
+			t.Errorf("failed to serve: %v", err)
+			return
 		}
 	}()
 	defer grpcServer.Stop()
@@ -135,7 +137,8 @@ func TestLogServiceSendLog(t *testing.T) {
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
-			t.Fatalf("failed to serve: %v", err)
+			t.Errorf("failed to serve: %v", err)
+			return
 		}
 	}()
 	defer grpcServer.Stop()
