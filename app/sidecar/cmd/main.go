@@ -11,7 +11,7 @@
 package main
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )

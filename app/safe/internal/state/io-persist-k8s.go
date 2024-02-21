@@ -16,7 +16,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 	apiV1 "k8s.io/api/core/v1"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -166,7 +166,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 func persistK8s(secret entity.SecretStored, errChan chan<- error) {
 	cid := secret.Meta.CorrelationId
 
-	log.TraceLn(&cid, "persistK8s: Will persist k8s secret.")
+	std.TraceLn(&cid, "persistK8s: Will persist k8s secret.")
 
 	if len(secret.Values) == 0 {
 		secret.Values = append(secret.Values, InitialSecretValue)
@@ -181,18 +181,18 @@ func persistK8s(secret entity.SecretStored, errChan chan<- error) {
 		secret.Values[0] = InitialSecretValue
 	}
 
-	log.TraceLn(&cid, "persistK8s: Will try saving secret to k8s.")
+	std.TraceLn(&cid, "persistK8s: Will try saving secret to k8s.")
 	err := saveSecretToKubernetes(secret)
-	log.TraceLn(&cid, "persistK8s: should have saved secret to k8s.")
+	std.TraceLn(&cid, "persistK8s: should have saved secret to k8s.")
 	if err != nil {
-		log.TraceLn(&cid, "persistK8s: Got error while trying to save, will retry.")
+		std.TraceLn(&cid, "persistK8s: Got error while trying to save, will retry.")
 		// Retry once more.
 		time.Sleep(500 * time.Millisecond)
-		log.TraceLn(&cid, "persistK8s: Retrying saving secret to k8s.")
+		std.TraceLn(&cid, "persistK8s: Retrying saving secret to k8s.")
 		err := saveSecretToKubernetes(secret)
-		log.TraceLn(&cid, "persistK8s: Should have saved secret.")
+		std.TraceLn(&cid, "persistK8s: Should have saved secret.")
 		if err != nil {
-			log.TraceLn(&cid, "persistK8s: still error, pushing the error to errchan")
+			std.TraceLn(&cid, "persistK8s: still error, pushing the error to errchan")
 			errChan <- err
 		}
 	}

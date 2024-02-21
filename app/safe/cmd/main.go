@@ -12,11 +12,11 @@ package main
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
 

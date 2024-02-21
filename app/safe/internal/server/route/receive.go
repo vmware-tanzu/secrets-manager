@@ -11,13 +11,14 @@
 package route
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"io"
 	"net/http"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {

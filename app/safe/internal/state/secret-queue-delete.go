@@ -13,7 +13,7 @@ package state
 import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"os"
 	"path"
 )
@@ -33,14 +33,14 @@ func processSecretDeleteQueue() {
 	go func() {
 		for e := range errChan {
 			// If the `delete` operation spews out an error, log it.
-			log.ErrorLn(&id, "processSecretDeleteQueue: error deleting secret:", e.Error())
+			std.ErrorLn(&id, "processSecretDeleteQueue: error deleting secret:", e.Error())
 		}
 	}()
 
 	for {
 		// Buffer overflow check.
 		if len(secretDeleteQueue) == env.SafeSecretBufferSize() {
-			log.ErrorLn(
+			std.ErrorLn(
 				&id,
 				"processSecretDeleteQueue: there are too many k8s secrets queued. "+
 					"The goroutine will BLOCK until the queue is cleared.",
@@ -51,21 +51,21 @@ func processSecretDeleteQueue() {
 		secret := <-secretDeleteQueue
 
 		if secret.Name == "" {
-			log.WarnLn(&id, "processSecretDeleteQueue: trying to delete an empty secret. "+
+			std.WarnLn(&id, "processSecretDeleteQueue: trying to delete an empty secret. "+
 				"Possibly picked a nil secret", len(secretQueue))
 			return
 		}
 
-		log.TraceLn(&id, "processSecretDeleteQueue: picked a secret", len(secretQueue))
+		std.TraceLn(&id, "processSecretDeleteQueue: picked a secret", len(secretQueue))
 
 		// Remove secret from disk.
 		dataPath := path.Join(env.SafeDataPath(), secret.Name+".age")
-		log.TraceLn(&id, "processSecretDeleteQueue: removing secret from disk:", dataPath)
+		std.TraceLn(&id, "processSecretDeleteQueue: removing secret from disk:", dataPath)
 		err := os.Remove(dataPath)
 		if err != nil && !os.IsNotExist(err) {
-			log.WarnLn(&id, "processSecretDeleteQueue: failed to remove secret", err.Error())
+			std.WarnLn(&id, "processSecretDeleteQueue: failed to remove secret", err.Error())
 		}
 
-		log.TraceLn(&id, "processSecretDeleteQueue: should have deleted the secret.")
+		std.TraceLn(&id, "processSecretDeleteQueue: should have deleted the secret.")
 	}
 }

@@ -15,13 +15,15 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/hex"
-	"filippo.io/age"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"io"
 	"math"
 	"time"
+
+	"filippo.io/age"
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func encryptToWriterAge(out io.Writer, data string) error {

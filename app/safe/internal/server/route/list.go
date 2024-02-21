@@ -12,15 +12,16 @@ package route
 
 import (
 	"encoding/json"
+	"io"
+	"net/http"
+	"strings"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
-	"io"
-	"net/http"
-	"strings"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func doList(cid string, w http.ResponseWriter, r *http.Request,

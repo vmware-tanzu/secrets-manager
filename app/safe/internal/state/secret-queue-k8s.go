@@ -13,7 +13,7 @@ package state
 import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // The secrets put here are synced with their Kubernetes Secret counterparts.
@@ -27,14 +27,14 @@ func processK8sSecretQueue() {
 	go func() {
 		for e := range errChan {
 			// If the `persistK8s` operation spews out an error, log it.
-			log.ErrorLn(&id, "processK8sSecretQueue: error persisting secret:", e.Error())
+			std.ErrorLn(&id, "processK8sSecretQueue: error persisting secret:", e.Error())
 		}
 	}()
 
 	for {
 		// Buffer overflow check.
 		if len(secretQueue) == env.SafeSecretBufferSize() {
-			log.ErrorLn(
+			std.ErrorLn(
 				&id,
 				"processK8sSecretQueue: there are too many k8s secrets queued. "+
 					"The goroutine will BLOCK until the queue is cleared.",
@@ -46,7 +46,7 @@ func processK8sSecretQueue() {
 
 		cid := secret.Meta.CorrelationId
 
-		log.TraceLn(&cid, "processK8sSecretQueue: picked k8s secret")
+		std.TraceLn(&cid, "processK8sSecretQueue: picked k8s secret")
 
 		// Sync up the secret to etcd as a Kubernetes Secret.
 		//
@@ -57,6 +57,6 @@ func processK8sSecretQueue() {
 		// It is meant to be called inside this `processK8sSecretQueue` goroutine.
 		persistK8s(secret, errChan)
 
-		log.TraceLn(&cid, "processK8sSecretQueue: Should have persisted k8s secret")
+		std.TraceLn(&cid, "processK8sSecretQueue: Should have persisted k8s secret")
 	}
 }

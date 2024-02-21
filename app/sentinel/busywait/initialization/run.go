@@ -13,13 +13,14 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"strconv"
+	"strings"
+
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // RunInitCommands reads and processes initialization commands from a file.

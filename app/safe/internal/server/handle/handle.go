@@ -11,13 +11,14 @@
 package handle
 
 import (
+	"io"
+	"net/http"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
 )
 
 // InitializeRoutes initializes the HTTP routes for the web server. It sets up an

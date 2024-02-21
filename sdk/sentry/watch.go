@@ -12,7 +12,7 @@ package sentry
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/sdk/internal/timer"
 	"time"
 )

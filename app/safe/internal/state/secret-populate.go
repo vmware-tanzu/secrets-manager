@@ -13,7 +13,7 @@ package state
 import (
 	"github.com/pkg/errors"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"os"
 	"strings"
 	"sync"
@@ -26,7 +26,7 @@ var secretsPopulated = false
 var secretsPopulatedLock = sync.Mutex{}
 
 func populateSecrets(cid string) error {
-	log.TraceLn(&cid, "populateSecrets: populating secrets...")
+	std.TraceLn(&cid, "populateSecrets: populating secrets...")
 	secretsPopulatedLock.Lock()
 	defer secretsPopulatedLock.Unlock()
 
@@ -55,7 +55,7 @@ func populateSecrets(cid string) error {
 
 		secretOnDisk, err := readFromDisk(key)
 		if err != nil {
-			log.ErrorLn(&cid, "populateSecrets: problem reading secret from disk:", err.Error())
+			std.ErrorLn(&cid, "populateSecrets: problem reading secret from disk:", err.Error())
 			continue
 		}
 		if secretOnDisk != nil {
@@ -65,6 +65,6 @@ func populateSecrets(cid string) error {
 	}
 
 	secretsPopulated = true
-	log.TraceLn(&cid, "populateSecrets: secrets populated.")
+	std.TraceLn(&cid, "populateSecrets: secrets populated.")
 	return nil
 }

@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package logger
+package log
 
 import (
 	"os"
@@ -55,6 +55,7 @@ func TestLogLevel(t *testing.T) {
 			want: 2,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
@@ -62,6 +63,7 @@ func TestLogLevel(t *testing.T) {
 					t.Errorf("LogLevel() = failed to setup, with error: %+v", err)
 				}
 			}
+
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
@@ -69,7 +71,8 @@ func TestLogLevel(t *testing.T) {
 					}
 				}
 			}()
-			if got := LogLevel(); got != tt.want {
+
+			if got := GetLevel(); int(got) != tt.want {
 				t.Errorf("LogLevel() = %v, want %v", got, tt.want)
 			}
 		})

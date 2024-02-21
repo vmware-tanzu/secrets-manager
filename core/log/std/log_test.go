@@ -10,7 +10,7 @@
 
 // Package log provides a simple and flexible logging library with various
 // log levels.
-package log
+package std
 
 import (
 	"testing"

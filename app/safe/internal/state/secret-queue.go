@@ -13,7 +13,7 @@ package state
 import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // These are persisted to files. They are buffered, so that they can
@@ -31,14 +31,14 @@ func processSecretQueue() {
 	go func() {
 		for e := range errChan {
 			// If the `persist` operation spews out an error, log it.
-			log.ErrorLn(&id, "processSecretQueue: error persisting secret:", e.Error())
+			std.ErrorLn(&id, "processSecretQueue: error persisting secret:", e.Error())
 		}
 	}()
 
 	for {
 		// Buffer overflow check.
 		if len(secretQueue) == env.SafeSecretBufferSize() {
-			log.ErrorLn(
+			std.ErrorLn(
 				&id,
 				"processSecretQueue: there are too many k8s secrets queued. "+
 					"The goroutine will BLOCK until the queue is cleared.",
@@ -50,7 +50,7 @@ func processSecretQueue() {
 
 		cid := secret.Meta.CorrelationId
 
-		log.TraceLn(&cid, "processSecretQueue: picked a secret", len(secretQueue))
+		std.TraceLn(&cid, "processSecretQueue: picked a secret", len(secretQueue))
 
 		// Persist the secret to disk.
 		//
@@ -61,6 +61,6 @@ func processSecretQueue() {
 		// It is meant to be called inside this `processSecretQueue` goroutine.
 		persist(secret, errChan)
 
-		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
+		std.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
 	}
 }

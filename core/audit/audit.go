@@ -12,7 +12,7 @@ package audit
 
 import (
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 type Event string
@@ -40,7 +40,7 @@ type JournalEntry struct {
 }
 
 func printAudit(correlationId, entityName, method, url, spiffeid, message string) {
-	log.AuditLn(
+	std.AuditLn(
 		&correlationId,
 		entityName,
 		"{{"+

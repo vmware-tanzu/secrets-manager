@@ -12,15 +12,17 @@ package bootstrap
 
 import (
 	"context"
+	"os"
+	"time"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"os"
-	"time"
 )
 
 // NotifyTimeout waits for the duration specified by env.SafeBootstrapTimeout()

@@ -8,29 +8,29 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package logger
+package rpc
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
 	"net"
 	"os"
 	"strings"
 	"testing"
 
-	pb "github.com/vmware-tanzu/secrets-manager/app/sentinel/logger/generated"
 	"google.golang.org/grpc"
 )
 
 var cid = "test-correlation-id"
 
 type MockLogServiceServer struct {
-	pb.UnimplementedLogServiceServer
+	generated.UnimplementedLogServiceServer
 	ReceivedMessage string
 }
 
-func (s *MockLogServiceServer) SendLog(ctx context.Context, in *pb.LogRequest) (*pb.LogResponse, error) {
+func (s *MockLogServiceServer) SendLog(ctx context.Context, in *generated.LogRequest) (*generated.LogResponse, error) {
 	s.ReceivedMessage = in.Message
-	return &pb.LogResponse{}, nil
+	return &generated.LogResponse{}, nil
 }
 
 func TestCreateLogServer(t *testing.T) {
@@ -44,7 +44,7 @@ func TestCreateLogServer(t *testing.T) {
 	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterLogServiceServer(grpcServer, server)
+	generated.RegisterLogServiceServer(grpcServer, server)
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
@@ -59,7 +59,7 @@ func TestCreateLogServer(t *testing.T) {
 func TestSendLogMessage(t *testing.T) {
 	server := &MockLogServiceServer{}
 	grpcServer := grpc.NewServer()
-	pb.RegisterLogServiceServer(grpcServer, server)
+	generated.RegisterLogServiceServer(grpcServer, server)
 
 	lis, err := net.Listen("tcp", ":0")
 	if err != nil {
@@ -116,7 +116,7 @@ func TestSendLogMessage(t *testing.T) {
 
 func TestLogServiceSendLog(t *testing.T) {
 	// Define a mock LogRequest
-	mockRequest := &pb.LogRequest{
+	mockRequest := &generated.LogRequest{
 		Message: "Test log message",
 	}
 
@@ -131,7 +131,7 @@ func TestLogServiceSendLog(t *testing.T) {
 	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterLogServiceServer(grpcServer, server)
+	generated.RegisterLogServiceServer(grpcServer, server)
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
@@ -146,7 +146,7 @@ func TestLogServiceSendLog(t *testing.T) {
 		t.Fatalf("failed to dial server: %v", err)
 	}
 	defer conn.Close()
-	client := pb.NewLogServiceClient(conn)
+	client := generated.NewLogServiceClient(conn)
 
 	// Call the SendLog method of the LogServiceServer
 	response, err := client.SendLog(context.Background(), mockRequest)
