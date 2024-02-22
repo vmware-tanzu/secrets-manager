@@ -11,12 +11,13 @@
 package startup
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 	"os"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
 
 func initialized() bool {

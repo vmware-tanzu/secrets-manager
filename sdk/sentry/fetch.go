@@ -13,18 +13,20 @@ package sentry
 import (
 	"context"
 	"encoding/json"
+	"io"
+	"net/http"
+	"net/url"
+
 	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
-	"net/url"
 )
 
 var ErrSecretNotFound = errors.New("Secret does not exist")

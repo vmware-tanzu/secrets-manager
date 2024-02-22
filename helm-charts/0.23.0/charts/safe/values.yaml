@@ -67,7 +67,7 @@ environments:
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/"
   - name: SENTINEL_LOGGER_URL
-    value: "[::]:50051"
+    value: "localhost:50051"
 
 imagePullSecrets: []
 nameOverride: ""

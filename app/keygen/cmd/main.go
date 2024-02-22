@@ -12,7 +12,7 @@ package main
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func main() {

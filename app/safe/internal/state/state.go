@@ -13,12 +13,13 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"strings"
 	"sync"
 	"time"
+
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 const InitialSecretValue = `{"empty":true}`

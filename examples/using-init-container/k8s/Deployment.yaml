@@ -84,7 +84,7 @@ spec:
         - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
           value: "5000"
         - name: SENTINEL_LOGGER_URL
-          value: "[::]:50051"
+          value: "localhost:50051"
       volumes:
       # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
       # ref: https://github.com/spiffe/spiffe-csi

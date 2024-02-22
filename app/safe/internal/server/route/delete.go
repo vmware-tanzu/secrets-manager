@@ -12,15 +12,17 @@ package route
 
 import (
 	"encoding/json"
+	"io"
+	"net/http"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
 )
 
 func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, spiffeid string) bool {
@@ -30,7 +32,7 @@ func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, spiffei
 		return true
 	}
 
-	j.Event = audit.EventBadSvid
+	j.Event = event.BadSpiffeId
 	audit.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
@@ -54,7 +56,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         audit.EventEnter,
+		Event:         event.Enter,
 	}
 
 	if !isSentinel(j, cid, w, spiffeid) {
@@ -65,7 +67,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		j.Event = audit.EventBrokenBody
+		j.Event = event.BrokenBody
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -90,7 +92,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	var sr reqres.SecretDeleteRequest
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
-		j.Event = audit.EventRequestTypeMismatch
+		j.Event = event.RequestTypeMismatch
 		audit.Log(j)
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -105,7 +107,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	workloadId := sr.WorkloadId
 
 	if workloadId == "" {
-		j.Event = audit.EventNoWorkloadId
+		j.Event = event.NoWorkloadId
 		audit.Log(j)
 		return
 	}
@@ -113,7 +115,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	log.DebugLn(&cid, "Secret:Delete: ", "workloadId:", workloadId)
 
 	if workloadId == "" {
-		j.Event = audit.EventNoWorkloadId
+		j.Event = event.NoWorkloadId
 		audit.Log(j)
 
 		return
@@ -127,7 +129,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	})
 	log.DebugLn(&cid, "Delete:End: workloadId:", workloadId)
 
-	j.Event = audit.EventOk
+	j.Event = event.Ok
 	audit.Log(j)
 
 	_, err = io.WriteString(w, "OK")

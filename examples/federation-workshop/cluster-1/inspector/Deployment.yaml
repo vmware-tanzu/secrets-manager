@@ -45,7 +45,7 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://10.0.0.71:8443"
             - name: SENTINEL_LOGGER_URL
-              value: "[::]:50051"
+              value: "localhost:50051"
       volumes:
         - name: spire-agent-socket
           #          csi:

@@ -133,7 +133,7 @@ require([
 
         // HTML5 (IE9 & others)
         $searchInput.on('input', function(e) {
-            // Unbind propertychange event for IE9+
+            // Unbind propertychange state for IE9+
             if (!propertyChangeUnbound) {
                 $(this).unbind('propertychange');
                 propertyChangeUnbound = true;

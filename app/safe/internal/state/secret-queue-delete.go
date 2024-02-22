@@ -11,11 +11,12 @@
 package state
 
 import (
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"os"
 	"path"
+
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // These are persisted to files. They are buffered, so that they can

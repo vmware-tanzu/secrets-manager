@@ -12,15 +12,17 @@ package state
 
 import (
 	"encoding/json"
-	"github.com/pkg/errors"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"math"
 	"os"
 	"path"
 	"strconv"
 	"time"
+
+	"github.com/pkg/errors"
+
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 var lastBackedUpIndex = make(map[string]int)

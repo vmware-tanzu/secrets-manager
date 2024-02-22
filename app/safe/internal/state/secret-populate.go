@@ -11,12 +11,13 @@
 package state
 
 import (
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"os"
 	"strings"
 	"sync"
+
+	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // This is where all the secrets are stored.

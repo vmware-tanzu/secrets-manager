@@ -13,7 +13,7 @@ package state
 import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // The secrets put here are synced with their Kubernetes Secret counterparts.

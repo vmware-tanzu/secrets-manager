@@ -13,13 +13,14 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"strconv"
+	"strings"
+
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"os"
-	"strconv"
-	"strings"
 )
 
 // RunInitCommands reads and processes initialization commands from a file.
@@ -49,15 +50,15 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands() {
-	cid := "VSECMSENTINEL"
+func RunInitCommands(ctx context.Context) {
+	cid := ctx.Value("correlationId").(*string)
 
 	// Parse tombstone file first:
 	tombstonePath := env.SentinelInitCommandTombstonePath()
 	file, err := os.Open(tombstonePath)
 	if err != nil {
 		log.InfoLn(
-			&cid,
+			cid,
 			"no initialization file found… skipping custom initialization.",
 		)
 		return
@@ -66,7 +67,7 @@ func RunInitCommands() {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(&cid, "Error closing tombstone file: ", err.Error())
+			log.ErrorLn(cid, "Error closing tombstone file: ", err.Error())
 		}
 	}(file)
 
@@ -74,7 +75,7 @@ func RunInitCommands() {
 
 	if strings.TrimSpace(string(data)) == "complete" {
 		log.InfoLn(
-			&cid,
+			cid,
 			"Initialization already complete… skipping custom initialization.",
 		)
 		return
@@ -85,7 +86,7 @@ func RunInitCommands() {
 
 	if err != nil {
 		log.InfoLn(
-			&cid,
+			cid,
 			"no initialization file found… skipping custom initialization.",
 		)
 		return
@@ -94,11 +95,9 @@ func RunInitCommands() {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(&cid, "Error closing initialization file: ", err.Error())
+			log.ErrorLn(cid, "Error closing initialization file: ", err.Error())
 		}
 	}(file)
-
-	ctx := context.Background()
 
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand
@@ -144,17 +143,17 @@ func RunInitCommands() {
 			sc.ShouldSleep = true
 			intms, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(&cid, "Error parsing sleep interval: ", err.Error())
+				log.ErrorLn(cid, "Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intms
 		default:
-			log.InfoLn(&cid, "unknown command: ", key)
+			log.InfoLn(cid, "unknown command: ", key)
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.ErrorLn(
-			&cid,
+			cid,
 			"Error reading initialization file: ",
 			err.Error(),
 		)

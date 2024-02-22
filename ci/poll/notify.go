@@ -28,7 +28,7 @@ func notifyBuildFailure() {
 	event := "vsecm-build-failed"
 
 	url := fmt.Sprintf(urlTemplate, apiKey)
-	url = strings.Replace(url, "{event}", event, 1)
+	url = strings.Replace(url, "{state}", event, 1)
 
 	payload := map[string]interface{}{}
 

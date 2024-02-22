@@ -99,7 +99,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: SENTINEL_LOGGER_URL
-              value: "[::]:50051"
+              value: "localhost:50051"
           livenessProbe:
             httpGet:
               path: /

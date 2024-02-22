@@ -12,15 +12,17 @@ package route
 
 import (
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func createDefaultJournalEntry(cid, spiffeid string,
@@ -31,7 +33,7 @@ func createDefaultJournalEntry(cid, spiffeid string,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         audit.EventEnter,
+		Event:         event.Enter,
 	}
 }
 
@@ -39,7 +41,7 @@ func readBody(cid string, r *http.Request, w http.ResponseWriter,
 	j audit.JournalEntry) []byte {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		j.Event = audit.EventBrokenBody
+		j.Event = event.BrokenBody
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -47,6 +49,7 @@ func readBody(cid string, r *http.Request, w http.ResponseWriter,
 		if err2 != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err2.Error())
 		}
+
 		return nil
 	}
 
@@ -66,54 +69,65 @@ func readBody(cid string, r *http.Request, w http.ResponseWriter,
 func unmarshalRequest(cid string, body []byte, j audit.JournalEntry,
 	w http.ResponseWriter) *reqres.SecretUpsertRequest {
 	var sr reqres.SecretUpsertRequest
+
 	err := json.Unmarshal(body, &sr)
 	if err != nil {
-		j.Event = audit.EventRequestTypeMismatch
+		j.Event = event.RequestTypeMismatch
 		audit.Log(j)
+
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 		}
+
 		return nil
 	}
+
 	return &sr
 }
 
 func unmarshalKeyInputRequest(cid string, body []byte, j audit.JournalEntry,
 	w http.ResponseWriter) *reqres.KeyInputRequest {
 	var sr reqres.KeyInputRequest
+
 	err := json.Unmarshal(body, &sr)
 	if err != nil {
-		j.Event = audit.EventRequestTypeMismatch
+		j.Event = event.RequestTypeMismatch
 		audit.Log(j)
+
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
+
 		if err != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 		}
+
 		return nil
 	}
+
 	return &sr
 }
 
 func encryptValue(cid string, value string, j audit.JournalEntry,
 	w http.ResponseWriter) {
 	if value == "" {
-		j.Event = audit.EventNoValue
+		j.Event = event.NoValue
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
+
 		if err != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 		}
+
 		return
 	}
 
 	encrypted, err := state.EncryptValue(value)
 	if err != nil {
-		j.Event = audit.EventEncryptionFailed
+		j.Event = event.EncryptionFailed
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusInternalServerError)
@@ -121,6 +135,7 @@ func encryptValue(cid string, value string, j audit.JournalEntry,
 		if err2 != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err2.Error())
 		}
+
 		return
 	}
 
@@ -135,7 +150,7 @@ func decryptValue(cid string, value string, j audit.JournalEntry,
 	w http.ResponseWriter) (string, bool) {
 	decrypted, err := state.DecryptValue(value)
 	if err != nil {
-		j.Event = audit.EventDecryptionFailed
+		j.Event = event.DecryptionFailed
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusInternalServerError)
@@ -143,6 +158,7 @@ func decryptValue(cid string, value string, j audit.JournalEntry,
 		if err != nil {
 			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 		}
+
 		return "", true
 	}
 
@@ -156,7 +172,7 @@ func upsert(secretToStore entity.SecretStored,
 	state.UpsertSecret(secretToStore, appendValue)
 	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
 
-	j.Event = audit.EventOk
+	j.Event = event.Ok
 	audit.Log(j)
 
 	_, err := io.WriteString(w, "OK")
@@ -175,8 +191,9 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	audit.Log(j)
 
 	if !isSentinel(j, cid, w, spiffeid) {
-		j.Event = audit.EventBadSvid
+		j.Event = event.BadSpiffeId
 		audit.Log(j)
+
 		return
 	}
 
@@ -184,8 +201,9 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	body := readBody(cid, r, w, j)
 	if body == nil {
-		j.Event = audit.EventBadPayload
+		j.Event = event.BadPayload
 		audit.Log(j)
+
 		return
 	}
 
@@ -193,8 +211,9 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	ur := unmarshalRequest(cid, body, j, w)
 	if ur == nil {
-		j.Event = audit.EventBadPayload
+		j.Event = event.BadPayload
 		audit.Log(j)
+
 		return
 	}
 
@@ -215,8 +234,9 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	expiresAfter := sr.Expires
 
 	if workloadId == "" && encrypt {
-		// has side effect of sending response.
+		// has a side effect of sending response.
 		encryptValue(cid, value, j, w)
+
 		return
 	}
 
@@ -231,7 +251,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if workloadId == "" && !encrypt {
-		j.Event = audit.EventNoWorkloadId
+		j.Event = event.NoWorkloadId
 		audit.Log(j)
 
 		return

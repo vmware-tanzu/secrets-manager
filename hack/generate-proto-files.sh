@@ -20,7 +20,7 @@ fi
 go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 
 # Change directory to the logger package within the Sentinel application.
-cd "$(dirname "$0")/../app/sentinel/logger/" || exit
+cd "$(dirname "$0")/../core/log/rpc/" || exit
 
 # Set the environment variable GO_PATH to the Go workspace directory.
 export GO_PATH=~/go

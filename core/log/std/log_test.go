@@ -10,15 +10,16 @@
 
 // Package log provides a simple and flexible logging library with various
 // log levels.
-package log
+package std
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/log"
 	"testing"
 )
 
 func TestSetLevel(t *testing.T) {
 	type args struct {
-		l Level
+		l log.Level
 	}
 	tests := []struct {
 		name   string
@@ -29,25 +30,25 @@ func TestSetLevel(t *testing.T) {
 		{
 			name: "set_level_info",
 			args: args{
-				l: Info,
+				l: log.Info,
 			},
 			verify: func() {
-				if GetLevel() != Info {
-					t.Errorf("currentLevel = %v, want %v", GetLevel(), Info)
+				if log.GetLevel() != log.Info {
+					t.Errorf("currentLevel = %v, want %v", log.GetLevel(), log.Info)
 				}
 			},
 		},
 		{
 			name: "set_level_more_than_trace",
 			args: args{
-				l: Level(8),
+				l: log.Level(8),
 			},
 			setup: func() {
-				SetLevel(Trace)
+				log.SetLevel(log.Trace)
 			},
 			verify: func() {
-				if GetLevel() != Trace {
-					t.Errorf("currentLevel = %v, want %v", GetLevel(), Trace)
+				if log.GetLevel() != log.Trace {
+					t.Errorf("currentLevel = %v, want %v", log.GetLevel(), log.Trace)
 				}
 			},
 		},
@@ -57,11 +58,11 @@ func TestSetLevel(t *testing.T) {
 				l: -1,
 			},
 			setup: func() {
-				SetLevel(Audit)
+				log.SetLevel(log.Audit)
 			},
 			verify: func() {
-				if GetLevel() != Audit {
-					t.Errorf("currentLevel = %v, want %v", GetLevel(), Audit)
+				if log.GetLevel() != log.Audit {
+					t.Errorf("currentLevel = %v, want %v", log.GetLevel(), log.Audit)
 				}
 			},
 		},
@@ -71,7 +72,7 @@ func TestSetLevel(t *testing.T) {
 			tt.setup()
 		}
 		t.Run(tt.name, func(t *testing.T) {
-			SetLevel(tt.args.l)
+			log.SetLevel(tt.args.l)
 		})
 		if tt.verify != nil {
 			tt.verify()
@@ -83,14 +84,14 @@ func TestGetLevel(t *testing.T) {
 	tests := []struct {
 		name  string
 		setup func()
-		want  Level
+		want  log.Level
 	}{
 		{
 			name: "success",
 			setup: func() {
-				SetLevel(Info)
+				log.SetLevel(log.Info)
 			},
-			want: Info,
+			want: log.Info,
 		},
 	}
 	for _, tt := range tests {
@@ -98,7 +99,7 @@ func TestGetLevel(t *testing.T) {
 			if tt.setup != nil {
 				tt.setup()
 			}
-			if got := GetLevel(); got != tt.want {
+			if got := log.GetLevel(); got != tt.want {
 				t.Errorf("GetLevel() = %v, want %v", got, tt.want)
 			}
 		})
