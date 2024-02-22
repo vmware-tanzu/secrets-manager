@@ -28,11 +28,11 @@ func (s *server) SendLog(ctx context.Context, in *generated.LogRequest) (*genera
 	return &generated.LogResponse{}, nil
 }
 
-func CreateLogServer() {
+func CreateLogServer() *grpc.Server {
 	lis, err := net.Listen("tcp", SentinelLoggerUrl())
 	if err != nil {
 		stdlib.Printf("Logger.CreateLogServer error creating log server: %v\n", err)
-		return
+		return nil
 	}
 	s := grpc.NewServer()
 
@@ -41,6 +41,8 @@ func CreateLogServer() {
 	stdlib.Printf("Logger.CreateLogServer listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		stdlib.Printf("Logger.CreateLogServer failed to serve log server: %v\n", err)
-		return
+		return s
 	}
+
+	return s
 }

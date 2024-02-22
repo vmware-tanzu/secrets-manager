@@ -17,6 +17,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"google.golang.org/grpc"
 )
@@ -34,27 +35,22 @@ func (s *MockLogServiceServer) SendLog(ctx context.Context, in *generated.LogReq
 }
 
 func TestCreateLogServer(t *testing.T) {
-	server := &MockLogServiceServer{}
-	lis, err := net.Listen("tcp", ":0")
-	if err != nil {
-		t.Fatalf("error creating log server: %v", err)
-	}
-	defer lis.Close()
-
-	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
-
-	grpcServer := grpc.NewServer()
-	generated.RegisterLogServiceServer(grpcServer, server)
-
+	// Start the server in a goroutine
 	go func() {
-		if err := grpcServer.Serve(lis); err != nil {
-			t.Errorf("failed to serve: %v", err)
-			return
+		server := CreateLogServer()
+		if server == nil {
+			t.Error("Failed to create gRPC server")
 		}
 	}()
-	defer grpcServer.Stop()
 
-	CreateLogServer()
+	// Give the server a moment to start
+	time.Sleep(time.Second)
+
+	// Attempt to connect to the server
+	_, err := net.Dial("tcp", SentinelLoggerUrl())
+	if err != nil {
+		t.Errorf("Failed to connect to the server: %v", err)
+	}
 }
 
 func TestSendLogMessage(t *testing.T) {
