@@ -18,6 +18,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -38,7 +39,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         audit.EventEnter,
+		Event:         event.Enter,
 	}
 
 	audit.Log(j)
@@ -61,8 +62,9 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 	tmp := strings.Replace(spiffeid, env.SentinelSpiffeIdPrefix(), "", 1)
 	parts := strings.Split(tmp, "/")
+
 	if len(parts) == 0 {
-		j.Event = audit.EventBadPeerSvid
+		j.Event = event.BadPeerSvid
 		audit.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -70,6 +72,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		if err != nil {
 			log.InfoLn(&cid, "List: Problem with spiffeid", spiffeid)
 		}
+
 		return
 	}
 
@@ -97,7 +100,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			Algorithm: algo,
 		}
 
-		j.Event = audit.EventOk
+		j.Event = event.Ok
 		j.Entity = sfrToLog
 		audit.Log(j)
 
@@ -125,7 +128,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		Secrets: secrets,
 	}
 
-	j.Event = audit.EventOk
+	j.Event = event.Ok
 	j.Entity = sfr
 	audit.Log(j)
 

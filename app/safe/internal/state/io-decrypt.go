@@ -11,11 +11,13 @@
 package state
 
 import (
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"os"
 	"path"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func decryptBytes(data []byte) ([]byte, error) {

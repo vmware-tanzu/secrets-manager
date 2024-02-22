@@ -11,24 +11,10 @@
 package audit
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
-
-type Event string
-
-const EventEnter Event = "vsecm-enter"
-const EventBadSvid Event = "vsecm-bad-spiffeid"
-const EventBrokenBody Event = "vsecm-broken-body"
-const EventRequestTypeMismatch Event = "vsecm-request-type-mismatch"
-const EventBadPeerSvid Event = "vsecm-bad-peer-spiffeid"
-const EventNoSecret Event = "vsecm-no-secret"
-const EventOk Event = "vsecm-ok"
-const EventNoWorkloadId Event = "vsecm-no-wl-id"
-const EventNoValue Event = "vsecm-no-value"
-const EventEncryptionFailed Event = "vsecm-encryption-failed"
-const EventDecryptionFailed Event = "vsecm-decryption-failed"
-const EventBadPayload Event = "vsecm-bad-payload"
 
 type JournalEntry struct {
 	CorrelationId string
@@ -36,7 +22,7 @@ type JournalEntry struct {
 	Method        string
 	Url           string
 	SpiffeId      string
-	Event         Event
+	Event         state.Event
 }
 
 func printAudit(correlationId, entityName, method, url, spiffeid, message string) {

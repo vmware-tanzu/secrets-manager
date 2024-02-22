@@ -20,6 +20,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	v1 "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -30,7 +31,7 @@ import (
 func handleBadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 	j audit.JournalEntry,
 ) {
-	j.Event = audit.EventBadSvid
+	j.Event = event.BadSpiffeId
 	audit.Log(j)
 
 	log.DebugLn(&cid, "Fetch: bad spiffeid", spiffeid)
@@ -45,7 +46,7 @@ func handleBadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
 	spiffeid string, j audit.JournalEntry,
 ) {
-	j.Event = audit.EventBadPeerSvid
+	j.Event = event.BadPeerSvid
 	audit.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
@@ -58,7 +59,7 @@ func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
 func handleNoSecretResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry,
 ) {
-	j.Event = audit.EventNoSecret
+	j.Event = event.NoSecret
 	audit.Log(j)
 
 	w.WriteHeader(http.StatusNotFound)
@@ -70,7 +71,7 @@ func handleNoSecretResponse(cid string, w http.ResponseWriter,
 
 func handleInitCompleteSuccessResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry, sfr reqres.SentinelInitCompleteResponse) {
-	j.Event = audit.EventOk
+	j.Event = event.Ok
 	j.Entity = sfr
 	audit.Log(j)
 
@@ -96,7 +97,7 @@ func handleInitCompleteSuccessResponse(cid string, w http.ResponseWriter,
 
 func handleSuccessResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
-	j.Event = audit.EventOk
+	j.Event = event.Ok
 	j.Entity = sfr
 	audit.Log(j)
 
@@ -167,7 +168,7 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) 
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         audit.EventEnter,
+		Event:         event.Enter,
 	}
 
 	audit.Log(j)

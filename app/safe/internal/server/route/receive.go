@@ -17,6 +17,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -27,7 +28,7 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 	audit.Log(j)
 
 	if !isSentinel(j, cid, w, spiffeid) {
-		j.Event = audit.EventBadSvid
+		j.Event = event.BadSpiffeId
 		audit.Log(j)
 		return
 	}
@@ -36,14 +37,14 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 
 	body := readBody(cid, r, w, j)
 	if body == nil {
-		j.Event = audit.EventBadPayload
+		j.Event = event.BadPayload
 		audit.Log(j)
 		return
 	}
 
 	ur := unmarshalKeyInputRequest(cid, body, j, w)
 	if ur == nil {
-		j.Event = audit.EventBadPayload
+		j.Event = event.BadPayload
 		audit.Log(j)
 		return
 	}
@@ -56,7 +57,7 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 	agePublicKey := strings.TrimSpace(sr.AgePublicKey)
 
 	if aesCipherKey == "" || agePrivateKey == "" || agePublicKey == "" {
-		j.Event = audit.EventBadPayload
+		j.Event = event.BadPayload
 		audit.Log(j)
 		return
 	}

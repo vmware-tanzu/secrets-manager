@@ -11,11 +11,12 @@
 package state
 
 import (
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"os"
 	"path"
+
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // These are persisted to files. They are buffered, so that they can
@@ -33,14 +34,14 @@ func processSecretDeleteQueue() {
 	go func() {
 		for e := range errChan {
 			// If the `delete` operation spews out an error, log it.
-			std.ErrorLn(&id, "processSecretDeleteQueue: error deleting secret:", e.Error())
+			log.ErrorLn(&id, "processSecretDeleteQueue: error deleting secret:", e.Error())
 		}
 	}()
 
 	for {
 		// Buffer overflow check.
 		if len(secretDeleteQueue) == env.SafeSecretBufferSize() {
-			std.ErrorLn(
+			log.ErrorLn(
 				&id,
 				"processSecretDeleteQueue: there are too many k8s secrets queued. "+
 					"The goroutine will BLOCK until the queue is cleared.",
@@ -51,21 +52,21 @@ func processSecretDeleteQueue() {
 		secret := <-secretDeleteQueue
 
 		if secret.Name == "" {
-			std.WarnLn(&id, "processSecretDeleteQueue: trying to delete an empty secret. "+
+			log.WarnLn(&id, "processSecretDeleteQueue: trying to delete an empty secret. "+
 				"Possibly picked a nil secret", len(secretQueue))
 			return
 		}
 
-		std.TraceLn(&id, "processSecretDeleteQueue: picked a secret", len(secretQueue))
+		log.TraceLn(&id, "processSecretDeleteQueue: picked a secret", len(secretQueue))
 
 		// Remove secret from disk.
 		dataPath := path.Join(env.SafeDataPath(), secret.Name+".age")
-		std.TraceLn(&id, "processSecretDeleteQueue: removing secret from disk:", dataPath)
+		log.TraceLn(&id, "processSecretDeleteQueue: removing secret from disk:", dataPath)
 		err := os.Remove(dataPath)
 		if err != nil && !os.IsNotExist(err) {
-			std.WarnLn(&id, "processSecretDeleteQueue: failed to remove secret", err.Error())
+			log.WarnLn(&id, "processSecretDeleteQueue: failed to remove secret", err.Error())
 		}
 
-		std.TraceLn(&id, "processSecretDeleteQueue: should have deleted the secret.")
+		log.TraceLn(&id, "processSecretDeleteQueue: should have deleted the secret.")
 	}
 }

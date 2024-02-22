@@ -11,10 +11,11 @@
 package handle
 
 import (
+	"net/http"
+
 	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
-	"net/http"
 )
 
 func spiffeIdFromRequest(r *http.Request) (*spiffeid.ID, error) {

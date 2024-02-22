@@ -12,7 +12,7 @@ package main
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/core/log/std"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_KEYGEN_DECRYPT"}
-	std.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	d := env.KeyGenDecrypt()
 

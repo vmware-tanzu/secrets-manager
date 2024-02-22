@@ -12,7 +12,9 @@ package state
 
 import (
 	"encoding/json"
+
 	"github.com/pkg/errors"
+
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 )
 
