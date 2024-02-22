@@ -51,13 +51,14 @@ import (
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
 func RunInitCommands(ctx context.Context) {
+	cid := ctx.Value("correlationId").(*string)
 
 	// Parse tombstone file first:
 	tombstonePath := env.SentinelInitCommandTombstonePath()
 	file, err := os.Open(tombstonePath)
 	if err != nil {
 		log.InfoLn(
-			&cid,
+			cid,
 			"no initialization file found… skipping custom initialization.",
 		)
 		return
@@ -66,7 +67,7 @@ func RunInitCommands(ctx context.Context) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(&cid, "Error closing tombstone file: ", err.Error())
+			log.ErrorLn(cid, "Error closing tombstone file: ", err.Error())
 		}
 	}(file)
 
@@ -74,7 +75,7 @@ func RunInitCommands(ctx context.Context) {
 
 	if strings.TrimSpace(string(data)) == "complete" {
 		log.InfoLn(
-			&cid,
+			cid,
 			"Initialization already complete… skipping custom initialization.",
 		)
 		return
@@ -85,7 +86,7 @@ func RunInitCommands(ctx context.Context) {
 
 	if err != nil {
 		log.InfoLn(
-			&cid,
+			cid,
 			"no initialization file found… skipping custom initialization.",
 		)
 		return
@@ -94,7 +95,7 @@ func RunInitCommands(ctx context.Context) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(&cid, "Error closing initialization file: ", err.Error())
+			log.ErrorLn(cid, "Error closing initialization file: ", err.Error())
 		}
 	}(file)
 
@@ -142,17 +143,17 @@ func RunInitCommands(ctx context.Context) {
 			sc.ShouldSleep = true
 			intms, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(&cid, "Error parsing sleep interval: ", err.Error())
+				log.ErrorLn(cid, "Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intms
 		default:
-			log.InfoLn(&cid, "unknown command: ", key)
+			log.InfoLn(cid, "unknown command: ", key)
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.ErrorLn(
-			&cid,
+			cid,
 			"Error reading initialization file: ",
 			err.Error(),
 		)
