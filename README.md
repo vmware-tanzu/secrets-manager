@@ -4,7 +4,7 @@
 [![Version](https://img.shields.io/github/v/release/vmware-tanzu/secrets-manager?color=blueviolet)](https://github.com/vmware-tanzu/secrets-manager/releases)
 [![Contributors](https://img.shields.io/github/contributors/vmware-tanzu/secrets-manager.svg?color=orange)](https://github.com/vmware-tanzu/secrets-manager/graphs/contributors)
 [![Slack](https://img.shields.io/badge/slack-vsecm-brightgreen.svg?logo=slack)](https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ)
-[![Twitch](https://img.shields.io/twitch/status/zerotoherodev)](https://twitch.tv/ZeroToHeroDev)
+[![Twitch](https://img.shields.io/twitch/status/vadidekivolkan)](https://twitch.tv/vadidekivolkan)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm)](https://artifacthub.io/packages/helm/vsecm/vsecm)
 [![License](https://img.shields.io/github/license/vmware-tanzu/secrets-manager)](https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)

@@ -49,5 +49,6 @@ func SetLevel(level Level) {
 func GetLevel() Level {
 	mux.RLock()
 	defer mux.RUnlock()
+
 	return currentLevel
 }
