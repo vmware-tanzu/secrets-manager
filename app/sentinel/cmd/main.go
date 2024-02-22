@@ -13,14 +13,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/akamensky/argparse"
+
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 )
 
 func main() {

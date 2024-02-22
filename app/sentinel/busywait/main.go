@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/initialization"
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
