@@ -40,7 +40,7 @@ func TestSetAndGetLevel(t *testing.T) {
 func TestLogTextBuilder(t *testing.T) {
 	// Define a regex pattern for the timestamp
 	// This example assumes an ISO 8601 format, adjust as needed
-	timeRegex := `\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}`
+	timeRegex := `\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`
 
 	tests := []struct {
 		name      string
@@ -50,15 +50,15 @@ func TestLogTextBuilder(t *testing.T) {
 	}{
 		{
 			name:      "Info level log",
-			logHeader: "[SENTINEL_INFO]",
+			logHeader: "[INFO]",
 			messages:  []any{"Test", "message"},
-			wantRegex: `^\[SENTINEL_INFO\]\[` + timeRegex + `\] Test message\n$`,
+			wantRegex: `^\[INFO\]\[` + timeRegex + `\] \w+ Test message\n$`,
 		},
 		{
 			name:      "Debug level log",
-			logHeader: "[SENTINEL_DEBUG]",
+			logHeader: "[DEBUG]",
 			messages:  []any{"Another", "test", 123},
-			wantRegex: `^\[SENTINEL_DEBUG\]\[` + timeRegex + `\] Another test 123\n$`,
+			wantRegex: `^\[DEBUG\]\[` + timeRegex + `\] \w+ Another test 123\n$`,
 		},
 	}
 

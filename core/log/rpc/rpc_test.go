@@ -81,37 +81,37 @@ func TestSendLogMessage(t *testing.T) {
 	message := "Test log message"
 
 	ErrorLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_ERROR]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[ERROR]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	FatalLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_FATAL]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[FATAL]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	WarnLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_WARN]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[WARN]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	InfoLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_INFO]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[INFO]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	AuditLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_AUDIT]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[AUDIT]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	DebugLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_DEBUG]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[DEBUG]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 
 	TraceLn(&cid, message)
-	if !strings.HasPrefix(server.ReceivedMessage, "[SENTINEL_TRACE]") && !strings.Contains(server.ReceivedMessage, message) {
+	if !strings.HasPrefix(server.ReceivedMessage, "[TRACE]") && !strings.Contains(server.ReceivedMessage, message) {
 		t.Errorf("Received message (%s) does not match sent message (%s)", server.ReceivedMessage, message)
 	}
 }
