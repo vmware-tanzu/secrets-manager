@@ -50,8 +50,7 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands() {
-	cid := "VSECMSENTINEL"
+func RunInitCommands(ctx context.Context) {
 
 	// Parse tombstone file first:
 	tombstonePath := env.SentinelInitCommandTombstonePath()
@@ -98,8 +97,6 @@ func RunInitCommands() {
 			log.ErrorLn(&cid, "Error closing initialization file: ", err.Error())
 		}
 	}(file)
-
-	ctx := context.WithValue(context.Background(), "correlationId", &cid)
 
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand
