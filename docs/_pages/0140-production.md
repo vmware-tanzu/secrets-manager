@@ -122,9 +122,9 @@ Things happen. Make sure you back up your cluster [using a tool like
 **Velero**][velero], so that when things do happen, you can revert your
 cluster’s last known good state.
 
-> **Make Sure You Back Up `vsecm-safe-age-key`**
+> **Make Sure You Back Up `vsecm-root-key`**
 > 
-> The Kubernetes `Secret` names `vsecm-safe-age-key` that resides in the 
+> The Kubernetes `Secret` names `vsecm-root-key` that resides in the 
 > `vsecm-system` namespace is especially important, and needs to be 
 > securely backed up.
 > 
@@ -136,9 +136,9 @@ cluster’s last known good state.
 
 [velero]: https://velero.io/ "Velero"
 
-## Restrict Access To `vsecm-safe-age-key`
+## Restrict Access To `vsecm-root-key`
 
-The `vsecm-safe-age-key` secret that **VSecM Safe** stores in the `vsecm-system`
+The `vsecm-root-key` secret that **VSecM Safe** stores in the `vsecm-system`
 namespace contains the keys to encrypt and decrypt secret data on the data
 volume of **VSecM Safe**.
 
@@ -146,10 +146,10 @@ While reading the secret alone is not enough to plant an attack on the secrets
 (*because the attacker also needs to access the VSecM Safe Pod or the `/data`
 volume in that Pod*), it is still **crucial** to follow the **principle of least
 privilege** guideline and do not allow anyone on the cluster read or write
-to the `vsecm-safe-age-key` secret.
+to the `vsecm-root-key` secret.
 
 The only entity allowed to have read/write (*but not delete*) access to
-`vsecm-safe-age-key` should be the **VSecM Safe** Pod inside the `vsecm-system`
+`vsecm-root-key` should be the **VSecM Safe** Pod inside the `vsecm-system`
 namespace with an `vsecm-safe` service account.
 
 > **With Great Power Comes Great Responsibility**
@@ -157,11 +157,11 @@ namespace with an `vsecm-safe` service account.
 > It is worth noting that a **Cluster Administrator** due to their elevated
 > privileges can read/write to any Kubernetes `Secret` in the cluster.
 >
-> This includes access to the `vsecm-safe-age-key` secret. Therefore, it is
+> This includes access to the `vsecm-root-key` secret. Therefore, it is
 > highly recommended that you grant the `cluster-admin` role to a **very**
 > small group of trusted individuals only.
 >
-> Although, access to `vsecm-safe-age-key` does not give the attacker direct
+> Although, access to `vsecm-root-key` does not give the attacker direct
 > access to the secrets, due to their sheer power, a determined Cluster
 > Administrator can still read the secrets by accessing the `/data` volume.
 >
@@ -207,7 +207,7 @@ If you are **only** using **VMware Secrets Manager** for your configuration and
 secret storage needs, and your workloads do **not** bind any Kubernetes `Secret` 
 (*i.e., instead of using Kubernetes `Secret` objects, you use tools like **VSecM SDK**
 or **VSecM Sidecar** to securely dispatch secrets to your workloads*) then
-as long as you secure access to the secret `vsecm-safe-age-key` inside the
+as long as you secure access to the secret `vsecm-root-key` inside the
 `vsecm-system` namespace, you should be good to go.
 
 With the help of **VSecM SDK**, **VSecM Sidecar**, and **VSecM Init Container**,

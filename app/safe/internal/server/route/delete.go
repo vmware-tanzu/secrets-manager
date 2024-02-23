@@ -20,33 +20,21 @@ import (
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func isSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter, spiffeid string) bool {
-	audit.Log(j)
-
-	if validation.IsSentinel(spiffeid) {
-		return true
-	}
-
-	j.Event = event.BadSpiffeId
-	audit.Log(j)
-
-	w.WriteHeader(http.StatusBadRequest)
-	_, err := io.WriteString(w, "")
-	if err != nil {
-		log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
-	}
-
-	return false
-}
-
+// Delete handles the deletion of a secret identified by a workload ID.
+// It performs a series of checks and logging steps before carrying out the deletion.
+//
+// Parameters:
+//   - cid: A string representing the correlation ID for the request, used for
+//     tracking and logging purposes.
+//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - r: An http.Request object containing the request details from the client.
+//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
-		log.InfoLn(&cid, "Delete: Master key not set")
+	if !state.RootKeySet() {
+		log.InfoLn(&cid, "Delete: Root key not set")
 		return
 	}
 

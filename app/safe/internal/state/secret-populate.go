@@ -31,7 +31,7 @@ func populateSecrets(cid string) error {
 	secretsPopulatedLock.Lock()
 	defer secretsPopulatedLock.Unlock()
 
-	root := env.SafeDataPath()
+	root := env.DataPathForSafe()
 	files, err := os.ReadDir(root)
 	if err != nil {
 		return errors.Wrap(err, "populateSecrets: problem reading secrets directory")

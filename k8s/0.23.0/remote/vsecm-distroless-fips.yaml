@@ -79,7 +79,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: Secret
 metadata:
-  name: vsecm-safe-age-key
+  name: vsecm-root-key
   namespace: vsecm-system
 type: Opaque
 data:
@@ -161,7 +161,7 @@ metadata:
 #    rules
 #    - apiGroups: [""]
 #      resources: ["secrets"]
-#      resourceNames: ["vsecm-safe-age-key"]
+#      resourceNames: ["vsecm-root-key"]
 #      verbs: ["get", "watch", "list", "update", "create"]
 #
 # When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
@@ -184,7 +184,7 @@ rules:
 # rules:
 #   - apiGroups: [""]
 #     resources: ["secrets"]
-#     resourceNames: ["vsecm-safe-age-key"]
+#     resourceNames: ["vsecm-root-key"]
 #     verbs: ["get", "watch", "list", "update", "create"]
 #
 #
@@ -323,7 +323,7 @@ spec:
               readOnly: true
             - name: vsecm-data
               mountPath: /data
-            - name: vsecm-age
+            - name: vsecm-root-key
               mountPath: /key
               readOnly: true
           #
@@ -348,9 +348,9 @@ spec:
               value: "file"
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
               value: "30000"
-            - name: VSECM_SAFE_CRYPTO_KEY_NAME
-              value: "vsecm-safe-age-key"
-            - name: VSECM_SAFE_CRYPTO_KEY_PATH
+            - name: VSECM_ROOT_KEY_NAME
+              value: "vsecm-root-key"
+            - name: VSECM_ROOT_KEY_PATH
               value: "/key/key.txt"
             - name: VSECM_SAFE_DATA_PATH
               value: "/data"
@@ -364,7 +364,7 @@ spec:
               value: "10"
             - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
               value: "10"
-            - name: VSECM_SAFE_MANUAL_KEY_INPUT
+            - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
             - name: VSECM_SAFE_SECRET_BACKUP_COUNT
               value: "3"
@@ -384,8 +384,6 @@ spec:
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/"
-            - name: SENTINEL_LOGGER_URL
-              value: "localhost:50051"
             - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -416,10 +414,10 @@ spec:
           hostPath:
             path: /var/local/vsecm/data
             type: DirectoryOrCreate
-        # `vsecm-age` stores the encryption keys to restore secrets from vsecm-data.
-        - name: vsecm-age
+        # `vsecm-root-key` stores the encryption keys to restore secrets from vsecm-data.
+        - name: vsecm-root-key
           secret:
-            secretName: vsecm-safe-age-key
+            secretName: vsecm-root-key
             items:
               - key: KEY_TXT
                 path: key.txt
@@ -503,8 +501,6 @@ spec:
               value: ":8443"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: SENTINEL_LOGGER_URL
-              value: "localhost:50051"
           livenessProbe:
             httpGet:
               path: /

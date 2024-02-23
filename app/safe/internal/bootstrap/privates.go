@@ -48,7 +48,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 			APIVersion: "v1",
 		},
 		ObjectMeta: metaV1.ObjectMeta{
-			Name:      env.SafeAgeKeySecretName(),
+			Name:      env.RootKeySecretNameForSafe(),
 			Namespace: env.SystemNamespace(),
 		},
 		Data: data,
@@ -69,7 +69,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 						APIVersion: "v1",
 					},
 					ObjectMeta: metaV1.ObjectMeta{
-						Name:      env.SafeAgeKeySecretName(),
+						Name:      env.RootKeySecretNameForSafe(),
 						Namespace: env.SystemNamespace(),
 						Annotations: map[string]string{
 							"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
@@ -91,7 +91,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 		return errors.Wrap(err, "Error creating the secret")
 	}
 
-	state.SetMasterKey(keysCombined)
+	state.SetRootKey(keysCombined)
 
 	return nil
 }

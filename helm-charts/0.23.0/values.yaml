@@ -72,5 +72,4 @@ global:
     logLevel: DEBUG
     serverPort: 8081
 
-
 podAnnotations: {}

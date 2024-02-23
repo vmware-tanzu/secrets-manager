@@ -11,8 +11,6 @@
 package route
 
 import (
-	"encoding/json"
-	"io"
 	"net/http"
 	"time"
 
@@ -20,170 +18,21 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func createDefaultJournalEntry(cid, spiffeid string,
-	r *http.Request) audit.JournalEntry {
-	return audit.JournalEntry{
-		CorrelationId: cid,
-		Entity:        reqres.SecretFetchRequest{},
-		Method:        r.Method,
-		Url:           r.RequestURI,
-		SpiffeId:      spiffeid,
-		Event:         event.Enter,
-	}
-}
-
-func readBody(cid string, r *http.Request, w http.ResponseWriter,
-	j audit.JournalEntry) []byte {
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		j.Event = event.BrokenBody
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err2 := io.WriteString(w, "")
-		if err2 != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err2.Error())
-		}
-
-		return nil
-	}
-
-	defer func(b io.ReadCloser) {
-		if b == nil {
-			return
-		}
-		err := b.Close()
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem closing body", err.Error())
-		}
-	}(r.Body)
-
-	return body
-}
-
-func unmarshalRequest(cid string, body []byte, j audit.JournalEntry,
-	w http.ResponseWriter) *reqres.SecretUpsertRequest {
-	var sr reqres.SecretUpsertRequest
-
-	err := json.Unmarshal(body, &sr)
-	if err != nil {
-		j.Event = event.RequestTypeMismatch
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-		}
-
-		return nil
-	}
-
-	return &sr
-}
-
-func unmarshalKeyInputRequest(cid string, body []byte, j audit.JournalEntry,
-	w http.ResponseWriter) *reqres.KeyInputRequest {
-	var sr reqres.KeyInputRequest
-
-	err := json.Unmarshal(body, &sr)
-	if err != nil {
-		j.Event = event.RequestTypeMismatch
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-		}
-
-		return nil
-	}
-
-	return &sr
-}
-
-func encryptValue(cid string, value string, j audit.JournalEntry,
-	w http.ResponseWriter) {
-	if value == "" {
-		j.Event = event.NoValue
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-		}
-
-		return
-	}
-
-	encrypted, err := state.EncryptValue(value)
-	if err != nil {
-		j.Event = event.EncryptionFailed
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "")
-		if err2 != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err2.Error())
-		}
-
-		return
-	}
-
-	_, err = io.WriteString(w, encrypted)
-	if err != nil {
-		log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-	}
-	return
-}
-
-func decryptValue(cid string, value string, j audit.JournalEntry,
-	w http.ResponseWriter) (string, bool) {
-	decrypted, err := state.DecryptValue(value)
-	if err != nil {
-		j.Event = event.DecryptionFailed
-		audit.Log(j)
-
-		w.WriteHeader(http.StatusInternalServerError)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-		}
-
-		return "", true
-	}
-
-	return decrypted, false
-}
-
-func upsert(secretToStore entity.SecretStored,
-	appendValue bool, workloadId string, cid string,
-	j audit.JournalEntry, w http.ResponseWriter,
-) {
-	state.UpsertSecret(secretToStore, appendValue)
-	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
-
-	j.Event = event.Ok
-	audit.Log(j)
-
-	_, err := io.WriteString(w, "OK")
-	if err != nil {
-		log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-	}
-}
-
+// Secret handles the creation, updating, and management of secrets.
+// It performs several checks and operations based on the request parameters.
+//
+// Parameters:
+//   - cid: A string representing the correlation ID for the request, used for
+//     logging and tracking purposes.
+//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - r: An http.Request object containing the details of the client's request.
+//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
-		log.InfoLn(&cid, "Secret: Master key not set")
+	if !state.RootKeySet() {
+		log.InfoLn(&cid, "Secret: Root key not set")
 		return
 	}
 

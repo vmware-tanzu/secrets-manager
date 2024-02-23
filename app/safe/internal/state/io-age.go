@@ -12,12 +12,12 @@ package state
 
 import "strings"
 
-func ageKeyTriplet() (string, string, string) {
-	if masterKey == "" {
+func rootKeyTriplet() (string, string, string) {
+	if rootKey == "" {
 		return "", "", ""
 	}
 
-	parts := strings.Split(masterKey, "\n")
+	parts := strings.Split(rootKey, "\n")
 
 	if len(parts) != 3 {
 		return "", "", ""

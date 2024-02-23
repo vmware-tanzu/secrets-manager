@@ -50,7 +50,7 @@ spec:
               readOnly: true
             - name: vsecm-data
               mountPath: /data
-            - name: vsecm-age
+            - name: vsecm-root-key
               mountPath: /key
               readOnly: true
           #
@@ -80,7 +80,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.readynessPort }}
+              port: {{ .Values.readinessPort }}
             initialDelaySeconds: 1
             periodSeconds: 10
           resources:
@@ -94,13 +94,18 @@ spec:
             readOnly: true
         # `vsecm-data` is used to persist the encrypted backups of the secrets.
         - name: vsecm-data
+          {{- if .Values.data.persistent }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.data.persistentVolumeClaim.claimName }}
+          {{- else }}
           hostPath:
-            path: /var/local/vsecm/data
+            path: {{ .Values.data.hostPath.path }}
             type: DirectoryOrCreate
-        # `vsecm-age` stores the encryption keys to restore secrets from vsecm-data.
-        - name: vsecm-age
+          {{- end }}
+        # `vsecm-root-key` stores the encryption keys to restore secrets from vsecm-data.
+        - name: vsecm-root-key
           secret:
-            secretName: {{ .Values.ageKeySecretName }}
+            secretName: {{ .Values.rootKeySecretName }}
             items:
               - key: KEY_TXT
                 path: key.txt

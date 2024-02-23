@@ -41,18 +41,18 @@ func TestSafeEndpointUrl(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeEndpointUrl() = failed to setup, with error: %+v", err)
+					t.Errorf("EndpointUrlForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeEndpointUrl() = failed to cleanup, with error: %+v", err)
+						t.Errorf("EndpointUrlForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeEndpointUrl(); got != tt.want {
-				t.Errorf("SafeEndpointUrl() = %v, want %v", got, tt.want)
+			if got := EndpointUrlForSafe(); got != tt.want {
+				t.Errorf("EndpointUrlForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}

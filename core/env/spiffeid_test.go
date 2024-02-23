@@ -84,18 +84,18 @@ func TestSafeSpiffeIdPrefix(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeSpiffeIdPrefix() = failed to setup, with error: %+v", err)
+					t.Errorf("SpiffeIdPrefixForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeSpiffeIdPrefix() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SpiffeIdPrefixForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeSpiffeIdPrefix(); got != tt.want {
-				t.Errorf("SafeSpiffeIdPrefix() = %v, want %v", got, tt.want)
+			if got := SpiffeIdPrefixForSafe(); got != tt.want {
+				t.Errorf("SpiffeIdPrefixForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -163,16 +163,16 @@ kubectl exec $INSPECTOR -- ./env
 
 And yes, it did.
 
-## Be Aware of the `vsecm-safe-age-key` Kubernetes `Secret`
+## Be Aware of the `vsecm-root-key` Kubernetes `Secret`
 
 One thing to note is, if you lose access to the Kubernetes `Secret` named
-`vsecm-safe-age-key` in `vsecm-system` namespace, then you will lose the
+`vsecm-root-key` in `vsecm-system` namespace, then you will lose the
 ability to register your encrypted secrets (*since, during bootstrapping
 when VSecM Safe cannot find the secret, it will create a brand new one,
 invalidating all encrypted values*).
 
 As a rule of thumb, **always backup your cluster** regularly, so that if
-such an incident occurs, you can recover the `vsecm-safe-age-key` secret
+such an incident occurs, you can recover the `vsecm-root-key` secret
 from the backups.
 
 ## Conclusion

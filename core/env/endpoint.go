@@ -12,11 +12,11 @@ package env
 
 import "os"
 
-// SafeEndpointUrl returns the URL for the VSecM Safe endpoint
+// EndpointUrlForSafe returns the URL for the VSecM Safe endpoint
 // used in the VMware Secrets Manager system.
 // The URL is obtained from the environment variable VSECM_SAFE_ENDPOINT_URL.
 // If the variable is not set, the default URL is used.
-func SafeEndpointUrl() string {
+func EndpointUrlForSafe() string {
 	u := os.Getenv("VSECM_SAFE_ENDPOINT_URL")
 	if u == "" {
 		u = "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"

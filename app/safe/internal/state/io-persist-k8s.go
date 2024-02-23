@@ -35,7 +35,7 @@ import (
 //
 // The secret name is derived from the input secret entity. If the secret’s name
 // has a specific prefix  (determined by env.StoreWorkloadAsK8sSecretPrefix), that
-// prefix is removed. Otherwise, a default prefix (from env.SafeSecretNamePrefix)
+// prefix is removed. Otherwise, a default prefix (from env.SecretNamePrefixForSafe)
 // is appended to the secret name.
 //
 // The secret data is prepared by converting the input secret entity into a
@@ -69,7 +69,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		return errors.Wrap(err, "could not create client")
 	}
 
-	k8sSecretName := env.SafeSecretNamePrefix() + secret.Name
+	k8sSecretName := env.SecretNamePrefixForSafe() + secret.Name
 
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.

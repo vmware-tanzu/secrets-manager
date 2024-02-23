@@ -22,9 +22,9 @@ func IsSentinel(spiffeid string) bool {
 }
 
 // IsSafe returns true if the given SPIFFEID is a Safe ID.
-// It does this by checking if the SPIFFEID has the SafeSpiffeIdPrefix as its prefix.
+// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForSafe as its prefix.
 func IsSafe(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SafeSpiffeIdPrefix())
+	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSafe())
 }
 
 // IsWorkload returns true if the given SPIFFEID is a WorkloadId ID.

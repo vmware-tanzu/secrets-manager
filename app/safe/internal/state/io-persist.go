@@ -45,7 +45,7 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 		}
 	}()
 
-	if env.SafeFipsCompliant() {
+	if env.FipsCompliantModeForSafe() {
 		return encryptToWriterAes(file, string(data))
 	}
 
@@ -54,10 +54,10 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 
 // Only one goroutine accesses this function at any given time.
 func persist(secret entity.SecretStored, errChan chan<- error) {
-	backupCount := env.SafeSecretBackupCount()
+	backupCount := env.SecretBackupCountForSafe()
 
 	// Save the secret
-	dataPath := path.Join(env.SafeDataPath(), secret.Name+".age")
+	dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
 
 	err := saveSecretToDisk(secret, dataPath)
 	if err != nil {
@@ -79,7 +79,7 @@ func persist(secret entity.SecretStored, errChan chan<- error) {
 
 	// Save a copy
 	dataPath = path.Join(
-		env.SafeDataPath(),
+		env.DataPathForSafe(),
 		secret.Name+"-"+strconv.Itoa(int(newIndex))+"-"+".age.backup",
 	)
 

@@ -11,154 +11,32 @@
 package route
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	v1 "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func handleBadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
-	j audit.JournalEntry,
-) {
-	j.Event = event.BadSpiffeId
-	audit.Log(j)
-
-	log.DebugLn(&cid, "Fetch: bad spiffeid", spiffeid)
-
-	w.WriteHeader(http.StatusBadRequest)
-	_, err := io.WriteString(w, "")
-	if err != nil {
-		log.InfoLn(&cid, "Fetch: Problem sending response", err.Error())
-	}
-}
-
-func handleBadPeerSvidResponse(cid string, w http.ResponseWriter,
-	spiffeid string, j audit.JournalEntry,
-) {
-	j.Event = event.BadPeerSvid
-	audit.Log(j)
-
-	w.WriteHeader(http.StatusBadRequest)
-	_, err := io.WriteString(w, "")
-	if err != nil {
-		log.InfoLn(&cid, "Fetch: Problem with spiffeid", spiffeid)
-	}
-}
-
-func handleNoSecretResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry,
-) {
-	j.Event = event.NoSecret
-	audit.Log(j)
-
-	w.WriteHeader(http.StatusNotFound)
-	_, err2 := io.WriteString(w, "")
-	if err2 != nil {
-		log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
-	}
-}
-
-func handleInitCompleteSuccessResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry, sfr reqres.SentinelInitCompleteResponse) {
-	j.Event = event.Ok
-	j.Entity = sfr
-	audit.Log(j)
-
-	resp, err := json.Marshal(sfr)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "Problem unmarshalling response")
-		if err2 != nil {
-			log.InfoLn(&cid, "Problem sending response", err2.Error())
-		}
-		return
-	}
-
-	log.DebugLn(&cid, "before response")
-
-	_, err = io.WriteString(w, string(resp))
-	if err != nil {
-		log.InfoLn(&cid, "Problem sending response", err.Error())
-	}
-
-	log.DebugLn(&cid, "after response")
-}
-
-func handleSuccessResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
-	j.Event = event.Ok
-	j.Entity = sfr
-	audit.Log(j)
-
-	resp, err := json.Marshal(sfr)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "Problem unmarshalling response")
-		if err2 != nil {
-			log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
-		}
-		return
-	}
-
-	log.DebugLn(&cid, "Fetch: before response")
-
-	_, err = io.WriteString(w, string(resp))
-	if err != nil {
-		log.InfoLn(&cid, "Problem sending response", err.Error())
-	}
-
-	log.DebugLn(&cid, "Fetch: after response")
-}
-
-func getWorkloadIDAndParts(spiffeid string) (string, []string) {
-	tmp := strings.Replace(spiffeid, env.WorkloadSpiffeIdPrefix(), "", 1)
-	parts := strings.Split(tmp, "/")
-	if len(parts) > 0 {
-		return parts[0], parts
-	}
-	return "", nil
-}
-
-func getSecretValue(cid string, secret *v1.SecretStored) string {
-	if secret.ValueTransformed != "" {
-		log.TraceLn(&cid, "Fetch: using transformed value")
-		return secret.ValueTransformed
-	}
-
-	// This part is for backwards compatibility.
-	// It probably won’t execute because `secret.ValueTransformed` will
-	// always be set.
-
-	log.TraceLn(&cid, "Fetch: using raw value")
-
-	if len(secret.Values) == 1 {
-		return secret.Values[0]
-	}
-
-	jsonData, err := json.Marshal(secret.Values)
-	if err != nil {
-		log.WarnLn(&cid, "Fetch: Problem marshaling values", err.Error())
-	} else {
-		return string(jsonData)
-	}
-
-	return ""
-}
-
+// Fetch handles the retrieval of a secret for a given workload, identified by
+// its SPIFFE ID.
+// The function performs several checks to ensure the request is valid and then
+// fetches the secret.
+//
+// Parameters:
+//   - cid: A string representing the correlation ID for the request, used for
+//     tracking and logging purposes.
+//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - r: An http.Request object containing the request details from the client.
+//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
-		log.InfoLn(&cid, "Fetch: Master key not set")
+	if !state.RootKeySet() {
+		log.InfoLn(&cid, "Fetch: Root key not set")
 		return
 	}
 

@@ -21,17 +21,17 @@ import (
 )
 
 func decryptBytes(data []byte) ([]byte, error) {
-	privateKey, _, _ := ageKeyTriplet()
+	privateKey, _, _ := rootKeyTriplet()
 	return crypto.DecryptBytesAge(data, privateKey)
 }
 
 func decryptBytesAes(data []byte) ([]byte, error) {
-	_, _, aesKey := ageKeyTriplet()
+	_, _, aesKey := rootKeyTriplet()
 	return crypto.DecryptBytesAes(data, aesKey)
 }
 
 func decryptDataFromDisk(key string) ([]byte, error) {
-	dataPath := path.Join(env.SafeDataPath(), key+".age")
+	dataPath := path.Join(env.DataPathForSafe(), key+".age")
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
 		return nil, errors.Wrap(err, "decryptDataFromDisk: No file at: "+dataPath)
@@ -42,7 +42,7 @@ func decryptDataFromDisk(key string) ([]byte, error) {
 		return nil, errors.Wrap(err, "decryptDataFromDisk: Error reading file")
 	}
 
-	if env.SafeFipsCompliant() {
+	if env.FipsCompliantModeForSafe() {
 		return decryptBytesAes(data)
 	}
 

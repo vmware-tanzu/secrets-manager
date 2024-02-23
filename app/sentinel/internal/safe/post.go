@@ -53,7 +53,7 @@ func decideBackingStore(backingStore string) data.BackingStore {
 	case data.Memory:
 		return data.Memory
 	default:
-		return env.SafeBackingStore()
+		return env.BackingStoreForSafe()
 	}
 }
 
@@ -194,7 +194,7 @@ func doPost(cid *string, client *http.Client, p string, md []byte) {
 func PostInitializationComplete(parentContext context.Context) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
-		env.SafeSourceAcquisitionTimeout(),
+		env.SourceAcquisitionTimeoutForSafe(),
 	)
 	defer cancel()
 
@@ -236,7 +236,7 @@ func PostInitializationComplete(parentContext context.Context) {
 
 		authorizer := createAuthorizer()
 
-		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/init-completed")
+		p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/init-completed")
 		if err != nil {
 			printEndpointError(cid, err)
 			return
@@ -266,7 +266,7 @@ func Post(parentContext context.Context,
 ) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
-		env.SafeSourceAcquisitionTimeout(),
+		env.SourceAcquisitionTimeoutForSafe(),
 	)
 	defer cancel()
 
@@ -315,7 +315,7 @@ func Post(parentContext context.Context,
 		authorizer := createAuthorizer()
 
 		if sc.InputKeys != "" {
-			p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/keys")
+			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
 				printEndpointError(cid, err)
 				return
@@ -358,7 +358,7 @@ func Post(parentContext context.Context,
 			}
 		}
 
-		p, err := url.JoinPath(env.SafeEndpointUrl(), "/sentinel/v1/secrets")
+		p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/secrets")
 		if err != nil {
 			printEndpointError(cid, err)
 			return

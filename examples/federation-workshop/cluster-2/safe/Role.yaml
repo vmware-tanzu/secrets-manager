@@ -45,7 +45,7 @@ metadata:
 #    rules
 #    - apiGroups: [""]
 #      resources: ["secrets"]
-#      resourceNames: ["vsecm-safe-age-key"]
+#      resourceNames: ["vsecm-root-key"]
 #      verbs: ["get", "watch", "list", "update", "create"]
 #
 # When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
@@ -68,7 +68,7 @@ rules:
 # rules:
 #   - apiGroups: [""]
 #     resources: ["secrets"]
-#     resourceNames: ["vsecm-safe-age-key"]
+#     resourceNames: ["vsecm-root-key"]
 #     verbs: ["get", "watch", "list", "update", "create"]
 #
 #

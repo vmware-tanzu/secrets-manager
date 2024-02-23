@@ -24,11 +24,11 @@ func SentinelSpiffeIdPrefix() string {
 	return p
 }
 
-// SafeSpiffeIdPrefix returns the prefix for the Safe SPIFFE ID.
+// SpiffeIdPrefixForSafe returns the prefix for the Safe SPIFFE ID.
 // The prefix is obtained from the environment variable
 // VSECM_SAFE_SPIFFEID_PREFIX. If the variable is not set, the default prefix is
 // used.
-func SafeSpiffeIdPrefix() string {
+func SpiffeIdPrefixForSafe() string {
 	p := os.Getenv("VSECM_SAFE_SPIFFEID_PREFIX")
 	if p == "" {
 		p = "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"

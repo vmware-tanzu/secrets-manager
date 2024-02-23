@@ -37,7 +37,7 @@ func SentinelInitCommandPath() string {
 // and uses its value as the path. If the environment variable is not set, it
 // defaults to "/opt/vsecm-sentinel/tombstone/init".
 //
-// This path is usually used to store a "tombstone" file or data indicating that
+// This path is usually used to store a “tombstone” file or data indicating that
 // the initialization command has been executed or is no longer valid.
 //
 // Returns:
