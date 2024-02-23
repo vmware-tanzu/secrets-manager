@@ -25,9 +25,9 @@ import (
 const InitialSecretValue = `{"empty":true}`
 const BlankRootKeyValue = "{}"
 
-// rootKey is set only once during initialization; we don’t need to lock
-// access to it.
+// rootKey is the key used for encryption, decryption, backup, and restore.
 var rootKey = ""
+var rootKeyLock sync.RWMutex
 
 // Initialize starts two goroutines: one to process the secret queue and
 // another to process the Kubernetes secret queue. These goroutines are
@@ -38,8 +38,6 @@ func Initialize() {
 	go processSecretDeleteQueue()
 	go processK8sSecretDeleteQueue()
 }
-
-var rootKeyLock sync.RWMutex
 
 // SetRootKey sets the age key to be used for encryption and decryption.
 func SetRootKey(k string) {
