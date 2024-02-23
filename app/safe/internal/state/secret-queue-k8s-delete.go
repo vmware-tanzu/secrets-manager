@@ -27,13 +27,13 @@ import (
 )
 
 // The secrets put here are synced with their Kubernetes Secret counterparts.
-var k8sSecretDeleteQueue = make(chan entity.SecretStored, env.SafeK8sSecretDeleteBufferSize())
+var k8sSecretDeleteQueue = make(chan entity.SecretStored, env.K8sSecretDeleteBufferSizeForSafe())
 
 func processK8sSecretDeleteQueue() {
 	errChan := make(chan error)
 	id := "AEGIHK8D"
 
-	if env.SafeRemoveLinkedK8sSecrets() {
+	if env.RemoveLinkedK8sSecretsModeForSafe() {
 		go func() {
 			for e := range errChan {
 				// If the `deleteSecretFromKubernetes` operation spews out an error, log it.
@@ -65,7 +65,7 @@ func deleteSecretFromKubernetes(secret entity.SecretStored, errChan chan error) 
 		return
 	}
 
-	k8sSecretName := env.SafeSecretNamePrefix() + secret.Name
+	k8sSecretName := env.SecretNamePrefixForSafe() + secret.Name
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.
 	if strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {

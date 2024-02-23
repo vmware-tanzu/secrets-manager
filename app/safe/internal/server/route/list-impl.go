@@ -83,7 +83,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 	if encrypted {
 		algo := crypto.Age
-		if env.SafeFipsCompliant() {
+		if env.FipsCompliantModeForSafe() {
 			algo = crypto.Aes
 		}
 

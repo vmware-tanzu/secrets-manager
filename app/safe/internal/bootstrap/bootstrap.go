@@ -25,12 +25,12 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-// NotifyTimeout waits for the duration specified by env.SafeBootstrapTimeout()
+// NotifyTimeout waits for the duration specified by env.BootstrapTimeoutForSafe()
 // and then sends a 'true' value to the provided 'timedOut' channel. This function
 // can be used to notify other parts of the application when a specific timeout
 // has been reached.
 func NotifyTimeout(timedOut chan<- bool) {
-	time.Sleep(env.SafeBootstrapTimeout())
+	time.Sleep(env.BootstrapTimeoutForSafe())
 	timedOut <- true
 }
 
@@ -156,7 +156,7 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 	}
 
 	// This is a Kubernetes Secret, mounted as a file.
-	keyPath := env.SafeAgeKeyPath()
+	keyPath := env.RootKeyPathForSafe()
 
 	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
 		log.FatalLn(id, "CreateCryptoKey: Secret key not mounted at", keyPath)
@@ -171,7 +171,7 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	secret := string(data)
 
-	if secret != state.BlankAgeKeyValue {
+	if secret != state.BlankRootKeyValue {
 		log.InfoLn(id, "Secret has been set in the cluster, will reuse it")
 		state.SetRootKey(secret)
 		updatedSecret <- true

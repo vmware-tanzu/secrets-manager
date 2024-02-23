@@ -27,7 +27,7 @@ import (
 )
 
 func encryptToWriterAge(out io.Writer, data string) error {
-	_, publicKey, _ := ageKeyTriplet()
+	_, publicKey, _ := rootKeyTriplet()
 
 	if publicKey == "" {
 		return errors.New("encryptToWriterAge: no public key")
@@ -65,14 +65,14 @@ func encryptToWriterAes(out io.Writer, data string) error {
 	// which can be used to break the encryption when combined with other
 	// attack vectors. Therefore, we throttle calls to this method.
 	if time.Since(lastEncryptToWriterAesCall) < time.Millisecond*time.Duration(
-		env.SafeIvInitializationInterval(),
+		env.IvInitializationIntervalForSafe(),
 	) {
 		return errors.New("Calls too frequent")
 	}
 
 	lastEncryptToWriterAesCall = time.Now()
 
-	_, _, aesKey := ageKeyTriplet()
+	_, _, aesKey := rootKeyTriplet()
 
 	if aesKey == "" {
 		return errors.New("encryptToWriter: no AES key")

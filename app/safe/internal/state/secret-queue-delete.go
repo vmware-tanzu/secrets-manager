@@ -24,7 +24,7 @@ import (
 // writes to the same file at a time. An alternative approach would be
 // to have a map of queues of `SecretsStored`s per file name but that
 // feels like an overkill.
-var secretDeleteQueue = make(chan entity.SecretStored, env.SafeSecretDeleteBufferSize())
+var secretDeleteQueue = make(chan entity.SecretStored, env.SecretDeleteBufferSizeForSafe())
 
 func processSecretDeleteQueue() {
 	errChan := make(chan error)
@@ -40,7 +40,7 @@ func processSecretDeleteQueue() {
 
 	for {
 		// Buffer overflow check.
-		if len(secretDeleteQueue) == env.SafeSecretBufferSize() {
+		if len(secretDeleteQueue) == env.SecretBufferSizeForSafe() {
 			log.ErrorLn(
 				&id,
 				"processSecretDeleteQueue: there are too many k8s secrets queued. "+
@@ -60,7 +60,7 @@ func processSecretDeleteQueue() {
 		log.TraceLn(&id, "processSecretDeleteQueue: picked a secret", len(secretQueue))
 
 		// Remove secret from disk.
-		dataPath := path.Join(env.SafeDataPath(), secret.Name+".age")
+		dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
 		log.TraceLn(&id, "processSecretDeleteQueue: removing secret from disk:", dataPath)
 		err := os.Remove(dataPath)
 		if err != nil && !os.IsNotExist(err) {

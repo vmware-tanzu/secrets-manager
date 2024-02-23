@@ -21,7 +21,7 @@ import (
 // writes to the same file at a time. An alternative approach would be
 // to have a map of queues of `SecretsStored`s per file name but that
 // feels like an overkill.
-var secretQueue = make(chan entity.SecretStored, env.SafeSecretBufferSize())
+var secretQueue = make(chan entity.SecretStored, env.SecretBufferSizeForSafe())
 
 func processSecretQueue() {
 	errChan := make(chan error)
@@ -37,7 +37,7 @@ func processSecretQueue() {
 
 	for {
 		// Buffer overflow check.
-		if len(secretQueue) == env.SafeSecretBufferSize() {
+		if len(secretQueue) == env.SecretBufferSizeForSafe() {
 			log.ErrorLn(
 				&id,
 				"processSecretQueue: there are too many k8s secrets queued. "+

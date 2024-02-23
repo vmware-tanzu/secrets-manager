@@ -110,7 +110,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 		safeUrl = "/sentinel/v1/secrets?reveal=true"
 	}
 
-	p, err := url.JoinPath(env.SafeEndpointUrl(), safeUrl)
+	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
 		log.ErrorLn(
 			cid,

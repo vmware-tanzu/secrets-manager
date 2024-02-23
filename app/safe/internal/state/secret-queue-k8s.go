@@ -17,7 +17,7 @@ import (
 )
 
 // The secrets put here are synced with their Kubernetes Secret counterparts.
-var k8sSecretQueue = make(chan entity.SecretStored, env.SafeK8sSecretBufferSize())
+var k8sSecretQueue = make(chan entity.SecretStored, env.K8sSecretBufferSizeForSafe())
 
 func processK8sSecretQueue() {
 	errChan := make(chan error)
@@ -33,7 +33,7 @@ func processK8sSecretQueue() {
 
 	for {
 		// Buffer overflow check.
-		if len(secretQueue) == env.SafeSecretBufferSize() {
+		if len(secretQueue) == env.SecretBufferSizeForSafe() {
 			log.ErrorLn(
 				&id,
 				"processK8sSecretQueue: there are too many k8s secrets queued. "+

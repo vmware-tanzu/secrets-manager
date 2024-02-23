@@ -22,7 +22,7 @@ import (
 	"strings"
 )
 
-func ageKeyTriplet(content string) (string, string, string) {
+func rootKeyTriplet(content string) (string, string, string) {
 	if content == "" {
 		return "", "", ""
 	}
@@ -46,7 +46,7 @@ func keys() (string, string, string) {
 
 	trimmed := strings.TrimSpace(string(content))
 
-	return ageKeyTriplet(trimmed)
+	return rootKeyTriplet(trimmed)
 }
 
 func decrypt(value []byte, algorithm crypto.Algorithm) (string, error) {

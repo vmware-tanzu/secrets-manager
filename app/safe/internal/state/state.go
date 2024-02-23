@@ -23,7 +23,7 @@ import (
 )
 
 const InitialSecretValue = `{"empty":true}`
-const BlankAgeKeyValue = "{}"
+const BlankRootKeyValue = "{}"
 
 // rootKey is set only once during initialization; we don’t need to lock
 // access to it.
@@ -69,7 +69,7 @@ func RootKeySet() bool {
 func EncryptValue(value string) (string, error) {
 	var out bytes.Buffer
 
-	fipsMode := env.SafeFipsCompliant()
+	fipsMode := env.FipsCompliantModeForSafe()
 
 	if fipsMode {
 		err := encryptToWriterAes(&out, value)
@@ -97,7 +97,7 @@ func DecryptValue(value string) (string, error) {
 		return "", err
 	}
 
-	if env.SafeFipsCompliant() {
+	if env.FipsCompliantModeForSafe() {
 		decrypted, err := decryptBytesAes(decoded)
 		if err != nil {
 			return "", err
@@ -297,7 +297,7 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	// If the "name" of the secret has the prefix "k8s:", then store it as a
 	// Kubernetes secret too.
 	if useK8sSecrets ||
-		env.SafeUseKubernetesSecrets() ||
+		env.UseKubernetesSecretsModeForSafe() ||
 		strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
 		log.TraceLn(
 			&cid,
@@ -339,7 +339,7 @@ func DeleteSecret(secret entity.SecretStored) {
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
-	if useK8sSecrets || env.SafeUseKubernetesSecrets() {
+	if useK8sSecrets || env.UseKubernetesSecretsModeForSafe() {
 		log.TraceLn(
 			&cid,
 			"DeleteSecret: will push Kubernetes secret to delete. len", len(k8sSecretDeleteQueue),

@@ -12,7 +12,7 @@ package state
 
 import "strings"
 
-func ageKeyTriplet() (string, string, string) {
+func rootKeyTriplet() (string, string, string) {
 	if rootKey == "" {
 		return "", "", ""
 	}

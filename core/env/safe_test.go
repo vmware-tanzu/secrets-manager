@@ -55,18 +55,18 @@ func TestSafeSecretBufferSize(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeSecretBufferSize() = failed to setup, with error: %+v", err)
+					t.Errorf("SecretBufferSizeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeSecretBufferSize() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SecretBufferSizeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeSecretBufferSize(); got != tt.want {
-				t.Errorf("SafeSecretBufferSize() = %v, want %v", got, tt.want)
+			if got := SecretBufferSizeForSafe(); got != tt.want {
+				t.Errorf("SecretBufferSizeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -108,18 +108,18 @@ func TestSafeK8sSecretBufferSize(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeK8sSecretBufferSize() = failed to setup, with error: %+v", err)
+					t.Errorf("K8sSecretBufferSizeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeK8sSecretBufferSize() = failed to cleanup, with error: %+v", err)
+						t.Errorf("K8sSecretBufferSizeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeK8sSecretBufferSize(); got != tt.want {
-				t.Errorf("SafeK8sSecretBufferSize() = %v, want %v", got, tt.want)
+			if got := K8sSecretBufferSizeForSafe(); got != tt.want {
+				t.Errorf("K8sSecretBufferSizeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -161,18 +161,18 @@ func TestSafeSecretDeleteBufferSize(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeSecretDeleteBufferSize() = failed to setup, with error: %+v", err)
+					t.Errorf("SecretDeleteBufferSizeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeSecretDeleteBufferSize() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SecretDeleteBufferSizeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeSecretDeleteBufferSize(); got != tt.want {
-				t.Errorf("SafeSecretDeleteBufferSize() = %v, want %v", got, tt.want)
+			if got := SecretDeleteBufferSizeForSafe(); got != tt.want {
+				t.Errorf("SecretDeleteBufferSizeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -214,18 +214,18 @@ func TestSafeK8sSecretDeleteBufferSize(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeK8sSecretDeleteBufferSize() = failed to setup, with error: %+v", err)
+					t.Errorf("K8sSecretDeleteBufferSizeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeK8sSecretDeleteBufferSize() = failed to cleanup, with error: %+v", err)
+						t.Errorf("K8sSecretDeleteBufferSizeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeK8sSecretDeleteBufferSize(); got != tt.want {
-				t.Errorf("SafeK8sSecretDeleteBufferSize() = %v, want %v", got, tt.want)
+			if got := K8sSecretDeleteBufferSizeForSafe(); got != tt.want {
+				t.Errorf("K8sSecretDeleteBufferSizeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -277,18 +277,18 @@ func TestSafeRemoveLinkedK8sSecrets(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeRemoveLinkedK8sSecrets() = failed to setup, with error: %+v", err)
+					t.Errorf("RemoveLinkedK8sSecretsModeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeRemoveLinkedK8sSecrets() = failed to cleanup, with error: %+v", err)
+						t.Errorf("RemoveLinkedK8sSecretsModeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeRemoveLinkedK8sSecrets(); got != tt.want {
-				t.Errorf("SafeRemoveLinkedK8sSecrets() = %v, want %v", got, tt.want)
+			if got := RemoveLinkedK8sSecretsModeForSafe(); got != tt.want {
+				t.Errorf("RemoveLinkedK8sSecretsModeForSafe() = %v, want %v", got, tt.want)
 			}
 		},
 		)
@@ -331,18 +331,18 @@ func TestSafeFipsCompliant(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeFipsCompliant() = failed to setup, with error: %+v", err)
+					t.Errorf("FipsCompliantModeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeFipsCompliant() = failed to cleanup, with error: %+v", err)
+						t.Errorf("FipsCompliantModeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeFipsCompliant(); got != tt.want {
-				t.Errorf("SafeFipsCompliant() = %v, want %v", got, tt.want)
+			if got := FipsCompliantModeForSafe(); got != tt.want {
+				t.Errorf("FipsCompliantModeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -394,18 +394,18 @@ func TestSafeBackingStore(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeBackingStore() = failed to setup, with error: %+v", err)
+					t.Errorf("BackingStoreForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeBackingStore() = failed to cleanup, with error: %+v", err)
+						t.Errorf("BackingStoreForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeBackingStore(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SafeBackingStore() = %v, want %v", got, tt.want)
+			if got := BackingStoreForSafe(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("BackingStoreForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -457,18 +457,18 @@ func TestSafeUseKubernetesSecrets(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeUseKubernetesSecrets() = failed to setup, with error: %+v", err)
+					t.Errorf("UseKubernetesSecretsModeForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeUseKubernetesSecrets() = failed to cleanup, with error: %+v", err)
+						t.Errorf("UseKubernetesSecretsModeForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeUseKubernetesSecrets(); got != tt.want {
-				t.Errorf("SafeUseKubernetesSecrets() = %v, want %v", got, tt.want)
+			if got := UseKubernetesSecretsModeForSafe(); got != tt.want {
+				t.Errorf("UseKubernetesSecretsModeForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -510,18 +510,18 @@ func TestSafeSecretBackupCount(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeSecretBackupCount() = failed to setup, with error: %+v", err)
+					t.Errorf("SecretBackupCountForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeSecretBackupCount() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SecretBackupCountForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeSecretBackupCount(); got != tt.want {
-				t.Errorf("SafeSecretBackupCount() = %v, want %v", got, tt.want)
+			if got := SecretBackupCountForSafe(); got != tt.want {
+				t.Errorf("SecretBackupCountForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -616,24 +616,24 @@ func TestSafeDataPath(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeDataPath() = failed to setup, with error: %+v", err)
+					t.Errorf("DataPathForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeDataPath() = failed to cleanup, with error: %+v", err)
+						t.Errorf("DataPathForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeDataPath(); got != tt.want {
-				t.Errorf("SafeDataPath() = %v, want %v", got, tt.want)
+			if got := DataPathForSafe(); got != tt.want {
+				t.Errorf("DataPathForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestSafeAgeKeyPath(t *testing.T) {
+func TestSafeRootKeyPath(t *testing.T) {
 	tests := []struct {
 		name    string
 		setup   func() error
@@ -659,18 +659,18 @@ func TestSafeAgeKeyPath(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeAgeKeyPath() = failed to setup, with error: %+v", err)
+					t.Errorf("RootKeyPathForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeAgeKeyPath() = failed to cleanup, with error: %+v", err)
+						t.Errorf("RootKeyPathForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeAgeKeyPath(); got != tt.want {
-				t.Errorf("SafeAgeKeyPath() = %v, want %v", got, tt.want)
+			if got := RootKeyPathForSafe(); got != tt.want {
+				t.Errorf("RootKeyPathForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -712,24 +712,24 @@ func TestSafeBootstrapTimeout(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeBootstrapTimeout() = failed to setup, with error: %+v", err)
+					t.Errorf("BootstrapTimeoutForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeBootstrapTimeout() = failed to cleanup, with error: %+v", err)
+						t.Errorf("BootstrapTimeoutForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeBootstrapTimeout(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SafeBootstrapTimeout() = %v, want %v", got, tt.want)
+			if got := BootstrapTimeoutForSafe(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("BootstrapTimeoutForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestSafeAgeKeySecretName(t *testing.T) {
+func TestSafeRootKeySecretName(t *testing.T) {
 	tests := []struct {
 		name    string
 		setup   func() error
@@ -755,18 +755,18 @@ func TestSafeAgeKeySecretName(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeAgeKeySecretName() = failed to setup, with error: %+v", err)
+					t.Errorf("RootKeySecretNameForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeAgeKeySecretName() = failed to cleanup, with error: %+v", err)
+						t.Errorf("RootKeySecretNameForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeAgeKeySecretName(); got != tt.want {
-				t.Errorf("SafeAgeKeySecretName() = %v, want %v", got, tt.want)
+			if got := RootKeySecretNameForSafe(); got != tt.want {
+				t.Errorf("RootKeySecretNameForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -798,18 +798,18 @@ func TestSafeSecretNamePrefix(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeSecretNamePrefix() = failed to setup, with error: %+v", err)
+					t.Errorf("SecretNamePrefixForSafe() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeSecretNamePrefix() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SecretNamePrefixForSafe() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeSecretNamePrefix(); got != tt.want {
-				t.Errorf("SafeSecretNamePrefix() = %v, want %v", got, tt.want)
+			if got := SecretNamePrefixForSafe(); got != tt.want {
+				t.Errorf("SecretNamePrefixForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -830,12 +830,12 @@ func TestSafeIvInitializationInterval(t *testing.T) {
 			name: "get custom IV initialization interval",
 			setup: func() {
 				if err := os.Setenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL", "20"); err != nil {
-					t.Errorf("SafeIvInitializationInterval = failed to setup, with error: %+v", err)
+					t.Errorf("IvInitializationIntervalForSafe = failed to setup, with error: %+v", err)
 				}
 			},
 			cleanup: func() {
 				if err := os.Unsetenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL"); err != nil {
-					t.Errorf("SafeIvInitializationInterval = failed to cleanup, with error: %+v", err)
+					t.Errorf("IvInitializationIntervalForSafe = failed to cleanup, with error: %+v", err)
 				}
 			},
 			want: 20,
@@ -844,12 +844,12 @@ func TestSafeIvInitializationInterval(t *testing.T) {
 			name: "invalid IV initialization interval",
 			setup: func() {
 				if err := os.Setenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL", "abc"); err != nil {
-					t.Errorf("SafeIvInitializationInterval = failed to setup, with error: %+v", err)
+					t.Errorf("IvInitializationIntervalForSafe = failed to setup, with error: %+v", err)
 				}
 			},
 			cleanup: func() {
 				if err := os.Unsetenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL"); err != nil {
-					t.Errorf("SafeIvInitializationInterval = failed to cleanup, with error: %+v", err)
+					t.Errorf("IvInitializationIntervalForSafe = failed to cleanup, with error: %+v", err)
 				}
 			},
 			want: 50,
@@ -860,8 +860,8 @@ func TestSafeIvInitializationInterval(t *testing.T) {
 			if tt.setup != nil {
 				tt.setup()
 			}
-			if got := SafeIvInitializationInterval(); got != tt.want {
-				t.Errorf("SafeIvInitializationInterval() = %v, want %v", got, tt.want)
+			if got := IvInitializationIntervalForSafe(); got != tt.want {
+				t.Errorf("IvInitializationIntervalForSafe() = %v, want %v", got, tt.want)
 			}
 			if tt.cleanup != nil {
 				tt.cleanup()

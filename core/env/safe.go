@@ -18,7 +18,7 @@ import (
 	"time"
 )
 
-// SafeIvInitializationInterval fetches the Initialization Vector (IV) interval
+// IvInitializationIntervalForSafe fetches the Initialization Vector (IV) interval
 // from an environment variable. IV is used in AES encryption.
 //
 // The environment variable used is VSECM_SAFE_IV_INITIALIZATION_INTERVAL.
@@ -29,7 +29,7 @@ import (
 //
 // Returns:
 // int: The IV initialization interval in milliseconds.
-func SafeIvInitializationInterval() int {
+func IvInitializationIntervalForSafe() int {
 	envInterval := os.Getenv("VSECM_SAFE_IV_INITIALIZATION_INTERVAL")
 	if envInterval == "" {
 		return 50
@@ -41,7 +41,7 @@ func SafeIvInitializationInterval() int {
 	return parsedInterval
 }
 
-// SafeSecretBufferSize returns the buffer size for the VSecM Safe secret queue.
+// SecretBufferSizeForSafe returns the buffer size for the VSecM Safe secret queue.
 //
 // The buffer size is determined by the environment variable
 // VSECM_SAFE_SECRET_BUFFER_SIZE.
@@ -51,7 +51,7 @@ func SafeIvInitializationInterval() int {
 // it will be used as the buffer size.
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
-func SafeSecretBufferSize() int {
+func SecretBufferSizeForSafe() int {
 	p := os.Getenv("VSECM_SAFE_SECRET_BUFFER_SIZE")
 	if p == "" {
 		return 10
@@ -63,7 +63,7 @@ func SafeSecretBufferSize() int {
 	return l
 }
 
-// SafeK8sSecretBufferSize returns the buffer size for the VSecM Safe Kubernetes
+// K8sSecretBufferSizeForSafe returns the buffer size for the VSecM Safe Kubernetes
 // secret queue.
 //
 // The buffer size is determined by the environment variable
@@ -74,7 +74,7 @@ func SafeSecretBufferSize() int {
 // it will be used as the buffer size.
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
-func SafeK8sSecretBufferSize() int {
+func K8sSecretBufferSizeForSafe() int {
 	p := os.Getenv("VSECM_SAFE_K8S_SECRET_BUFFER_SIZE")
 	if p == "" {
 		return 10
@@ -86,7 +86,7 @@ func SafeK8sSecretBufferSize() int {
 	return l
 }
 
-// SafeSecretDeleteBufferSize returns the buffer size for the VSecM Safe secret
+// SecretDeleteBufferSizeForSafe returns the buffer size for the VSecM Safe secret
 // deletion queue.
 //
 // The buffer size is determined by the environment variable
@@ -97,7 +97,7 @@ func SafeK8sSecretBufferSize() int {
 // it will be used as the buffer size.
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
-func SafeSecretDeleteBufferSize() int {
+func SecretDeleteBufferSizeForSafe() int {
 	p := os.Getenv("VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE")
 	if p == "" {
 		return 10
@@ -109,7 +109,7 @@ func SafeSecretDeleteBufferSize() int {
 	return l
 }
 
-// SafeK8sSecretDeleteBufferSize returns the buffer size for the VSecM Safe
+// K8sSecretDeleteBufferSizeForSafe returns the buffer size for the VSecM Safe
 // Kubernetes secret deletion queue.
 //
 // The buffer size is determined by the environment variable
@@ -120,7 +120,7 @@ func SafeSecretDeleteBufferSize() int {
 // it will be used as the buffer size.
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
-func SafeK8sSecretDeleteBufferSize() int {
+func K8sSecretDeleteBufferSizeForSafe() int {
 	p := os.Getenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE")
 	if p == "" {
 		return 10
@@ -132,7 +132,7 @@ func SafeK8sSecretDeleteBufferSize() int {
 	return l
 }
 
-// SafeRemoveLinkedK8sSecrets returns a boolean indicating whether VSecM Safe
+// RemoveLinkedK8sSecretsModeForSafe returns a boolean indicating whether VSecM Safe
 // should delete linked Kubernetes secrets when as safe managed secret is deleted.
 //
 // The removal of linked Kubernetes secrets is determined by the environment variable
@@ -140,7 +140,7 @@ func SafeK8sSecretDeleteBufferSize() int {
 //
 // If the environment variable is not set or its value is not "true",
 // the function returns false. Otherwise, the function returns true.
-func SafeRemoveLinkedK8sSecrets() bool {
+func RemoveLinkedK8sSecretsModeForSafe() bool {
 	p := strings.ToLower(os.Getenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"))
 	if p == "" {
 		return false
@@ -149,13 +149,13 @@ func SafeRemoveLinkedK8sSecrets() bool {
 	return p == "true"
 }
 
-// SafeFipsCompliant returns a boolean indicating whether VSecM Safe should run in
+// FipsCompliantModeForSafe returns a boolean indicating whether VSecM Safe should run in
 // FIPS compliant mode. Note that this is not a guarantee that VSecM Safe will
 // run in FIPS compliant mode, as it depends on the underlying base image.
 // If you are using one of the official FIPS-complaint VMware Secrets Manager Docker images,
 // then it will be FIPS-compliant. Check https://vsecm.com/configuration/
 // for more details.
-func SafeFipsCompliant() bool {
+func FipsCompliantModeForSafe() bool {
 	p := strings.ToLower(os.Getenv("VSECM_SAFE_FIPS_COMPLIANT"))
 	if p == "" {
 		return false
@@ -164,12 +164,12 @@ func SafeFipsCompliant() bool {
 	return p == "true"
 }
 
-// SafeBackingStore returns the storage type for the data,
+// BackingStoreForSafe returns the storage type for the data,
 // as specified in the VSECM_SAFE_BACKING_STORE environment variable.
 // If the environment variable is not set, it defaults to "file".
 // Any value that is not "file" will mean VSecM Safe will store
 // its state in-memory
-func SafeBackingStore() data.BackingStore {
+func BackingStoreForSafe() data.BackingStore {
 	s := os.Getenv("VSECM_SAFE_BACKING_STORE")
 	if s == "" {
 		return data.File
@@ -182,7 +182,7 @@ func SafeBackingStore() data.BackingStore {
 	return data.Memory
 }
 
-// SafeUseKubernetesSecrets returns a boolean indicating whether to create a
+// UseKubernetesSecretsModeForSafe returns a boolean indicating whether to create a
 // plain text Kubernetes secret for the workloads registered. There are two
 // things to note about this approach:
 //
@@ -200,7 +200,7 @@ func SafeBackingStore() data.BackingStore {
 //
 // If the environment variable is not set or its value is not "true",
 // the function returns false. Otherwise, the function returns true.
-func SafeUseKubernetesSecrets() bool {
+func UseKubernetesSecretsModeForSafe() bool {
 	p := os.Getenv("VSECM_SAFE_USE_KUBERNETES_SECRETS")
 	if p == "" {
 		return false
@@ -211,10 +211,10 @@ func SafeUseKubernetesSecrets() bool {
 	return false
 }
 
-// SafeSecretBackupCount retrieves the number of backups to keep for VSecM Safe
+// SecretBackupCountForSafe retrieves the number of backups to keep for VSecM Safe
 // secrets. If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT is not
 // set or is not a valid integer, the default value of 3 will be returned.
-func SafeSecretBackupCount() int {
+func SecretBackupCountForSafe() int {
 	p := os.Getenv("VSECM_SAFE_SECRET_BACKUP_COUNT")
 	if p == "" {
 		return 3
@@ -241,10 +241,10 @@ func RootKeyInputModeManual() bool {
 	return false
 }
 
-// SafeDataPath returns the path to the safe data directory.
+// DataPathForSafe returns the path to the safe data directory.
 // The path is determined by the VSECM_SAFE_DATA_PATH environment variable.
 // If the environment variable is not set, the default path "/data" is returned.
-func SafeDataPath() string {
+func DataPathForSafe() string {
 	p := os.Getenv("VSECM_SAFE_DATA_PATH")
 	if p == "" {
 		p = "/data"
@@ -252,11 +252,11 @@ func SafeDataPath() string {
 	return p
 }
 
-// SafeAgeKeyPath returns the path to the safe age key directory.
+// RootKeyPathForSafe returns the path to the safe age key directory.
 // The path is determined by the VSECM_ROOT_KEY_PATH environment variable.
 // If the environment variable is not set, the default path "/key/key.txt"
 // is returned.
-func SafeAgeKeyPath() string {
+func RootKeyPathForSafe() string {
 	p := os.Getenv("VSECM_ROOT_KEY_PATH")
 	if p == "" {
 		p = "/key/key.txt"
@@ -264,7 +264,7 @@ func SafeAgeKeyPath() string {
 	return p
 }
 
-// SafeSourceAcquisitionTimeout returns the timeout duration for acquiring
+// SourceAcquisitionTimeoutForSafe returns the timeout duration for acquiring
 // a SPIFFE source bundle.
 // It reads an environment variable `VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT`
 // to determine the timeout.
@@ -276,7 +276,7 @@ func SafeAgeKeyPath() string {
 // Returns:
 //
 //	time.Duration: The time duration in milliseconds for acquiring the source.
-func SafeSourceAcquisitionTimeout() time.Duration {
+func SourceAcquisitionTimeoutForSafe() time.Duration {
 	p := os.Getenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT")
 	if p == "" {
 		p = "10000"
@@ -288,12 +288,12 @@ func SafeSourceAcquisitionTimeout() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// SafeBootstrapTimeout returns the allowed time for VSecM Safe to wait
+// BootstrapTimeoutForSafe returns the allowed time for VSecM Safe to wait
 // before killing the pod to retrieve an SVID, in time.Duration.
 // The interval is determined by the VSECM_SAFE_BOOTSTRAP_TIMEOUT environment
 // variable, with a default value of 30000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
-func SafeBootstrapTimeout() time.Duration {
+func BootstrapTimeoutForSafe() time.Duration {
 	p := os.Getenv("VSECM_SAFE_BOOTSTRAP_TIMEOUT")
 	if p == "" {
 		p = "30000"
@@ -305,11 +305,11 @@ func SafeBootstrapTimeout() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// SafeAgeKeySecretName returns the name of the environment variable that holds
+// RootKeySecretNameForSafe returns the name of the environment variable that holds
 // the VSecM Safe age key. The value is retrieved using the
 // "VSECM_ROOT_KEY_NAME" environment variable. If this variable is
 // not set or is empty, the default value "vsecm-root-key" is returned.
-func SafeAgeKeySecretName() string {
+func RootKeySecretNameForSafe() string {
 	p := os.Getenv("VSECM_ROOT_KEY_NAME")
 	if p == "" {
 		p = "vsecm-root-key"
@@ -317,14 +317,14 @@ func SafeAgeKeySecretName() string {
 	return p
 }
 
-// SafeSecretNamePrefix returns the prefix to be used for the names of secrets that
+// SecretNamePrefixForSafe returns the prefix to be used for the names of secrets that
 // VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
 // cluster as Kubernetes `Secret` objects.
 //
 // The prefix is retrieved using the "VSECM_SAFE_SECRET_NAME_PREFIX"
 // environment variable. If this variable is not set or is empty, the default
 // value "vsecm-secret-" is returned.
-func SafeSecretNamePrefix() string {
+func SecretNamePrefixForSafe() string {
 	p := os.Getenv("VSECM_SAFE_SECRET_NAME_PREFIX")
 	if p == "" {
 		p = "vsecm-secret-"
