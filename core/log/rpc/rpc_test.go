@@ -64,7 +64,7 @@ func TestSendLogMessage(t *testing.T) {
 	}
 	defer lis.Close()
 
-	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
+	os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
@@ -126,7 +126,7 @@ func TestLogServiceSendLog(t *testing.T) {
 	}
 	defer lis.Close()
 
-	os.Setenv("SENTINEL_LOGGER_URL", lis.Addr().String())
+	os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
 	generated.RegisterLogServiceServer(grpcServer, server)

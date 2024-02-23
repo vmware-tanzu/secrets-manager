@@ -182,7 +182,7 @@ func upsert(secretToStore entity.SecretStored,
 }
 
 func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
+	if env.RootKeyInputModeManual() && !state.RootKeySet() {
 		log.InfoLn(&cid, "Secret: Master key not set")
 		return
 	}

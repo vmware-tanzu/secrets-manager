@@ -541,30 +541,30 @@ func TestSafeManualKeyInput(t *testing.T) {
 		{
 			name: "safe_manual_key_input_from_env_true",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_MANUAL_KEY_INPUT", "true")
+				return os.Setenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL", "true")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_MANUAL_KEY_INPUT")
+				return os.Unsetenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL")
 			},
 			want: true,
 		},
 		{
 			name: "safe_manual_key_input_from_env_false",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_MANUAL_KEY_INPUT", "false")
+				return os.Setenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL", "false")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_MANUAL_KEY_INPUT")
+				return os.Unsetenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL")
 			},
 			want: false,
 		},
 		{
 			name: "invalid_safe_manual_key_input_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_MANUAL_KEY_INPUT", "test")
+				return os.Setenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL", "test")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_MANUAL_KEY_INPUT")
+				return os.Unsetenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL")
 			},
 			want: false,
 		},
@@ -573,18 +573,18 @@ func TestSafeManualKeyInput(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SafeManualKeyInput() = failed to setup, with error: %+v", err)
+					t.Errorf("RootKeyInputModeManual() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SafeManualKeyInput() = failed to cleanup, with error: %+v", err)
+						t.Errorf("RootKeyInputModeManual() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SafeManualKeyInput(); got != tt.want {
-				t.Errorf("SafeManualKeyInput() = %v, want %v", got, tt.want)
+			if got := RootKeyInputModeManual(); got != tt.want {
+				t.Errorf("RootKeyInputModeManual() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -647,10 +647,10 @@ func TestSafeAgeKeyPath(t *testing.T) {
 		{
 			name: "crypto_key_path_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_CRYPTO_KEY_PATH", "/opt/test_key.txt")
+				return os.Setenv("VSECM_ROOT_KEY_PATH", "/opt/test_key.txt")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_CRYPTO_KEY_PATH")
+				return os.Unsetenv("VSECM_ROOT_KEY_PATH")
 			},
 			want: "/opt/test_key.txt",
 		},
@@ -738,17 +738,17 @@ func TestSafeAgeKeySecretName(t *testing.T) {
 	}{
 		{
 			name: "default_crypto_key_name",
-			want: "vsecm-safe-age-key",
+			want: "vsecm-root-key",
 		},
 		{
 			name: "crypto_key_name_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_CRYPTO_KEY_NAME", "vsecm-safe-age-key-test")
+				return os.Setenv("VSECM_ROOT_KEY_NAME", "vsecm-root-key-test")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_CRYPTO_KEY_NAME")
+				return os.Unsetenv("VSECM_ROOT_KEY_NAME")
 			},
-			want: "vsecm-safe-age-key-test",
+			want: "vsecm-root-key-test",
 		},
 	}
 	for _, tt := range tests {

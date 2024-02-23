@@ -157,7 +157,7 @@ func getSecretValue(cid string, secret *v1.SecretStored) string {
 }
 
 func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
+	if env.RootKeyInputModeManual() && !state.RootKeySet() {
 		log.InfoLn(&cid, "Fetch: Master key not set")
 		return
 	}

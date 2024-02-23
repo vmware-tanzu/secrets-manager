@@ -55,8 +55,8 @@ func SetMasterKey(k string) {
 	masterKey = k
 }
 
-// MasterKeySet returns true if the master key has been set.
-func MasterKeySet() bool {
+// RootKeySet returns true if the master key has been set.
+func RootKeySet() bool {
 	masterKeyLock.RLock()
 	defer masterKeyLock.RUnlock()
 

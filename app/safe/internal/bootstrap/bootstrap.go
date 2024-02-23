@@ -149,7 +149,7 @@ func AcquireSource(
 // the cluster, the function generates a new key pair, persists them, and
 // signals the updatedSecret channel.
 func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
-	if env.SafeManualKeyInput() {
+	if env.RootKeyInputModeManual() {
 		log.InfoLn(id, "Manual key input enabled. Skipping automatic key generation.")
 		updatedSecret <- true
 		return

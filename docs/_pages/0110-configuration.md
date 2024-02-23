@@ -54,23 +54,23 @@ The following section contain a breakdown of all of these environment variables.
 If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
 will be used.
 
-### VSECM_SAFE_CRYPTO_KEY_NAME
+### VSECM_ROOT_KEY_NAME
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_SAFE_CRYPTO_KEY_NAME` is how the age secret key is referenced by
-name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-safe-age-key"`.
+`VSECM_ROOT_KEY_NAME` is how the age secret key is referenced by
+name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-root-key"`.
 
 If you change the value of this environment variable, make sure to change the
 relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
 this is to do a project wide search and find and replace places where reference
-`"vsecm-safe-age-key"` to your new name of choice.
+`"vsecm-root-key"` to your new name of choice.
 
-### VSECM_SAFE_CRYPTO_KEY_PATH
+### VSECM_ROOT_KEY_PATH
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_SAFE_CRYPTO_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
+`VSECM_ROOT_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
 that contains the encryption keys.
 
 If not given, it will default to `"/key/key.txt"`.
@@ -236,18 +236,6 @@ exposes from its `Service`.
 If not provided, it will default to:
 `"https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"`.
 
-### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
-
-**Used By**: *VSecM Sentinel*.
-
-`VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that’s used by
-that’s used by **VSecM Sentinel** to generate random pattern-based secrets. 
-
-If a secret is prefixed with this value, then **VSecM Sentinel** will consider 
-it as a “*template*” rather than a literal value.
-
-If the environment variable is not set or is empty, it defaults to `"gen:"`.
-
 ### VSECM_SAFE_FIPS_COMPLIANT
 
 **Used By**: *VSecM Safe*.
@@ -316,11 +304,11 @@ If the environment variable is not set, the default buffer size is `10`.
 
 If the environment variable is not set, the default buffer size is `10`.
 
-### VSECM_SAFE_MANUAL_KEY_INPUT
+### VSECM_ROOT_KEY_INPUT_MODE_MANUAL
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_SAFE_MANUAL_KEY_INPUT` is a boolean indicating whether to use manual
+`VSECM_ROOT_KEY_INPUT_MODE_MANUAL` is a boolean indicating whether to use manual
 cryptographic key input for **VSecM Safe**, instead of letting the bootstrap
 flow automatically compute cryptographic keys.
 
@@ -500,6 +488,52 @@ over the source code to enable a tighter **Safe** integration. Or, you might
 temporarily want to establish behavior parity of your legacy system before
 starting a more canonical **VMware Secrets Manager** implementation.
 
+### VSECM_SENTINEL_INIT_COMMAND_PATH
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_INIT_COMMAND_PATH` returns the path to the initialization commands
+file for **VSecM Sentinel**.
+
+This file is used to automate the initialization of **VSecM Sentinel** entries
+during the first deployment of **VSecM**.
+
+If not given, defaults to `"/opt/vsecm-sentinel/init/data"`.
+
+### VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH` returns the path for the
+**VSecM Sentinel** initialization command tombstone file.
+
+Defaults to `"/opt/vsecm-sentinel/tombstone/init"`.
+
+This path is usually used to store a “*tombstone*” file or data indicating that
+the initialization command has been executed or is no longer valid.
+
+### VSECM_SENTINEL_LOGGER_URL
+
+`VSECM_SENTINEL_LOGGER_URL` ise the URL for the **VSecM Sentinel** Logger.
+
+If this environment variable is not set, it defaults to `"localhost:50051"`.
+
+This url used to configure gRPC logging service, which enables 
+**VSecM Sentinel**’s `safe` CLI command to send audit logs to the container’s 
+standard output.
+
+### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that’s used by
+that’s used by **VSecM Sentinel** to generate random pattern-based secrets.
+
+If a secret is prefixed with this value, then **VSecM Sentinel** will consider
+it as a “*template*” rather than a literal value.
+
+If the environment variable is not set or is empty, it defaults to `"gen:"`.
+
 ### VSECM_SENTINEL_SPIFFEID_PREFIX
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*.
@@ -510,6 +544,9 @@ Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
 
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"`
+
+
+
 
 ### VSECM_SIDECAR_ERROR_THRESHOLD
 
@@ -576,7 +613,7 @@ Ensure this is set as an environment variable for your containers; it's a
 critical piece. VSecM Safe and Sentinel rely on it to precisely locate the
 deployment's namespace. For instance, Safe leverages this information to securely
 store age keys within a designated secret, as specified by the 
-`VSECM_SAFE_CRYPTO_KEY_NAME` configuration.
+`VSECM_ROOT_KEY_NAME` configuration.
 
 ### VSECM_SIDECAR_SECRETS_PATH
 

@@ -11,11 +11,21 @@
 # Default values for safe.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
 replicaCount: 1
 
 livenessPort: 8081
-readynessPort: 8082
-ageKeySecretName: &ageKeySecretName vsecm-safe-age-key
+readinessPort: 8082
+rootKeySecretName: &rootKeyName vsecm-root-key
+
+data:
+  persistent: false
+  # Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    claimName: "your-pvc-name" # Replace with your PVC name.
+  # Define the hostPath if `persistent` is false.
+  hostPath:
+    path: "/var/local/vsecm/data"
 
 environments:
   - name: SPIFFE_ENDPOINT_SOCKET
@@ -30,9 +40,9 @@ environments:
     value: "file"
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
     value: "30000"
-  - name: VSECM_SAFE_CRYPTO_KEY_NAME
-    value: *ageKeySecretName
-  - name: VSECM_SAFE_CRYPTO_KEY_PATH
+  - name: VSECM_ROOT_KEY_NAME
+    value: *rootKeyName
+  - name: VSECM_ROOT_KEY_PATH
     value: "/key/key.txt"
   - name: VSECM_SAFE_DATA_PATH
     value: "/data"
@@ -46,7 +56,7 @@ environments:
     value: "10"
   - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
     value: "10"
-  - name: VSECM_SAFE_MANUAL_KEY_INPUT
+  - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
     value: "false"
   - name: VSECM_SAFE_SECRET_BACKUP_COUNT
     value: "3"
@@ -58,6 +68,8 @@ environments:
     value: "vsecm-secret-"
   - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
     value: "10000"
+  - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+    value: "k8s:"
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"
   - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
@@ -66,8 +78,6 @@ environments:
     value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/"
-  - name: SENTINEL_LOGGER_URL
-    value: "localhost:50051"
 
 imagePullSecrets: []
 nameOverride: ""

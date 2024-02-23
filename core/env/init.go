@@ -32,10 +32,3 @@ func InitContainerPollInterval() time.Duration {
 	}
 	return time.Duration(i) * time.Millisecond
 }
-
-// SystemNamespace returns namespace from metadata,
-// metadata.namespace should be passed as environment variable
-// as VSECM_SYSTEM_NAMESPACE to the container.
-func SystemNamespace() string {
-	return os.Getenv("VSECM_SYSTEM_NAMESPACE")
-}

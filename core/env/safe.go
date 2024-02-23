@@ -226,12 +226,12 @@ func SafeSecretBackupCount() int {
 	return l
 }
 
-// SafeManualKeyInput returns a boolean indicating whether to use manual
+// RootKeyInputModeManual returns a boolean indicating whether to use manual
 // cryptographic key input for VSecM Safe, instead of letting it bootstrap
 // automatically. If the environment variable is not set or its value is
 // not "true", the function returns false. Otherwise, the function returns true.
-func SafeManualKeyInput() bool {
-	p := os.Getenv("VSECM_SAFE_MANUAL_KEY_INPUT")
+func RootKeyInputModeManual() bool {
+	p := os.Getenv("VSECM_ROOT_KEY_INPUT_MODE_MANUAL")
 	if p == "" {
 		return false
 	}
@@ -253,11 +253,11 @@ func SafeDataPath() string {
 }
 
 // SafeAgeKeyPath returns the path to the safe age key directory.
-// The path is determined by the VSECM_SAFE_CRYPTO_KEY_PATH environment variable.
+// The path is determined by the VSECM_ROOT_KEY_PATH environment variable.
 // If the environment variable is not set, the default path "/key/key.txt"
 // is returned.
 func SafeAgeKeyPath() string {
-	p := os.Getenv("VSECM_SAFE_CRYPTO_KEY_PATH")
+	p := os.Getenv("VSECM_ROOT_KEY_PATH")
 	if p == "" {
 		p = "/key/key.txt"
 	}
@@ -307,12 +307,12 @@ func SafeBootstrapTimeout() time.Duration {
 
 // SafeAgeKeySecretName returns the name of the environment variable that holds
 // the VSecM Safe age key. The value is retrieved using the
-// "VSECM_SAFE_CRYPTO_KEY_NAME" environment variable. If this variable is
-// not set or is empty, the default value "vsecm-safe-age-key" is returned.
+// "VSECM_ROOT_KEY_NAME" environment variable. If this variable is
+// not set or is empty, the default value "vsecm-root-key" is returned.
 func SafeAgeKeySecretName() string {
-	p := os.Getenv("VSECM_SAFE_CRYPTO_KEY_NAME")
+	p := os.Getenv("VSECM_ROOT_KEY_NAME")
 	if p == "" {
-		p = "vsecm-safe-age-key"
+		p = "vsecm-root-key"
 	}
 	return p
 }

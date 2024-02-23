@@ -28,7 +28,7 @@ import (
 func doList(cid string, w http.ResponseWriter, r *http.Request,
 	spiffeid string, encrypted bool,
 ) {
-	if env.SafeManualKeyInput() && !state.MasterKeySet() {
+	if env.RootKeyInputModeManual() && !state.RootKeySet() {
 		log.InfoLn(&cid, "List: Master key not set")
 		return
 	}
