@@ -8,20 +8,5 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package state
+package route
 
-import "strings"
-
-func ageKeyTriplet() (string, string, string) {
-	if rootKey == "" {
-		return "", "", ""
-	}
-
-	parts := strings.Split(rootKey, "\n")
-
-	if len(parts) != 3 {
-		return "", "", ""
-	}
-
-	return parts[0], parts[1], parts[2]
-}

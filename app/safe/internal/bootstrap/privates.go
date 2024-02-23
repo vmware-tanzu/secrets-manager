@@ -91,7 +91,7 @@ func persistKeys(privateKey, publicKey, aesSeed string) error {
 		return errors.Wrap(err, "Error creating the secret")
 	}
 
-	state.SetMasterKey(keysCombined)
+	state.SetRootKey(keysCombined)
 
 	return nil
 }

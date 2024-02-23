@@ -25,9 +25,9 @@ import (
 const InitialSecretValue = `{"empty":true}`
 const BlankAgeKeyValue = "{}"
 
-// masterKey is set only once during initialization; we don’t need to lock
+// rootKey is set only once during initialization; we don’t need to lock
 // access to it.
-var masterKey = ""
+var rootKey = ""
 
 // Initialize starts two goroutines: one to process the secret queue and
 // another to process the Kubernetes secret queue. These goroutines are
@@ -39,28 +39,28 @@ func Initialize() {
 	go processK8sSecretDeleteQueue()
 }
 
-var masterKeyLock sync.RWMutex
+var rootKeyLock sync.RWMutex
 
-// SetMasterKey sets the age key to be used for encryption and decryption.
-func SetMasterKey(k string) {
+// SetRootKey sets the age key to be used for encryption and decryption.
+func SetRootKey(k string) {
 	id := "AEGSAK"
 
-	masterKeyLock.Lock()
-	defer masterKeyLock.Unlock()
+	rootKeyLock.Lock()
+	defer rootKeyLock.Unlock()
 
-	if masterKey != "" {
+	if rootKey != "" {
 		log.WarnLn(&id, "master key already set")
 		return
 	}
-	masterKey = k
+	rootKey = k
 }
 
-// RootKeySet returns true if the master key has been set.
+// RootKeySet returns true if the root key has been set.
 func RootKeySet() bool {
-	masterKeyLock.RLock()
-	defer masterKeyLock.RUnlock()
+	rootKeyLock.RLock()
+	defer rootKeyLock.RUnlock()
 
-	return masterKey != ""
+	return rootKey != ""
 }
 
 // EncryptValue takes a string value and returns an encrypted and base64-encoded

@@ -11,83 +11,15 @@
 package route
 
 import (
-	"context"
 	"net/http"
 
-	"github.com/pkg/errors"
-	apiV1 "k8s.io/api/core/v1"
-	kErrors "k8s.io/apimachinery/pkg/api/errors"
-	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
-
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
-
-func markInitializationSecretAsCompleted() error {
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		return errors.Wrap(err, "could not create client config")
-	}
-
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		return errors.Wrap(err, "could not create client")
-	}
-
-	secretName := "vsecm-sentinel-init-tombstone"
-	namespace := "vsecm-system"
-
-	// First, try to get the existing secret
-	_, err = clientset.CoreV1().Secrets(namespace).Get(
-		context.Background(), secretName, metaV1.GetOptions{})
-
-	if kErrors.IsNotFound(err) {
-		return errors.New("initialization secret is expected to have existed.")
-	}
-
-	// Update the Secret in the cluster
-	err = backoff.RetryFixed(
-		namespace,
-		func() error {
-			_, err = clientset.CoreV1().Secrets(namespace).Update(
-				context.Background(),
-				&apiV1.Secret{
-					TypeMeta: metaV1.TypeMeta{
-						Kind:       "Secret",
-						APIVersion: "v1",
-					},
-					ObjectMeta: metaV1.ObjectMeta{
-						Name:      secretName,
-						Namespace: namespace,
-					},
-					Data: map[string][]byte{
-						"init": []byte("complete"),
-					},
-				},
-				metaV1.UpdateOptions{
-					TypeMeta: metaV1.TypeMeta{
-						Kind:       "Secret",
-						APIVersion: "v1",
-					},
-				},
-			)
-			return err
-		},
-	)
-	if err != nil {
-		return errors.Wrap(err, "error updating the secret")
-	}
-
-	return nil
-}
 
 // InitComplete is called when the Sentinel has completed its initialization
 // process. It is responsible for marking the initialization process as
@@ -97,8 +29,8 @@ func markInitializationSecretAsCompleted() error {
 // See ./app/sentinel/internal/safe/post.go:PostInitializationComplete for the
 // corresponding sentinel-side implementation.
 func InitComplete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if env.RootKeyInputModeManual() && !state.RootKeySet() {
-		log.InfoLn(&cid, "InitComplete: Master key not set")
+	if !state.RootKeySet() {
+		log.InfoLn(&cid, "InitComplete: Root key not set")
 		return
 	}
 

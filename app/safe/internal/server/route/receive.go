@@ -63,7 +63,7 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 	}
 
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
-	state.SetMasterKey(keysCombined)
+	state.SetRootKey(keysCombined)
 
 	log.DebugLn(&cid, "ReceiveKeys: before response")
 

@@ -70,7 +70,7 @@ func Monitor(
 				go probe.CreateReadiness()
 				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
 			}
-		// Updated the master key:
+		// Updated the root key:
 		case <-channels.UpdatedSecret:
 			log.DebugLn(correlationId, "Updated age key.")
 			counter--
@@ -173,7 +173,7 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	if secret != state.BlankAgeKeyValue {
 		log.InfoLn(id, "Secret has been set in the cluster, will reuse it")
-		state.SetMasterKey(secret)
+		state.SetRootKey(secret)
 		updatedSecret <- true
 		return
 	}

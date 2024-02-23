@@ -114,7 +114,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
-		// Route to define the master key when VSECM_ROOT_KEY_INPUT_MODE_MANUAL is set.
+		// Route to define the root key when VSECM_ROOT_KEY_INPUT_MODE_MANUAL is set.
 		// Only VSecM Sentinel is allowed to call this API endpoint.
 		// This method works only once. Once a key is set, there is no way to
 		// update it. You will have to kill the VSecM Sentinel pod and restart it
