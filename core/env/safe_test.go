@@ -527,7 +527,7 @@ func TestSafeSecretBackupCount(t *testing.T) {
 	}
 }
 
-func TestSafeManualKeyInput(t *testing.T) {
+func TestRootKeyInputMode(t *testing.T) {
 	tests := []struct {
 		name    string
 		setup   func() error
