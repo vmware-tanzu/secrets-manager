@@ -30,22 +30,41 @@ safe-bundle-photon-fips:
 
 # Pushes the “VSecM Safe” container to the public registry.
 safe-push-ist:
-	./hack/push.sh "vsecm-ist-safe" $(VERSION) "vsecm/vsecm-ist-safe"
+	./hack/push.sh "vsecm-ist-safe" $(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-safe"
 
-# Pushes the “VSecM Safe” container to the public registry.
+# Pushes the “VSecM Safe” container to the public EKS registry.
+safe-push-ist-eks:
+	./hack/push.sh "vsecm-ist-safe" $(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-safe"
+
+# Pushes the “VSecM Safe” (FIPS) container to the public registry.
 safe-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-safe" \
-		$(VERSION) "vsecm/vsecm-ist-fips-safe"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-safe"
+
+# Pushes the “VSecM Safe” (FIPS) container to the public EKS registry.
+safe-push-ist-fips-eks:
+	./hack/push.sh "vsecm-ist-fips-safe" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-safe"
 
 # Pushes the “VSecM Safe” (Photon OS) container to the public registry.
 safe-push-photon:
 	./hack/push.sh "vsecm-photon-safe" \
-		$(VERSION) "vsecm/vsecm-photon-safe"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-safe"
 
-# Pushes the “VSecM Safe” (Photon OS) container to the public registry.
+# Pushes the “VSecM Safe” (Photon OS) container to the public EKS registry.
+safe-push-photon-eks:
+	./hack/push.sh "vsecm-photon-safe" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-safe"
+
+# Pushes the “VSecM Safe” (Photon OS and FIPS) container to the public registry.
 safe-push-photon-fips:
 	./hack/push.sh "vsecm-photon-fips-safe" \
-		$(VERSION) "vsecm/vsecm-photon-fips-safe"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-fips-safe"
+
+# Pushes the “VSecM Safe” (Photon OS and FIPS) container to the public EKS registry.
+safe-push-photon-fips-eks:
+	./hack/push.sh "vsecm-photon-fips-safe" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-fips-safe"
 
 # Pushes the “VSecM Safe” container image to the local registry.
 safe-push-ist-local:

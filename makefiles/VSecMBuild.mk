@@ -11,7 +11,7 @@
 serve-docs:
 	./hack/serve-docs.sh
 
-# Builds everything and pushes to public registries.
+# Builds everything and pushes to public DockerHub registries.
 build: \
 	keygen-bundle \
 	keygen-push \
@@ -55,6 +55,51 @@ build: \
 	init-container-push-photon \
 	init-container-bundle-photon-fips \
 	init-container-push-photon-fips
+
+# Builds everything and pushes to the public EKS registry.
+build-eks:
+	keygen-bundle \
+	keygen-push-eks \
+	example-sidecar-bundle \
+	example-sidecar-push-eks \
+	example-sdk-bundle \
+	example-sdk-push-eks \
+	example-multiple-secrets-bundle \
+	example-multiple-secrets-push-eks \
+	example-init-container-bundle \
+	example-init-container-push-eks \
+	safe-bundle-ist \
+	safe-push-ist-eks \
+	safe-bundle-ist-fips \
+	safe-push-ist-fips-eks \
+	safe-bundle-photon \
+	safe-push-photon-eks \
+	safe-bundle-photon-fips \
+	safe-push-photon-fips-eks \
+	sidecar-bundle-ist \
+	sidecar-push-ist-eks \
+	sidecar-bundle-ist-fips \
+	sidecar-push-ist-fips-eks \
+	sidecar-bundle-photon \
+	sidecar-push-photon-eks \
+	sidecar-bundle-photon-fips \
+	sidecar-push-photon-fips-eks \
+	sentinel-bundle-ist \
+	sentinel-push-ist-eks \
+	sentinel-bundle-ist-fips \
+	sentinel-push-ist-fips-eks \
+	sentinel-bundle-photon \
+	sentinel-push-photon-eks \
+	sentinel-bundle-photon-fips \
+	sentinel-push-photon-fips-eks \
+	init-container-bundle-ist \
+	init-container-push-ist-eks \
+	init-container-bundle-ist-fips \
+	init-container-push-ist-fips-eks \
+	init-container-bundle-photon \
+	init-container-push-photon-eks \
+	init-container-bundle-photon-fips \
+	init-container-push-photon-fips-eks
 
 # Builds everything and pushes to the local registry.
 build-local: \
