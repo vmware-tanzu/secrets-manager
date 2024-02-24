@@ -313,7 +313,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-safe:0.23.0"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-photon-fips-safe:0.23.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -466,7 +466,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-sentinel:0.23.0"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-photon-fips-sentinel:0.23.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket

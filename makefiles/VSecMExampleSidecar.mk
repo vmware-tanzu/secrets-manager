@@ -30,3 +30,7 @@ example-sidecar-deploy:
 # Deploys the “Sidecar” use case app from the local registry into the cluster.
 example-sidecar-deploy-local:
 	./hack/example-sidecar-deploy-local.sh
+
+# Deploys the “Sidecar” use case app from the public EKS registry into the cluster.
+example-sidecar-deploy-eks:
+	./hack/example-sidecar-deploy-eks.sh

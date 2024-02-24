@@ -10,6 +10,7 @@
 
 # variables used with helm commands to set global values
 export LOCAL_REGISTRY := --set global.registry=localhost:5000
+export EKS_REGISTRY := --set global.registry=public.ecr.aws/h8y1n7y7
 export DISTROLESSS_IMAGE := --set global.baseImage=distroless
 export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
 export PHOTON_IMAGE := --set global.baseImage=photon

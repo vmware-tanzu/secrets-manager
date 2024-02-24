@@ -14,7 +14,7 @@
 set -euo pipefail
 
 ORIGIN=${1:-"local"}
-if [[ "$ORIGIN" != "remote" ]]; then
+if [[ "$ORIGIN" != "remote" && "$ORIGIN" != "eks" ]]; then
   ORIGIN="local"
 fi
 
@@ -563,6 +563,8 @@ deploy_workload_using_sdk() {
 
   if [ "$ORIGIN" == "remote" ]; then
     make example-sdk-deploy
+  elif [ "$ORIGIN" == "eks" ]; then
+    make example-sdk-deploy-eks
   else
     make example-sdk-deploy-local
   fi
@@ -580,6 +582,8 @@ deploy_workload_using_sidecar() {
 
   if [ "$ORIGIN" == "remote" ]; then
     make example-sidecar-deploy
+  elif [ "$ORIGIN" == "eks" ]; then
+    make example-sidecar-deploy-eks
   else
     make example-sidecar-deploy-local
   fi
@@ -597,6 +601,8 @@ deploy_workload_using_init_container() {
 
   if [ "$ORIGIN" == "remote" ]; then
     make example-init-container-deploy
+  elif [ "$ORIGIN" == "eks" ]; then
+    make example-init-container-deploy-eks
   else
     make example-init-container-deploy-local
   fi

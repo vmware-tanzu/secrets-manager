@@ -30,3 +30,7 @@ example-sdk-deploy:
 # Deploys the “SDK” use case app from the local registry into the cluster.
 example-sdk-deploy-local:
 	./hack/example-sdk-deploy-local.sh
+
+# Deploys the “SDK” use case app from the public EKS registry into the cluster.
+example-sdk-deploy-eks:
+	./hack/example-sdk-deploy-eks.sh

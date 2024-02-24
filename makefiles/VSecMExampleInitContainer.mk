@@ -30,3 +30,7 @@ example-init-container-deploy:
 # Deploys the “Init Container” app from the local registry into the cluster.
 example-init-container-deploy-local:
 	./hack/example-init-container-deploy-local.sh
+
+# Deploys the “Init Container” app from the public EKS registry into the cluster.
+example-init-container-deploy-eks:
+	./hack/example-init-container-deploy-eks.sh

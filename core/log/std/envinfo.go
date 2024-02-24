@@ -55,10 +55,16 @@ func printAdditionalInformation(info map[string]string) {
 func printFormattedInfo(id *string, info map[string]string) {
 	infoKeys := sortKeys(info)
 	maxLength := getMaxEnvVarLength(infoKeys)
+	idp := ""
+	if id == nil {
+		idp = "<nil>"
+	} else {
+		idp = *id
+	}
 
 	for _, key := range infoKeys {
 		padding := strings.Repeat(" ", maxLength-len(key))
-		fmt.Printf("%s%s: %s\n", padding, toCustomCase(key), info[key])
+		fmt.Printf("%s%s%s: %s\n", idp, padding, toCustomCase(key), info[key])
 	}
 }
 
