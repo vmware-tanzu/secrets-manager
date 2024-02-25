@@ -47,7 +47,7 @@ func SetRootKey(k string) {
 	defer rootKeyLock.Unlock()
 
 	if rootKey != "" {
-		log.WarnLn(&id, "master key already set")
+		log.WarnLn(&id, "Root key already set")
 		return
 	}
 	rootKey = k
