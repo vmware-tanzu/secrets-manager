@@ -1,0 +1,34 @@
+name: Go Test and Coverage
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Go Tests
+        run: go test -v ./...
+
+  coverage:
+    name: Update Coverage Report
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update Coverage Report
+        uses: ncruces/go-coverage-report@57ac6f0f19874f7afbab596105154f08004f482e
+        with:
+          report: true
+          chart: true
