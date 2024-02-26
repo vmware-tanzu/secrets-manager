@@ -14,6 +14,7 @@
 
 MANIFESTS_BASE_PATH="./k8s/${VERSION}"
 MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
+MANIFESTS_EKS_PATH="${MANIFESTS_BASE_PATH}/eks"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
 CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
 MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
@@ -64,6 +65,19 @@ deploy-photon-local: deploy-spire
 deploy-photon-fips-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon-fips.yaml
 	$(MAKE) post-deploy
+deploy-eks: deploy-spire
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml
+	$(MAKE) post-deploy
+deploy-fips-eks: deploy-spire
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml
+	$(MAKE) post-deploy
+deploy-photon-eks: deploy-spire
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-photon.yaml
+	$(MAKE) post-deploy
+deploy-photon-fips-eks: deploy-spire
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-photon-fips.yaml
+	$(MAKE) post-deploy
+
 .SILENT:
 .PHONY: post-deploy
 post-deploy:

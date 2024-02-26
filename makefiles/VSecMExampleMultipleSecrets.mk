@@ -16,12 +16,17 @@ example-multiple-secrets-bundle:
 # Pushes the “multiple secrets” use case container image to the public registry.
 example-multiple-secrets-push:
 	./hack/push.sh "example-multiple-secrets" \
-		$(VERSION) "vsecm/example-multiple-secrets"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/example-multiple-secrets"
 
 # Pushes the “multiple secrets” use case container image to the local registry.
 example-multiple-secrets-push-local:
 	./hack/push.sh "example-multiple-secrets" \
 		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-multiple-secrets"
+
+# Pushes the “multiple secrets” use case container image to the public EKS registry.
+example-multiple-secrets-push-eks:
+	./hack/push.sh "example-multiple-secrets" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-multiple-secrets"
 
 # Deploys the “multiple secrets” use case app from the public registry into the cluster.
 example-multiple-secrets-deploy:

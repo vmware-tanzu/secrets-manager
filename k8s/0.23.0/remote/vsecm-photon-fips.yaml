@@ -376,6 +376,8 @@ spec:
               value: "vsecm-secret-"
             - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
               value: "10000"
+            - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+              value: "k8s:"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
             - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
@@ -499,6 +501,14 @@ spec:
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
+            - name: VSECM_SENTINEL_INIT_COMMAND_PATH
+              value: "/opt/vsecm-sentinel/init/data"
+            - name: VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
+              value: "/opt/vsecm-sentinel/tombstone/init"
+            - name: VSECM_SENTINEL_LOGGER_URL
+              value: "localhost:50051"
+            - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
+              value: "gen:"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
           livenessProbe:

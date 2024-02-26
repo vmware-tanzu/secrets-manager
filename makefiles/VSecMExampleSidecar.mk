@@ -16,7 +16,13 @@ example-sidecar-bundle:
 # Pushes the “Sidecar” use case container image to the public registry.
 example-sidecar-push:
 	./hack/push.sh "example-using-sidecar" \
-		$(VERSION) "vsecm/example-using-sidecar"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/example-using-sidecar"
+
+
+# Pushes the “Sidecar” use case container image to the public EKS registry.
+example-sidecar-push-eks:
+	./hack/push.sh "example-using-sidecar" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-using-sidecar"
 
 # Pushes the “Sidecar” use case container image to the local registry.
 example-sidecar-push-local:
@@ -30,3 +36,7 @@ example-sidecar-deploy:
 # Deploys the “Sidecar” use case app from the local registry into the cluster.
 example-sidecar-deploy-local:
 	./hack/example-sidecar-deploy-local.sh
+
+# Deploys the “Sidecar” use case app from the public EKS registry into the cluster.
+example-sidecar-deploy-eks:
+	./hack/example-sidecar-deploy-eks.sh

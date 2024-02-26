@@ -31,22 +31,42 @@ init-container-bundle-photon-fips:
 # Pushes the “VSecM Init Container” container image to the public registry.
 init-container-push-ist:
 	./hack/push.sh "vsecm-ist-init-container" \
-		$(VERSION) "vsecm/vsecm-ist-init-container"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-init-container"
+
+# Pushes the “VSecM Init Container” (container image to the public EKS registry.
+init-container-push-ist-eks:
+	./hack/push.sh "vsecm-ist-init-container" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-init-container"
 
 # Pushes the “VSecM Init Container” (FIPS) container image to the public registry.
 init-container-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-init-container" \
-		$(VERSION) "vsecm/vsecm-ist-fips-init-container"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-init-container"
+
+# Pushes the “VSecM Init Container” (FIPS) container image to the public EKS registry.
+init-container-push-ist-fips-eks:
+	./hack/push.sh "vsecm-ist-fips-init-container" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-init-container"
 
 # Pushes the “VSecM Init Container” (Photon OS) container image to the public registry.
 init-container-push-photon:
 	./hack/push.sh "vsecm-photon-init-container" \
-		$(VERSION) "vsecm/vsecm-photon-init-container"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-init-container"
+
+# Pushes the “VSecM Init Container” (Photon OS) container image to the public EKS registry.
+init-container-push-photon-eks:
+	./hack/push.sh "vsecm-photon-init-container" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-init-container"
 
 # Pushes the “VSecM Init Container” (Photon OS and FIPS) container image to the public registry.
 init-container-push-photon-fips:
 	./hack/push.sh "vsecm-photon-fips-init-container" \
-		$(VERSION) "vsecm/vsecm-photon-fips-init-container"
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-fips-init-container"
+
+# Pushes the “VSecM Init Container” (Photon OS and FIPS) container image to the public EKS registry.
+init-container-push-photon-fips-eks:
+	./hack/push.sh "vsecm-photon-fips-init-container" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-fips-init-container"
 
 # Pushes the “VSecM Init Container” container image to the local registry.
 init-container-push-ist-local:
