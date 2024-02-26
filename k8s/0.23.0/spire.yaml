@@ -510,7 +510,7 @@ spec:
       serviceAccountName: spire-agent
       containers:
         - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.8.7
+          image: ghcr.io/spiffe/spire-agent:1.9.0
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/config/agent.conf"]
           volumeMounts:
@@ -526,7 +526,7 @@ spec:
               mountPath: /run/spire/sockets
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
-          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.4
+          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.5
           imagePullPolicy: IfNotPresent
           args: [
             "-workload-api-socket-dir", "/spire-agent-socket",
@@ -640,7 +640,7 @@ spec:
       shareProcessNamespace: true
       containers:
         - name: spire-server
-          image: ghcr.io/spiffe/spire-server:1.8.7
+          image: ghcr.io/spiffe/spire-server:1.9.0
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
           ports:
@@ -652,7 +652,7 @@ spec:
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
         - name: spire-controller-manager
-          image: ghcr.io/spiffe/spire-controller-manager:0.4.1
+          image: ghcr.io/spiffe/spire-controller-manager:0.4.3
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9443
