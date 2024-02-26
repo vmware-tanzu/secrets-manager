@@ -15,7 +15,13 @@ import (
 	"net/http"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route"
+
+	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
+	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
+	initializationRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/initialization"
+	listRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
+	receiveRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
+	secretRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/secret"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -76,13 +82,13 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler: will list")
-			route.List(cid, w, r, sid)
+			listRoute.List(cid, w, r, sid)
 			return
 		}
 
 		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets?reveal=true" {
 			log.DebugLn(&cid, "Handler: will list encrypted secrets")
-			route.ListEncrypted(cid, w, r, sid)
+			listRoute.ListEncrypted(cid, w, r, sid)
 			return
 		}
 
@@ -91,7 +97,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodPost && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
-			route.Secret(cid, w, r, sid)
+			secretRoute.Secret(cid, w, r, sid)
 			return
 		}
 
@@ -100,7 +106,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodDelete && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will delete")
-			route.Delete(cid, w, r, sid)
+			deleteRoute.Delete(cid, w, r, sid)
 			return
 		}
 
@@ -110,7 +116,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// error out.
 		if r.Method == http.MethodGet && p == "/workload/v1/secrets" {
 			log.DebugLn(&cid, "Handler:/workload/v1/secrets: will fetch")
-			route.Fetch(cid, w, r, sid)
+			fetchRoute.Fetch(cid, w, r, sid)
 			return
 		}
 
@@ -121,7 +127,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// to be able to set a new key.
 		if r.Method == http.MethodPost && p == "/sentinel/v1/keys" {
 			log.DebugLn(&cid, "Handler: will receive keys")
-			route.ReceiveKeys(cid, w, r, sid)
+			receiveRoute.Keys(cid, w, r, sid)
 			return
 		}
 
@@ -130,7 +136,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 				&cid,
 				"Handler:/sentinel/v1/init-completed: will mark init completion",
 			)
-			route.InitComplete(cid, w, r, sid)
+			initializationRoute.InitComplete(cid, w, r, sid)
 			return
 		}
 
@@ -139,7 +145,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err = io.WriteString(w, "")
 		if err != nil {
-			log.WarnLn(&cid, "Problem writing response", err.Error())
+			log.WarnLn(&cid, "Problem writing response:", err.Error())
 			return
 		}
 	})
