@@ -57,7 +57,7 @@ build: \
 	init-container-push-photon-fips
 
 # Builds everything and pushes to the public EKS registry.
-build-eks:
+build-eks: \
 	keygen-bundle \
 	keygen-push-eks \
 	example-sidecar-bundle \
