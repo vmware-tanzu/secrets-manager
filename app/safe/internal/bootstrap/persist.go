@@ -26,7 +26,7 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-func persistKeys(privateKey, publicKey, aesSeed string) error {
+func PersistKeys(privateKey, publicKey, aesSeed string) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Wrap(err, "Error creating client config")

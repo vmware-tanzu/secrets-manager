@@ -11,6 +11,8 @@
 package route
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"strings"
@@ -64,6 +66,12 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
 	state.SetRootKey(keysCombined)
+
+	if env.RootKeyInputModeManual() && env.ManualRootKeyUpdatesKubernetesSecret() {
+		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {
+			log.FatalLn(&cid, "Failed to persist keys", err.Error())
+		}
+	}
 
 	log.DebugLn(&cid, "ReceiveKeys: before response")
 

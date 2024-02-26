@@ -366,6 +366,8 @@ spec:
               value: "10"
             - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
+            - name: VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET
+              value: "false"
             - name: VSECM_SAFE_SECRET_BACKUP_COUNT
               value: "3"
             - name: VSECM_SAFE_SECRET_BUFFER_SIZE

@@ -188,7 +188,7 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	log.InfoLn(id, "Generated public key, private key, and aes seed")
 
-	if err = persistKeys(privateKey, publicKey, aesSeed); err != nil {
+	if err = PersistKeys(privateKey, publicKey, aesSeed); err != nil {
 		log.FatalLn(id, "Failed to persist keys", err.Error())
 	}
 
