@@ -13,6 +13,6 @@
 cd ./examples/using-sidecar || exit
 
 kubectl apply -f ./k8s-eks/ServiceAccount.yaml
-kubectl apply -k ./k8s
+kubectl apply -k ./k8s-eks
 kubectl apply -f ./k8s-eks/Identity.yaml
 kubectl apply -f ./k8s-eks/Secret.yaml
