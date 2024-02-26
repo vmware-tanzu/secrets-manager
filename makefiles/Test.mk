@@ -51,7 +51,7 @@ test-eks:
 		kubectl config use-context $(VSECM_EKS_CONTEXT); \
 	fi
 
-	./hack/test.sh "eks"
+	./hack/test.sh "eks" ""
 
 	$(eval VSECM_MINIKUBE_CONTEXT=$(shell kubectl config get-contexts -o name | grep "minikube"))
 	@if [ -z "$(VSECM_MINIKUBE_CONTEXT)" ]; then \
