@@ -46,9 +46,9 @@ test-eks:
 	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
 	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
 		echo "Warning: test-eks: No EKS context found."; \
-	else
-		@echo "Using EKS context: $VSECM_EKS_CONTEXT"
-		kubectl config use-context $(VSECM_EKS_CONTEXT)
+	else \
+		@echo "Using EKS context: $VSECM_EKS_CONTEXT" \
+		kubectl config use-context $(VSECM_EKS_CONTEXT) \
 	fi
 
 	./hack/test.sh "eks"
@@ -56,9 +56,9 @@ test-eks:
 	$(eval VSECM_MINIKUBE_CONTEXT=$(shell kubectl config get-contexts -o name | grep "minikube"))
 	@if [ -z "$(VSECM_MINIKUBE_CONTEXT)" ]; then \
 		echo "Warning: Minikube context found."; \
-	else
-		@echo "Using Minikube context: $VSECM_MINIKUBE_CONTEXT"
-		kubectl config use-context $(VSECM_MINIKUBE_CONTEXT)
+	else \
+		@echo "Using Minikube context: $VSECM_MINIKUBE_CONTEXT" \
+		kubectl config use-context $(VSECM_MINIKUBE_CONTEXT) \
 	fi
 test-local-ci:
 	./hack/test.sh "local" "ci"
