@@ -103,8 +103,9 @@ h:
 		echo "˃ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"; \
 		echo "˃ make generate-proto-files"; \
 	fi
-	@echo "˃ make build-local;make deploy-local;make test-local;"
-	@echo "˃ make build;make deploy;make test;"
+	@echo "˃ make build-local; make clean; make deploy-local; make test-local;"
+	@echo "˃ make build      ; make clean; make deploy      ; make test;"
+	@echo "˃ make build-eks  ; make clean; make deploy-eks  ; make test-eks;"
 	@echo "˃ make tag;"
 	@echo "--------------------------------------------------------------------"
 	@echo "If you are on the build server, stop the cronjob first: \`crontab -e\`"

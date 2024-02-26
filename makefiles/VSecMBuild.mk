@@ -56,8 +56,22 @@ build: \
 	init-container-bundle-photon-fips \
 	init-container-push-photon-fips
 
+# Login to the public EKS registry.
+login-eks:
+	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
+	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
+		echo "Warning: login-eks: No EKS context found."; \
+	else \
+		echo "Using EKS context: $VSECM_EKS_CONTEXT"; \
+		kubectl config use-context $(VSECM_EKS_CONTEXT); \
+	fi
+
+	aws ecr-public get-login-password --region us-east-1 | \
+		docker login --username AWS --password-stdin public.ecr.aws/h8y1n7y7
+
 # Builds everything and pushes to the public EKS registry.
 build-eks: \
+	login-eks \
 	keygen-bundle \
 	keygen-push-eks \
 	example-sidecar-bundle \
