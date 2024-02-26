@@ -20,6 +20,9 @@ fi
 
 CI="$2"
 
+echo "---- VSecM Integration Tests ----"
+echo "Running tests for $ORIGIN origin"
+
 if [[ -z "$CI" ]]; then
   printf "\n"
   printf "This script assumes that you have a local minikube cluster running,\n"
