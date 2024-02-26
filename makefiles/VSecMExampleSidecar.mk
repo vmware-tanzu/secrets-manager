@@ -18,6 +18,7 @@ example-sidecar-push:
 	./hack/push.sh "example-using-sidecar" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/example-using-sidecar"
 
+
 # Pushes the “Sidecar” use case container image to the public EKS registry.
 example-sidecar-push-eks:
 	./hack/push.sh "example-using-sidecar" \
