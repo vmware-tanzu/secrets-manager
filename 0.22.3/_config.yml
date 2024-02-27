@@ -2,7 +2,7 @@
 title:            VMware Secrets Manager
 longtitle:        VMWare Secrets Manger For Cloud-Native Apps
 author:           Volkan Özçelik and Contributors
-email:            ovolkan@vmware.com
+email:            volkan.ozcelik@broadcom.com
 description: >
   VMware Secrets Manager for Cloud-Native Apps is a cloud-native secure store 
   for secrets management. It provides a minimal and intuitive API, ensuring 
