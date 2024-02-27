@@ -64,7 +64,7 @@ function produceK8sManifests() {
 if [ "$version" == '' ]; then
     echo "VERSION has to be provided to the make target"
     echo "usage: make k8s-manifests-update VERSION=<helm-chart version>"
-    echo "example: make k8s-manifests-update VERSION=0.22.5"
+    echo "example: make k8s-manifests-update VERSION=0.22.4"
     exit 1
 else
     helmChartPath=$helmChartDirectory/$version
