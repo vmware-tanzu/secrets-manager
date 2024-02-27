@@ -73,10 +73,10 @@ func RunInitCommands(ctx context.Context) {
 
 	data, err := os.ReadFile(tombstonePath)
 
-	if strings.TrimSpace(string(data)) == "complete" {
+	if strings.TrimSpace(string(data)) == "done" {
 		log.InfoLn(
 			cid,
-			"Initialization already complete… skipping custom initialization.",
+			"Initialization already done… skipping custom initialization.",
 		)
 		return
 	}
@@ -131,6 +131,9 @@ func RunInitCommands(ctx context.Context) {
 		value := parts[1]
 
 		switch command(key) {
+		case done:
+			safe.PostInitializationComplete(ctx)
+			return
 		case workload:
 			sc.WorkloadId = value
 		case namespace:

@@ -104,7 +104,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "sleep:1\n--\n"
+  data: "done:true\n--\n"
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
 apiVersion: v1

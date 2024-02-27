@@ -89,7 +89,7 @@ initCommand:
 
   #  Add any initialization command here, separated by a line with only "--"
   command: |
-    sleep:1
+    done:true
     --
 
   #  Example:
