@@ -39,7 +39,7 @@ environments:
   - name: VSECM_SAFE_BACKING_STORE
     value: "file"
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
-    value: "30000"
+    value: "300000"
   - name: VSECM_ROOT_KEY_NAME
     value: *rootKeyName
   - name: VSECM_ROOT_KEY_PATH

@@ -91,7 +91,7 @@ spec:
             - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
               value: "false"
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
-              value: "30000"
+              value: "300000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
             - name: VSECM_SYSTEM_NAMESPACE

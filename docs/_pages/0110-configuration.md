@@ -212,7 +212,7 @@ manually restarted by an operator.
 `VSECM_SAFE_BOOTSTRAP_TIMEOUT` is how long (*in milliseconds*) **VSecM Safe**
 will wait for an *SPIRE X.509 SVID* bundle before giving up and crashing.
 
-The default value is `30000` milliseconds.
+The default value is `300000` milliseconds.
 
 ### VSECM_SAFE_DATA_PATH
 

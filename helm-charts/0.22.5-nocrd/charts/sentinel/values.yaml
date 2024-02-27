@@ -95,7 +95,7 @@ initCommand:
   #  Example:
   #  ––––––––
   #
-  #  sleep:30000
+  #  sleep:30001
   #  --
   #  w:k8s:keycloak-admin-secret
   #  n:smo-app
