@@ -24,6 +24,26 @@ next_url: /docs/releases/
 
 TBD
 
+## [v0.22.5] – 2024-02-26
+
+### Added
+
+* Provisioned an public ECR registry to deploy and test VSecM on EKS.
+* Added a GitHub Actions workflow to generate a test coverage badge, and
+  coverage reports.
+* Added the ability to use a persistent volume for VSecM Safe.
+
+### Changed
+
+* Bumped SPIRE Server and SPIRE Agent to the latest versions (1.9.0).
+* VSecM Sentinel logs now have a correlation ID to make it easier to trace
+  logs initiated by different requests.
+* Improvements to the logging-and-auditing-related code.
+* Deleting a VSecM Safe “secret” now also deletes the associated Kubernetes
+  secret, if it exists.
+* VSecM Safe now has a more robust retry strategy for creating and updating
+  Kubernetes secrets.
+
 ## [v0.22.4] - 2024-02-17
 
 ### Added
