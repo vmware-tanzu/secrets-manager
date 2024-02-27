@@ -34,7 +34,7 @@ deploy-spire:
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
-		echo "verifying spire installation"; \
+		echo "verifying SPIRE installation"; \
 		kubectl wait --for=condition=Available deployment -n spire-system spire-server; \
 		echo "spire-server: deployment available"; \
 		echo "spire installation successful"; \

@@ -685,7 +685,7 @@ func TestSafeBootstrapTimeout(t *testing.T) {
 	}{
 		{
 			name: "default_safe_bootstrap_timeout",
-			want: 30000 * time.Millisecond,
+			want: 300000 * time.Millisecond,
 		},
 		{
 			name: "safe_bootstrap_timeout_from_env",
@@ -705,7 +705,7 @@ func TestSafeBootstrapTimeout(t *testing.T) {
 			cleanup: func() error {
 				return os.Unsetenv("VSECM_SAFE_BOOTSTRAP_TIMEOUT")
 			},
-			want: 30000 * time.Millisecond,
+			want: 300000 * time.Millisecond,
 		},
 	}
 	for _, tt := range tests {

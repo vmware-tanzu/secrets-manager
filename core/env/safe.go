@@ -291,16 +291,16 @@ func SourceAcquisitionTimeoutForSafe() time.Duration {
 // BootstrapTimeoutForSafe returns the allowed time for VSecM Safe to wait
 // before killing the pod to retrieve an SVID, in time.Duration.
 // The interval is determined by the VSECM_SAFE_BOOTSTRAP_TIMEOUT environment
-// variable, with a default value of 30000 milliseconds if the variable is not
+// variable, with a default value of 300000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
 func BootstrapTimeoutForSafe() time.Duration {
 	p := os.Getenv("VSECM_SAFE_BOOTSTRAP_TIMEOUT")
 	if p == "" {
-		p = "30000"
+		p = "300000"
 	}
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 30000 * time.Millisecond
+		return 300000 * time.Millisecond
 	}
 	return time.Duration(i) * time.Millisecond
 }

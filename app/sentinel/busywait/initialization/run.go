@@ -73,10 +73,10 @@ func RunInitCommands(ctx context.Context) {
 
 	data, err := os.ReadFile(tombstonePath)
 
-	if strings.TrimSpace(string(data)) == "complete" {
+	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
 			cid,
-			"Initialization already complete… skipping custom initialization.",
+			"Initialization already exit… skipping custom initialization.",
 		)
 		return
 	}
@@ -131,6 +131,15 @@ func RunInitCommands(ctx context.Context) {
 		value := parts[1]
 
 		switch command(key) {
+		case exit:
+			// exit.
+			log.InfoLn(
+				cid,
+				"exit found during initialization.",
+				"skipping the rest of the commands.",
+				"skipping post initialization.",
+			)
+			return
 		case workload:
 			sc.WorkloadId = value
 		case namespace:

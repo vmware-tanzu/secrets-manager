@@ -23,7 +23,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/bus
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
 
-ENV APP_VERSION="0.23.0"
+ENV APP_VERSION="0.22.5"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION

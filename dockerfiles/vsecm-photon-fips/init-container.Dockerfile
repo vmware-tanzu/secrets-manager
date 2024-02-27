@@ -26,7 +26,7 @@ RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -
 # generate clean, final image for end users
 FROM photon:5.0
 
-ENV APP_VERSION="0.23.0"
+ENV APP_VERSION="0.22.5"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION
