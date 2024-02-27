@@ -9,9 +9,10 @@
 # <>/' Copyright 2023–present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
-VERSION="0.22.5"
 
-eval $(minikube docker-env -u)
+VERSION="0.23.0"
+
+eval "$(minikube docker-env -u)"
 
 docker run --rm \
   -v "$(pwd)":/vsecm \
