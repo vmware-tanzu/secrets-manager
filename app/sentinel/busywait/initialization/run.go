@@ -58,8 +58,7 @@ func RunInitCommands(ctx context.Context) {
 	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 
 	if !acquired {
-		// TODO: This should be configurable.
-		timeout := 300 * time.Second
+		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
 
 		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
 		defer cancel()

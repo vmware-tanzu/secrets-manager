@@ -10,7 +10,11 @@
 
 package env
 
-import "os"
+import (
+	"os"
+	"strconv"
+	"time"
+)
 
 // InitCommandPathForSentinel returns the path to the initialization commands file
 // for VSecM Sentinel.
@@ -49,4 +53,28 @@ func InitCommandTombstonePathForSentinel() string {
 		p = "/opt/vsecm-sentinel/tombstone/init"
 	}
 	return p
+}
+
+// InitCommandRunnerWaitTimeoutForSentinel initializes and returns the timeout
+// duration for waiting for Sentinel to acquire an SVID.
+//
+// If the environment variable "VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT"
+// is set and valid, it uses the value provided by the environment variable as
+// the timeout duration.
+// If the environment variable is not set or invalid, a default timeout of
+// 300,000 milliseconds (5 minutes)
+//
+// Returns:
+//
+//	time.Duration: The max time duration that the Sentinel wiil wait for an SVID.
+func InitCommandRunnerWaitTimeoutForSentinel() time.Duration {
+	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT")
+	if p == "" {
+		p = "300000"
+	}
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		return 300000 * time.Millisecond
+	}
+	return time.Duration(i) * time.Millisecond
 }
