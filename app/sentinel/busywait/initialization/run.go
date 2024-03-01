@@ -86,7 +86,7 @@ func RunInitCommands(ctx context.Context) {
 	}
 
 	ctx, cancel := context.WithTimeout(
-		context.Background(), env.InitCommandRunnerWaitTimeoutForSentinel(),
+		ctx, env.InitCommandRunnerWaitTimeoutForSentinel(),
 	)
 	defer cancel()
 
