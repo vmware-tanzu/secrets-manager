@@ -222,6 +222,21 @@ make deploy-photon-fips-local
 make test-local
 ```
 
+### 7. Test the `main` Branch on EKS
+
+First build and publish images to ECR, then test them on EKS.
+
+```bash 
+# You don’t need to build the images if they already exist.
+make build-eks 
+# Clean up previous deployments.
+make clean
+# Deploy the images to EKS.
+make deploy-eks 
+# Test the deployment.
+make test-eks;
+```
+
 ### 7. Merge the Release Branch to `main`
 
 If all tests pass, merge the release branch to `main`.

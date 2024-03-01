@@ -57,7 +57,7 @@ helm-install-photon:
 helm-install-photon-fips:
 	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_FIPS_IMAGE}
 
-# Deletes the vsecm helm chart, whiletaking care of the SPIFFE CSI driver related
+# Deletes the vsecm helm chart, while taking care of the SPIFFE CSI driver related
 # resource deletion prioritization issues.
 # Simply executing `helm uninstall` can result in dangling resources, which can
 # cause the helm chart to not be deleted, and installation of a new chart to fail.
