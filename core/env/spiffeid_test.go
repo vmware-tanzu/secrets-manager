@@ -41,18 +41,18 @@ func TestSentinelSpiffeIdPrefix(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SentinelSpiffeIdPrefix() = failed to setup, with error: %+v", err)
+					t.Errorf("SpiffeIdPrefixForSentinel() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SentinelSpiffeIdPrefix() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SpiffeIdPrefixForSentinel() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SentinelSpiffeIdPrefix(); got != tt.want {
-				t.Errorf("SentinelSpiffeIdPrefix() = %v, want %v", got, tt.want)
+			if got := SpiffeIdPrefixForSentinel(); got != tt.want {
+				t.Errorf("SpiffeIdPrefixForSentinel() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -127,18 +127,18 @@ func TestWorkloadSpiffeIdPrefix(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("WorkloadSpiffeIdPrefix() = failed to setup, with error: %+v", err)
+					t.Errorf("SpiffeIdPrefixForWorkload() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("WorkloadSpiffeIdPrefix() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SpiffeIdPrefixForWorkload() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := WorkloadSpiffeIdPrefix(); got != tt.want {
-				t.Errorf("WorkloadSpiffeIdPrefix() = %v, want %v", got, tt.want)
+			if got := SpiffeIdPrefixForWorkload(); got != tt.want {
+				t.Errorf("SpiffeIdPrefixForWorkload() = %v, want %v", got, tt.want)
 			}
 		})
 	}

@@ -16,6 +16,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"net/url"
@@ -204,7 +205,7 @@ func PostInitializationComplete(parentContext context.Context) {
 	proceedChan := make(chan bool)
 
 	go func() {
-		source, proceed := acquireSource(ctxWithTimeout)
+		source, proceed := spiffe.AcquireSourceForSentinel(ctxWithTimeout)
 		sourceChan <- source
 		proceedChan <- proceed
 	}()
@@ -276,7 +277,7 @@ func Post(parentContext context.Context,
 	proceedChan := make(chan bool)
 
 	go func() {
-		source, proceed := acquireSource(ctxWithTimeout)
+		source, proceed := spiffe.AcquireSourceForSentinel(ctxWithTimeout)
 		sourceChan <- source
 		proceedChan <- proceed
 	}()

@@ -13,8 +13,10 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
@@ -53,8 +55,39 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
+	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+
+	if !acquired {
+		// TODO: This should be configurable.
+		timeout := 300 * time.Second
+
+		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
+		defer cancel()
+
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-timeoutCtx.Done():
+				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
+				return
+			case <-ticker.C:
+				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
+				if acquired {
+					break
+				}
+			}
+		}
+	}
+
+	if src == nil {
+		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
+		return
+	}
+
 	// Parse tombstone file first:
-	tombstonePath := env.SentinelInitCommandTombstonePath()
+	tombstonePath := env.InitCommandTombstonePathForSentinel()
 	file, err := os.Open(tombstonePath)
 	if err != nil {
 		log.InfoLn(
@@ -81,7 +114,7 @@ func RunInitCommands(ctx context.Context) {
 		return
 	}
 
-	filePath := env.SentinelInitCommandPath()
+	filePath := env.InitCommandPathForSentinel()
 	file, err = os.Open(filePath)
 
 	if err != nil {
