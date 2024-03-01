@@ -16,10 +16,10 @@ import (
 	"time"
 )
 
-// SidecarMaxPollInterval returns the maximum interval for polling by the
+// MaxPollIntervalForSidecar returns the maximum interval for polling by the
 // sidecar process. The value is read from the environment variable
 // `VSECM_SIDECAR_MAX_POLL_INTERVAL` or returns 300000 milliseconds as default.
-func SidecarMaxPollInterval() time.Duration {
+func MaxPollIntervalForSidecar() time.Duration {
 	p := os.Getenv("VSECM_SIDECAR_MAX_POLL_INTERVAL")
 	if p == "" {
 		p = "300000"
@@ -31,11 +31,11 @@ func SidecarMaxPollInterval() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// SidecarExponentialBackoffMultiplier returns the multiplier for exponential
+// ExponentialBackoffMultiplierForSidecar returns the multiplier for exponential
 // backoff by the sidecar process.
 // The value is read from the environment variable
 // `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER` or returns 2 as default.
-func SidecarExponentialBackoffMultiplier() int64 {
+func ExponentialBackoffMultiplierForSidecar() int64 {
 	p := os.Getenv("VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER")
 	if p == "" {
 		p = "2"
@@ -47,10 +47,10 @@ func SidecarExponentialBackoffMultiplier() int64 {
 	return i
 }
 
-// SidecarSuccessThreshold returns the number of consecutive successful
+// SuccessThresholdForSidecar returns the number of consecutive successful
 // polls before reducing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_SUCCESS_THRESHOLD` or returns 3 as default.
-func SidecarSuccessThreshold() int64 {
+func SuccessThresholdForSidecar() int64 {
 	p := os.Getenv("VSECM_SIDECAR_SUCCESS_THRESHOLD")
 	if p == "" {
 		p = "3"
@@ -62,10 +62,10 @@ func SidecarSuccessThreshold() int64 {
 	return i
 }
 
-// SidecarErrorThreshold returns the number of consecutive failed polls
+// ErrorThresholdForSidecar returns the number of consecutive failed polls
 // before increasing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_ERROR_THRESHOLD` or returns 2 as default.
-func SidecarErrorThreshold() int64 {
+func ErrorThresholdForSidecar() int64 {
 	p := os.Getenv("VSECM_SIDECAR_ERROR_THRESHOLD")
 	if p == "" {
 		p = "2"
@@ -77,11 +77,11 @@ func SidecarErrorThreshold() int64 {
 	return i
 }
 
-// SidecarPollInterval returns the polling interval for sentry in time.Duration
+// PollIntervalForSidecar returns the polling interval for sentry in time.Duration
 // The interval is determined by the VSECM_SIDECAR_POLL_INTERVAL environment
 // variable, with a default value of 20000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
-func SidecarPollInterval() time.Duration {
+func PollIntervalForSidecar() time.Duration {
 	p := os.Getenv("VSECM_SIDECAR_POLL_INTERVAL")
 	if p == "" {
 		p = "20000"

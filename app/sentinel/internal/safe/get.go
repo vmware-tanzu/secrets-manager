@@ -14,76 +14,22 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"net/url"
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
-	"github.com/spiffe/go-spiffe/v2/workloadapi"
-
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
-	resultChan := make(chan *workloadapi.X509Source)
-	errorChan := make(chan error)
-
-	cid := ctx.Value("correlationId").(*string)
-
-	go func() {
-		source, err := workloadapi.NewX509Source(
-			ctx, workloadapi.WithClientOptions(
-				workloadapi.WithAddr(env.SpiffeSocketUrl()),
-			),
-		)
-
-		if err != nil {
-			errorChan <- err
-			return
-		}
-
-		svid, err := source.GetX509SVID()
-		if err != nil {
-			log.ErrorLn(cid,
-				"acquireSource: I am having trouble fetching my identity from SPIRE.")
-			log.ErrorLn(cid,
-				"acquireSource: I won’t proceed until you put me in a secured container.")
-			errorChan <- err
-			return
-		}
-
-		// Make sure that the binary is enclosed in a Pod that we trust.
-		if !validation.IsSentinel(svid.ID.String()) {
-			log.ErrorLn(cid,
-				"acquireSource: I don’t know you, and it’s crazy: '"+svid.ID.String()+"'")
-			log.ErrorLn(cid,
-				"acquireSource: `safe` can only run from within the Sentinel container.")
-			errorChan <- errors.New("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
-			return
-		}
-
-		resultChan <- source
-	}()
-
-	select {
-	case source := <-resultChan:
-		return source, true
-	case err := <-errorChan:
-		log.ErrorLn(cid, "acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
-		return nil, false
-	case <-ctx.Done():
-		log.ErrorLn(cid, "acquireSource: Operation was cancelled.")
-		return nil, false
-	}
-}
-
 func Get(ctx context.Context, showEncryptedSecrets bool) {
 	cid := ctx.Value("correlationId").(*string)
 
-	source, proceed := acquireSource(ctx)
+	source, proceed := spiffe.AcquireSourceForSentinel(ctx)
 	defer func() {
 		if source == nil {
 			return

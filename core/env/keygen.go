@@ -4,7 +4,7 @@ import (
 	"os"
 )
 
-// KeyGenRootKeyPath returns the root key path. Root key is used to decrypt
+// RootKeyPathForKeyGen returns the root key path. Root key is used to decrypt
 // VSecM-encrypted secrets.
 // It reads the environment variable VSECM_KEYGEN_ROOT_KEY_PATH to determine
 // the path.
@@ -13,7 +13,7 @@ import (
 // Returns:
 //
 //	string: The path to the root key.
-func KeyGenRootKeyPath() string {
+func RootKeyPathForKeyGen() string {
 	p := os.Getenv("VSECM_KEYGEN_ROOT_KEY_PATH")
 	if p == "" {
 		return "/opt/vsecm/keys.txt"
@@ -21,7 +21,7 @@ func KeyGenRootKeyPath() string {
 	return p
 }
 
-// KeyGenExportedSecretPath returns the path where the exported secrets are stored.
+// ExportedSecretPathForKeyGen returns the path where the exported secrets are stored.
 // It reads the environment variable VSECM_KEYGEN_EXPORTED_SECRET_PATH to determine
 // the path.
 // If the environment variable is not set, it defaults to "/opt/vsecm/secrets.json".
@@ -29,7 +29,7 @@ func KeyGenRootKeyPath() string {
 // Returns:
 //
 //	string: The path to the exported secrets.
-func KeyGenExportedSecretPath() string {
+func ExportedSecretPathForKeyGen() string {
 	p := os.Getenv("VSECM_KEYGEN_EXPORTED_SECRET_PATH")
 	if p == "" {
 		return "/opt/vsecm/secrets.json"

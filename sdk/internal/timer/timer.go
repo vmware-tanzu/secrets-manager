@@ -15,12 +15,12 @@ import (
 	"time"
 )
 
-var maxInterval = env.SidecarMaxPollInterval()
-var factor = env.SidecarExponentialBackoffMultiplier()
-var successThreshold = env.SidecarSuccessThreshold()
-var errorThreshold = env.SidecarErrorThreshold()
+var maxInterval = env.MaxPollIntervalForSidecar()
+var factor = env.ExponentialBackoffMultiplierForSidecar()
+var successThreshold = env.SuccessThresholdForSidecar()
+var errorThreshold = env.ErrorThresholdForSidecar()
 
-var InitialInterval = env.SidecarPollInterval()
+var InitialInterval = env.PollIntervalForSidecar()
 
 func ExponentialBackoff(
 	success bool, interval time.Duration, successCount, errorCount int64,

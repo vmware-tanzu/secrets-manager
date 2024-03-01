@@ -53,18 +53,18 @@ func TestSidecarMaxPollInterval(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarMaxPollInterval() = failed to setup, with error: %+v", err)
+					t.Errorf("MaxPollIntervalForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarMaxPollInterval() = failed to cleanup, with error: %+v", err)
+						t.Errorf("MaxPollIntervalForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarMaxPollInterval(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SidecarMaxPollInterval() = %v, want %v", got, tt.want)
+			if got := MaxPollIntervalForSidecar(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("MaxPollIntervalForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -106,18 +106,18 @@ func TestSidecarExponentialBackoffMultiplier(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarExponentialBackoffMultiplier() = failed to setup, with error: %+v", err)
+					t.Errorf("ExponentialBackoffMultiplierForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarExponentialBackoffMultiplier() = failed to cleanup, with error: %+v", err)
+						t.Errorf("ExponentialBackoffMultiplierForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarExponentialBackoffMultiplier(); got != tt.want {
-				t.Errorf("SidecarExponentialBackoffMultiplier() = %v, want %v", got, tt.want)
+			if got := ExponentialBackoffMultiplierForSidecar(); got != tt.want {
+				t.Errorf("ExponentialBackoffMultiplierForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -159,18 +159,18 @@ func TestSidecarSuccessThreshold(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarSuccessThreshold() = failed to setup, with error: %+v", err)
+					t.Errorf("SuccessThresholdForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarSuccessThreshold() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SuccessThresholdForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarSuccessThreshold(); got != tt.want {
-				t.Errorf("SidecarSuccessThreshold() = %v, want %v", got, tt.want)
+			if got := SuccessThresholdForSidecar(); got != tt.want {
+				t.Errorf("SuccessThresholdForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -212,18 +212,18 @@ func TestSidecarErrorThreshold(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarErrorThreshold() = failed to setup, with error: %+v", err)
+					t.Errorf("ErrorThresholdForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarErrorThreshold() = failed to cleanup, with error: %+v", err)
+						t.Errorf("ErrorThresholdForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarErrorThreshold(); got != tt.want {
-				t.Errorf("SidecarErrorThreshold() = %v, want %v", got, tt.want)
+			if got := ErrorThresholdForSidecar(); got != tt.want {
+				t.Errorf("ErrorThresholdForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -265,18 +265,18 @@ func TestSidecarPollInterval(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarPollInterval() = failed to setup, with error: %+v", err)
+					t.Errorf("PollIntervalForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarPollInterval() = failed to cleanup, with error: %+v", err)
+						t.Errorf("PollIntervalForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarPollInterval(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("SidecarPollInterval() = %v, want %v", got, tt.want)
+			if got := PollIntervalForSidecar(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PollIntervalForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}

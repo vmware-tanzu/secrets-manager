@@ -61,7 +61,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 	log.TraceLn(&cid, "List: after defer")
 
-	tmp := strings.Replace(spiffeid, env.SentinelSpiffeIdPrefix(), "", 1)
+	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForSentinel(), "", 1)
 	parts := strings.Split(tmp, "/")
 
 	if len(parts) == 0 {

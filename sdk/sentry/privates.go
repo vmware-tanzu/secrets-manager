@@ -18,7 +18,7 @@ import (
 )
 
 func saveData(data string) error {
-	path := env.SidecarSecretsPath()
+	path := env.SecretsPathForSidecar()
 
 	f, err := os.Create(path)
 	if err != nil {

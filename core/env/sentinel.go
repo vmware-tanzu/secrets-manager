@@ -10,9 +10,13 @@
 
 package env
 
-import "os"
+import (
+	"os"
+	"strconv"
+	"time"
+)
 
-// SentinelInitCommandPath returns the path to the initialization commands file
+// InitCommandPathForSentinel returns the path to the initialization commands file
 // for VSecM Sentinel.
 //
 // It checks for an environment variable "VSECM_SENTINEL_INIT_COMMAND_PATH" and
@@ -22,7 +26,7 @@ import "os"
 // Returns:
 //
 //	string: The path to the Sentinel initialization commands file.
-func SentinelInitCommandPath() string {
+func InitCommandPathForSentinel() string {
 	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_PATH")
 	if p == "" {
 		p = "/opt/vsecm-sentinel/init/data"
@@ -30,7 +34,7 @@ func SentinelInitCommandPath() string {
 	return p
 }
 
-// SentinelInitCommandTombstonePath returns the path for the VSecM Sentinel
+// InitCommandTombstonePathForSentinel returns the path for the VSecM Sentinel
 // initialization command tombstone file.
 //
 // It looks for the environment variable "VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH"
@@ -43,10 +47,34 @@ func SentinelInitCommandPath() string {
 // Returns:
 //
 //	string: The path to the Sentinel initialization command tombstone.
-func SentinelInitCommandTombstonePath() string {
+func InitCommandTombstonePathForSentinel() string {
 	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH")
 	if p == "" {
 		p = "/opt/vsecm-sentinel/tombstone/init"
 	}
 	return p
+}
+
+// InitCommandRunnerWaitTimeoutForSentinel initializes and returns the timeout
+// duration for waiting for Sentinel to acquire an SVID.
+//
+// If the environment variable "VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT"
+// is set and valid, it uses the value provided by the environment variable as
+// the timeout duration.
+// If the environment variable is not set or invalid, a default timeout of
+// 300,000 milliseconds (5 minutes)
+//
+// Returns:
+//
+//	time.Duration: The max time duration that the Sentinel wiil wait for an SVID.
+func InitCommandRunnerWaitTimeoutForSentinel() time.Duration {
+	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT")
+	if p == "" {
+		p = "300000"
+	}
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		return 300000 * time.Millisecond
+	}
+	return time.Duration(i) * time.Millisecond
 }

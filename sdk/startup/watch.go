@@ -30,7 +30,7 @@ func initialized() bool {
 // If the secret exists, and it is not empty, the function exits the init
 // container with a success status code (0).
 func Watch() {
-	interval := env.InitContainerPollInterval()
+	interval := env.PollIntervalForInitContainer()
 	ticker := time.NewTicker(interval)
 
 	cid, _ := crypto.RandomString(8)

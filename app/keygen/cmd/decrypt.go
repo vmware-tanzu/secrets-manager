@@ -37,7 +37,7 @@ func rootKeyTriplet(content string) (string, string, string) {
 }
 
 func keys() (string, string, string) {
-	p := env.KeyGenRootKeyPath()
+	p := env.RootKeyPathForKeyGen()
 
 	content, err := os.ReadFile(p)
 	if err != nil {
@@ -77,7 +77,7 @@ func decrypt(value []byte, algorithm crypto.Algorithm) (string, error) {
 }
 
 func secrets() entity.SecretStringTimeListResponse {
-	p := env.KeyGenExportedSecretPath()
+	p := env.ExportedSecretPathForKeyGen()
 
 	content, err := os.ReadFile(p)
 	if err != nil {

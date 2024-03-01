@@ -20,7 +20,7 @@ import (
 )
 
 func WorkloadIDAndParts(spiffeid string) (string, []string) {
-	tmp := strings.Replace(spiffeid, env.WorkloadSpiffeIdPrefix(), "", 1)
+	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForWorkload(), "", 1)
 	parts := strings.Split(tmp, "/")
 	if len(parts) > 0 {
 		return parts[0], parts
