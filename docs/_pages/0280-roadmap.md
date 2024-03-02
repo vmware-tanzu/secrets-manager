@@ -38,34 +38,6 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 
 ## Active Iterations
 
-### VSecM v0.23.0 (*codename: Cassiopeia*) 
-
-**Feb 01, 2024 – Feb 28, 2024**
-
-This iteration will be focused on improving how **VMware Secrets Manager** 
-logs and reports errors. We will also focus on improving the performance of the
-**VMware Secrets Manager** website.
-
-* `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
-  on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
-  without having to create Kubernetes `Secret`s at all—even for the root keys.
-* Ability to use VSecM across clusters (*multi-cluster federation support*).
-* More automation, and stability improvements.
-* Ability to use an “*init command*” for **VSecM Sentinel** to run before the
-  world starts.
-* Ability to generate pattern-based random secrets.
-* The operator shall be able to export secrets in an encrypted format, and
-  can decrypt them, if they have the right permissions.
-* A public ECR registry to share the untested “*edge*” versions of **VMware
-  Secrets Manager**, for those who like living dangerously.
-* Focus on increasing test coverage.
-* Ability to create Kubernetes `Secret`s without necessarily associating them
-  with a workload.
-* Adding “invalid before” and “expires after” timestamps to secrets, to 
-  help with secret rotation.
-* Progress towards Open SSF Best Practices compliance; reaching 97% of the  
-  requirements.
-
 ### VSecM v0.24.0 (*codename: Draco*) 
 
 **Feb 29, 2023 – Mar 27, 2023**
@@ -197,6 +169,34 @@ We will create new iterations from it as the time gets closer.
 [Here is a list of issues that are candidate for VSecM vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
 
 ## Closed Iterations
+
+### VSecM v0.23.0 (*codename: Cassiopeia*)
+
+**Feb 01, 2024 – Feb 28, 2024**
+
+This iteration was focused on improving how **VMware Secrets Manager**
+logs and reports errors. We will also focus on improving the performance of the
+**VMware Secrets Manager** website.
+
+* `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
+  on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
+  without having to create Kubernetes `Secret`s at all—even for the root keys.
+* Ability to use VSecM across clusters (*multi-cluster federation support*).
+* More automation, and stability improvements.
+* Ability to use an “*init command*” for **VSecM Sentinel** to run before the
+  world starts.
+* Ability to generate pattern-based random secrets.
+* The operator shall be able to export secrets in an encrypted format, and
+  can decrypt them, if they have the right permissions.
+* A public ECR registry to share the untested “*edge*” versions of **VMware
+  Secrets Manager**, for those who like living dangerously.
+* Focus on increasing test coverage.
+* Ability to create Kubernetes `Secret`s without necessarily associating them
+  with a workload.
+* Adding “invalid before” and “expires after” timestamps to secrets, to
+  help with secret rotation.
+* Progress towards Open SSF Best Practices compliance; reaching 97% of the  
+  requirements.
 
 ### VSecM v0.22.0 (*codename: Boötes*)
 

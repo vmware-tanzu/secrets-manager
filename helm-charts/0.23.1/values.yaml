@@ -20,14 +20,14 @@ global:
       distrolessFipsRepository: vsecm-ist-fips-safe
       photonRepository: vsecm-photon-safe
       photonFipsRepository: vsecm-photon-fips-safe
-      tag: 0.23.0
+      tag: 0.23.1
       pullPolicy: IfNotPresent
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
       photonRepository: vsecm-photon-sentinel
       photonFipsRepository: vsecm-photon-fips-sentinel
-      tag: 0.23.0
+      tag: 0.23.1
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent

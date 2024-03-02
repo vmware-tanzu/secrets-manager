@@ -62,7 +62,7 @@ These environment variable configurations are expose through subcharts.
 You can modify them as follows:
 
 ```bash
-helm install vsecm vsecm/helm-charts --version 0.23.0 \
+helm install vsecm vsecm/helm-charts --version 0.22.0 \
 --set safe.environments.VSECM_LOG_LEVEL="6"
 --set sentinel.environments.VSECM_LOGL_LEVEL="5"
 # You can update other environment variables too.
