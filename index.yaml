@@ -1,0 +1,42 @@
+apiVersion: v1
+entries:
+  vsecm:
+  - apiVersion: v2
+    appVersion: 0.23.0-nocrd
+    created: "2024-03-01T22:08:16.775167-08:00"
+    dependencies:
+    - condition: global.deploySpire
+      name: spire
+      repository: file://charts/spire
+      version: 0.23.0-nocrd
+    - condition: global.deploySafe
+      name: safe
+      repository: file://charts/safe
+      version: 0.23.0-nocrd
+    - condition: global.deploySentinel
+      name: sentinel
+      repository: file://charts/sentinel
+      version: 0.23.0-nocrd
+    description: Helm chart for VMware Secrets Manager
+    digest: 7cf18dcff3d3dd0efed16f96286c164ecec30a88cbe9c047de2f737c09dd4765
+    home: https://vsecm.com/
+    icon: https://vsecm.com/assets/vsecm-256.png
+    keywords:
+    - secrets
+    - kubernetes
+    - secrets-manager
+    - spire
+    - spiffe
+    - zero-trust
+    - cloud-native
+    - edge
+    - secret-management
+    - security
+    name: vsecm
+    sources:
+    - https://github.com/vmware-tanzu/secrets-manager
+    type: application
+    urls:
+    - vsecm-0.23.0-nocrd.tgz
+    version: 0.23.0-nocrd
+generated: "2024-03-01T22:08:16.774039-08:00"
