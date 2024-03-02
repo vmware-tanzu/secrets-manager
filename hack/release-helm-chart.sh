@@ -27,13 +27,6 @@ else
     exit 1
 fi
 
-if [ ! -d "$releaseHelmChartPath" ]; then
-    # helm-chart doesn't exists for source version
-    echo "helm-chart does not exists from version($1) at $releaseHelmChartPath,"\
-        "make sure helm-chart is placed in: $releaseHelmChartPath directory"
-    exit 1
-fi
-
 # At this point, we have helm charts in the $releaseHelmChartPath directory.
 
 # Print warning message

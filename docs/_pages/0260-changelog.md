@@ -24,6 +24,14 @@ next_url: /docs/releases/
 
 TBD
 
+## [v0.23.0] – 2024-03-01
+
+### Added
+
+* VSecM Sentinel now waits for VSecM Safe to be ready before running init 
+  commands.
+* Documentation updates and code refactoring.
+
 ## [v0.22.5] – 2024-02-26
 
 ### Added
