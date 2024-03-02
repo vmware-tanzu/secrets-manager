@@ -124,6 +124,14 @@ func TestTryParse(t *testing.T) {
 			},
 			want: "{username}",
 		},
+		{
+			name: "invalid_template_valid_json",
+			args: args{
+				tmpStr: "{\"USER\":\"{{}}\", \"PASS\":\"{{.password}}\"}",
+				jason:  "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
+			},
+			want: "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

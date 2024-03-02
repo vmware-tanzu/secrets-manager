@@ -59,6 +59,12 @@ func TestRetry(t *testing.T) {
 			strategy:              Strategy{},
 			expectError:           false,
 		},
+		{
+			name:                  "TestSetMaxDurationIfExponentialEnabledAndMaxDurationZero",
+			failuresBeforeSuccess: 3,
+			strategy:              Strategy{Exponential: true, MaxDuration: 0},
+			expectError:           false,
+		},
 	}
 
 	for _, tt := range tests {

@@ -676,6 +676,59 @@ func TestSafeRootKeyPath(t *testing.T) {
 	}
 }
 
+func TestSourceAcquisitionTimeout(t *testing.T) {
+	tests := []struct {
+		name    string
+		setup   func() error
+		cleanup func() error
+		want    time.Duration
+	}{
+		{
+			name: "default_safe_source_acquisition_timeout",
+			want: 10000 * time.Millisecond,
+		},
+		{
+			name: "safe_source_acquisition_timeout_from_env",
+			setup: func() error {
+				return os.Setenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT", "500")
+			},
+			cleanup: func() error {
+				return os.Unsetenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT")
+			},
+			want: 500 * time.Millisecond,
+		},
+		{
+			name: "invalid_safe_source_acquisition_timeout_from_env",
+			setup: func() error {
+				return os.Setenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT", "test")
+			},
+			cleanup: func() error {
+				return os.Unsetenv("VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT")
+			},
+			want: 10000 * time.Millisecond,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if tt.setup != nil {
+				if err := tt.setup(); err != nil {
+					t.Errorf("SourceAcquisitionTimeoutForSafe() = failed to setup, with error: %+v", err)
+				}
+			}
+			defer func() {
+				if tt.cleanup != nil {
+					if err := tt.cleanup(); err != nil {
+						t.Errorf("SourceAcquisitionTimeoutForSafe() = failed to cleanup, with error: %+v", err)
+					}
+				}
+			}()
+			if got := SourceAcquisitionTimeoutForSafe(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SourceAcquisitionTimeoutForSafe() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestSafeBootstrapTimeout(t *testing.T) {
 	tests := []struct {
 		name    string

@@ -44,6 +44,46 @@ func TestJsonTime_MarshalJSON(t *testing.T) {
 	}
 }
 
+func TestJsonTimeUnmarshalJSON(t *testing.T) {
+	testCases := []struct {
+		name     string
+		jsonData []byte
+		wantErr  bool
+	}{
+		{
+			name:     "invalid_json_data",
+			jsonData: []byte(`"invalid_date"`),
+			wantErr:  true,
+		},
+		{
+			name:     "valid_json_data",
+			jsonData: []byte(`"2024-03-01T12:00:00Z"`),
+			wantErr:  false,
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			var jsonTime JsonTime
+			err := jsonTime.UnmarshalJSON(tt.jsonData)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestJsonTimeString(t *testing.T) {
+	jsonTime := JsonTime(time.Now())
+
+	expectedTimeStr := time.Now().Format(time.RFC3339)
+
+	result := jsonTime.String()
+
+	if result != expectedTimeStr {
+		t.Errorf("Expected: %s, Got: %s", expectedTimeStr, result)
+	}
+}
+
 func Test_parseForK8sSecret(t *testing.T) {
 	type args struct {
 		secret SecretStored
