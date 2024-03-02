@@ -512,6 +512,15 @@ Defaults to `"/opt/vsecm-sentinel/tombstone/init"`.
 This path is usually used to store a “*tombstone*” file or data indicating that
 the initialization command has been executed or is no longer valid.
 
+### VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT
+
+`VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT` it the timeout duration for
+**VSecM Sentinel** to wait for **VSecM Safe** to be operational before 
+executing the initialization commands.
+
+If the environment variable is not set or invalid, a default timeout of
+`300000` milliseconds (5 minutes) is used.
+
 ### VSECM_SENTINEL_LOGGER_URL
 
 `VSECM_SENTINEL_LOGGER_URL` ise the URL for the **VSecM Sentinel** Logger.
