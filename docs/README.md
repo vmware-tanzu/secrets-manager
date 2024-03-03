@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -34,10 +34,10 @@ next_url: /docs/community/
 > 
 > Welcome to **VMware Secrets Manager** for Cloud-Native Apps (*VSecM*)️.
 > 
-> **VSecM** keeps your secrets… secret, so you can `#sleepmore`.
+> **VSecM** keeps your secrets... secret, so you can `#sleepmore`.
 {: .block-tip}
 
-## Keep Your Secrets… Secret
+## Keep Your Secrets... Secret
 
 **VMware Secrets Manager** *for Cloud-Native Apps* is a secure store for secrets
 management. It provides a minimal and intuitive API, ensuring practical security 
@@ -77,15 +77,15 @@ workloads, offering *centralized* and *secure* secrets store for your clusters.
 By leveraging Kubernetes security primitives, [**SPIRE**][spire], and strong,
 industry-standard encryption, **VMware Secrets Manager** ensures that your 
 secrets are **only** accessible to **trusted** and **authorized** workloads. 
-**VMware Secrets Manager**’s Cloud Native—secure by default—foundation helps 
+**VMware Secrets Manager**'s Cloud Native--secure by default--foundation helps 
 you safeguard your business and protect against data breaches.
 
-[Check out **VMware Secret Manager**’s *GitHub* for details][vsecm-github].
+[Check out **VMware Secret Manager**'s *GitHub* for details][vsecm-github].
 
 [spire]: https://spiffe.io/spire
 [vsecm-github]: https://github.com/vmware-tanzu/secrets-manager
 
-If you haven’t watched them yet, now might be a good time 🙂.
+If you haven't watched them yet, now might be a good time 🙂.
 
 ## Thanks ❤️
 

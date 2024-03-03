@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -60,7 +60,7 @@ func Serve(source *workloadapi.X509Source, serverStarted chan<- bool) error {
 		}
 
 		return errors.New(
-			"TLS Config: I don’t know you, and it’s crazy '" + id.String() + "'",
+			"TLS Config: I don't know you, and it's crazy '" + id.String() + "'",
 		)
 	})
 

@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -30,7 +30,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	spiffeid string, encrypted bool,
 ) {
 	if !state.RootKeySet() {
-		log.InfoLn(&cid, "List: Root key not set")
+		log.InfoLn(&cid, "Masked: Root key not set")
 		return
 	}
 
@@ -50,16 +50,16 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		return
 	}
 
-	log.TraceLn(&cid, "List: before defer")
+	log.TraceLn(&cid, "Masked: before defer")
 
 	defer func() {
 		err := r.Body.Close()
 		if err != nil {
-			log.InfoLn(&cid, "List: Problem closing body")
+			log.InfoLn(&cid, "Masked: Problem closing body")
 		}
 	}()
 
-	log.TraceLn(&cid, "List: after defer")
+	log.TraceLn(&cid, "Masked: after defer")
 
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForSentinel(), "", 1)
 	parts := strings.Split(tmp, "/")
@@ -71,7 +71,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
 		if err != nil {
-			log.InfoLn(&cid, "List: Problem with spiffeid", spiffeid)
+			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
 		}
 
 		return
@@ -80,7 +80,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	workloadId := parts[0]
 	secrets := state.AllSecrets(cid)
 
-	log.DebugLn(&cid, "List: will send. workload id:", workloadId)
+	log.DebugLn(&cid, "Masked: will send. workload id:", workloadId)
 
 	if encrypted {
 		algo := crypto.Age
@@ -109,19 +109,19 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			_, err := io.WriteString(w, "List: Problem marshalling response")
+			_, err := io.WriteString(w, "Masked: Problem marshalling response")
 			if err != nil {
-				log.ErrorLn(&cid, "List: Problem sending response", err.Error())
+				log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
 			}
 			return
 		}
 
 		_, err = io.WriteString(w, string(resp))
 		if err != nil {
-			log.ErrorLn(&cid, "List: Problem sending response", err.Error())
+			log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
 		}
 
-		log.DebugLn(&cid, "List: after response")
+		log.DebugLn(&cid, "Masked: after response")
 		return
 	}
 
@@ -136,17 +136,17 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	resp, err := json.Marshal(sfr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err := io.WriteString(w, "List: Problem marshalling response")
+		_, err := io.WriteString(w, "Masked: Problem marshalling response")
 		if err != nil {
-			log.ErrorLn(&cid, "List: Problem sending response", err.Error())
+			log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
 		}
 		return
 	}
 
 	_, err = io.WriteString(w, string(resp))
 	if err != nil {
-		log.ErrorLn(&cid, "List: Problem sending response", err.Error())
+		log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
 	}
 
-	log.DebugLn(&cid, "List: after response")
+	log.DebugLn(&cid, "Masked: after response")
 }

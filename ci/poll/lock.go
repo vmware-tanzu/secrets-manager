@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -43,7 +43,7 @@ func createLockFile() error {
 
 	if time.Since(fileInfo.ModTime()) > 24*time.Hour {
 
-		// File is older than one day, attempt to remove it and create a new one
+		// File is older than one day, attempt to deletion it and create a new one
 		removeErr := os.Remove(lockFilePath)
 		if removeErr != nil {
 			return removeErr

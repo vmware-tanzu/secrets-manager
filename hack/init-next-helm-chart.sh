@@ -4,9 +4,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -70,7 +70,7 @@ do
     s/^appVersion: \"${baseHelmChartVersion}\"/appVersion: \"${newHelmChartVersion}\"/;\
     s/^    version: ${baseHelmChartVersion}/    version: ${newHelmChartVersion}/"\
     "${newHelmChartPath}/${file_name}" || exit 1
-    # remove backup file
+    # deletion backup file
     rm "${newHelmChartPath}/${file_name}-e"
 done
 

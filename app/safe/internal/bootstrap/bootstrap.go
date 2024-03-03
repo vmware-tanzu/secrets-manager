@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -92,7 +92,7 @@ func Monitor(
 				go probe.CreateReadiness()
 				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
 			}
-		// Things didn’t start in a timely manner:
+		// Things didn't start in a timely manner:
 		case <-timedOut:
 			log.FatalLn(correlationId, "Failed to acquire an identity in a timely manner.")
 		}
@@ -130,7 +130,7 @@ func AcquireSource(
 	svidId := svid.ID
 	if !validation.IsSafe(svid.ID.String()) {
 		log.FatalLn(
-			id, "SpiffeId check: I don’t know you, and it’s crazy:", svidId.String(),
+			id, "SpiffeId check: I don't know you, and it's crazy:", svidId.String(),
 		)
 	}
 

@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -38,14 +38,14 @@ func main() {
 		d, err := sentry.Fetch()
 
 		if err != nil {
-			println("Failed to read the secrets file. Will retry in 5 seconds…")
+			println("Failed to read the secrets file. Will retry in 5 seconds...")
 			println(err.Error())
 			time.Sleep(5 * time.Second)
 			continue
 		}
 
 		if d.Data == "" {
-			println("no secret yet… will check again later.")
+			println("no secret yet... will check again later.")
 			time.Sleep(5 * time.Second)
 			continue
 		}

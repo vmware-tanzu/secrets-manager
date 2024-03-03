@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -66,7 +66,7 @@ followed, a bug **MUST** be filed to address this issue immediately.
 
 ## About Tests
 
-High-quality software is not just about features and performance; it’s also 
+High-quality software is not just about features and performance; it's also 
 about reliability and predictability. Automated testing is a cornerstone in 
 achieving these goals.
 
@@ -76,13 +76,13 @@ Here is an informal guideline about how we approach testing in
 As major new functionality is added to the software produced by this project, 
 corresponding tests **MUST** be added to an automated test suite.
 
-In this context, “**Major New Functionality**” means features or changes that
+In this context, "**Major New Functionality**" means features or changes that
 *substantially* alter the behavior, capabilities, or user experience of the 
 software.
 
 ## Report a Security Vulnerability
 
-We take **VMware Secrets Manager**’s security seriously. If you believe you have
+We take **VMware Secrets Manager**'s security seriously. If you believe you have
 found a vulnerability, please [**follow this guideline**][vuln]
 to responsibly disclose it.
 

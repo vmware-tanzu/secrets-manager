@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -18,7 +18,7 @@ import (
 )
 
 func ForExampleWorkloadDeletion() error {
-	println("Waiting for example workload deletion…")
+	println("Waiting for example workload deletion...")
 
 	_, err := io.Exec("kubectl", "wait",
 		"--for=delete", "deployment", "-n",
@@ -34,7 +34,7 @@ func ForExampleWorkloadDeletion() error {
 }
 
 func ForExampleWorkload() error {
-	println("Waiting for example workload…")
+	println("Waiting for example workload...")
 
 	const maxRetries = 5
 	for retries := 0; retries < maxRetries; retries++ {

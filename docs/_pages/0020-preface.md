@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -37,12 +37,12 @@ GitHub][github] to see how that is done.
 
 ## Terminology: A Tale of Two Secrets
 
-There are two kinds of “*secret*”s mentioned throughout this documentation:
+There are two kinds of "*secret*"s mentioned throughout this documentation:
 
 * Secrets that are stored in **VSecM Safe**: When discussing these, they will
-  be used like a regular word “secret” or, emphasized “**secret**”; however,
+  be used like a regular word "secret" or, emphasized "**secret**"; however,
   you will never see them in `monotype text`.
 * The other kind of secret is Kubernetes `Secret` objects. Those types
-  will be explicitly mentioned as “*Kubernetes `Secret`s*” in the documentation.
+  will be explicitly mentioned as "*Kubernetes `Secret`s*" in the documentation.
 
 We hope this will clarify any confusion going forward.

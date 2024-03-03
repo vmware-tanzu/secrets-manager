@@ -49,13 +49,13 @@ Before you submit this PR, please make sure:
 - [ ] You have thoroughly tested your changes.
 - [ ] You have followed all the contributing guidelines for this project.
 - [ ] You understand and agree that your contributions will be publicly available 
-  under the project’s license.
+  under the project's license.
 
 [contributing]: https://vsecm.com/docs/contributing/
 [test-policy]: https://vsecm.com/docs/contributing/#add-tests-for-new-features
 
 *By submitting this pull request, you confirm that my contribution is made under 
-the terms of the project’s license and that you have the authority to grant 
+the terms of the project's license and that you have the authority to grant 
 these rights.*
 
 ---

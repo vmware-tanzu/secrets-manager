@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -35,7 +35,7 @@ of how to use **VMware Secrets Manager** to manage your secrets.
 ## Follow the White Rabbit 🐇
 
 We advise you to follow these tutorials in the sequence they are presented here.
-We’ve structured them this way to start with simpler use cases and progressively
+We've structured them this way to start with simpler use cases and progressively
 introduce more advanced techniques as we build upon our knowledge.
 
 1. [Overview and Prerequisites](/docs/use-cases-overview)

@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -191,7 +191,7 @@ func BackingStoreForSafe() data.BackingStore {
 //
 //	data:
 //	  # '{}' (e30=) is a special placeholder to tell Safe that the Secret
-//	  # is not initialized. DO NOT remove or change it.
+//	  # is not initialized. DO NOT deletion or change it.
 //	  KEY_TXT: "e30="
 //
 // 2. This approach is LESS secure, and it is meant to be used for LEGACY

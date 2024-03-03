@@ -147,7 +147,7 @@
                         {% if post.kind == "VSecMBlog" %}
                         <a href="{{site.baseurl}}{{post.url}}" class="blog-listing-link">
                             <h2>{{ post.title | escape }}</h2>
-                            <p>{{ post.excerpt | truncate: 250, "…" }}</p>
+                            <p>{{ post.excerpt | truncate: 250, "..." }}</p>
                             <p class="blog-author-info">by <span
                             ><strong>{{ post.author }}</strong></span><span
                             style="display:inline-block;padding:0 4px">·</span><span

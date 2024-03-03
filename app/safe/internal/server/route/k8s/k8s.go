@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -13,7 +13,7 @@ package k8s
 import (
 	"context"
 	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/backoff"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	apiV1 "k8s.io/api/core/v1"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,6 +21,13 @@ import (
 	"k8s.io/client-go/rest"
 )
 
+// MarkInitializationSecretAsCompleted updates the VSecM Sentinel Tombstone
+// Kubernetes secret to indicate that an initialization process has completed.
+//
+// Returns:
+//   - error: Returns an error if any step of the configuration retrieval, client
+//     creation, secret retrieval, or secret update fails. Errors are wrapped with
+//     context for easier debugging.
 func MarkInitializationSecretAsCompleted() error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -72,6 +79,7 @@ func MarkInitializationSecretAsCompleted() error {
 			return err
 		},
 	)
+
 	if err != nil {
 		return errors.Wrap(err, "error updating the secret")
 	}

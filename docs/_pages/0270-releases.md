@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -20,7 +20,7 @@ next_url: /docs/roadmap/
 ><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0270-releases.md"
 >edit this page on <strong>GitHub</strong> ✏️</a></p>
 
-**VMware Secrets Manager** signs all of its releases using GitHub’s built-in
+**VMware Secrets Manager** signs all of its releases using GitHub's built-in
 signing process. We also sign our container images using 
 [*Docker Content Trust*][docker-content-trust].
 

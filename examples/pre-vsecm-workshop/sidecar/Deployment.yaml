@@ -2,9 +2,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -49,7 +49,7 @@ spec:
         # See https://vsecm.com/configuration for more information about
         # these environment variables.
         #
-        # When you don’t explicitly provide env vars here, VMware Secrets Manager
+        # When you don't explicitly provide env vars here, VMware Secrets Manager
         # Safe will assume the default values outlined in the given link above.
         #
         env:

@@ -4,12 +4,13 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+# TODO: this one discards $ORIGIN for now. pass $ORIGIN to it too.
 go run ./ci/test/main.go ./ci/test/run.go
 
 ## Enable strict error checking.
@@ -32,7 +33,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #  printf "Also, make sure you have executed 'eval \$(minikube docker-env)\'\n"
 #  printf "before running this script.\n"
 #  printf "\n"
-#  read -n 1 -s -r -p "Press any key to proceed…"
+#  read -n 1 -s -r -p "Press any key to proceed..."
 #  printf "\n\n"
 #fi
 #
@@ -70,7 +71,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Removes the secret and the demo workload deployment.
 #cleanup() {
-#  printf "Cleanup…\n"
+#  printf "Cleanup...\n"
 #
 #  local sentinel
 #  readonly sentinel=$(define_sentinel)
@@ -93,7 +94,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Deletes the secret associated with the 'example' workload.
 #delete_secret() {
-#  printf "Deleting secret…\n"
+#  printf "Deleting secret...\n"
 #
 #  local sentinel
 #  readonly sentinel=$(define_sentinel)
@@ -220,7 +221,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #  fi
 #}
 #
-## Ensures that the value and the workload’s secret value are equal.
+## Ensures that the value and the workload's secret value are equal.
 #assert_workload_secret_value() {
 #  local workload
 #  local value
@@ -254,7 +255,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #  fi
 #}
 #
-## Ensures that the current workload’s secret is empty.
+## Ensures that the current workload's secret is empty.
 #assert_workload_secret_no_value() {
 #  local workload
 #  local res
@@ -355,7 +356,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Wait for the workload to be ready.
 #wait_for_example_workload() {
-#  printf "Waiting for example workload…\n"
+#  printf "Waiting for example workload...\n"
 #
 #  max_retries=5
 #  retries=0
@@ -375,9 +376,9 @@ go run ./ci/test/main.go ./ci/test/run.go
 #}
 #
 #
-## Wait until the workload’s deployment is deleted.
+## Wait until the workload's deployment is deleted.
 #wait_for_example_workload_deletion() {
-#  printf "Waiting for example workload deletion…\n"
+#  printf "Waiting for example workload deletion...\n"
 #
 #  kubectl wait --for=delete deployment -n default \
 #    --selector=app.kubernetes.io/name=example || \
@@ -386,20 +387,20 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Pauses the test for 15 seconds to let the sidecar poll the secret.
 #pause() {
-#  printf "Waiting for 15 seconds to let the sidecar poll the secret…\n"
+#  printf "Waiting for 15 seconds to let the sidecar poll the secret...\n"
 #  sleep 15
 #}
 #
 ## Pauses the test for 15 seconds to let the init container pull the image.
 #pause_for_deploy() {
-#  printf "Waiting for 15 seconds to pull the image…\n"
+#  printf "Waiting for 15 seconds to pull the image...\n"
 #  sleep 15
 #}
 #
 ## Pauses the test for 30 seconds to let the init container run, or for other
 ## operations to complete.
 #pause_just_in_case() {
-#  printf "Waiting for 30 seconds, just in case…\n"
+#  printf "Waiting for 30 seconds, just in case...\n"
 #  sleep 30
 #}
 #
@@ -564,7 +565,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Deploys a workload that uses VSecM SDK.
 #deploy_workload_using_sdk() {
-#  printf "Deploying workload that uses the SDK…\n"
+#  printf "Deploying workload that uses the SDK...\n"
 #
 #  if [ "$ORIGIN" == "remote" ]; then
 #    make example-sdk-deploy
@@ -583,7 +584,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Deploys a workload that uses VSecM Sidecar.
 #deploy_workload_using_sidecar() {
-#  printf "Deploying workload that uses the sidecar…\n"
+#  printf "Deploying workload that uses the sidecar...\n"
 #
 #  if [ "$ORIGIN" == "remote" ]; then
 #    make example-sidecar-deploy
@@ -602,7 +603,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Deploys a workload that uses VSecM Init Container.
 #deploy_workload_using_init_container() {
-#  printf "Deploying workload that uses the init container…\n"
+#  printf "Deploying workload that uses the init container...\n"
 #
 #  if [ "$ORIGIN" == "remote" ]; then
 #    make example-init-container-deploy
@@ -632,7 +633,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the encryption of secrets.
 #test_encrypting_secrets() {
-#  printf "Testing: Encrypting secrets…\n"
+#  printf "Testing: Encrypting secrets...\n"
 #
 #  local value
 #  readonly value="!VSecMRocks!"
@@ -656,7 +657,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #cleanup
 #printf "\n"
 #printf "________________________________________\n"
-#printf "Case: Workload using VSecM SDK…\n"
+#printf "Case: Workload using VSecM SDK...\n"
 #printf "\n"
 #deploy_workload_using_sdk
 #
@@ -664,7 +665,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets.
 #test_secret_registration() {
-#  printf "Testing: Secret registration…\n"
+#  printf "Testing: Secret registration...\n"
 #
 #  local value
 #  readonly value="!VSecMRocks!"
@@ -681,7 +682,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the deletion of secrets.
 #test_secret_deletion() {
-#  printf "Testing: Secret deletion…\n"
+#  printf "Testing: Secret deletion...\n"
 #
 #  delete_secret
 #  assert_workload_secret_no_value
@@ -695,7 +696,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in append mode.
 #test_secret_registration_append() {
-#  printf "Testing: Secret registration (append mode)…\n"
+#  printf "Testing: Secret registration (append mode)...\n"
 #
 #  local secret1
 #  local secret2
@@ -719,7 +720,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in JSON format.
 #test_secret_registration_json_format() {
-#  printf "Testing: Secret registration (JSON transformation)…\n"
+#  printf "Testing: Secret registration (JSON transformation)...\n"
 #
 #  local value
 #  local transform
@@ -743,7 +744,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in YAML format.
 #test_secret_registration_yaml_format() {
-#  printf "Testing: Secret registration (YAML transformation)…\n"
+#  printf "Testing: Secret registration (YAML transformation)...\n"
 #
 #  local value
 #  local transform
@@ -772,18 +773,18 @@ go run ./ci/test/main.go ./ci/test/run.go
 #cleanup
 #printf "\n"
 #printf "________________________________________\n"
-#printf "Case: Workload using VSecM Sidecar…\n"
+#printf "Case: Workload using VSecM Sidecar...\n"
 #printf "\n"
 #deploy_workload_using_sidecar
 #
 ## Note: for sidecar case, keep in mind that the poll interval is 5 seconds,
-## based on the overridden value in the example’s deployment.
+## based on the overridden value in the example's deployment.
 #
 ## ------------------------------------------------------------------------------
 #
 ## Tests the registration of secrets using VSecM Sidecar.
 #test_secret_registration_sidecar() {
-#  printf "Testing: Secret registration…\n"
+#  printf "Testing: Secret registration...\n"
 #
 #  local value
 #  readonly value="!VSecMRocks!"
@@ -801,7 +802,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the deletion of secrets using VSecM Sidecar.
 #test_secret_deletion_sidecar() {
-#  printf "Testing: Secret deletion (sidecar)…\n"
+#  printf "Testing: Secret deletion (sidecar)...\n"
 #
 #  delete_secret
 #  pause
@@ -816,7 +817,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in append mode using VSecM Sidecar.
 #test_secret_registration_append_sidecar() {
-#  printf "Testing Secret registration (append mode)…\n"
+#  printf "Testing Secret registration (append mode)...\n"
 #
 #  local secret1
 #  local secret2
@@ -841,7 +842,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in JSON format using VSecM Sidecar.
 #test_secret_registration_json_format_sidecar() {
-#  printf "Testing Secret registration (JSON transformation)…\n"
+#  printf "Testing Secret registration (JSON transformation)...\n"
 #
 #  local value
 #  local transform
@@ -866,7 +867,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## Tests the registration of secrets in YAML format using VSecM Sidecar.
 #test_secret_registration_yaml_format_sidecar() {
-#  printf "Testing Secret registration (YAML transformation)…\n"
+#  printf "Testing Secret registration (YAML transformation)...\n"
 #
 #  local value
 #  local transform
@@ -895,12 +896,12 @@ go run ./ci/test/main.go ./ci/test/run.go
 #cleanup
 #printf "\n"
 #printf "________________________________________\n"
-#printf "Case: Workload using VSecM Init Container…\n"
+#printf "Case: Workload using VSecM Init Container...\n"
 #printf "\n"
 #
 ## Tests the registration of secrets using VSecM Init Container.
 #test_init_container() {
-#  printf "Testing: Init Container…\n"
+#  printf "Testing: Init Container...\n"
 #
 #  deploy_workload_using_init_container
 #  pause_for_deploy
@@ -918,7 +919,7 @@ go run ./ci/test/main.go ./ci/test/run.go
 #
 ## ------------------------------------------------------------------------------
 #
-#printf "All done. Cleaning up…\n"
+#printf "All done. Cleaning up...\n"
 #
 #cleanup
 #happy_exit

@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -19,7 +19,7 @@ import (
 )
 
 func WorkloadUsingSDK() error {
-	println("Deploying workload that uses the SDK…")
+	println("Deploying workload that uses the SDK...")
 
 	origin := os.Getenv("ORIGIN")
 	var deployCommand string
@@ -52,7 +52,7 @@ func WorkloadUsingSDK() error {
 }
 
 func WorkloadUsingSidecar() error {
-	println("Deploying workload that uses the sidecar…")
+	println("Deploying workload that uses the sidecar...")
 
 	origin := os.Getenv("ORIGIN")
 	var command string
@@ -84,7 +84,7 @@ func WorkloadUsingSidecar() error {
 }
 
 func WorkloadUsingInitContainer() error {
-	println("Deploying workload that uses the init container…")
+	println("Deploying workload that uses the init container...")
 
 	origin := os.Getenv("ORIGIN")
 	var command string

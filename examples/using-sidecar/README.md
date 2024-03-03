@@ -2,14 +2,14 @@
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/ keep your secrets… secret
+<>/ keep your secrets... secret
 ```
 
 ## Use Case: Leveraging VSecM Sidecar
 
 This example demonstrates how to use **VSecM Sidecar** along with your workload.
 
-When you use **VSecM Sidecar**, you don’t need to modify your workload. 
+When you use **VSecM Sidecar**, you don't need to modify your workload. 
 **VSecM Sidecar** can fetch and provide the secrets that your workload needs
 automatically.
 
@@ -41,17 +41,17 @@ cd $WORKSPACE/vmware-secrets-manager
 make build-local
 # Deploy the use case:
 make example-sidecar-deploy-local
-# Switch to this use case’s folder:
+# Switch to this use case's folder:
 cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
 # Register a secret:
 ./register.sh
-# Tail the workload’s logs and verify that the secret is there:
+# Tail the workload's logs and verify that the secret is there:
 ./tail.sh
 ```
 
 ## Using Pre-Deployed Images
 
-If you don’t want to build the container images locally, you can use
+If you don't want to build the container images locally, you can use
 pre-deployed container images.
 
 ```bash 
@@ -59,10 +59,10 @@ pre-deployed container images.
 cd $WORKSPACE/vmware-secrets-manager 
 # Deploy the use case from the pre-built image.
 make example-sidecar-deploy
-# Switch to this use case’s folder:
+# Switch to this use case's folder:
 cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
 # Register a secret:
 ./register.sh
-# Tail the workload’s logs and verify that the secret is there:
+# Tail the workload's logs and verify that the secret is there:
 ./tail.sh
 ```

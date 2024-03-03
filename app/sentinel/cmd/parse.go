@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -67,7 +67,7 @@ func parseWorkload(parser *argparse.Parser) *string {
 	return parser.String("w", "workload", &argparse.Options{
 		Required: false,
 		Help: "name of the workload (i.e. the '$name' segment of its " +
-			"ClusterSPIFFEID ('spiffe://trustDomain/workload/$name/…'))",
+			"ClusterSPIFFEID ('spiffe://trustDomain/workload/$name/...'))",
 	})
 }
 

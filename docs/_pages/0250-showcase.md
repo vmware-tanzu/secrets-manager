@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -173,7 +173,7 @@ organization][vsecm].
 In the meantime, you can check out the videos that relate to **Aegis**. Aside
 from the name, the videos are still relevant. 
 
-> **Replace “Aegis” with “VSecM”**
+> **Replace "Aegis" with "VSecM"**
 > 
 > When watching the videos remember to replace **Aegis** with **VMware Secrets Manager**,
 > and the `aegis` command in **Aegis Sentinel** with the `safe` command in 

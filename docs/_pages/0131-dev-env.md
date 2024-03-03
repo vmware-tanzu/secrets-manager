@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -61,7 +61,7 @@ environment to be able to locally develop **VMware Secrets Manager**:
 ## Alternate Non-Minikube Setup on Mac OS
 
 The rest of this document assumes that you are using **Minikube** and **Docker**;
-however, if you are on a Mac, want to use **Docker for Mac’s Kubernetes Distribution**,
+however, if you are on a Mac, want to use **Docker for Mac's Kubernetes Distribution**,
 you can install them as described below and skip the sections that are
 specific to **Minikube**.
 
@@ -73,28 +73,28 @@ Download and install [Docker for Mac][docker-mac] on your system.
 
 ### Enable Kubernetes on Docker for Mac
 
-Once you have Docker for Mac installed, you’ll need to enable Kubernetes on it.
+Once you have Docker for Mac installed, you'll need to enable Kubernetes on it.
 To do that, follow the steps below:
 
-1. Open Docker for Mac’s preferences.
-2. Go to the “**Kubernetes**” tab.
-3. Check the “**Enable Kubernetes**” checkbox.
+1. Open Docker for Mac's preferences.
+2. Go to the "**Kubernetes**" tab.
+3. Check the "**Enable Kubernetes**" checkbox.
 
 ### Disabling Airplay Receiver
 
 Airplay Receiver uses port 5000 by default, which is the same port that dokcer
 registry uses.
 
-To fix the first issue, on your Mac’s “**System Settings**” you’ll need to go to
-“**Setting » Airdrop & Handoff » Airplay Receiver**” and on that screen…
+To fix the first issue, on your Mac's "**System Settings**" you'll need to go to
+"**Setting » Airdrop & Handoff » Airplay Receiver**" and on that screen...
 
-* **uncheck** “*allow handoff between this Mac and your iCloud devices*”,
-* make sure “**Airdrop**” is selected as “**no one**”.
-* then you might need to kill the process that’s using port 5000 or restart your
+* **uncheck** "*allow handoff between this Mac and your iCloud devices*",
+* make sure "**Airdrop**" is selected as "**no one**".
+* then you might need to kill the process that's using port 5000 or restart your
   system.
 
 Alternatively, you can bind a different port to the docker registry. But when
-you do that, you’ll need to make sure that you update other files in the
+you do that, you'll need to make sure that you update other files in the
 project too that reference `localhost:5000`.
 
 ### Install Docker Registry
@@ -115,14 +115,14 @@ build and install **VMware Secrets Manager** locally.
 ## Alternate Non-Minikube Setup Using Kind
 
 If you are using [Kind][kind] to set up your local Kubernetes cluster, you
-don’t need to do anything special. Just make sure that you have a local 
+don't need to do anything special. Just make sure that you have a local 
 container registry running on port `5000`:
 
 ```bash
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
-You may also want to check out [`kind`’s instructions for setting up a local
+You may also want to check out [`kind`'s instructions for setting up a local
 registry][kind-local-registry].
 
 [kind]: https://kind.sigs.k8s.io/
@@ -195,7 +195,7 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 ## Building, Deploying, and Testing
 
-Now let’s explain some of these steps (*and for the remainder, you can read
+Now let's explain some of these steps (*and for the remainder, you can read
 the `Makefile` at the project root):
 
 * `make k8s-delete`: Deletes your minikube cluster.
@@ -205,9 +205,9 @@ the `Makefile` at the project root):
 * `make deploy-local`: Deploys **VMware Secrets Manager** locally with the
   artifacts generated at the `build-local` step.
 * `make test-local`: Runs integration tests to make sure that the changes
-  that were made doesn’t break anything.
+  that were made doesn't break anything.
 
-If you run these commands in the above order, you’ll be able to **build**,
+If you run these commands in the above order, you'll be able to **build**,
 **deploy**, and **test** your work locally.
 
 [docker]: https://www.docker.com/
@@ -216,7 +216,7 @@ If you run these commands in the above order, you’ll be able to **build**,
 
 ### Docker for Mac Troubleshooting
 
-When you use **Minikube** with **Docker for Mac**, you’ll likely get a warning
+When you use **Minikube** with **Docker for Mac**, you'll likely get a warning
 similar to the following:
 
 ```bash {% raw %}
@@ -226,15 +226,15 @@ make k8s-start
 
 ./hack/minikube-start.sh
 
-…
-… truncated …
-…
+...
+... truncated ...
+...
 
 Registry addon with docker driver uses port 50565
 please use that instead of 
 default port 5000 
 
-…{% endraw %}
+...{% endraw %}
 ```
 
 The port `50656` is a randomly-selected port. Every time you run `make k8s-start`
@@ -254,14 +254,14 @@ There are two issues here:
 * First, all the local development scripts assume port 5000 as the repository port;
   however, port `5000` on your Mac will likely be controlled by the
   **Airplay Receiver**.
-* And secondly, you’ll need to forward `localhost:5000` to whatever port the error
+* And secondly, you'll need to forward `localhost:5000` to whatever port the error
   message shows you.
 
-To fix the first issue, on your Mac’s “**System Settings**” you’ll need to go to
-“**Setting » Airdrop & Handoff » Airplay Receiver**” and on that screen…
+To fix the first issue, on your Mac's "**System Settings**" you'll need to go to
+"**Setting » Airdrop & Handoff » Airplay Receiver**" and on that screen...
 
-* **uncheck** “*allow handoff between this Mac and your iCloud devices*”,
-* make sure “**Airdrop**” is selected as “**no one**”
+* **uncheck** "*allow handoff between this Mac and your iCloud devices*",
+* make sure "**Airdrop**" is selected as "**no one**"
 * and finally, after updating your settings,  **restart your Mac**
   (*this step is important; without restart, your macOS will still hold onto
   that port*)
@@ -269,14 +269,14 @@ To fix the first issue, on your Mac’s “**System Settings**” you’ll need 
 Note that where these settings are can be slightly different from one version
 of macOS to another.
 
-As for the second issue, to redirect your local `:5000` port to the docker engine’s
+As for the second issue, to redirect your local `:5000` port to the docker engine's
 designated port, you can use [`socat`][socat].
 
 [socat]: http://www.dest-unreach.org/socat/ "socat: Multipurpose Relay"
 
 ```bash 
 {% raw %}
-# Install `socat` if you don’t have it on your system.
+# Install `socat` if you don't have it on your system.
 brew install socat
 
 # Replace 49876 with whatever port the warning message 
@@ -303,7 +303,7 @@ you have successfully set up your local docker registry for your
 > **Make a Big McTunnel**
 >
 > If you have `localhost:5000` unallocated, there is a `make mac-tunnel`
-> target in the **VMware Secrets Manager**’s project **Makefile** that will
+> target in the **VMware Secrets Manager**'s project **Makefile** that will
 > automatically find the exposed docker registry port, and establish a
 > tunnel for you.
 >
@@ -374,7 +374,7 @@ still be having.
 > more.
 >
 > Especially when it comes to Docker permissions, restarting can help,
-> and worst case it’s still worth giving a try.
+> and worst case it's still worth giving a try.
 {: .block-tip}
 
 [post-installation]: https://docs.docker.com/engine/install/linux-postinstall/
@@ -382,7 +382,7 @@ still be having.
 Still no luck? Keep on reading.
 
 Depending on your operating system, and the Minikube version that you use
-it might take a while to find a way to push images to Minikube’s internal
+it might take a while to find a way to push images to Minikube's internal
 Docker registry. [The relevant section about the Minikube handbook][minikube-push]
 covers a lot of details, and can be helpful; however, it is also really easy
 skip or overlook certain steps.
@@ -391,7 +391,7 @@ If you have `docker push` issues, or you have problem your Kubernetes Pods
 acquiring images from the local registry, try these:
 
 * Execute `eval $(minikube docker-env)` before pushing things to **Docker**. This
-  is one of the first instructions [on the “*push*” section of the Minikube
+  is one of the first instructions [on the "*push*" section of the Minikube
   handbook][minikube-push], yet it is still very easy to inadvertently skip it.
 * Make sure you have the registry addon enabled
     * (`minikube addons list`).
@@ -405,16 +405,16 @@ acquiring images from the local registry, try these:
 
 ## Checking Logs
 
-It’s always a good idea to check **SPIRE Server**’s and **VSecM Safe**’s logs
+It's always a good idea to check **SPIRE Server**'s and **VSecM Safe**'s logs
 to ensure that they are running as expected.
 
-To check **SPIRE Server**’s logs, execute the following:
+To check **SPIRE Server**'s logs, execute the following:
 
 ```bash
 kubectl logs -n spire-system $NAME_OF_SPIRE_SERVER_POD -f
 ```
 
-To check **VSecM Safe**’s logs, execute the following:
+To check **VSecM Safe**'s logs, execute the following:
 
 ```bash
 kubectl logs -n vsecm-system $NAME_OF_VSECM_SAFE_POD -f 
@@ -425,7 +425,7 @@ kubectl logs -n vsecm-system $NAME_OF_VSECM_SAFE_POD -f
 **SPIRE Server** has a command lin interface that you can use to directly 
 interact with it. This can prove to be useful when you are debugging issues.
 
-Here’s an example:
+Here's an example:
 
 ```bash
 # $SPIRE_SERVER is the name of the SPIRE Server pod.

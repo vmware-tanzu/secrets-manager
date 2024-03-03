@@ -4,9 +4,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -31,7 +31,7 @@ fi
 if kubectl delete deployment example -n default; then
   echo "Deleted demo workload too.";
 else
-  echo "No demo workload to delete?… No worries: That’s fine.";
+  echo "No demo workload to delete?... No worries: That's fine.";
 fi
 
 echo "Everything is awesome!"

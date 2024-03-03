@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -24,7 +24,7 @@ next_url: /docs/use-case-encryption/
 
 In certain situations you might not have full control over the source code
 of your workloads. For example, your workload can be a containerized third
-party binary executable that you don’t have the source code of. It might
+party binary executable that you don't have the source code of. It might
 be consuming Kubernetes `Secret`s through injected environment variables,
 and the like.
 
@@ -37,13 +37,13 @@ after you go through this tutorial.
 
 ## Cleanup
 
-Let’s remove our workload and its associated secret to start with a
+Let's remove our workload and its associated secret to start with a
 clean slate:
 
 ```bash
 # Remove the workload deployment:
 kubectl delete deployment example
-# Find the sentinel pod’s name:
+# Find the sentinel pod's name:
 kubectl get po -n vsecm-system 
 # Delete the secret:
 kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
@@ -58,7 +58,7 @@ kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
 ## Read the Source
 
 Make sure [you examine the manifests][workload-yaml] to gain an understanding
-of what kinds of entities you’ve deployed to your cluster.
+of what kinds of entities you've deployed to your cluster.
 
 [workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using-init-container/k8s
 
@@ -73,7 +73,7 @@ The following is the main application that the workload runs:
 // ./examples/workload-using-init-container/main.go
 
 func main() {
-    // … Truncated …
+    // ... Truncated ...
     
 	for {
 		fmt.Printf("My secret: '%s'.\n", os.Getenv("SECRET"))
@@ -90,7 +90,7 @@ func main() {
 As you see, the code tries to parse several environment variables. But,
 where does it get them?
 
-For that let’s look into the [`Deployment.yaml`][deployment-yaml] manifest:
+For that let's look into the [`Deployment.yaml`][deployment-yaml] manifest:
 
 ```yaml
 apiVersion: apps/v1
@@ -131,13 +131,13 @@ spec:
                 name: vsecm-secret-example
                 key: PASSWORD
 
-# … Truncated  … 
+# ... Truncated  ... 
 ```
 
 In the deployment manifest, there are environment variable bindings from a
 secret named `vsecm-secret-example`.
 
-Let’s [look into that secret too][secret-yaml]:
+Let's [look into that secret too][secret-yaml]:
 
 ```yaml
 apiVersion: v1
@@ -148,7 +148,7 @@ metadata:
 type: Opaque
 ```
 
-As you see, the secret doesn’t have any data associated with it.
+As you see, the secret doesn't have any data associated with it.
 We will dynamically populate it using **VSecM Sentinel** soon.
 
 [deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Deployment.yaml
@@ -156,7 +156,7 @@ We will dynamically populate it using **VSecM Sentinel** soon.
 
 ## Deploy the Demo Workload
 
-To begin, let’s deploy our demo workload:
+To begin, let's deploy our demo workload:
 
 ```bash 
 # Switch to the project folder:
@@ -168,7 +168,7 @@ make example-init-container-deploy
 # use `make example-init-container-deploy-local` instead.
 ```
 
-When we list the pods, you’ll see that it’s not ready yet because
+When we list the pods, you'll see that it's not ready yet because
 **VSecM Init Container** is waiting for a secret to be registered to this pod.
 
 ```bash
@@ -185,14 +185,14 @@ Here are the containers in that [`Deployment.yaml`][deployment-yaml]
       - name: main
         image: vsecm/example-using-init-container:latest
       
-      # … Truncated  … 
+      # ... Truncated  ... 
       
       initContainers:
       - name: init-container
         image: vsecm/vsecm-ist-init-container:latest
 ```
 
-It’s the `init-container` that waits until the workload acquires a secret.
+It's the `init-container` that waits until the workload acquires a secret.
 
 ## Registering Secrets to the Workload
 
@@ -227,7 +227,7 @@ Here are the meanings of the parameters in the above command:
 * `-t` is the template to be used to transform the fields of the payload.
 * `-s` is the actual value of the secret.
 
-Now let’s check if our pod has initialized:
+Now let's check if our pod has initialized:
 
 ```bash 
 kubectl get po
@@ -236,7 +236,7 @@ NAME                                 READY   STATUS
 example-5d8c6c4865-dlt8r   1/1     Running   0
 ```
 
-It looks like it did. So, let’s check its logs:
+It looks like it did. So, let's check its logs:
 
 ```bash
 kubectl logs example-5d8c6c4865-dlt8r
@@ -251,7 +251,7 @@ My secret: 'VSecMRocks'.
 My creds: username:'root' password:'SuperSecret'.
 ```
 
-Which means, our secret should also have been populated; let’s check tha too:
+Which means, our secret should also have been populated; let's check tha too:
 
 ```bash
 kubectl get secret 
@@ -295,7 +295,7 @@ in a new tab for a larger version*):
 
 ## Conclusion
 
-That’s how you can register secrets as environment variables to workloads and
+That's how you can register secrets as environment variables to workloads and
 halt bootstrapping of the main container until the secrets are registered to
 the workload.
 
@@ -312,10 +312,10 @@ implementation.
 For modern workloads that you have more control, we highly encourage you to
 use [**VSecM SDK**][tutorial-sdk] or [**VSecM Sidecar**][tutorial-sidecar] instead.
 
-That being said, it’s good to have this option, and we are sure you can find
+That being said, it's good to have this option, and we are sure you can find
 other creative ways to leverage it too.
 
-Next, we’ll learn how to encrypt secrets for safe storage.
+Next, we'll learn how to encrypt secrets for safe storage.
 
 [tutorial-sdk]: /docs/use-case-sdk
 [tutorial-sidecar]: /docs/use-case-sidecar

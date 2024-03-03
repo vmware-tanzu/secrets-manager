@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -49,8 +49,8 @@ For your Kubernetes cluster, you can use [**minikube**][minikube] for developmen
 purposes.
 
 To use **minikube**, as your cluster, make sure you have
-[**Docker**][docker] up and running first—while there are other ways, using
-Minikube’s Docker driver is the fastest and painless way to get started.
+[**Docker**][docker] up and running first--while there are other ways, using
+Minikube's Docker driver is the fastest and painless way to get started.
 
 Once you have **Docker** up and running, execute the following script to
 install **minikube**. Note that you will also need [`git`][git] and [`make`][make]
@@ -59,7 +59,7 @@ installed on your system.
 ```bash
 # Switch to your workspace folder (e.g., `~/Desktop/WORKSPACE`).
 cd $WORKSPACE
-# Clone VMware Secrets Manager repository if you haven’t already done so:
+# Clone VMware Secrets Manager repository if you haven't already done so:
 git clone https://github.com/vmware-tanzu/secrets-manager.git
 # cd into the cloned project folder
 cd secrets-manager
@@ -74,7 +74,7 @@ make k8s-start
 > You can of course use other tools such as [microk8s], or [kind], [k38][k3s]
 > or even a full-blown managed Kubernetes cluster; however it will be virtually
 > impossible to cover all possible tooling and OS combinations. Therefore,
-> we’ll only provide instructions for **minikube** in this document.
+> we'll only provide instructions for **minikube** in this document.
 {: .block-tip}
 
 [minikube]: https://minikube.sigs.k8s.io/docs/ "minikube"
@@ -103,9 +103,9 @@ On the above diagram:
 >
 > In this tutorial, we cover only the amount of information necessary
 > to follow through the steps and make sense of how things tie together
-> from a platform operator’s perspective.
+> from a platform operator's perspective.
 >
-> [You can check out this “**VMware Secrets Manager** Deep Dive” article][architecture]
+> [You can check out this "**VMware Secrets Manager** Deep Dive" article][architecture]
 > to learn more about these components.
 {: .block-tip}
 
@@ -124,4 +124,4 @@ dispatches to all the actors.
 
 [go-sdk]: https://github.com/vmware-tanzu/secrets-manager/tree/main/sdk
 
-After this high-level overview of your system, let’s create a workload next.
+After this high-level overview of your system, let's create a workload next.
