@@ -27,6 +27,8 @@ func Wait(seconds time.Duration) error {
 }
 
 func Exec(command string, args ...string) (string, error) {
+	println("Executing: `", command, strings.Join(args, " "), "`")
+
 	cmd := exec.Command(command, args...)
 	out, err := cmd.CombinedOutput()
 	return strings.TrimSpace(string(out)), err

@@ -8,7 +8,7 @@ import (
 )
 
 func sadCuddle(err error) {
-	println("Error running tests:", err)
+	println("Error running tests:", err.Error())
 	os.Exit(1)
 }
 

@@ -23,7 +23,13 @@ func Sentinel() (string, error) {
 	var sentinel string
 
 	for retryCount := 0; retryCount < maxRetries; retryCount++ {
-		output, err := io.Exec("kubectl", "get", "pods", "-n", "vsecm-system", "--selector=app=vsecm-sentinel", "--output=jsonpath={.items[*].metadata.name}")
+		output, err := io.Exec("kubectl", "get", "pods", "-n", "vsecm-system",
+			"--selector=app.kubernetes.io/name=vsecm-sentinel",
+			"--output=jsonpath={.items[*].metadata.name}")
+
+		fmt.Println(output)
+		fmt.Println("----")
+
 		if err != nil {
 			fmt.Printf("Attempt %d failed: %v\n", retryCount+1, err)
 			time.Sleep(10 * time.Second) // Wait before retrying
@@ -50,7 +56,9 @@ func Sentinel() (string, error) {
 	}
 
 	if sentinel == "" {
-		return "", errors.New("defineSentinel: Maximum retries reached without defining a sentinel pod")
+		return "", errors.New(
+			"defineSentinel: Maximum retries reached without defining a sentinel pod",
+		)
 	}
 
 	return sentinel, nil
