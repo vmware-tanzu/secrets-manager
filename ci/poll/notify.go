@@ -19,7 +19,7 @@ func notifyBuildFailure() {
 	// Read the API key from a file
 	apiKeyBytes, err := os.ReadFile(apiKeyPath)
 	if err != nil {
-		fmt.Println("Error reading API key file:", err)
+		println("Error reading API key file:", err)
 		return
 	}
 	apiKey := strings.TrimSpace(string(apiKeyBytes))

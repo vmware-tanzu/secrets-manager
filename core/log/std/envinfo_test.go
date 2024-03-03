@@ -246,10 +246,10 @@ func mockLogger(t *testing.T) (*bufio.Scanner, *os.File, *os.File) {
 func resetLogger(reader *os.File, writer *os.File) {
 	err := reader.Close()
 	if err != nil {
-		fmt.Println("error closing reader was ", err)
+		println("error closing reader was ", err)
 	}
 	if err = writer.Close(); err != nil {
-		fmt.Println("error closing writer was ", err)
+		println("error closing writer was ", err)
 	}
 	log.SetOutput(os.Stderr)
 }

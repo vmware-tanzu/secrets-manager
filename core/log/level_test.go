@@ -87,7 +87,7 @@ func TestLogLevel(t *testing.T) {
 			}()
 
 			if got := GetLevel(); int(got) != tt.want {
-				fmt.Println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
+				println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
 			}
 		})
 	}

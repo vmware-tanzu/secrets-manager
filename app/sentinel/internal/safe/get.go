@@ -185,7 +185,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 		return
 	}
 
-	fmt.Println("")
-	fmt.Println(string(body))
-	fmt.Println("")
+	println("")
+	println(string(body))
+	println("")
 }

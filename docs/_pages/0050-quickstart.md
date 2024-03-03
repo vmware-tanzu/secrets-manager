@@ -209,14 +209,14 @@ func main() {
 		d, err := sentry.Fetch()
 
 		if err != nil {
-			fmt.Println("Failed. Will retry in 5 seconds…")
-			fmt.Println(err.Error())
+			println("Failed. Will retry in 5 seconds…")
+			println(err.Error())
 			time.Sleep(5 * time.Second)
 			continue
 		}
 
 		if d.Data == "" {
-			fmt.Println("No secret yet… will check again later.")
+			println("No secret yet… will check again later.")
 			time.Sleep(5 * time.Second)
 			continue
 		}

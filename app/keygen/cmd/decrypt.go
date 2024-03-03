@@ -99,24 +99,24 @@ func printDecryptedKeys() {
 
 	algorithm := ss.Algorithm
 
-	fmt.Println("Algorithm:", algorithm)
-	fmt.Println("---")
+	println("Algorithm:", algorithm)
+	println("---")
 	for _, secret := range ss.Secrets {
-		fmt.Println("Name:", secret.Name)
+		println("Name:", secret.Name)
 
 		values := secret.EncryptedValue
 
 		for i, v := range values {
 			dv, err := decrypt([]byte(v), algorithm)
 			if err != nil {
-				fmt.Println("Error decrypting value:", err.Error())
+				println("Error decrypting value:", err.Error())
 				continue
 			}
 			fmt.Printf("Value[%d]: %s\n", i, dv)
 		}
 
-		fmt.Println("Created:", secret.Created)
-		fmt.Println("Updated:", secret.Updated)
-		fmt.Println("---")
+		println("Created:", secret.Created)
+		println("Updated:", secret.Updated)
+		println("---")
 	}
 }

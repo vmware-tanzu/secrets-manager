@@ -19,12 +19,12 @@ func printGeneratedKeys() {
 	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
 
 	if err != nil {
-		fmt.Println("Failed to generate keys:")
-		fmt.Println(err.Error())
+		println("Failed to generate keys:")
+		println(err.Error())
 		return
 	}
 
-	fmt.Println()
-	fmt.Println(crypto.CombineKeys(privateKey, publicKey, aesSeed))
-	fmt.Println()
+	println()
+	println(crypto.CombineKeys(privateKey, publicKey, aesSeed))
+	println()
 }

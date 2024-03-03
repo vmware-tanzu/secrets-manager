@@ -26,7 +26,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			fmt.Println(e)
+			println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -36,7 +36,7 @@ func main() {
 		fmt.Printf("My creds: username:'%s' password:'%s'.\n",
 			os.Getenv("USERNAME"), os.Getenv("PASSWORD"),
 		)
-		fmt.Println("")
+		println("")
 
 		time.Sleep(5 * time.Second)
 	}

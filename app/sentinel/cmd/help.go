@@ -21,17 +21,17 @@ func printUsage(parser *argparse.Parser) {
 }
 
 func printWorkloadNameNeeded() {
-	fmt.Println("Please provide a workload name.")
-	fmt.Println("")
-	fmt.Println("type `safe -h` (without backticks) and press return for help.")
-	fmt.Println("")
+	println("Please provide a workload name.")
+	println("")
+	println("type `safe -h` (without backticks) and press return for help.")
+	println("")
 }
 
 func printSecretNeeded() {
-	fmt.Println("Please provide a secret.")
-	fmt.Println("")
-	fmt.Println("type `safe -h` (without backticks) and press return for help.")
-	fmt.Println("")
+	println("Please provide a secret.")
+	println("")
+	println("type `safe -h` (without backticks) and press return for help.")
+	println("")
 }
 
 func inputValidationFailure(workload *string, encrypt *bool, inputKeys *string, secret *string, deleteSecret *bool) bool {

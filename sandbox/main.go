@@ -11,13 +11,13 @@ func main() {
 
 	matched, err := regexp.MatchString(regexString, logMessage)
 	if err != nil {
-		fmt.Println("Error:", err)
+		println("Error:", err)
 		return
 	}
 
 	if matched {
-		fmt.Println("The log message matches the regular expression.")
+		println("The log message matches the regular expression.")
 	} else {
-		fmt.Println("The log message does not match the regular expression.")
+		println("The log message does not match the regular expression.")
 	}
 }

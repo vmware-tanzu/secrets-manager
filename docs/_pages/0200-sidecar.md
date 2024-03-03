@@ -69,10 +69,10 @@ secret file every 5 seconds forever:
 for {
     dat, err := os.ReadFile(sidecarSecretsPath())
     if err != nil {
-        fmt.Println("Failed to read. Will retry in 5 seconds…")
-        fmt.Println(err.Error())
+        println("Failed to read. Will retry in 5 seconds…")
+        println(err.Error())
     } else {
-        fmt.Println("secret: '", string(dat), "'")
+        println("secret: '", string(dat), "'")
     }
 
     time.Sleep(5 * time.Second)

@@ -40,7 +40,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			fmt.Println(e)
+			println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -48,10 +48,10 @@ func main() {
 	for {
 		dat, err := os.ReadFile(sidecarSecretsPath())
 		if err != nil {
-			fmt.Println("Failed to read the secrets file. Will retry in 5 seconds…")
-			fmt.Println(err.Error())
+			println("Failed to read the secrets file. Will retry in 5 seconds…")
+			println(err.Error())
 		} else {
-			fmt.Println("secret: '", string(dat), "'")
+			println("secret: '", string(dat), "'")
 		}
 
 		time.Sleep(5 * time.Second)

@@ -133,9 +133,9 @@ func respond(cid *string, r *http.Response) {
 		return
 	}
 
-	fmt.Println("")
-	fmt.Println(string(body))
-	fmt.Println("")
+	println("")
+	println(string(body))
+	println("")
 }
 
 func printEndpointError(cid *string, err error) {

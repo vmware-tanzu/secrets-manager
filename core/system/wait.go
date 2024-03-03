@@ -30,7 +30,7 @@ func KeepAlive() {
 	signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 	select {
 	case e := <-s:
-		fmt.Println(e)
+		println(e)
 		panic("bye cruel world!")
 	}
 }

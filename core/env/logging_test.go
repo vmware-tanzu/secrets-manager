@@ -11,7 +11,6 @@
 package env
 
 import (
-	"fmt"
 	"os"
 	"testing"
 )
@@ -56,11 +55,11 @@ func TestLogLevel(t *testing.T) {
 			want: 2,
 		},
 	}
-	fmt.Println("###############################################")
+	println("###############################################")
 	for _, tt := range tests {
-		fmt.Println("!!!!!!running", tt.name)
+		println("!!!!!!running", tt.name)
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Println("#####running", tt.name)
+			println("#####running", tt.name)
 
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {

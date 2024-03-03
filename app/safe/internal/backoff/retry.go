@@ -63,7 +63,7 @@ func Retry(ns string, f func() error, s Strategy) error {
 		}
 
 		time.Sleep(retryDelay)
-		fmt.Println("Retrying after", retryDelay, "ms", "for", ns, "namespace", "attempt", i+1, "of", s.MaxRetries+1)
+		println("Retrying after", retryDelay, "ms", "for", ns, "namespace", "attempt", i+1, "of", s.MaxRetries+1)
 	}
 
 	return err

@@ -55,8 +55,8 @@ func main() {
 
 	err = parser.Parse(os.Args)
 	if err != nil {
-		fmt.Println(err.Error())
-		fmt.Println()
+		println(err.Error())
+		println()
 		printUsage(parser)
 		return
 	}
@@ -84,7 +84,7 @@ func main() {
 	go func() {
 		select {
 		case <-c:
-			fmt.Println("Operation was cancelled.")
+			println("Operation was cancelled.")
 			cancel()
 		}
 	}()
