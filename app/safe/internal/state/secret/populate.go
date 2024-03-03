@@ -11,6 +11,7 @@
 package secret
 
 import (
+	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
 	"os"
@@ -50,7 +51,7 @@ func SecretsPopulated() bool {
 //   - error: If an error occurs during the directory reading or secret reading process, it returns
 //     an error wrapped with context about the failure point. If no errors occur, it returns nil to
 //     indicate successful completion.
-func PopulateSecrets(cid string) error {
+func PopulateSecrets(cid string, rootKeyTriplet []string) error {
 	log.TraceLn(&cid, "populateSecrets: populating secrets...")
 	secretsPopulatedLock.Lock()
 	defer secretsPopulatedLock.Unlock()
@@ -78,13 +79,13 @@ func PopulateSecrets(cid string) error {
 			continue
 		}
 
-		secretOnDisk, err := persistence.ReadFromDisk(key)
+		secretOnDisk, err := persistence.ReadFromDisk(key, rootKeyTriplet)
 		if err != nil {
 			log.ErrorLn(&cid, "populateSecrets: problem reading secret from disk:", err.Error())
 			continue
 		}
 		if secretOnDisk != nil {
-			stats.CurrentState.Increment(key)
+			stats.CurrentState.Increment(key, Secrets.Load)
 			Secrets.Store(key, *secretOnDisk)
 		}
 	}

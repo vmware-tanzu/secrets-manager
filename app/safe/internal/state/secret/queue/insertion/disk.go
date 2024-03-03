@@ -11,6 +11,7 @@
 package insertion
 
 import (
+	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -30,7 +31,7 @@ var SecretUpsertQueue = make(chan entity.SecretStored, env.SecretBufferSizeForSa
 // both new secrets and updates to existing ones. The operations of this function
 // is critical for maintaining the integrity and consistency of secret data
 // within the system.
-func ProcessSecretQueue() {
+func ProcessSecretQueue(rootKeyTriplet []string) {
 	errChan := make(chan error)
 
 	id := "AEGIHSCR"
@@ -66,7 +67,7 @@ func ProcessSecretQueue() {
 		//
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processSecretQueue` goroutine.
-		persistence.PersistToDisk(secret, errChan)
+		persistence.PersistToDisk(secret, rootKeyTriplet, errChan)
 
 		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
 	}

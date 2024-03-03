@@ -23,7 +23,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -166,6 +166,8 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 	return nil
 }
 
+const initialSecretValue = `{"empty":true}`
+
 // PersistToK8s attempts to save a provided secret entity into a Kubernetes (K8s)
 // cluster. The function is structured to handle potential errors through retries
 // and communicates any persistent issues back to the caller via an error channel.
@@ -184,7 +186,7 @@ func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 	log.TraceLn(&cid, "persistK8s: Will persist k8s secret.")
 
 	if len(secret.Values) == 0 {
-		secret.Values = append(secret.Values, state.InitialSecretValue)
+		secret.Values = append(secret.Values, initialSecretValue)
 	}
 
 	// Defensive coding:
@@ -193,7 +195,7 @@ func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 	// file system or the cluster. However, it that happens, we would at least
 	// want an indicator that it happened.
 	if secret.Values[0] == "" {
-		secret.Values[0] = state.InitialSecretValue
+		secret.Values[0] = initialSecretValue
 	}
 
 	log.TraceLn(&cid, "persistK8s: Will try saving secret to k8s.")

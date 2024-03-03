@@ -13,7 +13,6 @@ package state
 import (
 	"bytes"
 	"encoding/base64"
-
 	"strings"
 	"sync"
 	"time"
@@ -29,7 +28,6 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-const InitialSecretValue = `{"empty":true}`
 const BlankRootKeyValue = "{}"
 
 // RootKey is the key used for encryption, decryption, backup, and restore.
@@ -40,10 +38,36 @@ var RootKeyLock sync.RWMutex
 // another to process the Kubernetes secret queue. These goroutines are
 // responsible for handling queued secrets and persisting them to disk.
 func Initialize() {
-	go insertion.ProcessSecretQueue()
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
+	go insertion.ProcessSecretQueue(rkt)
 	go insertion.ProcessK8sSecretQueue()
 	go deletion.ProcessSecretDeleteQueue()
 	go deletion.ProcessK8sSecretDeleteQueue()
+}
+
+// RootKeyTriplet splits the RootKey into three components, if it is properly
+// formatted.
+//
+// The function returns a triplet of strings representing the parts of the RootKey,
+// separated by newlines. If the RootKey is empty or does not contain exactly
+// three parts, the function returns three empty strings.
+func RootKeyTriplet() (string, string, string) {
+	RootKeyLock.RLock()
+	defer RootKeyLock.RUnlock()
+
+	if RootKey == "" {
+		return "", "", ""
+	}
+
+	parts := strings.Split(RootKey, "\n")
+
+	if len(parts) != 3 {
+		return "", "", ""
+	}
+
+	return parts[0], parts[1], parts[2]
 }
 
 // SetRootKey sets the age key to be used for encryption and decryption.
@@ -76,13 +100,16 @@ func EncryptValue(value string) (string, error) {
 
 	fipsMode := env.FipsCompliantModeForSafe()
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	if fipsMode {
-		err := crypto.EncryptToWriterAes(&out, value)
+		err := crypto.EncryptToWriterAes(&out, value, rkt)
 		if err != nil {
 			return "", err
 		}
 	} else {
-		err := crypto.EncryptToWriterAge(&out, value)
+		err := crypto.EncryptToWriterAge(&out, value, rkt)
 		if err != nil {
 			return "", err
 		}
@@ -102,15 +129,18 @@ func DecryptValue(value string) (string, error) {
 		return "", err
 	}
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	if env.FipsCompliantModeForSafe() {
-		decrypted, err := crypto.DecryptBytesAes(decoded)
+		decrypted, err := crypto.DecryptBytesAes(decoded, rkt)
 		if err != nil {
 			return "", err
 		}
 		return string(decrypted), nil
 	}
 
-	decrypted, err := crypto.DecryptBytes(decoded)
+	decrypted, err := crypto.DecryptBytes(decoded, rkt)
 	if err != nil {
 		return "", err
 	}
@@ -124,11 +154,14 @@ func DecryptValue(value string) (string, error) {
 func AllSecrets(cid string) []entity.Secret {
 	var result []entity.Secret
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	// Check existing stored secrets files.
 	// If VSecM pod is evicted and revived, it will not have knowledge about
 	// the secret it has. This loop helps it re-populate its cache.
 	if !secret.SecretsPopulated() {
-		err := secret.PopulateSecrets(cid)
+		err := secret.PopulateSecrets(cid, rkt)
 		if err != nil {
 			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
 		}
@@ -162,11 +195,14 @@ func AllSecrets(cid string) []entity.Secret {
 func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 	var result []entity.SecretEncrypted
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	// Check existing stored secrets files.
 	// If VSecM pod is evicted and revived, it will not have knowledge about
 	// the secret it has. This loop helps it re-populate its cache.
 	if !secret.SecretsPopulated() {
-		err := secret.PopulateSecrets(cid)
+		err := secret.PopulateSecrets(cid, rkt)
 		if err != nil {
 			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
 		}
@@ -281,7 +317,7 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 	log.TraceLn(&cid, "UpsertSecret: Parsed secret. Will set transformed value.")
 
 	secretStored.ValueTransformed = parsedStr
-	stats.CurrentState.Increment(secretStored.Name)
+	stats.CurrentState.Increment(secretStored.Name, secret.Secrets.Load)
 	secret.Secrets.Store(secretStored.Name, secretStored)
 
 	store := secretStored.Meta.BackingStore
@@ -383,7 +419,7 @@ func DeleteSecret(secretToDelete entity.SecretStored) {
 	}
 
 	// Remove the secret from the memory.
-	stats.CurrentState.Decrement(secretToDelete.Name)
+	stats.CurrentState.Decrement(secretToDelete.Name, secret.Secrets.Load)
 	secret.Secrets.Delete(secretToDelete.Name)
 }
 
@@ -401,7 +437,10 @@ func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 		return &s, nil
 	}
 
-	stored, err := persistence.ReadFromDisk(key)
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
+	stored, err := persistence.ReadFromDisk(key, rkt)
 	if err != nil {
 		return nil, err
 	}
@@ -409,7 +448,7 @@ func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 		return nil, nil
 	}
 
-	stats.CurrentState.Increment(stored.Name)
+	stats.CurrentState.Increment(stored.Name, secret.Secrets.Load)
 	secret.Secrets.Store(stored.Name, *stored)
 
 	log.TraceLn(&cid, "ReadSecret: returning from disk.", "len", len(stored.Values))

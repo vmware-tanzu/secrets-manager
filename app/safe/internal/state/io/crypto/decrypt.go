@@ -11,7 +11,6 @@
 package crypto
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/key"
 	"os"
 	"path"
 
@@ -33,8 +32,8 @@ import (
 //   - ([]byte, error): The function returns two values. The first is a byte slice
 //     containing the decrypted data. The second is an error object, which will be
 //     non-nil if any errors occurred during the decryption process.
-func DecryptBytes(data []byte) ([]byte, error) {
-	privateKey, _, _ := key.RootKeyTriplet()
+func DecryptBytes(data []byte, rootKeyTriplet []string) ([]byte, error) {
+	privateKey, _, _ := rootKeyTriplet[0], rootKeyTriplet[1], rootKeyTriplet[2]
 	return crypto.DecryptBytesAge(data, privateKey)
 }
 
@@ -51,8 +50,8 @@ func DecryptBytes(data []byte) ([]byte, error) {
 //   - ([]byte, error): This function also returns a byte slice containing the
 //     decrypted data and an error object. The error will be non-nil if the
 //     decryption process encounters any issues.
-func DecryptBytesAes(data []byte) ([]byte, error) {
-	_, _, aesKey := key.RootKeyTriplet()
+func DecryptBytesAes(data []byte, rootKeyTriplet []string) ([]byte, error) {
+	_, _, aesKey := rootKeyTriplet[0], rootKeyTriplet[1], rootKeyTriplet[2]
 	return crypto.DecryptBytesAes(data, aesKey)
 }
 
@@ -72,7 +71,7 @@ func DecryptBytesAes(data []byte) ([]byte, error) {
 //     is an error object that will be non-nil if any step of the decryption process fails.
 //     Possible errors include the absence of the target data file on disk and failures
 //     related to reading the file or the decryption process itself.
-func DecryptDataFromDisk(key string) ([]byte, error) {
+func DecryptDataFromDisk(key string, rootKeyTriplet []string) ([]byte, error) {
 	dataPath := path.Join(env.DataPathForSafe(), key+".age")
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
@@ -85,8 +84,8 @@ func DecryptDataFromDisk(key string) ([]byte, error) {
 	}
 
 	if env.FipsCompliantModeForSafe() {
-		return DecryptBytesAes(data)
+		return DecryptBytesAes(data, rootKeyTriplet)
 	}
 
-	return DecryptBytes(data)
+	return DecryptBytes(data, rootKeyTriplet)
 }

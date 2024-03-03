@@ -13,8 +13,6 @@ package stats
 import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/insertion"
 	"sync"
-
-	state "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret"
 )
 
 // Status is a struct representing the current state of the secret manager,
@@ -42,10 +40,10 @@ var CurrentState = Status{
 
 // Increment is a method for the Status struct that increments the NumSecrets
 // field by 1 if the provided secret name is not found in the in-memory store.
-func (s *Status) Increment(name string) {
+func (s *Status) Increment(name string, loader func(name any) (any, bool)) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	_, ok := state.Secrets.Load(name)
+	_, ok := loader(name)
 	if !ok {
 		s.NumSecrets++
 	}
@@ -53,10 +51,10 @@ func (s *Status) Increment(name string) {
 
 // Decrement is a method for the Status struct that decrements the NumSecrets
 // field by 1 if the provided secret name is found in the in-memory store.
-func (s *Status) Decrement(name string) {
+func (s *Status) Decrement(name string, loader func(name any) (any, bool)) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	_, ok := state.Secrets.Load(name)
+	_, ok := loader(name)
 	if ok {
 		s.NumSecrets--
 	}

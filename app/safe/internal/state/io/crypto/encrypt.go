@@ -22,7 +22,6 @@ import (
 	"filippo.io/age"
 	"github.com/pkg/errors"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/key"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -43,8 +42,8 @@ import (
 //   - error: If any step in the encryption or writing process fails, an error is returned.
 //     Possible errors include issues with the public key (such as being empty or unparseable)
 //     and failures related to the encryption process or writing to the writer interface.
-func EncryptToWriterAge(out io.Writer, data string) error {
-	_, publicKey, _ := key.RootKeyTriplet()
+func EncryptToWriterAge(out io.Writer, data string, rootKeyTriplet []string) error {
+	_, publicKey, _ := rootKeyTriplet[0], rootKeyTriplet[1], rootKeyTriplet[2]
 
 	if publicKey == "" {
 		return errors.New("encryptToWriterAge: no public key")
@@ -93,7 +92,7 @@ var lastEncryptToWriterAesCall time.Time
 //   - error: An error is returned if any step of the encryption or writing process
 //     encounters an issue. This includes errors related to call frequency, key
 //     management, encryption initialization, and data writing.
-func EncryptToWriterAes(out io.Writer, data string) error {
+func EncryptToWriterAes(out io.Writer, data string, rootKeyTriplet []string) error {
 	// Calling this method too frequently can result in a less-than random IV,
 	// which can be used to break the encryption when combined with other
 	// attack vectors. Therefore, we throttle calls to this method.
@@ -105,7 +104,7 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 
 	lastEncryptToWriterAesCall = time.Now()
 
-	_, _, aesKey := key.RootKeyTriplet()
+	_, _, aesKey := rootKeyTriplet[0], rootKeyTriplet[1], rootKeyTriplet[2]
 
 	if aesKey == "" {
 		return errors.New("encryptToWriter: no AES key")

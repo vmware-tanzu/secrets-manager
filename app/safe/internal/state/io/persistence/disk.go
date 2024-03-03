@@ -12,6 +12,7 @@ package persistence
 
 import (
 	"encoding/json"
+	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/crypto"
 	"math"
 	"os"
@@ -28,7 +29,7 @@ import (
 
 var lastBackedUpIndex = make(map[string]int)
 
-func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
+func saveSecretToDisk(secret entity.SecretStored, dataPath string, rootKeyTriplet []string) error {
 	data, err := json.Marshal(secret)
 	if err != nil {
 		return errors.Wrap(err, "saveSecretToDisk: failed to marshal secret")
@@ -47,10 +48,10 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 	}()
 
 	if env.FipsCompliantModeForSafe() {
-		return crypto.EncryptToWriterAes(file, string(data))
+		return crypto.EncryptToWriterAes(file, string(data), rootKeyTriplet)
 	}
 
-	return crypto.EncryptToWriterAge(file, string(data))
+	return crypto.EncryptToWriterAge(file, string(data), rootKeyTriplet)
 }
 
 // PersistToDisk saves a given secret to disk and also creates a backup copy of the
@@ -64,17 +65,20 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 //   - errChan (chan<- error): A channel through which errors are reported. This
 //     channel allows the function to operate asynchronously, notifying the caller
 //     of any issues in the process of persisting the secret.
-func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
+func PersistToDisk(secret entity.SecretStored, rootKeyTriplet []string, errChan chan<- error) {
 	backupCount := env.SecretBackupCountForSafe()
+
+	k1, k2, k3 := rootKeyTriplet[0], rootKeyTriplet[1], rootKeyTriplet[2]
+	rkt := []string{k1, k2, k3}
 
 	// Save the secret
 	dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
 
-	err := saveSecretToDisk(secret, dataPath)
+	err := saveSecretToDisk(secret, dataPath, rkt)
 	if err != nil {
 		// Retry once more.
 		time.Sleep(500 * time.Millisecond)
-		err := saveSecretToDisk(secret, dataPath)
+		err := saveSecretToDisk(secret, dataPath, rkt)
 		if err != nil {
 			errChan <- err
 		}
@@ -94,11 +98,11 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 		secret.Name+"-"+strconv.Itoa(int(newIndex))+"-"+".age.backup",
 	)
 
-	err = saveSecretToDisk(secret, dataPath)
+	err = saveSecretToDisk(secret, dataPath, rkt)
 	if err != nil {
 		// Retry once more.
 		time.Sleep(500 * time.Millisecond)
-		err := saveSecretToDisk(secret, dataPath)
+		err := saveSecretToDisk(secret, dataPath, rkt)
 		if err != nil {
 			errChan <- err
 			// Do not change lastBackedUpIndex

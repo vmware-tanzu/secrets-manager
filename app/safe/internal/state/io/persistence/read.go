@@ -35,8 +35,8 @@ import (
 //     secret. If any error occurs during the process, a nil pointer and an error object are returned.
 //     The error provides context about the nature of the failure, such as issues with decryption or
 //     data deserialization.
-func ReadFromDisk(key string) (*entity.SecretStored, error) {
-	contents, err := crypto.DecryptDataFromDisk(key)
+func ReadFromDisk(key string, rootKeyTriplet []string) (*entity.SecretStored, error) {
+	contents, err := crypto.DecryptDataFromDisk(key, rootKeyTriplet)
 	if err != nil {
 		return nil, errors.Wrap(err, "readFromDisk: error decrypting file")
 	}
