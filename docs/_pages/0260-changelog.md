@@ -22,7 +22,13 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* We now have a Go-based integration test suite instead of the former bash-based
+  one. This change makes the tests more reliable and easier to maintain, while
+  we can leverage the Go language’s powerful primitives to make the tests
+  readable, maintainable, and scalable.
+* Documented all public methods in the codebase. This will help
+  contributors to understand the codebase better and make it easier to
+  contribute.
 
 ## [v0.23.0] - 2024-03-01
 
