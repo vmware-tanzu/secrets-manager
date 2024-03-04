@@ -37,6 +37,8 @@ next_url: /docs/releases/
 * VSecM Sentinel now waits for VSecM Safe to be ready before running init 
   commands.
 * Documentation updates and code refactoring.
+* Updated dependencies for better security.
+* Updated Go version to 1.22.0--the latest stable version.
 
 ## [v0.22.5] - 2024-02-26
 
