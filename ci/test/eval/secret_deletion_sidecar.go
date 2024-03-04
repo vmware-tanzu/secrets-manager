@@ -32,7 +32,7 @@ func SecretDeletionSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretNoValue failed")
 	}
 
-	println("🟢 PASS: Secret deletion (sidecar) successful")
+	println("🟢   PASS: Secret deletion (sidecar) successful")
 	println("----")
 	return nil
 }

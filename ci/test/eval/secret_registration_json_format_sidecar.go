@@ -45,7 +45,7 @@ func SecretRegistrationJSONFormatSidecar() error {
 		return fmt.Errorf("deleteSecret failed: %w", err)
 	}
 
-	println("🟢 PASS: Secret registration (JSON transformation sidecar) successful")
+	println("🟢   PASS: Secret registration (JSON transformation sidecar) successful")
 	println("----")
 	return nil
 }

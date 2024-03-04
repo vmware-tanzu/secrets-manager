@@ -47,7 +47,7 @@ func SecretRegistrationAppendSidecar() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢 PASS: Secret registration (append sidecar mode) successful")
+	println("🟢   PASS: Secret registration (append sidecar mode) successful")
 	println("----")
 	return nil
 }

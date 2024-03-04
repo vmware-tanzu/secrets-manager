@@ -39,7 +39,7 @@ func SecretEncryption() error {
 		return errors.Wrap(err, "asserting workload secret value")
 	}
 
-	println("🟢 PASS: Secret encryption successful")
+	println("🟢   PASS: Secret encryption successful")
 	println("----")
 	return nil
 }

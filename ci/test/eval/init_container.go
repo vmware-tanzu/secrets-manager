@@ -52,7 +52,7 @@ func InitContainer() error {
 		return errors.Wrap(err, "assertWorkloadIsRunning failed")
 	}
 
-	println("🟢 PASS: Init Container test passed.")
+	println("🟢   PASS: Init Container test passed.")
 	println("----")
 	return nil
 }

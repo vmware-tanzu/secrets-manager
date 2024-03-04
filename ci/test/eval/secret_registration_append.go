@@ -40,7 +40,7 @@ func SecretRegistrationAppend() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢 PASS: Secret registration (append mode) successful")
+	println("🟢   PASS: Secret registration (append mode) successful")
 	println("----")
 	return nil
 }

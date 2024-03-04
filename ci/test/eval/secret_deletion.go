@@ -28,7 +28,7 @@ func SecretDeletion() error {
 		return errors.Wrap(err, "asserting workload secret no value")
 	}
 
-	println("🟢 PASS: Secret deletion successful")
+	println("🟢   PASS: Secret deletion successful")
 	println("----")
 	return nil
 }

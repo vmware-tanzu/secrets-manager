@@ -34,7 +34,7 @@ func SecretRegistrationSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretValue failed")
 	}
 
-	println("🟢 PASS: Secret registration (sidecar) successful")
+	println("🟢   PASS: Secret registration (sidecar) successful")
 	println("----")
 	return nil
 }

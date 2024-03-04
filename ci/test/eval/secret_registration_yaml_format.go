@@ -67,7 +67,7 @@ USERNAME: '*root*'
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢 PASS: Secret registration (YAML transformation) successful")
+	println("🟢   PASS: Secret registration (YAML transformation) successful")
 	println("----")
 	return nil
 }

@@ -30,7 +30,7 @@ func SecretRegistration() error {
 		return errors.Wrap(err, "asserting workload secret value")
 	}
 
-	println("🟢 PASS: Secret registration successful")
+	println("🟢   PASS: Secret registration successful")
 	println("----")
 	return nil
 }

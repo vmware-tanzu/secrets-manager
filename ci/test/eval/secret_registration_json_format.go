@@ -35,7 +35,7 @@ func SecretRegistrationJSONFormat() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢 PASS: Secret registration (JSON transformation) successful")
+	println("🟢   PASS: Secret registration (JSON transformation) successful")
 	println("----")
 	return nil
 }

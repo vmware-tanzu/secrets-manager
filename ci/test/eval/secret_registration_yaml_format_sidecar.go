@@ -51,7 +51,7 @@ USERNAME: '*root*'
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢 PASS: Secret registration (YAML transformation sidecar) successful")
+	println("🟢   PASS: Secret registration (YAML transformation sidecar) successful")
 	println("----")
 	return nil
 }
