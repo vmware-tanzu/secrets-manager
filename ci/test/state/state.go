@@ -19,7 +19,7 @@ import (
 
 func Cleanup() error {
 	println("----")
-	println("Cleanup...")
+	println("🧹 Cleanup...")
 
 	// Determine the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
@@ -50,5 +50,7 @@ func Cleanup() error {
 		return errors.Wrap(err, "cleanup: Failed to wait for workload deletion")
 	}
 
+	println("✨ All clean and shiny!")
+	println("----")
 	return nil
 }
