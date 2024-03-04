@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -116,7 +116,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found… skipping custom initialization.",
+			"no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -133,7 +133,7 @@ func RunInitCommands(ctx context.Context) {
 	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
 			cid,
-			"Initialization already exit… skipping custom initialization.",
+			"Initialization already exit... skipping custom initialization.",
 		)
 		return
 	}
@@ -144,7 +144,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found… skipping custom initialization.",
+			"no initialization file found... skipping custom initialization.",
 		)
 		return
 	}

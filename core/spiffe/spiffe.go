@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets... secret
+>/
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package spiffe
 
 import (
@@ -52,7 +62,7 @@ func AcquireSourceForSentinel(ctx context.Context) (*workloadapi.X509Source, boo
 			log.ErrorLn(cid,
 				"acquireSource: I am having trouble fetching my identity from SPIRE.")
 			log.ErrorLn(cid,
-				"acquireSource: I won’t proceed until you put me in a secured container.")
+				"acquireSource: I won't proceed until you put me in a secured container.")
 			errorChan <- err
 			return
 		}
@@ -60,10 +70,10 @@ func AcquireSourceForSentinel(ctx context.Context) (*workloadapi.X509Source, boo
 		// Make sure that the binary is enclosed in a Pod that we trust.
 		if !validation.IsSentinel(svid.ID.String()) {
 			log.ErrorLn(cid,
-				"acquireSource: I don’t know you, and it’s crazy: '"+svid.ID.String()+"'")
+				"acquireSource: I don't know you, and it's crazy: '"+svid.ID.String()+"'")
 			log.ErrorLn(cid,
 				"acquireSource: `safe` can only run from within the Sentinel container.")
-			errorChan <- errors.New("acquireSource: I don’t know you, and it’s crazy: '" + svid.ID.String() + "'")
+			errorChan <- errors.New("acquireSource: I don't know you, and it's crazy: '" + svid.ID.String() + "'")
 			return
 		}
 

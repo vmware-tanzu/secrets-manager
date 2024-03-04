@@ -66,7 +66,7 @@ helm install vsecm vsecm/helm-charts --version 0.22.0 \
 --set safe.environments.VSECM_LOG_LEVEL="6"
 --set sentinel.environments.VSECM_LOGL_LEVEL="5"
 # You can update other environment variables too.
-# Most of the time VSecM assumes sane defaults if you don’t set them.
+# Most of the time VSecM assumes sane defaults if you don't set them.
 ```
 
 [configuring-vsecm]: https://vsecm.com/docs/configuration/

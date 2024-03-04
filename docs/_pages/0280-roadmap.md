@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -40,10 +40,10 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 
 ### VSecM v0.24.0 (*codename: Draco*) 
 
-**Feb 29, 2023 – Mar 27, 2023**
+**Feb 29, 2023 - Mar 27, 2023**
 
 To automate things and be able to dynamically follow issues better, from 
-this point on we’ll label them and share the GitHub filter here, instead
+this point on we'll label them and share the GitHub filter here, instead
 of outlining them one by one.
 
 This iteration will be focused on demos and documentation.
@@ -52,7 +52,7 @@ This iteration will be focused on demos and documentation.
 
 ### VSecM v0.25.0 (*codename: Eridanus*) 
 
-**Mar 28, 2023 – Apr 24, 2024**
+**Mar 28, 2023 - Apr 24, 2024**
 
 This iteration, our focus will be on testing, test automation, and test coverage.
 
@@ -61,7 +61,7 @@ vEridanus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.
 
 ### VSecM v0.26.0 (*codename: Fornax*) 
 
-**Apr 25, 2024 – May 22, 2024**
+**Apr 25, 2024 - May 22, 2024**
 
 This iteration is all about SDKs (C++, Python, Rust, and Java).
 
@@ -70,7 +70,7 @@ This iteration is all about SDKs (C++, Python, Rust, and Java).
 
 ### VSecM v0.27.0 (*codename: Gemini*) 
 
-**May 23, 2024 – Jun 19, 2024**
+**May 23, 2024 - Jun 19, 2024**
 
 The sole focus of this iteration is increasing test coverage product-wide, 
 as best as we can.
@@ -80,7 +80,7 @@ as best as we can.
 
 ### VSecM v0.28.0 (*codename: Hydra*) 
 
-**Jun 20, 2024 – Jul 17, 2024**
+**Jun 20, 2024 - Jul 17, 2024**
 
 This iteration is about improving **VSecM Sentinel** to ingest different kinds
 of secrets, including very long secrets from a stdin pipe. This will be a 
@@ -90,15 +90,15 @@ feature-focused iteration.
 
 ### VSecM v0.29.0 (*codename: Indus*) 
 
-**Jul 18, 2024 – Aug 14, 2024**
+**Jul 18, 2024 - Aug 14, 2024**
 
-This is a bug-bash iteration where we’ll leave no bug left behind.
+This is a bug-bash iteration where we'll leave no bug left behind.
 
 [Here is a list of issues that are candidate for VSecM vIndus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.29.0-candidate+).
 
 ### VSecM v0.30.0 (*codename: Lupus*) 
 
-**Aug 15, 2024 – Sep 11, 2024**
+**Aug 15, 2024 - Sep 11, 2024**
 
 This iteration is about enabling external access to **VSecM Safe** in a secure
 manner. We will also focus on secure logging and preventing log tampering.
@@ -107,18 +107,18 @@ manner. We will also focus on secure logging and preventing log tampering.
 
 ### VSecM v0.31.0 (*codename: Mensa*) 
 
-**Sep 12, 2024 – Oct 09, 2024**
+**Sep 12, 2024 - Oct 09, 2024**
 
-This iteration is about visibility and metrics. We‘ll create a `/stats` and a
+This iteration is about visibility and metrics. We'll create a `/stats` and a
 `/health` endpoint for **VSecM Safe** among other observability improvements.
 
 [Here is a list of issues that are candidate for VSecM vMensa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.31.0-candidate+).
 
 ### VSecM v0.32.0 (*codename: Norma*) 
 
-**Oct 10, 2024 – Nov 06, 2024**
+**Oct 10, 2024 - Nov 06, 2024**
 
-In this iteration we’ll do a full-blown self-security assessment and publish
+In this iteration we'll do a full-blown self-security assessment and publish
 our findings. These findings will be used later for a third-party security
 audit.
 
@@ -128,7 +128,7 @@ audit.
 
 ### VSecM v0.33.0 (*codename: Orion*)
 
-**Nov 07, 2024 – Dec 04, 2024**
+**Nov 07, 2024 - Dec 04, 2024**
 
 In this iteration, we will focus on non-Kubernetes **VSecM** deployments.
 
@@ -136,7 +136,7 @@ In this iteration, we will focus on non-Kubernetes **VSecM** deployments.
 
 ### VSecM v0.34.0 (*codename: Perseus*)
 
-**Dec 05, 2024 – Jan 01, 2025**
+**Dec 05, 2024 - Jan 01, 2025**
 
 This iteration is about UI/UX fixed on the website, and CSS cleanup.
 
@@ -144,16 +144,16 @@ This iteration is about UI/UX fixed on the website, and CSS cleanup.
 
 ### VSecM v0.35.0 (*codename: Reticulum*)
 
-**Jan 02, 2025 – Jan 29, 2025**
+**Jan 02, 2025 - Jan 29, 2025**
 
-We’ll focus on creating Kubernetes Operators around **VSecM** to better 
+We'll focus on creating Kubernetes Operators around **VSecM** to better 
 coordinate certain workflows.
 
 [Here is a list of issues that are candidate for VSecM vReticulum](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+).
 
 ### VSecM v0.36.0 (*codename: Sagittarius*)
 
-**Jan 30, 2025 – Feb 26, 2025**
+**Jan 30, 2025 - Feb 26, 2025**
 
 This iteration is focused on better state management.
 
@@ -161,9 +161,9 @@ This iteration is focused on better state management.
 
 ### VSecM v0.37.0 (*codename: Telescopium*)
 
-**Feb 27, 2025 — Mar 26 2025**
+**Feb 27, 2025 -- Mar 26 2025**
 
-This is a “*catch all*” that contains all remaining documented future plans.
+This is a "*catch all*" that contains all remaining documented future plans.
 We will create new iterations from it as the time gets closer.
 
 [Here is a list of issues that are candidate for VSecM vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
@@ -172,7 +172,7 @@ We will create new iterations from it as the time gets closer.
 
 ### VSecM v0.23.0 (*codename: Cassiopeia*)
 
-**Feb 01, 2024 – Feb 28, 2024**
+**Feb 01, 2024 - Feb 28, 2024**
 
 This iteration was focused on improving how **VMware Secrets Manager**
 logs and reports errors. We will also focus on improving the performance of the
@@ -180,29 +180,29 @@ logs and reports errors. We will also focus on improving the performance of the
 
 * `Secret`less VSecM: Ability to use VMware Secrets Manager **without** relying
   on Kubernetes `Secret`s. This will allow users to use **VMware Secrets Manager**
-  without having to create Kubernetes `Secret`s at all—even for the root keys.
+  without having to create Kubernetes `Secret`s at all--even for the root keys.
 * Ability to use VSecM across clusters (*multi-cluster federation support*).
 * More automation, and stability improvements.
-* Ability to use an “*init command*” for **VSecM Sentinel** to run before the
+* Ability to use an "*init command*" for **VSecM Sentinel** to run before the
   world starts.
 * Ability to generate pattern-based random secrets.
 * The operator shall be able to export secrets in an encrypted format, and
   can decrypt them, if they have the right permissions.
-* A public ECR registry to share the untested “*edge*” versions of **VMware
+* A public ECR registry to share the untested "*edge*" versions of **VMware
   Secrets Manager**, for those who like living dangerously.
 * Focus on increasing test coverage.
 * Ability to create Kubernetes `Secret`s without necessarily associating them
   with a workload.
-* Adding “invalid before” and “expires after” timestamps to secrets, to
+* Adding "invalid before" and "expires after" timestamps to secrets, to
   help with secret rotation.
 * Progress towards Open SSF Best Practices compliance; reaching 97% of the  
   requirements.
 
 ### VSecM v0.22.0 (*codename: Boötes*)
 
-**Sep 12, 2023 – Jan 31, 2024**
+**Sep 12, 2023 - Jan 31, 2024**
 
-This was a relatively longer release because due to the “*time-stop*” effect of 
+This was a relatively longer release because due to the "*time-stop*" effect of 
 the holiday season, the majority of the core contributors will be spending quality
 time with their loved ones and recharging their batteries for the upcoming year.
 
@@ -224,7 +224,7 @@ and CI/CD pipelines. We will also focus on improving the overall user experience
 
 ### VSecM v0.21.0 (*codename: Andromeda*)
 
-**Aug 15, 2023 – Sep, 11, 2023**
+**Aug 15, 2023 - Sep, 11, 2023**
 
 This was a stability-focused release. We focused on fixing bugs, improving
 stability, and improving workflows and CI/CD pipelines. We also created

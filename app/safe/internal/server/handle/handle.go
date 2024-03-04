@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -55,7 +55,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		if !validation.IsSafe(svidId.String()) {
 			log.FatalLn(
 				&cid,
-				"SpiffeId check: I don’t know you, and it’s crazy:",
+				"SpiffeId check: I don't know you, and it's crazy:",
 				svidId.String(),
 			)
 		}
@@ -82,13 +82,13 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		// Calling it from anywhere else will error out.
 		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets" {
 			log.DebugLn(&cid, "Handler: will list")
-			listRoute.List(cid, w, r, sid)
+			listRoute.Masked(cid, w, r, sid)
 			return
 		}
 
 		if r.Method == http.MethodGet && p == "/sentinel/v1/secrets?reveal=true" {
 			log.DebugLn(&cid, "Handler: will list encrypted secrets")
-			listRoute.ListEncrypted(cid, w, r, sid)
+			listRoute.Encrypted(cid, w, r, sid)
 			return
 		}
 

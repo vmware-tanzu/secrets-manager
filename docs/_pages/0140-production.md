@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -23,14 +23,14 @@ next_url: /docs/use-cases/
 ## Introduction
 
 You need to pay attention to certain aspects and parts of the system that
-you’d need to harden for a **production** *VMware Secrets Manager* setup.
+you'd need to harden for a **production** *VMware Secrets Manager* setup.
 This article will overview them.
 
 ## Version Compatibility
 
 We test **VMware Secrets Manager** with the recent stable version of Kubernetes and Minikube.
 
-As long as there isn’t a change in the **major** version number your
+As long as there isn't a change in the **major** version number your
 Kubernetes client and server you use, things will likely work just fine.
 
 ## Resource Requirements
@@ -39,11 +39,11 @@ Kubernetes client and server you use, things will likely work just fine.
 resources, such as edge computing and IoT.
 
 That being said, **VMware Secrets Manager**, by design, is a memory-intensive application.
-However, even when you throw all your secrets at it, **VSecM Safe**’s peak
+However, even when you throw all your secrets at it, **VSecM Safe**'s peak
 memory consumption will be in the order or 10-20 megabytes of RAM. The CPU
 consumption will be within reasonable limits too.
 
-However, it’s crucial to understand that every system and user profile is unique.
+However, it's crucial to understand that every system and user profile is unique.
 Factors such as the number and size of secrets, concurrent processes, and system
 specifications can influence these averages. Therefore, it is always advisable to
 benchmark **VMware Secrets Manager** and **SPIRE** on your own system under your specific usage
@@ -64,7 +64,7 @@ As in any secrets management solution, your compute and memory requirements
 will depend on several factors, such as:
 
 * The number of workloads in the cluster
-* The number of secrets **Safe** (*VMware Secrets Manager’ Secrets Store*) has to manage
+* The number of secrets **Safe** (*VMware Secrets Manager' Secrets Store*) has to manage
   (*see [architecture details][architecture] for more context*)
 * The number of workloads interacting with **Safe**
   (*see [architecture details][architecture] for more context*)
@@ -104,8 +104,8 @@ a starting point for **VMware Secrets Manager**-managed containers:
       cpu: "250m"
     limits:
       memory: "128Mi"
-      # We recommend “NOT” setting a CPU limit.
-      # As long as you have configured your CPU “requests”
+      # We recommend "NOT" setting a CPU limit.
+      # As long as you have configured your CPU "requests"
       # correctly, everything would work fine.
 ```
 
@@ -116,11 +116,11 @@ data is possible by inadvertently deleting a Kubernetes `Secret` that you are
 not supposed to delete. Or, your backing store that contains the secrets can get
 corrupted for any reason.
 
-Cloud Native or not, you rely on hardware which—intrinsically—is unreliable.
+Cloud Native or not, you rely on hardware which--intrinsically--is unreliable.
 
 Things happen. Make sure you back up your cluster [using a tool like
 **Velero**][velero], so that when things do happen, you can revert your
-cluster’s last known good state.
+cluster's last known good state.
 
 > **Make Sure You Back Up `vsecm-root-key`**
 > 
@@ -170,7 +170,7 @@ namespace with an `vsecm-safe` service account.
 > absolute minimum number of Cluster Administrators in your cluster.
 {: .block-tip}
 
-Kubernetes Secrets are, by default, stored **unencrypted** in the API server’s
+Kubernetes Secrets are, by default, stored **unencrypted** in the API server's
 underlying data store (`etcd`). Anyone with API access and sufficient RBAC
 credentials can retrieve or modify a `Secret`, as can anyone with access
 to `etcd`.
@@ -179,8 +179,8 @@ to `etcd`.
 >
 > For an additional layer of security, you can opt out of using Kubernetes 
 > `Secret`s altogether and use **VMware Secrets Manager** without any 
-> Kubernetes secrets to protect the *root keys. In this mode, you’ll have to
-> manually provide the root keys to **VSecM Safe**; and you’ll need to 
+> Kubernetes secrets to protect the *root keys. In this mode, you'll have to
+> manually provide the root keys to **VSecM Safe**; and you'll need to 
 > re-provide the root keys every time you restart the **VSecM Safe** Pod or
 > the pod is evicted, crashed, or rescheduled.
 > 
@@ -218,7 +218,7 @@ However, **VMware Secrets Manager** also has the option to[persist the secrets s
 **VSecM Safe** as Kubernetes `Secret` objects][VSecM-k]. This approach can
 help support **legacy** systems where you want to start using
 **VMware Secrets Manager** without introducing much code and infrastructure change to the
-existing cluster—at least initially.
+existing cluster--at least initially.
 
 [VSecM-k]: /docs/cli/#creating-kubernetes-secrets "VSecM Sentinel: Creating Kubernetes Secrets"
 
@@ -243,10 +243,10 @@ end of the world if you keep your `etcd` unencrypted.
 #### Details
 
 This is an excellent question. And as in any profound answer to
-good questions, the answer is: “*it depends*” 🙂.
+good questions, the answer is: "*it depends*" 🙂.
 
 `Secret`s are, by default, stored unencrypted in `etcd`. So if an adversary
-can read `etcd` in any way, it’s game over.
+can read `etcd` in any way, it's game over.
 
 ##### Threat Analysis
 
@@ -262,7 +262,7 @@ and preventing privileged pods from running in the cluster are the usual ways
 to mitigate the threat. Unfortunately, it is a relatively complex attack vector
 to guard against. Yet, once your node is compromised, you have **a lot**
 of things to worry about. In that case, `etcd` exposure will be just one of
-many, *many*, **many** concerns that you’ll have to worry about.
+many, *many*, **many** concerns that you'll have to worry about.
 
 For `3`, assuming your servers are in a data center, there should already be
 physical security to secure your servers. So the attack is **unlikely**
@@ -286,7 +286,7 @@ its KEK and provide a plain text secret to the attacker.
 So, **yes**, securing `etcd` will marginally increase your security posture.
 Yet, it does not make too much of a difference unless you have **already**
 secured your virtual infrastructure **and** physical data center. And
-if you haven’t secured your virtual and physical assets, then you are in big
+if you haven't secured your virtual and physical assets, then you are in big
 trouble at day zero, even before you set up your cluster, so encrypting
 `etcd` will not save you the slightest from losing other valuable data
 elsewhere anyway.
@@ -397,8 +397,8 @@ identity of workloads running in Kubernetes.
 Normally, **SPIRE** interacts with the kubelet API to verify the identity of a workload. 
 This includes validating the serving certificate of the kubelet.
 When `skip_kubelet_verification` is set to `true`, **SPIRE** does not validate 
-the kubelet’s serving certificate. This can be useful in environments where the 
-kubelet’s serving certificate is not properly configured or cannot be trusted for 
+the kubelet's serving certificate. This can be useful in environments where the 
+kubelet's serving certificate is not properly configured or cannot be trusted for 
 some reason.
 
 That being said, skipping kubelet verification reduces security. It should be used 
@@ -410,7 +410,7 @@ To ensure kubelet verification is enabled:
 * **Flag Setup**: Ensure the `skip_kubelet_verification` flag is either set to 
   `false` or omitted. 
   By default, if the flag is not specified, kubelet verification is enabled.
-* **Kubelet Certificate**: Make sure the kubelet’s serving certificate is properly 
+* **Kubelet Certificate**: Make sure the kubelet's serving certificate is properly 
   configured and trusted within your Kubernetes cluster. This may involve configuring 
   the Kubernetes cluster to issue valid serving certificates for kubelets.
 * **Restart SPIRE Agent**: After making changes to the configuration, restart 
@@ -418,7 +418,7 @@ To ensure kubelet verification is enabled:
 
 > **Plan Carefully**  
 >
-> Remember, enabling kubelet verification might require updates to your cluster’s 
+> Remember, enabling kubelet verification might require updates to your cluster's 
 > configuration and careful planning to avoid disruption to existing workloads.
 {: .block-tip }
 
@@ -449,7 +449,7 @@ To secure these configuration files, you can:
 
 Set the `trust_domain` parameter in both server and agent `ConfigMaps`. This parameter 
 is crucial for ensuring that all workloads in the trust domain are issued identity 
-documents that can be verified against the trust domain’s root keys.
+documents that can be verified against the trust domain's root keys.
 
 ### Port Configuration
 
@@ -484,7 +484,7 @@ across restarts but requires additional security measures to protect the stored 
 
 Configure the `UpstreamAuthority` section in the server `ConfigMap`. 
 
-This is pivotal for maintaining the integrity of the SPIRE Server’s root signing 
+This is pivotal for maintaining the integrity of the SPIRE Server's root signing 
 key, which is central to establishing trust and generating identities.
 
 ### SPIRE Needs hostPath Access for SPIRE Agent DaemonSets
@@ -504,7 +504,7 @@ security feature for several reasons:
   require write permissions. Limiting these permissions reduces the risk of 
   unauthorized actions.
 * **Mitigating Risks of Tampering**: By making the socket **read-only** for 
-  workloads, the risk of these workloads tampering with the socket’s data or 
+  workloads, the risk of these workloads tampering with the socket's data or 
   behavior is minimized. This is crucial as SPIRE Agents deal with sensitive 
   identity credentials.
 * **Reducing Attack Surface**: A **read-only** configuration limits the potential 
@@ -519,7 +519,7 @@ security feature for several reasons:
 > **OpenShift Support**
 > 
 > For Kubernetes deployments such as [OpenShift][openshift] where enabling `hostPath`
-> requires additional permissions [you can follow SPIRE’s official documentation][spire-openshift]
+> requires additional permissions [you can follow SPIRE's official documentation][spire-openshift]
 {: .block-tip }
 
 [spire-openshift]: https://spiffe.io/docs/latest/deploying/spire_agent/#openshift-support
@@ -565,7 +565,7 @@ important.
 
 If **SPIRE Server** if offline for a long time then its root certificate will
 expire. The expiry time of the root certificate is configurable, but by default
-it’s CA TTL is *24 hours*.
+it's CA TTL is *24 hours*.
 
 > **SPIRE Is Designed to Be Resilient**
 > 
@@ -579,7 +579,7 @@ it’s CA TTL is *24 hours*.
 {: .block-info }
 
 Regarding the implications of the **SPIRE Server** being offline for more than
-its TTL, it’s important to understand the role of the server's CA certificate in
+its TTL, it's important to understand the role of the server's CA certificate in
 the SPIRE architecture:
 
 The CA certificate is central to the trust establishment in the **SPIRE**
@@ -599,7 +599,7 @@ From the **VMware Secrets Manager** perspective, this will result in workloads
 not being able to receive secrets from the **VSecM Safe**, and the **VSecM Safe**
 failing to respond to the requests made by the **VSecM Sentinel**.
 
-Therefore, it’s important to ensure that the **SPIRE Server** is online and able
+Therefore, it's important to ensure that the **SPIRE Server** is online and able
 to renew its CA certificate before it expires. Otherwise, manual intervention
 will be required to fix the trust issue.
 
@@ -637,7 +637,7 @@ gets evicted due to a resource contention, there will be minimal disruption
 until it restarts. However, **VSecM Safe** restarts fairly quickly, so the
 time window where it is unreachable will hardly be an issue.
 
-Moreover **VSecM Safe** employs “*lazy learning*” and does not load everything
+Moreover **VSecM Safe** employs "*lazy learning*" and does not load everything
 into memory all at once, allowing **very** fast restarts. In addition, its
 lightweight and focused code ensures that crashes are infrequent, making
 **VSecM Safe** *practically* highly available.
@@ -662,7 +662,7 @@ Also, for a backing store like Redis, the data would need to be encrypted
 
 When considering all these, **VSecM Safe** has not been created highly-available
 **by design**; however, it is so robust, and it restarts from crashes so fast that
-it’s “*as good as*” highly-available.
+it's "*as good as*" highly-available.
 
 ## DO NOT LIMIT CPU on VSecM Pods
 
@@ -672,16 +672,16 @@ unless you have a very specific reason to limit CPU on **VSecM Safe** pods,
 it is recommended to let it burst when it needs.
 
 Moreover, **VSecM Safe** is a go-based application. Limiting CPU on Go-based 
-workloads can be problematic due to the nature of [Go’s garbage collector 
+workloads can be problematic due to the nature of [Go's garbage collector 
 (*GC*) and concurrency management][go-gc]. 
 
 
 In Go, a significant portion of CPU usage can be attributed to the garbage collector 
-(*GC*). It’s designed to be fast and optimized, so altering its behavior is generally 
+(*GC*). It's designed to be fast and optimized, so altering its behavior is generally 
 **not** recommended. 
 
 Limiting CPU directly for Go-based workloads might not be the best approach due
-to the intricacies of Go’s garbage collection and concurrency model. And
+to the intricacies of Go's garbage collection and concurrency model. And
 **VSecM Safe** is no exception to this.
 
 Instead, profiling it to understand its specific needs in your cluster and 
@@ -696,7 +696,7 @@ CPU Throttling and Overcommitment, QoS Classes, and so on.
 
 [go-gc]: https://tip.golang.org/doc/gc-guide.html
 
-## Update VMware Secrets Manager’s Log Levels
+## Update VMware Secrets Manager's Log Levels
 
 **VSecM Safe** and **VSecM Sidecar** are configured to log at `TRACE` level by
 default. This is to help you debug issues with **VMware Secrets Manager**. However, this can
@@ -713,7 +713,7 @@ See [**Configuring VMware Secrets Manager**](/docs/configuration) for details.
 Since **VMware Secrets Manager** is a *Kubernetes-native* framework, its security is strongly
 related to how you secure your cluster. You should be safe if you keep your
 cluster and the `vsecm-system` namespace secure and follow
-“*the principle of least privilege*” as a guideline.
+"*the principle of least privilege*" as a guideline.
 
 **VMware Secrets Manager** is a lightweight secrets manager; however, that does not mean it
 runs on water: It needs CPU and Memory resources. The amount of resources you
@@ -721,7 +721,7 @@ need will depend on the criteria outlined in the former sections. You can either
 benchmark your system and set your resources accordingly. Or set generous-enough
 limits and adjust your settings as time goes by.
 
-Also, you are strongly encouraged **not** to set a limit on **VMware Secrets Manager** Pods’ CPU
+Also, you are strongly encouraged **not** to set a limit on **VMware Secrets Manager** Pods' CPU
 usage. Instead, it is recommended to let **VSecM Safe** burst the CPU when
 it needs.
 

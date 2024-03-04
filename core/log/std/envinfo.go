@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -18,7 +18,8 @@ import (
 	"strings"
 )
 
-// PrintEnvironmentInfo prints information about specific environment variables, enabled features, and binary version.
+// PrintEnvironmentInfo prints information about specific environment variables,
+// enabled features, and binary version.
 func PrintEnvironmentInfo(id *string, envVarsToPrint []string) {
 	info := make(map[string]string)
 
@@ -34,7 +35,8 @@ func PrintEnvironmentInfo(id *string, envVarsToPrint []string) {
 	printFormattedInfo(id, info)
 }
 
-// printSpecificEnvironmentVariables retrieves and prints values of specific environment variables.
+// printSpecificEnvironmentVariables retrieves and prints values of specific
+// environment variables.
 func printSpecificEnvironmentVariables(id *string, envVarsToPrint []string, info map[string]string) {
 	for _, envVar := range envVarsToPrint {
 		if value, exists := os.LookupEnv(envVar); exists {
@@ -45,13 +47,15 @@ func printSpecificEnvironmentVariables(id *string, envVarsToPrint []string, info
 	}
 }
 
-// printAdditionalInformation collects and prints additional information, such as all environment variables and Go version.
+// printAdditionalInformation collects and prints additional information,
+// such as all environment variables and Go version.
 func printAdditionalInformation(info map[string]string) {
 	info["ENVIRONMENT_VARIABLES"] = strings.Join(getAllEnvironmentVariables(), ", ")
 	info["GO_VERSION"] = runtime.Version()
 }
 
-// printFormattedInfo prints the collected information in a formatted way, ensuring proper alignment.
+// printFormattedInfo prints the collected information in a formatted way,
+// ensuring proper alignment.
 func printFormattedInfo(id *string, info map[string]string) {
 	infoKeys := sortKeys(info)
 	maxLength := getMaxEnvVarLength(infoKeys)
@@ -68,7 +72,8 @@ func printFormattedInfo(id *string, info map[string]string) {
 	}
 }
 
-// getMaxEnvVarLength finds the maximum length of environment variable names dynamically.
+// getMaxEnvVarLength finds the maximum length of environment
+// variable names dynamically.
 func getMaxEnvVarLength(envVars []string) int {
 	maxLength := 0
 	for _, envVar := range envVars {
@@ -79,7 +84,8 @@ func getMaxEnvVarLength(envVars []string) int {
 	return maxLength
 }
 
-// getAllEnvironmentVariables retrieves all environment variable keys and sorts them alphabetically.
+// getAllEnvironmentVariables retrieves all environment variable keys and
+// sorts them alphabetically.
 func getAllEnvironmentVariables() []string {
 	var envVarKeys []string
 	for _, v := range os.Environ() {
@@ -91,7 +97,8 @@ func getAllEnvironmentVariables() []string {
 	return envVarKeys
 }
 
-// toCustomCase formats a string to a custom case, replacing underscores with spaces and capitalizing words.
+// toCustomCase formats a string to a custom case, replacing underscores
+// with spaces and capitalizing words.
 func toCustomCase(input string) string {
 	return strings.ReplaceAll(strings.Title(strings.ToLower(input)), "_", " ")
 }

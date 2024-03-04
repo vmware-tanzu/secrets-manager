@@ -2,7 +2,7 @@
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/ keep your secrets… secret
+<>/ keep your secrets... secret
 ```
 
 ## Use Case: Using an Init Container
@@ -16,7 +16,7 @@ secrets to be allocated to a workload before bootstrapping the workload.
 Secrets Manager** hands-on.
 
 Note that the videos are about the older version of VMware Secrets Manager,
-called ‘Äegis’, but the concepts are the same. Also note that in the meantime
+called 'Aegis', but the concepts are the same. Also note that in the meantime
 we have added a few more features to **VMware Secrets Manager**, so you will
 find differences between the video and the current version of **VMware Secrets
 Manager**.
@@ -41,7 +41,7 @@ cd $WORKSPACE/vmware-secrets-manager
 make build-local
 # Deploy the use case:
 make example-init-container-deploy-local
-# Switch to this use case’s folder:
+# Switch to this use case's folder:
 cd $WORKSPACE/vmware-secrets-manager/examples/using-init-container
 # Check and make sure that the workload pod is still initializing:
 kubectl get po -n default
@@ -49,13 +49,13 @@ kubectl get po -n default
 ./register.sh
 # Verify that the workload pod has initialized:
 kubectl get po -n default
-# Tail the workload’s logs and verify that the secret is there:
+# Tail the workload's logs and verify that the secret is there:
 ./tail.sh
 ```
 
 ## Using Pre-Deployed Images
 
-If you don’t want to build the container images locally, you can use
+If you don't want to build the container images locally, you can use
 pre-deployed container images.
 
 ```bash 
@@ -63,7 +63,7 @@ pre-deployed container images.
 cd $WORKSPACE/vmware-secrets-manager
 # Deploy the use case from the pre-built image.
 make example-sidecar-deploy
-# Switch to this use case’s folder:
+# Switch to this use case's folder:
 cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
 # Check and make sure that the workload pod is still initializing:
 kubectl get po -n default
@@ -71,6 +71,6 @@ kubectl get po -n default
 ./register.sh
 # Verify that the workload pod has initialized:
 kubectl get po -n default
-# Tail the workload’s logs and verify that the secret is there:
+# Tail the workload's logs and verify that the secret is there:
 ./tail.sh
 ```

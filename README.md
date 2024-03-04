@@ -15,7 +15,7 @@
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/ keep your secrets… secret
+<>/ keep your secrets... secret
 ```
 
 ## The Elevator Pitch
@@ -52,8 +52,8 @@ Before trying **VMware Secrets Manager**, you might want to learn about its
 
 Once you are ready to start, [see the Quickstart guide][quickstart].
 
-Or, if you are one of those who “*learn by doing*”, you might want to dig into the
-implementation details later. If that’s the case, you can directly jump to the
+Or, if you are one of those who "*learn by doing*", you might want to dig into the
+implementation details later. If that's the case, you can directly jump to the
 fun part and [follow the steps here][installation] to install
 **VMware Secrets Manager** to your Kubernetes cluster.
 
@@ -82,18 +82,18 @@ the future of **VMware Secrets Manager** looks like.
 
 **VMware Secrets Manager** is under dynamic and progressive development.
 
-The code we’ve officially signed and released maintains a
+The code we've officially signed and released maintains a
 high standard of stability and dependability. However, we do encourage
-it to be used in a production environment (*at your own risk—[see LICENSE](LICENSE)*).
+it to be used in a production environment (*at your own risk--[see LICENSE](LICENSE)*).
 
-It’s important to note that, technically speaking, **VMware Secrets Manager**
+It's important to note that, technically speaking, **VMware Secrets Manager**
 currently holds the status of an *alpha software*. This means that as we
 journey towards our milestone of `v1.0.0`, it's possible for changes to
-occur—both major and minor. While this might mean some aspects are not backward
+occur--both major and minor. While this might mean some aspects are not backward
 compatible, it's a testament to our unwavering commitment to refining and
 enhancing **VMware Secrets Manager**.
 
-In a nutshell, we are ceaselessly pushing the boundaries of what’s possible while
+In a nutshell, we are ceaselessly pushing the boundaries of what's possible while
 ensuring our software stays dependable and effective for production use.
 
 ## 🦆🦆🦆 (*Docs*)
@@ -102,7 +102,7 @@ ensuring our software stays dependable and effective for production use.
 
 ## A Note on Security
 
-We take **VMware Secrets Manager**’s security seriously. If you believe you have
+We take **VMware Secrets Manager**'s security seriously. If you believe you have
 found a vulnerability, please [**follow this guideline**][vuln]
 to responsibly disclose it.
 
@@ -120,7 +120,7 @@ to responsibly disclose it.
 Open Source is better together.
 
 If you are a security enthusiast,
-[**join VMware Secrets Manager’s Slack Workspace**][slack-invite]
+[**join VMware Secrets Manager's Slack Workspace**][slack-invite]
 and let us change the world together 🤘.
 
 ## Links
@@ -129,7 +129,7 @@ and let us change the world together 🤘.
 
 * **Homepage and Docs**: <https://vsecm.com/>
 * **Changelog**: <https://vsecm.com/docs/changelog/>
-* **Community**: [Join **VSecM**’s Slack Workspace][slack-invite]
+* **Community**: [Join **VSecM**'s Slack Workspace][slack-invite]
 * **Contact**: <https://vsecm.com/docs/community/>
 
 ### Guides and Tutorials
@@ -172,11 +172,11 @@ of **VMware Secrets Manager** system design and how each component fits together
 
 ## Folder Structure
 
-> *VSecM* == “VMware Secrets Manager for Cloud-Native Apps”
+> *VSecM* == "VMware Secrets Manager for Cloud-Native Apps"
 
 Here are the important folders and files in this repository:
 
-* `./app`: Contains core **VSecM** components’ source code.
+* `./app`: Contains core **VSecM** components' source code.
     * `./app/init-container`: Contains the source code for the **VSecM Init Container**.
     * `./app/safe`: Contains the **VSecM Safe** source code.
     * `./app/sentinel`: Contains the source code for the **VSecM Sentinel**.
@@ -200,11 +200,11 @@ Here are the important folders and files in this repository:
 ## Changelog
 
 You can find the changelog and migration/upgrade instructions (*if any*)
-on [**VMware Secrets Manager**’s Changelog Page](https://vsecm.com/docs/changelog/).
+on [**VMware Secrets Manager**'s Changelog Page](https://vsecm.com/docs/changelog/).
 
-## What’s Coming Up Next?
+## What's Coming Up Next?
 
-You can see the project’s progress [in this **VMware Secrets Manager** roadmap][mdp].
+You can see the project's progress [in this **VMware Secrets Manager** roadmap][mdp].
 
 [mdp]: https://vsecm.com/docs/roadmap/
 
@@ -232,7 +232,7 @@ of maintainers of **VMware Secrets Manager**.
 Please send your feedback, suggestions, recommendations, and comments to
 [feedback@vsecm.com](mailto:feedback@vsecm.com).
 
-We’d love to have them.
+We'd love to have them.
 
 ## License
 

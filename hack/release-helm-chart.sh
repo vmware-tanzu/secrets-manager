@@ -57,7 +57,7 @@ case "$choice" in
 
     helm package "$releaseHelmChartPath/" --version="$releaseHelmChartVersion"
 
-    # If there is a “no crd” version; release that one too.
+    # If there is a "no crd" version; release that one too.
     if [ -d "${releaseHelmChartPath}-nocrd/" ]; then
         helm package "${releaseHelmChartPath}-nocrd/" --version="${releaseHelmChartVersion}-nocrd"
     fi

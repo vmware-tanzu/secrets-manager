@@ -2,9 +2,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -61,7 +61,7 @@ helm-install-photon-fips:
 # resource deletion prioritization issues.
 # Simply executing `helm uninstall` can result in dangling resources, which can
 # cause the helm chart to not be deleted, and installation of a new chart to fail.
-# This make target ensures that the SPIFFE CSI driver’s dependent resources are
+# This make target ensures that the SPIFFE CSI driver's dependent resources are
 # deleted before the helm chart is deleted, hence avoiding the above issue.
 helm-uninstall:
 	@echo "**************************************************************"

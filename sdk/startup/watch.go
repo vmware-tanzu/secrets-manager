@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -43,7 +43,7 @@ func Watch() {
 		case <-ticker.C:
 			log.InfoLn(&cid, "init:: tick")
 			if initialized() {
-				log.InfoLn(&cid, "initialized… exiting the init process")
+				log.InfoLn(&cid, "initialized... exiting the init process")
 				os.Exit(0)
 			}
 		}

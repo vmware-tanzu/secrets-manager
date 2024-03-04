@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -20,6 +20,10 @@ import (
 
 	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 )
+
+type VSecMInternalCommand struct {
+	LogLevel int `json:"logLevel"`
+}
 
 type SentinelCommand struct {
 	WorkloadId      string
@@ -77,7 +81,7 @@ var (
 )
 
 // Secret___ types are what is shown to the user.
-// SecretMeta is what’s used internally.
+// SecretMeta is what's used internally.
 
 type Secret struct {
 	Name         string   `json:"name"`
@@ -161,7 +165,7 @@ func handleNoTemplate(data map[string][]byte, value string) map[string][]byte {
 		//If error in unmarshalling, add the whole as a part of VALUE
 		data["VALUE"] = ([]byte)(value)
 	} else {
-		//Use the secret’s value as a key-val pair
+		//Use the secret's value as a key-val pair
 		return convertMapToStringBytes(jsonData)
 	}
 
@@ -251,12 +255,12 @@ func handleTemplateFailure(data map[string][]byte, value string) map[string][]by
 
 // ToMapForK8s returns a map that can be used to create a Kubernetes secret.
 //
-//  1. If there is no template, attempt to unmarshal the secret’ss value
-//     into a map. If that fails, store the secret’s value under the "VALUE" key.
+//  1. If there is no template, attempt to unmarshal the secret'ss value
+//     into a map. If that fails, store the secret's value under the "VALUE" key.
 //  2. If there is a template, attempt to parse it. If parsing is successful,
 //     create a new map with the parsed data. If parsing fails, follow the same
-//     logic as in case 1, attempting to unmarshal the secret’s value into a map,
-//     and if that fails, storing the secret’s value under the "VALUE" key.
+//     logic as in case 1, attempting to unmarshal the secret's value into a map,
+//     and if that fails, storing the secret's value under the "VALUE" key.
 func (secret SecretStored) ToMapForK8s() map[string][]byte {
 	data := make(map[string][]byte)
 
@@ -265,7 +269,7 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 		return data
 	}
 
-	// If there is no template, use the secret’s value as is.
+	// If there is no template, use the secret's value as is.
 	if secret.Meta.Template == "" {
 		return handleNoTemplate(data, secret.Values[0])
 	}
@@ -276,7 +280,7 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 		return convertMapToStringBytes(newData)
 	}
 
-	// If the template fails, use the secret’s value as is.
+	// If the template fails, use the secret's value as is.
 	return handleTemplateFailure(data, secret.Values[0])
 }
 
@@ -350,10 +354,10 @@ func transform(secret SecretStored, value string) (string, error) {
 //
 // 2.	Compute the output string:
 //   - If the Meta.Format field is Json, then the output string is parsedString
-//     if parsedString is a valid JSON, otherwise it’s the original value.
+//     if parsedString is a valid JSON, otherwise it's the original value.
 //   - If the Meta.Format field is Yaml, then the output string is the result of
 //     transforming parsedString into Yaml if parsedString is a valid JSON,
-//     otherwise it’s parsedString.
+//     otherwise it's parsedString.
 func (secret SecretStored) Parse() (string, error) {
 	if len(secret.Values) == 0 {
 		return "", fmt.Errorf("no values found for secret %s", secret.Name)

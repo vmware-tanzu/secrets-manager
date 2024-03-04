@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -30,7 +30,7 @@ for safe keeping outside your cluster.
 Since the secret will be encrypted, you can freely share it, and store in
 source control systems.
 
-When you’re ready to submit a secret to the workload, rather than providing the
+When you're ready to submit a secret to the workload, rather than providing the
 secret in plain text, you can deliver its encrypted version to **VSecM Safe**.
 
 This method offers a couple of distinct benefits:
@@ -38,11 +38,11 @@ This method offers a couple of distinct benefits:
 Firstly, it increases your overall security.
 
 Secondly, it allows for role differentiation: The individual (*or process*) who
-submits the secret doesn’t have to know its actual content; instead, they work
+submits the secret doesn't have to know its actual content; instead, they work
 with the encrypted version.
 
-Consequently, even if an impostor tries to mimic this individual, they wouldn’t
-be able to decipher the secret’s true value, drastically reducing potential
+Consequently, even if an impostor tries to mimic this individual, they wouldn't
+be able to decipher the secret's true value, drastically reducing potential
 avenues for attack.
 
 ## About the Encryption Process
@@ -56,7 +56,7 @@ this is an implementation detail which can be subject to change.
 
 ## Cleanup
 
-Let’s remove the workload as usual:
+Let's remove the workload as usual:
 
 ```bash 
 {% raw %}kubectl delete deployment example{% endraw %}
@@ -65,7 +65,7 @@ Let’s remove the workload as usual:
 Next, delete the secret associated with this workload:
 
 ```bash
-{% raw %}# Find the sentinel pod’s name:
+{% raw %}# Find the sentinel pod's name:
 kubectl get po -n vsecm-system
 
 # Delete secrets:
@@ -83,12 +83,12 @@ We will use **VSecM Inspector** like a debugger, to diagnose the
 state of our system.
 
 By the time of this writing **VSecM Inspector** is not an official 
-**VMware Secrets Manager** component, so we’ll piggyback on a `Deployment` 
+**VMware Secrets Manager** component, so we'll piggyback on a `Deployment` 
 manifest that was used in a former workshop. When we have an `vsecm-inspector` 
 pod that we can officially use for diagnostic purposes, this paragraph will be 
 edited to reflect that too.
 
-Yet, for now, let’s deploy the workshop version of it.
+Yet, for now, let's deploy the workshop version of it.
 
 ```bash 
 # Switch to the VMware Secrets Manager repo:
@@ -97,12 +97,12 @@ cd $WORKSPACE/secrets-manager
 cd examples/pre-vsecm-workshop/inspector
 kubectl apply -f ServiceAccount.yaml 
 kubectl apply -k .
-# Register VSecM Inspector’s ClusterSPIFFEID
+# Register VSecM Inspector's ClusterSPIFFEID
 cd ../ids
 kubectl apply -f Inspector.yaml
 ```
 
-Now let’s test it:
+Now let's test it:
 
 ```bash
 INSPECTOR=$(kubectl get po -n default \
@@ -117,7 +117,7 @@ kubectl exec $INSPECTOR -- ./env
 
 ## Encrypting a Secret
 
-Now, let’s encrypt a secret using **VSecM Sentinel**:
+Now, let's encrypt a secret using **VSecM Sentinel**:
 
 ```bash
 export SENTINEL=$(kubectl get po -n vsecm-system \
@@ -130,7 +130,7 @@ kubectl exec $SENTINEL -n vsecm-system -- safe \
 # The output of the above command will be 
 # similar to something like this:
 #
-#   YWdlLWVuY … Truncated … VZ2SDFiMjEY+V7JMg
+#   YWdlLWVuY ... Truncated ... VZ2SDFiMjEY+V7JMg
 #
 # ☝️ This is a long random encrypted string. 
 # We will use the variable $ENCRYPTED_SECRET in lieu of
@@ -153,7 +153,7 @@ kubect exec $SENTINEL -n vsecm-system -- safe \
   -e 
 ```
 
-And finally let’s inspect and see if the secret is registered properly:
+And finally let's inspect and see if the secret is registered properly:
 
 ```bash
 kubectl exec $INSPECTOR -- ./env
@@ -182,6 +182,6 @@ encrypted value to **VSecM Safe** instead of the plain text secret. This
 technique provides and added layer of protection, and also allows you to
 safe the secret anywhere you like including source control systems.
 
-Next up, you’ll learn about secret transformations.
+Next up, you'll learn about secret transformations.
 
 

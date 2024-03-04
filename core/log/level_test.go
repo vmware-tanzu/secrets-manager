@@ -2,16 +2,15 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
 package log
 
 import (
-	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"os"
 	"testing"
@@ -87,7 +86,7 @@ func TestLogLevel(t *testing.T) {
 			}()
 
 			if got := GetLevel(); int(got) != tt.want {
-				fmt.Println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
+				println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
 			}
 		})
 	}

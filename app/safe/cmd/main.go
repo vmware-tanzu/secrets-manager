@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -32,7 +32,7 @@ func main() {
 
 	bootstrap.ValidateEnvironment()
 
-	log.InfoLn(&id, "Acquiring identity…")
+	log.InfoLn(&id, "Acquiring identity...")
 
 	// Channel to notify when the bootstrap timeout has been reached.
 	timedOut := make(chan bool, 1)

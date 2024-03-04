@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -25,11 +25,11 @@ next_url: /docs/showcase/
 This tutorial will show various way you can interpolate and transform secrets.
 
 Transforming secrets may come in handy when your workload expects the secret
-in a different format than it has been initially provided, and you don’t want
+in a different format than it has been initially provided, and you don't want
 to write custom code to do the transformation.
 
 To help us explore these transformations, [we will use **VSecM Inspector**
-from the previous tutorial](/docs/use-case-encryption). If you haven’t installed
+from the previous tutorial](/docs/use-case-encryption). If you haven't installed
 it, before you proceed, please [navigate to that lecture and install
 **VSecM Inspector**](/docs/use-case-encryption)
 
@@ -59,7 +59,7 @@ Now, we can start experimenting.
 
 ## Cleanup
 
-Let’s start with a blank slate again:
+Let's start with a blank slate again:
 
 ```bash 
 delete-secret
@@ -79,7 +79,7 @@ inspect
 * and `"yaml"`
 
 If it is not given, it defaults to `"json"`; however, in the upcoming examples
-we’ll be explicit and provide this argument at all times.
+we'll be explicit and provide this argument at all times.
 
 ## Registering a JSON Secret
 
@@ -110,7 +110,7 @@ inspect
 
 ## Registering a JSON String (with invalid JSON)
 
-Now we’ll deliberately make an error in our JSON. Notice the missing `"`
+Now we'll deliberately make an error in our JSON. Notice the missing `"`
 in `username"`: That is not valid JSON.
 
 ```bash

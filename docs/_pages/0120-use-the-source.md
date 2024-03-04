@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -51,7 +51,7 @@ Make sure you have a running local Docker daemon and execute the following:
 make build-local
 ```
 
-That’s it 🎉. You now have images of **VMware Secrets Manager** and other 
+That's it 🎉. You now have images of **VMware Secrets Manager** and other 
 related components built locally on your Docker registry.
 
 ## Next Up

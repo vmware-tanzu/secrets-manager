@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -12,7 +12,6 @@ package std
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -246,10 +245,10 @@ func mockLogger(t *testing.T) (*bufio.Scanner, *os.File, *os.File) {
 func resetLogger(reader *os.File, writer *os.File) {
 	err := reader.Close()
 	if err != nil {
-		fmt.Println("error closing reader was ", err)
+		println("error closing reader was ", err)
 	}
 	if err = writer.Close(); err != nil {
-		fmt.Println("error closing writer was ", err)
+		println("error closing writer was ", err)
 	}
 	log.SetOutput(os.Stderr)
 }

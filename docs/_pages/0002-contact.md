@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -29,7 +29,7 @@ next_url: /docs/maintainers/
 
 ## Ask Questions on Slack
 
-[*VMware Secret Manager’s Slack Workspace**][slack] if one of the best ways to
+[**VMware Secret Manager's Slack Workspace**][slack] if one of the best ways to
 get in touch with the community, ask questions and get help.
 
 ## Create a GitHub Issue
@@ -38,7 +38,7 @@ In addition to [**Slack**][slack], you can [**create an issue on GitHub**][ticke
 to report a bug, request a feature, or ask a question.
 
 Also, please discuss your idea and findings with the community on
-[**VSecM**’s Slack workspace][slack] whenever possible.
+[**VSecM's Slack workspace**][slack] whenever possible.
 
 ## Report a Security Vulnerability
 
@@ -53,7 +53,7 @@ to responsibly disclose it.
 ## Contribute to VMware Secrets Manager
 
 We appreciate your interest in making the world a better and more secure place
-where everyone can `#sleepmore` 🤗. We’d love to have you on board.
+where everyone can `#sleepmore` 🤗. We'd love to have you on board.
 
 Please read [the contribution guidelines][contributing] and
 [the code of conduct][code-of-conduct], and let us know if you need anything

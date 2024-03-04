@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -59,7 +59,7 @@ will be used.
 **Used By**: *VSecM Safe*.
 
 `VSECM_ROOT_KEY_NAME` is how the age secret key is referenced by
-name inside **VSecM Safe**’s code. If not set, defaults to `"vsecm-root-key"`.
+name inside **VSecM Safe**'s code. If not set, defaults to `"vsecm-root-key"`.
 
 If you change the value of this environment variable, make sure to change the
 relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
@@ -111,7 +111,7 @@ If the environment variable is not set, it defaults to `"/opt/vsecm/secrets.json
 **VSecM Sidecar** also uses this configuration; however, unlike **VSecM Safe**,
 it is not dynamic. While you can dynamically configure this at runtime for
 **VSecM Safe** without having to restart **VSecM Safe**, for **VSecM Sidecar**
-you’ll have to restart the **workload**’s pod for any changes to take effect.
+you'll have to restart the **workload**'s pod for any changes to take effect.
 
 `0`: logs are off, `7`: highest verbosity. default: `3`
 
@@ -469,7 +469,7 @@ it can be synced by **VSecM Safe**:
 kind: Secret
 metadata:
   # The string after `vsecm-secret-` must match the 
-  # workload’s name.
+  # workload's name.
   # For example, this is an VSecM-managed secret for `example`
   # with the SPIFFE ID 
   # `"spiffe://vsecm.com/workload/example\
@@ -509,7 +509,7 @@ If not given, defaults to `"/opt/vsecm-sentinel/init/data"`.
 
 Defaults to `"/opt/vsecm-sentinel/tombstone/init"`.
 
-This path is usually used to store a “*tombstone*” file or data indicating that
+This path is usually used to store a "*tombstone*" file or data indicating that
 the initialization command has been executed or is no longer valid.
 
 ### VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT
@@ -528,18 +528,18 @@ If the environment variable is not set or invalid, a default timeout of
 If this environment variable is not set, it defaults to `"localhost:50051"`.
 
 This url used to configure gRPC logging service, which enables 
-**VSecM Sentinel**’s `safe` CLI command to send audit logs to the container’s 
+**VSecM Sentinel**'s `safe` CLI command to send audit logs to the container's 
 standard output.
 
 ### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
 
 **Used By**: *VSecM Sentinel*.
 
-`VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that’s used by
-that’s used by **VSecM Sentinel** to generate random pattern-based secrets.
+`VSECM_SENTINEL_SECRET_GENERATION_PREFIX` is a prefix that's used by
+that's used by **VSecM Sentinel** to generate random pattern-based secrets.
 
 If a secret is prefixed with this value, then **VSecM Sentinel** will consider
-it as a “*template*” rather than a literal value.
+it as a "*template*" rather than a literal value.
 
 If the environment variable is not set or is empty, it defaults to `"gen:"`.
 

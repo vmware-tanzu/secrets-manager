@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,17 +22,25 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* We now have a Go-based integration test suite instead of the former bash-based
+  one. This change makes the tests more reliable and easier to maintain, while
+  we can leverage the Go language’s powerful primitives to make the tests
+  readable, maintainable, and scalable.
+* Documented all public methods in the codebase. This will help
+  contributors to understand the codebase better and make it easier to
+  contribute.
 
-## [v0.23.0] – 2024-03-01
+## [v0.23.0] - 2024-03-01
 
 ### Added
 
 * VSecM Sentinel now waits for VSecM Safe to be ready before running init 
   commands.
 * Documentation updates and code refactoring.
+* Updated dependencies for better security.
+* Updated Go version to 1.22.0--the latest stable version.
 
-## [v0.22.5] – 2024-02-26
+## [v0.22.5] - 2024-02-26
 
 ### Added
 
@@ -47,7 +55,7 @@ TBD
 * VSecM Sentinel logs now have a correlation ID to make it easier to trace
   logs initiated by different requests.
 * Improvements to the logging-and-auditing-related code.
-* Deleting a VSecM Safe “secret” now also deletes the associated Kubernetes
+* Deleting a VSecM Safe "secret" now also deletes the associated Kubernetes
   secret, if it exists.
 * VSecM Safe now has a more robust retry strategy for creating and updating
   Kubernetes secrets.
@@ -70,8 +78,8 @@ TBD
 
 ### Changed
 
-* Moved “*VMware, Inc.*” from the copyright headers, replacing it with “*VMware
-  Secrets Manager contributors*”.
+* Moved "*VMware, Inc.*" from the copyright headers, replacing it with "*VMware
+  Secrets Manager contributors*".
 * Default resource limits for Minikube initialization scripts to a more reasonable
   values for development. These are still configurable via environment variables.
 
@@ -106,14 +114,14 @@ TBD
 
 * Documentation updates.
 * Ability to create and update Kubernetes secrets without attaching the secret
-  to a workload. This is useful for legacy use cases, or when you don’t have
-  direct access to the app’s source code or deployment manifests.
+  to a workload. This is useful for legacy use cases, or when you don't have
+  direct access to the app's source code or deployment manifests.
 
 ## [v0.22.1] - 2024-01-11
 
 ### Added
 
-* Added expiration and “invalid before” dates to secrets.
+* Added expiration and "invalid before" dates to secrets.
 * Implemented a basic CI automation that runs test whenever there is a change
   in the `main` branch. The automation runs unit and integration tests and
   send status updates upon failure.
@@ -207,7 +215,7 @@ also hardens the AES encryption flow against time-based attacks.
 
 ### Added
 
-* Fixed `spire-controller-manager`’s version. The older setup was fixed on
+* Fixed `spire-controller-manager`'s version. The older setup was fixed on
   `nightly` which was causing ad-hoc issues.
 
 ### Changed
@@ -221,7 +229,7 @@ also hardens the AES encryption flow against time-based attacks.
 ### Security
 
 * VSecM Safe has stricter validation routines for its identity.
-* Added VSecM Keygen: a utility application that generates VSecM Safe’s
+* Added VSecM Keygen: a utility application that generates VSecM Safe's
   bootstrapping keys if you want an extra level of security and control the
   creation of the root key.
 
@@ -244,7 +252,7 @@ also hardens the AES encryption flow against time-based attacks.
 
 * Minor bugfixes after migration; ensuring feature and behavior parity with
   Aegis.
-* Implemented stricter matchers for VSecM Sentinel and VSecM Safe’s
+* Implemented stricter matchers for VSecM Sentinel and VSecM Safe's
   `Identity.yaml`s.
 
 ### Security

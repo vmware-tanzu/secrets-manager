@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -12,7 +12,6 @@ package safe
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -28,7 +27,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-// Check validates the connectivity to VSecM Safe by calling the “list secrets”
+// Check validates the connectivity to VSecM Safe by calling the "list secrets"
 // API and expecting a successful response. The successful return (`nil`) from this
 // method means that VSecM Safe is up, and VSecM Sentinel is able to establish
 // and authorized request and get a meaningful response body.
@@ -57,7 +56,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		}
 
 		return errors.New(
-			"I don’t know you, and it’s crazy: '" + id.String() + "'",
+			"I don't know you, and it's crazy: '" + id.String() + "'",
 		)
 	})
 
@@ -137,7 +136,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 			return nil
 		}
 
-		return errors.New("I don’t know you, and it’s crazy: '" + id.String() + "'")
+		return errors.New("I don't know you, and it's crazy: '" + id.String() + "'")
 	})
 
 	safeUrl := "/sentinel/v1/secrets"
@@ -185,7 +184,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 		return
 	}
 
-	fmt.Println("")
-	fmt.Println(string(body))
-	fmt.Println("")
+	println("")
+	println(string(body))
+	println("")
 }

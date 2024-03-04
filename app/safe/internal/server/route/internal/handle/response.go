@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -12,15 +12,24 @@ package handle
 
 import (
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"io"
 	"net/http"
 
+	"github.com/vmware-tanzu/secrets-manager/core/audit"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
+// BadSvidResponse logs an event for a bad SPIFFE ID and sends an HTTP 400 Bad
+// Request response. This function is typically invoked when the SPIFFE ID provided
+// in a request is invalid or malformed.
+//
+// Parameters:
+// - cid (string): Correlation ID for operation tracing and logging.
+// - w (http.ResponseWriter): The HTTP response writer to send back the response.
+// - spiffeid (string): The SPIFFE ID that was determined to be invalid.
+// - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 	j audit.JournalEntry,
 ) {
@@ -36,6 +45,15 @@ func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 	}
 }
 
+// BadPeerSvidResponse logs an event for a bad peer SPIFFE ID and sends an
+// HTTP 400 Bad Request response. This function is used when the peer SPIFFE ID
+// in a mutual TLS session is found to be invalid or unacceptable.
+//
+// Parameters:
+// - cid (string): Correlation ID for operation tracing and logging.
+// - w (http.ResponseWriter): The HTTP response writer to send back the response.
+// - spiffeid (string): The peer's SPIFFE ID that was found to be invalid.
+// - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadPeerSvidResponse(cid string, w http.ResponseWriter,
 	spiffeid string, j audit.JournalEntry,
 ) {
@@ -49,6 +67,14 @@ func BadPeerSvidResponse(cid string, w http.ResponseWriter,
 	}
 }
 
+// NoSecretResponse logs an event indicating that no secret was found and sends
+// an HTTP 404 Not Found response. This function is invoked when a request for
+// a secret results in no matching secret being available.
+//
+// Parameters:
+// - cid (string): Correlation ID for operation tracing and logging.
+// - w (http.ResponseWriter): The HTTP response writer to send back the response.
+// - j (audit.JournalEntry): An audit journal entry for recording the event.
 func NoSecretResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry,
 ) {
@@ -62,6 +88,16 @@ func NoSecretResponse(cid string, w http.ResponseWriter,
 	}
 }
 
+// InitCompleteSuccessResponse logs a successful initialization event and sends
+// the initialization completion response back to the client. It marshals and
+// sends a structured response indicating successful initialization.
+//
+// Parameters:
+//   - cid (string): Correlation ID for operation tracing and logging.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the response.
+//   - j (audit.JournalEntry): An audit journal entry for recording the event.
+//   - sfr (reqres.SentinelInitCompleteResponse): The response payload to be
+//     marshaled and sent.
 func InitCompleteSuccessResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry, sfr reqres.SentinelInitCompleteResponse) {
 	j.Event = event.Ok
@@ -88,6 +124,16 @@ func InitCompleteSuccessResponse(cid string, w http.ResponseWriter,
 	log.DebugLn(&cid, "after response")
 }
 
+// SuccessResponse logs a successful operation event and sends a structured
+// success response back to the client. It marshals and sends a secret fetch
+// response, indicating the successful retrieval of a secret.
+//
+// Parameters:
+//   - cid (string): Correlation ID for operation tracing and logging.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the response.
+//   - j (audit.JournalEntry): An audit journal entry for recording the event.
+//   - sfr (reqres.SecretFetchResponse): The secret fetch response payload to be
+//     marshaled and sent.
 func SuccessResponse(cid string, w http.ResponseWriter,
 	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
 	j.Event = event.Ok
