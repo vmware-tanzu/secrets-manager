@@ -30,7 +30,7 @@ func setYAMLSecret(value, transform string) error {
 	}
 
 	// Executing command within the sentinel pod to set the YAML secret with
-	//transformation.
+	// transformation.
 	_, err = io.Exec("kubectl", "exec", s, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default", "-s", value,
 		"-t", transform, "-f", "yaml")
