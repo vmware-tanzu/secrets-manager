@@ -138,7 +138,7 @@ metadata:
 type: Opaque
 data:
   # '{}' (e30=) is a special placeholder to tell Safe that the Secret
-  # is not initialized. DO NOT deletion or change it.
+  # is not initialized. DO NOT remove or change it.
   KEY_TXT: "e30="
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
