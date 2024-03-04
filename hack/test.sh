@@ -491,29 +491,29 @@ go run ./ci/test/main.go ./ci/test/run.go
 #}
 #
 ## Registers a secret in VSecM Safe and transforms it as YAML.
-#set_yaml_secret() {
-#  printf "set_yaml_secret()\n"
-#
-#  local sentinel
-#  local value
-#  local transform
-#
-#  readonly sentinel=$(define_sentinel)
-#  readonly value=$1
-#  readonly transform=$2
-#  if [[ -z "$sentinel" || -z "$value" || -z "$transform" ]]; then
-#    sad_cuddle "set_yaml_secret: Failed to define sentinel, value or transform."
-#  fi
-#
-#  kubectl exec "$sentinel" -n vsecm-system -- safe \
-#    -w "example" \
-#    -n "default" \
-#    -s "$value" \
-#    -t "$transform" \
-#    -f "yaml" || sad_cuddle "set_yaml_secret: Failed to exec kubectl."
-#
-#  printf "done: set_yaml_secret()\n"
-#}
+set_yaml_secret() {
+  printf "set_yaml_secret()\n"
+
+  local sentinel
+  local value
+  local transform
+
+  readonly sentinel=$(define_sentinel)
+  readonly value=$1
+  readonly transform=$2
+  if [[ -z "$sentinel" || -z "$value" || -z "$transform" ]]; then
+    sad_cuddle "set_yaml_secret: Failed to define sentinel, value or transform."
+  fi
+
+  kubectl exec "$sentinel" -n vsecm-system -- safe \
+    -w "example" \
+    -n "default" \
+    -s "$value" \
+    -t "$transform" \
+    -f "yaml" || sad_cuddle "set_yaml_secret: Failed to exec kubectl."
+
+  printf "done: set_yaml_secret()\n"
+}
 #
 ## Registers a secret in VSecM Safe and transforms it as a Kubernetes secret.
 #set_kubernetes_secret() {

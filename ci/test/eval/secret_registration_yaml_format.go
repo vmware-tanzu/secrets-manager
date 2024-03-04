@@ -13,19 +13,32 @@ package eval
 import (
 	"github.com/pkg/errors"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
+	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"strings"
 )
 
-func setYAMLSecret(value, transform string) (string, error) {
-	// Direct string transformation for demonstration. Real logic might involve actual data manipulation.
-	transformed := strings.ReplaceAll(transform, "{{.username}}", "*root*")
-	transformed = strings.ReplaceAll(transformed, "{{.password}}", "*CasHC0w*")
-	// Simulate the YAML-like transformation.
-	yamlTransformed := strings.ReplaceAll(transformed, `{"USERNAME":"`, "USERNAME: '")
-	yamlTransformed = strings.ReplaceAll(yamlTransformed, `", "PASSWORD":"`, "'\nPASSWORD: '")
-	yamlTransformed = strings.ReplaceAll(yamlTransformed, `"}`, "'")
-	return yamlTransformed, nil
+func setYAMLSecret(value, transform string) error {
+	if value == "" || transform == "" {
+		return errors.New("setYAMLSecret: Value or transform is empty")
+	}
+
+	s, err := vsecm.Sentinel()
+	if err != nil || s == "" {
+		return errors.Wrap(err, "setYAMLSecret: Failed to get sentinel")
+	}
+
+	// Executing command within the sentinel pod to set the YAML secret with
+	//transformation.
+	_, err = io.Exec("kubectl", "exec", s, "-n", "vsecm-system",
+		"--", "safe", "-w", "example", "-n", "default", "-s", value,
+		"-t", transform, "-f", "yaml")
+	if err != nil {
+		return errors.Wrap(err, "setYAMLSecret: Failed to exec kubectl")
+	}
+
+	return nil
 }
 
 func SecretRegistrationYAMLFormat() error {
@@ -35,7 +48,7 @@ func SecretRegistrationYAMLFormat() error {
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`
 
-	_, err := setYAMLSecret(value, transform)
+	err := setYAMLSecret(value, transform)
 	if err != nil {
 		return errors.Wrap(err, "setYAMLSecret failed")
 	}
