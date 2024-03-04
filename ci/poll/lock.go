@@ -43,7 +43,7 @@ func createLockFile() error {
 
 	if time.Since(fileInfo.ModTime()) > 24*time.Hour {
 
-		// File is older than one day, attempt to deletion it and create a new one
+		// File is older than one day, attempt to remove it and create a new one
 		removeErr := os.Remove(lockFilePath)
 		if removeErr != nil {
 			return removeErr
