@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -28,7 +28,7 @@ next_url: /docs/contact/
 
 This meeting serves as a platform for contributors, maintainers, and anyone
 interested in the project to come together and discuss key aspects of
-**VMware Secrets Manager**’s future.
+**VMware Secrets Manager**'s future.
 
 * **Date/Time**: Every last Thursday on every month @ 08:00am Pacific
 * [**Calendar ICS**](https://calendar.google.com/calendar/ical/0ef770e47ae11cea2b00a743eed3812768cc3f9c2a45fee6207f4c9c8b0dc5ce%40group.calendar.google.com/public/basic.ics)
@@ -50,15 +50,15 @@ interested in the project to come together and discuss key aspects of
 
 ## Meeting Recordings
 
-### VMware Secrets Manager Contributor Sync 002 — 2024-01-25
+### VMware Secrets Manager Contributor Sync 002 -- 2024-01-25
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/907104093?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VMware Secrets Manager Contributor Sync 002 (2024-01-25)"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
-### VMware Secrets Manager Contributor Sync 001 — 2023-09-29
+### VMware Secrets Manager Contributor Sync 001 -- 2023-09-29
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe
 src="https://player.vimeo.com/video/869636733?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
 frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
 style="position:absolute;top:0;left:0;width:100%;height:100%;"
-title="VMware Secrets Manager Contributor Sync — 2023-09-29"
+title="VMware Secrets Manager Contributor Sync -- 2023-09-29"
 ></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>

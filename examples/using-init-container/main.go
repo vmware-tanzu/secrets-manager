@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -26,7 +26,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			fmt.Println(e)
+			println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -36,7 +36,7 @@ func main() {
 		fmt.Printf("My creds: username:'%s' password:'%s'.\n",
 			os.Getenv("USERNAME"), os.Getenv("PASSWORD"),
 		)
-		fmt.Println("")
+		println("")
 
 		time.Sleep(5 * time.Second)
 	}

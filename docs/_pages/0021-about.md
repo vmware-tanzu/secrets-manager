@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -22,11 +22,11 @@ next_url: /docs/endorsements/
 
 ## Why Do We Need a Cloud-Native Secrets Manager?
 
-Before we begin, let’s think about why we need a cloud-native secrets manager in 
-the first place. Can’t we just use Kubernetes `Secret`s? The following section 
+Before we begin, let's think about why we need a cloud-native secrets manager in 
+the first place. Can't we just use Kubernetes `Secret`s? The following section 
 will answer this question.
 
-## Wait, What’s Wrong With Kubernetes `Secret`s?
+## Wait, What's Wrong With Kubernetes `Secret`s?
 
 Kubernetes `Secret`s have legitimate use cases; however,
 the out-of-the-box security provided by Kubernetes `Secret`s might not always
@@ -55,10 +55,10 @@ Cloud-native secret management can be more secure, centralized, and easy-to-use.
 This is where **VMware Secrets Manager**, comes into play:
 
 > **VMware Secrets Manager** offers a *secure*, *user-friendly*, *cloud-native* 
-> secrets store that’s robust yet *lightweight*, requiring almost zero DevOps 
+> secrets store that's robust yet *lightweight*, requiring almost zero DevOps 
 > skills for installation and maintenance.
 
-In addition, **VMware Secrets Manager**…
+In addition, **VMware Secrets Manager**...
 
 * Has the ability to change secrets dynamically at runtime without having to
   reboot your workloads,
@@ -88,12 +88,12 @@ access tokens, etc.
 
 ## How Do I Get the Root Token? Where Do I Store It?
 
-Unlike other “*vault*”-style secrets stores, **VMware Secrets Manager** requires 
-no admin token for operation—a clear advantage that lets your Ops team 
+Unlike other "*vault*"-style secrets stores, **VMware Secrets Manager** requires 
+no admin token for operation--a clear advantage that lets your Ops team 
 `#sleepmore` due to automation and eliminates manual unlocking after system 
 crashes.
 
-However, there’s no free lunch, and as the operator of a production system,
+However, there's no free lunch, and as the operator of a production system,
 your homework is to secure access to your cluster. [Check out the **Production
 Deployment Guidelines**][production] for further instructions about hardening
 your cluster to securely use **VMware Secrets Manager**.

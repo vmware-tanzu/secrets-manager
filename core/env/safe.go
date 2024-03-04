@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -191,7 +191,7 @@ func BackingStoreForSafe() data.BackingStore {
 //
 //	data:
 //	  # '{}' (e30=) is a special placeholder to tell Safe that the Secret
-//	  # is not initialized. DO NOT remove or change it.
+//	  # is not initialized. DO NOT deletion or change it.
 //	  KEY_TXT: "e30="
 //
 // 2. This approach is LESS secure, and it is meant to be used for LEGACY
@@ -291,16 +291,16 @@ func SourceAcquisitionTimeoutForSafe() time.Duration {
 // BootstrapTimeoutForSafe returns the allowed time for VSecM Safe to wait
 // before killing the pod to retrieve an SVID, in time.Duration.
 // The interval is determined by the VSECM_SAFE_BOOTSTRAP_TIMEOUT environment
-// variable, with a default value of 30000 milliseconds if the variable is not
+// variable, with a default value of 300000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
 func BootstrapTimeoutForSafe() time.Duration {
 	p := os.Getenv("VSECM_SAFE_BOOTSTRAP_TIMEOUT")
 	if p == "" {
-		p = "30000"
+		p = "300000"
 	}
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 30000 * time.Millisecond
+		return 300000 * time.Millisecond
 	}
 	return time.Duration(i) * time.Millisecond
 }

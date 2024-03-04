@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -18,7 +18,7 @@ import (
 )
 
 func saveData(data string) error {
-	path := env.SidecarSecretsPath()
+	path := env.SecretsPathForSidecar()
 
 	f, err := os.Create(path)
 	if err != nil {
@@ -44,7 +44,7 @@ func fetchSecrets() error {
 
 	// VSecM Safe was successfully queried, but no secrets found.
 	// This means someone has deleted the secret. We cannot let
-	// the workload linger with the existing secret, so we remove
+	// the workload linger with the existing secret, so we deletion
 	// it from the workload too.
 	//
 	// If the user wants a more fine-tuned control for this case,

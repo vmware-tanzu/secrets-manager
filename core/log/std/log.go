@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -17,8 +17,9 @@ import (
 	stdlib "log"
 )
 
-// logMessage logs a message with the specified level, correlation ID, and message arguments.
-// It checks the current log level to decide if the message should be logged.
+// logMessage logs a message with the specified level, correlation ID, and
+// message arguments. It checks the current log level to decide if the message
+// should be logged.
 func logMessage(level log.Level, prefix string, correlationID *string, v ...any) {
 	if level != log.Audit && log.GetLevel() < level {
 		return

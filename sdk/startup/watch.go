@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -30,7 +30,7 @@ func initialized() bool {
 // If the secret exists, and it is not empty, the function exits the init
 // container with a success status code (0).
 func Watch() {
-	interval := env.InitContainerPollInterval()
+	interval := env.PollIntervalForInitContainer()
 	ticker := time.NewTicker(interval)
 
 	cid, _ := crypto.RandomString(8)
@@ -43,7 +43,7 @@ func Watch() {
 		case <-ticker.C:
 			log.InfoLn(&cid, "init:: tick")
 			if initialized() {
-				log.InfoLn(&cid, "initialized… exiting the init process")
+				log.InfoLn(&cid, "initialized... exiting the init process")
 				os.Exit(0)
 			}
 		}

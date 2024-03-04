@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -14,12 +14,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func rootKeyTriplet(content string) (string, string, string) {
@@ -37,7 +38,7 @@ func rootKeyTriplet(content string) (string, string, string) {
 }
 
 func keys() (string, string, string) {
-	p := env.KeyGenRootKeyPath()
+	p := env.RootKeyPathForKeyGen()
 
 	content, err := os.ReadFile(p)
 	if err != nil {
@@ -77,7 +78,7 @@ func decrypt(value []byte, algorithm crypto.Algorithm) (string, error) {
 }
 
 func secrets() entity.SecretStringTimeListResponse {
-	p := env.KeyGenExportedSecretPath()
+	p := env.ExportedSecretPathForKeyGen()
 
 	content, err := os.ReadFile(p)
 	if err != nil {
@@ -99,24 +100,24 @@ func printDecryptedKeys() {
 
 	algorithm := ss.Algorithm
 
-	fmt.Println("Algorithm:", algorithm)
-	fmt.Println("---")
+	println("Algorithm:", algorithm)
+	println("---")
 	for _, secret := range ss.Secrets {
-		fmt.Println("Name:", secret.Name)
+		println("Name:", secret.Name)
 
 		values := secret.EncryptedValue
 
 		for i, v := range values {
 			dv, err := decrypt([]byte(v), algorithm)
 			if err != nil {
-				fmt.Println("Error decrypting value:", err.Error())
+				println("Error decrypting value:", err.Error())
 				continue
 			}
 			fmt.Printf("Value[%d]: %s\n", i, dv)
 		}
 
-		fmt.Println("Created:", secret.Created)
-		fmt.Println("Updated:", secret.Updated)
-		fmt.Println("---")
+		println("Created:", secret.Created)
+		println("Updated:", secret.Updated)
+		println("---")
 	}
 }

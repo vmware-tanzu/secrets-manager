@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -23,10 +23,10 @@ next_url: /docs/installation
 ## Introduction
 
 This section discusses **VMware Secrets Manager** architecture and building blocks
-in greater detail: We will cover **VMware Secrets Manager**’s system design and
+in greater detail: We will cover **VMware Secrets Manager**'s system design and
 project structure.
 
-You don’t have to know about these architectural details to use **VMware Secrets Manager**;
+You don't have to know about these architectural details to use **VMware Secrets Manager**;
 however, understanding how **VMware Secrets Manager** works as a system can
 prove helpful when you want to extend, augment, or optimize **VMware Secrets Manager**.
 
@@ -132,7 +132,7 @@ SPIFFE ID format wor workloads is as follows:
 ```
 
 For the non-`vsecm-system` workloads that **Safe** injects secrets,
-`$workloadName` is determined by the workload’s `ClusterSPIFFEID` CRD.
+`$workloadName` is determined by the workload's `ClusterSPIFFEID` CRD.
 
 For `vsecm-system` components, we use `vsecm-safe` and `vsecm-sentinel`
 for the `$workloadName` (*along with other attestors such as attesting
@@ -172,7 +172,7 @@ persistent storage.
 > and provide your own keys. However, when you do this, you will have to
 > manually unlock **VSecM Safe** by providing your keys every time it
 > crashes. If you let **VSecM Safe** auto-generate the keys,
-> you won’t have to do this; so you can `#sleepmore`.
+> you won't have to do this; so you can `#sleepmore`.
 >
 > Again, check out the [**Configuration**](/docs/configuration)
 > section for more details.

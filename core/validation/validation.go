@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -16,9 +16,9 @@ import (
 )
 
 // IsSentinel returns true if the given SPIFFEID is a Sentinel ID.
-// It does this by checking if the SPIFFEID has the SentinelSpiffeIdPrefix as its prefix.
+// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForSentinel as its prefix.
 func IsSentinel(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SentinelSpiffeIdPrefix())
+	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSentinel())
 }
 
 // IsSafe returns true if the given SPIFFEID is a Safe ID.
@@ -28,7 +28,7 @@ func IsSafe(spiffeid string) bool {
 }
 
 // IsWorkload returns true if the given SPIFFEID is a WorkloadId ID.
-// It does this by checking if the SPIFFEID has the WorkloadSpiffeIdPrefix as its prefix.
+// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForWorkload as its prefix.
 func IsWorkload(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.WorkloadSpiffeIdPrefix())
+	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForWorkload())
 }

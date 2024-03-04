@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -41,18 +41,18 @@ func TestSidecarSecretsPath(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {
-					t.Errorf("SidecarSecretsPath() = failed to setup, with error: %+v", err)
+					t.Errorf("SecretsPathForSidecar() = failed to setup, with error: %+v", err)
 				}
 			}
 			defer func() {
 				if tt.cleanup != nil {
 					if err := tt.cleanup(); err != nil {
-						t.Errorf("SidecarSecretsPath() = failed to cleanup, with error: %+v", err)
+						t.Errorf("SecretsPathForSidecar() = failed to cleanup, with error: %+v", err)
 					}
 				}
 			}()
-			if got := SidecarSecretsPath(); got != tt.want {
-				t.Errorf("SidecarSecretsPath() = %v, want %v", got, tt.want)
+			if got := SecretsPathForSidecar(); got != tt.want {
+				t.Errorf("SecretsPathForSidecar() = %v, want %v", got, tt.want)
 			}
 		})
 	}

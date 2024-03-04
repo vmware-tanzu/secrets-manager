@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -29,7 +29,8 @@ type MockLogServiceServer struct {
 	ReceivedMessage string
 }
 
-func (s *MockLogServiceServer) SendLog(ctx context.Context, in *generated.LogRequest) (*generated.LogResponse, error) {
+func (s *MockLogServiceServer) SendLog(ctx context.Context,
+	in *generated.LogRequest) (*generated.LogResponse, error) {
 	s.ReceivedMessage = in.Message
 	return &generated.LogResponse{}, nil
 }

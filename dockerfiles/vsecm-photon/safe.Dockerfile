@@ -2,14 +2,14 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 # builder image
-FROM golang:1.20.1-alpine3.17 as builder
+FROM golang:1.22.0-alpine3.19 as builder
 
 RUN mkdir /build
 COPY app /build/app
@@ -22,7 +22,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cm
 # generate clean, final image for end users
 FROM photon:5.0
 
-ENV APP_VERSION="0.23.0"
+ENV APP_VERSION="0.23.1"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION

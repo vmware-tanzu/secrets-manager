@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -12,7 +12,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -55,8 +54,8 @@ func main() {
 
 	err = parser.Parse(os.Args)
 	if err != nil {
-		fmt.Println(err.Error())
-		fmt.Println()
+		println(err.Error())
+		println()
 		printUsage(parser)
 		return
 	}
@@ -84,7 +83,7 @@ func main() {
 	go func() {
 		select {
 		case <-c:
-			fmt.Println("Operation was cancelled.")
+			println("Operation was cancelled.")
 			cancel()
 		}
 	}()

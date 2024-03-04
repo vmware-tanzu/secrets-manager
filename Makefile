@@ -2,9 +2,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -12,7 +12,7 @@
 ifdef VSECM_VERSION
 	VERSION := $(VSECM_VERSION)
 else
-	VERSION := 0.23.0
+	VERSION := 0.23.1
 endif
 
 # Set deploySpire to false, if you want to use existing spire deployment
@@ -24,7 +24,9 @@ endif
 
 IMAGE=distroless
 DEPLOYMENT_NAME=vsecm
+VSECM_DOCKERHUB_REGISTRY_URL ?= "vsecm"
 VSECM_LOCAL_REGISTRY_URL ?= "localhost:5000"
+VSECM_EKS_REGISTRY_URL ?= "public.ecr.aws/h8y1n7y7"
 
 # Utils
 include ./makefiles/VSecMMacOs.mk

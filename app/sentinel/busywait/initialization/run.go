@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -13,8 +13,10 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
@@ -53,13 +55,68 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
+	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+
+	if !acquired {
+		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
+
+		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
+		defer cancel()
+
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-timeoutCtx.Done():
+				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
+				return
+			case <-ticker.C:
+				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
+				if acquired {
+					break
+				}
+			}
+		}
+	}
+
+	if src == nil {
+		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(
+		ctx, env.InitCommandRunnerWaitTimeoutForSentinel(),
+	)
+	defer cancel()
+
+	if err := safe.Check(ctx, src); err != nil {
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-ticker.C:
+				if err := safe.Check(ctx, src); err == nil {
+					break
+				}
+			case <-ctx.Done():
+				log.ErrorLn(
+					cid,
+					"Failed after talk to VSecM Safe in a timely manner.",
+				)
+				return
+			}
+		}
+	}
+
 	// Parse tombstone file first:
-	tombstonePath := env.SentinelInitCommandTombstonePath()
+	tombstonePath := env.InitCommandTombstonePathForSentinel()
 	file, err := os.Open(tombstonePath)
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found… skipping custom initialization.",
+			"no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -73,21 +130,21 @@ func RunInitCommands(ctx context.Context) {
 
 	data, err := os.ReadFile(tombstonePath)
 
-	if strings.TrimSpace(string(data)) == "complete" {
+	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
 			cid,
-			"Initialization already complete… skipping custom initialization.",
+			"Initialization already exit... skipping custom initialization.",
 		)
 		return
 	}
 
-	filePath := env.SentinelInitCommandPath()
+	filePath := env.InitCommandPathForSentinel()
 	file, err = os.Open(filePath)
 
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found… skipping custom initialization.",
+			"no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -131,6 +188,15 @@ func RunInitCommands(ctx context.Context) {
 		value := parts[1]
 
 		switch command(key) {
+		case exit:
+			// exit.
+			log.InfoLn(
+				cid,
+				"exit found during initialization.",
+				"skipping the rest of the commands.",
+				"skipping post initialization.",
+			)
+			return
 		case workload:
 			sc.WorkloadId = value
 		case namespace:

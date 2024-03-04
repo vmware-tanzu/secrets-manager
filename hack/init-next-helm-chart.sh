@@ -4,9 +4,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -24,7 +24,7 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "<base-version>: existing helm-chart version, this will be used as base helm-chart"
     echo "<new-version>: new helm-chart will be initialized for this version"
     echo "-----------------------------------------------------------------"
-    echo "example: ${gitRoot}/hack/init-next-helm-chart.sh 0.22.2 0.23.0"
+    echo "example: ${gitRoot}/hack/init-next-helm-chart.sh 0.22.2 0.22.4"
     exit 0
 fi
 
@@ -70,7 +70,7 @@ do
     s/^appVersion: \"${baseHelmChartVersion}\"/appVersion: \"${newHelmChartVersion}\"/;\
     s/^    version: ${baseHelmChartVersion}/    version: ${newHelmChartVersion}/"\
     "${newHelmChartPath}/${file_name}" || exit 1
-    # remove backup file
+    # deletion backup file
     rm "${newHelmChartPath}/${file_name}-e"
 done
 

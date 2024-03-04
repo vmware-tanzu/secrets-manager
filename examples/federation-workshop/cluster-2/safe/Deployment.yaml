@@ -2,9 +2,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -31,7 +31,7 @@ spec:
       serviceAccountName: vsecm-safe
       containers:
         - name: main
-          image: localhost:32000/vsecm-ist-safe:0.23.0
+          image: localhost:32000/vsecm-ist-safe:0.23.1
           ports:
             - containerPort: 8443
           volumeMounts:
@@ -50,7 +50,7 @@ spec:
           # See https://vsecm.com/configuration for more information about
           # these environment variables.
           #
-          # When you don’t explicitly provide env vars here, VMware Secrets Manager
+          # When you don't explicitly provide env vars here, VMware Secrets Manager
           # Safe will assume the default values outlined in the given link above.
           #
           env:
@@ -91,7 +91,7 @@ spec:
             - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
               value: "false"
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
-              value: "30000"
+              value: "300000"
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
             - name: VSECM_SYSTEM_NAMESPACE

@@ -2,7 +2,7 @@
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/ keep your secrets… secret
+<>/ keep your secrets... secret
 ```
 
 ## About
@@ -27,7 +27,7 @@ and we will also have a support plan various major versions.
 
 Send your vulnerability reports to [security@vsecm.com](mailto:security@vsecm.com).
 
-We don’t have an official turnover time, but if nobody gets back
+We don't have an official turnover time, but if nobody gets back
 to you within a week please send another email.
 
 We take all vulnerability reports seriously, and you will be notified 

@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -17,48 +17,79 @@ import (
 	"sync"
 	"time"
 
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/crypto"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/deletion"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/insertion"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-const InitialSecretValue = `{"empty":true}`
 const BlankRootKeyValue = "{}"
 
-// rootKey is the key used for encryption, decryption, backup, and restore.
-var rootKey = ""
-var rootKeyLock sync.RWMutex
+// RootKey is the key used for encryption, decryption, backup, and restore.
+var RootKey = ""
+var RootKeyLock sync.RWMutex
 
 // Initialize starts two goroutines: one to process the secret queue and
 // another to process the Kubernetes secret queue. These goroutines are
 // responsible for handling queued secrets and persisting them to disk.
 func Initialize() {
-	go processSecretQueue()
-	go processK8sSecretQueue()
-	go processSecretDeleteQueue()
-	go processK8sSecretDeleteQueue()
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
+	go insertion.ProcessSecretQueue(rkt)
+	go insertion.ProcessK8sSecretQueue()
+	go deletion.ProcessSecretDeleteQueue()
+	go deletion.ProcessK8sSecretDeleteQueue()
+}
+
+// RootKeyTriplet splits the RootKey into three components, if it is properly
+// formatted.
+//
+// The function returns a triplet of strings representing the parts of the RootKey,
+// separated by newlines. If the RootKey is empty or does not contain exactly
+// three parts, the function returns three empty strings.
+func RootKeyTriplet() (string, string, string) {
+	RootKeyLock.RLock()
+	defer RootKeyLock.RUnlock()
+
+	if RootKey == "" {
+		return "", "", ""
+	}
+
+	parts := strings.Split(RootKey, "\n")
+
+	if len(parts) != 3 {
+		return "", "", ""
+	}
+
+	return parts[0], parts[1], parts[2]
 }
 
 // SetRootKey sets the age key to be used for encryption and decryption.
 func SetRootKey(k string) {
 	id := "AEGSAK"
 
-	rootKeyLock.Lock()
-	defer rootKeyLock.Unlock()
+	RootKeyLock.Lock()
+	defer RootKeyLock.Unlock()
 
-	if rootKey != "" {
-		log.WarnLn(&id, "master key already set")
+	if RootKey != "" {
+		log.WarnLn(&id, "Root key already set")
 		return
 	}
-	rootKey = k
+	RootKey = k
 }
 
 // RootKeySet returns true if the root key has been set.
 func RootKeySet() bool {
-	rootKeyLock.RLock()
-	defer rootKeyLock.RUnlock()
+	RootKeyLock.RLock()
+	defer RootKeyLock.RUnlock()
 
-	return rootKey != ""
+	return RootKey != ""
 }
 
 // EncryptValue takes a string value and returns an encrypted and base64-encoded
@@ -69,13 +100,16 @@ func EncryptValue(value string) (string, error) {
 
 	fipsMode := env.FipsCompliantModeForSafe()
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	if fipsMode {
-		err := encryptToWriterAes(&out, value)
+		err := crypto.EncryptToWriterAes(&out, value, rkt)
 		if err != nil {
 			return "", err
 		}
 	} else {
-		err := encryptToWriterAge(&out, value)
+		err := crypto.EncryptToWriterAge(&out, value, rkt)
 		if err != nil {
 			return "", err
 		}
@@ -95,15 +129,18 @@ func DecryptValue(value string) (string, error) {
 		return "", err
 	}
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	if env.FipsCompliantModeForSafe() {
-		decrypted, err := decryptBytesAes(decoded)
+		decrypted, err := crypto.DecryptBytesAes(decoded, rkt)
 		if err != nil {
 			return "", err
 		}
 		return string(decrypted), nil
 	}
 
-	decrypted, err := decryptBytes(decoded)
+	decrypted, err := crypto.DecryptBytes(decoded, rkt)
 	if err != nil {
 		return "", err
 	}
@@ -117,18 +154,21 @@ func DecryptValue(value string) (string, error) {
 func AllSecrets(cid string) []entity.Secret {
 	var result []entity.Secret
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	// Check existing stored secrets files.
 	// If VSecM pod is evicted and revived, it will not have knowledge about
 	// the secret it has. This loop helps it re-populate its cache.
-	if !secretsPopulated {
-		err := populateSecrets(cid)
+	if !secret.SecretsPopulated() {
+		err := secret.PopulateSecrets(cid, rkt)
 		if err != nil {
 			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
 		}
 	}
 
 	// Range over all existing secrets.
-	secrets.Range(func(key any, value any) bool {
+	secret.Secrets.Range(func(key any, value any) bool {
 		v := value.(entity.SecretStored)
 
 		result = append(result, entity.Secret{
@@ -155,18 +195,21 @@ func AllSecrets(cid string) []entity.Secret {
 func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 	var result []entity.SecretEncrypted
 
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
 	// Check existing stored secrets files.
 	// If VSecM pod is evicted and revived, it will not have knowledge about
 	// the secret it has. This loop helps it re-populate its cache.
-	if !secretsPopulated {
-		err := populateSecrets(cid)
+	if !secret.SecretsPopulated() {
+		err := secret.PopulateSecrets(cid, rkt)
 		if err != nil {
 			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
 		}
 	}
 
 	// Range over all existing secrets.
-	secrets.Range(func(key any, value any) bool {
+	secret.Secrets.Range(func(key any, value any) bool {
 		v := value.(entity.SecretStored)
 
 		var vals []string
@@ -208,10 +251,10 @@ func contains(s []string, e string) bool {
 // handles updating the backing store and Kubernetes secrets if necessary.
 // If appendValue is true, the new value will be appended to the existing values,
 // otherwise it will replace the existing values.
-func UpsertSecret(secret entity.SecretStored, appendValue bool) {
-	cid := secret.Meta.CorrelationId
+func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
+	cid := secretStored.Meta.CorrelationId
 
-	vs := secret.Values
+	vs := secretStored.Values
 
 	if len(vs) == 0 {
 		log.InfoLn(&cid, "UpsertSecret: nothing to upsert. exiting.", "len(vs)", len(vs))
@@ -219,7 +262,7 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	}
 
 	var nonEmptyValues []string
-	for _, value := range secret.Values {
+	for _, value := range secretStored.Values {
 		if value != "" {
 			nonEmptyValues = append(nonEmptyValues, value)
 		}
@@ -230,42 +273,42 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 		return
 	}
 
-	secret.Values = nonEmptyValues
+	secretStored.Values = nonEmptyValues
 
-	s, exists := secrets.Load(secret.Name)
+	s, exists := secret.Secrets.Load(secretStored.Name)
 	now := time.Now()
 	if exists {
 		log.TraceLn(&cid, "UpsertSecret: Secret exists. Will update.")
 
 		ss := s.(entity.SecretStored)
-		secret.Created = ss.Created
+		secretStored.Created = ss.Created
 
 		if appendValue {
 			log.TraceLn(&cid, "UpsertSecret: Will append value.")
 
 			for _, v := range ss.Values {
-				if contains(secret.Values, v) {
+				if contains(secretStored.Values, v) {
 					continue
 				}
 				if len(v) == 0 {
 					continue
 				}
-				secret.Values = append(secret.Values, v)
+				secretStored.Values = append(secretStored.Values, v)
 			}
 		}
 	} else {
-		secret.Created = now
+		secretStored.Created = now
 	}
-	secret.Updated = now
+	secretStored.Updated = now
 
 	log.InfoLn(&cid, "UpsertSecret:",
-		"created", secret.Created, "updated", secret.Updated, "name", secret.Name,
-		"len(vs)", len(vs),
+		"created", secretStored.Created, "updated", secretStored.Updated,
+		"name", secretStored.Name, "len(vs)", len(vs),
 	)
 
 	log.TraceLn(&cid, "UpsertSecret: Will parse secret.")
 
-	parsedStr, err := secret.Parse()
+	parsedStr, err := secretStored.Parse()
 	if err != nil {
 		log.InfoLn(&cid,
 			"UpsertSecret: Error parsing secret. Will use fallback value.", err.Error())
@@ -273,22 +316,26 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 
 	log.TraceLn(&cid, "UpsertSecret: Parsed secret. Will set transformed value.")
 
-	secret.ValueTransformed = parsedStr
-	currentState.Increment(secret.Name)
-	secrets.Store(secret.Name, secret)
+	secretStored.ValueTransformed = parsedStr
+	stats.CurrentState.Increment(secretStored.Name, secret.Secrets.Load)
+	secret.Secrets.Store(secretStored.Name, secretStored)
 
-	store := secret.Meta.BackingStore
+	store := secretStored.Meta.BackingStore
 
 	switch store {
 	case entity.File:
 		log.TraceLn(
-			&cid, "UpsertSecret: Will push secret. len", len(secretQueue), "cap", cap(secretQueue))
-		secretQueue <- secret
+			&cid, "UpsertSecret: Will push secret. len",
+			len(insertion.SecretUpsertQueue),
+			"cap", cap(insertion.SecretUpsertQueue))
+		insertion.SecretUpsertQueue <- secretStored
 		log.TraceLn(
-			&cid, "UpsertSecret: Pushed secret. len", len(secretQueue), "cap", cap(secretQueue))
+			&cid, "UpsertSecret: Pushed secret. len",
+			len(insertion.SecretUpsertQueue), "cap",
+			cap(insertion.SecretUpsertQueue))
 	}
 
-	useK8sSecrets := secret.Meta.UseKubernetesSecret
+	useK8sSecrets := secretStored.Meta.UseKubernetesSecret
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
@@ -296,27 +343,41 @@ func UpsertSecret(secret entity.SecretStored, appendValue bool) {
 	// Kubernetes secret too.
 	if useK8sSecrets ||
 		env.UseKubernetesSecretsModeForSafe() ||
-		strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+		strings.HasPrefix(secretStored.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
 		log.TraceLn(
 			&cid,
-			"UpsertSecret: will push Kubernetes secret. len", len(k8sSecretQueue),
-			"cap", cap(k8sSecretQueue),
+			"UpsertSecret: will push Kubernetes secret. len",
+			len(insertion.K8sSecretUpsertQueue),
+			"cap", cap(insertion.K8sSecretUpsertQueue),
 		)
-		k8sSecretQueue <- secret
+		insertion.K8sSecretUpsertQueue <- secretStored
 		log.TraceLn(
 			&cid,
-			"UpsertSecret: pushed Kubernetes secret. len", len(k8sSecretQueue),
-			"cap", cap(k8sSecretQueue),
+			"UpsertSecret: pushed Kubernetes secret. len",
+			len(insertion.K8sSecretUpsertQueue),
+			"cap", cap(insertion.K8sSecretUpsertQueue),
 		)
 	}
 }
 
-func DeleteSecret(secret entity.SecretStored) {
-	cid := secret.Meta.CorrelationId
+// DeleteSecret orchestrates the deletion of a specified secret from both the
+// application's internal cache and its persisted storage locations, which may
+// include local filesystem and Kubernetes secrets. The deletion process is
+// contingent upon the secret's metadata, specifically its backing store and
+// whether it is used as a Kubernetes secret.
+//
+// Parameters:
+//   - secretToDelete (entity.SecretStored): The secret entity marked for deletion,
+//     containing necessary metadata such as the name of the secret, its correlation
+//     ID for logging, and metadata specifying where and how the secret is stored.
+func DeleteSecret(secretToDelete entity.SecretStored) {
+	cid := secretToDelete.Meta.CorrelationId
 
-	s, exists := secrets.Load(secret.Name)
+	s, exists := secret.Secrets.Load(secretToDelete.Name)
 	if !exists {
-		log.WarnLn(&cid, "DeleteSecret: Secret does not exist. Cannot delete.", secret.Name)
+		log.WarnLn(&cid,
+			"DeleteSecret: Secret does not exist. Cannot delete.",
+			secretToDelete.Name)
 		return
 	}
 
@@ -327,33 +388,39 @@ func DeleteSecret(secret entity.SecretStored) {
 	switch store {
 	case entity.File:
 		log.TraceLn(
-			&cid, "DeleteSecret: Will delete secret. len", len(secretDeleteQueue), "cap", cap(secretDeleteQueue))
-		secretDeleteQueue <- secret
+			&cid, "DeleteSecret: Will delete secret. len",
+			len(deletion.SecretDeleteQueue),
+			"cap", cap(deletion.SecretDeleteQueue))
+		deletion.SecretDeleteQueue <- secretToDelete
 		log.TraceLn(
-			&cid, "DeleteSecret: Pushed secret to delete. len", len(secretDeleteQueue), "cap", cap(secretDeleteQueue))
+			&cid, "DeleteSecret: Pushed secret to delete. len",
+			len(deletion.SecretDeleteQueue), "cap",
+			cap(deletion.SecretDeleteQueue))
 	}
 
-	useK8sSecrets := secret.Meta.UseKubernetesSecret
+	useK8sSecrets := secretToDelete.Meta.UseKubernetesSecret
 
 	// If useK8sSecrets is not set, use the value from the environment.
 	// The environment value defaults to false, too, if not set.
 	if useK8sSecrets || env.UseKubernetesSecretsModeForSafe() {
 		log.TraceLn(
 			&cid,
-			"DeleteSecret: will push Kubernetes secret to delete. len", len(k8sSecretDeleteQueue),
-			"cap", cap(k8sSecretDeleteQueue),
+			"DeleteSecret: will push Kubernetes secret to delete. len",
+			len(deletion.K8sSecretDeleteQueue),
+			"cap", cap(deletion.K8sSecretDeleteQueue),
 		)
-		k8sSecretDeleteQueue <- secret
+		deletion.K8sSecretDeleteQueue <- secretToDelete
 		log.TraceLn(
 			&cid,
-			"DeleteSecret: pushed Kubernetes secret to delete. len", len(k8sSecretDeleteQueue),
-			"cap", cap(k8sSecretDeleteQueue),
+			"DeleteSecret: pushed Kubernetes secret to delete. len",
+			len(deletion.K8sSecretDeleteQueue),
+			"cap", cap(deletion.K8sSecretDeleteQueue),
 		)
 	}
 
 	// Remove the secret from the memory.
-	currentState.Decrement(secret.Name)
-	secrets.Delete(secret.Name)
+	stats.CurrentState.Decrement(secretToDelete.Name, secret.Secrets.Load)
+	secret.Secrets.Delete(secretToDelete.Name)
 }
 
 // ReadSecret takes a key string and returns a pointer to an entity.SecretStored
@@ -363,25 +430,27 @@ func DeleteSecret(secret entity.SecretStored) {
 func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 	log.TraceLn(&cid, "ReadSecret:begin")
 
-	result, ok := secrets.Load(key)
-	if !ok {
-		stored, err := readFromDisk(key)
-		if err != nil {
-			return nil, err
-		}
-
-		if stored == nil {
-			return nil, nil
-		}
-		currentState.Increment(stored.Name)
-		secrets.Store(stored.Name, *stored)
-		secretQueue <- *stored
-
-		log.TraceLn(&cid, "ReadSecret: returning from disk.", "len", len(stored.Values))
-		return stored, nil
+	result, secretFoundInMemory := secret.Secrets.Load(key)
+	if secretFoundInMemory {
+		s := result.(entity.SecretStored)
+		log.TraceLn(&cid, "ReadSecret: returning from memory.", "len", len(s.Values))
+		return &s, nil
 	}
 
-	s := result.(entity.SecretStored)
-	log.TraceLn(&cid, "ReadSecret: returning from memory.", "len", len(s.Values))
-	return &s, nil
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
+	stored, err := persistence.ReadFromDisk(key, rkt)
+	if err != nil {
+		return nil, err
+	}
+	if stored == nil {
+		return nil, nil
+	}
+
+	stats.CurrentState.Increment(stored.Name, secret.Secrets.Load)
+	secret.Secrets.Store(stored.Name, *stored)
+
+	log.TraceLn(&cid, "ReadSecret: returning from disk.", "len", len(stored.Values))
+	return stored, nil
 }

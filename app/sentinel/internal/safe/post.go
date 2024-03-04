@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -15,7 +15,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"net/url"
@@ -40,7 +40,7 @@ func createAuthorizer() tlsconfig.Authorizer {
 			return nil
 		}
 
-		return errors.New("Post: I don’t know you, and it’s crazy: '" +
+		return errors.New("Post: I don't know you, and it's crazy: '" +
 			id.String() + "'",
 		)
 	})
@@ -132,9 +132,9 @@ func respond(cid *string, r *http.Response) {
 		return
 	}
 
-	fmt.Println("")
-	fmt.Println(string(body))
-	fmt.Println("")
+	println("")
+	println(string(body))
+	println("")
 }
 
 func printEndpointError(cid *string, err error) {
@@ -180,7 +180,7 @@ func doPost(cid *string, client *http.Client, p string, md []byte) {
 // a proceed signal back to the main function through channels. The main function
 // then waits for either a timeout or a source to be returned.
 //
-// If a timeout occurs, it logs an error depending on whether it’s due to deadline
+// If a timeout occurs, it logs an error depending on whether it's due to deadline
 // exceeded or an unknown reason. If a source is received, it checks whether to
 // proceed. If not, it returns early.
 //
@@ -204,7 +204,7 @@ func PostInitializationComplete(parentContext context.Context) {
 	proceedChan := make(chan bool)
 
 	go func() {
-		source, proceed := acquireSource(ctxWithTimeout)
+		source, proceed := spiffe.AcquireSourceForSentinel(ctxWithTimeout)
 		sourceChan <- source
 		proceedChan <- proceed
 	}()
@@ -276,7 +276,7 @@ func Post(parentContext context.Context,
 	proceedChan := make(chan bool)
 
 	go func() {
-		source, proceed := acquireSource(ctxWithTimeout)
+		source, proceed := spiffe.AcquireSourceForSentinel(ctxWithTimeout)
 		sourceChan <- source
 		proceedChan <- proceed
 	}()

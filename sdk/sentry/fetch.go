@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -85,7 +85,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 			return nil
 		}
 
-		return errors.New("Fetch: I don’t know you, and it’s crazy: '" + id.String() + "'")
+		return errors.New("Fetch: I don't know you, and it's crazy: '" + id.String() + "'")
 	})
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), "/workload/v1/secrets")

@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -35,7 +35,7 @@ locally.
 
 If you are new to **VMware Secrets Manager** or looking for smaller tasks to 
 start contributing, we have a set of issues labeled as 
-[“*good first issue*”](https://github.com/vmware-tanzu/secrets-manager/labels/good%20first%20issue) 
+["*good first issue*"](https://github.com/vmware-tanzu/secrets-manager/labels/good%20first%20issue) 
 on our GitHub repository. These issues are a great place to start if you are 
 looking to make your first contribution.
 
@@ -43,19 +43,19 @@ looking to make your first contribution.
 
 1. Navigate to the [Issues tab](https://github.com/vmware-tanzu/secrets-manager/issues) 
    in the GitHub repository.
-2. Use the label filter and select the [“*good first issue*”](https://github.com/vmware-tanzu/secrets-manager/labels/good%20first%20issue) 
+2. Use the label filter and select the ["*good first issue*"](https://github.com/vmware-tanzu/secrets-manager/labels/good%20first%20issue) 
    label.
 3. Browse through the list and pick an issue that interests you.
 
 ### Claiming an Issue
 
-Before starting work on an issue, it’s a good practice to comment on it, 
+Before starting work on an issue, it's a good practice to comment on it, 
 stating that you intend to work on it. This prevents multiple contributors from 
 working on the same issue simultaneously.
 
 ### Need Help?
 
-If you have questions or need further clarification on a “*good first issue,*” 
+If you have questions or need further clarification on a "*good first issue,*" 
 feel free to ask in the issue comments or reach out to the maintainers.
 
 ## Code Review Requirements
@@ -152,7 +152,7 @@ This **policy** underscores the importance of validating new features through
 thorough testing. For every significant addition you make, ensure that robust 
 tests are included. 
 
-This practice is **crucial** for maintaining the **VSecM**’s quality, reliability, 
+This practice is **crucial** for maintaining the **VSecM**'s quality, reliability, 
 and stability. By integrating tests for new features, you contribute not only to 
 the early detection of defects but also to the facilitation of smoother future 
 enhancements and modifications. 
@@ -162,7 +162,7 @@ software development.
 
 ## What Technologies Do I Need to Know?
 
-You don’t have to be an expert in all of these technologies to contribute to
+You don't have to be an expert in all of these technologies to contribute to
 **VMware Secrets Manager**. However, being familiar with the following 
 concepts and technologies will help you get started faster.
 

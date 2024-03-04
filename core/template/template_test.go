@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -123,6 +123,14 @@ func TestTryParse(t *testing.T) {
 				jason:  "{username}",
 			},
 			want: "{username}",
+		},
+		{
+			name: "invalid_template_valid_json",
+			args: args{
+				tmpStr: "{\"USER\":\"{{}}\", \"PASS\":\"{{.password}}\"}",
+				jason:  "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
+			},
+			want: "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
 		},
 	}
 	for _, tt := range tests {

@@ -2,15 +2,15 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 help:
 	@echo "--------------------------------------------------------------------"
-	@echo "          🛡️ VMware Secrets Manager: Keep your secrets… secret."
+	@echo "          🛡️ VMware Secrets Manager: Keep your secrets... secret."
 	@echo "          🛡️ https://vsecm.com/"
 	@echo "--------------------------------------------------------------------"
 	@echo "        ℹ️ This Makefile assumes you use Minikube and Docker"
@@ -66,10 +66,20 @@ help:
 	@echo "          ˃ make deploy;make test;"
 	@echo "    ⦿ Distroless FIPS images:"
 	@echo "          ˃ make deploy-fips;make test;"
-	@echo "    ⦿ Distroless images:"
+	@echo "    ⦿ Photon images:"
 	@echo "          ˃ make deploy-photon;make test;"
 	@echo "    ⦿ Photon FIPS images:"
 	@echo "          ˃ make deploy-photon-fips;make test;"
+	@echo "--------------------------------------------------------------------"
+	@echo "  Installation (*edge version*):"
+	@echo "    ⦿ Distroless EKS images:"
+	@echo "          ˃ make deploy-eks;make test-eks;"
+	@echo "    ⦿ Distroless eks FIPS images:"
+	@echo "          ˃ make deploy-fips-eks;make test-eks;"
+	@echo "    ⦿ Photon EKS images:"
+	@echo "          ˃ make deploy-photon-eks;make test-eks;"
+	@echo "    ⦿ Photon EKS FIPS images:"
+	@echo "          ˃ make deploy-photon-fips-eks;make test-eks;"
 	@echo "--------------------------------------------------------------------"
 	@echo "  Example Use Cases:"
 	@echo "    Using local images:"
@@ -93,8 +103,9 @@ h:
 		echo "˃ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"; \
 		echo "˃ make generate-proto-files"; \
 	fi
-	@echo "˃ make build-local;make deploy-local;make test-local;"
-	@echo "˃ make build;make deploy;make test;"
+	@echo "˃ make build-local; make clean; make deploy-local; make test-local;"
+	@echo "˃ make build      ; make clean; make deploy      ; make test;"
+	@echo "˃ make build-eks  ; make clean; make deploy-eks  ; make test-eks;"
 	@echo "˃ make tag;"
 	@echo "--------------------------------------------------------------------"
 	@echo "If you are on the build server, stop the cronjob first: \`crontab -e\`"

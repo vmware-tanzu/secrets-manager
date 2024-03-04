@@ -2,7 +2,7 @@
 |   Protect your secrets, protect your sensitive data.
 :   Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/ keep your secrets… secret
+<>/ keep your secrets... secret
 ```
 
 # Contributing to VMware Secrets Manager for Cloud-Native Apps
@@ -54,7 +54,7 @@ building, deploying, and testing **VMware Secrets Manager**.
 
 The guide and other documentation is maintained at the `./docs` folder in this 
 repository. You are more than welcome to contribute to it if you find anything
-that’s missing or needs improvement.
+that's missing or needs improvement.
 
 In addition, please [follow the quickstart manual](https://vsecm.com/quickstart/)
 that is specifically designed for you to experiment with **VMware Secrets Manager**
@@ -66,7 +66,7 @@ any errors before creating a pull request.
 
 ## Contribution Flow
 
-This is a rough outline of what a contributor’s workflow looks like:
+This is a rough outline of what a contributor's workflow looks like:
 
 * Make a fork of the repository within your GitHub account
 * Create a topic branch in your fork from where you want to base your work

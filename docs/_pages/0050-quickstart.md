@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -28,9 +28,9 @@ next_url: /docs/philosophy/
 ## Prerequisites
 
 * [**Minikube**][minikube]: You can install **VMware Secrets Manager** on any
-  Kubernetes cluster, but we’ll use *Minikube* in this quickstart example.
+  Kubernetes cluster, but we'll use *Minikube* in this quickstart example.
   Minikube is a tool that makes it easy to run Kubernetes locally.
-* [**make**][make]: You’ll need `make` to run certain build tasks. You can
+* [**make**][make]: You'll need `make` to run certain build tasks. You can
   install `make` using your favorite package manager.
 * [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses
   the *Docker* driver. If you use a different driver, things will still likely
@@ -39,7 +39,7 @@ next_url: /docs/philosophy/
 > **I Have a Kubernetes Cluster Already**
 > 
 > If you are already have a cluster and a `kubectl` that you can use on that 
-> cluster, you won’t need Minikube, so you can skip the steps related to 
+> cluster, you won't need Minikube, so you can skip the steps related to 
 > initializing Minikube and configuring Minikube-related environment variables.
 {: .block-tip }
 
@@ -51,7 +51,7 @@ Also, if you are not using minikube, you will not need a local docker instance e
 
 ## A Video Is Worth A Lot of Words
 
-Here’s a video that walks you through the steps in this quickstart guide:
+Here's a video that walks you through the steps in this quickstart guide:
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe
 src="https://player.vimeo.com/video/849328819?h=46caa595f7&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
@@ -62,7 +62,7 @@ title="VMware Secrets Manager (for Cloud-Native Apps) Quickstart"></iframe></div
 
 ## Clone the Repository
 
-Let’s start by cloning the **VMware Secrets Manager** repository first:
+Let's start by cloning the **VMware Secrets Manager** repository first:
 
 ```bash
 cd $WORKSPACE
@@ -72,7 +72,7 @@ cd secrets-manager
 
 ## Initialize Minikube
 
-Next, let’s initialize *Minikube*:
+Next, let's initialize *Minikube*:
 
 ```bash
 cd $WORKSPACE/secrets-manager
@@ -85,9 +85,9 @@ make k8s-start
 
 ## Configure Docker Environment Variables
 
-Next, let’s configure the Docker environment variables for Minikube.
+Next, let's configure the Docker environment variables for Minikube.
 
-We don’t strictly need this for the quickstart, but it’s a good idea to do
+We don't strictly need this for the quickstart, but it's a good idea to do
 it anyway.
 
 ```bash
@@ -96,7 +96,7 @@ eval $(minikube -p minikube docker-env)
 
 ## Install SPIRE and VMware Secrets Manager
 
-Next we’ll install [SPIRE][spire] and **VMware Secrets Manager** on the cluster.
+Next we'll install [SPIRE][spire] and **VMware Secrets Manager** on the cluster.
 
 ```bash
 cd $WORKSPACE/secrets-manager
@@ -109,7 +109,7 @@ This will take a few minutes to complete.
 
 ## Verify Installation
 
-Let’s check that the installation was successful by listing the pods int
+Let's check that the installation was successful by listing the pods int
 the `spire-system` and `vsecm-system` namespaces:
 
 ```bash
@@ -149,7 +149,7 @@ make help
 
 ## Deploy an Example Workload
 
-Now, let’s deploy an example workload to the cluster to test
+Now, let's deploy an example workload to the cluster to test
 **VMware Secrets Manager** in action.
 
 ```bash
@@ -171,7 +171,7 @@ NAME                       READY   STATUS    RESTARTS   AGE
 example-68997489c6-8j8kj   1/1     Running   0          1m51s
 ```
 
-Let’s check the logs of our example workload:
+Let's check the logs of our example workload:
 
 ```bash
 kubectl logs example-68997489c6-8j8kj
@@ -181,42 +181,42 @@ The output will be something similar to this:
 
 ```text
 2023/07/28 01:26:51 fetch
-Failed to read the secrets file. Will retry in 5 seconds…
+Failed to read the secrets file. Will retry in 5 seconds...
 Secret does not exist
 2023/07/28 01:27:03 fetch
-Failed to read the secrets file. Will retry in 5 seconds…
+Failed to read the secrets file. Will retry in 5 seconds...
 Secret does not exist
 2023/07/28 01:27:08 fetch
-Failed to read the secrets file. Will retry in 5 seconds…
-… truncated …
+Failed to read the secrets file. Will retry in 5 seconds...
+... truncated ...
 ```
 
-Our sample workload is trying to fetch a secret, but it can’t find it.
+Our sample workload is trying to fetch a secret, but it can't find it.
 
-Here’s the source code of our sample workload to provide some context:
+Here's the source code of our sample workload to provide some context:
 
 ```go
 package main
 
-// … truncated headers …
+// ... truncated headers ...
 
 func main() {
 
-	// … truncated irrelevant code …
+	// ... truncated irrelevant code ...
 
 	for {
 		log.Println("fetch")
 		d, err := sentry.Fetch()
 
 		if err != nil {
-			fmt.Println("Failed. Will retry in 5 seconds…")
-			fmt.Println(err.Error())
+			println("Failed. Will retry in 5 seconds...")
+			println(err.Error())
 			time.Sleep(5 * time.Second)
 			continue
 		}
 
 		if d.Data == "" {
-			fmt.Println("No secret yet… will check again later.")
+			println("No secret yet... will check again later.")
 			time.Sleep(5 * time.Second)
 			continue
 		}
@@ -240,9 +240,9 @@ it establishes a secure mTLS connection between the workload and
 Since this workload does not have any secret registered, the request fails
 and the workload retries every 5 seconds.
 
-Since this is a quickstart example, we won’t dive into the details of
+Since this is a quickstart example, we won't dive into the details of
 how the workload establishes a secure mTLS connection with the
-**VSecM Safe**. We’ll cover this in the following sections.
+**VSecM Safe**. We'll cover this in the following sections.
 
 For the sake of this quickstart, we can assume that secure communication
 between the workload and the **VSecM Safe** is already taken
@@ -250,18 +250,18 @@ care of for us.
 
 ## Register a Secret
 
-Now, let’s register a secret and see what happens.
+Now, let's register a secret and see what happens.
 
-To register a secret we’ll need to find the `vsecm-sentinel` pod in the
+To register a secret we'll need to find the `vsecm-sentinel` pod in the
 `vsecm-system` namespace and execute a command inside the pod.
 
-Let’s get the pod first:
+Let's get the pod first:
 
 ```bash
 kubectl get po -n vsecm-system
 ```
 
-Here’s a sample output:
+Here's a sample output:
 
 ```text
 NAME                             READY   STATUS    RESTARTS
@@ -271,7 +271,7 @@ vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0
 
 `vsecm-sentinel-6dc9b476f-djnq7` is what we need here.
 
-Let’s use it and register a secret to our example workload:
+Let's use it and register a secret to our example workload:
 
 ```bash
 kubectl exec vsecm-sentinel-6dc9b476f-djnq7 -n vsecm-system -- \
@@ -288,7 +288,7 @@ safe -w "example" -n "default" -s "VSecMRocks"
 > commands and options.
 {: .block-tip }
 
-You’ll get an `OK` as a response:
+You'll get an `OK` as a response:
 
 ```text
 OK
@@ -302,13 +302,13 @@ For the command `safe -w "example" -n "default" -s "VSecMRocks"`
 
 But how do you know what the workload name is?
 
-That’s where **ClusterSPIFFEID** comes in:
+That's where **ClusterSPIFFEID** comes in:
 
 ```bash
 kubectl get ClusterSPIFFEID
 ```
 
-And here’s the output:
+And here's the output:
 
 ```text
 NAME             AGE
@@ -321,7 +321,7 @@ vsecm-sentinel   4h35m
 > Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization. 
 > 
 > If anyone could create or modify badges (*SVIDs*), they could make one for 
-> themselves that mimics the CEO’s badge, gaining access to restricted areas. 
+> themselves that mimics the CEO's badge, gaining access to restricted areas. 
 > 
 > Hence, only trusted personnel (*with elevated privileges*) are allowed to 
 > manage the badge maker.
@@ -330,7 +330,7 @@ vsecm-sentinel   4h35m
 {: .block-tip }
 
 
-Let’s see the details of this `example` SPIFFE ID:
+Let's see the details of this `example` SPIFFE ID:
 
 ```bash
 kubectl describe ClusterSPIFFEID example
@@ -379,7 +379,7 @@ this SPIFFE ID, our example workload can securely communicate with the
 
 ## Verifying Secret Registration
 
-Since we’ve registered a secret, let’s see if our example workload can fetch
+Since we've registered a secret, let's see if our example workload can fetch
 the secret now and display it in its logs.
 
 ```bash

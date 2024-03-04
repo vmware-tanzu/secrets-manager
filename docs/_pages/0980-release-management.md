@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -40,7 +40,7 @@ We (*still*) have a manual build process, so you will need access to the
 **VSecM** build server to be able to cut a release.
 
 You can of course build **VSecM** locally, but without the build server, you
-won’t be able to push the images to the registry and tag the release.
+won't be able to push the images to the registry and tag the release.
 
 ## Make Sure We Are Ready for a Release Cut
 
@@ -73,7 +73,7 @@ make k8s-start
 ```
 
 This will also start the local registry. However, you will need to
-eval some environment variables to be able to use Minikube’s registry instead
+eval some environment variables to be able to use Minikube's registry instead
 of the local Docker registry.
 
 ```bash
@@ -222,6 +222,21 @@ make deploy-photon-fips-local
 make test-local
 ```
 
+### 7. Test the `main` Branch on EKS
+
+First build and publish images to ECR, then test them on EKS.
+
+```bash 
+# You don't need to build the images if they already exist.
+make build-eks 
+# Clean up previous deployments.
+make clean
+# Deploy the images to EKS.
+make deploy-eks 
+# Test the deployment.
+make test-eks;
+```
+
 ### 7. Merge the Release Branch to `main`
 
 If all tests pass, merge the release branch to `main`.
@@ -232,7 +247,7 @@ Tagging needs to be done **on the build server**.
 
 There is no automation for this yet.
 
-> **Don’t forget to Bump the Version**
+> **Don't forget to Bump the Version**
 >
 > If you are cutting a new release, do not forget to bump the version,
 > before running the tagging script below.
@@ -261,7 +276,7 @@ To initialize a new helm-chart, run the following command using the init script:
 base-version: the existing helm-charts version to be used as the base helm-chart.
 new-version: the version helm-charts to be initialized.
 
-For example: `./hack/init-next-helm-chart.sh 0.22.2 0.23.0`
+For example: `./hack/init-next-helm-chart.sh 0.22.2 0.22.4`
 
 After execution, the script will display a link on the console.
 Use this link to create a pull request (PR) and merge it into the main branch.
@@ -277,7 +292,7 @@ These manifests are used by people who want to install VSecM without using
 Helm. To generate the manifests you need to have generated the helm charts
 first.
 
-For example `make k8s-manifests-update VERSION=0.23.0`
+For example `make k8s-manifests-update VERSION=0.22.4`
 
 ### 11. Release Helm Charts
 
@@ -286,8 +301,8 @@ To execute the script, provide the version of the helm-charts that you want
 to release as an argument.
 
 Use the following format: `./hack/release-helm-chart.sh <version>`
-For example, to release version 0.23.0, run:
-`./hack/release-helm-chart.sh 0.23.0`
+For example, to release version 0.22.4, run:
+`./hack/release-helm-chart.sh 0.22.4`
 
 Follow the instructions provided by the script for successful execution.
 
@@ -331,7 +346,7 @@ To add a snapshot of the current documentation:
 6. Execute `./hack/publish-docs.sh` to publish the archived documentation.
 7. Create a PR and merge it into the `docs` branch.
 8. Checkout the `main` branch.
-9. Update `… 0031-documentation-snapshots.md` to include a link to the new
+9. Update `... 0031-documentation-snapshots.md` to include a link to the new
    documentation snapshot.
 10. Create a PR and merge it into the `main` branch.
 
@@ -341,6 +356,6 @@ To add a snapshot of the current documentation:
 
 ### 13. All Set 🎉
 
-You’re all set.
+You're all set.
 
 Happy releasing.

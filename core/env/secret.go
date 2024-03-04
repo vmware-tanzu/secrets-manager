@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -14,9 +14,9 @@ import (
 	"os"
 )
 
-// SecretGenerationPrefix returns a prefix that’s used by VSecM Sentinel to
+// SecretGenerationPrefix returns a prefix that's used by VSecM Sentinel to
 // generate random pattern-based secrets. If a secret is prefixed with this value,
-// then VSecM Sentinel will consider it as a “template” rather than a literal value.
+// then VSecM Sentinel will consider it as a "template" rather than a literal value.
 //
 // It retrieves this prefix from the environment variable
 // "VSECM_SENTINEL_SECRET_GENERATION_PREFIX".

@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -24,6 +24,8 @@ Here are the **VMware Secrets Manager** documentations captured in time for
 specific releases:
 
 * [Latest](https://vsecm.com/)
+* [v0.23.0](https://vsecm.com/v0.23.0/)
+* [v0.22.5](https://vsecm.com/v0.22.5/)
 * [v0.22.4](https://vsecm.com/v0.22.4/)
 * [v0.22.3](https://vsecm.com/v0.22.3/)
 * [v0.22.2](https://vsecm.com/v0.22.2/)

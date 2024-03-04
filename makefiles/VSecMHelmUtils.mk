@@ -2,14 +2,15 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
 # variables used with helm commands to set global values
 export LOCAL_REGISTRY := --set global.registry=localhost:5000
+export EKS_REGISTRY := --set global.registry=public.ecr.aws/h8y1n7y7
 export DISTROLESSS_IMAGE := --set global.baseImage=distroless
 export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
 export PHOTON_IMAGE := --set global.baseImage=photon
@@ -31,7 +32,7 @@ k8s-manifests-update:
 	@echo "**************************************************************"
 	@echo "Producing k8s manifest files for helm-chart version ${VERSION}, to change version pass VERSION variable with another value."
 	@echo "**************************************************************"
-	@echo "Ex. make k8s-manifests-update VERSION=0.23.0"
+	@echo "Ex. make k8s-manifests-update VERSION=0.22.4"
 	./hack/update-k8s-manifests.sh ${VERSION}
 
 # add an echo statement to publish to user default version is being installed
@@ -42,7 +43,7 @@ helm-install:
 	name ${DEPLOYMENT_NAME}."
 	@echo "To change version, image, deployment name pass VERSION, IMAGE, DEPLOYMENT_NAME variable with another value."
 	@echo "**************************************************************"
-	@echo "Ex. make helm-install VERSION=0.23.0 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
+	@echo "Ex. make helm-install VERSION=0.22.4 IMAGE=distroless-fips DEPLOYMENT_NAME=vsecm"
 	make helm-install-${IMAGE}
 
 helm-install-distroless:
@@ -57,11 +58,11 @@ helm-install-photon:
 helm-install-photon-fips:
 	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_FIPS_IMAGE}
 
-# Deletes the vsecm helm chart, whiletaking care of the SPIFFE CSI driver related
+# Deletes the vsecm helm chart, while taking care of the SPIFFE CSI driver related
 # resource deletion prioritization issues.
 # Simply executing `helm uninstall` can result in dangling resources, which can
 # cause the helm chart to not be deleted, and installation of a new chart to fail.
-# This make target ensures that the SPIFFE CSI driver’s dependent resources are
+# This make target ensures that the SPIFFE CSI driver's dependent resources are
 # deleted before the helm chart is deleted, hence avoiding the above issue.
 helm-uninstall:
 	@echo "**************************************************************"
@@ -73,7 +74,7 @@ helm-uninstall:
 	helm uninstall ${DEPLOYMENT_NAME}
 
 # make target to release helm-chart
-# usage: make helm-chart-release VSECM_VERSION=0.23.0
+# usage: make helm-chart-release VSECM_VERSION=0.22.4
 helm-chart-release:
 	./hack/release-helm-chart.sh ${VERSION}
 

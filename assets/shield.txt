@@ -2,9 +2,9 @@ The XSS-injection-esque characters at the left border of the source code
 copyright statements is actually a little ASCII-art of a shield, if you squint
 hard enough.
 
-You need to add some whitespace and also use “a lot” of imagination to see it.
+You need to add some whitespace and also use "a lot" of imagination to see it.
 
-This process is a homage to the project’s predecessor, Aegis, archived at:
+This process is a homage to the project's predecessor, Aegis, archived at:
 https://github.com/shieldworks/aegis
 
 Here is a step-by-step breakdown of the process:

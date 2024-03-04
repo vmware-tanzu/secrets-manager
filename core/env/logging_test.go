@@ -2,16 +2,15 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
 package env
 
 import (
-	"fmt"
 	"os"
 	"testing"
 )
@@ -56,11 +55,11 @@ func TestLogLevel(t *testing.T) {
 			want: 2,
 		},
 	}
-	fmt.Println("###############################################")
+	println("###############################################")
 	for _, tt := range tests {
-		fmt.Println("!!!!!!running", tt.name)
+		println("!!!!!!running", tt.name)
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Println("#####running", tt.name)
+			println("#####running", tt.name)
 
 			if tt.setup != nil {
 				if err := tt.setup(); err != nil {

@@ -3,9 +3,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -46,7 +46,7 @@ That helps us leverage Kubernetes concepts like *Operators*, *Custom Resources*,
 and *Controllers* to our advantage to simplify workflow and state management.
 
 If you are looking for a solution that runs outside Kubernetes or as a
-standalone binary, then VMware Secrets Manager is not the Secrets Store you’re looking for.
+standalone binary, then VMware Secrets Manager is not the Secrets Store you're looking for.
 
 ## Have a Minimal and Intuitive API
 
@@ -65,9 +65,9 @@ Provide a delightful user experience while taking security seriously.
 
 **VMware Secrets Manager** is a secure solution, yet still delightful to operate.
 
-You won’t have to jump over the hoops or wake up in the middle of the night
+You won't have to jump over the hoops or wake up in the middle of the night
 to keep it up and running. Instead, **VMware Secrets Manager** will work seamlessly, as if it
-doesn’t exist at all.
+doesn't exist at all.
 
 ## Secure By Default
 
@@ -77,7 +77,7 @@ is encrypted.
 
 Yes, that brings up resource limitations since you cannot store a gorilla holding
 a banana and the entire jungle in your store; however, a couple of gigabytes of
-RAM can store a lot of plain text secrets, so it’s good enough for most
+RAM can store a lot of plain text secrets, so it's good enough for most
 practical purposes.
 
 More importantly, almost all modern instruction set architectures and
@@ -88,7 +88,7 @@ from affecting other processes or the operating system itself.
 
 [memory-protection]: https://en.wikipedia.org/wiki/Memory_protection "Memory Protection (Wikipedia)"
 
-Therefore, reading a variable’s value from a process’s memory is practically
+Therefore, reading a variable's value from a process's memory is practically
 impossible unless you attach a debugger to it. And that makes keeping
 plain text secrets in memory (*and nowhere else than memory*) crucial.
 

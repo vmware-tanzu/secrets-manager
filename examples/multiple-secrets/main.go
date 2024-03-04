@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -13,7 +13,6 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 	"os"
 	"os/signal"
@@ -28,7 +27,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			fmt.Println(e)
+			println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -36,13 +35,13 @@ func main() {
 	// Fetch the secret from the VSecM Safe.
 	d, err := sentry.Fetch()
 	if err != nil {
-		fmt.Println("Failed to fetch the secrets. Try again later.")
-		fmt.Println(err.Error())
+		println("Failed to fetch the secrets. Try again later.")
+		println(err.Error())
 		return
 	}
 
 	if d.Data == "" {
-		fmt.Println("No secret yet… Try again later.")
+		println("No secret yet... Try again later.")
 		return
 	}
 
@@ -52,8 +51,8 @@ func main() {
 		var dataSlice []string
 		err = json.Unmarshal([]byte(d.Data), &dataSlice)
 		if err != nil {
-			fmt.Println("Failed to unmarshal the data into a slice of strings. Check the data format.")
-			fmt.Println(err.Error())
+			println("Failed to unmarshal the data into a slice of strings. Check the data format.")
+			println(err.Error())
 			return
 		}
 
@@ -66,17 +65,17 @@ func main() {
 		// Base64 decode the string
 		decodedString, err := base64.StdEncoding.DecodeString(concatString)
 		if err != nil {
-			fmt.Println("Failed to decode the base64 string.")
-			fmt.Println(err.Error())
-			fmt.Println("Raw data:")
-			fmt.Println(d.Data)
+			println("Failed to decode the base64 string.")
+			println(err.Error())
+			println("Raw data:")
+			println(d.Data)
 			return
 		}
 
 		// Print the result
-		fmt.Println(string(decodedString))
+		println(string(decodedString))
 	} else {
 		// d.Data is a collection of Secrets.
-		fmt.Println(d.Data)
+		println(d.Data)
 	}
 }

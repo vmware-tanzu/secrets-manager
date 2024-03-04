@@ -2,9 +2,9 @@
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
 # </
-# <>/  keep your secrets… secret
+# <>/  keep your secrets... secret
 # >/
-# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
@@ -45,16 +45,20 @@ test-local:
 test-eks:
 	$(eval VSECM_EKS_CONTEXT=$(shell kubectl config get-contexts -o name | grep "arn:aws:eks"))
 	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
-	echo "Error: No EKS context found."; \
-		exit 1; \
+		echo "Warning: test-eks: No EKS context found."; \
+	else \
+		echo "Using EKS context: $(VSECM_EKS_CONTEXT)"; \
+		kubectl config use-context $(VSECM_EKS_CONTEXT); \
 	fi
-	@echo "Using EKS context: $VSECM_EKS_CONTEXT)"
-	kubectl config use-context $(VSECM_EKS_CONTEXT)
 
-	./hack/helm-delete.sh
-	./hack/install-vsecm-to-eks.sh
+	./hack/test.sh "eks" ""
 
-	(VERSION=$$VSECM_EKS_VERSION; ./hack/test.sh "remote" "eks")
-	kubectl config use-context minikube
+	$(eval VSECM_MINIKUBE_CONTEXT=$(shell kubectl config get-contexts -o name | grep "minikube"))
+	@if [ -z "$(VSECM_MINIKUBE_CONTEXT)" ]; then \
+		echo "Warning: Minikube context found."; \
+	else \
+		echo "Using Minikube context: $VSECM_MINIKUBE_CONTEXT"; \
+		kubectl config use-context $(VSECM_MINIKUBE_CONTEXT); \
+	fi
 test-local-ci:
 	./hack/test.sh "local" "ci"

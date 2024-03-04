@@ -3,9 +3,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 ```
@@ -22,7 +22,7 @@ your secrets.
 [You can watch this demo video][video] as a shortened version of the workshop.
 
 Note that the video is about the older version of VMware Secrets Manager,
-called ‘Äegis’, but the concepts are the same. Also note that in the meantime
+called 'Aegis', but the concepts are the same. Also note that in the meantime
 we have added a few more features to **VMware Secrets Manager**, so you will
 find differences between the video and the current version of **VMware Secrets
 Manager**.

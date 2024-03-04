@@ -2,9 +2,9 @@
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
-<>/  keep your secrets… secret
+<>/  keep your secrets... secret
 >/
-<>/' Copyright 2023–present VMware Secrets Manager contributors.
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
@@ -41,6 +41,46 @@ func TestJsonTime_MarshalJSON(t *testing.T) {
 				t.Errorf("JsonTime.MarshalJSON() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestJsonTimeUnmarshalJSON(t *testing.T) {
+	testCases := []struct {
+		name     string
+		jsonData []byte
+		wantErr  bool
+	}{
+		{
+			name:     "invalid_json_data",
+			jsonData: []byte(`"invalid_date"`),
+			wantErr:  true,
+		},
+		{
+			name:     "valid_json_data",
+			jsonData: []byte(`"2024-03-01T12:00:00Z"`),
+			wantErr:  false,
+		},
+	}
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			var jsonTime JsonTime
+			err := jsonTime.UnmarshalJSON(tt.jsonData)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestJsonTimeString(t *testing.T) {
+	jsonTime := JsonTime(time.Now())
+
+	expectedTimeStr := time.Now().Format(time.RFC3339)
+
+	result := jsonTime.String()
+
+	if result != expectedTimeStr {
+		t.Errorf("Expected: %s, Got: %s", expectedTimeStr, result)
 	}
 }
 
