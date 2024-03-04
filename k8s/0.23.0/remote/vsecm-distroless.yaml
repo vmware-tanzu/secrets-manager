@@ -15,6 +15,31 @@ kind: Namespace
 metadata:
   name: vsecm-system
 ---
+# Source: vsecm/charts/rest/templates/ServiceAccount.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vsecm-rest
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: rest-0.23.0
+    app.kubernetes.io/name: vsecm-rest
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.23.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
 # Source: vsecm/charts/safe/templates/ServiceAccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -64,6 +89,35 @@ metadata:
     app.kubernetes.io/version: "0.23.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
+---
+# Source: vsecm/charts/rest/templates/Secret.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsecm-rest-init-secret
+  namespace: vsecm-system
+type: Opaque
+stringData:
+  data: "sleep:1\n--\n"
+---
+# Source: vsecm/charts/rest/templates/Secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsecm-rest-init-tombstone
+  namespace: vsecm-system
+type: Opaque
+stringData:
+  init: "not-initialized"
 ---
 # Source: vsecm/charts/safe/templates/Secret.yaml
 # /*
@@ -271,6 +325,121 @@ spec:
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
 ---
+# Source: vsecm/charts/rest/templates/Deployment.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsecm-rest
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: rest-0.23.0
+    app.kubernetes.io/name: vsecm-rest
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.23.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-rest
+      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/part-of: vsecm-system
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vsecm-rest
+        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/part-of: vsecm-system
+    spec:
+      serviceAccountName: vsecm-rest
+      securityContext:
+        {}
+      containers:
+        - name: main
+          image: "vsecm/vsecm-ist-rest:0.23.0"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+            - name: init-command-volume
+              # /opt/vsecm-rest/init/data will contain the init script.
+              mountPath: /opt/vsecm-rest/init
+            - name : tombstone-volume
+              # /opt/vsecm-rest/tombstone/init will contain the tombstone file.
+              mountPath: /opt/vsecm-rest/tombstone
+          #
+          # You can configure VSecM Sentinel by providing
+          # environment variables.
+          #
+          # See https://vsecm.com/configuration for more information about
+          # these environment variables.
+          #
+          # When you don’t explicitly provide env vars here, VMware Secrets Manager
+          # Sentinel will assume the default values outlined in the given link above.
+          #
+          env:
+            - name: SPIFFE_ENDPOINT_SOCKET
+              value: "unix:///spire-agent-socket/agent.sock"
+            - name: VSECM_LOG_LEVEL
+              value: "3"
+            - name: VSECM_PROBE_LIVENESS_PORT
+              value: ":8085"
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_SAFE_TLS_PORT
+              value: ":8443"
+            - name: VSECM_SENTINEL_INIT_COMMAND_PATH
+              value: "/opt/vsecm-rest/init/data"
+            - name: VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
+              value: "/opt/vsecm-rest/tombstone/init"
+            - name: VSECM_SENTINEL_LOGGER_URL
+              value: "localhost:50051"
+            - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
+              value: "gen:"
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+            - name: VSECM_SAFE_OIDC_PROVIDER_BASE_URL
+              value: "http://0.0.0.0:8080/auth/realms/XXXX/protocol/openid-connect/token/introspect"
+            - name: VSECM_SAFE_ENABLE_OIDC_RESOURCE_SERVER
+              value: "false"
+            - name: VSECM_REST_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-rest/ns/vsecm-system/sa/vsecm-rest/n/"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8085
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          resources:
+            {}
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+        - name: init-command-volume
+          secret:
+            secretName: vsecm-rest-init-secret
+        - name: tombstone-volume
+          secret:
+            secretName: vsecm-rest-init-tombstone
+---
 # Source: vsecm/charts/safe/templates/Deployment.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -376,6 +545,8 @@ spec:
               value: "vsecm-secret-"
             - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
               value: "10000"
+            - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+              value: "k8s:"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
             - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
@@ -384,6 +555,12 @@ spec:
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/"
+            - name: VSECM_SAFE_OIDC_PROVIDER_BASE_URL
+              value: "http://0.0.0.0:8080/auth/realms/XXXX/protocol/openid-connect/token/introspect"
+            - name: VSECM_SAFE_ENABLE_OIDC_RESOURCE_SERVER
+              value: "false"
+            - name: VSECM_REST_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-rest/ns/vsecm-system/sa/vsecm-rest/n/"
             - name: VSECM_SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -499,8 +676,22 @@ spec:
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
+            - name: VSECM_SENTINEL_INIT_COMMAND_PATH
+              value: "/opt/vsecm-sentinel/init/data"
+            - name: VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
+              value: "/opt/vsecm-sentinel/tombstone/init"
+            - name: VSECM_SENTINEL_LOGGER_URL
+              value: "localhost:50051"
+            - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
+              value: "gen:"
             - name: VSECM_SENTINEL_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+            - name: VSECM_SAFE_OIDC_PROVIDER_BASE_URL
+              value: "http://0.0.0.0:8080/auth/realms/XXXX/protocol/openid-connect/token/introspect"
+            - name: VSECM_SAFE_ENABLE_OIDC_RESOURCE_SERVER
+              value: "false"
+            - name: VSECM_REST_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-rest/ns/vsecm-system/sa/vsecm-rest/n/"
           livenessProbe:
             httpGet:
               path: /
@@ -522,6 +713,35 @@ spec:
         - name: tombstone-volume
           secret:
             secretName: vsecm-sentinel-init-tombstone
+---
+# Source: vsecm/charts/rest/templates/Identity.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: vsecm-rest
+spec:
+  spiffeIDTemplate: "spiffe://vsecm.com\
+    /workload/vsecm-rest\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-rest
+      app.kubernetes.io/part-of: vsecm-system
+  workloadSelectorTemplates:
+    - "k8s:ns:vsecm-system"
+    - "k8s:sa:vsecm-rest"
 ---
 # Source: vsecm/charts/safe/templates/Identity.yaml
 # /*

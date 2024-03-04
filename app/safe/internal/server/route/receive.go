@@ -28,8 +28,6 @@ func ReceiveKeys(cid string, w http.ResponseWriter, r *http.Request, spiffeid st
 	audit.Log(j)
 
 	if !isSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		audit.Log(j)
 		return
 	}
 

@@ -18,6 +18,7 @@ if kubectl get ns | grep vsecm-system; then
 
   kubectl delete ClusterSPIFFEID example
   kubectl delete ClusterSPIFFEID vsecm-sentinel
+  kubectl delete ClusterSPIFFEID vsecm-rest
   kubectl delete ClusterSPIFFEID vsecm-safe
   kubectl delete CSIDriver csi.spiffe.io
   kubectl delete ValidatingWebhookConfiguration spire-controller-manager-webhook

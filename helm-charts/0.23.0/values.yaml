@@ -29,6 +29,13 @@ global:
       photonFipsRepository: vsecm-photon-fips-sentinel
       tag: 0.23.0
       pullPolicy: IfNotPresent
+    rest:
+      distrolessRepository: vsecm-ist-rest
+      distrolessFipsRepository: vsecm-ist-fips-rest
+      photonRepository: vsecm-photon-rest
+      photonFipsRepository: vsecm-photon-fips-rest
+      tag: 0.23.0
+      pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
       tag: 1.8.7

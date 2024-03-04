@@ -78,6 +78,12 @@ environments:
     value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/"
+  - name: VSECM_SAFE_OIDC_PROVIDER_BASE_URL
+    value: "http://0.0.0.0:8080/auth/realms/XXXX/protocol/openid-connect/token/introspect"
+  - name: VSECM_SAFE_ENABLE_OIDC_RESOURCE_SERVER
+    value: "false"
+  - name: VSECM_REST_SPIFFEID_PREFIX
+    value: "spiffe://vsecm.com/workload/vsecm-rest/ns/vsecm-system/sa/vsecm-rest/n/"
 
 imagePullSecrets: []
 nameOverride: ""

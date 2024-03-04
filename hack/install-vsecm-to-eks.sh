@@ -23,5 +23,7 @@ echo "verifying vsecm installation"
 kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-sentinel
 echo "vsecm-sentinel: deployment available"
 kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-safe
+echo "vsecm-rest: deployment available"
+kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-rest
 echo "vsecm-safe: deployment available"
 echo "vsecm installation successful"

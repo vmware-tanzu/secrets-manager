@@ -11,14 +11,14 @@
 package handle
 
 import (
-	"io"
-	"net/http"
-
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
+	"io"
+	"net/http"
 )
 
 // InitializeRoutes initializes the HTTP routes for the web server. It sets up an
@@ -70,6 +70,17 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		p := r.URL.Path
 
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
+
+		if env.SafeEnableOIDCResourceServer() && !validation.IsSentinel(sid) {
+			ok := route.IsAuthorizedJWT(cid, r)
+			if !ok {
+				log.ErrorLn(
+					&cid,
+					"IsAuthorizedJWT : Please provide correct credentials!",
+				)
+				return
+			}
+		}
 
 		// Route to list secrets.
 		// Only VSecM Sentinel is allowed to call this API endpoint.

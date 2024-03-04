@@ -41,6 +41,15 @@ else
   echo "vsecm-sentinel deployment does not exist. Skipping delete."
 fi
 
+if kubectl get deployment vsecm-rest -n vsecm-system; then
+  kubectl delete deployment vsecm-rest -n vsecm-system || \
+    { echo "Failed to delete vsecm-rest deployment"; exit 1; }
+  kubectl wait --for=delete pod -l app=vsecm-rest -n vsecm-system --timeout=60s || \
+    { echo "Timeout or error while waiting for vsecm-rest pods to delete"; exit 1; }
+else
+  echo "vsecm-rest deployment does not exist. Skipping delete."
+fi
+
 if kubectl get deployment vsecm-safe -n vsecm-system; then
   kubectl delete deployment vsecm-safe -n vsecm-system || \
     { echo "Failed to delete vsecm-safe deployment"; exit 1; }

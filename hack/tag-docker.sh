@@ -23,6 +23,8 @@ docker pull vsecm/vsecm-ist-safe:"$VERSION"
 docker pull vsecm/vsecm-ist-safe:latest
 docker pull vsecm/vsecm-ist-sentinel:"$VERSION"
 docker pull vsecm/vsecm-ist-sentinel:latest
+docker pull vsecm/vsecm-ist-rest:"$VERSION"
+docker pull vsecm/vsecm-ist-rest:latest
 docker pull vsecm/vsecm-ist-sidecar:"$VERSION"
 docker pull vsecm/vsecm-ist-sidecar:latest
 docker pull vsecm/vsecm-ist-init-container:"$VERSION"
@@ -40,6 +42,8 @@ docker pull vsecm/vsecm-photon-safe:"$VERSION"
 docker pull vsecm/vsecm-photon-safe:latest
 docker pull vsecm/vsecm-photon-sentinel:"$VERSION"
 docker pull vsecm/vsecm-photon-sentinel:latest
+docker pull vsecm/vsecm-photon-rest:"$VERSION"
+docker pull vsecm/vsecm-photon-rest:latest
 docker pull vsecm/vsecm-photon-sidecar:"$VERSION"
 docker pull vsecm/vsecm-photon-sidecar:latest
 docker pull vsecm/vsecm-photon-init-container:"$VERSION"
@@ -51,6 +55,8 @@ docker trust sign vsecm/vsecm-ist-safe:"$VERSION"
 docker trust sign vsecm/vsecm-ist-safe:latest
 docker trust sign vsecm/vsecm-ist-sentinel:"$VERSION"
 docker trust sign vsecm/vsecm-ist-sentinel:latest
+docker trust sign vsecm/vsecm-ist-rest:"$VERSION"
+docker trust sign vsecm/vsecm-ist-rest:latest
 docker trust sign vsecm/vsecm-ist-sidecar:"$VERSION"
 docker trust sign vsecm/vsecm-ist-sidecar:latest
 docker trust sign vsecm/vsecm-ist-init-container:"$VERSION"
@@ -68,6 +74,8 @@ docker trust sign vsecm/vsecm-photon-safe:"$VERSION"
 docker trust sign vsecm/vsecm-photon-safe:latest
 docker trust sign vsecm/vsecm-photon-sentinel:"$VERSION"
 docker trust sign vsecm/vsecm-photon-sentinel:latest
+docker trust sign vsecm/vsecm-photon-rest:"$VERSION"
+docker trust sign vsecm/vsecm-photon-rest:latest
 docker trust sign vsecm/vsecm-photon-sidecar:"$VERSION"
 docker trust sign vsecm/vsecm-photon-sidecar:latest
 docker trust sign vsecm/vsecm-photon-init-container:"$VERSION"

@@ -47,6 +47,14 @@ build: \
 	sentinel-push-photon \
 	sentinel-bundle-photon-fips \
 	sentinel-push-photon-fips \
+	rest-bundle-ist \
+	rest-push-ist \
+	rest-bundle-ist-fips \
+	rest-push-ist-fips \
+	rest-bundle-photon \
+	rest-push-photon \
+	rest-bundle-photon-fips \
+	rest-push-photon-fips \
 	init-container-bundle-ist \
 	init-container-push-ist \
 	init-container-bundle-ist-fips \
@@ -92,6 +100,14 @@ build-local: \
 	sentinel-push-photon-local \
 	sentinel-bundle-photon-fips \
 	sentinel-push-photon-fips-local \
+	rest-bundle-ist \
+	rest-push-ist-local \
+	rest-bundle-ist-fips \
+	rest-push-ist-fips-local \
+	rest-bundle-photon \
+	rest-push-photon-local \
+	rest-bundle-photon-fips \
+	rest-push-photon-fips-local \
 	init-container-bundle-ist \
 	init-container-push-ist-local \
 	init-container-bundle-ist-fips \
@@ -109,5 +125,7 @@ build-essentials-local: \
 	sidecar-push-ist-local \
 	sentinel-bundle-ist \
 	sentinel-push-ist-local \
+	rest-bundle-ist \
+	rest-push-ist-local \
 	init-container-bundle-ist \
 	init-container-push-ist-local \
