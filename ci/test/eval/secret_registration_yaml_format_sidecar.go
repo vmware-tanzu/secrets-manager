@@ -26,7 +26,7 @@ func SecretRegistrationYAMLFormatSidecar() error {
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`
 
 	// Simulate setting a YAML secret with transformation.
-	if _, err := setYAMLSecret(value, transform); err != nil {
+	if err := setYAMLSecret(value, transform); err != nil {
 		return errors.Wrap(err, "setYAMLSecret failed")
 	}
 
