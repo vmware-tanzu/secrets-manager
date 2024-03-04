@@ -18,7 +18,7 @@ import (
 
 func SecretRegistrationJSONFormat() error {
 	println("----")
-	println("Testing: Secret registration (JSON transformation)...")
+	println("🧪 Testing: Secret registration (JSON transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"*root*", "PASSWORD":"*CasHC0w*"}`
@@ -35,6 +35,7 @@ func SecretRegistrationJSONFormat() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("Secret registration (JSON transformation) successful")
+	println("🟢 PASS: Secret registration (JSON transformation) successful")
+	println("----")
 	return nil
 }

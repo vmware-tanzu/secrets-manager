@@ -112,6 +112,5 @@ func WorkloadUsingInitContainer() error {
 	// Pause for deployment to simulate the pause_for_deploy behavior in Bash.
 	time.Sleep(10 * time.Second) // Adjust this duration as needed for your deployment.
 
-	println("I should have something there.")
 	return nil
 }

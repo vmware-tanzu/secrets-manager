@@ -20,7 +20,7 @@ import (
 
 func SecretRegistrationJSONFormatSidecar() error {
 	println("----")
-	println("Testing: Secret registration (JSON transformation)...")
+	println("🧪 Testing: Secret registration (JSON transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`
@@ -45,6 +45,7 @@ func SecretRegistrationJSONFormatSidecar() error {
 		return fmt.Errorf("deleteSecret failed: %w", err)
 	}
 
-	println("Secret registration (JSON transformation sidecar) successful")
+	println("🟢 PASS: Secret registration (JSON transformation sidecar) successful")
+	println("----")
 	return nil
 }

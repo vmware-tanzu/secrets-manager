@@ -18,6 +18,7 @@ import (
 )
 
 func Cleanup() error {
+	println("----")
 	println("Cleanup...")
 
 	// Determine the sentinel pod.

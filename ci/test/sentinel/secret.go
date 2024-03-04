@@ -45,7 +45,7 @@ func SetKubernetesSecret() error {
 
 	// Construct the command to execute within the sentinel pod.
 	secretData := `{"username": "root", "password": "SuperSecret", "value": "VSecMRocks"}`
-	transformTemplate := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}", "value": "{{.value}}"}`
+	transformTemplate := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}`
 
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default",

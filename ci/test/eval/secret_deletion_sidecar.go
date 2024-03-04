@@ -19,7 +19,7 @@ import (
 
 func SecretDeletionSidecar() error {
 	println("----")
-	println("Testing: Secret deletion (sidecar)...")
+	println("🧪 Testing: Secret deletion (sidecar)...")
 
 	if err := sentinel.DeleteSecret(); err != nil {
 		return errors.Wrap(err, "deleteSecret failed")
@@ -32,6 +32,7 @@ func SecretDeletionSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretNoValue failed")
 	}
 
-	println("Secret deletion (sidecar) successful")
+	println("🟢 PASS: Secret deletion (sidecar) successful")
+	println("----")
 	return nil
 }

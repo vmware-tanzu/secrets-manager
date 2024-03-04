@@ -20,7 +20,7 @@ import (
 
 func SecretRegistrationAppendSidecar() error {
 	println("----")
-	println("Testing Secret registration (append mode)...")
+	println("🧪 Testing Secret registration (append mode)...")
 
 	secret1 := "!VSecM"
 	secret2 := "Rocks!"
@@ -47,6 +47,7 @@ func SecretRegistrationAppendSidecar() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("Secret registration (append sidecar mode) successful")
+	println("🟢 PASS: Secret registration (append sidecar mode) successful")
+	println("----")
 	return nil
 }

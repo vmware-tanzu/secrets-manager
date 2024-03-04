@@ -18,7 +18,7 @@ import (
 
 func SecretRegistration() error {
 	println("----")
-	println("Testing: Secret registration...")
+	println("🧪 Testing: Secret registration...")
 
 	value := "!VSecMRocks!"
 
@@ -30,6 +30,7 @@ func SecretRegistration() error {
 		return errors.Wrap(err, "asserting workload secret value")
 	}
 
-	println("Secret registration successful")
+	println("🟢 PASS: Secret registration successful")
+	println("----")
 	return nil
 }

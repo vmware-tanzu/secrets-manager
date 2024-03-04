@@ -43,7 +43,7 @@ func setYAMLSecret(value, transform string) error {
 
 func SecretRegistrationYAMLFormat() error {
 	println("----")
-	println("Testing: Secret registration (YAML transformation)...")
+	println("🧪 Testing: Secret registration (YAML transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`
@@ -67,6 +67,7 @@ USERNAME: '*root*'
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("Secret registration (YAML transformation) successful")
+	println("🟢 PASS: Secret registration (YAML transformation) successful")
+	println("----")
 	return nil
 }

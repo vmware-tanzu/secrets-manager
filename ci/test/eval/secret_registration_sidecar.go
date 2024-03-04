@@ -19,7 +19,7 @@ import (
 
 func SecretRegistrationSidecar() error {
 	println("----")
-	println("Testing: Secret registration (sidecar)...")
+	println("🧪 Testing: Secret registration (sidecar)...")
 
 	value := "!VSecMRocks!"
 
@@ -34,6 +34,7 @@ func SecretRegistrationSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretValue failed")
 	}
 
-	println("Secret registration (sidecar) successful")
+	println("🟢 PASS: Secret registration (sidecar) successful")
+	println("----")
 	return nil
 }

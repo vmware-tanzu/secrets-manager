@@ -19,7 +19,7 @@ import (
 
 func SecretEncryption() error {
 	println("----")
-	println("Testing: Encrypting secrets...")
+	println("🧪 Testing: Encrypting secrets...")
 
 	value := "!VSecMRocks!"
 
@@ -39,6 +39,7 @@ func SecretEncryption() error {
 		return errors.Wrap(err, "asserting workload secret value")
 	}
 
-	println("Secret encryption successful")
+	println("🟢 PASS: Secret encryption successful")
+	println("----")
 	return nil
 }

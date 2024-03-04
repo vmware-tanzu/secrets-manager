@@ -19,7 +19,7 @@ import (
 
 func SecretRegistrationAppend() error {
 	println("----")
-	println("Testing: Secret registration (append mode)...")
+	println("🧪 Testing: Secret registration (append mode)...")
 
 	secret1 := "!VSecM"
 	secret2 := "Rocks!"
@@ -40,6 +40,7 @@ func SecretRegistrationAppend() error {
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("Secret registration (append mode) successful")
+	println("🟢 PASS: Secret registration (append mode) successful")
+	println("----")
 	return nil
 }
