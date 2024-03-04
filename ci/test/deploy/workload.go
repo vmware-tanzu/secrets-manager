@@ -109,8 +109,8 @@ func WorkloadUsingInitContainer() error {
 		return fmt.Errorf("deployment command failed: %v\nOutput: %s", err, output)
 	}
 
-	// Pause for deployment to simulate the pause_for_deploy behavior in Bash.
-	time.Sleep(10 * time.Second) // Adjust this duration as needed for your deployment.
+	// Pause for deployment to settle.
+	time.Sleep(10 * time.Second)
 
 	return nil
 }
