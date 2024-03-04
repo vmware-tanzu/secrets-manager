@@ -47,7 +47,7 @@ test-eks:
 	@if [ -z "$(VSECM_EKS_CONTEXT)" ]; then \
 		echo "Warning: test-eks: No EKS context found."; \
 	else \
-		echo "Using EKS context: $VSECM_EKS_CONTEXT"; \
+		echo "Using EKS context: $(VSECM_EKS_CONTEXT)"; \
 		kubectl config use-context $(VSECM_EKS_CONTEXT); \
 	fi
 
