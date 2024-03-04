@@ -29,6 +29,7 @@ func setYAMLSecret(value, transform string) (string, error) {
 }
 
 func SecretRegistrationYAMLFormat() error {
+	println("----")
 	println("Testing: Secret registration (YAML transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`

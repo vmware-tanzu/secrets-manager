@@ -19,6 +19,7 @@ import (
 )
 
 func SecretRegistrationYAMLFormatSidecar() error {
+	println("----")
 	println("Testing Secret registration (YAML transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`

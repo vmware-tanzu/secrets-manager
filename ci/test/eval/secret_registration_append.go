@@ -18,6 +18,7 @@ import (
 )
 
 func SecretRegistrationAppend() error {
+	println("----")
 	println("Testing: Secret registration (append mode)...")
 
 	secret1 := "!VSecM"

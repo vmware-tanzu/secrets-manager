@@ -18,6 +18,7 @@ import (
 )
 
 func SecretEncryption() error {
+	println("----")
 	println("Testing: Encrypting secrets...")
 
 	value := "!VSecMRocks!"

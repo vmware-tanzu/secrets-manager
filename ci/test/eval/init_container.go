@@ -20,6 +20,7 @@ import (
 )
 
 func InitContainer() error {
+	println("----")
 	println("Testing: Init Container...")
 
 	if err := deploy.WorkloadUsingInitContainer(); err != nil {

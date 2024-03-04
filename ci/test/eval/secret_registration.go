@@ -17,6 +17,7 @@ import (
 )
 
 func SecretRegistration() error {
+	println("----")
 	println("Testing: Secret registration...")
 
 	value := "!VSecMRocks!"

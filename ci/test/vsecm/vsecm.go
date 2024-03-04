@@ -27,9 +27,6 @@ func Sentinel() (string, error) {
 			"--selector=app.kubernetes.io/name=vsecm-sentinel",
 			"--output=jsonpath={.items[*].metadata.name}")
 
-		fmt.Println(output)
-		fmt.Println("----")
-
 		if err != nil {
 			fmt.Printf("Attempt %d failed: %v\n", retryCount+1, err)
 			time.Sleep(10 * time.Second) // Wait before retrying

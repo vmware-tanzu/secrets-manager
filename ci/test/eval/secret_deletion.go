@@ -17,6 +17,7 @@ import (
 )
 
 func SecretDeletion() error {
+	println("----")
 	println("Testing: Secret deletion...")
 
 	if err := sentinel.DeleteSecret(); err != nil {
