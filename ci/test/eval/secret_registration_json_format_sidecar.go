@@ -20,7 +20,7 @@ import (
 
 func SecretRegistrationJSONFormatSidecar() error {
 	println("----")
-	println("🧪 Testing: Secret registration (JSON transformation)...")
+	println("🧪     Testing: Secret registration (JSON transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`

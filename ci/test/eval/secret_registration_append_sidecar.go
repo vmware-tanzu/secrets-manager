@@ -20,7 +20,7 @@ import (
 
 func SecretRegistrationAppendSidecar() error {
 	println("----")
-	println("🧪 Testing Secret registration (append mode)...")
+	println("🧪     Testing Secret registration (append mode)...")
 
 	secret1 := "!VSecM"
 	secret2 := "Rocks!"
