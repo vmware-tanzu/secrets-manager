@@ -21,7 +21,6 @@
 
             <div class="book-body">
                 <div class="book-header" role="navigation">
-                    <!-- Title -->
                     <h1>
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                         {% if page.title %}
@@ -34,26 +33,6 @@
 
                 <div class="body-inner">
                     {%- include body.html -%}
-
-                    {% if page.prev_url %}
-                    <a href="{{site.baseurl}}{{page.prev_url}}" class="navigation navigation-prev navigation-unique">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    {% else %}
-                    <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    {% endif %}
-
-                    {% if page.next_url %}
-                    <a href="{{site.baseurl}}{{page.next_url}}" class="navigation navigation-next navigation-unique">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                    {% else %}
-                    <a href="{{site.baseurl}}/" class="navigation navigation-next navigation-unique">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                    {% endif %}
                 </div>
             </div>
 
