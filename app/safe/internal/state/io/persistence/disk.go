@@ -12,8 +12,6 @@ package persistence
 
 import (
 	"encoding/json"
-	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/crypto"
 	"math"
 	"os"
 	"path"
@@ -22,6 +20,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"

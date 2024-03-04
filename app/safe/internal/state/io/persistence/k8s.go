@@ -12,18 +12,17 @@ package persistence
 
 import (
 	"context"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	apiV1 "k8s.io/api/core/v1"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"

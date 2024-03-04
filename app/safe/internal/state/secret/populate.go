@@ -11,14 +11,13 @@
 package secret
 
 import (
-	// "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
 	"os"
 	"strings"
 	"sync"
 
 	"github.com/pkg/errors"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
