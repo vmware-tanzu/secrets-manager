@@ -56,7 +56,7 @@ resources:
       cpu: "50m"
   spiffeCsiDriver:
     requests:
-      memory: "128mi"
+      memory: "128Mi"
       cpu: "50m"
 
 autoscaling:

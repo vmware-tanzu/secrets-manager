@@ -70,7 +70,7 @@ resources:
   # Of course, benchmark your production system to determine the actual
   # requests you need.
   requests:
-    memory: "20m"
+    memory: "20Mi"
     cpu: "5m"
 
 autoscaling:

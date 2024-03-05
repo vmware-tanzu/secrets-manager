@@ -538,7 +538,7 @@ spec:
           ]
           resources:
             requests:
-              memory: 128mi
+              memory: 128Mi
               cpu: 50m
           env:
             # The CSI driver needs a unique node ID. The node name can be
