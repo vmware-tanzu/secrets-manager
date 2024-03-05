@@ -76,7 +76,9 @@ spec:
             initialDelaySeconds: 1
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
       volumes:
         # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
         # ref: https://github.com/spiffe/spiffe-csi

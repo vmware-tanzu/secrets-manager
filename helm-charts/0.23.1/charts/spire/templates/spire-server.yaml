@@ -189,6 +189,10 @@ spec:
           image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}
           imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
           args: ["-config", "/run/spire/server/config/server.conf"]
+          resources:
+            requests:
+              memory: {{ .Values.resources.agent.requests.memory }}
+              cpu: {{ .Values.resources.agent.requests.cpu }}
           ports:
             - containerPort: 8081
           volumeMounts:
