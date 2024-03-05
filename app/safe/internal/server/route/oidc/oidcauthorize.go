@@ -1,4 +1,4 @@
-package route
+package oidc
 
 import (
 	"encoding/json"

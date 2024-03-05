@@ -12,6 +12,7 @@ package handle
 
 import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/oidc"
 
 	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
 	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
@@ -78,7 +79,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
 
 		if env.SafeEnableOIDCResourceServer() && !validation.IsSentinel(sid) {
-			ok := route.IsAuthorizedJWT(cid, r)
+			ok := oidc.IsAuthorizedJWT(cid, r)
 			if !ok {
 				log.ErrorLn(
 					&cid,
