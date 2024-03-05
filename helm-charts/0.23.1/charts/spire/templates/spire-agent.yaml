@@ -115,6 +115,10 @@ spec:
           image: {{ .Values.global.images.spireAgent.repository }}:{{ .Values.global.images.spireAgent.tag }}
           imagePullPolicy: {{ .Values.global.images.spireAgent.pullPolicy }}
           args: ["-config", "/run/spire/config/agent.conf"]
+          resources:
+            requests:
+              memory: {{ .Values.resources.agent.requests.memory }}
+              cpu: {{ .Values.resources.agent.requests.cpu }}
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/config
@@ -134,6 +138,10 @@ spec:
             "-workload-api-socket-dir", "/spire-agent-socket",
             "-csi-socket-path", "/spiffe-csi/csi.sock",
           ]
+          resources:
+            requests:
+              memory: {{ .Values.resources.spiffeCsiDriver.requests.memory }}
+              cpu: {{ .Values.resources.spiffeCsiDriver.requests.cpu }}
           env:
             # The CSI driver needs a unique node ID. The node name can be
             # used for this purpose.

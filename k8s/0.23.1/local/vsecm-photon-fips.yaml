@@ -84,7 +84,7 @@ metadata:
 type: Opaque
 data:
   # '{}' (e30=) is a special placeholder to tell Safe that the Secret
-  # is not initialized. DO NOT deletion or change it.
+  # is not initialized. DO NOT remove or change it.
   KEY_TXT: "e30="
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
@@ -403,7 +403,9 @@ spec:
             initialDelaySeconds: 1
             periodSeconds: 10
           resources:
-            {}
+            requests:
+              memory: 20Mi
+              cpu: 5m
       volumes:
         # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
         # ref: https://github.com/spiffe/spiffe-csi
@@ -518,7 +520,9 @@ spec:
             initialDelaySeconds: 1
             periodSeconds: 10
           resources:
-            {}
+            requests:
+              memory: 20Mi
+              cpu: 5m
       volumes:
         # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
         # ref: https://github.com/spiffe/spiffe-csi

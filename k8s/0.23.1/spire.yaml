@@ -513,6 +513,10 @@ spec:
           image: ghcr.io/spiffe/spire-agent:1.9.0
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/config/agent.conf"]
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 50m
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/config
@@ -532,6 +536,10 @@ spec:
             "-workload-api-socket-dir", "/spire-agent-socket",
             "-csi-socket-path", "/spiffe-csi/csi.sock",
           ]
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 50m
           env:
             # The CSI driver needs a unique node ID. The node name can be
             # used for this purpose.
@@ -643,6 +651,10 @@ spec:
           image: ghcr.io/spiffe/spire-server:1.9.0
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 50m
           ports:
             - containerPort: 8081
           volumeMounts:
