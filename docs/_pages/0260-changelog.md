@@ -29,6 +29,10 @@ next_url: /docs/releases/
 * Documented all public methods in the codebase. This will help
   contributors to understand the codebase better and make it easier to
   contribute.
+* VSecM components have sensible “memory” lower limits in helm charts (before
+  it was left for the end-user to decide, now we provide a strarting point
+  while encouraging the user to do their own benchmarks to update the 
+  resource limits to their production needs.)
 
 ## [v0.23.0] - 2024-03-01
 
