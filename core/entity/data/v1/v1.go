@@ -78,6 +78,7 @@ var (
 	File   BackingStore = "file"
 	Json   SecretFormat = "json"
 	Yaml   SecretFormat = "yaml"
+	Raw    SecretFormat = "raw"
 )
 
 // Secret___ types are what is shown to the user.
@@ -333,6 +334,9 @@ func transform(secret SecretStored, value string) (string, error) {
 			// There is not much can be done at this point other than returning it.
 			return parsedString, nil
 		}
+	case Raw:
+		// If the format is Raw, return the parsed string as is.
+		return parsedString, nil
 	default:
 		// The program flow shall never enter here.
 		return parsedString, fmt.Errorf("unknown format: %s", secret.Meta.Format)
@@ -358,6 +362,8 @@ func transform(secret SecretStored, value string) (string, error) {
 //   - If the Meta.Format field is Yaml, then the output string is the result of
 //     transforming parsedString into Yaml if parsedString is a valid JSON,
 //     otherwise it's parsedString.
+//   - If the Meta.Format field is Raw, then the output string is simply the parsedString,
+//     without any specific format checks or transformations.
 func (secret SecretStored) Parse() (string, error) {
 	if len(secret.Values) == 0 {
 		return "", fmt.Errorf("no values found for secret %s", secret.Name)
