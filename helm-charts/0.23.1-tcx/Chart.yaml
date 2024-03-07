@@ -1,0 +1,34 @@
+apiVersion: v2
+appVersion: 0.23.1
+dependencies:
+- condition: global.deploySpire
+  name: spire
+  repository: file://charts/spire
+  version: 0.23.1
+- condition: global.deploySafe
+  name: safe
+  repository: file://charts/safe
+  version: 0.23.1
+- condition: global.deploySentinel
+  name: sentinel
+  repository: file://charts/sentinel
+  version: 0.23.1
+description: Helm chart for VMware Secrets Manager
+home: https://vsecm.com/
+icon: https://vsecm.com/assets/vsecm-256.png
+keywords:
+- secrets
+- kubernetes
+- secrets-manager
+- spire
+- spiffe
+- zero-trust
+- cloud-native
+- edge
+- secret-management
+- security
+name: vsecm
+sources:
+- https://github.com/vmware-tanzu/secrets-manager
+type: application
+version: 0.23.1-tcx
