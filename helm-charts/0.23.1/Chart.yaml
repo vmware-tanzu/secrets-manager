@@ -63,7 +63,3 @@ dependencies:
     repository: file://charts/sentinel
     version: 0.23.1
     condition: global.deploySentinel
-  - name: rest
-    repository: file://charts/rest
-    version: 0.23.0
-    condition: global.deployRest

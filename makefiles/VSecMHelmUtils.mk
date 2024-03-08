@@ -20,7 +20,6 @@ export NAME_TEMPLATE := --name-template vsecm
 export DEPLOY_SAFE_FALSE := --set global.deploySafe=false
 export DEPLOY_SENTINEL_FALSE := --set global.deploySentinel=false
 export DEPLOY_SPIRE_FALSE := --set global.deploySpire=false
-export DEPLOY_REST_FALSE := --set global.deployRest=false
 
 # Render helm chart and save as kubernetes manifests
 k8s-manifests-update:

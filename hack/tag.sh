@@ -28,9 +28,6 @@ docker trust sign vsecm/vsecm-ist-safe:latest
 echo "vsecm-sentinel"
 docker trust sign vsecm/vsecm-ist-sentinel:"$VERSION"
 docker trust sign vsecm/vsecm-ist-sentinel:latest
-echo "vsecm-rest"
-docker trust sign vsecm/vsecm-ist-sentinel:"$VERSION"
-docker trust sign vsecm/vsecm-ist-sentinel:latest
 echo "vsecm-sidecar"
 docker trust sign vsecm/vsecm-ist-sidecar:"$VERSION"
 docker trust sign vsecm/vsecm-ist-sidecar:latest

@@ -12,6 +12,7 @@ package validation
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"net/http"
 	"strings"
 )
 
@@ -31,4 +32,16 @@ func IsSafe(spiffeid string) bool {
 // It does this by checking if the SPIFFEID has the SpiffeIdPrefixForWorkload as its prefix.
 func IsWorkload(spiffeid string) bool {
 	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForWorkload())
+}
+
+// IsSentinelCmd returns true if the given request headers are not empty.
+// It does this by checking if the request headers are not empty means it is not sentinel cmd.
+func IsSentinelCmd(spiffeid string, r *http.Request) bool {
+	accessToken := r.Header.Get("Authorization")
+	clientId := r.Header.Get("ClientId")
+	clientSecret := r.Header.Get("ClientSecret")
+	username := r.Header.Get("UserName")
+	isRequestHeaderEmpty := accessToken == "" && clientId == "" && clientSecret == "" && username == ""
+
+	return isRequestHeaderEmpty && IsSentinel(spiffeid)
 }

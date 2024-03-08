@@ -22,19 +22,12 @@ func IsAuthorizedJWT(cid string, r *http.Request) bool {
 	clientSecret := r.Header.Get("ClientSecret")
 	username := r.Header.Get("UserName")
 
-	if accessToken == "" || clientId == "" || clientSecret == "" || username == "" {
-		log.ErrorLn(
-			&cid, "Please provide necessary fields : Authorization, ClientId, ClientSecret, UserName.",
-		)
-		return false
-	}
-
 	data.Set("client_id", strings.TrimSpace(clientId))
 	data.Set("client_secret", strings.TrimSpace(clientSecret))
 	data.Set("token", strings.TrimSpace(accessToken))
 	data.Set("username", strings.TrimSpace(username))
 
-	req, err := http.NewRequest("POST", env.SafeOIDCProviderBaseUrl(), strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", env.SentinelOIDCProviderBaseUrl(), strings.NewReader(data.Encode()))
 	if err != nil {
 		log.ErrorLn(&cid, "IsAuthorizedJWT an error occurred when creating request:", err)
 		return false

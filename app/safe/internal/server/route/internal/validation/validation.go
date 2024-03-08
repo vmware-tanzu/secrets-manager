@@ -11,6 +11,7 @@
 package validation
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 
@@ -45,13 +46,17 @@ func IsSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter,
 		return true
 	}
 
+	if env.SafeEnableOIDCResourceServer() {
+		return true
+	}
+
 	j.Event = event.BadSpiffeId
 	audit.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
-	_, err := io.WriteString(w, "")
+	_, err := io.WriteString(w, "NOK!")
 	if err != nil {
-		log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
+		log.ErrorLn(&cid, "Problem sending response!", err.Error())
 	}
 
 	return false

@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package core
 
 func InputValidationFailure(workload string, encrypt bool, inputKeys string, secret string, deleteSecret bool) bool {
 

@@ -8,12 +8,10 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package core
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -30,22 +28,4 @@ func HandleSecrets(w http.ResponseWriter, r *http.Request) {
 	}
 
 	HandleCommandSecrets(w, r, &req)
-}
-
-func ok(w http.ResponseWriter, _ *http.Request) {
-	_, err := fmt.Fprintf(w, "OK")
-	if err != nil {
-		log.Printf("probe response failure: %s", err.Error())
-		return
-	}
-}
-
-func main() {
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("/", ok)
-	mux.HandleFunc("/secrets", HandleSecrets)
-
-	log.Println("Vsecm Rest Server Started on :8085")
-	log.Fatal(http.ListenAndServe(":8085", mux))
 }

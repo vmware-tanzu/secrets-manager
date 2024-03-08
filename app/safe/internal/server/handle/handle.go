@@ -78,7 +78,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
 
-		if env.SafeEnableOIDCResourceServer() && !validation.IsSentinel(sid) {
+		if env.SafeEnableOIDCResourceServer() && !validation.IsSentinelCmd(sid, r) {
 			ok := oidc.IsAuthorizedJWT(cid, r)
 			if !ok {
 				log.ErrorLn(
