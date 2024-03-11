@@ -31,7 +31,7 @@ global:
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
-      tag: 1.9.0
+      tag: 1.9.1
       pullPolicy: IfNotPresent
     spiffeCsiDriver:
       repository: ghcr.io/spiffe/spiffe-csi-driver
@@ -43,7 +43,7 @@ global:
       pullPolicy: IfNotPresent
     spireServer:
       repository: ghcr.io/spiffe/spire-server
-      tag: 1.9.0
+      tag: 1.9.1
       pullPolicy: IfNotPresent
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
