@@ -1,3 +1,5 @@
+--- 
+--- 
 .book-body {
     overflow-y: scroll;
 }
@@ -7,37 +9,9 @@
     width: 100%;
 }
 
-.badges {
-    margin-top: 2em !important;
-    background: #f0f0f0;
-    padding: 1em;
-    border: 1px #dddddd solid;
-    border-radius: 8px;
-    text-align: center;
-
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-.badges a {
-    text-decoration: none;
-    border-bottom: none;
-    cursor: pointer;
-}
-
-.badges a img {
-    cursor: pointer;
-}
-
-.badges a:hover {
-    background: transparent;
-    border-bottom: none;
-}
-
 .book.with-summary .book-body .book-header {
     position: fixed;
     width: calc(100% - 300px);
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 .book-body .body-inner {
@@ -67,6 +41,11 @@
         max-width: calc(50% - 3px);
         width: calc(50% - 3px);
     }
+
+    .book.with-summary .book-body .book-header {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
 }
 
 .book .book-body .book-header {
@@ -81,13 +60,6 @@
     background: #1c1f2b;
 }
 
-.page-inner {
-    max-width: {{ site.page_width | default: '800px' }};
-}
-
-.back-to-top {
-    right: calc((100% - 300px - min(100% - 300px, {{ site.page_width | default: '800px' }})) / 2 + 25px);
-}
 
 /* scrollbar */
 ::-webkit-scrollbar {
@@ -116,12 +88,13 @@
 
 #book-search-input-link {
     padding: 6px;
+    background: 0 0;
+    background: inherit;
     transition: top .5s ease;
-    border-bottom: 1px solid rgba(0,0,0,.07);
-    border-top: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0, 0, 0, .07);
+    border-top: 1px solid rgba(0, 0, 0, .07);
     margin-bottom: 10px;
     margin-top: -1px;
-    background: #ffffff;
 }
 
 #book-search-input-link a {
@@ -138,6 +111,7 @@
 #book-search-input {
     display: block;
 }
+
 #book-search-input-link {
     display: none;
 }
@@ -146,6 +120,7 @@
     #book-search-input {
         display: none;
     }
+
     #book-search-input-link {
         display: block;
     }
@@ -156,8 +131,8 @@
     background: 0 0;
     transition: top .5s ease;
     background: #fff;
-    border-bottom: 1px solid rgba(0,0,0,.07);
-    border-top: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0, 0, 0, .07);
+    border-top: 1px solid rgba(0, 0, 0, .07);
     margin-bottom: 10px;
     margin-top: -1px;
 }
@@ -173,70 +148,19 @@
     color: inherit;
 }
 
-
-/* Custom font settings */
-
-/* .book.font-family-0 {
-    xfont-family: Georgia, serif;
-}
-.book.font-family-1 {
-    xfont-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-} */
-
 /* Render wide tables */
 
 .table-wrapper {
     overflow-x: scroll;
 }
 
-.markdown-section blockquote {
-    border-left: 0.5em solid #71129E;
-    background: #faf7fb;
-    background: -webkit-linear-gradient(to right, #f3ebf6, #fdf8e3);
-    background: linear-gradient(to right, #f3ebf6, #fdf8e3);
-
-
-
-
-    padding: 0 1em;
-    color: #140a18;
-    padding-top: 1.5em;
-    padding-bottom: 0.5em;
-    border-radius: 0.5em;
-
-    box-shadow:
-    rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
-    rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    margin-top: 2em;
-
-    margin: 2em 0.2em;
-}
-
 /* Tips, warnings, and dangers */
 
 .markdown-section blockquote.block-tip {
     border-color: var(--c-tip);
-    color: #143a29;
+    background-color: var(--c-tip-bg);
+    color: var(--c-tip-text);
     font-family: var(--font-family);
-    padding: 0.5em;
-    padding-left: 0.96em;
-    margin: 2em 0.2em;
-    border-left-width: 0.5em;
-
-    background: #e2f5ec;
-    background: -webkit-linear-gradient(to right, #e2f5ec, #d5eefe);
-    background: linear-gradient(to right, #e2f5ec, #d5eefe);
-
-    border-radius: 4px;
-
-    box-shadow:
-            rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
-            rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
-            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 .markdown-section blockquote.block-tip h1 {
@@ -265,23 +189,9 @@
 
 .markdown-section blockquote.block-warning {
     border-color: var(--c-warning);
-    background-color: #e7c000;
-    color: #352c00;
+    background-color: var(--c-warning-bg);
+    color: var(--c-warning-text);
     font-family: var(--font-family);
-
-    background: #e7c000;
-    background: -webkit-linear-gradient(to right, #f7ebb0, #fdfeac);
-    background: linear-gradient(to right, #f7ebb0, #fdfeac);
-
-    border-radius: 4px;
-
-    box-shadow:
-            rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
-            rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
-            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-
-    margin-top: 2em;
-    margin: 2em 0.2em;
 }
 
 .markdown-section blockquote.block-warning h1 {
@@ -339,6 +249,11 @@
     color: var(--c-danger-title);
 }
 
+pre:has(code.language-mermaid[data-processed="true"]) {
+    background-color: #ffffff;
+    text-align: center;
+}
+
 :root {
     --c-tip: #42b983;
     --c-tip-bg: #e2f5ec;
@@ -352,38 +267,5 @@
     --c-danger-bg: #ffe0e0;
     --c-danger-text: #600;
     --c-danger-title: #c00;
-    --font-family: "aglet-mono", mono, "divenire-mono", serif, "auger-mono", monospace, "lexia-mono-variable", sans-serif, "moby", sans-serif, "paradroid-mono-soft", sans-serif, "logic-monospace", mono, john-doe, sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-
-.blog-author-info {
-    padding: 0.25em;
-    text-align: right;
-    font-size: 0.9em;
-    margin-top: -1.25em !important;
-    font-style: italic;
-}
-
-.blog-author-info a {
-    border-bottom: 0;
-    padding: 0;
-}
-
-.blog-author-info a:hover {
-    background: transparent;
-    border-bottom: 0;
-    text-decoration: underline;
-}
-
-a.blog-listing-link {
-    display: block;
-    color: #000000;
-    background: #fafafa;
-    margin: 1.62em;
-    padding: 1em;
-    transition: all 0.262s ease-out;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-}
-
-a.blog-listing-link h2 {
-    margin-top: 0 !important;
+    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }

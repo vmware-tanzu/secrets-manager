@@ -59,13 +59,13 @@
   background: #1c1f2b;
 }
 .book.font-size-0 .book-body .page-inner section {
-  xfont-size: 1.2rem;
+  font-size: 1.2rem;
 }
 .book.font-size-1 .book-body .page-inner section {
-  xfont-size: 1.4rem;
+  font-size: 1.4rem;
 }
 .book.font-size-2 .book-body .page-inner section {
-  xfont-size: 1.6rem;
+  font-size: 1.6rem;
 }
 .book.font-size-3 .book-body .page-inner section {
   font-size: 2.2rem;
@@ -74,10 +74,10 @@
   font-size: 4rem;
 }
 .book.font-family-0 {
-  xfont-family: Georgia, serif;
+  font-family: Georgia, serif;
 }
 .book.font-family-1 {
-  xfont-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .book.color-theme-1 .book-body .page-wrapper .page-inner section.normal {
   color: #704214;
