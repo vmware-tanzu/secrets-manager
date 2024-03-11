@@ -13,6 +13,8 @@ serve-docs:
 
 # Builds everything and pushes to public DockerHub registries.
 build: \
+	inspector-bundle \
+	inspector-push \
 	keygen-bundle \
 	keygen-push \
 	example-sidecar-bundle \
@@ -72,6 +74,8 @@ login-eks:
 # Builds everything and pushes to the public EKS registry.
 build-eks: \
 	login-eks \
+	inspector-bundle \
+	inspector-push-eks \
 	keygen-bundle \
 	keygen-push-eks \
 	example-sidecar-bundle \
@@ -117,6 +121,8 @@ build-eks: \
 
 # Builds everything and pushes to the local registry.
 build-local: \
+	inspector-bundle \
+	inspector-push-local \
 	keygen-bundle \
 	keygen-push-local \
 	example-sidecar-bundle \
@@ -162,6 +168,7 @@ build-local: \
 
 build-essentials-local: \
 	keygen-bundle \
+	inspector-bundle \
 	safe-bundle-ist \
 	safe-push-ist-local \
 	sidecar-bundle-ist \

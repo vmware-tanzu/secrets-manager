@@ -10,14 +10,15 @@
 
 # builder image
 FROM golang:1.22.0-alpine3.19 as builder
+
 RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
-COPY sdk /build/sdk
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-sidecar ./app/sidecar/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
+    ./app/keygen/inspector/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
@@ -27,14 +28,14 @@ ENV APP_VERSION="0.23.2"
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION
 LABEL "website"="https://vsecm.com/"
-LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager"
+LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager-safe"
 LABEL "documentation"="https://vsecm.com/"
 LABEL "contact"="https://vsecm.com/docs/contact"
 LABEL "community"="https://vsecm.com/docs/community"
 LABEL "changelog"="https://vsecm.com/docs/changelog"
 
-COPY --from=builder /build/vsecm-sidecar .
+COPY --from=builder /build/vsecm-inspector /env
 
 # executable
-ENTRYPOINT [ "./vsecm-sidecar" ]
+ENTRYPOINT [ "./env" ]
 CMD [ "" ]

@@ -32,6 +32,9 @@ VSECM_EKS_REGISTRY_URL ?= "public.ecr.aws/h8y1n7y7"
 include ./makefiles/VSecMMacOs.mk
 include ./makefiles/VSecMDeploy.mk
 
+## Inspector
+include ./makefiles/VSecMInspector.mk
+
 ## Keygen
 include ./makefiles/VSecMKeyGen.mk
 
