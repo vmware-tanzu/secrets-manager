@@ -17,7 +17,8 @@ COPY core /build/core
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
+    ./app/keygen/inspector/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
@@ -33,8 +34,8 @@ LABEL "contact"=https://vsecm.com/docs/contact"
 LABEL "community"="https://vsecm.com/docs/community"
 LABEL "changelog"="https://vsecm.com/docs/changelog"
 
-COPY --from=builder /build/vsecm-safe .
+COPY --from=builder /build/vsecm-inspector /env
 
 # executable
-ENTRYPOINT [ "./vsecm-safe" ]
+ENTRYPOINT [ "./env" ]
 CMD [ "" ]
