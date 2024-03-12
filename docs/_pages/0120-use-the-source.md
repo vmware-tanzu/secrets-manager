@@ -16,10 +16,6 @@ permalink: /docs/use-the-source/
 next_url: /docs/contributing/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0120-use-the-source.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This section describes how to build **VMware Secrets Manager** from source.
@@ -59,22 +55,8 @@ related components built locally on your Docker registry.
 For a more detailed guide about how you can use these local container images
 in your custer [check out the **Contributing** section](/docs/contributing/).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0120-use-the-source.md">
+       Suggest edits ✏️ 
+    </a>
+</p>

@@ -16,10 +16,6 @@ permalink: /docs/contributor-sync/
 next_url: /docs/contact/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0001-contributor-sync.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 > **Welcome 👋**
 >
 > Welcome to the **VMware Secrets Manager** Contributor Hour, a monthly meeting
@@ -62,3 +58,9 @@ frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
 style="position:absolute;top:0;left:0;width:100%;height:100%;"
 title="VMware Secrets Manager Contributor Sync -- 2023-09-29"
 ></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0001-contributor-sync.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

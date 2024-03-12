@@ -16,10 +16,6 @@ permalink: /docs/contributing/
 next_url: /docs/dev-env/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0130-contributing.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This section contains instructions to test and develop **VMware Secrets Manager**
@@ -227,3 +223,9 @@ Started](https://docs.docker.com/get-started/) guide.
 [fork]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks
 [contributing]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING_DCO.md
 [coc]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md
+
+<p class="github-button">
+   <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0130-contributing.md">
+      Suggest edits ✏️ 
+   </a>
+</p>

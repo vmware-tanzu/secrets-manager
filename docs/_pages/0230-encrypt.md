@@ -16,10 +16,6 @@ permalink: /docs/use-case-encryption/
 next_url: /docs/use-case-transformation/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0230-encrypt.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This tutorial will introduce how you can use **VSecM Sentinel** encrypt secrets
@@ -185,3 +181,8 @@ safe the secret anywhere you like including source control systems.
 Next up, you'll learn about secret transformations.
 
 
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0230-encrypt.md">
+    Suggest edits ✏️
+  </a>
+</p>

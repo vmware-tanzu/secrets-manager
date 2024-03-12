@@ -16,10 +16,6 @@ permalink: /docs/navigation/
 next_url: /docs/about/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0020-preface.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Hey, This Website Looks Like a GitBook 📖
 
 Yes, this website is intentionally created like a book. We wanted to make
@@ -46,3 +42,9 @@ There are two kinds of "*secret*"s mentioned throughout this documentation:
   will be explicitly mentioned as "*Kubernetes `Secret`s*" in the documentation.
 
 We hope this will clarify any confusion going forward.
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0020-preface.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

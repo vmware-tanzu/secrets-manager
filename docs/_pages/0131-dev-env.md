@@ -16,10 +16,6 @@ permalink: /docs/dev-env/
 next_url: /docs/production/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0131-dev-env.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This section contains instructions to set up your development environment
@@ -456,3 +452,9 @@ Just explore the [Makefile][makefile] and get a feeling of it.
 recommendations.
 
 [makefile]: https://github.com/vmware-tanzu/secrets-manager/blob/main/Makefile
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0131-dev-env.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

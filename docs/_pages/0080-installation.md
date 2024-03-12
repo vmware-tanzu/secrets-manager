@@ -16,10 +16,6 @@ permalink: /docs/installation/
 next_url: /docs/cli/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0080-installation.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 There are several ways to install **VMware Secrets Manager** to a Kubernetes cluster:
@@ -132,3 +128,9 @@ use `make helm-delete`  command:
 # You are encouraged to use `make helm-delete` instead.
 make helm-delete
 ```
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0080-installation.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

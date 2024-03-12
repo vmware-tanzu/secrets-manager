@@ -16,10 +16,6 @@ permalink: /docs/privacy/
 next_url: /
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0990-privacy.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 > This is the shortest privacy policy you'll possibly read.
 >
 > We hate writing boring copyright stuff, so please don't make us write more.
@@ -38,3 +34,9 @@ we will never share your information with anyone without your prior consent.
 ## May the Source be With You 🦄
 
 Have an ad-free, safe, and wonderful experience 🎉.
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0990-privacy.md">
+        Suggest edits ✏️
+    </a>
+</p>

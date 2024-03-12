@@ -16,10 +16,6 @@ permalink: /docs/showcase/
 next_url: /
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0250-showcase.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This page contains various usage examples and tutorials about **VSecM**.
@@ -188,3 +184,8 @@ Without further ado, here is a playlist of videos that relate to **Aegis**:
     style='position:absolute;top:0;left:0;width:100%;height:100%;'></iframe>
 </div>
 
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0250-showcase.md">
+     Suggest edits ✏️
+  </a>
+</p>

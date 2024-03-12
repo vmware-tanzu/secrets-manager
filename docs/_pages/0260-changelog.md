@@ -16,10 +16,6 @@ permalink: /docs/changelog/
 next_url: /docs/releases/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0260-changelog.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Recent Updates
 
 * We now have a Go-based integration test suite instead of the former bash-based
@@ -286,12 +282,8 @@ also hardens the AES encryption flow against time-based attacks.
 * **BREAKING**: The binary that `vsecm-sentinel` uses is called `safe` right
   now (*formerly it was `aegis`*).
 
-
-<!--
-Added
-Fixed
-Changed
-Deprecated
-Removed
-Security
--->
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0260-changelog.md">
+    Suggest edits ✏️
+  </a>
+</p>

@@ -16,10 +16,6 @@ permalink: /docs/about/
 next_url: /docs/endorsements/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0021-about.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Why Do We Need a Cloud-Native Secrets Manager?
 
 Before we begin, let's think about why we need a cloud-native secrets manager in 
@@ -112,3 +108,9 @@ your cluster to securely use **VMware Secrets Manager**.
 [production]: /docs/production
 [gitbook-theme]: https://github.com/sighingnow/jekyll-gitbook "Jekyll GitBook Theme"
 [github]: https://github.com/vmware-tanzu/secrets-manager/tree/main/docs "VMware Secrets Manager Documentation on GitHub"
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0021-about.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

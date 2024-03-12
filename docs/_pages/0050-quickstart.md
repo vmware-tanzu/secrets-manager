@@ -16,10 +16,6 @@ permalink: /docs/quickstart/
 next_url: /docs/philosophy/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 > **Get Your Hands Dirty**
 >
 > This is a quickstart guide to get you up and running with **VSecM**.
@@ -422,3 +418,9 @@ After successfully completing this quickstart, you can try the following:
 * [Follow a more detailed tutorial that contains multiple use cases](/docs/use-cases).
 
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0050-quickstart.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

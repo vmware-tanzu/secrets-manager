@@ -16,10 +16,6 @@ permalink: /docs/configuration/
 next_url: /docs/use-the-source/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0110-configuration.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 **VMware Secrets Manager** system components can be configured using environment 
@@ -641,3 +637,9 @@ Both **VSecM Safe** and **workloads** use this environment variable.
 
 `VSECM_WORKLOAD_SPIFFEID_PREFIX` is required for validation. If not provided,
 it will default to: `"spiffe://vsecm.com/workload/"`
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0110-configuration.md">
+    Suggest edits ✏️ 
+  </a>
+</p>
