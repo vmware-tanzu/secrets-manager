@@ -51,7 +51,6 @@ audio:not([controls]) {
 }
 
 html {
-  xfont-family: sans-serif;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%
 }
@@ -161,7 +160,6 @@ button,
 input,
 select,
 textarea {
-  xfont-family: inherit;
   font-size: 100%;
   margin: 0
 }
@@ -1245,7 +1243,6 @@ table {
 .markdown-section code,
 .markdown-section pre {
   font-family: aglet-mono, mono, divenire-mono, serif, auger-mono, monospace, lexia-mono-variable, sans-serif, moby, sans-serif, paradroid-mono-soft, sans-serif, logic-monospace, mono, john-doe, sans-serif;
-
   direction: ltr;
   margin: 0;
   padding: 0;
@@ -1256,22 +1253,14 @@ table {
 .markdown-section pre {
   overflow: auto;
   word-wrap: normal;
-  xmargin: 0.2em;
   padding: .85em 1em;
   margin-bottom: 1.275em;
-  xbackground: #f0f0f0;
   background: #17202d;
   border: 1px #b3b3b3 solid;
-  xborder: 2px #e0e0e0 solid;
-
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-
   font-family: aglet-mono, mono, divenire-mono, serif, auger-mono, monospace, lexia-mono-variable, sans-serif, moby, sans-serif, paradroid-mono-soft, sans-serif, logic-monospace, mono, john-doe, sans-serif;
 }
 
@@ -1654,7 +1643,6 @@ span.c {
 
 #book-search-results .search-results .has-results .search-results-item code,
 #book-search-results .search-results .has-results .search-results-item pre {
-  xfont-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   direction: ltr;
   margin: 0;
   padding: 0;
