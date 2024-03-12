@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/rest/core"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/rest/core"
 	"log"
 	"net/http"
 )

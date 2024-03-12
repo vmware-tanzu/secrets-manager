@@ -11,7 +11,6 @@
 package validation
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 
@@ -43,10 +42,6 @@ func IsSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter,
 	audit.Log(j)
 
 	if validation.IsSentinel(spiffeid) {
-		return true
-	}
-
-	if env.SafeEnableOIDCResourceServer() {
 		return true
 	}
 

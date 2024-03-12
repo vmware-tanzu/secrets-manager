@@ -80,7 +80,7 @@ environments:
     value: "spiffe://vsecm.com/workload/"
   - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
     value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
-  - name: VSECM_SAFE_ENABLE_OIDC_RESOURCE_SERVER
+  - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
     value: "false"
 
 imagePullSecrets: []

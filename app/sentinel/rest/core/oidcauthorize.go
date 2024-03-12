@@ -1,9 +1,9 @@
-package oidc
+package core
 
 import (
 	"encoding/json"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"io"
 	"net/http"
 	"net/url"
@@ -26,6 +26,11 @@ func IsAuthorizedJWT(cid string, r *http.Request) bool {
 	data.Set("client_secret", strings.TrimSpace(clientSecret))
 	data.Set("token", strings.TrimSpace(accessToken))
 	data.Set("username", strings.TrimSpace(username))
+
+	if accessToken == "" && clientId == "" && clientSecret == "" && username == "" {
+		log.ErrorLn(&cid, "IsAuthorizedJWT please check your sending request headers!")
+		return false
+	}
 
 	req, err := http.NewRequest("POST", env.SentinelOIDCProviderBaseUrl(), strings.NewReader(data.Encode()))
 	if err != nil {

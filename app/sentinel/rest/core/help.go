@@ -14,17 +14,13 @@ func InputValidationFailure(workload string, encrypt bool, inputKeys string, sec
 
 	// You need to provide a workload name if you are not encrypting a secret,
 	// or if you are not providing input keys.
-	if workload == "" &&
-		!encrypt &&
-		inputKeys == "" {
+	if workload == "" && !encrypt && inputKeys == "" {
 		return true
 	}
 
 	// You need to provide a secret value if you are not deleting a secret,
 	// or if you are not providing input keys.
-	if secret == "" &&
-		!deleteSecret &&
-		inputKeys == "" {
+	if secret == "" && !deleteSecret && inputKeys == "" {
 		return true
 	}
 

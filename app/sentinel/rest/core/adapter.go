@@ -13,7 +13,7 @@ package core
 import (
 	"context"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/app/rest/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/rest/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"log"
@@ -40,14 +40,19 @@ type SecretRequest struct {
 func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretRequest) {
 	id, err := crypto.RandomString(8)
 	if err != nil {
-		id = "VSECMREST"
+		id = "VSECSENTINELREST"
 	}
 
 	ctx, cancel := context.WithCancel(
 		context.WithValue(context.Background(), "correlationId", &id),
 	)
-
 	defer cancel()
+
+	ok := IsAuthorizedJWT(id, r)
+	if !ok {
+		http.Error(w, "isAuthorizedJWT : Please provide correct credentials", http.StatusBadRequest)
+		return
+	}
 
 	if req.List {
 		encrypt := req.Encrypt

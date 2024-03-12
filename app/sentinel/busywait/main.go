@@ -45,7 +45,7 @@ func main() {
 
 	log.InfoLn(&id, "Initialization commands executed successfully")
 
-	if env.SafeEnableOIDCResourceServer() {
+	if env.SentinelEnableOIDCResourceServer() {
 		go rest.RunRestServer()
 	}
 	// Run on the main thread to wait forever.
