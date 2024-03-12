@@ -20,6 +20,8 @@ COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
     ./app/inspector/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth \
+  ./examples/multiple-secrets/busywait/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
@@ -36,7 +38,8 @@ LABEL "community"="https://vsecm.com/docs/community"
 LABEL "changelog"="https://vsecm.com/docs/changelog"
 
 COPY --from=builder /build/vsecm-inspector /env
+COPY --from=builder /build/sloth .
 
 # executable
-ENTRYPOINT [ "./env" ]
+ENTRYPOINT [ "./sloth" ]
 CMD [ "" ]
