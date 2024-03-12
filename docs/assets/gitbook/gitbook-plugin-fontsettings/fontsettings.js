@@ -14,11 +14,11 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
             text: 'White',
             id: 0
         },
-        {
-            config: 'sepia',
-            text: 'Sepia',
-            id: 1
-        },
+        // {
+        //     config: 'sepia',
+        //     text: 'Sepia',
+        //     id: 1
+        // },
         {
             config: 'night',
             text: 'Night',

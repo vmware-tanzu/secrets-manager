@@ -20,15 +20,25 @@ video {
 }
 
 .github-button {
+  padding: 20px 0;
   text-align: right;
 }
 
 .github-button a {
-  border-bottom: none !important;
-  background: #e0e0e0 !important;
-  padding: 0.5em !important;
+  padding: 6px 12px !important;
   display: inline-block !important;
   border-radius: 8px !important;
+  color: var(--c-text) !important;
+  border: 1px solid #e0e0e0 !important; 
+}
+
+.github-button a:hover {
+  background: #e0e0e0 !important;
+  padding: 6px 12px !important;
+  display: inline-block !important;
+  border-radius: 8px !important;
+  color: var(--c-text) !important;
+  border: 1px solid #e0e0e0 !important; 
 }
 
 audio:not([controls]) {
@@ -85,14 +95,14 @@ hr {
 
 mark {
   background: #ff0;
-  color: #000
+  color: var(--c-text)
 }
 
 code,
 kbd,
 pre,
 samp {
-  xfont-family: monospace, serif;
+  font-family: monospace, serif;
   font-size: 1em
 }
 
@@ -571,7 +581,6 @@ table {
 }
 
 .book-header {
-  xfont-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: visible;
   height: 50px;
   padding: 0 8px;
@@ -598,7 +607,7 @@ table {
 .book-header .btn:hover {
   position: relative;
   text-decoration: none;
-  color: #444;
+  color: var(--c-text);
   background: 0 0
 }
 
@@ -776,7 +785,6 @@ table {
 }
 
 .book-summary {
-  xfont-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   position: absolute;
   top: 0;
   left: -300px;
@@ -795,7 +803,10 @@ table {
 .book-summary ul.summary {
   list-style: none;
   margin: 0;
-  padding: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .book-summary ul.summary li {
@@ -838,9 +849,9 @@ table {
 .book-summary ul.summary li a,
 .book-summary ul.summary li span {
   display: block;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-bottom: none;
-  color: #191919;
+  color: var(--c-text);
   background: 0 0;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -849,9 +860,9 @@ table {
 }
 
 .book-summary ul.summary li a:hover {
-  background: #70b7ff6a;
-  color: #000000;
-  border-radius: 8px;
+  background: #b1b1b16a;
+  color: var(--c-text);
+  border-radius: 6px;
 }
 
 .book-summary ul.summary li a:focus {
@@ -860,9 +871,8 @@ table {
 
 .book-summary ul.summary li.active>a {
   background: #70b7ff6a;
-  color: #000000;
-  font-weight: 500;
-  border-radius: 8px;
+  color: var(--c-text);
+  border-radius: 6px;
 }
 
 .book-summary ul.summary li ul {
@@ -970,7 +980,6 @@ table {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px 15px 40px 15px;
-  padding-bottom: 6em !important;
 }
 
 .page-inner .btn-group .btn {
@@ -1107,16 +1116,13 @@ table {
 }
 
 .markdown-section a {
-  border-bottom: 4px #edc910 solid;
+  border-bottom: 2px #edc910 solid;
   text-decoration: none;
   background: 0 0;
-  padding: 0.2em 0.5em calc(0.2em - 4px) 0.5em;
   color: #0946EC
 }
 
-.page-wrapper {
-  xpadding-bottom: 150px;
-}
+.page-wrapper {}
 
 .copyright a {
   color: #343f54;
@@ -1124,21 +1130,13 @@ table {
 }
 
 .copyright {
-  border-top: 1px #96a4be solid;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-left: 2em;
-  padding-right: 2em;
+  border-top: 1px #c9c9c9af solid;
+  padding: 25px;
   text-align: center;
-  font-size: 0.85em;
-  color: #343f54;
+  font-size: 0.80em;
+  color: var(--c-text);
   line-height: 1.6em;
-  background: #bdc6d6;
-
-
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 20px 20px 20px;
-
-
+  background: #f7f7f7;
   margin-bottom: -10px;
 }
 
@@ -1146,9 +1144,7 @@ table {
 .markdown-section a:focus,
 .markdown-section a:hover {
   outline: 0;
-  background-color: #edc910;
   color: #000000;
-  border-bottom: 4px #edc910 solid;
   text-decoration: none;
 }
 
@@ -1194,9 +1190,8 @@ table {
 
 .markdown-section h2 {
   font-size: 1.25em;
-  font-weight: 400;
-  xborder-top: 1px solid #ED6B85;
-  color: #720016;
+  /* font-weight: 400; */
+  /* color: #720016; */
   padding-left: 0;
   border-left: 0;
 }
@@ -1216,19 +1211,18 @@ table {
   margin-bottom: 2em;
 }
 
-.markdown-section h2:before {
+/* .markdown-section h2:before {
   background: #BA1C3B;
   content: "";
   display: block;
   height: 2px;
   margin-bottom: 1rem;
   width: 64px;
-}
+} */
 
 .markdown-section h3 {
   font-size: 1.1em;
   font-weight: 400;
-
   border-left: 0.3em #00af80 solid;
   color: #006c4f;
   margin-top: 1.62em;
@@ -1384,11 +1378,10 @@ span.c {
 }
 
 .markdown-section blockquote {
-  margin: 0;
-  margin-bottom: .85em;
-  padding: 0 15px;
-  color: #858585;
-  border-left: 4px solid #e5e5e5
+  margin: 20px 0;
+  padding: 0 12px;
+  color: #5e5e5e;
+  border-left: 4px solid #e5e5e5;
 }
 
 .markdown-section blockquote:first-child {
@@ -1838,8 +1831,7 @@ h3,
 h4,
 h5,
 h6 {
-  xcolor: #BA1C3B;
-  color: #00244F;
+  color: var(--c-text);
 }
 
 h2 {
@@ -1860,16 +1852,16 @@ h4 {
 
 body {
   text-rendering: optimizeLegibility;
-  xfont-smoothing: antialiased;
-  /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; */
-
   font-family: "aglet-mono", mono, "divenire-mono", serif, "auger-mono", monospace, "lexia-mono-variable", sans-serif, "moby", sans-serif, "paradroid-mono-soft", sans-serif, "logic-monospace", mono, john-doe, sans-serif;
   font-weight: 400;
   font-style: normal;
-
   font-size: 18px;
   letter-spacing: .2px;
   text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%
+}
+
+:root {
+  --c-text: #191919;
 }
