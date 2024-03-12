@@ -11,11 +11,7 @@
 package handle
 
 import (
-	"io"
-	"net/http"
-
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-
 	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
 	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
 	initializationRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/initialization"
@@ -25,6 +21,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
+	"io"
+	"net/http"
 )
 
 // InitializeRoutes initializes the HTTP routes for the web server. It sets up an

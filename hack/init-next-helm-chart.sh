@@ -14,8 +14,7 @@
 BOLD="\033[1m"
 gitRoot=$(git rev-parse --show-toplevel)
 helmChartDirName="helm-charts"
-filesToBeUpdated=("Chart.yaml" "charts/safe/Chart.yaml" "charts/sentinel/Chart.yaml" \
-"charts/spire/Chart.yaml")
+filesToBeUpdated=("Chart.yaml" "charts/safe/Chart.yaml" "charts/sentinel/Chart.yaml" "charts/spire/Chart.yaml")
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
     echo "This script is used to initialize new VSecM helm-chart from an existing helm-chart"

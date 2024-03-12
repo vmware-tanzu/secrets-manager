@@ -12,8 +12,9 @@ package main
 
 import (
 	"context"
-
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/busywait/initialization"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/rest"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
@@ -44,6 +45,9 @@ func main() {
 
 	log.InfoLn(&id, "Initialization commands executed successfully")
 
+	if env.SentinelEnableOIDCResourceServer() {
+		go rest.RunRestServer()
+	}
 	// Run on the main thread to wait forever.
 	system.KeepAlive()
 }

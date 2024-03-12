@@ -38,6 +38,10 @@ environments:
    value: "gen:"
  - name: VSECM_SENTINEL_SPIFFEID_PREFIX
    value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+ - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
+   value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
+ - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
+   value: "false"
 
 imagePullSecrets: []
 nameOverride: ""
