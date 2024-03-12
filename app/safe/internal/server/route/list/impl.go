@@ -47,6 +47,8 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 	// Only sentinel can list.
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
+		j.Event = event.BadSpiffeId
+		audit.Log(j)
 		return
 	}
 

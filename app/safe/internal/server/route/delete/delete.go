@@ -49,6 +49,8 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	}
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
+		j.Event = event.BadSpiffeId
+		audit.Log(j)
 		return
 	}
 

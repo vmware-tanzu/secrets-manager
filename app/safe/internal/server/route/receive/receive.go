@@ -48,6 +48,8 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	audit.Log(j)
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
+		j.Event = event.BadSpiffeId
+		audit.Log(j)
 		return
 	}
 
