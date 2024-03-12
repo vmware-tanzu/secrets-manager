@@ -1,4 +1,4 @@
-name: Compile Protobuf and Dependencies
+name: Coverage Badge
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.21
+          go-version: 1.22
       - name: Install protoc
         run: sudo apt install protobuf-compiler
       - name: Install protoc-gen-go

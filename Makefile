@@ -12,7 +12,7 @@
 ifdef VSECM_VERSION
 	VERSION := $(VSECM_VERSION)
 else
-	VERSION := 0.23.1
+	VERSION := 0.23.2
 endif
 
 # Set deploySpire to false, if you want to use existing spire deployment
@@ -31,6 +31,9 @@ VSECM_EKS_REGISTRY_URL ?= "public.ecr.aws/h8y1n7y7"
 # Utils
 include ./makefiles/VSecMMacOs.mk
 include ./makefiles/VSecMDeploy.mk
+
+## Inspector
+include ./makefiles/VSecMInspector.mk
 
 ## Keygen
 include ./makefiles/VSecMKeyGen.mk

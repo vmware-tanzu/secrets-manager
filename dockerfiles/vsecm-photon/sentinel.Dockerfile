@@ -23,16 +23,16 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/bus
 # generate clean, final image for end users
 FROM photon:5.0
 
-ENV APP_VERSION="0.23.1"
+ENV APP_VERSION="0.23.2"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION
 LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager-sentinel"
 LABEL "documentation"="https://vsecm.com/"
-LABEL "contact"="https://vsecm.com/contact/"
-LABEL "community"="https://vsecm.com/community"
-LABEL "changelog"="https://vsecm.com/changelog"
+LABEL "contact"="https://vsecm.com/docs/contact"
+LABEL "community"="https://vsecm.com/docs/community"
+LABEL "changelog"="https://vsecm.com/docs/changelog"
 
 # Copy the required binaries
 COPY --from=builder /build/safe /bin/safe

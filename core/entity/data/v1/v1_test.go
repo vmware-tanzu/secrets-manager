@@ -513,6 +513,20 @@ func Test_transform(t *testing.T) {
 			wantErr: false,
 			err:     nil,
 		},
+		{
+			name: "raw_format",
+			args: args{
+				value: "This is a raw text",
+				secret: SecretStored{
+					Meta: SecretMeta{
+						Format: "raw",
+					},
+				},
+			},
+			want:    "This is a raw text",
+			wantErr: false,
+			err:     nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
