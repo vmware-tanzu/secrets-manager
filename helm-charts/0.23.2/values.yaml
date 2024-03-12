@@ -13,7 +13,7 @@ global:
   # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
   baseImage: distroless
   registry: vsecm
-  logLevel: "3"
+  logLevel: "7"
   images:
     safe:
       distrolessRepository: vsecm-ist-safe

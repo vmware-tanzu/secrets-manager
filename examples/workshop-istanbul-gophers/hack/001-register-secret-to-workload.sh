@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -8,17 +10,9 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: vsecm-inspector
-  namespace: default
-spec:
-  template:
-    spec:
-      containers:
-      - name: main
-        image: localhost:5000/example-multiple-secrets:0.23.2
-        env:
-          - name: VSECM_LOG_LEVEL
-            value: "3"
+source ./env.sh
+
+kubectl exec "$SENTINEL" -n vsecm-system -- safe \
+  -w "example" \
+  -n "default" \
+  -s "İstanbul Gophers Rock 🤘"
