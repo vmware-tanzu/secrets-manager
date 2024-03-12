@@ -18,7 +18,7 @@ COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
-    ./app/keygen/inspector/cmd/main.go
+    ./app/inspector/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
