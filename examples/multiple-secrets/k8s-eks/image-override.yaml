@@ -21,4 +21,4 @@ spec:
         image: public.ecr.aws/h8y1n7y7/example-multiple-secrets:0.23.2
         env:
           - name: VSECM_LOG_LEVEL
-            value: "3"
+            value: "7"

@@ -339,7 +339,7 @@ spec:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
-              value: "3"
+              value: "7"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_PROBE_READINESS_PORT
@@ -367,7 +367,7 @@ spec:
             - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
             - name: VSECM_SAFE_SECRET_BACKUP_COUNT
-              value: "3"
+              value: "7"
             - name: VSECM_SAFE_SECRET_BUFFER_SIZE
               value: "10"
             - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
@@ -498,7 +498,7 @@ spec:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
             - name: VSECM_LOG_LEVEL
-              value: "3"
+              value: "7"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_SAFE_ENDPOINT_URL

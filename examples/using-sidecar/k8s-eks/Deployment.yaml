@@ -56,7 +56,7 @@ spec:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/agent.sock"
         - name: VSECM_LOG_LEVEL
-          value: "3"
+          value: "7"
         - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/"
         - name: VSECM_SAFE_SPIFFEID_PREFIX
@@ -68,7 +68,7 @@ spec:
         - name: VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER
           value: "2"
         - name: VSECM_SIDECAR_SUCCESS_THRESHOLD
-          value: "3"
+          value: "7"
         - name: VSECM_SIDECAR_ERROR_THRESHOLD
           value: "2"
       volumes:
