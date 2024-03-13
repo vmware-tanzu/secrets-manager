@@ -13,7 +13,6 @@ package initialization
 import (
 	"bufio"
 	"context"
-	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"strconv"
 	"strings"
 	"time"
@@ -56,9 +55,8 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
-	var src *workloadapi.X509Source
-	if newSrc, acquired := spiffe.AcquireSourceForSentinel(ctx); !acquired {
-		src = newSrc
+	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+	if !acquired {
 		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
 
 		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
@@ -73,6 +71,7 @@ func RunInitCommands(ctx context.Context) {
 				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
 				return
 			case <-ticker.C:
+				log.InfoLn(cid, "Acquired source (1)")
 				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
 				if acquired {
 					break
@@ -97,6 +96,8 @@ func RunInitCommands(ctx context.Context) {
 
 	canEstablishedConnectivityToSafe := false
 	if src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); acquired {
+		log.TraceLn(cid, "Acquired source (2)")
+
 		if err := safe.Check(foreverCtx, src); err == nil {
 			canEstablishedConnectivityToSafe = true
 		}
@@ -113,9 +114,8 @@ dance:
 		// Although the cached `src` should be valid and ready to be
 		// used, there is no harm in acquiring a brand-new source
 		// just for the sake of running initialization commands.
-		var src *workloadapi.X509Source
-		if newSrc, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); !acquired {
-			src = newSrc
+		src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
+		if !acquired {
 			log.ErrorLn(
 				cid,
 				"RunInitCommands: Failed to acquire source... will retry (3)",
