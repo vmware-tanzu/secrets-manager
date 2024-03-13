@@ -21,4 +21,4 @@ spec:
         image: localhost:5000/example-multiple-secrets:0.23.2
         env:
           - name: VSECM_LOG_LEVEL
-            value: "7"
+            value: "3"
