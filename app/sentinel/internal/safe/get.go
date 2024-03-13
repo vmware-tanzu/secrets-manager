@@ -12,6 +12,7 @@ package safe
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -66,7 +67,10 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 	if err != nil {
 		return errors.Wrap(
 			err,
-			"check: I am having problem generating VSecM Safe secrets api endpoint URL",
+			fmt.Sprintf(
+				"check: I am having problem generating VSecM Safe secrets api endpoint URL: %s\n",
+				safeUrl,
+			),
 		)
 	}
 
@@ -80,7 +84,11 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 	r, err := client.Get(p)
 	if err != nil {
 		return errors.Wrap(
-			err, "check: Problem connecting to VSecM Safe API endpoint URL",
+			err,
+			fmt.Sprintf(
+				"check: Problem connecting to VSecM Safe API endpoint URL: %s\n",
+				safeUrl,
+			),
 		)
 	}
 

@@ -91,19 +91,23 @@ func RunInitCommands(ctx context.Context) {
 	defer cancel()
 
 	if err := safe.Check(ctx, src); err != nil {
+		log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
+		
 		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 
 		for {
 			select {
 			case <-ticker.C:
-				if err := safe.Check(ctx, src); err == nil {
+				err := safe.Check(ctx, src)
+				if err == nil {
 					break
 				}
+				log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
 			case <-ctx.Done():
 				log.ErrorLn(
 					cid,
-					"Failed after talk to VSecM Safe in a timely manner.",
+					"Failed after not being able to VSecM Safe in a timely manner.",
 				)
 				return
 			}
