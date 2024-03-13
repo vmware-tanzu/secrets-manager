@@ -22,17 +22,58 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+TBD
+
+## [v0.23.2] - 2024-03-13
+
+### Added
+
+* VSecM Sentinel can now act as an OIDC Resource Server (experimental). This
+  feature is disabled by default, and can be enabled by an environment variable.
+  When you enable it, you should also ensure the security of the OIDC Server
+  as breaching it will give direct access to VSecM. This feature changes the
+  attack surface of the system and should be implemented only if you are 
+  extremely sure of what you are doing.
+* Documented all public methods in the codebase. This will help
+  contributors to understand the codebase better and make it easier to
+  contribute.
+* We now have an official “VSecM Inspector” container image that can be used
+  to inspect the secrets bound to workloads without having to shell into
+  the workloads. This is especially helpful when you want to debug a workload’s
+  secrets without needing to uninstall or change the source code of the workload.
+* Unit tests to increase coverage.
+
+### Changed
+
 * We now have a Go-based integration test suite instead of the former bash-based
   one. This change makes the tests more reliable and easier to maintain, while
   we can leverage the Go language’s powerful primitives to make the tests
   readable, maintainable, and scalable.
-* Documented all public methods in the codebase. This will help
-  contributors to understand the codebase better and make it easier to
-  contribute.
 * VSecM components have sensible “memory” lower limits in helm charts (before
-  it was left for the end-user to decide, now we provide a strarting point
-  while encouraging the user to do their own benchmarks to update the 
+  it was left for the end-user to decide, now we provide a starting point
+  while encouraging the user to do their own benchmarks to update the
   resource limits to their production needs.)
+* Updated the log level of all VSecM components to the highest (7, TRACE).
+  This setting is to help VSecM users to diagnose and debug potential 
+  installation issues during initial deployment. Once you are sure that things
+  work as expected, you are encouraged to change the log level to a more
+  sensible value (like, 3, DEBUG).
+* Refactorings to make the code easier to follow.
+
+### Fixed 
+
+* VSecM Sentinel’s “Init Command” loop had a logic error that was preventing the
+  initialization command to function under certain edge conditions. It’s now
+  fixed.
+
+### Security
+
+* Updated SPIRE Server, SPIRE Client, and SPIRE Controller Manager images to 
+  their latest version.
+* Increased the Go version to the recent stable.
+  
+* Fixed CVE-2024-28180 [Go JOSE vulnerable to Improper Handling of Highly 
+  Compressed Data](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/11)
 
 ## [v0.23.0] - 2024-03-01
 
@@ -175,7 +216,8 @@ next_url: /docs/releases/
 
 ### Security
 
-* Fixed CVE-2023-48795 [Russh vulnerable to Prefix Truncation Attack against ChaCha20-Poly1305 and Encrypt-then-MAC](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/9)
+* Fixed CVE-2023-48795 [Russh vulnerable to Prefix Truncation Attack against 
+  ChaCha20-Poly1305 and Encrypt-then-MAC](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/9)
 
 ## [v0.21.4] - 2023-11-30
 
@@ -185,7 +227,8 @@ documentation updates.
 ### Security
 
 * This is a patch release to address GHSA-2c7c-3mj9-8fqh [Decryption of malicious
-  PBES2 JWE objects can consume unbounded system resources](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/8)
+  PBES2 JWE objects can consume unbounded system 
+  resources](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/8)
 
 ## [v0.21.3] - 2023-11-03
 
@@ -197,7 +240,8 @@ documentation updates.
 
 ### Security
 
-* Fixed GHSA-m425-mq94-257g [gRPC-Go HTTP/2 Rapid Reset vulnerability](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/7)
+* Fixed GHSA-m425-mq94-257g [gRPC-Go HTTP/2 Rapid Reset 
+  vulnerability](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/7)
 
 ## [v0.21.2] - 2023-10-18
 
@@ -206,9 +250,12 @@ also hardens the AES encryption flow against time-based attacks.
 
 ### Security
 
-* Fixed CVE-2023-3978 [Improper rendering of text nodes in golang.org/x/net/html](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/4)
-* Fixed CVE-2023-39325 [HTTP/2 rapid reset can cause excessive work in net/http](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/5)
-* Fixed CVE-2023-44487 [swift-nio-http2 vulnerable to HTTP/2 Stream Cancellation Attack](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/6)
+* Fixed CVE-2023-3978 [Improper rendering of text nodes in 
+  golang.org/x/net/html](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/4)
+* Fixed CVE-2023-39325 [HTTP/2 rapid reset can cause excessive work 
+  in net/http](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/5)
+* Fixed CVE-2023-44487 [swift-nio-http2 vulnerable to HTTP/2 Stream Cancellation 
+  Attack](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/6)
 * Fixed an issue with possible memory overflow when doing a cryptographic size
   computation.
 * Added a configurable throttle to AES IV computation to make it harder to
