@@ -13,7 +13,7 @@ package initialization
 import (
 	"bufio"
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"strconv"
 	"strings"
 	"time"
@@ -22,6 +22,7 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"os"
 )
 
@@ -55,58 +56,56 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
-	// ovolkan: Temporarily commenting out to debug something:
-	//
-	//src, acquired := spiffe.AcquireSourceForSentinel(ctx)
-	//
-	//if !acquired {
-	//	timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
-	//
-	//	timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
-	//	defer cancel()
-	//
-	//	ticker := time.NewTicker(10 * time.Second)
-	//	defer ticker.Stop()
-	//
-	//	for {
-	//		select {
-	//		case <-timeoutCtx.Done():
-	//			log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
-	//			return
-	//		case <-ticker.C:
-	//			src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
-	//			if acquired {
-	//				break
-	//			}
-	//		}
-	//	}
-	//}
-	//
-	//if src == nil {
-	//	log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
-	//	return
-	//}
+	var src *workloadapi.X509Source
+	if newSrc, acquired := spiffe.AcquireSourceForSentinel(ctx); !acquired {
+		src = newSrc
+		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
+
+		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
+		defer cancel()
+
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-timeoutCtx.Done():
+				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
+				return
+			case <-ticker.C:
+				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
+				if acquired {
+					break
+				}
+			}
+			break
+		}
+	}
+
+	if src == nil {
+		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
+		return
+	}
 
 	// If we are here, then SPIFFE Workload API is functioning as expected.
-
-	// log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
+	// We’ll do one last check to ensure Sentinel can communicate with Safe
+	// before executing the init commands.
 
 	foreverCtx := context.WithoutCancel(ctx)
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
 
 	canEstablishedConnectivityToSafe := false
-	src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
-	if acquired {
-		err := safe.Check(foreverCtx, src)
-		if err == nil {
+	if src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); acquired {
+		if err := safe.Check(foreverCtx, src); err == nil {
 			canEstablishedConnectivityToSafe = true
 		}
 	}
 
+dance:
 	for {
 		if canEstablishedConnectivityToSafe {
-			break
+			break dance
 		}
 
 		// Acquiring the source again for defensive programming.
@@ -114,11 +113,12 @@ func RunInitCommands(ctx context.Context) {
 		// Although the cached `src` should be valid and ready to be
 		// used, there is no harm in acquiring a brand-new source
 		// just for the sake of running initialization commands.
-		src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
-		if !acquired {
+		var src *workloadapi.X509Source
+		if newSrc, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); !acquired {
+			src = newSrc
 			log.ErrorLn(
 				cid,
-				"RunInitCommands: Failed to acquire source... will retry",
+				"RunInitCommands: Failed to acquire source... will retry (3)",
 			)
 
 			continue
@@ -127,15 +127,13 @@ func RunInitCommands(ctx context.Context) {
 		select {
 		case <-ticker.C:
 			err := safe.Check(foreverCtx, src)
+
 			if err == nil {
-				break
+				break dance
 			}
 
-			log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
+			log.ErrorLn(cid, "RunInitCommands: tick: error: (4)", err.Error())
 		}
-
-		// We got what we need, move out from the infinite loop.
-		break
 	}
 
 	// Parse tombstone file first:
@@ -144,7 +142,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -161,7 +159,7 @@ func RunInitCommands(ctx context.Context) {
 	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
 			cid,
-			"Initialization already exit... skipping custom initialization.",
+			"RunInitCommands: Initialization already exit... skipping custom initialization.",
 		)
 		return
 	}
@@ -172,7 +170,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -180,7 +178,7 @@ func RunInitCommands(ctx context.Context) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(cid, "Error closing initialization file: ", err.Error())
+			log.ErrorLn(cid, "RunInitCommands: Error closing initialization file: ", err.Error())
 		}
 	}(file)
 
@@ -237,18 +235,18 @@ func RunInitCommands(ctx context.Context) {
 			sc.ShouldSleep = true
 			intms, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(cid, "Error parsing sleep interval: ", err.Error())
+				log.ErrorLn(cid, "RunInitCommands: Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intms
 		default:
-			log.InfoLn(cid, "unknown command: ", key)
+			log.InfoLn(cid, "RunInitCommands: unknown command: ", key)
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.ErrorLn(
 			cid,
-			"Error reading initialization file: ",
+			"RunInitCommands: Error reading initialization file: ",
 			err.Error(),
 		)
 	}
