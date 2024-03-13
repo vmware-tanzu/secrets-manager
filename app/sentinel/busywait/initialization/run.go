@@ -85,31 +85,40 @@ func RunInitCommands(ctx context.Context) {
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(
-		ctx, env.InitCommandRunnerWaitTimeoutForSentinel(),
-	)
-	defer cancel()
+	// If we are here, then SPIFFE Workload API is functioning as expected.
 
-	if err := safe.Check(ctx, src); err != nil {
+	foreverCtx := context.WithoutCancel(ctx)
+
+	if err := safe.Check(foreverCtx, src); err != nil {
 		log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
-		
+
 		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 
 		for {
+			// Acquiring the source again for defensive programming.
+			// At this point the cluster is (likely) still initializing.
+			// Although the cached `src` should be valid and ready to be
+			// used, there is no harm in acquiring a brand-new source
+			// just for the sake of running initialization commands.
+			src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
+			if !acquired {
+				log.ErrorLn(
+					cid,
+					"RunInitCommands: Failed to acquire source... will retry",
+				)
+
+				continue
+			}
+
 			select {
 			case <-ticker.C:
-				err := safe.Check(ctx, src)
+				err := safe.Check(foreverCtx, src)
 				if err == nil {
 					break
 				}
+
 				log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
-			case <-ctx.Done():
-				log.ErrorLn(
-					cid,
-					"Failed after not being able to VSecM Safe in a timely manner.",
-				)
-				return
 			}
 		}
 	}
