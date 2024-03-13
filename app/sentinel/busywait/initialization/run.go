@@ -55,72 +55,87 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
-	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
-
-	if !acquired {
-		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
-
-		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
-		defer cancel()
-
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
-
-		for {
-			select {
-			case <-timeoutCtx.Done():
-				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
-				return
-			case <-ticker.C:
-				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
-				if acquired {
-					break
-				}
-			}
-		}
-	}
-
-	if src == nil {
-		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
-		return
-	}
+	// ovolkan: Temporarily commenting out to debug something:
+	//
+	//src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+	//
+	//if !acquired {
+	//	timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
+	//
+	//	timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
+	//	defer cancel()
+	//
+	//	ticker := time.NewTicker(10 * time.Second)
+	//	defer ticker.Stop()
+	//
+	//	for {
+	//		select {
+	//		case <-timeoutCtx.Done():
+	//			log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
+	//			return
+	//		case <-ticker.C:
+	//			src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
+	//			if acquired {
+	//				break
+	//			}
+	//		}
+	//	}
+	//}
+	//
+	//if src == nil {
+	//	log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
+	//	return
+	//}
 
 	// If we are here, then SPIFFE Workload API is functioning as expected.
 
+	// log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
+
 	foreverCtx := context.WithoutCancel(ctx)
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
 
-	if err := safe.Check(foreverCtx, src); err != nil {
-		log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
-
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
-
-		for {
-			// Acquiring the source again for defensive programming.
-			// At this point the cluster is (likely) still initializing.
-			// Although the cached `src` should be valid and ready to be
-			// used, there is no harm in acquiring a brand-new source
-			// just for the sake of running initialization commands.
-			src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
-			if !acquired {
-				log.ErrorLn(
-					cid,
-					"RunInitCommands: Failed to acquire source... will retry",
-				)
-
-				continue
-			}
-
-			select {
-			case <-ticker.C:
-				err := safe.Check(foreverCtx, src)
-				if err == nil {
-					break
-				}
-
-				log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
-			}
+	canEstablishedConnectivityToSafe := false
+	src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
+	if acquired {
+		err := safe.Check(foreverCtx, src)
+		if err == nil {
+			canEstablishedConnectivityToSafe = true
 		}
+	}
+
+	for {
+		if canEstablishedConnectivityToSafe {
+			break
+		}
+
+		// Acquiring the source again for defensive programming.
+		// At this point the cluster is (likely) still initializing.
+		// Although the cached `src` should be valid and ready to be
+		// used, there is no harm in acquiring a brand-new source
+		// just for the sake of running initialization commands.
+		src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
+		if !acquired {
+			log.ErrorLn(
+				cid,
+				"RunInitCommands: Failed to acquire source... will retry",
+			)
+
+			continue
+		}
+
+		select {
+		case <-ticker.C:
+			err := safe.Check(foreverCtx, src)
+			if err == nil {
+				break
+			}
+
+			log.ErrorLn(cid, "RunInitCommands: tick: error: ", err.Error())
+		}
+
+		// We got what we need, move out from the infinite loop.
+		break
 	}
 
 	// Parse tombstone file first:
