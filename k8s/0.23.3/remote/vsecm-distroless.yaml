@@ -313,7 +313,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-safe:0.23.2"
+          image: "vsecm/vsecm-ist-safe:0.23.3"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -472,7 +472,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-sentinel:0.23.2"
+          image: "vsecm/vsecm-ist-sentinel:0.23.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
