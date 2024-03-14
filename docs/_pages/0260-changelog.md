@@ -70,8 +70,7 @@ TBD
 
 * Updated SPIRE Server, SPIRE Client, and SPIRE Controller Manager images to 
   their latest version.
-* Increased the Go version to the recent stable.
-  
+* Increased the Go version to the recent stable. 
 * Fixed CVE-2024-28180 [Go JOSE vulnerable to Improper Handling of Highly 
   Compressed Data](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/11)
 
