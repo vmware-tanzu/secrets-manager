@@ -87,24 +87,9 @@ autoscaling:
 initCommand:
   enabled: true
 
-#  #  Add any initialization command here, separated by a line with only "--"
-#  command: |
-#    exit:true
-#    --
-
+  #  Add any initialization command here, separated by a line with only "--"
   command: |
-    sleep:30000
-    --
-    w:k8s:keycloak-secret
-    n:vmware-rms
-    s:gen:{"defaultUserPwd":"[a-zA-Z0-9]{12}","kcDbPass":"[a-zA-Z0-9]{12}","kcDbUser":"admin-[0-9]{2}","keycloakDbName":"keycloak","keycloakUser":"user-[0-9]{2}","keycloakPassword":"[a-zA-Z0-9]{12}"}
-    t:{"DEFAULT_USR_PSSWD":"{{.defaultUserPwd}}","KC_DB_PASS":"{{.kcDbPass}}","KC_DB_USER":"{{.kcDbUser}}","KEYCLOAK_DBNAME":"{{.keycloakDbName}}","KEYCLOAK_PASSWORD":"{{.keycloakPassword}}","KEYCLOAK_USER":"{{.keycloakUser}}"}
-    --
-    sleep:5000
-    --
-    w:keycloak
-    n:vmware-rms
-    s:trigger-init
+    exit:true
     --
 
   #  Example:
