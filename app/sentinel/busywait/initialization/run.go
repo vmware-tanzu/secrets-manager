@@ -65,6 +65,7 @@ func RunInitCommands(ctx context.Context) {
 		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 
+	free:
 		for {
 			select {
 			case <-timeoutCtx.Done():
@@ -74,10 +75,9 @@ func RunInitCommands(ctx context.Context) {
 				log.InfoLn(cid, "Acquired source (1)")
 				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
 				if acquired {
-					break
+					break free
 				}
 			}
-			break
 		}
 	}
 
