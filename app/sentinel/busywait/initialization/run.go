@@ -13,7 +13,6 @@ package initialization
 import (
 	"bufio"
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"strconv"
 	"strings"
 	"time"
@@ -22,6 +21,7 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"os"
 )
 
@@ -56,7 +56,6 @@ func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
 	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
-
 	if !acquired {
 		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
 
@@ -66,15 +65,17 @@ func RunInitCommands(ctx context.Context) {
 		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 
+	free:
 		for {
 			select {
 			case <-timeoutCtx.Done():
 				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
 				return
 			case <-ticker.C:
+				log.InfoLn(cid, "Acquired source (1)")
 				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
 				if acquired {
-					break
+					break free
 				}
 			}
 		}
@@ -85,28 +86,53 @@ func RunInitCommands(ctx context.Context) {
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(
-		ctx, env.InitCommandRunnerWaitTimeoutForSentinel(),
-	)
-	defer cancel()
+	// If we are here, then SPIFFE Workload API is functioning as expected.
+	// We’ll do one last check to ensure Sentinel can communicate with Safe
+	// before executing the init commands.
 
-	if err := safe.Check(ctx, src); err != nil {
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
+	foreverCtx := context.WithoutCancel(ctx)
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
 
-		for {
-			select {
-			case <-ticker.C:
-				if err := safe.Check(ctx, src); err == nil {
-					break
-				}
-			case <-ctx.Done():
-				log.ErrorLn(
-					cid,
-					"Failed after talk to VSecM Safe in a timely manner.",
-				)
-				return
+	canEstablishedConnectivityToSafe := false
+	if src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); acquired {
+		log.TraceLn(cid, "Acquired source (2)")
+
+		if err := safe.Check(foreverCtx, src); err == nil {
+			canEstablishedConnectivityToSafe = true
+		}
+	}
+
+dance:
+	for {
+		if canEstablishedConnectivityToSafe {
+			break dance
+		}
+
+		// Acquiring the source again for defensive programming.
+		// At this point the cluster is (likely) still initializing.
+		// Although the cached `src` should be valid and ready to be
+		// used, there is no harm in acquiring a brand-new source
+		// just for the sake of running initialization commands.
+		src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
+		if !acquired {
+			log.ErrorLn(
+				cid,
+				"RunInitCommands: Failed to acquire source... will retry (3)",
+			)
+
+			continue
+		}
+
+		select {
+		case <-ticker.C:
+			err := safe.Check(foreverCtx, src)
+
+			if err == nil {
+				break dance
 			}
+
+			log.ErrorLn(cid, "RunInitCommands: tick: error: (4)", err.Error())
 		}
 	}
 
@@ -116,7 +142,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -133,7 +159,7 @@ func RunInitCommands(ctx context.Context) {
 	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
 			cid,
-			"Initialization already exit... skipping custom initialization.",
+			"RunInitCommands: Initialization already exit... skipping custom initialization.",
 		)
 		return
 	}
@@ -144,7 +170,7 @@ func RunInitCommands(ctx context.Context) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -152,7 +178,7 @@ func RunInitCommands(ctx context.Context) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(cid, "Error closing initialization file: ", err.Error())
+			log.ErrorLn(cid, "RunInitCommands: Error closing initialization file: ", err.Error())
 		}
 	}(file)
 
@@ -209,18 +235,18 @@ func RunInitCommands(ctx context.Context) {
 			sc.ShouldSleep = true
 			intms, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(cid, "Error parsing sleep interval: ", err.Error())
+				log.ErrorLn(cid, "RunInitCommands: Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intms
 		default:
-			log.InfoLn(cid, "unknown command: ", key)
+			log.InfoLn(cid, "RunInitCommands: unknown command: ", key)
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.ErrorLn(
 			cid,
-			"Error reading initialization file: ",
+			"RunInitCommands: Error reading initialization file: ",
 			err.Error(),
 		)
 	}
