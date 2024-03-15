@@ -119,9 +119,11 @@ to responsibly disclose it.
 
 Open Source is better together.
 
-If you are a security enthusiast,
-[**join VMware Secrets Manager's Slack Workspace**][slack-invite]
-and let us change the world together 🤘.
+If you are a security enthusiast, join these communities
+and let us change the world together 🤘:
+
+* [Join **VMware Secrets Manager**'s Slack Workspace][slack-invite]
+* [Join the **VMware Mecrets Manager** channel on Kampus' Discord Server][kampus]
 
 ## Links
 
@@ -129,7 +131,9 @@ and let us change the world together 🤘.
 
 * **Homepage and Docs**: <https://vsecm.com/>
 * **Changelog**: <https://vsecm.com/docs/changelog/>
-* **Community**: [Join **VSecM**'s Slack Workspace][slack-invite]
+* **Community**:
+  * [Join **VMware Mecrets Manage**'s Slack Workspace][slack-invite]
+  * [Join the **VMware Mecrets Manager** channel on Kampus' Discord Server][kampus]
 * **Contact**: <https://vsecm.com/docs/community/>
 
 ### Guides and Tutorials
@@ -238,6 +242,7 @@ We'd love to have them.
 
 [BSD 2-Clause License](LICENSE).
 
+[kampus]: https://discord.gg/kampus
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
 [roadmap]: https://vsecm.com/docs/roadmap/  "The Roadmap"
 [installation]: https://vsecm.com/docs/installation/ "Install VMware Secrets Manager"
