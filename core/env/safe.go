@@ -241,6 +241,22 @@ func RootKeyInputModeManual() bool {
 	return false
 }
 
+// ManualRootKeyUpdatesK8sSecret returns a boolean indicating whether to
+// update the Kubernetes secret when the root key is provided manually to VSecM Safe.
+// If the environment variable is not set or its value is not "true", the function
+// returns false. Otherwise, the function returns true.
+func ManualRootKeyUpdatesK8sSecret() bool {
+	p := os.Getenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET")
+	if p == "" {
+		return false
+	}
+	if strings.ToLower(p) == "true" {
+		return true
+	}
+	return false
+
+}
+
 // DataPathForSafe returns the path to the safe data directory.
 // The path is determined by the VSECM_SAFE_DATA_PATH environment variable.
 // If the environment variable is not set, the default path "/data" is returned.

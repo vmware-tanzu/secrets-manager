@@ -337,21 +337,23 @@ Using a Kubernetes `Secret` to store the *root key* is still secure,
 especially if you encrypt your `etcd` and establish a **tight RBAC** over the 
 Kubernetes `Secret`that stores the *root key*.
 
-> **Root Key Storage in Manual Input Mode**
-> 
-> As of *v0.21.5* of **VMware Secrets Manager**, the *root key* is not stored 
-> in a Kubernetes `Secret` if you use the manual key input approach. This 
-> behavior is subject to change in the future, depending on a configuration 
-> environment variable, the *root key* might be stored in a Kubernetes `Secret` 
-> even if you use the manual key input approach.
-> 
-> However, this means that if you use the manual key input approach, you will
-> have to re-enter the *root key* every time you restart **VSecM Safe** or
-> every time the pod is evicted by the scheduler.
-{: .block-warning}
-
 Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
 respond to API requests until a *root key* is provided, using **VSecM Sentinel**.
+
+### VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET
+
+**Used By**: *VSecM Safe*.
+
+`VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` is a boolean indicating whether to update
+the Kubernetes secret when the root key is provided manually to **VSecM Safe**.
+
+If the environment variable is not set or its value is not `"true"`, **VSecM Safe**
+will **not** update the Kubernetes secret when the root key is provided manually.
+
+If this variable is set to `"true"` and **VSecM Safe** is in manual root key input
+mode (see: [VSECM_ROOT_KEY_INPUT_MODE_MANUAL](#vsecm_root_key_input_mode_manual)),
+then **VSecM Safe** will update the Kubernetes secret with the new root key
+when the root key is provided manually.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
