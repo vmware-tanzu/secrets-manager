@@ -107,7 +107,7 @@ func WorkloadSecretHasNoValue() error {
 	}
 
 	// Check if the response indicates that no secret is set.
-	if res == "" || res == "NO_SECRET" {
+	if strings.Contains(res, "NO_SECRET") {
 		return nil
 	}
 
