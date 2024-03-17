@@ -95,6 +95,10 @@ metadata:
   labels:
     app: spire-agent
 spec:
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       app: spire-agent

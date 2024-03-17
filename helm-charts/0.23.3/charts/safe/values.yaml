@@ -83,7 +83,11 @@ environments:
   - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
     value: "false"
 
+# Override it with an image pull secret that you need as follows:
+# imagePullSecrets:
+#  - name: my-registry-secret
 imagePullSecrets: []
+
 nameOverride: ""
 fullnameOverride: ""
 
