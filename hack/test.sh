@@ -24,6 +24,6 @@ if [[ "$ORIGIN" != "remote" && "$ORIGIN" != "eks" ]]; then
   ORIGIN="local"
 fi
 
-CI="$2"
+CI="${2:-}"
 
 go run ./ci/test/main.go ./ci/test/run.go -origin "$ORIGIN" -ci "$CI"
