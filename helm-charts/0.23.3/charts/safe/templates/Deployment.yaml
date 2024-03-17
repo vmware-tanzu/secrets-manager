@@ -43,7 +43,9 @@ spec:
           image: "{{ .Values.global.registry }}/{{- include "safe.repository" .}}:{{ .Values.global.images.safe.tag }}"
           imagePullPolicy: {{ .Values.global.images.safe.pullPolicy }}
           ports:
-            - containerPort: 8443
+            - containerPort: {{ .Values.service.port }}
+              name: http
+              protocol: TCP
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
