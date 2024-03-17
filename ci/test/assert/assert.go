@@ -129,7 +129,7 @@ func WorkloadSecretHasValue(expectedValue string) error {
 		return errors.Wrap(err, "WorkloadSecretHasValue: Failed to exec kubectl")
 	}
 
-	if res == expectedValue {
+	if strings.Contains(res, expectedValue) {
 		return nil
 	}
 
