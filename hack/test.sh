@@ -13,15 +13,17 @@
 # Enable strict error checking.
 set -euo pipefail
 
-# TODO: run unit tests first.
+echo "Running Go unit tests..."
+if ! go test ./... -cover; then
+    echo "Go unit tests failed, exiting."
+    exit 1
+fi
 
-# TODO: temporarily disabled origin checks; will implement in a follow-up PR.
-#ORIGIN=${1:-"local"}
-#if [[ "$ORIGIN" != "remote" && "$ORIGIN" != "eks" ]]; then
-#  ORIGIN="local"
-#fi
-#
-#CI="$2"
+ORIGIN=${1:-"local"}
+if [[ "$ORIGIN" != "remote" && "$ORIGIN" != "eks" ]]; then
+  ORIGIN="local"
+fi
 
-# TODO: maybe pass ORIGIN and CI as environment variables?
-go run ./ci/test/main.go ./ci/test/run.go
+CI="${2:-}"
+
+go run ./ci/test/main.go ./ci/test/run.go -origin "$ORIGIN" -ci "$CI"

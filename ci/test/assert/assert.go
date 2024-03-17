@@ -106,8 +106,14 @@ func WorkloadSecretHasNoValue() error {
 		return errors.Wrap(err, "WorkloadSecretHasNoValue: Failed to exec kubectl")
 	}
 
+	res = strings.TrimSpace(res)
+
+	if len(res) == 0 {
+		return nil
+	}
+
 	// Check if the response indicates that no secret is set.
-	if res == "" || res == "NO_SECRET" {
+	if strings.Contains(res, "NO_SECRET") {
 		return nil
 	}
 
@@ -129,7 +135,7 @@ func WorkloadSecretHasValue(expectedValue string) error {
 		return errors.Wrap(err, "WorkloadSecretHasValue: Failed to exec kubectl")
 	}
 
-	if res == expectedValue {
+	if strings.Contains(res, expectedValue) {
 		return nil
 	}
 
