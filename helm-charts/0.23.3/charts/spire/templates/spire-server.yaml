@@ -172,10 +172,6 @@ metadata:
   labels:
     app: spire-server
 spec:
-  {{- with .Values.imagePullSecrets }}
-  imagePullSecrets:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
   replicas: 1
   selector:
     matchLabels:
@@ -186,6 +182,10 @@ spec:
       labels:
         app: spire-server
     spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
       serviceAccountName: spire-server
       shareProcessNamespace: true
       containers:
