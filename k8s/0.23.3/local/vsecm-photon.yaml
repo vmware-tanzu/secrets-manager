@@ -317,6 +317,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
+              name: http
+              protocol: TCP
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
