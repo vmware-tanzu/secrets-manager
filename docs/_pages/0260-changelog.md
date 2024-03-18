@@ -22,7 +22,12 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* **BREAKING**: Removed the `-k` flag from Sentinel, as the `k8s:` prefix was 
+  a better way that does an identical job. This change also simplified the
+  internal workings of VSecM Safe, making it more efficient, reliable, and
+  easier to maintain.
+* Added image pull secrets to SPIRE Server and SPIRE Agent Helm charts.
+* Various bugfixes.
 
 ## [v0.23.2] - 2024-03-13
 
