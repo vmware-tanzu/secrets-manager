@@ -43,7 +43,7 @@ func InitContainer() error {
 	time.Sleep(30 * time.Second)
 
 	// Set a Kubernetes secret via Sentinel.
-	if err := sentinel.SetKubernetesSecret(); err != nil {
+	if err := sentinel.SetKubernetesSecretToTriggerInitContainer(); err != nil {
 		return errors.Wrap(err, "setKubernetesSecret failed")
 	}
 

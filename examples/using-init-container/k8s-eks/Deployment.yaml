@@ -29,27 +29,6 @@ spec:
       containers:
       - name: main
         image: vsecm/example-using-init-container:0.23.3
-        env:
-        - name: SECRET
-          valueFrom:
-            secretKeyRef:
-              name: vsecm-secret-example
-              key: VALUE
-        - name: USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: vsecm-secret-example
-              key: USERNAME
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: vsecm-secret-example
-              key: PASSWORD
-        - name: VALUE
-          valueFrom:
-            secretKeyRef:
-              name: vsecm-secret-example
-              key: VALUE
 
       initContainers:
       # See `./register.sh` to register the workload and finalize

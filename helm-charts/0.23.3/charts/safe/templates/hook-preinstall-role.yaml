@@ -36,19 +36,14 @@ metadata:
 # The former approach is tedious, yet more explicit, and more secure.
 #
 # If you are NOT planning to use Kubernetes Secrets to sync VSecM-Safe-generated
-# secrets (i.e., if VSECM_SAFE_USE_KUBERNETES_SECRETS is "false"), then
-# you can limit the scope of this role as follows:
+# secrets (i.e., you don’t want to create secrets using the `k8s:` prefix in the
+# workload names), then you can limit the scope of this role as follows:
 #
 #    rules
 #    - apiGroups: [""]
 #      resources: ["secrets"]
 #      resourceNames: [{{ .Values.rootKeySecretName | quote }}]
 #      verbs: ["get", "watch", "list", "update", "create"]
-#
-# When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
-# environment variable is either not set, or set to anything other than "true",
-# then you can only consume VSecM-managed secrets through VSecM Safe API, either
-# by using the VSecM SDK, or leveraging VSecM Sidecar--which is the recommended way.
 #
 ##
 

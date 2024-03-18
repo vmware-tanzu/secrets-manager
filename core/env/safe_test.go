@@ -411,69 +411,6 @@ func TestSafeBackingStore(t *testing.T) {
 	}
 }
 
-func TestSafeUseKubernetesSecrets(t *testing.T) {
-	tests := []struct {
-		name    string
-		setup   func() error
-		cleanup func() error
-		want    bool
-	}{
-		{
-			name: "default_safe_use_kubernetes_secrets",
-			want: false,
-		},
-		{
-			name: "safe_use_kubernetes_secrets_from_env_true",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_USE_KUBERNETES_SECRETS", "true")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_USE_KUBERNETES_SECRETS")
-			},
-			want: true,
-		},
-		{
-			name: "safe_use_kubernetes_secrets_from_env_true",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_USE_KUBERNETES_SECRETS", "false")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_USE_KUBERNETES_SECRETS")
-			},
-			want: false,
-		},
-		{
-			name: "invalid_safe_use_kubernetes_secrets_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_USE_KUBERNETES_SECRETS", "test")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_USE_KUBERNETES_SECRETS")
-			},
-			want: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if tt.setup != nil {
-				if err := tt.setup(); err != nil {
-					t.Errorf("UseKubernetesSecretsModeForSafe() = failed to setup, with error: %+v", err)
-				}
-			}
-			defer func() {
-				if tt.cleanup != nil {
-					if err := tt.cleanup(); err != nil {
-						t.Errorf("UseKubernetesSecretsModeForSafe() = failed to cleanup, with error: %+v", err)
-					}
-				}
-			}()
-			if got := UseKubernetesSecretsModeForSafe(); got != tt.want {
-				t.Errorf("UseKubernetesSecretsModeForSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestSafeSecretBackupCount(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -820,49 +757,6 @@ func TestSafeRootKeySecretName(t *testing.T) {
 			}()
 			if got := RootKeySecretNameForSafe(); got != tt.want {
 				t.Errorf("RootKeySecretNameForSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestSafeSecretNamePrefix(t *testing.T) {
-	tests := []struct {
-		name    string
-		setup   func() error
-		cleanup func() error
-		want    string
-	}{
-		{
-			name: "default_safe_secret_name_prefix",
-			want: "vsecm-secret-",
-		},
-		{
-			name: "safe_secret_name_prefix_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_SECRET_NAME_PREFIX", "vsecm-secret-test-")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_SECRET_NAME_PREFIX")
-			},
-			want: "vsecm-secret-test-",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if tt.setup != nil {
-				if err := tt.setup(); err != nil {
-					t.Errorf("SecretNamePrefixForSafe() = failed to setup, with error: %+v", err)
-				}
-			}
-			defer func() {
-				if tt.cleanup != nil {
-					if err := tt.cleanup(); err != nil {
-						t.Errorf("SecretNamePrefixForSafe() = failed to cleanup, with error: %+v", err)
-					}
-				}
-			}()
-			if got := SecretNamePrefixForSafe(); got != tt.want {
-				t.Errorf("SecretNamePrefixForSafe() = %v, want %v", got, tt.want)
 			}
 		})
 	}

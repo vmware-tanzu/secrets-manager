@@ -72,8 +72,6 @@ spec:
               value: "/key/key.txt"
             - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
-            - name: VSECM_SAFE_SECRET_NAME_PREFIX
-              value: "vsecm-secret-"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_PROBE_READINESS_PORT
@@ -88,8 +86,6 @@ spec:
               value: "10"
             - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
               value: "10"
-            - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
-              value: "false"
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
               value: "300000"
             - name: VSECM_SAFE_FIPS_COMPLIANT

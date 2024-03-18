@@ -77,7 +77,6 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	workloadId := sr.WorkloadId
 	value := sr.Value
 	backingStore := sr.BackingStore
-	useK8s := sr.UseKubernetes
 	namespaces := sr.Namespaces
 	template := sr.Template
 	format := sr.Format
@@ -100,7 +99,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	log.DebugLn(&cid, "Secret:Upsert: ", "workloadId:", workloadId,
 		"namespaces:", namespaces, "backingStore:", backingStore,
 		"template:", template, "format:", format, "encrypt:", encrypt,
-		"appendValue:", appendValue, "useK8s", useK8s,
+		"appendValue:", appendValue,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if workloadId == "" && !encrypt {
@@ -156,12 +155,11 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	secretToStore := entity.SecretStored{
 		Name: workloadId,
 		Meta: entity.SecretMeta{
-			UseKubernetesSecret: useK8s,
-			Namespaces:          namespaces,
-			BackingStore:        backingStore,
-			Template:            template,
-			Format:              format,
-			CorrelationId:       cid,
+			Namespaces:    namespaces,
+			BackingStore:  backingStore,
+			Template:      template,
+			Format:        format,
+			CorrelationId: cid,
 		},
 		Values:       []string{value},
 		NotBefore:    time.Time(nb),

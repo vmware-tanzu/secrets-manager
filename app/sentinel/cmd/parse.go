@@ -18,14 +18,6 @@ func parseList(parser *argparse.Parser) *bool {
 	})
 }
 
-func parseUseKubernetes(parser *argparse.Parser) *bool {
-	return parser.Flag("k", "use-k8s", &argparse.Options{
-		Required: false, Default: false,
-		Help: "update an associated Kubernetes secret upon save. " +
-			"Overrides VSECM_SAFE_USE_KUBERNETES_SECRETS",
-	})
-}
-
 func parseDeleteSecret(parser *argparse.Parser) *bool {
 	return parser.Flag("d", "delete", &argparse.Options{
 		Required: false, Default: false,

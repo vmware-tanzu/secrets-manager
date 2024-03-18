@@ -39,13 +39,18 @@ func deleteSecretFromKubernetes(secret entity.SecretStored, errChan chan error) 
 		return
 	}
 
+	// If the secret does not have the k8s: prefix, then it is not a k8s secret.
+	if !strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+		return
+	}
+
 	clientSet, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		errChan <- errors.Wrap(err, "could not create k8s client")
 		return
 	}
 
-	k8sSecretName := env.SecretNamePrefixForSafe() + secret.Name
+	k8sSecretName := secret.Name
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.
 	if strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {

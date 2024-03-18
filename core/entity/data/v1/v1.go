@@ -30,7 +30,6 @@ type SentinelCommand struct {
 	Namespaces      []string
 	Secret          string
 	Template        string
-	UseKubernetes   bool
 	DeleteSecret    bool
 	AppendSecret    bool
 	BackingStore    string
@@ -111,8 +110,6 @@ type SecretStringTime struct {
 }
 
 type SecretMeta struct {
-	// Overrides Env.SafeUseKubernetesSecrets()
-	UseKubernetesSecret bool `json:"k8s"`
 	// Overrides Env.SafeBackingStoreType()
 	BackingStore BackingStore `json:"storage"`
 	// Defaults to "default"

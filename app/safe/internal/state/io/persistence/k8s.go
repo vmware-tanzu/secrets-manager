@@ -33,11 +33,6 @@ import (
 // appropriate  secret name, and either creating or updating the secret in the
 // specified namespace.
 //
-// The secret name is derived from the input secret entity. If the secret's name
-// has a specific prefix  (determined by env.StoreWorkloadAsK8sSecretPrefix), that
-// prefix is removed. Otherwise, a default prefix (from env.SecretNamePrefixForSafe)
-// is appended to the secret name.
-//
 // The secret data is prepared by converting the input secret entity into a
 // map suitable for Kubernetes. The namespace for the secret is extracted from
 // the secret's metadata.
@@ -64,12 +59,18 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 		return errors.Wrap(err, "could not create client config")
 	}
 
+	// If the secret does not have the k8s: prefix, then it is not a k8s secret;
+	// do not save it in the cluster.
+	if !strings.HasPrefix(secret.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+		return errors.New("secret does not have k8s: prefix")
+	}
+
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		return errors.Wrap(err, "could not create client")
 	}
 
-	k8sSecretName := env.SecretNamePrefixForSafe() + secret.Name
+	k8sSecretName := secret.Name
 
 	// If the secret has k8s: prefix, then do not append a prefix; use the name
 	// as is.

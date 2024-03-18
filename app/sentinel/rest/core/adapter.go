@@ -64,7 +64,11 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		fmt.Fprintf(w, responseBody)
+		_, err = fmt.Fprintf(w, responseBody)
+		if err != nil {
+			log.Println("Error in writing response", err.Error())
+			return
+		}
 		return
 	}
 
@@ -72,26 +76,25 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 		req.Namespaces = []string{"default"}
 	}
 
-	if InputValidationFailure(req.Workload, req.Encrypt, req.InputKeys, req.Secret, req.Delete) {
+	if InvalidInput(req.Workload, req.Encrypt, req.InputKeys, req.Secret, req.Delete) {
 		http.Error(w, "Input Validation Failure", http.StatusInternalServerError)
 		return
 	}
 
 	responseBody, err := safe.Post(ctx, r,
 		entity.SentinelCommand{
-			WorkloadId:    req.Workload,
-			Secret:        req.Secret,
-			Namespaces:    req.Namespaces,
-			BackingStore:  req.BackingStore,
-			UseKubernetes: req.UseK8s,
-			Template:      req.Template,
-			Format:        req.Format,
-			Encrypt:       req.Encrypt,
-			DeleteSecret:  req.Delete,
-			AppendSecret:  req.Append,
-			InputKeys:     req.InputKeys,
-			NotBefore:     req.NotBefore,
-			Expires:       req.Expires,
+			WorkloadId:   req.Workload,
+			Secret:       req.Secret,
+			Namespaces:   req.Namespaces,
+			BackingStore: req.BackingStore,
+			Template:     req.Template,
+			Format:       req.Format,
+			Encrypt:      req.Encrypt,
+			DeleteSecret: req.Delete,
+			AppendSecret: req.Append,
+			InputKeys:    req.InputKeys,
+			NotBefore:    req.NotBefore,
+			Expires:      req.Expires,
 		})
 
 	if err != nil {
@@ -102,5 +105,9 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	log.Println(&id, responseBody)
-	fmt.Fprintf(w, responseBody)
+	_, err = fmt.Fprintf(w, responseBody)
+	if err != nil {
+		log.Println("Error in writing response", err.Error())
+		return
+	}
 }

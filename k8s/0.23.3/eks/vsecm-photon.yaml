@@ -155,19 +155,14 @@ metadata:
 # The former approach is tedious, yet more explicit, and more secure.
 #
 # If you are NOT planning to use Kubernetes Secrets to sync VSecM-Safe-generated
-# secrets (i.e., if VSECM_SAFE_USE_KUBERNETES_SECRETS is "false"), then
-# you can limit the scope of this role as follows:
+# secrets (i.e., you don’t want to create secrets using the `k8s:` prefix in the
+# workload names), then you can limit the scope of this role as follows:
 #
 #    rules
 #    - apiGroups: [""]
 #      resources: ["secrets"]
 #      resourceNames: ["vsecm-root-key"]
 #      verbs: ["get", "watch", "list", "update", "create"]
-#
-# When the above rule is defined and when VSECM_SAFE_USE_KUBERNETES_SECRETS
-# environment variable is either not set, or set to anything other than "true",
-# then you can only consume VSecM-managed secrets through VSecM Safe API, either
-# by using the VSecM SDK, or leveraging VSecM Sidecar--which is the recommended way.
 #
 ##
 
@@ -374,16 +369,12 @@ spec:
               value: "10"
             - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
               value: "10"
-            - name: VSECM_SAFE_SECRET_NAME_PREFIX
-              value: "vsecm-secret-"
             - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
               value: "10000"
             - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
               value: "k8s:"
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
-            - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
-              value: "false"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_WORKLOAD_SPIFFEID_PREFIX

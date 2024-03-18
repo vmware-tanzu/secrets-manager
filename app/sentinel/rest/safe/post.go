@@ -76,7 +76,7 @@ func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 }
 
 func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
-	backingStore string, useKubernetes bool, template string, format string,
+	backingStore string, template string, format string,
 	encrypt, appendSecret bool, notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
 	bs := decideBackingStore(backingStore)
@@ -91,17 +91,16 @@ func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
 	}
 
 	return reqres.SecretUpsertRequest{
-		WorkloadId:    workloadId,
-		BackingStore:  bs,
-		Namespaces:    namespaces,
-		UseKubernetes: useKubernetes,
-		Template:      template,
-		Format:        f,
-		Encrypt:       encrypt,
-		AppendValue:   appendSecret,
-		Value:         secret,
-		NotBefore:     notBefore,
-		Expires:       expires,
+		WorkloadId:   workloadId,
+		BackingStore: bs,
+		Namespaces:   namespaces,
+		Template:     template,
+		Format:       f,
+		Encrypt:      encrypt,
+		AppendValue:  appendSecret,
+		Value:        secret,
+		NotBefore:    notBefore,
+		Expires:      expires,
 	}
 }
 
@@ -273,7 +272,7 @@ func Post(parentContext context.Context, r *http.Request, sc entity.SentinelComm
 		}
 
 		sr := newSecretUpsertRequest(sc.WorkloadId, sc.Secret, sc.Namespaces,
-			sc.BackingStore, sc.UseKubernetes, sc.Template, sc.Format,
+			sc.BackingStore, sc.Template, sc.Format,
 			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
 
 		md, err := json.Marshal(sr)

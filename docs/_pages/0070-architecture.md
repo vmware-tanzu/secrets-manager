@@ -225,23 +225,20 @@ generate a brand new key pair and then store it in the `vsecm-root-key` secret.
 
 ## Template Transformation and K8S Secret Generation
 
-Here is a sequence diagram of how the and **VSecM Safe**-managed *secret*
-is transformed into a **Kubernetes** `Secret` (*open the image in a
-new tab for a larger version*):
+**VSecM** enables you to transform the secrets you register with **VSecM Safe**
+using Go template transformations before storing them. This is useful when
+you want to store a secret in a format that is different from the format
+you want to use in your workloads.
 
-![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
+You can also prefix `k8s:` to the name of the workload to create a Kubernetes
+`Secret` object with the transformed secret. This is useful when you want to
+inject the secret to a workload using a Kubernetes `Secret` object instead 
+of **VSecM Sidecar** or **VSecM SDK**.
 
-There are two parts to this:
+Check out the [examples folder][github-examples] for examples of how to use
+**VSecM** to transform secrets and generate **Kubernetes** `Secret` objects.
 
-* Transforming secrets using a Go template transformation
-* Updating the relevant **Kubernetes** `Secret`
-
-You can check [**VSecM Sentinel** CLI Documentation](/docs/cli) for
-various ways this transformation can be done. In addition, you can check
-[**VSecM** Secret Registration Tutorial][register-a-secret] for more information
-about how the **Kubernetes** `Secret` object is generated and used in workloads.
-
-[register-a-secret]: /docs/quickstart/#register-a-secret "Register a Secret"
+[github-examples]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples "VSecM Examples"
 
 ## Liveness and Readiness Probes
 
