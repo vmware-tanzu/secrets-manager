@@ -335,15 +335,9 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 			cap(insertion.SecretUpsertQueue))
 	}
 
-	useK8sSecrets := secretStored.Meta.UseKubernetesSecret
-
-	// If useK8sSecrets is not set, use the value from the environment.
-	// The environment value defaults to false, too, if not set.
 	// If the "name" of the secret has the prefix "k8s:", then store it as a
 	// Kubernetes secret too.
-	if useK8sSecrets ||
-		env.UseKubernetesSecretsModeForSafe() ||
-		strings.HasPrefix(secretStored.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
+	if strings.HasPrefix(secretStored.Name, env.StoreWorkloadAsK8sSecretPrefix()) {
 		log.TraceLn(
 			&cid,
 			"UpsertSecret: will push Kubernetes secret. len",
@@ -396,26 +390,6 @@ func DeleteSecret(secretToDelete entity.SecretStored) {
 			&cid, "DeleteSecret: Pushed secret to delete. len",
 			len(deletion.SecretDeleteQueue), "cap",
 			cap(deletion.SecretDeleteQueue))
-	}
-
-	useK8sSecrets := secretToDelete.Meta.UseKubernetesSecret
-
-	// If useK8sSecrets is not set, use the value from the environment.
-	// The environment value defaults to false, too, if not set.
-	if useK8sSecrets || env.UseKubernetesSecretsModeForSafe() {
-		log.TraceLn(
-			&cid,
-			"DeleteSecret: will push Kubernetes secret to delete. len",
-			len(deletion.K8sSecretDeleteQueue),
-			"cap", cap(deletion.K8sSecretDeleteQueue),
-		)
-		deletion.K8sSecretDeleteQueue <- secretToDelete
-		log.TraceLn(
-			&cid,
-			"DeleteSecret: pushed Kubernetes secret to delete. len",
-			len(deletion.K8sSecretDeleteQueue),
-			"cap", cap(deletion.K8sSecretDeleteQueue),
-		)
 	}
 
 	// Remove the secret from the memory.

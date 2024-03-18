@@ -38,7 +38,6 @@ func main() {
 	defer cancel()
 
 	list := parseList(parser)
-	useKubernetes := parseUseKubernetes(parser)
 	deleteSecret := parseDeleteSecret(parser)
 	appendSecret := parseAppendSecret(parser)
 	namespace := parseNamespaces(parser)
@@ -89,18 +88,17 @@ func main() {
 	}()
 
 	safe.Post(ctx, entity.SentinelCommand{
-		WorkloadId:    *workloadId,
-		Secret:        *secret,
-		Namespaces:    *namespace,
-		BackingStore:  *backingStore,
-		UseKubernetes: *useKubernetes,
-		Template:      *template,
-		Format:        *format,
-		Encrypt:       *encrypt,
-		DeleteSecret:  *deleteSecret,
-		AppendSecret:  *appendSecret,
-		InputKeys:     *inputKeys,
-		NotBefore:     *notBefore,
-		Expires:       *expires,
+		WorkloadId:   *workloadId,
+		Secret:       *secret,
+		Namespaces:   *namespace,
+		BackingStore: *backingStore,
+		Template:     *template,
+		Format:       *format,
+		Encrypt:      *encrypt,
+		DeleteSecret: *deleteSecret,
+		AppendSecret: *appendSecret,
+		InputKeys:    *inputKeys,
+		NotBefore:    *notBefore,
+		Expires:      *expires,
 	})
 }

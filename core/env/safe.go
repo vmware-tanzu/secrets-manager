@@ -182,35 +182,6 @@ func BackingStoreForSafe() data.BackingStore {
 	return data.Memory
 }
 
-// UseKubernetesSecretsModeForSafe returns a boolean indicating whether to create a
-// plain text Kubernetes secret for the workloads registered. There are two
-// things to note about this approach:
-//
-// 1. By design, and for security the original kubernetes `Secret` should exist,
-// and it should be initiated to a default data as follows:
-//
-//	data:
-//	  # '{}' (e30=) is a special placeholder to tell Safe that the Secret
-//	  # is not initialized. DO NOT deletion or change it.
-//	  KEY_TXT: "e30="
-//
-// 2. This approach is LESS secure, and it is meant to be used for LEGACY
-// systems where directly using the Safe Sidecar or Safe SDK are not feasible.
-// It should be left as a last resort.
-//
-// If the environment variable is not set or its value is not "true",
-// the function returns false. Otherwise, the function returns true.
-func UseKubernetesSecretsModeForSafe() bool {
-	p := os.Getenv("VSECM_SAFE_USE_KUBERNETES_SECRETS")
-	if p == "" {
-		return false
-	}
-	if strings.ToLower(p) == "true" {
-		return true
-	}
-	return false
-}
-
 // SecretBackupCountForSafe retrieves the number of backups to keep for VSecM Safe
 // secrets. If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT is not
 // set or is not a valid integer, the default value of 3 will be returned.

@@ -448,46 +448,6 @@ than one manifest, and restart or redeploy **VMware Secrets Manager** and
 
 Defaults to `":8443"`.
 
-### VSECM_SAFE_USE_KUBERNETES_SECRETS
-
-**Used By**: *VSecM Safe*.
-
-`VSECM_SAFE_USE_KUBERNETES_SECRETS` is a flag indicating whether to create a
-plain text Kubernetes secret for the workloads registered.
-
-If the environment variable is not set or its value is not `"true"`, it will
-be assumed `"false"`.
-
-There are two things to note about this approach:
-
-First, by design, and for security reasons, the original Kubernetes `Secret`
-should exist, and it should be initiated to a default data as follows before
-it can be synced by **VSecM Safe**:
-
-```yaml
-{% raw %}apiVersion: v1
-kind: Secret
-metadata:
-  # The string after `vsecm-secret-` must match the 
-  # workload's name.
-  # For example, this is an VSecM-managed secret for `example`
-  # with the SPIFFE ID 
-  # `"spiffe://vsecm.com/workload/example\
-  #  /ns/{{ .PodMeta.Namespace }}\
-  #  /sa/{{ .PodSpec.ServiceAccountName }}\
-  #  /n/{{ .PodMeta.Name }}"`
-  name: vsecm-secret-example
-  namespace: default
-type: Opaque{% endraw %}
-```
-
-Secondly this approach is **less** secure, and it is meant to be used for
-**legacy** systems where directly using the **Safe Sidecar** or
-**Safe SDK** are not feasible. For example, you might not have direct control
-over the source code to enable a tighter **Safe** integration. Or, you might
-temporarily want to establish behavior parity of your legacy system before
-starting a more canonical **VMware Secrets Manager** implementation.
-
 ### VSECM_SENTINEL_INIT_COMMAND_PATH
 
 **Used By**: *VSecM Sentinel*.

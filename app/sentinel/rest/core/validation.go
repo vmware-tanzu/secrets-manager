@@ -10,7 +10,8 @@
 
 package core
 
-func InputValidationFailure(workload string, encrypt bool, inputKeys string, secret string, deleteSecret bool) bool {
+func InvalidInput(workload string, encrypt bool,
+	inputKeys string, secret string, deleteSecret bool) bool {
 
 	// You need to provide a workload name if you are not encrypting a secret,
 	// or if you are not providing input keys.

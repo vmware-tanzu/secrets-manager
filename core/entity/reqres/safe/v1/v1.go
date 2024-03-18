@@ -16,17 +16,16 @@ import (
 )
 
 type SecretUpsertRequest struct {
-	WorkloadId    string            `json:"key"`
-	BackingStore  data.BackingStore `json:"backingStore"`
-	UseKubernetes bool              `json:"useKubernetes"`
-	Namespaces    []string          `json:"namespaces"`
-	Value         string            `json:"value"`
-	Template      string            `json:"template"`
-	Format        data.SecretFormat `json:"format"`
-	Encrypt       bool              `json:"encrypt"`
-	AppendValue   bool              `json:"appendValue"`
-	NotBefore     string            `json:"notBefore"`
-	Expires       string            `json:"expires"`
+	WorkloadId   string            `json:"key"`
+	BackingStore data.BackingStore `json:"backingStore"`
+	Namespaces   []string          `json:"namespaces"`
+	Value        string            `json:"value"`
+	Template     string            `json:"template"`
+	Format       data.SecretFormat `json:"format"`
+	Encrypt      bool              `json:"encrypt"`
+	AppendValue  bool              `json:"appendValue"`
+	NotBefore    string            `json:"notBefore"`
+	Expires      string            `json:"expires"`
 
 	Err string `json:"err,omitempty"`
 }

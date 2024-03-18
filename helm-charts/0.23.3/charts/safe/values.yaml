@@ -72,8 +72,6 @@ environments:
     value: "k8s:"
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"
-  - name: VSECM_SAFE_USE_KUBERNETES_SECRETS
-    value: "false"
   - name: VSECM_SAFE_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX

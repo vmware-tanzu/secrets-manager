@@ -33,14 +33,14 @@ func DeleteSecret() error {
 	return nil
 }
 
-func SetKubernetesSecret() error {
+func SetKubernetesSecretToTriggerInitContainer() error {
 	// Define the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
 	if err != nil {
-		return fmt.Errorf("SetKubernetesSecret: Failed to define sentinel: %w", err)
+		return fmt.Errorf("SetKubernetesSecretToTriggerInitContainer: Failed to define sentinel: %w", err)
 	}
 	if sentinel == "" {
-		return errors.New("SetKubernetesSecret: Failed to define sentinel")
+		return errors.New("SetKubernetesSecretToTriggerInitContainer: Failed to define sentinel")
 	}
 
 	// Construct the command to execute within the sentinel pod.
@@ -49,10 +49,10 @@ func SetKubernetesSecret() error {
 
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default",
-		"-s", secretData, "-t", transformTemplate, "-k",
+		"-s", secretData, "-t", transformTemplate,
 	)
 	if err != nil {
-		return errors.Wrap(err, "SetKubernetesSecret: Failed to exec kubectl")
+		return errors.Wrap(err, "SetKubernetesSecretToTriggerInitContainer: Failed to exec kubectl")
 	}
 
 	// Wait for the workload to be ready.
