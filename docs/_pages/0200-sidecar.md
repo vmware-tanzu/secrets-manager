@@ -16,10 +16,6 @@ permalink: /docs/use-case-sidecar/
 next_url: /docs/use-case-sdk/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0200-sidecar.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Using With **VSecM Sidecar**
 
 Let's deploy our demo workload that will use **VSecM Sidecar**.
@@ -296,3 +292,9 @@ Yay 🎉. That was our first secret.
 
 In the next tutorial, we will do something similar; however, this time we
 will leverage [**VSecM SDK**](/docs/sdk) instead of **VSecM Sidecar**.
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0200-sidecar.md">
+    Suggest edits ✏️
+  </a>
+</p>

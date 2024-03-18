@@ -16,10 +16,6 @@ permalink: /docs/use-cases-overview/
 next_url: /docs/use-case-sidecar/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0190-overview.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This section provides the necessary prerequisites for the upcoming tutorials,
@@ -125,3 +121,9 @@ dispatches to all the actors.
 [go-sdk]: https://github.com/vmware-tanzu/secrets-manager/tree/main/sdk
 
 After this high-level overview of your system, let's create a workload next.
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0190-overview.md">
+      Suggest edits ✏️
+  </a>
+</p>

@@ -16,10 +16,6 @@ permalink: /docs/community/
 next_url: /docs/contributor-sync/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-community.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 > **Hi 👋**
 >
 > Thank you for wanting to be part of the community ❤️.
@@ -79,3 +75,10 @@ Thanks so much for your interest: It means a lot 🙏.
 
 [ticket]: https://github.com/vmware-tanzu/secrets-manager/issues/new/choose
 [slack]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
+
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0000-community.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

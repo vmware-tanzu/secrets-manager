@@ -59,3 +59,9 @@ architect and benevolent dictator.
 
 For more details on various governance models, you can refer to 
 [Governance Models](https://opensource.guide/leadership-and-governance/).
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0985-governance.md">
+        Suggest edits ✏️
+    </a>
+</p>

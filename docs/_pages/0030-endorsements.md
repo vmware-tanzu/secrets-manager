@@ -16,10 +16,6 @@ permalink: /docs/endorsements/
 next_url: /docs/doc-snapshots/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0030-endorsements.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 Don't just take our word for it. See what industry experts
 are saying about **VMware Secrets Manager** for Cloud-Native Apps.
 
@@ -59,3 +55,9 @@ are saying about **VMware Secrets Manager** for Cloud-Native Apps.
 > big strong guy named Chuck guarding it, it is just some secure code."
 > 
 > **-- İlter Köse, Software Engineer, MOIA**
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0030-endorsements.md">
+        Suggest edits ✏️ 
+    </a>
+</p>

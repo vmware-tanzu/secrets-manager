@@ -16,10 +16,6 @@ permalink: /docs/philosophy/
 next_url: /docs/architecture/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 We follow the **guidelines** outlined in the next few sections as an
@@ -112,3 +108,9 @@ While **VMware Secrets Manager** might not have all the bells and whistles of a 
 security suite that integrates everything but the kitchen sink, we are sure
 that by following these guiding principles, it will remain a
 **delightfully secure** secrets manager that a lot of people will love to use.
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0060-philosophy.md">
+        Suggest edits ✏️ 
+    </a>
+</p>

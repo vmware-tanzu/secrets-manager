@@ -16,10 +16,6 @@ permalink: /
 next_url: /docs/community/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/README.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 <p class="badges"><a href="https://www.bestpractices.dev/projects/7793"><img src="https://www.bestpractices.dev/projects/7793/badge" alt="OpenSSF Best Practices"></a>
 <a href="https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager"><img src="https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager" alt="Go Report Card"></a>
 <a href="https://artifacthub.io/packages/helm/vsecm/vsecm"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/vsecm" alt="Artifact Hub"></a>
@@ -95,3 +91,9 @@ helpful in making your ops teams `#sleepmore`.
 Browse the rest of this website to learn more about **VSecM**.
 
 May the source be with you 🦄.
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/README.md">
+        Suggest edits ✏️ 
+    </a>
+</p>

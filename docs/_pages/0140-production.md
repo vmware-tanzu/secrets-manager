@@ -16,10 +16,6 @@ permalink: /docs/production/
 next_url: /docs/use-cases/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 You need to pay attention to certain aspects and parts of the system that
@@ -727,3 +723,9 @@ it needs.
 
 On the same topic, you are encouraged to set a **request** for **VSecM Safe**
 to guarantee a baseline compute allocation.
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0140-production.md">
+    Suggest edits ✏️ 
+  </a>
+</p>

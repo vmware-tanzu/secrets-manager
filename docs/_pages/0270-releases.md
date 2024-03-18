@@ -16,10 +16,6 @@ permalink: /docs/releases/
 next_url: /docs/roadmap/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0270-releases.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 **VMware Secrets Manager** signs all of its releases using GitHub's built-in
 signing process. We also sign our container images using 
 [*Docker Content Trust*][docker-content-trust].
@@ -85,3 +81,9 @@ If the image signature is valid, the image will be pulled; otherwise, you will
 receive an error message.
 
 [docker-content-trust]: https://docs.docker.com/engine/security/trust/content_trust/ "Docker Content Trust"
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0270-releases.md">
+        Suggest edits ✏️
+    </a>
+</p>

@@ -16,10 +16,6 @@ permalink: /docs/use-case-init-container/
 next_url: /docs/use-case-encryption/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0220-init-container.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Using **VSecM Init Container**
 
 In certain situations you might not have full control over the source code
@@ -257,3 +253,9 @@ Next, we'll learn how to encrypt secrets for safe storage.
 
 [tutorial-sdk]: /docs/use-case-sdk
 [tutorial-sidecar]: /docs/use-case-sidecar
+
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0220-init-container.md">
+    Suggest edits ✏️
+  </a>
+</p>

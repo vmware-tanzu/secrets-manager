@@ -16,9 +16,6 @@ permalink: /docs/security/
 next_url: /docs/navigation/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0004-security.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
 
 > **Secure All the Things 🛡️**
 > 
@@ -88,3 +85,9 @@ to responsibly disclose it.
 
 [vuln]: https://github.com/vmware-tanzu/secrets-manager/blob/main/SECURITY.md
 
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0004-security.md">
+    Suggest edits ✏️ 
+  </a>
+</p>
+ 

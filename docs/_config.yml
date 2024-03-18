@@ -25,11 +25,6 @@ url:              'https://vsecm.com'
 baseurl:          ''
 rss:              RSS
 
-toc:
-  enabled: false
-  h_min: 1
-  h_max: 3
-
 # customize the link favicon in header, will be {{site.baseurl}}/{{site.favicon_path}}
 favicon_path:     /assets/vsecm-32.png
 

@@ -16,10 +16,6 @@ permalink: /docs/use-case-transformation/
 next_url: /docs/showcase/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0240-transform.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction
 
 This tutorial will show various way you can interpolate and transform secrets.
@@ -269,4 +265,8 @@ transform the secret, or both of them.
 The next section introduces a video tutorial that covers everything that has
 been mentioned so far and some more.
 
-
+<p class="github-button">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0240-transform.md">
+     Suggest edits ✏️
+  </a>
+</p>

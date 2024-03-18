@@ -16,10 +16,6 @@ permalink: /docs/maintainers/
 next_url: /docs/security/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0003-maintainers.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 > **Hi 👋**
 >
 > **VMware Secrets Manager** *for Cloud-Native Apps* is maintained by
@@ -63,3 +59,9 @@ Farhan is a core contributor, actively contributing to the codebase and
 assisting in feature development.
 
 [codeowners]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODEOWNERS "VMware Secrets Manager CODEOWNERS"
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0003-maintainers.md">
+        Suggest edits ✏️
+    </a>
+</p>

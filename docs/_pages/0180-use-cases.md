@@ -16,10 +16,6 @@ permalink: /docs/use-cases/
 next_url: /docs/use-cases-overview/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0180-use-cases.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 ## Introduction 🐢
 
 This document lists various use cases to register secrets to Kubernetes
@@ -53,3 +49,9 @@ interested, the following sections cover these tools in greater detail:
 
 * [**VSecM SDK** Documentation](/docs/sdk)
 * [**VSecM Sentinel** Command Line Reference](/docs/cli)
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0180-use-cases.md">
+        Suggest edits ✏️
+    </a>
+</p>

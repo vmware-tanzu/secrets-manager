@@ -16,10 +16,6 @@ permalink: /docs/doc-snapshots/
 next_url: /docs/quickstart/
 ---
 
-<p class="github-button"
-><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0031-documentation-snapshots.md"
->edit this page on <strong>GitHub</strong> ✏️</a></p>
-
 Here are the **VMware Secrets Manager** documentations captured in time for 
 specific releases:
 
@@ -34,3 +30,10 @@ specific releases:
 * [v0.22.0](https://vsecm.com/v0.22.0/)
 * [v0.21.5](https://vsecm.com/v0.21.5/)
 * [v0.21.4](https://vsecm.com/v0.21.4/)
+
+
+<p class="github-button">
+    <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0031-documentation-snapshots.md">
+        Suggest edits ✏️ 
+    </a>
+</p>
