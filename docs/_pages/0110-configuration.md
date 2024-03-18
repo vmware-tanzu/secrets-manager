@@ -390,17 +390,6 @@ secret deletion queue.
 
 If the environment variable is not set, the default buffer size is `10`.
 
-### VSECM_SAFE_SECRET_NAME_PREFIX
-
-**Used By**: *VSecM Safe*.
-
-`VSECM_SAFE_SECRET_NAME_PREFIX` is the prefix that is used to prepend to the
-secret names that **VSecM Safe** stores in the cluster as `Secret` objects when
-the `-k` option in **VSecM Sentinel** is selected.
-
-If this variable is not set or is empty, the default value `"vsecm-secret-"`
-is used.
-
 ### VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
 
 **Used By**: *VSecM Safe*.

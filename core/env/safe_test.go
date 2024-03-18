@@ -762,49 +762,6 @@ func TestSafeRootKeySecretName(t *testing.T) {
 	}
 }
 
-func TestSafeSecretNamePrefix(t *testing.T) {
-	tests := []struct {
-		name    string
-		setup   func() error
-		cleanup func() error
-		want    string
-	}{
-		{
-			name: "default_safe_secret_name_prefix",
-			want: "vsecm-secret-",
-		},
-		{
-			name: "safe_secret_name_prefix_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_SECRET_NAME_PREFIX", "vsecm-secret-test-")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_SECRET_NAME_PREFIX")
-			},
-			want: "vsecm-secret-test-",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if tt.setup != nil {
-				if err := tt.setup(); err != nil {
-					t.Errorf("SecretNamePrefixForSafe() = failed to setup, with error: %+v", err)
-				}
-			}
-			defer func() {
-				if tt.cleanup != nil {
-					if err := tt.cleanup(); err != nil {
-						t.Errorf("SecretNamePrefixForSafe() = failed to cleanup, with error: %+v", err)
-					}
-				}
-			}()
-			if got := SecretNamePrefixForSafe(); got != tt.want {
-				t.Errorf("SecretNamePrefixForSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestSafeIvInitializationInterval(t *testing.T) {
 	tests := []struct {
 		name    string

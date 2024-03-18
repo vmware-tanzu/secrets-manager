@@ -369,8 +369,6 @@ spec:
               value: "10"
             - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
               value: "10"
-            - name: VSECM_SAFE_SECRET_NAME_PREFIX
-              value: "vsecm-secret-"
             - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
               value: "10000"
             - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX

@@ -287,18 +287,3 @@ func RootKeySecretNameForSafe() string {
 	}
 	return p
 }
-
-// SecretNamePrefixForSafe returns the prefix to be used for the names of secrets that
-// VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
-// cluster as Kubernetes `Secret` objects.
-//
-// The prefix is retrieved using the "VSECM_SAFE_SECRET_NAME_PREFIX"
-// environment variable. If this variable is not set or is empty, the default
-// value "vsecm-secret-" is returned.
-func SecretNamePrefixForSafe() string {
-	p := os.Getenv("VSECM_SAFE_SECRET_NAME_PREFIX")
-	if p == "" {
-		p = "vsecm-secret-"
-	}
-	return p
-}

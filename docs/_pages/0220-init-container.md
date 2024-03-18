@@ -114,42 +114,9 @@ spec:
       containers:
       - name: main
         image: vsecm/example-using-init-container:latest
-        env:
-          - name: SECRET
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: VALUE
-          - name: USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: USERNAME
-          - name: PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: vsecm-secret-example
-                key: PASSWORD
 
 # ... Truncated  ... 
 ```
-
-In the deployment manifest, there are environment variable bindings from a
-secret named `vsecm-secret-example`.
-
-Let's [look into that secret too][secret-yaml]:
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vsecm-secret-example
-  namespace: default
-type: Opaque
-```
-
-As you see, the secret doesn't have any data associated with it.
-We will dynamically populate it using **VSecM Sentinel** soon.
 
 [deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Deployment.yaml
 [secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Secret.yaml
@@ -214,7 +181,6 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
   "password": "SuperSecret", "value": "VSecMRocks"}' \
 -t '{"USERNAME":"{{.username}}", \
   "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}' \
--k
 
 # Sit back and relax.{% endraw %}
 ```
@@ -223,7 +189,6 @@ Here are the meanings of the parameters in the above command:
 
 * `-w` is the name of the workload.
 * `-n` identifies the namespace of the Kubernetes `Secret`.
-* `-k` means **VMware Secrets Manager** will update an associated Kubernetes `Secret`.
 * `-t` is the template to be used to transform the fields of the payload.
 * `-s` is the actual value of the secret.
 
@@ -251,45 +216,18 @@ My secret: 'VSecMRocks'.
 My creds: username:'root' password:'SuperSecret'.
 ```
 
-Which means, our secret should also have been populated; let's check tha too:
-
-```bash
-kubectl get secret 
-
-NAME                   TYPE     DATA   AGE
-vsecm-secret-example   Opaque   3      7h9m
-```
-
-```bash
-kubectl describe secret vsecm-secret-example
-
-Name:         vsecm-secret-example
-Namespace:    default
-Labels:       <none>
-Annotations:  <none>
-
-Type:  Opaque
-
-Data
-====
-PASSWORD:  11 bytes
-USERNAME:  4 bytes
-VALUE:     10 bytes
-```
-
-And yes, the values have been dynamically bound to the secret.
-
 ## What Happened?
 
 In summary, the `Pod` that your `Deployment` manages will not initialize until
 you register secrets to your workload.
 
 Once you register secrets using the above command, **VSecM Init Container** will
-exit with a success status code and let the main container initialize with the
-updated Kubernetes `Secret`.
+exit with a success status code and let the main container initialize.
 
 Here is a sequence diagram of how the secret is transformed (*open the image
 in a new tab for a larger version*):
+
+// TODO: this sequence diagram should change.
 
 ![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
 

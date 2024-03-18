@@ -72,8 +72,6 @@ spec:
               value: "/key/key.txt"
             - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
-            - name: VSECM_SAFE_SECRET_NAME_PREFIX
-              value: "vsecm-secret-"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             - name: VSECM_PROBE_READINESS_PORT
