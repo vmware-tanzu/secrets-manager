@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sdk-java
+  namespace: vsecm-system
+  labels:
+    app.kubernetes.io/name: sdk-java
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sdk-java
+      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/part-of: vsecm-system
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sdk-java
+        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/part-of: vsecm-system
+    spec:
+      serviceAccountName: sdk-java
+      securityContext:
+        { }
+      containers:
+        - name: main
+          image: sdk-java
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+
+---
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: sdk-java
+spec:
+  # SPIFFE ID `MUST` start with "spiffe://vsecm.com/workload/$workloadName/ns/"
+  # for `sdk-java` to recognize the workload and dispatch secrets to it.
+  spiffeIDTemplate: "spiffe://vsecm.com\
+    /workload/sdk-java\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: sdk-java
+      app.kubernetes.io/part-of: vsecm-system
+  workloadSelectorTemplates:
+    - "k8s:ns:vsecm-system"
+    - "k8s:sa:sdk-java"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  # The string after `vsecm-secret-` must match the workload's name.
+  # For example, this is an VSecM-managed secret for the workload named `example`
+  # with the SPIFFE ID
+  # `"spiffe://vsecm.com/workload/example\
+  #  /ns/{{ .PodMeta.Namespace }}\
+  #  /sa/{{ .PodSpec.ServiceAccountName }}\
+  #  /n/{{ .PodMeta.Name }}"`
+  name: sdk-java
+  namespace: vsecm-system
+type: Opaque
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sdk-java
+  namespace: vsecm-system
+automountServiceAccountToken: false
