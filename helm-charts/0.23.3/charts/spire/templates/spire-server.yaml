@@ -238,11 +238,11 @@ metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.namespace }}
 spec:
-  type: NodePort
+  type: {{ .Values.service.type }}
   ports:
     - name: api
-      port: 8081
-      targetPort: 8081
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
   selector:
     app: spire-server
