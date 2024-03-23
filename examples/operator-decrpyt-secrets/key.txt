@@ -1,3 +1,0 @@
-AGE-SECRET-KEY-...truncated # run ./hack/get-root-key.sh to get the key.
-age...1mtruncated
-5fc...truncated
