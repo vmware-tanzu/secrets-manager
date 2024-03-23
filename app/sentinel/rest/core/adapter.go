@@ -21,7 +21,7 @@ import (
 )
 
 type SecretRequest struct {
-	Workload     string   `json:"workload"`
+	Workloads    []string `json:"workload"`
 	Secret       string   `json:"secret"`
 	Namespaces   []string `json:"namespaces,omitempty"`
 	UseK8s       bool     `json:"use-k8s,omitempty"`
@@ -76,14 +76,14 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 		req.Namespaces = []string{"default"}
 	}
 
-	if InvalidInput(req.Workload, req.Encrypt, req.InputKeys, req.Secret, req.Delete) {
+	if invalidInput(req.Workloads, req.Encrypt, req.InputKeys, req.Secret, req.Delete) {
 		http.Error(w, "Input Validation Failure", http.StatusInternalServerError)
 		return
 	}
 
 	responseBody, err := safe.Post(ctx, r,
 		entity.SentinelCommand{
-			WorkloadIds:  req.Workload,
+			WorkloadIds:  req.Workloads,
 			Secret:       req.Secret,
 			Namespaces:   req.Namespaces,
 			BackingStore: req.BackingStore,

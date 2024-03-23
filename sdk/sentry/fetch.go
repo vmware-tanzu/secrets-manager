@@ -58,7 +58,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	)
 	if err != nil {
 		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "Fetch: failed getting SVID Bundle from the SPIFFE Workload API",
+			err, "Fetch: failed getting SVID Bundle from the SPIFFE Workloads API",
 		)
 	}
 

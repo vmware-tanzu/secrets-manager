@@ -22,7 +22,7 @@ func Wait(seconds time.Duration) error {
 	// This is a simplification. In a real scenario, you would check the workload's readiness more robustly.
 	println("Waiting for the workload to be ready...")
 	time.Sleep(seconds * time.Second) // Simulate waiting for readiness with a sleep.
-	println("Workload is now ready.")
+	println("Workloads is now ready.")
 	return nil
 }
 

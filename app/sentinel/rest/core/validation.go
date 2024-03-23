@@ -10,12 +10,12 @@
 
 package core
 
-func InvalidInput(workload string, encrypt bool,
+func invalidInput(workloads []string, encrypt bool,
 	inputKeys string, secret string, deleteSecret bool) bool {
 
-	// You need to provide a workload name if you are not encrypting a secret,
+	// You need to provide a workloads name if you are not encrypting a secret,
 	// or if you are not providing input keys.
-	if workload == "" && !encrypt && inputKeys == "" {
+	if len(workloads) == 0 && !encrypt && inputKeys == "" {
 		return true
 	}
 

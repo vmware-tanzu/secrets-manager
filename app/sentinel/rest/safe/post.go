@@ -75,7 +75,7 @@ func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 	}
 }
 
-func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
+func newSecretUpsertRequest(workloadIds []string, secret string, namespaces []string,
 	backingStore string, template string, format string,
 	encrypt, appendSecret bool, notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
@@ -91,7 +91,7 @@ func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
 	}
 
 	return reqres.SecretUpsertRequest{
-		WorkloadIds:  workloadId,
+		WorkloadIds:  workloadIds,
 		BackingStore: bs,
 		Namespaces:   namespaces,
 		Template:     template,
