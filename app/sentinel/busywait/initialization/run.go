@@ -43,7 +43,7 @@ import (
 // 'entity.SentinelCommand' struct.
 //
 // Key commands include:
-// - workload: (w) Sets the WorkloadId field in the SentinelCommand.
+// - workload: (w) Sets the WorkloadIds field in the SentinelCommand.
 // - namespace: (n) Sets the Namespaces field.
 // - secret: (s) Sets the Secret field.
 // - transformation: (t) Sets the Template field.
@@ -224,7 +224,7 @@ dance:
 			)
 			return
 		case workload:
-			sc.WorkloadId = value
+			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
 		case namespace:
 			sc.Namespaces = strings.SplitN(value, itemSeparator, -1)
 		case secret:

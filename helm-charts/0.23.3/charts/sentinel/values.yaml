@@ -101,8 +101,8 @@ initCommand:
   #
   #  sleep:30001
   #  --
-  #  w:k8s:keycloak-admin-secret
-  #  n:smo-app
+  #  w:keycloak-admin-secret,keycloak-db-secret
+  #  n:smo-app,web-app
   #  s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
   #  t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
   #  --

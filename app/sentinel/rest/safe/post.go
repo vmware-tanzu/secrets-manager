@@ -91,7 +91,7 @@ func newSecretUpsertRequest(workloadId, secret string, namespaces []string,
 	}
 
 	return reqres.SecretUpsertRequest{
-		WorkloadId:   workloadId,
+		WorkloadIds:  workloadId,
 		BackingStore: bs,
 		Namespaces:   namespaces,
 		Template:     template,
@@ -271,7 +271,7 @@ func Post(parentContext context.Context, r *http.Request, sc entity.SentinelComm
 			},
 		}
 
-		sr := newSecretUpsertRequest(sc.WorkloadId, sc.Secret, sc.Namespaces,
+		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
 			sc.BackingStore, sc.Template, sc.Format,
 			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
 

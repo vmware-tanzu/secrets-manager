@@ -55,8 +55,8 @@ func parseBackingStore(parser *argparse.Parser) *string {
 	})
 }
 
-func parseWorkload(parser *argparse.Parser) *string {
-	return parser.String("w", "workload", &argparse.Options{
+func parseWorkload(parser *argparse.Parser) *[]string {
+	return parser.StringList("w", "workload", &argparse.Options{
 		Required: false,
 		Help: "name of the workload (i.e. the '$name' segment of its " +
 			"ClusterSPIFFEID ('spiffe://trustDomain/workload/$name/...'))",

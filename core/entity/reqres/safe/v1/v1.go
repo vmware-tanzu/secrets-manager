@@ -16,7 +16,7 @@ import (
 )
 
 type SecretUpsertRequest struct {
-	WorkloadId   string            `json:"key"`
+	WorkloadIds  []string          `json:"keys"`
 	BackingStore data.BackingStore `json:"backingStore"`
 	Namespaces   []string          `json:"namespaces"`
 	Value        string            `json:"value"`

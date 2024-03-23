@@ -83,7 +83,7 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 
 	responseBody, err := safe.Post(ctx, r,
 		entity.SentinelCommand{
-			WorkloadId:   req.Workload,
+			WorkloadIds:  req.Workload,
 			Secret:       req.Secret,
 			Namespaces:   req.Namespaces,
 			BackingStore: req.BackingStore,

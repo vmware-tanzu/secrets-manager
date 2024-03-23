@@ -34,11 +34,12 @@ func printSecretNeeded() {
 	println("")
 }
 
-func inputValidationFailure(workload *string, encrypt *bool, inputKeys *string, secret *string, deleteSecret *bool) bool {
+func inputValidationFailure(workload *[]string, encrypt *bool, inputKeys *string,
+	secret *string, deleteSecret *bool) bool {
 
 	// You need to provide a workload name if you are not encrypting a secret,
 	// or if you are not providing input keys.
-	if *workload == "" &&
+	if len(*workload) == 0 &&
 		!*encrypt &&
 		*inputKeys == "" {
 		printWorkloadNameNeeded()

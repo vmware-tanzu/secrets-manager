@@ -27,7 +27,7 @@ func IsSafe(spiffeid string) bool {
 	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSafe())
 }
 
-// IsWorkload returns true if the given SPIFFEID is a WorkloadId ID.
+// IsWorkload returns true if the given SPIFFEID is a WorkloadIds ID.
 // It does this by checking if the SPIFFEID has the SpiffeIdPrefixForWorkload as its prefix.
 func IsWorkload(spiffeid string) bool {
 	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForWorkload())

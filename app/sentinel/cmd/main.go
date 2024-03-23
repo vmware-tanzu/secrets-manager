@@ -40,10 +40,10 @@ func main() {
 	list := parseList(parser)
 	deleteSecret := parseDeleteSecret(parser)
 	appendSecret := parseAppendSecret(parser)
-	namespace := parseNamespaces(parser)
+	namespaces := parseNamespaces(parser)
 	inputKeys := parseInputKeys(parser)
 	backingStore := parseBackingStore(parser)
-	workloadId := parseWorkload(parser)
+	workloadIds := parseWorkload(parser)
 	secret := parseSecret(parser)
 	template := parseTemplate(parser)
 	format := parseFormat(parser)
@@ -68,11 +68,11 @@ func main() {
 		return
 	}
 
-	if *namespace == nil || len(*namespace) == 0 {
-		*namespace = []string{"default"}
+	if *namespaces == nil || len(*namespaces) == 0 {
+		*namespaces = []string{"default"}
 	}
 
-	if inputValidationFailure(workloadId, encrypt, inputKeys, secret, deleteSecret) {
+	if inputValidationFailure(workloadIds, encrypt, inputKeys, secret, deleteSecret) {
 		return
 	}
 
@@ -88,9 +88,9 @@ func main() {
 	}()
 
 	safe.Post(ctx, entity.SentinelCommand{
-		WorkloadId:   *workloadId,
+		WorkloadIds:  *workloadIds,
 		Secret:       *secret,
-		Namespaces:   *namespace,
+		Namespaces:   *namespaces,
 		BackingStore: *backingStore,
 		Template:     *template,
 		Format:       *format,
