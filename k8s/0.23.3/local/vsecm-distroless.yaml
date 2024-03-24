@@ -15,6 +15,31 @@ kind: Namespace
 metadata:
   name: vsecm-system
 ---
+# Source: vsecm/charts/keystone/templates/ServiceAccount.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vsecm-keystone
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: keystone-0.23.3
+    app.kubernetes.io/name: vsecm-keystone
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.23.3"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
 # Source: vsecm/charts/safe/templates/ServiceAccount.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -104,7 +129,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "exit:true\n--\n"
+  data: "w:vsecm-keystone\nn:vsecm-system\ns:keystone-init\n--\n"
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
 apiVersion: v1
@@ -265,6 +290,119 @@ spec:
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
+---
+# Source: vsecm/charts/keystone/templates/Deployment.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsecm-keystone
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: keystone-0.23.3
+    app.kubernetes.io/name: vsecm-keystone
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.23.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-keystone
+      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/part-of: vsecm-system
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vsecm-keystone
+        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/part-of: vsecm-system
+    spec:
+      serviceAccountName: vsecm-keystone
+      securityContext:
+        {}
+      initContainers:
+        - name: init-container
+          image: "localhost:5000/vsecm-init-ist-init-container:0.23.3"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /spire-agent-socket
+              name: spire-agent-socket
+              readOnly: true
+          env:
+            #
+            # You can configure VSecM Init Container by providing
+            # environment variables.
+            #
+            # See https://vsecm.com/configuration for more information
+            # about these environment variables.
+            #
+            # When you don't explicitly provide env vars here, VMware Secrets Manager
+            # Init Container will assume the default values outlined in the given
+            # link above.
+            #
+            - name: SPIFFE_ENDPOINT_SOCKET
+              value: "unix:///spire-agent-socket/agent.sock"
+            - name: VSECM_LOG_LEVEL
+              value: "7"
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/"
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
+              value: "5000"
+      containers:
+        - name: main
+          image: "localhost:5000/vsecm-ist-keystone:0.23.3"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+          #
+          # You can configure VSecM Sentinel by providing
+          # environment variables.
+          #
+          # See https://vsecm.com/configuration for more information about
+          # these environment variables.
+          #
+          # When you don't explicitly provide env vars here, VMware Secrets Manager
+          # Sentinel will assume the default values outlined in the given link above.
+          #
+          env:
+            - name: SPIFFE_ENDPOINT_SOCKET
+              value: "unix:///spire-agent-socket/agent.sock"
+            - name: VSECM_LOG_LEVEL
+              value: "7"
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/"
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+            - name: VSECM_SAFE_TLS_PORT
+              value: ":8443"
+          resources:
+            requests:
+              memory: 20Mi
+              cpu: 5m
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
 ---
 # Source: vsecm/charts/safe/templates/Deployment.yaml
 # /*
@@ -537,6 +675,35 @@ spec:
         - name: tombstone-volume
           secret:
             secretName: vsecm-sentinel-init-tombstone
+---
+# Source: vsecm/charts/keystone/templates/Identity.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: vsecm-keystone
+spec:
+  spiffeIDTemplate: "spiffe://vsecm.com\
+    /workload/vsecm-keystone\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-keystone
+      app.kubernetes.io/part-of: vsecm-system
+  workloadSelectorTemplates:
+    - "k8s:ns:vsecm-system"
+    - "k8s:sa:vsecm-keystone"
 ---
 # Source: vsecm/charts/safe/templates/Identity.yaml
 # /*
