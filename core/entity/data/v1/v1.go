@@ -26,7 +26,7 @@ type VSecMInternalCommand struct {
 }
 
 type SentinelCommand struct {
-	WorkloadId      string
+	WorkloadIds     []string
 	Namespaces      []string
 	Secret          string
 	Template        string

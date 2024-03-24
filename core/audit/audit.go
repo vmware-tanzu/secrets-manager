@@ -14,6 +14,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"strings"
 )
 
 type JournalEntry struct {
@@ -52,7 +53,7 @@ func Log(e JournalEntry) {
 			e.CorrelationId,
 			"SecretDeleteRequest",
 			e.Method, e.Url, e.SpiffeId,
-			"w:'"+v.WorkloadId+"',e:'"+v.Err+"',m:'"+string(e.Event)+"'",
+			"w:'"+strings.Join(v.WorkloadIds, "!")+"',e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretDeleteResponse:
 		printAudit(

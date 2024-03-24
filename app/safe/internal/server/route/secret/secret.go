@@ -74,7 +74,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	j.Entity = sr
 
-	workloadId := sr.WorkloadId
+	workloadIds := sr.WorkloadIds
 	value := sr.Value
 	backingStore := sr.BackingStore
 	namespaces := sr.Namespaces
@@ -85,7 +85,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	notBefore := sr.NotBefore
 	expiresAfter := sr.Expires
 
-	if workloadId == "" && encrypt {
+	if len(workloadIds) == 0 && encrypt {
 		// has a side effect of sending response.
 		crypto.Encrypt(cid, value, j, w)
 
@@ -96,13 +96,13 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		namespaces = []string{"default"}
 	}
 
-	log.DebugLn(&cid, "Secret:Upsert: ", "workloadId:", workloadId,
+	log.DebugLn(&cid, "Secret:Upsert: ", "workloadIds:", workloadIds,
 		"namespaces:", namespaces, "backingStore:", backingStore,
 		"template:", template, "format:", format, "encrypt:", encrypt,
 		"appendValue:", appendValue,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
-	if workloadId == "" && !encrypt {
+	if len(workloadIds) == 0 && !encrypt {
 		j.Event = event.NoWorkloadId
 		audit.Log(j)
 
@@ -152,19 +152,21 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 	}
 
-	secretToStore := entity.SecretStored{
-		Name: workloadId,
-		Meta: entity.SecretMeta{
-			Namespaces:    namespaces,
-			BackingStore:  backingStore,
-			Template:      template,
-			Format:        format,
-			CorrelationId: cid,
-		},
-		Values:       []string{value},
-		NotBefore:    time.Time(nb),
-		ExpiresAfter: time.Time(exp),
-	}
+	for _, workloadId := range workloadIds {
+		secretToStore := entity.SecretStored{
+			Name: workloadId,
+			Meta: entity.SecretMeta{
+				Namespaces:    namespaces,
+				BackingStore:  backingStore,
+				Template:      template,
+				Format:        format,
+				CorrelationId: cid,
+			},
+			Values:       []string{value},
+			NotBefore:    time.Time(nb),
+			ExpiresAfter: time.Time(exp),
+		}
 
-	state.Upsert(secretToStore, appendValue, workloadId, cid, j, w)
+		state.Upsert(secretToStore, appendValue, workloadId, cid, j, w)
+	}
 }
