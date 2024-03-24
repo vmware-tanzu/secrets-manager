@@ -40,8 +40,8 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: init-container
-          image: "{{ .Values.global.registry }}/vsecm-init-ist-init-container:{{ .Values.global.images.sentinel.tag }}"
-          imagePullPolicy: {{ .Values.global.images.sentinel.pullPolicy }}
+          image: "{{ .Values.global.registry }}/vsecm-ist-init-container:{{ .Values.global.images.keystone.tag }}"
+          imagePullPolicy: {{ .Values.global.images.keystone.pullPolicy }}
           volumeMounts:
             - mountPath: /spire-agent-socket
               name: spire-agent-socket
@@ -70,8 +70,8 @@ spec:
               value: "5000"
       containers:
         - name: main
-          image: "{{ .Values.global.registry }}/{{- include "keystone.repository" .}}:{{ .Values.global.images.sentinel.tag }}"
-          imagePullPolicy: {{ .Values.global.images.sentinel.pullPolicy }}
+          image: "{{ .Values.global.registry }}/{{- include "keystone.repository" .}}:{{ .Values.global.images.keystone.tag }}"
+          imagePullPolicy: {{ .Values.global.images.keystone.pullPolicy }}
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
