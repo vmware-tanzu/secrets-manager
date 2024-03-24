@@ -61,7 +61,7 @@ type SecretFetchResponse struct {
 }
 
 type SecretDeleteRequest struct {
-	WorkloadIds []string `json:"workloads`
+	WorkloadIds []string `json:"workloads"`
 	Err         string   `json:"err,omitempty"`
 }
 
