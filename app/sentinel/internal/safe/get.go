@@ -48,7 +48,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 	cid := ctx.Value("correlationId").(*string)
 
 	if source == nil {
-		return errors.New("check: Workloads source is nil")
+		return errors.New("check: workload source is nil")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
