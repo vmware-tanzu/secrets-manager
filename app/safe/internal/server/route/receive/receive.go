@@ -39,7 +39,7 @@ import (
 //   - cid (string): Correlation ID for operation tracing and logging.
 //   - w (http.ResponseWriter): The HTTP response writer to send back responses or
 //     errors.
-//   - r (*http.Request): The incoming HTTP request containing the keys payload.
+//   - r (*http.Request): The incoming HTTP request containing the payload.
 //   - spiffeid (string): The SPIFFE ID associated with the requester, used for
 //     authorization validation.
 func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
