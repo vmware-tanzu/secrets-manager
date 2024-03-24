@@ -16,7 +16,7 @@ import (
 )
 
 type SecretUpsertRequest struct {
-	WorkloadIds  []string          `json:"keys"`
+	WorkloadIds  []string          `json:"workloads"`
 	BackingStore data.BackingStore `json:"backingStore"`
 	Namespaces   []string          `json:"namespaces"`
 	Value        string            `json:"value"`
@@ -61,8 +61,8 @@ type SecretFetchResponse struct {
 }
 
 type SecretDeleteRequest struct {
-	WorkloadId string `json:"key"`
-	Err        string `json:"err,omitempty"`
+	WorkloadIds []string `json:"workloads`
+	Err         string   `json:"err,omitempty"`
 }
 
 type SecretDeleteResponse struct {

@@ -74,51 +74,62 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 		err := b.Close()
 		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem closing body", err.Error())
+			log.InfoLn(&cid, "Delete: Problem closing body", err.Error())
 		}
 	}(r.Body)
 
-	log.DebugLn(&cid, "Secret: Parsed request body")
+	log.DebugLn(&cid, "Delete: Parsed request body")
+
+	println("request body", string(body))
 
 	var sr reqres.SecretDeleteRequest
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
+		println("error", err.Error())
+
 		j.Event = event.RequestTypeMismatch
 		audit.Log(j)
+
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
 		}
+
+		println("returning from error case")
+
 		return
 	}
 
 	j.Entity = sr
 
-	workloadId := sr.WorkloadId
+	workloadIds := sr.WorkloadIds
 
-	if workloadId == "" {
-		j.Event = event.NoWorkloadId
-		audit.Log(j)
-		return
-	}
+	println("workloadIds", workloadIds)
 
-	log.DebugLn(&cid, "Secret:Delete: ", "workloadId:", workloadId)
+	if len(workloadIds) == 0 {
+		println("empty workload ids")
 
-	if workloadId == "" {
 		j.Event = event.NoWorkloadId
 		audit.Log(j)
 
+		println("exiting from the empty workload ids case")
+
 		return
 	}
 
-	state.DeleteSecret(entity.SecretStored{
-		Name: workloadId,
-		Meta: entity.SecretMeta{
-			CorrelationId: cid,
-		},
-	})
-	log.DebugLn(&cid, "Delete:End: workloadId:", workloadId)
+	log.DebugLn(&cid, "Secret:Delete: ", "workloadIds:", workloadIds)
+
+	for _, workloadId := range workloadIds {
+		state.DeleteSecret(entity.SecretStored{
+			Name: workloadId,
+			Meta: entity.SecretMeta{
+				CorrelationId: cid,
+			},
+		})
+	}
+
+	log.DebugLn(&cid, "Delete:End: workloadIds:", workloadIds)
 
 	j.Event = event.Ok
 	audit.Log(j)

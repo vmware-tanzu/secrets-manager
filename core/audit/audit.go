@@ -52,7 +52,7 @@ func Log(e JournalEntry) {
 			e.CorrelationId,
 			"SecretDeleteRequest",
 			e.Method, e.Url, e.SpiffeId,
-			"w:'"+v.WorkloadId+"',e:'"+v.Err+"',m:'"+string(e.Event)+"'",
+			"w:'"+v.WorkloadIds+"',e:'"+v.Err+"',m:'"+string(e.Event)+"'",
 		)
 	case reqres.SecretDeleteResponse:
 		printAudit(
