@@ -129,7 +129,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "w:vsecm-keystone\nn:vsecm-system\ns:keystone-init\n--\n"
+  data: "exit:true\n--\n"
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
 apiVersion: v1

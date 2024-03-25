@@ -94,9 +94,7 @@ initCommand:
   # Add any initialization command here, separated by a line with only "--"
   # The command stanza MUST end with a "--".
   command: |
-    w:vsecm-keystone
-    n:vsecm-system
-    s:keystone-init
+    exit:true
     --
 
   #  Example:
