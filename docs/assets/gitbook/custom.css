@@ -73,6 +73,20 @@
     color: white;
 }
 
+
+.book.color-theme-2 {
+   .block-warning {
+       color: var(--c-warning);
+   }
+}
+
+.book.color-theme-2 {
+    h2 {
+        color: var(--c-tip-text) !important;
+    }
+}
+
+
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 5px;
@@ -173,6 +187,7 @@
     background-color: var(--c-tip-bg);
     color: var(--c-tip-text);
     font-family: var(--font-family);
+    padding: 1em;
 }
 
 .markdown-section blockquote.block-tip h1 {
@@ -204,6 +219,7 @@
     background-color: var(--c-warning-bg);
     color: var(--c-warning-text);
     font-family: var(--font-family);
+    padding: 1em;
 }
 
 .markdown-section blockquote.block-warning h1 {
@@ -303,5 +319,9 @@ pre:has(code.language-mermaid[data-processed="true"]) {
     --c-danger-bg: #ffe0e0;
     --c-danger-text: #600;
     --c-danger-title: #c00;
-    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-family: "source-sans-3", "ofelia-display", input-mono, mono, divenire-mono, serif, auger-mono, monospace, lexia-mono-variable, sans-serif, moby, sans-serif, paradroid-mono-soft, sans-serif, logic-monospace, mono, john-doe, sans-serif;
+
+
+
+    --potato: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }

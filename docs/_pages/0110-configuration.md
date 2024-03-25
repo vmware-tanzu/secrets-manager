@@ -257,6 +257,7 @@ mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode
 > Therefore, even if the binary and the underlying system are FIPS-compliant, 
 > **VSecM Safe** will still need to undergo this formal FIPS approval process 
 > to be officially recognized as FIPS compliant.
+{: .block-warning}
 
 If you are using one of the official FIPS-complaint VSecM Docker images,
 then it will be FIPS-compliant.
