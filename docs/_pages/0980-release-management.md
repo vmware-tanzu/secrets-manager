@@ -31,6 +31,7 @@ here.
 > with limited access. It contains trust material such as the
 > Docker Content Trust root key, and the private key for signing
 > the **VSecM** images.
+{: .block-tip }
 
 We (*still*) have a manual build process, so you will need access to the
 **VSecM** build server to be able to cut a release.
