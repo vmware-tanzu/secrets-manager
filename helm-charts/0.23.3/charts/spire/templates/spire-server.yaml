@@ -224,11 +224,11 @@ spec:
               mountPath: /spire-controller-manager-config.yaml
               subPath: spire-controller-manager-config.yaml
       volumes:
-        {{- if .Values.data.persistent }}
+{{- if .Values.data.persistent }}
         - name: spire-data
           persistentVolumeClaim:
             claimName: {{ .Values.data.persistentVolumeClaim.claimName }}
-        {{- end }}
+{{- end }}
         - name: spire-config
           configMap:
             name: spire-server
