@@ -10,11 +10,20 @@
 
 global:
   deploySpire: true
+  deployKeystone: true
+
   # possible options for baseImage (distroless, distroless-fips, photon, photon-fips)
   baseImage: distroless
   registry: vsecm
   logLevel: "7"
   images:
+    keystone:
+      distrolessRepository: vsecm-ist-keystone
+      distrolessFipsRepository: vsecm-ist-fips-keystone
+      photonRepository: vsecm-photon-keystone
+      photonFipsRepository: vsecm-photon-fips-keystone
+      tag: 0.23.3
+      pullPolicy: IfNotPresent
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe

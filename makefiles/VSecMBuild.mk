@@ -25,6 +25,14 @@ build: \
 	example-multiple-secrets-push \
 	example-init-container-bundle \
 	example-init-container-push \
+	keystone-bundle-ist \
+	keystone-push-ist \
+	keystone-bundle-ist-fips \
+	keystone-push-ist-fips \
+	keystone-bundle-photon \
+	keystone-push-photon \
+	keystone-bundle-photon-fips \
+	keystone-push-photon-fips \
 	safe-bundle-ist \
 	safe-push-ist \
 	safe-bundle-ist-fips \
@@ -86,6 +94,14 @@ build-eks: \
 	example-multiple-secrets-push-eks \
 	example-init-container-bundle \
 	example-init-container-push-eks \
+	keystone-bundle-ist \
+	keystone-push-ist-eks \
+	keystone-bundle-ist-fips \
+	keystone-push-ist-fips-eks \
+	keystone-bundle-photon \
+	keystone-push-photon-eks \
+	keystone-bundle-photon-fips \
+	keystone-push-photon-fips-eks \
 	safe-bundle-ist \
 	safe-push-ist-eks \
 	safe-bundle-ist-fips \
@@ -133,6 +149,14 @@ build-local: \
 	example-multiple-secrets-push-local \
 	example-init-container-bundle \
 	example-init-container-push-local \
+	keystone-bundle-ist \
+	keystone-push-ist-local \
+	keystone-bundle-ist-fips \
+	keystone-push-ist-fips-local \
+	keystone-bundle-photon \
+	keystone-push-photon-local \
+	keystone-bundle-photon-fips \
+	keystone-push-photon-fips-local \
 	safe-bundle-ist \
 	safe-push-ist-local \
 	safe-bundle-ist-fips \
@@ -169,6 +193,8 @@ build-local: \
 build-essentials-local: \
 	keygen-bundle \
 	inspector-bundle \
+	keystone-bundle-ist \
+	keystone-push-ist-local \
 	safe-bundle-ist \
 	safe-push-ist-local \
 	sidecar-bundle-ist \
