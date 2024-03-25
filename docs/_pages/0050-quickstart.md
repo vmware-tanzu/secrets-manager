@@ -31,11 +31,12 @@ next_url: /docs/philosophy/
 * [**Docker**][docker]: This quickstart guide assumes that **Minikube** uses
   the *Docker* driver. If you use a different driver, things will still likely
   work, but you might need to tweak some of the commands and configuration.
+* [**Helm**][helm]: Helm is a package manager for Kubernetes. It allows developers and operators to more easily package, configure, and deploy applications and services onto Kubernetes clusters. In this quickstart guide, it is expected that you have `helm` installed on your system. Helm will be used to manage the deployment of the **VMware Secrets Manager** onto your Kubernetes cluster. If you don't have Helm installed, you can follow the instructions on the [official Helm website](https://helm.sh) to install it.
 
 > **I Have a Kubernetes Cluster Already**
-> 
-> If you are already have a cluster and a `kubectl` that you can use on that 
-> cluster, you won't need Minikube, so you can skip the steps related to 
+>
+> If you are already have a cluster and a `kubectl` that you can use on that
+> cluster, you won't need Minikube, so you can skip the steps related to
 > initializing Minikube and configuring Minikube-related environment variables.
 {: .block-tip }
 
@@ -44,6 +45,7 @@ Also, if you are not using minikube, you will not need a local docker instance e
 [minikube]: https://minikube.sigs.k8s.io/docs/ "Minikube"
 [make]: https://www.gnu.org/software/make/ "GNU Make"
 [docker]: https://www.docker.com "Docker"
+[helm]: https://helm.sh "Helm"
 
 ## A Video Is Worth A Lot of Words
 
@@ -95,8 +97,9 @@ eval $(minikube -p minikube docker-env)
 Next we'll install [SPIRE][spire] and **VMware Secrets Manager** on the cluster.
 
 ```bash
-cd $WORKSPACE/secrets-manager
-make deploy
+helm repo add vsecm https://vmware-tanzu.github.io/secrets-manager/
+helm repo update
+helm install vsecm vsecm/vsecm
 ```
 
 This will take a few minutes to complete.
@@ -106,7 +109,7 @@ This will take a few minutes to complete.
 ## Verify Installation
 
 Let's check that the installation was successful by listing the pods int
-the `spire-system` and `vsecm-system` namespaces:
+the `spire-system` , `vsecm-system` and `keystone-system` namespaces:
 
 ```bash
 kubectl get po -n spire-system
@@ -114,9 +117,9 @@ kubectl get po -n spire-system
 
 ```text
 # Output:
-NAME                           READY   STATUS    RESTARTS
-spire-agent-p9m27              3/3     Running   1 (23s ago)
-spire-server-6fb4f57c8-6s7ns   2/2     Running   0
+NAME                          READY   STATUS    RESTARTS      
+spire-agent-wdhdh             3/3     Running   0             
+spire-server-b594bdfc-szssx   2/2     Running   0             
 ```
 
 ```bash
@@ -125,9 +128,10 @@ kubectl get po -n vsecm-system
 
 ```text
 # Output:
-NAME                             READY   STATUS    RESTARTS
-vsecm-safe-85dd95949c-f4mhj      1/1     Running   0
-vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0
+NAME                              READY   STATUS    RESTARTS
+vsecm-keystone-c54d99d7b-c4jk4    1/1     Running   0          
+vsecm-safe-6cc477f58f-x6wc9       1/1     Running   0          
+vsecm-sentinel-74d648675b-8zdn2   1/1     Running   0                   
 ```
 
 All the pods look up and running, so we can move on to the next step.
@@ -164,26 +168,33 @@ kubectl get po -n default
 ```text
 # Output
 NAME                       READY   STATUS    RESTARTS   AGE
-example-68997489c6-8j8kj   1/1     Running   0          1m51s
+example-6cbb96b768-dhm7c   1/1     Running   0          6m44s
 ```
 
 Let's check the logs of our example workload:
 
 ```bash
-kubectl logs example-68997489c6-8j8kj
+kubectl logs example-6cbb96b768-dhm7c
 ```
 
 The output will be something similar to this:
 
 ```text
-2023/07/28 01:26:51 fetch
+2024/03/25 17:30:32 fetch
+2024/03/25 17:30:32 [TRACE] RpyyPfqx Sentry:Fetch https://vsecm-safe.vsecm-system.svc.cluster.local:8443/workload/v1/secrets
+2024/03/25 17:30:32 [TRACE] RpyyPfqx Sentry:Fetch svid:id:  spiffe://vsecm.com/workload/example/ns/default/sa/example/n/example-6cbb96b768-dhm7c
 Failed to read the secrets file. Will retry in 5 seconds...
 Secret does not exist
-2023/07/28 01:27:03 fetch
+2024/03/25 17:30:37 fetch
+2024/03/25 17:30:37 [TRACE] kUWlDyo3 Sentry:Fetch https://vsecm-safe.vsecm-system.svc.cluster.local:8443/workload/v1/secrets
+2024/03/25 17:30:37 [TRACE] kUWlDyo3 Sentry:Fetch svid:id:  spiffe://vsecm.com/workload/example/ns/default/sa/example/n/example-6cbb96b768-dhm7c
 Failed to read the secrets file. Will retry in 5 seconds...
 Secret does not exist
-2023/07/28 01:27:08 fetch
+2024/03/25 17:30:42 fetch
+2024/03/25 17:30:42 [TRACE] dorrPbVN Sentry:Fetch https://vsecm-safe.vsecm-system.svc.cluster.local:8443/workload/v1/secrets
+2024/03/25 17:30:42 [TRACE] dorrPbVN Sentry:Fetch svid:id:  spiffe://vsecm.com/workload/example/ns/default/sa/example/n/example-6cbb96b768-dhm7c
 Failed to read the secrets file. Will retry in 5 seconds...
+Secret does not exist
 ... truncated ...
 ```
 
@@ -260,17 +271,18 @@ kubectl get po -n vsecm-system
 Here's a sample output:
 
 ```text
-NAME                             READY   STATUS    RESTARTS
-vsecm-safe-85dd95949c-f4mhj      1/1     Running   0
-vsecm-sentinel-6dc9b476f-djnq7   1/1     Running   0
+NAME                              READY   STATUS    RESTARTS   
+vsecm-keystone-c54d99d7b-c4jk4    1/1     Running   0          
+vsecm-safe-6cc477f58f-x6wc9       1/1     Running   0          
+vsecm-sentinel-74d648675b-8zdn2   1/1     Running   0          
 ```
 
-`vsecm-sentinel-6dc9b476f-djnq7` is what we need here.
+`vsecm-sentinel-74d648675b-8zdn2` is what we need here.
 
 Let's use it and register a secret to our example workload:
 
 ```bash
-kubectl exec vsecm-sentinel-6dc9b476f-djnq7 -n vsecm-system -- \
+kubectl exec vsecm-sentinel-74d648675b-8zdn2 -n vsecm-system -- \
 safe -w "example" -n "default" -s "VSecMRocks"
 ```
 
@@ -308,20 +320,21 @@ And here's the output:
 
 ```text
 NAME             AGE
-example          4h33m
-vsecm-safe       4h35m
-vsecm-sentinel   4h35m
+example          73m
+vsecm-keystone   73m
+vsecm-safe       73m
+vsecm-sentinel   73m
 ```
 > **ClusterSPIFFEID with an Analogy**
-> 
-> Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization. 
-> 
-> If anyone could create or modify badges (*SVIDs*), they could make one for 
-> themselves that mimics the CEO's badge, gaining access to restricted areas. 
-> 
-> Hence, only trusted personnel (*with elevated privileges*) are allowed to 
+>
+> Imagine the **ClusterSPIFFEID** as a **badge maker** for an organization.
+>
+> If anyone could create or modify badges (*SVIDs*), they could make one for
+> themselves that mimics the CEO's badge, gaining access to restricted areas.
+>
+> Hence, only trusted personnel (*with elevated privileges*) are allowed to
 > manage the badge maker.
-> 
+>
 > Make sure your guard your **ClusterSPIFFEID** with proper RBAC rules.
 {: .block-tip }
 
@@ -336,24 +349,25 @@ And the output:
 
 ```text
 {% raw %}Name:         example
-Namespace:
+Namespace:    
 Labels:       <none>
 Annotations:  <none>
 API Version:  spire.spiffe.io/v1alpha1
 Kind:         ClusterSPIFFEID
 Metadata:
-  Creation Timestamp:  2023-07-28T01:26:48Z
+  Creation Timestamp:  2024-03-25T17:17:58Z
   Generation:          1
-  Resource Version:    832
-  UID:                 b254294e-eed0-4116-8b38-2fb1d101e387
+  Resource Version:    1651
+  UID:                 e8af0138-7b3a-438e-9d58-21ab35a97b15
 Spec:
   Pod Selector:
     Match Labels:
       app.kubernetes.io/name:  example
-  Spiffe ID Template:
+  Spiffe ID Template:          
   spiffe://vsecm.com/workload/example/
   ns/{{ .PodMeta.Namespace }}/
-  sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+  sa/{{ .PodSpec.ServiceAccountName }}/
+  n/{{ .PodMeta.Name }}
   Workload Selector Templates:
     k8s:ns:default
     k8s:sa:example
@@ -365,7 +379,8 @@ Status:
     Namespaces Ignored:         4
     Namespaces Selected:        6
     Pod Entry Render Failures:  0
-    Pods Selected:              1{% endraw %}
+    Pods Selected:              1
+Events:                         <none>{% endraw %}
 ```
 
 For the sake of keeping things simple because this is a quickstart, we can
@@ -379,21 +394,20 @@ Since we've registered a secret, let's see if our example workload can fetch
 the secret now and display it in its logs.
 
 ```bash
-kubectl logs example-68997489c6-8j8kj
+kubectl logs example-6cbb96b768-dhm7c
 ```
 
 And the output would be something like this:
 
 ```text
-2023/07/28 06:06:39 fetch
-secret: updated: "2023-07-28T01:34:30Z",
-created: "2023-07-28T01:34:30Z", value: VSecMRocks
-2023/07/28 06:06:44 fetch
-secret: updated: "2023-07-28T01:34:30Z",
-created: "2023-07-28T01:34:30Z", value: VSecMRocks
-2023/07/28 06:06:49 fetch
-secret: updated: "2023-07-28T01:34:30Z",
-created: "2023-07-28T01:34:30Z", value: VSecMRocks
+2024/03/25 17:36:13 fetch
+2024/03/25 17:36:13 [TRACE] ZjmdoNn9 Sentry:Fetch https://vsecm-safe.vsecm-system.svc.cluster.local:8443/workload/v1/secrets
+2024/03/25 17:36:13 [TRACE] ZjmdoNn9 Sentry:Fetch svid:id:  spiffe://vsecm.com/workload/example/ns/default/sa/example/n/example-6cbb96b768-dhm7c
+secret: updated: "2024-03-25T17:34:25Z", created: "2024-03-25T17:34:25Z", value: VSecMRocks
+2024/03/25 17:36:18 fetch
+2024/03/25 17:36:18 [TRACE] kcOZQXeH Sentry:Fetch https://vsecm-safe.vsecm-system.svc.cluster.local:8443/workload/v1/secrets
+2024/03/25 17:36:18 [TRACE] kcOZQXeH Sentry:Fetch svid:id:  spiffe://vsecm.com/workload/example/ns/default/sa/example/n/example-6cbb96b768-dhm7c
+secret: updated: "2024-03-25T17:34:25Z", created: "2024-03-25T17:34:25Z", value: VSecMRocks
 ```
 
 As you can see, the secret is now fetched and displayed in the logs.
