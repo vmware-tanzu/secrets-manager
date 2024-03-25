@@ -200,6 +200,10 @@ spec:
           ports:
             - containerPort: 8081
           volumeMounts:
+{{- if .Values.data.persistent }}
+            - name: spire-data
+              mountPath: /run/spire/server/data
+{{- end }}
             - name: spire-config
               mountPath: /run/spire/server/config
               readOnly: true
@@ -220,6 +224,11 @@ spec:
               mountPath: /spire-controller-manager-config.yaml
               subPath: spire-controller-manager-config.yaml
       volumes:
+        {{- if .Values.data.persistent }}
+        - name: spire-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.data.persistentVolumeClaim.claimName }}
+        {{- end }}
         - name: spire-config
           configMap:
             name: spire-server
