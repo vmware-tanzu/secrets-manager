@@ -76,3 +76,9 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+data:
+  persistent: false
+  # Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    claimName: "your-pvc-name" # Replace with your PVC name.
