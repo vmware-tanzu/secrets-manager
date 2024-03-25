@@ -185,6 +185,7 @@ dance:
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand
 
+out:
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 
@@ -222,7 +223,8 @@ dance:
 				"skipping the rest of the commands.",
 				"skipping post initialization.",
 			)
-			return
+			// Move out of the loop to allow the keystone secret to be registered.
+			break out
 		case workload:
 			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
 		case namespace:
@@ -250,6 +252,13 @@ dance:
 			err.Error(),
 		)
 	}
+
+	// Assign a secret for VSecM Keystone
+	processCommandBlock(ctx, entity.SentinelCommand{
+		WorkloadIds: []string{"vsecm-keystone"},
+		Namespaces:  []string{"vsecm-system"},
+		Secret:      "keystone-init",
+	})
 
 	safe.PostInitializationComplete(ctx)
 }
