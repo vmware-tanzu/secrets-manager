@@ -18,12 +18,59 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+TBD
+
+## [v0.23.3] - 2024-03-24
+
+### Added 
+
+* Added the Helm charts the ability for SPIRE Server to use Persistent Volumes 
+  for its data.
+* Introduced **VSecM Keystone** a workload that waits until all the "init commands"
+  that VSecM Sentinel runs are completed. This feature is useful, especially when
+  an orchestrator watches for the readiness of VSecM Keystone to bring up other
+  workloads that depend on the secrets that VSecM Sentinel initializes.
+* Now, one secret can be associated with multiple workloads in multiple
+  namespaces. This feature is useful when you want to share a secret across 
+  multiple workloads in different namespaces.
+* Added image pull secrets to SPIRE Server and SPIRE Agent Helm charts.
+* Added [Kampus Discord Server][kampus] as a welcoming and supporting community
+  for VSecM users and contributors. This is an additional community that 
+  augments the official **Slack** workspace. The **Slack** workspace is still
+  the primary community for VSecM. Kampus is a global community; however, its
+  core audience is Turkish-speaking people. The community is open to everyone. 
+* By adding Kampus as a supported community, we aim to: 
+    * Acknowledge and express gratitude for the Kampus community's ongoing 
+      support and contributions.
+    * Facilitate a more integrated and cohesive ecosystem for current and future 
+      contributors.
+    * Enhance accessibility for new contributors seeking guidance or looking to 
+      engage with the project community.
+    * Foster a diverse and inclusive environment where all members can share, 
+      learn, and contribute to the project's success.
+
+[kampus]: https://discord.gg/kampus
+
+### Changed
+
 * **BREAKING**: Removed the `-k` flag from Sentinel, as the `k8s:` prefix was 
   a better way that does an identical job. This change also simplified the
   internal workings of VSecM Safe, making it more efficient, reliable, and
   easier to maintain.
-* Added image pull secrets to SPIRE Server and SPIRE Agent Helm charts.
-* Various bugfixes.
+* VSecM documentation now has a dark mode for better readability. In addition,
+  the typography and layout of the documentation have been improved for a more
+  consistent and user-friendly experience.
+
+### Fixed
+
+* Integration tests were failing, now they are fixed.
+* Various minor bugfixes.
+* Performance improvements and asset cleanup in the documentation website.
+
+### Security
+
+* SPIRE Server Helm charts was using `NodePort`; we defaulted it to the more
+  secure `ClusterIP` in the Helm charts.
 
 ## [v0.23.2] - 2024-03-13
 
