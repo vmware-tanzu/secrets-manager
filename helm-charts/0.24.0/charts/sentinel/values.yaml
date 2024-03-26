@@ -93,8 +93,15 @@ initCommand:
 
   # Add any initialization command here, separated by a line with only "--"
   # The command stanza MUST end with a "--".
+#  command: |
+#    exit:true
+#    --
+
   command: |
-    exit:true
+    w:keycloak-admin-secret,keycloak-db-secret
+    n:smo-app,web-app
+    s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
+    t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
     --
 
   #  Example:
