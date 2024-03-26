@@ -301,17 +301,6 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 	}
 	secretStored.Updated = now
 
-	println("############## /SECRET STORED #############")
-	println(secretStored.Name)
-	for _, v := range secretStored.Values {
-		println(v)
-	}
-	println("############")
-	for _, n := range secretStored.Meta.Namespaces {
-		println(n)
-	}
-	println("############## \\SECRET STORED #############")
-
 	log.InfoLn(&cid, "UpsertSecret:",
 		"created", secretStored.Created, "updated", secretStored.Updated,
 		"name", secretStored.Name, "len(vs)", len(vs),
