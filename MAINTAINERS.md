@@ -16,12 +16,6 @@ each with their responsibilities outlined.
   * As the lead architect, Volkan is responsible for overall code quality, 
     security, architecture decisions, and major feature developments.
 
-## Security
-
-* **Ramiro Salas** [@RamXX](https://github.com/RamXX)
-  * Ramiro is in charge of maintaining and enhancing the security aspects of the 
-    project.
-
 ## Core Contributors
 
 * **Abhishek Sharma** [@abhishek44sharma](https://github.com/abhishek44sharma)
