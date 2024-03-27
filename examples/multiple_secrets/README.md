@@ -45,9 +45,9 @@ cd $WORKSPACE/vmware-secrets-manager
 # Build everything locally:
 make build-local
 # Deploy the use case:
-make example-multiple_secrets-deploy-local
+make example-multiple-secrets-deploy-local
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/multiple_secrets
+cd $WORKSPACE/vmware-secrets-manager/examples/multiple-secrets
 # Register a secret:
 ./register.sh
 # List the secrets.
@@ -63,7 +63,7 @@ pre-deployed container images.
 # Switch to the project folder:
 cd $WORKSPACE/vmware-secrets-manager
 # Deploy the use case from the pre-built image.
-make example-multiple_secrets-deploy
+make example-multiple-secrets-deploy
 # Switch to this use case's folder:
 cd $WORKSPACE/vmware-secrets-manager/examples/multiple_secrets
 # Register a secret:
