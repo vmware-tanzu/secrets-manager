@@ -56,7 +56,7 @@ kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
 Make sure [you examine the manifests][workload-yaml] to gain an understanding
 of what kinds of entities you've deployed to your cluster.
 
-[workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using-init-container/k8s
+[workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using_init_container/k8s
 
 ## Demo Workload
 
@@ -114,8 +114,8 @@ spec:
 # ... Truncated  ... 
 ```
 
-[deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Deployment.yaml
-[secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-init-container/k8s/Secret.yaml
+[deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_init_container/k8s/Deployment.yaml
+[secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_init_container/k8s/Secret.yaml
 
 ## Deploy the Demo Workload
 
