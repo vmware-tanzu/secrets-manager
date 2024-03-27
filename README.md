@@ -181,18 +181,26 @@ of **VMware Secrets Manager** system design and how each component fits together
 Here are the important folders and files in this repository:
 
 * `./app`: Contains core **VSecM** components' source code.
-    * `./app/init-container`: Contains the source code for the **VSecM Init Container**.
+    * `./app/init_container`: Contains the source code for the **VSecM Init Container**.
+    * `./app/inspector`: Contains the source code for the **VSecM Inspector**.
+    * `./app/keygen`: Contains the source code for the **VSecM Keygen**.
     * `./app/safe`: Contains the **VSecM Safe** source code.
     * `./app/sentinel`: Contains the source code for the **VSecM Sentinel**.
     * `./app/sidecar`: Contains the source code for the **VSecM Sidecar**.
+* `./ci`: Automation and CI/CD scripts.
 * `./helm-charts`: Contains **VSecM** helm charts.
 * `./core`: Contains core modules shared across **VSecM** components.
+* `./dockerfiles`: Contains Dockerfiles for building **VSecM** container images.
 * `./examples`: Contains the source code of example use cases.
 * `./hack`: Contains scripts for building, publishing, development
   , and testing.
 * `./k8s`: Contains Kubernetes manifests that are used to deploy **VSecM** and
   its use cases.
-* `./sdk`: Contains the source code of the **VSecM Developer SDK**.
+* `./sdk`: Contains the source code of the **VSecM Developer Go SDK**.
+* `./sdk-cpp`: Contains the source code of the **VSecM Developer C++ SDK**.
+* `./sdk-java`: Contains the source code of the **VSecM Developer Java SDK**.
+* `./sdk-python`: Contains the source code of the **VSecM Developer Python SDK**.
+* `./sdk-rust`: Contains the source code of the **VSecM Developer Rust SDK**.
 * `./docs`: Contains the source code of the **VSecM Documentation** website (<https://vsecm.com>).
 * `./CODE_OF_CONDUCT.md`: Contains **VSecM** Code of Conduct.
 * `./CONTRIBUTING_DCO.md`: Contains **VSecM** Contributing Guidelines.

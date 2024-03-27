@@ -19,7 +19,7 @@ COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-init-container \
-  ./app/init-container/cmd/main.go
+  ./app/init_container/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
