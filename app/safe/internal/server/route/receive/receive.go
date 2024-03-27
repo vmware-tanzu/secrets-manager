@@ -11,6 +11,8 @@
 package receive
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"strings"
@@ -84,6 +86,12 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
 	state.SetRootKey(keysCombined)
+
+	if env.RootKeyInputModeManual() && env.ManualRootKeyUpdatesKubernetesSecret() {
+		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {
+			log.ErrorLn(&cid, "Keys: Problem persisting keys", err.Error())
+		}
+	}
 
 	log.DebugLn(&cid, "Keys: before response")
 
