@@ -38,8 +38,8 @@ echo "example-using-sidecar"
 docker trust sign vsecm/example-using-sidecar:"$VERSION"
 docker trust sign vsecm/example-using-sidecar:latest
 echo "example-using-sdk"
-docker trust sign vsecm/example-using-sdk-go:"$VERSION"
-docker trust sign vsecm/example-using-sdk-go:latest
+docker trust sign vsecm/example-using-sdk:"$VERSION"
+docker trust sign vsecm/example-using-sdk:latest
 echo "example-multiple-secrets"
 docker trust sign vsecm/example-multiple-secrets:"$VERSION"
 docker trust sign vsecm/example-multiple-secrets:latest
