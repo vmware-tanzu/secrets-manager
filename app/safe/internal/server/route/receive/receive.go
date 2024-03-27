@@ -87,7 +87,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
 	state.SetRootKey(keysCombined)
 
-	if env.RootKeyInputModeManual() && env.ManualRootKeyUpdatesKubernetesSecret() {
+	if env.ManualRootKeyUpdatesK8sSecret() {
 		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {
 			log.ErrorLn(&cid, "Keys: Problem persisting keys", err.Error())
 		}

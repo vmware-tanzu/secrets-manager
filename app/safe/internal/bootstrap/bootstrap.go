@@ -188,6 +188,13 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	log.InfoLn(id, "Generated public key, private key, and aes seed")
 
+	// Save the key to VSecM Safe's memory, and also save them to
+	// VSecM Safe's root key Kubernetes Secret.
+	// If the root key input mode is not manual, VSecM Safe will
+	// use a trusted backing store to retrieve the key in case of
+	// Pod crash or eviction. As of Mar,17, 2024 the only trusted
+	// backing store is the VSecM root key Kubernetes Secret; however
+	// this will change in the future.
 	if err = PersistKeys(privateKey, publicKey, aesSeed); err != nil {
 		log.FatalLn(id, "Failed to persist keys", err.Error())
 	}
