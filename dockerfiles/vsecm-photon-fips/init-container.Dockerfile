@@ -21,7 +21,7 @@ WORKDIR /build
 
 # GOEXPERIMENT=boringcrypto is required for FIPS compliance.
 RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o vsecm-init-container \
-  ./app/init-container/cmd/main.go
+  ./app/init_container/cmd/main.go
 
 # generate clean, final image for end users
 FROM photon:5.0

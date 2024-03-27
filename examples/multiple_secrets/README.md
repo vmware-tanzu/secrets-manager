@@ -11,7 +11,7 @@ This example demonstrates how to use **VMware Secrets Manager** to register more
 than one secret to your workload.
 
 This demo is a slight variation of the 
-[Registering Secrets Using Init Container](../using-init-container)
+[Registering Secrets Using Init Container](../using_init_container)
 example.
 
 ## A Video Is Worth a Lot of Words
@@ -65,7 +65,7 @@ cd $WORKSPACE/vmware-secrets-manager
 # Deploy the use case from the pre-built image.
 make example-multiple-secrets-deploy
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/multiple-secrets
+cd $WORKSPACE/vmware-secrets-manager/examples/multiple_secrets
 # Register a secret:
 ./register.sh
 # List the secrets.

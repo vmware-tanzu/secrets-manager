@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-cd ./examples/using-sidecar || exit
+cd ./examples/using_sidecar || exit
 
 kubectl apply -f ./k8s/ServiceAccount.yaml
 kubectl apply -f ./k8s/Deployment.yaml

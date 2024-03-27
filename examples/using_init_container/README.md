@@ -42,7 +42,7 @@ make build-local
 # Deploy the use case:
 make example-init-container-deploy-local
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/using-init-container
+cd $WORKSPACE/vmware-secrets-manager/examples/using_init_container
 # Check and make sure that the workload pod is still initializing:
 kubectl get po -n default
 # Register a secret:
@@ -64,7 +64,7 @@ cd $WORKSPACE/vmware-secrets-manager
 # Deploy the use case from the pre-built image.
 make example-sidecar-deploy
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
+cd $WORKSPACE/vmware-secrets-manager/examples/using_sidecar
 # Check and make sure that the workload pod is still initializing:
 kubectl get po -n default
 # Register a secret:

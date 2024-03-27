@@ -42,7 +42,7 @@ make build-local
 # Deploy the use case:
 make example-sidecar-deploy-local
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
+cd $WORKSPACE/vmware-secrets-manager/examples/using_sidecar
 # Register a secret:
 ./register.sh
 # Tail the workload's logs and verify that the secret is there:
@@ -60,7 +60,7 @@ cd $WORKSPACE/vmware-secrets-manager
 # Deploy the use case from the pre-built image.
 make example-sidecar-deploy
 # Switch to this use case's folder:
-cd $WORKSPACE/vmware-secrets-manager/examples/using-sidecar
+cd $WORKSPACE/vmware-secrets-manager/examples/using_sidecar
 # Register a secret:
 ./register.sh
 # Tail the workload's logs and verify that the secret is there:

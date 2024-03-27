@@ -24,7 +24,7 @@ You can find the deployment manifests inside the
 [`./examples/workload-using-sidecar/k8s`][workload-yaml] folder of your
 cloned **VMware Secrets Manager** folder.
 
-[workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using-sidecar/k8s
+[workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using_sidecar/k8s
 
 To deploy our workload using that manifest, execute the following:
 
@@ -56,7 +56,7 @@ that folder:
 [Here is the source code of the demo container's app][workload-src] for the
 sake of completeness.
 
-[workload-src]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-sidecar/main.go
+[workload-src]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_sidecar/main.go
 
 When you check the source code, you'll see that our demo app tries to read a
 secret file every 5 seconds forever:
@@ -84,7 +84,7 @@ For this, there is an identity file that defines a `ClusterSPIFFEID` for
 the workload:
 
 ```yaml
-# ./examples/workload-using-sidecar/k8s/Identity.yaml
+# ./examples/using_sidecar/k8s/Identity.yaml
 
 {% raw %}kind: ClusterSPIFFEID
 metadata:
@@ -259,7 +259,7 @@ Assuming you've had a chance to review the deployment manifests as recommended
 at the start of this tutorial, you might have noticed something similar to what's
 presented below in the [`Identity.yaml`][identity-yaml]."
 
-[identity-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using-sidecar/k8s/Identity.yaml
+[identity-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_sidecar/k8s/Identity.yaml
 [clusterspiffeid]: https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md
 
 ```text

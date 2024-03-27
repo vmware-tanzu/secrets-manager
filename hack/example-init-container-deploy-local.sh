@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-cd ./examples/using-init-container || exit
+cd ./examples/using_init_container || exit
 
 kubectl apply -f ./k8s/ServiceAccount.yaml
 kubectl apply -k ./k8s
