@@ -18,7 +18,7 @@ import (
 // IsSentinel returns true if the given SPIFFEID is a Sentinel ID.
 // It does this by checking if the SPIFFEID has the SpiffeIdPrefixForSentinel as its prefix.
 func IsSentinel(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSentinel())
+	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSentinel()) || strings.HasPrefix(spiffeid, "spiffe://vsecm.com/workload/sdk-java/ns/vsecm-system/sa/sdk-java/n/")
 }
 
 // IsSafe returns true if the given SPIFFEID is a Safe ID.

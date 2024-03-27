@@ -71,7 +71,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		}
 
 		sid := id.String()
-		p := r.URL.Path
+		p := r.RequestURI
 
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
 
