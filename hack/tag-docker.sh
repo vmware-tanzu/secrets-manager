@@ -29,8 +29,8 @@ docker pull vsecm/vsecm-ist-init-container:"$VERSION"
 docker pull vsecm/vsecm-ist-init-container:latest
 docker pull vsecm/example-using-sidecar:"$VERSION"
 docker pull vsecm/example-using-sidecar:latest
-docker pull vsecm/example-using-sdk:"$VERSION"
-docker pull vsecm/example-using-sdk:latest
+docker pull vsecm/example-using-sdk-go:"$VERSION"
+docker pull vsecm/example-using-sdk-go:latest
 docker pull vsecm/example-multiple-secrets:"$VERSION"
 docker pull vsecm/example-multiple-secrets:latest
 docker pull vsecm/example-using-init-container:"$VERSION"
@@ -57,8 +57,8 @@ docker trust sign vsecm/vsecm-ist-init-container:"$VERSION"
 docker trust sign vsecm/vsecm-ist-init-container:latest
 docker trust sign vsecm/example-using-sidecar:"$VERSION"
 docker trust sign vsecm/example-using-sidecar:latest
-docker trust sign vsecm/example-using-sdk:"$VERSION"
-docker trust sign vsecm/example-using-sdk:latest
+docker trust sign vsecm/example-using-sdk-go:"$VERSION"
+docker trust sign vsecm/example-using-sdk-go:latest
 docker trust sign vsecm/example-multiple-secrets:"$VERSION"
 docker trust sign vsecm/example-multiple-secrets:latest
 docker trust sign vsecm/example-using-init-container:"$VERSION"

@@ -10,23 +10,23 @@
 
 # Packages the "SDK" use case binary into a container image.
 example-sdk-bundle:
-	./hack/bundle.sh "example-using-sdk" \
-		$(VERSION) "dockerfiles/example/sdk.Dockerfile"
+	./hack/bundle.sh "example-using-sdk-go" \
+		$(VERSION) "dockerfiles/example/sdk-go.Dockerfile"
 
 # Pushes the "SDK" use case container image to the public registry.
 example-sdk-push:
-	./hack/push.sh "example-using-sdk" \
-		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/example-using-sdk"
+	./hack/push.sh "example-using-sdk-go" \
+		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/example-using-sdk-go"
 
 # Pushes the "SDK" use case container image to the local registry.
 example-sdk-push-local:
-	./hack/push.sh "example-using-sdk" \
-		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-sdk"
+	./hack/push.sh "example-using-sdk-go" \
+		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-sdk-go"
 
 # Pushes the "SDK" use case container image to the public EKS registry.
 example-sdk-push-eks:
-	./hack/push.sh "example-using-sdk" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-using-sdk"
+	./hack/push.sh "example-using-sdk-go" \
+		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-using-sdk-go"
 
 # Deploys the "SDK" use case app from the public registry into the cluster.
 example-sdk-deploy:

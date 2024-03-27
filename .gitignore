@@ -47,7 +47,7 @@ vendor
 /vsecm-sidecar
 /example-using-init-container
 /example-using-sidecar
-/example-using-sdk
+/example-using-sdk-go
 /example-multiple-secrets
 /vsecm-ist-init-container
 /vsecm-ist-safe
