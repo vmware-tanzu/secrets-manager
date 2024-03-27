@@ -18,7 +18,7 @@ COPY sdk /build/sdk
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o using_vsecm_inspector \
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
   ./app/inspector/cmd/main.go
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth \
   ./app/inspector/busywait/main.go

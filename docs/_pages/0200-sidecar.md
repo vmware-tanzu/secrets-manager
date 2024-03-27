@@ -84,7 +84,7 @@ For this, there is an identity file that defines a `ClusterSPIFFEID` for
 the workload:
 
 ```yaml
-# ./examples/workload-using_sidecar/k8s/Identity.yaml
+# ./examples/using_sidecar/k8s/Identity.yaml
 
 {% raw %}kind: ClusterSPIFFEID
 metadata:

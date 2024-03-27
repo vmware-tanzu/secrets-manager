@@ -20,7 +20,7 @@ spec:
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: using_vsecm_inspector
+      app.kubernetes.io/name: vsecm-inspector
   workloadSelectorTemplates:
   - "k8s:ns:default"
-  - "k8s:sa:using_vsecm_inspector"
+  - "k8s:sa:vsecm-inspector"

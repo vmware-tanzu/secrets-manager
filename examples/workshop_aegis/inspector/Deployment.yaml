@@ -25,7 +25,7 @@ spec:
       labels:
         app.kubernetes.io/name: vsecm-inspector
     spec:
-      serviceAccountName: using_vsecm_inspector
+      serviceAccountName: vsecm-inspector
       containers:
       - name: main
         image: vsecm/example-multiple-secrets:0.24.0

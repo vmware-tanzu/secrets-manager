@@ -35,17 +35,17 @@ echo "vsecm-init-container"
 docker trust sign vsecm/vsecm-ist-init-container:"$VERSION"
 docker trust sign vsecm/vsecm-ist-init-container:latest
 echo "example-using-sidecar"
-docker trust sign vsecm/example-using_sidecar:"$VERSION"
-docker trust sign vsecm/example-using_sidecar:latest
+docker trust sign vsecm/example-using-sidecar:"$VERSION"
+docker trust sign vsecm/example-using-sidecar:latest
 echo "example-using-sdk"
-docker trust sign vsecm/example-using_sdk_go:"$VERSION"
-docker trust sign vsecm/example-using_sdk_go:latest
+docker trust sign vsecm/example-using-sdk-go:"$VERSION"
+docker trust sign vsecm/example-using-sdk-go:latest
 echo "example-multiple-secrets"
-docker trust sign vsecm/example-multiple_secrets:"$VERSION"
-docker trust sign vsecm/example-multiple_secrets:latest
+docker trust sign vsecm/example-multiple-secrets:"$VERSION"
+docker trust sign vsecm/example-multiple-secrets:latest
 echo "example-using-init-container"
-docker trust sign vsecm/example-using_init_container:"$VERSION"
-docker trust sign vsecm/example-using_init_container:latest
+docker trust sign vsecm/example-using-init-container:"$VERSION"
+docker trust sign vsecm/example-using-init-container:latest
 
 echo "vsecm-photon-safe"
 docker trust sign vsecm/vsecm-photon-safe:"$VERSION"

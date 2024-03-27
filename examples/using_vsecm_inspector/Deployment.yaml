@@ -25,10 +25,10 @@ spec:
       labels:
         app.kubernetes.io/name: vsecm-inspector
     spec:
-      serviceAccountName: using_vsecm_inspector
+      serviceAccountName: vsecm-inspector
       containers:
         - name: main
-          image: localhost:5000/using_vsecm_inspector:0.24.0
+          image: localhost:5000/vsecm-inspector:0.24.0
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
