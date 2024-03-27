@@ -66,7 +66,7 @@ going to deploy soon.
 The following is the main application that the workload runs:
 
 ```go
-// ./examples/workload-using-init-container/main.go
+// ./examples/workload-using_init_container/main.go
 
 func main() {
     // ... Truncated ...
@@ -146,7 +146,7 @@ Here are the containers in that [`Deployment.yaml`][deployment-yaml]
 ```yaml
       containers:
       - name: main
-        image: vsecm/example-using-init-container:latest
+        image: vsecm/example-using_init_container:latest
       
       # ... Truncated  ... 
       
@@ -163,7 +163,7 @@ To make the init container exit successfully and initialize the main
 container of the Pod, execute the following script:
 
 ```bash
-{% raw %}# ./examples/workload-using-init-container/register.sh
+{% raw %}# ./examples/workload-using_init_container/register.sh
 
 # Find a Sentinel node.
 SENTINEL=$(kubectl get po -n vsecm-system \

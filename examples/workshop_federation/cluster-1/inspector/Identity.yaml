@@ -13,7 +13,8 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-inspector
 spec:
-  spiffeIDTemplate: "spiffe://vsecm.com\
+  federatesWith: ["cluster2.demo"]
+  spiffeIDTemplate: "spiffe://cluster1.demo\
     /workload/example\
     /ns/default\
     /sa/example\
@@ -22,5 +23,5 @@ spec:
     matchLabels:
       app.kubernetes.io/name: using_vsecm_inspector
   workloadSelectorTemplates:
-  - "k8s:ns:default"
-  - "k8s:sa:using_vsecm_inspector"
+    - "k8s:ns:default"
+    - "k8s:sa:using_vsecm_inspector"

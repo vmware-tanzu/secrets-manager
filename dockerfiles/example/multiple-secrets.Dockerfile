@@ -18,9 +18,9 @@ COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o env \
-  ./examples/multiple-secrets/main.go
+  ./examples/multiple_secrets/main.go
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth \
-  ./examples/multiple-secrets/busywait/main.go
+  ./examples/multiple_secrets/busywait/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11

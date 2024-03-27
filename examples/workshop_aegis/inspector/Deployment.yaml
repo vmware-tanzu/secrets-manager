@@ -30,9 +30,19 @@ spec:
       - name: main
         image: vsecm/example-multiple-secrets:0.24.0
         volumeMounts:
+        # Volume mount for SPIRE unix domain socket.
         - name: spire-agent-socket
           mountPath: /spire-agent-socket
           readOnly: true
+        #
+        # You can configure this workload by providing environment variables.
+        #
+        # See https://vsecm.com/configuration for more information
+        # about these environment variables.
+        #
+        # When you don't explicitly provide env vars here, VMware Secrets Manager
+        # Safe will assume the default values outlined in the given link above.
+        #
         env:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/agent.sock"
@@ -43,6 +53,8 @@ spec:
         - name: VSECM_SAFE_SPIFFEID_PREFIX
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
       volumes:
+      # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+      # ref: https://github.com/spiffe/spiffe-csi
       - name: spire-agent-socket
         csi:
           driver: "csi.spiffe.io"

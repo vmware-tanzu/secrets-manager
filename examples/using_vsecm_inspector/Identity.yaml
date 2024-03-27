@@ -15,12 +15,12 @@ metadata:
 spec:
   spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/example\
-    /ns/default\
-    /sa/example\
+    /ns/{{ .PodMeta.Namespace }}\
+    /sa/{{ .PodSpec.ServiceAccountName }}\
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
       app.kubernetes.io/name: using_vsecm_inspector
   workloadSelectorTemplates:
-  - "k8s:ns:default"
-  - "k8s:sa:using_vsecm_inspector"
+    - "k8s:ns:default"
+    - "k8s:sa:using_vsecm_inspector"

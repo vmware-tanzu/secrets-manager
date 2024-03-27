@@ -18,9 +18,9 @@ COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o example \
-  ./examples/using-sdk/main.go
+  ./examples/using_sdk_go/main.go
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o env \
-    ./examples/using-sdk/helper/env/main.go
+    ./examples/using_sdk_go/helper/env/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
