@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-cd ./examples/using_sdk || exit
+cd ./examples/using_sdk_go || exit
 
 kubectl apply -f ./k8s-eks/ServiceAccount.yaml
 kubectl apply -k ./k8s-eks
