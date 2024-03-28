@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
@@ -199,6 +200,8 @@ func PostInitializationComplete(parentContext context.Context) {
 
 	cid := ctxWithTimeout.Value("correlationId").(*string)
 
+	log.AuditLn(cid, "Sentinel:PostInitializationComplete")
+
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)
 
@@ -260,6 +263,8 @@ func PostInitializationComplete(parentContext context.Context) {
 	}
 }
 
+var seed = time.Now().UnixNano()
+
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
 ) {
@@ -269,7 +274,24 @@ func Post(parentContext context.Context,
 	)
 	defer cancel()
 
+	// TODO: enhance this.
 	cid := ctxWithTimeout.Value("correlationId").(*string)
+
+	ids := ""
+	for _, id := range sc.WorkloadIds {
+		ids += id + ", "
+	}
+
+	//// TODO: make this optional and disabled by default
+	//secret := sc.Secret
+	//uniqueData := fmt.Sprintf("%s-%d", secret, seed)
+	//dataBytes := []byte(uniqueData)
+	//hasher := sha256.New()
+	//hasher.Write(dataBytes)
+	//hashBytes := hasher.Sum(nil)
+	//hashString := hex.EncodeToString(hashBytes)
+	hashString := "TBD"
+	log.AuditLn(cid, "Sentinel:Post: workloadIds:", ids, "hash", hashString)
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)

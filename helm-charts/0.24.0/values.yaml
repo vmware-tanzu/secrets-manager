@@ -22,21 +22,21 @@ global:
       distrolessFipsRepository: vsecm-ist-fips-keystone
       photonRepository: vsecm-photon-keystone
       photonFipsRepository: vsecm-photon-fips-keystone
-      tag: 0.24.0
+      tag: 0.23.4
       pullPolicy: IfNotPresent
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe
       photonRepository: vsecm-photon-safe
       photonFipsRepository: vsecm-photon-fips-safe
-      tag: 0.24.0
+      tag: 0.23.4
       pullPolicy: IfNotPresent
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
       photonRepository: vsecm-photon-sentinel
       photonFipsRepository: vsecm-photon-fips-sentinel
-      tag: 0.24.0
+      tag: 0.23.4
       pullPolicy: IfNotPresent
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
