@@ -13,11 +13,8 @@ package safe
 import (
 	"bytes"
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
@@ -285,15 +282,15 @@ func Post(parentContext context.Context,
 		ids += id + ", "
 	}
 
-	// TODO: make this optional and disabled by default
-	secret := sc.Secret
-	uniqueData := fmt.Sprintf("%s-%d", secret, seed)
-	dataBytes := []byte(uniqueData)
-	hasher := sha256.New()
-	hasher.Write(dataBytes)
-	hashBytes := hasher.Sum(nil)
-	hashString := hex.EncodeToString(hashBytes)
-
+	//// TODO: make this optional and disabled by default
+	//secret := sc.Secret
+	//uniqueData := fmt.Sprintf("%s-%d", secret, seed)
+	//dataBytes := []byte(uniqueData)
+	//hasher := sha256.New()
+	//hasher.Write(dataBytes)
+	//hashBytes := hasher.Sum(nil)
+	//hashString := hex.EncodeToString(hashBytes)
+	hashString := "TBD"
 	log.AuditLn(cid, "Sentinel:Post: workloadIds:", ids, "hash", hashString)
 
 	sourceChan := make(chan *workloadapi.X509Source)
