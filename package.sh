@@ -10,4 +10,4 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-helm package "helm-charts/0.23.1-tcx" --version="0.23.1-tcx"
+helm package "helm-charts/0.23.4-tcx" --version="0.23.4-tcx"
