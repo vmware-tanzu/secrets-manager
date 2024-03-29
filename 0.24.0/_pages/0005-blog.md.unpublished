@@ -1,0 +1,28 @@
+---
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+title: VSecM Blog
+layout: blog-home
+prev_url: /docs/security/
+permalink: /docs/blog/
+next_url: /docs/navigation/
+published: false
+---
+
+<p class="github-button"
+><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0005-blog.md"
+>edit this page on <strong>GitHub</strong> ✏️</a></p>
+
+## [Keep Your Secrets... Secret](/blog/keep-your-secrets/)[-@v0lkan](https://github.com/v0lkan)
+
+In the ever-evolving landscape of cloud-native applications, secrets management
+is critical to ensuring sensitive information's security and integrity. While
+several solutions are... [Read More](/blog/keep-your-secrets/)
