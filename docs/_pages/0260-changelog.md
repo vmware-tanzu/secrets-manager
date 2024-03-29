@@ -20,6 +20,19 @@ next_url: /docs/releases/
 
 TBD
 
+## [v0.24.0] - 2024-03-28
+
+### Added
+
+* Kickstarted SDK work for Java.
+* `VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` environment variable added for 
+   giving an option to updating internal k8s secrets when manual root key provided.
+* Added additional logs to VSecM Sentinel to help with debugging.
+
+### Fixed
+
+* Quickstart guide on the website was not working as expected, now it is fixed.
+
 ## [v0.23.3] - 2024-03-24
 
 ### Added 
