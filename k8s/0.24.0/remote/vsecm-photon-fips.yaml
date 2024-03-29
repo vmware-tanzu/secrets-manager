@@ -32,11 +32,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.23.4
+    helm.sh/chart: keystone-0.24.0
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -57,11 +57,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.23.4
+    helm.sh/chart: safe-0.24.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
@@ -82,11 +82,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.23.4
+    helm.sh/chart: sentinel-0.24.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -273,11 +273,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.23.4
+    helm.sh/chart: safe-0.24.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -308,11 +308,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.23.4
+    helm.sh/chart: keystone-0.24.0
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -333,7 +333,7 @@ spec:
         {}
       initContainers:
         - name: init-container
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-init-container:0.23.4"
+          image: "vsecm/vsecm-ist-init-container:0.24.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /spire-agent-socket
@@ -363,7 +363,7 @@ spec:
               value: "5000"
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-keystone:0.23.4"
+          image: "vsecm/vsecm-ist-keystone:0.24.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -421,11 +421,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.23.4
+    helm.sh/chart: safe-0.24.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -446,7 +446,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-safe:0.23.4"
+          image: "vsecm/vsecm-photon-fips-safe:0.24.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -578,11 +578,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.23.4
+    helm.sh/chart: sentinel-0.24.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/version: "0.24.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -603,7 +603,7 @@ spec:
         {}
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-sentinel:0.23.4"
+          image: "vsecm/vsecm-photon-fips-sentinel:0.24.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
