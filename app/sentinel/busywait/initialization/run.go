@@ -87,7 +87,7 @@ func RunInitCommands(ctx context.Context) {
 	}
 
 	// If we are here, then SPIFFE Workload API is functioning as expected.
-	// We’ll do one last check to ensure Sentinel can communicate with Safe
+	// We'll do one last check to ensure Sentinel can communicate with Safe
 	// before executing the init commands.
 
 	foreverCtx := context.WithoutCancel(ctx)

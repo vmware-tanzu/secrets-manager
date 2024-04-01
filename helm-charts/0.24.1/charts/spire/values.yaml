@@ -52,10 +52,10 @@ securityContext: {}
 
 resources:
   # These are the default resources suitable for a moderate SPIRE usage.
-  # Of course, it’s best to do your own benchmarks and update these
+  # Of course, it's best to do your own benchmarks and update these
   # requests and limits to your production needs accordingly.
   # That being said, as a rule of thumb, do not limit the CPU request
-  # on SPIRE Agent and SPIRE server. It’s best to let them leverage
+  # on SPIRE Agent and SPIRE server. It's best to let them leverage
   # the available excess CPU, if available.
   server:
     requests:

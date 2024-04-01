@@ -48,7 +48,7 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 		if err != nil {
 			log.Println(cid, "acquireSource: I am having trouble fetching my identity from SPIRE.", err.Error())
 			log.Println(cid,
-				"acquireSource: I won’t proceed until you put me in a secured container.", err.Error())
+				"acquireSource: I won't proceed until you put me in a secured container.", err.Error())
 			errorChan <- err
 			return
 		}
@@ -90,7 +90,7 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 			return nil
 		}
 
-		return errors.New("I don’t know you, and it’s crazy: '" + id.String() + "'")
+		return errors.New("I don't know you, and it's crazy: '" + id.String() + "'")
 	})
 
 	safeUrl := "/sentinel/v1/secrets"
