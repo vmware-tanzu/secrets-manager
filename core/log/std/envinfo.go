@@ -68,7 +68,7 @@ func printFormattedInfo(id *string, info map[string]string) {
 
 	for _, key := range infoKeys {
 		padding := strings.Repeat(" ", maxLength-len(key))
-		fmt.Printf("%s%s%s: %s\n", idp, padding, toCustomCase(key), info[key])
+		fmt.Printf("%s %s%s: %s\n", idp, padding, toCustomCase(key), info[key])
 	}
 }
 
