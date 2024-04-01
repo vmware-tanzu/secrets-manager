@@ -161,7 +161,7 @@ dance:
 	if strings.TrimSpace(string(data)) == "complete" {
 		log.InfoLn(
 			cid,
-			"RunInitCommands: Initialization already exit... skipping custom initialization.",
+			"RunInitCommands: Already initialized. Skipping custom initialization.",
 		)
 		return
 	}
