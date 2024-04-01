@@ -98,7 +98,7 @@ TBD
 * Documented all public methods in the codebase. This will help
   contributors to understand the codebase better and make it easier to
   contribute.
-* We now have an official “VSecM Inspector” container image that can be used
+* We now have an official "VSecM Inspector" container image that can be used
   to inspect the secrets bound to workloads without having to shell into
   the workloads. This is especially helpful when you want to debug a workload’s
   secrets without needing to uninstall or change the source code of the workload.
@@ -110,7 +110,7 @@ TBD
   one. This change makes the tests more reliable and easier to maintain, while
   we can leverage the Go language’s powerful primitives to make the tests
   readable, maintainable, and scalable.
-* VSecM components have sensible “memory” lower limits in helm charts (before
+* VSecM components have sensible "memory" lower limits in helm charts (before
   it was left for the end-user to decide, now we provide a starting point
   while encouraging the user to do their own benchmarks to update the
   resource limits to their production needs.)
@@ -123,7 +123,7 @@ TBD
 
 ### Fixed 
 
-* VSecM Sentinel’s “Init Command” loop had a logic error that was preventing the
+* VSecM Sentinel's "Init Command" loop had a logic error that was preventing the
   initialization command to function under certain edge conditions. It’s now
   fixed.
 

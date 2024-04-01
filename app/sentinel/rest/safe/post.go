@@ -40,7 +40,7 @@ func createAuthorizer() tlsconfig.Authorizer {
 			return nil
 		}
 
-		return errors.New("Post: I don’t know you, and it’s crazy: '" + id.String() + "'")
+		return errors.New("Post: I don't know you, and it's crazy: '" + id.String() + "'")
 	})
 }
 

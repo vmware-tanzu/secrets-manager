@@ -180,7 +180,7 @@ metadata:
 # The former approach is tedious, yet more explicit, and more secure.
 #
 # If you are NOT planning to use Kubernetes Secrets to sync VSecM-Safe-generated
-# secrets (i.e., you don’t want to create secrets using the `k8s:` prefix in the
+# secrets (i.e., you don't want to create secrets using the `k8s:` prefix in the
 # workload names), then you can limit the scope of this role as follows:
 #
 #    rules

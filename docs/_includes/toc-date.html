@@ -40,6 +40,13 @@
                         {% if post.url contains "changelog" %}
                             <li class="divider"></li>
                         {% endif %}
+                        {% if post.url contains "use-cases/" %}
+                            <li class="divider"></li>
+                        {% endif %}
+                        {% if post.url contains "showcase/" %}
+                            <li class="divider"></li>
+                        {% endif %}
+
 
                         {% if post.kind != "VSecMBlog" %}
                             {% if page.url == post.url %}

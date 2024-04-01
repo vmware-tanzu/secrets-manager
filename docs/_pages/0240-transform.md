@@ -13,7 +13,7 @@ title: Secret Transformation
 layout: post
 prev_url: /docs/use-case-encryption/
 permalink: /docs/use-case-transformation/
-next_url: /docs/showcase/
+next_url: /docs/secrets-as-volumes/
 ---
 
 ## Introduction
