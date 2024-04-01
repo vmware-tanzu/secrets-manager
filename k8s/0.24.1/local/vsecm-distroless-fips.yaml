@@ -129,7 +129,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "exit:true\n--\n"
+  data: "w:k8s:keycloak-admin-secret\nn:default\ns:gen:{\"username\":\"admin-[a-z0-9]{6}\",\"password\":\"[a-zA-Z0-9]{12}\"}\nt:{\"KEYCLOAK_ADMIN_USER\":\"{{.username}}\",\"KEYCLOAK_ADMIN_PASSWORD\":\"{{.password}}\"}\n--\n"
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
 apiVersion: v1
