@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-VERSION="0.24.0"
+VERSION="0.24.1"
 DOCS_FOLDER="./$VERSION"
 
 cd "$DOCS_FOLDER" || exit
