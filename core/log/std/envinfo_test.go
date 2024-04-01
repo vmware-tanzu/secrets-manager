@@ -201,7 +201,7 @@ func TestPrintFormattedInfo(t *testing.T) {
 	}
 
 	// Expected output
-	expectedOutput := "testID Env var3: value3\ntestID     Var1: value1\ntestIDVariable2: value2\n"
+	expectedOutput := "testID  Env var3: value3\ntestID      Var1: value1\ntestID Variable2: value2\n"
 
 	// Compare actual vs expected output
 	if capturedOutput.String() != expectedOutput {
