@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 0.24.1
+description: Helm chart for keystone
+name: keystone
+type: application
+version: 0.24.1
