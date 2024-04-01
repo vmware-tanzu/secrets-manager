@@ -142,7 +142,7 @@ dance:
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"RunInitCommands: no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no tombstone file found... skipping custom initialization.",
 		)
 		return
 	}
@@ -155,6 +155,8 @@ dance:
 	}(file)
 
 	data, err := os.ReadFile(tombstonePath)
+
+	log.InfoLn(cid, "tombstone data '", string(data), "'")
 
 	if strings.TrimSpace(string(data)) == "exit" {
 		log.InfoLn(
