@@ -93,8 +93,21 @@ initCommand:
 
   # Add any initialization command here, separated by a line with only "--"
   # The command stanza MUST end with a "--".
+#  command: |
+#    exit:true
+#    --
+
+# TODO:
+# 1. verify that tombstone is set and its value is not "not-initialized"
+# 2. verify that deleting sentinel does not change the secret.
+# 3. check sentinel logs for errors and anomalies.
+# 4. check safe logs for errors and anomalies.
+
   command: |
-    exit:true
+    w:k8s:keycloak-admin-secret
+    n:default
+    s:gen:{"username":"admin-[a-z0-9]{6}","password":"[a-zA-Z0-9]{12}"}
+    t:{"KEYCLOAK_ADMIN_USER":"{{.username}}","KEYCLOAK_ADMIN_PASSWORD":"{{.password}}"}
     --
 
   #  Example:
