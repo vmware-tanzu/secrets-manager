@@ -158,7 +158,7 @@ dance:
 
 	log.InfoLn(cid, "tombstone data '", string(data), "'")
 
-	if strings.TrimSpace(string(data)) == "exit" {
+	if strings.TrimSpace(string(data)) == "complete" {
 		log.InfoLn(
 			cid,
 			"RunInitCommands: Initialization already exit... skipping custom initialization.",
