@@ -20,6 +20,16 @@ next_url: /docs/releases/
 
 TBD
 
+## [v0.24.1] - 2024-03-31
+
+### Added
+
+* Added 4 new use cases to the documentation.
+
+### Fixed 
+
+* VSecM Sentinel was not honoring the tombstone secret, now it is fixed.
+
 ## [v0.24.0] - 2024-03-28
 
 ### Added
