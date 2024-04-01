@@ -21,6 +21,7 @@ specific releases:
 
 * [Latest](https://vsecm.com/)
 * [v0.24.1](https://vsecm.com/v0.24.1/)
+* [v0.24.0](https://vsecm.com/v0.24.0/)
 * [v0.23.2](https://vsecm.com/v0.23.2/)
 * [v0.23.0](https://vsecm.com/v0.23.0/)
 * [v0.22.5](https://vsecm.com/v0.22.5/)
