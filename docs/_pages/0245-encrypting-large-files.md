@@ -34,7 +34,10 @@ key, decrypt the file, and provide the file to the workload.
 
 ## High-Level Diagram
 
-Here's one of several ways the interaction mentioned in the former section can happen. This sequence diagram follows a GitOps-like workflow, yet it can be adapted to various other scenarios, too.
+Here's one of several ways the interaction mentioned in the former section can happen. 
+
+This sequence diagram follows a GitOps-like workflow, yet it can be adapted to 
+various other scenarios, too.
 
 ![High-Level Diagram](/assets/vsecm-use-case-large-files.jpg "High-Level Diagram")
 
