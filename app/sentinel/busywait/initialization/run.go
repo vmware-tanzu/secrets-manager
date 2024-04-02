@@ -57,6 +57,14 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
+	// TODO: In a loop
+	// 1. acquire source
+	// 2. try to do a fetch with that source
+	// 3. if it fails backoff
+	// 4. if backoffs fail start over
+	//
+	// ^ This will vastly simplify the business logic here!
+
 	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 	if !acquired {
 		log.TraceLn(cid, "RunInitCommands: failed to acquire source (0)")
