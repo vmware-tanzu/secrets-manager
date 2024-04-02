@@ -40,7 +40,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: init-container
-          image: "{{ .Values.global.registry }}/vsecm-ist-init-container:{{ .Values.global.images.keystone.tag }}"
+          image: "{{ .Values.global.registry }}/{{ .Values.global.images.initContainer.repository }}:{{ .Values.global.images.initContainer.tag }}"
           imagePullPolicy: {{ .Values.global.images.keystone.pullPolicy }}
           volumeMounts:
             - mountPath: /spire-agent-socket

@@ -76,5 +76,15 @@ Create the name of the service account to use
 Define image for VSecM Keystone
 */}}
 {{- define "keystone.repository" -}}
+{{- if eq (lower $.Values.global.baseImage) "distroless" }}
 {{- .Values.global.images.keystone.distrolessRepository }}
+{{- else if eq (lower $.Values.global.baseImage) "distroless-fips" }}
+{{- .Values.global.images.keystone.distrolessFipsRepository }}
+{{- else if eq (lower $.Values.global.baseImage) "photon" }}
+{{- .Values.global.images.keystone.photonRepository }}
+{{- else if eq (lower $.Values.global.baseImage) "photon-fips" }}
+{{- .Values.global.images.keystone.photonFipsRepository }}
+{{- else }}
+{{- .Values.global.images.keystone.distrolessRepository }}
+{{- end }}
 {{- end }}
