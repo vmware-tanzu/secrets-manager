@@ -14,6 +14,7 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"github.com/pkg/errors"
 	"strconv"
 	"strings"
 	"time"
@@ -57,121 +58,65 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
-	// TODO: In a loop
-	// 1. acquire source
-	// 2. try to do a fetch with that source
-	// 3. if it fails backoff
-	// 4. if backoffs fail start over
-	//
-	// ^ This will vastly simplify the business logic here!
+	// TODO: remove InitCommandRunnerWaitTimeoutForSentinel()
+	// we don't need it. If the init commands cannot run either the
+	// commands are corrupt (then it needs fixing) or there is a
+	// connectivity issue (then it needs retry).
+	// Init commands should be reliable, NOT half-baked.
 
-	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
-	if !acquired {
-		log.TraceLn(cid, "RunInitCommands: failed to acquire source (0)")
-
-		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
-
-		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
-		defer cancel()
-
-		ticker := time.NewTicker(10 * time.Second)
-		defer ticker.Stop()
-
-		log.InfoLn(cid, "RunInitCommands: will retry with timeout", timeout.String())
-
-	free:
-		for {
-			select {
-			case <-timeoutCtx.Done():
-				log.ErrorLn(
-					cid,
-					"Failed to acquire source at RunInitCommands in a timely manner (1)",
-				)
-
-				// TODO: optionally crash.
-				// the crash should be based on a config var, and it should be off by default.
-
-				return
-			case <-ticker.C:
-				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
-
-				log.InfoLn(cid, "RunInitCommands: is source acquired? (1)", acquired)
-
-				if acquired {
-					log.TraceLn(cid, "RunInitCommands: source acquired... breaking (1)")
-					break free
-				}
-			}
-		}
-	}
-
-	if src == nil {
-		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
-
-		// TODO: optionally crash.
-		// the crash should be based on a config var, and it should be off by default.
-
-		return
-	}
-
-	// If we are here, then SPIFFE Workload API is functioning as expected.
-	// We'll do one last check to ensure Sentinel can communicate with Safe
-	// before executing the init commands.
-
-	foreverCtx := context.WithoutCancel(ctx)
-	ticker := time.NewTicker(10 * time.Second)
-	defer ticker.Stop()
-
-	log.InfoLn(cid, "RunInitCommands: acquired source. checking connectivity to Safe")
-
-	canEstablishedConnectivityToSafe := false
-	if src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); acquired {
-		log.TraceLn(cid, "is source acquired (2)?", acquired)
-
-		if err := safe.Check(foreverCtx, src); err == nil {
-			log.TraceLn(cid, "RunInitCommands: can establish connection... (1)")
-			canEstablishedConnectivityToSafe = true
-		}
-	}
-
-dance:
 	for {
-		if canEstablishedConnectivityToSafe {
-			log.TraceLn(
-				cid,
-				"RunInitCommands: can establish connection... breaking (2)",
-			)
-			break dance
+		s := backoff.Strategy{
+			MaxRetries:  20,
+			Delay:       1000,
+			Exponential: true,
+			MaxDuration: 30 * time.Second,
 		}
 
-		// Acquiring the source again for defensive programming.
-		// At this point the cluster is (likely) still initializing.
-		// Although the cached `src` should be valid and ready to be
-		// used, there is no harm in acquiring a brand-new source
-		// just for the sake of running initialization commands.
-		src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx)
-		if !acquired {
-			log.ErrorLn(
-				cid,
-				"RunInitCommands: Failed to acquire source... will retry (3)",
-			)
-
-			continue
-		}
-
-		select {
-		case <-ticker.C:
-			err := safe.Check(foreverCtx, src)
-			if err == nil {
-				log.InfoLn(
-					cid, "RunInitCommands: can establish connection... breaking (3)",
-				)
-				break dance
+		err := backoff.Retry("vsecm-system", func() error {
+			_, acquired := spiffe.AcquireSourceForSentinel(ctx)
+			if !acquired {
+				return errors.New("failed to acquire source")
 			}
 
-			log.ErrorLn(cid, "RunInitCommands: tick: error: (4)", err.Error())
+			return nil
+		}, s)
+
+		if err == nil {
+			break
 		}
 	}
+
+	// Now, we are sure that we can acquire a source.
+	// Try to do a fetch with the source.
+
+	for {
+		s := backoff.Strategy{
+			MaxRetries:  20,
+			Delay:       1000,
+			Exponential: true,
+			MaxDuration: 30 * time.Second,
+		}
+
+		err := backoff.Retry("vsecm-system", func() error {
+			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+			if !acquired {
+				return errors.New("failed to acquire source")
+			}
+
+			if err := safe.Check(ctx, src); err == nil {
+				return errors.New("cannot establish connection to safe")
+			}
+
+			return nil
+		}, s)
+
+		if err == nil {
+			break
+		}
+	}
+
+	// Now we know that we can establish a connection to VSecM Safe.
+	// We can safely run init commands.
 
 	// Parse tombstone file first:
 	tombstonePath := env.InitCommandTombstonePathForSentinel()
@@ -228,7 +173,7 @@ dance:
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand
 
-out:
+dance:
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 
@@ -287,7 +232,7 @@ out:
 				"skipping post initialization.",
 			)
 			// Move out of the loop to allow the keystone secret to be registered.
-			break out
+			break dance
 		case workload:
 			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
 		case namespace:
