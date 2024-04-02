@@ -112,7 +112,10 @@ func RunInitCommands(ctx context.Context) {
 				return errors.New("RunInitCommands:CheckConnectivity: failed to acquire source")
 			}
 
+			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: acquired source successfully")
+
 			if err := safe.Check(ctx, src); err != nil {
+				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to verify connection to safe")
 				return errors.Wrap(err, "RunInitCommands:CheckConnectivity: cannot establish connection to safe 001")
 			}
 
