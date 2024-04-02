@@ -65,6 +65,8 @@ func RunInitCommands(ctx context.Context) {
 	// Init commands should be reliable, NOT half-baked.
 
 	for {
+		log.TraceLn(cid, "RunInitCommands: acquiring source 001")
+
 		s := backoff.Strategy{
 			MaxRetries:  20,
 			Delay:       1000,
@@ -72,22 +74,26 @@ func RunInitCommands(ctx context.Context) {
 			MaxDuration: 30 * time.Second,
 		}
 
-		err := backoff.Retry("vsecm-system", func() error {
+		err := backoff.Retry("RunInitCommands:AcquireSource", func() error {
+			log.TraceLn(cid, "RunInitCommands:AcquireSource: acquireSourceForSentinel: 000")
 			_, acquired := spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
-				return errors.New("failed to acquire source")
+				return errors.New("RunInitCommands:AcquireSource: failed to acquire source 000")
 			}
 
 			return nil
 		}, s)
 
 		if err == nil {
+			log.TraceLn(cid, "RunInitCommands:AcquireSource: got source. breaking.")
 			break
 		}
 	}
 
 	// Now, we are sure that we can acquire a source.
 	// Try to do a fetch with the source.
+
+	log.TraceLn(cid, "Before checking api connectivity")
 
 	for {
 		s := backoff.Strategy{
@@ -97,26 +103,36 @@ func RunInitCommands(ctx context.Context) {
 			MaxDuration: 30 * time.Second,
 		}
 
-		err := backoff.Retry("vsecm-system", func() error {
+		err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: checking connectivity to safe")
+
 			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
-				return errors.New("failed to acquire source")
+				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to acquire source.")
+				return errors.New("RunInitCommands:CheckConnectivity: failed to acquire source")
 			}
 
-			if err := safe.Check(ctx, src); err == nil {
-				return errors.New("cannot establish connection to safe")
+			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: acquired source successfully")
+
+			if err := safe.Check(ctx, src); err != nil {
+				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to verify connection to safe:", err.Error())
+				return errors.Wrap(err, "RunInitCommands:CheckConnectivity: cannot establish connection to safe 001")
 			}
 
+			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")
 			return nil
 		}, s)
 
 		if err == nil {
+			log.TraceLn(cid, "exiting backoffs")
 			break
 		}
 	}
 
 	// Now we know that we can establish a connection to VSecM Safe.
 	// We can safely run init commands.
+
+	log.TraceLn(cid, "checking tombstone file")
 
 	// Parse tombstone file first:
 	tombstonePath := env.InitCommandTombstonePathForSentinel()
@@ -173,9 +189,12 @@ func RunInitCommands(ctx context.Context) {
 	scanner := bufio.NewScanner(file)
 	var sc entity.SentinelCommand
 
+	log.TraceLn(cid, "Before parsing commands")
+
 dance:
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
+		log.TraceLn(cid, "line:", line)
 
 		if line == "" {
 			continue
@@ -188,6 +207,7 @@ dance:
 		}
 
 		if line == delimiter {
+			log.TraceLn(cid, "scanner: delimiter found")
 			if sc.ShouldSleep {
 				doSleep(sc.SleepIntervalMs)
 				sc = entity.SentinelCommand{}
@@ -202,8 +222,8 @@ dance:
 				MaxDuration: 30 * time.Second,
 			}
 
-			err = backoff.Retry("vsecm-system", func() error {
-				log.TraceLn(cid, "RunInitCommands: processCommandBlock: retrying with exponential backoff")
+			err = backoff.Retry("RunInitCommands:ProcessCommandBlock", func() error {
+				log.TraceLn(cid, "RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff")
 
 				return processCommandBlock(ctx, sc)
 			}, s)
@@ -215,12 +235,18 @@ dance:
 				// the crash should be based on a config var, and it should be off by default.
 			}
 
+			log.TraceLn(cid, "scanner: after delimeter")
+
 			sc = entity.SentinelCommand{}
 			continue
 		}
 
+		log.TraceLn(cid, "command found")
+
 		key := parts[0]
 		value := parts[1]
+
+		log.TraceLn(cid, "key", key, "value", value)
 
 		switch command(key) {
 		case exit:
@@ -253,6 +279,8 @@ dance:
 		}
 	}
 
+	log.TraceLn(cid, "scan finished")
+
 	if err := scanner.Err(); err != nil {
 		log.ErrorLn(
 			cid,
@@ -269,8 +297,8 @@ dance:
 		MaxDuration: 30 * time.Second,
 	}
 
-	err = backoff.Retry("vsecm-system", func() error {
-		log.TraceLn(cid, "RunInitCommands: processCommandBlock: retrying with exponential backoff")
+	err = backoff.Retry("RunInitCommands:MarkKeystone", func() error {
+		log.TraceLn(cid, "RunInitCommands:MarkKeystone: retrying with exponential backoff")
 
 		// Assign a secret for VSecM Keystone
 		return processCommandBlock(ctx, entity.SentinelCommand{
