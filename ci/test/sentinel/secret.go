@@ -16,6 +16,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/wait"
+	"regexp"
 	"strings"
 )
 
@@ -114,7 +115,8 @@ func SetEncryptedSecret(value string) error {
 	out := ""
 	// Remove the lines that do not contain the secret to encrypt.
 	for _, line := range lines {
-		if strings.Contains(line, "{") {
+		logLinePattern := regexp.MustCompile(`\[(INFO|DEBUG|WARN|ERROR)\]`)
+		if !logLinePattern.MatchString(line) && strings.TrimSpace(line) != "" {
 			out += line
 		}
 	}
