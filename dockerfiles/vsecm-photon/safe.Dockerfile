@@ -22,7 +22,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cm
 # generate clean, final image for end users
 FROM photon:5.0
 
-ENV APP_VERSION="0.24.3"
+ENV APP_VERSION="0.24.4"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION
