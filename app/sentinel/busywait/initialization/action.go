@@ -17,8 +17,8 @@ import (
 	"time"
 )
 
-func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) {
-	safe.Post(ctx, sc)
+func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) error {
+	return safe.Post(ctx, sc)
 }
 
 func doSleep(seconds int) {
