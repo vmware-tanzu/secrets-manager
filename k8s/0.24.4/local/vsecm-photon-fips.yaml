@@ -363,7 +363,7 @@ spec:
               value: "5000"
       containers:
         - name: main
-          image: "localhost:5000/vsecm-ist-keystone:0.24.4"
+          image: "localhost:5000/vsecm-photon-fips-keystone:0.24.4"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
