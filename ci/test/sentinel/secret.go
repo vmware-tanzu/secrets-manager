@@ -107,10 +107,6 @@ func SetEncryptedSecret(value string) error {
 		return errors.New("SetEncryptedSecret: Encrypted secret is empty")
 	}
 
-	fmt.Println("###################res")
-	fmt.Println(res)
-	fmt.Println("#####################\\res")
-
 	lines := strings.Split(res, "\n")
 	out := ""
 	// Remove the lines that do not contain the secret to encrypt.
