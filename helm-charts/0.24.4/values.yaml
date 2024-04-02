@@ -38,6 +38,9 @@ global:
       photonFipsRepository: vsecm-photon-fips-sentinel
       tag: 0.24.4
       pullPolicy: IfNotPresent
+    initContainer:
+      repository: vsecm-ist-init-container
+      tag: 0.24.4
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
       tag: 1.9.1
