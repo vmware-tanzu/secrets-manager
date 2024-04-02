@@ -24,7 +24,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o env \
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
 
-ENV APP_VERSION="0.24.2"
+ENV APP_VERSION="0.24.3"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION
