@@ -15,6 +15,8 @@ import (
 )
 
 func main() {
+	// TODO: add some logs here!
+	
 	// Run on the main thread to wait forever.
 	system.KeepAlive()
 }
