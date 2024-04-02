@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: main
-        image: public.ecr.aws/h8y1n7y7/example-using-sidecar:0.24.2
+        image: public.ecr.aws/h8y1n7y7/example-using-sidecar:0.24.3
       - name: sidecar
-        image: public.ecr.aws/h8y1n7y7/vsecm-ist-sidecar:0.24.2
+        image: public.ecr.aws/h8y1n7y7/vsecm-ist-sidecar:0.24.3
