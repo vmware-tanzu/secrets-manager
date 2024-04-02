@@ -129,7 +129,7 @@ metadata:
   namespace: vsecm-system
 type: Opaque
 stringData:
-  data: "sleep:30000\n--\nw:k8s:keycloak-secret\nn:default\ns:gen:{\"defaultUserPwd\":\"[a-zA-Z0-9]{12}\",\"kcDbPass\":\"[a-zA-Z0-9]{12}\",\"kcDbUser\":\"admin-[0-9]{2}\",\"keycloakDbName\":\"keycloak\",\"keycloakUser\":\"user-[0-9]{2}\",\"keycloakPassword\":\"[a-zA-Z0-9]{12}\"}\nt:{\"DEFAULT_USR_PSSWD\":\"{{.defaultUserPwd}}\",\"KC_DB_PASS\":\"{{.kcDbPass}}\",\"KC_DB_USER\":\"{{.kcDbUser}}\",\"KEYCLOAK_DBNAME\":\"{{.keycloakDbName}}\",\"KEYCLOAK_PASSWORD\":\"{{.keycloakPassword}}\",\"KEYCLOAK_USER\":\"{{.keycloakUser}}\"}\n--\nsleep:5000\n--\nw:keycloak\nn:tps-system\ns:trigger-init\n--\n"
+  data: "exit:true\n--\n"
 ---
 # Source: vsecm/charts/sentinel/templates/Secret.yaml
 apiVersion: v1

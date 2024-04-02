@@ -93,23 +93,8 @@ initCommand:
 
   # Add any initialization command here, separated by a line with only "--"
   # The command stanza MUST end with a "--".
-#  command: |
-#    exit:true
-#    --
-
   command: |
-    sleep:30000
-    --
-    w:k8s:keycloak-secret
-    n:default
-    s:gen:{"defaultUserPwd":"[a-zA-Z0-9]{12}","kcDbPass":"[a-zA-Z0-9]{12}","kcDbUser":"admin-[0-9]{2}","keycloakDbName":"keycloak","keycloakUser":"user-[0-9]{2}","keycloakPassword":"[a-zA-Z0-9]{12}"}
-    t:{"DEFAULT_USR_PSSWD":"{{.defaultUserPwd}}","KC_DB_PASS":"{{.kcDbPass}}","KC_DB_USER":"{{.kcDbUser}}","KEYCLOAK_DBNAME":"{{.keycloakDbName}}","KEYCLOAK_PASSWORD":"{{.keycloakPassword}}","KEYCLOAK_USER":"{{.keycloakUser}}"}
-    --
-    sleep:5000
-    --
-    w:keycloak
-    n:tps-system
-    s:trigger-init
+    exit:true
     --
 
   #  Example:
