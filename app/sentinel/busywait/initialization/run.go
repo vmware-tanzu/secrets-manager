@@ -13,11 +13,13 @@ package initialization
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -57,6 +59,8 @@ func RunInitCommands(ctx context.Context) {
 
 	src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 	if !acquired {
+		log.TraceLn(cid, "RunInitCommands: failed to acquire source (0)")
+
 		timeout := env.InitCommandRunnerWaitTimeoutForSentinel()
 
 		timeoutCtx, cancel := context.WithTimeout(ctx, timeout)
@@ -65,16 +69,28 @@ func RunInitCommands(ctx context.Context) {
 		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 
+		log.InfoLn(cid, "RunInitCommands: will retry with timeout", timeout.String())
+
 	free:
 		for {
 			select {
 			case <-timeoutCtx.Done():
-				log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (1)")
+				log.ErrorLn(
+					cid,
+					"Failed to acquire source at RunInitCommands in a timely manner (1)",
+				)
+
+				// TODO: optionally crash.
+				// the crash should be based on a config var, and it should be off by default.
+
 				return
 			case <-ticker.C:
-				log.InfoLn(cid, "Acquired source (1)")
 				src, acquired = spiffe.AcquireSourceForSentinel(timeoutCtx)
+
+				log.InfoLn(cid, "RunInitCommands: is source acquired? (1)", acquired)
+
 				if acquired {
+					log.TraceLn(cid, "RunInitCommands: source acquired... breaking (1)")
 					break free
 				}
 			}
@@ -83,6 +99,10 @@ func RunInitCommands(ctx context.Context) {
 
 	if src == nil {
 		log.ErrorLn(cid, "Failed to acquire source at RunInitCommands (2)")
+
+		// TODO: optionally crash.
+		// the crash should be based on a config var, and it should be off by default.
+
 		return
 	}
 
@@ -94,11 +114,14 @@ func RunInitCommands(ctx context.Context) {
 	ticker := time.NewTicker(10 * time.Second)
 	defer ticker.Stop()
 
+	log.InfoLn(cid, "RunInitCommands: acquired source. checking connectivity to Safe")
+
 	canEstablishedConnectivityToSafe := false
 	if src, acquired := spiffe.AcquireSourceForSentinel(foreverCtx); acquired {
-		log.TraceLn(cid, "Acquired source (2)")
+		log.TraceLn(cid, "is source acquired (2)?", acquired)
 
 		if err := safe.Check(foreverCtx, src); err == nil {
+			log.TraceLn(cid, "RunInitCommands: can establish connection... (1)")
 			canEstablishedConnectivityToSafe = true
 		}
 	}
@@ -106,6 +129,10 @@ func RunInitCommands(ctx context.Context) {
 dance:
 	for {
 		if canEstablishedConnectivityToSafe {
+			log.TraceLn(
+				cid,
+				"RunInitCommands: can establish connection... breaking (2)",
+			)
 			break dance
 		}
 
@@ -127,8 +154,10 @@ dance:
 		select {
 		case <-ticker.C:
 			err := safe.Check(foreverCtx, src)
-
 			if err == nil {
+				log.InfoLn(
+					cid, "RunInitCommands: can establish connection... breaking (3)",
+				)
 				break dance
 			}
 
@@ -144,6 +173,10 @@ dance:
 			cid,
 			"RunInitCommands: no tombstone file found... skipping custom initialization.",
 		)
+
+		// TODO: optionally crash.
+		// the crash should be based on a config var, and it should be off by default.
+
 		return
 	}
 
@@ -156,7 +189,7 @@ dance:
 
 	data, err := os.ReadFile(tombstonePath)
 
-	log.InfoLn(cid, "tombstone data '", string(data), "'")
+	log.InfoLn(cid, fmt.Sprintf("tombstone:'%s'", string(data)))
 
 	if strings.TrimSpace(string(data)) == "complete" {
 		log.InfoLn(
@@ -208,7 +241,27 @@ out:
 				continue
 			}
 
-			processCommandBlock(ctx, sc)
+			// TODO: get some of these from env vars.
+			s := backoff.Strategy{
+				MaxRetries:  20,
+				Delay:       1000,
+				Exponential: true,
+				MaxDuration: 30 * time.Second,
+			}
+
+			err = backoff.Retry("vsecm-system", func() error {
+				log.TraceLn(cid, "RunInitCommands: processCommandBlock: retrying with exponential backoff")
+
+				return processCommandBlock(ctx, sc)
+			}, s)
+
+			if err != nil {
+				log.ErrorLn(cid, "RunInitCommands: error processing command block: ", err.Error())
+
+				// TODO: optionally crash.
+				// the crash should be based on a config var, and it should be off by default.
+			}
+
 			sc = entity.SentinelCommand{}
 			continue
 		}
@@ -255,12 +308,32 @@ out:
 		)
 	}
 
-	// Assign a secret for VSecM Keystone
-	processCommandBlock(ctx, entity.SentinelCommand{
-		WorkloadIds: []string{"vsecm-keystone"},
-		Namespaces:  []string{"vsecm-system"},
-		Secret:      "keystone-init",
-	})
+	// TODO: get some of these from env vars.
+	s := backoff.Strategy{
+		MaxRetries:  20,
+		Delay:       1000,
+		Exponential: true,
+		MaxDuration: 30 * time.Second,
+	}
 
-	safe.PostInitializationComplete(ctx)
+	err = backoff.Retry("vsecm-system", func() error {
+		log.TraceLn(cid, "RunInitCommands: processCommandBlock: retrying with exponential backoff")
+
+		// Assign a secret for VSecM Keystone
+		return processCommandBlock(ctx, entity.SentinelCommand{
+			WorkloadIds: []string{"vsecm-keystone"},
+			Namespaces:  []string{"vsecm-system"},
+			Secret:      "keystone-init",
+		})
+	}, s)
+
+	if err != nil {
+		log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
+
+		// TODO: optionally crash.
+		// the crash should be based on a config var, and it should be off by default.
+	} else {
+		log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
+		safe.PostInitializationComplete(ctx)
+	}
 }

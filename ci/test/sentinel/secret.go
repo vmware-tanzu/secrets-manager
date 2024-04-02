@@ -16,6 +16,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/wait"
+	"regexp"
+	"strings"
 )
 
 func DeleteSecret() error {
@@ -105,9 +107,19 @@ func SetEncryptedSecret(value string) error {
 		return errors.New("SetEncryptedSecret: Encrypted secret is empty")
 	}
 
+	lines := strings.Split(res, "\n")
+	out := ""
+	// Remove the lines that do not contain the secret to encrypt.
+	for _, line := range lines {
+		logLinePattern := regexp.MustCompile(`\[(INFO|DEBUG|WARN|ERROR)\]`)
+		if !logLinePattern.MatchString(line) && strings.TrimSpace(line) != "" {
+			out += line
+		}
+	}
+
 	// Assuming res is the encrypted secret, now setting it.
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
-		"--", "safe", "-w", "example", "-n", "default", "-s", res, "-e")
+		"--", "safe", "-w", "example", "-n", "default", "-s", out, "-e")
 	if err != nil {
 		return errors.Wrap(err, "SetEncryptedSecret: Failed to set encrypted secret")
 	}

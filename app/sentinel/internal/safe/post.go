@@ -14,7 +14,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
+	"github.com/pkg/errors"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
@@ -146,28 +146,30 @@ func printPayloadError(cid *string, err error) {
 	log.ErrorLn(cid, "Post: I am having problem generating the payload.", err.Error())
 }
 
-func doDelete(cid *string, client *http.Client, p string, md []byte) {
+func doDelete(cid *string, client *http.Client, p string, md []byte) error {
 	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
 	if err != nil {
-		log.ErrorLn(cid, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		return
+		return errors.Wrap(err, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.")
 	}
+
 	req.Header.Set("Content-Type", "application/json")
+
 	r, err := client.Do(req)
 	if err != nil {
-		log.ErrorLn(cid, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		return
+		return errors.Wrap(err, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.")
 	}
+
 	respond(cid, r)
+	return nil
 }
 
-func doPost(cid *string, client *http.Client, p string, md []byte) {
+func doPost(cid *string, client *http.Client, p string, md []byte) error {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
 	if err != nil {
-		log.ErrorLn(cid, "Post: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		return
+		return errors.Wrap(err, "Post: Problem connecting to VSecM Safe API endpoint URL.")
 	}
 	respond(cid, r)
+	return nil
 }
 
 // PostInitializationComplete is a function that signals the completion of a
@@ -267,14 +269,13 @@ var seed = time.Now().UnixNano()
 
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
-) {
+) error {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SourceAcquisitionTimeoutForSafe(),
 	)
 	defer cancel()
 
-	// TODO: enhance this.
 	cid := ctxWithTimeout.Value("correlationId").(*string)
 
 	ids := ""
@@ -305,17 +306,13 @@ func Post(parentContext context.Context,
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			log.ErrorLn(
-				cid,
+			return errors.Wrap(
+				ctxWithTimeout.Err(),
 				"Post: I cannot execute command because I cannot talk to SPIRE.",
 			)
-			return
 		}
 
-		log.ErrorLn(
-			cid,
-			"Post: Operation was cancelled due to an unknown reason.",
-		)
+		return errors.New("Post: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
 		defer func() {
 			if source == nil {
@@ -328,9 +325,8 @@ func Post(parentContext context.Context,
 		}()
 
 		proceed := <-proceedChan
-
 		if !proceed {
-			return
+			return errors.New("Post: Could not acquire source for Sentinel.")
 		}
 
 		authorizer := createAuthorizer()
@@ -338,8 +334,7 @@ func Post(parentContext context.Context,
 		if sc.InputKeys != "" {
 			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
-				printEndpointError(cid, err)
-				return
+				return errors.New("Post: I am having problem generating VSecM Safe secrets api endpoint URL.")
 			}
 
 			tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -351,19 +346,16 @@ func Post(parentContext context.Context,
 
 			parts := strings.Split(sc.InputKeys, "\n")
 			if len(parts) != 3 {
-				printPayloadError(cid, errors.New("post: Bad data! Very bad data"))
-				return
+				return errors.New("post: Bad data! Very bad data")
 			}
 
 			sr := newInputKeysRequest(parts[0], parts[1], parts[2])
 			md, err := json.Marshal(sr)
 			if err != nil {
-				printPayloadError(cid, err)
-				return
+				return errors.Wrap(err, "Post: I am having problem generating the payload.")
 			}
 
-			doPost(cid, client, p, md)
-			return
+			return doPost(cid, client, p, md)
 		}
 
 		// Generate pattern-based random secrets if the secret has the prefix.
@@ -381,8 +373,10 @@ func Post(parentContext context.Context,
 
 		p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/secrets")
 		if err != nil {
-			printEndpointError(cid, err)
-			return
+			return errors.Wrap(
+				err,
+				"Post: I am having problem generating VSecM Safe secrets api endpoint URL.",
+			)
 		}
 
 		tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -398,15 +392,13 @@ func Post(parentContext context.Context,
 
 		md, err := json.Marshal(sr)
 		if err != nil {
-			printPayloadError(cid, err)
-			return
+			return errors.Wrap(err, "Post: I am having problem generating the payload.")
 		}
 
 		if sc.DeleteSecret {
-			doDelete(cid, client, p, md)
-			return
+			return doDelete(cid, client, p, md)
 		}
 
-		doPost(cid, client, p, md)
+		return doPost(cid, client, p, md)
 	}
 }

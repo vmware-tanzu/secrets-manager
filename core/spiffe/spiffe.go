@@ -82,6 +82,7 @@ func AcquireSourceForSentinel(ctx context.Context) (*workloadapi.X509Source, boo
 
 	select {
 	case source := <-resultChan:
+		log.InfoLn(cid, "acquireSource: Source acquired.")
 		return source, true
 	case err := <-errorChan:
 		log.ErrorLn(cid, "acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
