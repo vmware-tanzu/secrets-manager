@@ -31,7 +31,7 @@ spec:
       serviceAccountName: vsecm-sentinel
       containers:
         - name: main
-          image: localhost:32000/vsecm-ist-sentinel:0.24.4
+          image: localhost:32000/vsecm-ist-sentinel:0.24.5
           volumeMounts:
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
