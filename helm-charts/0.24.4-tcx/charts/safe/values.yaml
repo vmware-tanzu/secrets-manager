@@ -1,0 +1,132 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# Default values for safe.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+livenessPort: 8081
+readinessPort: 8082
+rootKeySecretName: &rootKeyName vsecm-root-key
+
+data:
+  persistent: false
+  # Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    claimName: "your-pvc-name" # Replace with your PVC name.
+  # Define the hostPath if `persistent` is false.
+  hostPath:
+    path: "/var/local/vsecm/data"
+
+environments:
+  - name: SPIFFE_ENDPOINT_SOCKET
+    value: "unix:///spire-agent-socket/agent.sock"
+  - name: VSECM_LOG_LEVEL
+    value: "7"
+  - name: VSECM_PROBE_LIVENESS_PORT
+    value: ":8081"
+  - name: VSECM_PROBE_READINESS_PORT
+    value: ":8082"
+  - name: VSECM_SAFE_BACKING_STORE
+    value: "file"
+  - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
+    value: "300000"
+  - name: VSECM_ROOT_KEY_NAME
+    value: *rootKeyName
+  - name: VSECM_ROOT_KEY_PATH
+    value: "/key/key.txt"
+  - name: VSECM_SAFE_DATA_PATH
+    value: "/data"
+  - name: VSECM_SAFE_ENDPOINT_URL
+    value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+  - name: VSECM_SAFE_FIPS_COMPLIANT
+    value: "false"
+  - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+    value: "50"
+  - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
+    value: "10"
+  - name: VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
+    value: "10"
+  - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
+    value: "false"
+  - name: VSECM_SAFE_SECRET_BACKUP_COUNT
+    value: "3"
+  - name: VSECM_SAFE_SECRET_BUFFER_SIZE
+    value: "10"
+  - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
+    value: "10"
+  - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
+    value: "10000"
+  - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+    value: "k8s:"
+  - name: VSECM_SAFE_TLS_PORT
+    value: ":8443"
+  - name: VSECM_SAFE_SPIFFEID_PREFIX
+    value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+  - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+    value: "spiffe://vsecm.com/workload/"
+  - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
+    value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
+  - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
+    value: "false"
+
+# Override it with an image pull secret that you need as follows:
+# imagePullSecrets:
+#  - name: my-registry-secret
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "vsecm-safe"
+
+podAnnotations: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8443
+  targetPort: 8443
+
+resources:
+  # These are default requests that can be used as a starting point.
+  # Of course, benchmark your production system to determine the actual
+  # requests you need.
+  requests:
+    memory: "20Mi"
+    cpu: "5m"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
