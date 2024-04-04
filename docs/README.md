@@ -27,7 +27,6 @@ next_url: /docs/community/
 <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vmware-tanzu/secrets-manager" alt="License"></a>
 <a href="https://github.com/Everduin94/better-commits" ><img src="https://img.shields.io/badge/better--commits-enabled?style=for-the-badge&logo=git&color=a6e3a1&logoColor=D9E0EE&labelColor=302D41" alt="Using Better Commits"></a></p>
 
-<hr style="margin-bottom:-2em;">
 
 ## Keep Your Secrets... Secret
 
@@ -48,9 +47,13 @@ If you're looking for a specific use case, check out the examples below:
 * [Retrieving Secrets from **VSecM SDK**](/docs/use-case-sdk-retrieves-secrets/)
 * [Mounting Kubernetes Secrets](/docs/use-case-mounting-secrets-as-env-vars/)
 * [Encrypting Large Files](/docs/use-case-encrypting-large-files/)
-* [**VMware Secrets Manager** Showcase](/docs/showcase)
 
-<hr style="margin-bottom:-2em;">
+## **VMware Secrets Manager** in Action
+
+[Here is a playlist of videos showcasing **VMware Secrets Manager**][videos].
+
+[videos]: /docs/showcase/ "Showcase"
+
 
 ## Delightfully Secure Secrets Management
 
@@ -69,12 +72,6 @@ With **VMware Secrets Manager**, you can rest assured that your sensitive data i
 always secure and protected.
 
 [endorsements]: /docs/endorsements/ "Endorsements"
-
-## **VMware Secrets Manager** in Action
-
-[Here is a playlist of videos showcasing **VMware Secrets Manager**][videos].
-
-[videos]: /docs/showcase/ "Showcase"
 
 ## Where Can I Use **VMware Secrets Manager**?
 
