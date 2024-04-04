@@ -526,10 +526,10 @@ making contributions and enhancements in this space invaluable.
 Here are some key points covered in this use case:
 
 * **Strategy and Implementation**: The approach involves using a sidecar and 
-  init container pattern to securely inject secrets into a Kubernetes pod. The 
+  init container pattern to inject secrets securely into a Kubernetes pod.d. The 
   example provided demonstrates how to deploy a workload with this pattern, 
   highlighting the importance of security in modern cloud-native applications.
-* **Secure Secret Management**: By leveraging [ClusterSPIFFEID][clusterspiffeid] 
+* **Secure Secret Management**: By leveraging [`ClusterSPIFFEID`s][clusterspiffeid] 
   and the [SPIFFE Workload API][spiffe-workload-api], the system ensures secure 
   communication between the workload and **VSecM**. This method enhances security 
   by providing each pod with a unique identity and secure certificates for 
@@ -546,3 +546,6 @@ Here are some key points covered in this use case:
 * **Customization and Contribution**: The article also suggests customizing the 
   sidecar for applications needing multiple secrets in separate files and invites 
   contributions to enhance the **VSecM Sidecar**'s functionality.
+
+[clusterspiffeid]: https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md
+[spiffe-workload-api]: https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE_Workload_API.md

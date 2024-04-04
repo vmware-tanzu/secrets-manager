@@ -30,6 +30,9 @@ k8s-delete:
 k8s-start:
 	@CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
 
+deploy-spire-crds:
+	kubectl apply -f ${MANIFESTS_BASE_PATH}/crds
+
 deploy-spire:
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
