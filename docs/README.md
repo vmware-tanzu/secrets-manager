@@ -29,7 +29,7 @@ next_url: /docs/community/
 
 <hr style="margin-bottom:-2em;">
 
-## Safeguard Your Cloud-Native Secrets
+## Keep Your Secrets... Secret
 
 **VSecM** redefines secrets management
 with intuitive security for cloud native apps.
