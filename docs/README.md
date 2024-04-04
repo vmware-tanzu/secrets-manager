@@ -52,11 +52,11 @@ If you're looking for a specific use case, check out the examples below:
 
 <hr style="margin-bottom:-2em;">
 
-## Keep Your Secrets... Secret
+## Delightfully Secure Secrets Management
 
-**VMware Secrets Manager** *for Cloud-Native Apps* is a secure store for secrets
-management. It provides a minimal and intuitive API, ensuring practical security 
-without compromising user experience.
+**VMware Secrets Manager** is a secure store for secrets management. It provides 
+a minimal and intuitive API, ensuring practical security without compromising user 
+experience.
 
 [Endorsed by industry experts][endorsements], **VMware Secrets Manager** is a 
 ground-up re-imagination of secrets management, leveraging [**SPIRE**][spire] 
