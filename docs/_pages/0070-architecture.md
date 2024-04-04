@@ -53,6 +53,7 @@ about how **SPIRE** works internally.
 > Technically, any SPIFFE-compatible Identity Control Plane can be used with
 > **VMware Secrets Manager**. However, only **SPIRE** comes as part of the
 > default installation.
+{: .block-tip}
 
 [spiffe]: https://spiffe.io/
 

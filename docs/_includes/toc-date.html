@@ -30,21 +30,28 @@
                     {% endif %}
 
                     {% for post in reversed_posts %}
-
+                        {% if post.url contains "community/" %}
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Engage</li>
+                        {% endif %}
                         {% if post.url contains "navigation" %}
                             <li class="divider"></li>
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Guide</li>
                         {% endif %}
                         {% if post.url contains "release-management" %}
                             <li class="divider"></li>
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Operations</li>
                         {% endif %}
                         {% if post.url contains "changelog" %}
                             <li class="divider"></li>
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Timeline</li>
                         {% endif %}
                         {% if post.url contains "use-cases/" %}
                             <li class="divider"></li>
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Use Cases</li>
                         {% endif %}
                         {% if post.url contains "showcase/" %}
                             <li class="divider"></li>
+                            <li style="font-weight:bold;padding-left:1rem;text-transform: uppercase;">Showcase</li>
                         {% endif %}
 
 
@@ -54,9 +61,15 @@
                             {% else %}
                                 <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
                             {% endif %}
-                                <a href="{{site.baseurl}}{{post.url}}">
-                                    {{ post.title | escape }}
-                                </a>
+                                {% if post.url contains "quickstart/" %}
+                                    <a href="{{site.baseurl}}{{post.url}}" style="font-weight:bold">
+                                        🚀 {{ post.title | escape }} 🐢
+                                    </a>
+                                {% else %}
+                                    <a href="{{site.baseurl}}{{post.url}}">
+                                        {{ post.title | escape }}
+                                    </a>
+                                {% endif %}
                             </li>
                         {% endif %}
 

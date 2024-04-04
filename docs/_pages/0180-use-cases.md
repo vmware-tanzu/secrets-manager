@@ -9,7 +9,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Use Cases
+title: About Use Cases
 layout: post
 prev_url: /docs/production/
 permalink: /docs/use-cases/
@@ -40,7 +40,12 @@ introduce more advanced techniques as we build upon our knowledge.
 4. [Using **VSecM Init Container**](/docs/use-case-init-container)
 5. [Encrypting Secrets](/docs/use-case-encryption)
 6. [Transforming Secrets](/docs/use-case-transformation)
-7. [**VMware Secrets Manager** Showcase](/docs/showcase)
+7. [Mounting Secrets as Volumes](/docs/secrets-as-volumes)
+8. [Mutating a Template File](/docs/use-case-in-memory-template/)
+9. [Retrieving Secrets from **VSecM SDK**](/docs/use-case-sdk-retrieves-secrets/)
+10. [Mounting Kubernetes Secrets](/docs/use-case-mounting-secrets-as-env-vars/)
+11. [Encrypting Large Files](/docs/use-case-encrypting-large-files/)
+12. [**VMware Secrets Manager** Showcase](/docs/showcase)
 
 ## Further Reading
 

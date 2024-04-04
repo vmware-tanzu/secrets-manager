@@ -22,16 +22,35 @@ next_url: /docs/community/
 <a href="https://twitch.tv/vadidekivolkan"><img src="https://img.shields.io/twitch/status/vadidekivolkan" alt="Twitch"></a>
 <a href="https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ"><img src="https://img.shields.io/badge/slack-vsecm-brightgreen.svg?logo=slack" alt="Slack"></a>
 <a href="https://github.com/vmware-tanzu/secrets-manager/releases"><img src="https://img.shields.io/github/v/release/vmware-tanzu/secrets-manager?color=blueviolet" alt="Version"></a>
+<a href="https://raw.githack.com/wiki/vmware-tanzu/secrets-manager/coverage.html)"><img src="https://github.com/vmware-tanzu/secrets-manager/wiki/coverage.svg" alt="Coverage"></a>
 <a href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors"><img src="https://img.shields.io/github/contributors/vmware-tanzu/secrets-manager.svg?color=orange" alt="Contributors"></a>
 <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vmware-tanzu/secrets-manager" alt="License"></a>
 <a href="https://github.com/Everduin94/better-commits" ><img src="https://img.shields.io/badge/better--commits-enabled?style=for-the-badge&logo=git&color=a6e3a1&logoColor=D9E0EE&labelColor=302D41" alt="Using Better Commits"></a></p>
 
-> 🛡️ **Welcome** 🛡
-> 
-> Welcome to **VMware Secrets Manager** for Cloud-Native Apps (*VSecM*)️.
-> 
-> **VSecM** keeps your secrets... secret, so you can `#sleepmore`.
-{: .block-tip}
+<hr style="margin-bottom:-2em;">
+
+## Safeguard Your Cloud-Native Secrets
+
+**VSecM** redefines secrets management
+with intuitive security for cloud native apps.
+
+If you want to get started quickly, check out the [**quickstart tutorial**](/docs/quickstart).
+
+If you're looking for a specific use case, check out the examples below:
+
+* [Using **VSecM Sidecar**](/docs/use-case-sidecar)
+* [Using **VSecM SDK**](/docs/use-case-sdk)
+* [Using **VSecM Init Container**](/docs/use-case-init-container)
+* [Encrypting Secrets](/docs/use-case-encryption)
+* [Transforming Secrets](/docs/use-case-transformation)
+* [Mounting Secrets as Volumes](/docs/secrets-as-volumes)
+* [Mutating a Template File](/docs/use-case-in-memory-template/)
+* [Retrieving Secrets from **VSecM SDK**](/docs/use-case-sdk-retrieves-secrets/)
+* [Mounting Kubernetes Secrets](/docs/use-case-mounting-secrets-as-env-vars/)
+* [Encrypting Large Files](/docs/use-case-encrypting-large-files/)
+* [**VMware Secrets Manager** Showcase](/docs/showcase)
+
+<hr style="margin-bottom:-2em;">
 
 ## Keep Your Secrets... Secret
 
