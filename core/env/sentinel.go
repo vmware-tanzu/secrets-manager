@@ -55,38 +55,26 @@ func InitCommandTombstonePathForSentinel() string {
 	return p
 }
 
-// InitCommandRunnerWaitTimeoutForSentinel initializes and returns the timeout
-// duration for waiting for Sentinel to acquire an SVID.
-//
-// If the environment variable "VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT"
-// is set and valid, it uses the value provided by the environment variable as
-// the timeout duration.
-// If the environment variable is not set or invalid, a default timeout of
-// 300,000 milliseconds (5 minutes)
-//
-// Returns:
-//
-//	time.Duration: The max time duration that the Sentinel will wait for an SVID.
-func InitCommandRunnerWaitTimeoutForSentinel() time.Duration {
-	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_RUNNER_WAIT_TIMEOUT")
+func InitCommandRunnerWaitIntervalForSentinel() time.Duration {
+	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
 	if p == "" {
-		p = "300000"
+		p = "0"
 	}
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 300000 * time.Millisecond
+		return 0 * time.Millisecond
 	}
 	return time.Duration(i) * time.Millisecond
 }
 
-// SentinelOIDCProviderBaseUrl returns the prefix to be used for the names of secrets that
+// OIDCProviderBaseUrlForSentinel returns the prefix to be used for the names of secrets that
 // VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
 // cluster as Kubernetes `Secret` objects.
 //
 // The prefix is retrieved using the "VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL"
 // environment variable. If this variable is not set or is empty, the default
 // value "" is returned.
-func SentinelOIDCProviderBaseUrl() string {
+func OIDCProviderBaseUrlForSentinel() string {
 	p := os.Getenv("VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL")
 	return p
 }

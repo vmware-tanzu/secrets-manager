@@ -58,6 +58,9 @@ import (
 func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
 
+	waitInterval := env.InitCommandRunnerWaitIntervalForSentinel()
+	time.Sleep(waitInterval)
+
 	// TODO: remove InitCommandRunnerWaitTimeoutForSentinel()
 	// we don't need it. If the init commands cannot run either the
 	// commands are corrupt (then it needs fixing) or there is a

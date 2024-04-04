@@ -32,7 +32,7 @@ func IsAuthorizedJWT(cid string, r *http.Request) bool {
 		return false
 	}
 
-	req, err := http.NewRequest("POST", env.SentinelOIDCProviderBaseUrl(), strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", env.OIDCProviderBaseUrlForSentinel(), strings.NewReader(data.Encode()))
 	if err != nil {
 		log.ErrorLn(&cid, "IsAuthorizedJWT an error occurred when creating request:", err)
 		return false
