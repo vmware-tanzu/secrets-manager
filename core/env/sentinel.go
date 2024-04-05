@@ -67,6 +67,14 @@ func InitCommandRunnerWaitIntervalForSentinel() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
+func TerminateSentinelOnInitCommandConnectivityFailure() bool {
+	p := os.Getenv("VSECM_SENTINEL_TERMINATE_ON_INIT_COMMAND_CONNECTIVITY_FAILURE")
+	if p == "" {
+		p = "false"
+	}
+	return p == "true"
+}
+
 // OIDCProviderBaseUrlForSentinel returns the prefix to be used for the names of secrets that
 // VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
 // cluster as Kubernetes `Secret` objects.

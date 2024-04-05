@@ -56,6 +56,10 @@ import (
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
 func RunInitCommands(ctx context.Context) {
+	// If `true`, instead of retrying with a backoff, kill the pod, and let the
+	// deployment controller restart it to initiate a new retry.
+	terminateAsap := env.TerminateSentinelOnInitCommandConnectivityFailure()
+
 	cid := ctx.Value("correlationId").(*string)
 
 	waitInterval := env.InitCommandRunnerWaitIntervalForSentinel()
@@ -81,6 +85,11 @@ func RunInitCommands(ctx context.Context) {
 			log.TraceLn(cid, "RunInitCommands:AcquireSource: acquireSourceForSentinel: 000")
 			_, acquired := spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
+				log.TraceLn(cid, "RunInitCommands:AcquireSource: failed to acquire source.")
+				if terminateAsap {
+					panic("RunInitCommands:AcquireSource: failed to acquire source")
+				}
+
 				return errors.New("RunInitCommands:AcquireSource: failed to acquire source 000")
 			}
 
@@ -112,6 +121,10 @@ func RunInitCommands(ctx context.Context) {
 			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
 				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to acquire source.")
+				if terminateAsap {
+					panic("RunInitCommands:CheckConnectivity: failed to acquire source")
+				}
+
 				return errors.New("RunInitCommands:CheckConnectivity: failed to acquire source")
 			}
 
@@ -119,6 +132,10 @@ func RunInitCommands(ctx context.Context) {
 
 			if err := safe.Check(ctx, src); err != nil {
 				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to verify connection to safe:", err.Error())
+				if terminateAsap {
+					panic("RunInitCommands:CheckConnectivity: failed to verify connection to safe")
+				}
+
 				return errors.Wrap(err, "RunInitCommands:CheckConnectivity: cannot establish connection to safe 001")
 			}
 
@@ -145,10 +162,6 @@ func RunInitCommands(ctx context.Context) {
 			cid,
 			"RunInitCommands: no tombstone file found... skipping custom initialization.",
 		)
-
-		// TODO: optionally crash.
-		// the crash should be based on a config var, and it should be off by default.
-
 		return
 	}
 
@@ -226,19 +239,37 @@ dance:
 			}
 
 			err = backoff.Retry("RunInitCommands:ProcessCommandBlock", func() error {
-				log.TraceLn(cid, "RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff")
+				log.TraceLn(
+					cid,
+					"RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff",
+				)
 
-				return processCommandBlock(ctx, sc)
+				err := processCommandBlock(ctx, sc)
+				if err != nil {
+					log.ErrorLn(
+						cid,
+						"RunInitCommands:ProcessCommandBlock:error:",
+						err.Error(),
+					)
+					if terminateAsap {
+						panic("RunInitCommands:ProcessCommandBlock failed")
+					}
+				}
+				return err
 			}, s)
 
 			if err != nil {
-				log.ErrorLn(cid, "RunInitCommands: error processing command block: ", err.Error())
-
-				// TODO: optionally crash.
-				// the crash should be based on a config var, and it should be off by default.
+				log.ErrorLn(
+					cid,
+					"RunInitCommands: error processing command block: ",
+					err.Error(),
+				)
+				if terminateAsap {
+					panic("RunInitCommands: error processing command block")
+				}
 			}
 
-			log.TraceLn(cid, "scanner: after delimeter")
+			log.TraceLn(cid, "scanner: after delimiter")
 
 			sc = entity.SentinelCommand{}
 			continue
@@ -290,6 +321,9 @@ dance:
 			"RunInitCommands: Error reading initialization file: ",
 			err.Error(),
 		)
+		if terminateAsap {
+			panic("RunInitCommands: Error reading initialization file")
+		}
 	}
 
 	// TODO: get some of these from env vars.
@@ -313,11 +347,12 @@ dance:
 
 	if err != nil {
 		log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
-
-		// TODO: optionally crash.
-		// the crash should be based on a config var, and it should be off by default.
-	} else {
-		log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
-		safe.PostInitializationComplete(ctx)
+		if terminateAsap {
+			panic("RunInitCommands: error setting keystone secret")
+		}
+		return
 	}
+
+	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
+	safe.PostInitializationComplete(ctx)
 }
