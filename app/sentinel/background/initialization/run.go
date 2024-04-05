@@ -353,6 +353,11 @@ dance:
 		return
 	}
 
+	// Wait before notifying Keystone. This way, if there are things that
+	// take time to reconcile, they have a chance to do so.
+	waitInterval = env.InitCommandRunnerWaitIntervalBeforeInitComplete()
+	time.Sleep(waitInterval)
+
 	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
-	safe.PostInitializationComplete(ctx)
+	safe.MarkInitializationAsCompleted(ctx)
 }

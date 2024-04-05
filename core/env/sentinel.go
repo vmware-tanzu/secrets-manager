@@ -67,6 +67,18 @@ func InitCommandRunnerWaitIntervalForSentinel() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
+func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
+	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE")
+	if p == "" {
+		p = "0"
+	}
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		return 0 * time.Millisecond
+	}
+	return time.Duration(i) * time.Millisecond
+}
+
 func TerminateSentinelOnInitCommandConnectivityFailure() bool {
 	p := os.Getenv("VSECM_SENTINEL_TERMINATE_ON_INIT_COMMAND_CONNECTIVITY_FAILURE")
 	if p == "" {
