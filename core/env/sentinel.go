@@ -70,7 +70,7 @@ func InitCommandRunnerWaitIntervalForSentinel() time.Duration {
 func TerminateSentinelOnInitCommandConnectivityFailure() bool {
 	p := os.Getenv("VSECM_SENTINEL_TERMINATE_ON_INIT_COMMAND_CONNECTIVITY_FAILURE")
 	if p == "" {
-		p = "false"
+		return false
 	}
 	return p == "true"
 }
@@ -97,7 +97,7 @@ func OIDCProviderBaseUrlForSentinel() string {
 func SentinelEnableOIDCResourceServer() bool {
 	p := os.Getenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
 	if p == "" {
-		p = "false"
+		return false
 	}
 	return p == "true"
 }
