@@ -32,3 +32,15 @@ func PollIntervalForInitContainer() time.Duration {
 	}
 	return time.Duration(i) * time.Millisecond
 }
+
+func WaitBeforeExitForInitContainer() time.Duration {
+	p := os.Getenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
+	if p == "" {
+		p = "0"
+	}
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		return 0 * time.Millisecond
+	}
+	return time.Duration(i) * time.Millisecond
+}

@@ -44,6 +44,13 @@ func Watch() {
 			log.InfoLn(&cid, "init:: tick")
 			if initialized() {
 				log.InfoLn(&cid, "initialized... exiting the init process")
+
+				// Wait for a specified duration before exiting the init container.
+				// This can be useful when you want things to reconcile before
+				// starting the main container.
+				d := env.WaitBeforeExitForInitContainer()
+				time.Sleep(d)
+
 				os.Exit(0)
 			}
 		}
