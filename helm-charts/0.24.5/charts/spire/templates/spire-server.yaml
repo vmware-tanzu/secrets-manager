@@ -165,10 +165,10 @@ data:
 ---
 
 apiVersion: apps/v1
-{{- if eq .Values.kind "statefulset" }}
-kind: StatefulSet
-{{- else if eq .Values.kind "deployment" }}
+{{- if eq .Values.server.kind "deployment" }}
 kind: Deployment
+{{- else }}
+kind: StatefulSet
 {{- end }}
 metadata:
   name: spire-server
