@@ -172,7 +172,7 @@ func doPost(cid *string, client *http.Client, p string, md []byte) error {
 	return nil
 }
 
-// MarkInitializationAsCompleted is a function that signals the completion of a
+// MarkInitializationCompletion is a function that signals the completion of a
 // post-initialization process.
 // It takes a parent context as an argument and performs several steps involving
 // timeout management, source acquisition, error handling, and sending a
@@ -193,7 +193,7 @@ func doPost(cid *string, client *http.Client, p string, md []byte) error {
 // Parameters:
 //   - parentContext (context.Context): The parent context from which the function
 //     will derive its context.
-func MarkInitializationAsCompleted(parentContext context.Context) {
+func MarkInitializationCompletion(parentContext context.Context) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SourceAcquisitionTimeoutForSafe(),
@@ -202,7 +202,7 @@ func MarkInitializationAsCompleted(parentContext context.Context) {
 
 	cid := ctxWithTimeout.Value("correlationId").(*string)
 
-	log.AuditLn(cid, "Sentinel:MarkInitializationAsCompleted")
+	log.AuditLn(cid, "Sentinel:MarkInitializationCompletion")
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)

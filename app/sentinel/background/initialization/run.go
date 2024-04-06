@@ -11,21 +11,12 @@
 package initialization
 
 import (
-	"bufio"
 	"context"
-	"fmt"
-	"github.com/pkg/errors"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
-	"os"
 )
 
 // RunInitCommands reads and processes initialization commands from a file.
@@ -56,308 +47,39 @@ import (
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
 func RunInitCommands(ctx context.Context) {
-	// If `true`, instead of retrying with a backoff, kill the pod, and let the
-	// deployment controller restart it to initiate a new retry.
-	terminateAsap := env.TerminateSentinelOnInitCommandConnectivityFailure()
-
 	cid := ctx.Value("correlationId").(*string)
 
-	waitInterval := env.InitCommandRunnerWaitIntervalForSentinel()
-	time.Sleep(waitInterval)
-
-	// TODO: remove InitCommandRunnerWaitTimeoutForSentinel()
-	// we don't need it. If the init commands cannot run either the
-	// commands are corrupt (then it needs fixing) or there is a
-	// connectivity issue (then it needs retry).
-	// Init commands should be reliable, NOT half-baked.
-
-	for {
-		log.TraceLn(cid, "RunInitCommands: acquiring source 001")
-
-		s := backoff.Strategy{
-			MaxRetries:  20,
-			Delay:       1000,
-			Exponential: true,
-			MaxDuration: 30 * time.Second,
-		}
-
-		err := backoff.Retry("RunInitCommands:AcquireSource", func() error {
-			log.TraceLn(cid, "RunInitCommands:AcquireSource: acquireSourceForSentinel: 000")
-			_, acquired := spiffe.AcquireSourceForSentinel(ctx)
-			if !acquired {
-				log.TraceLn(cid, "RunInitCommands:AcquireSource: failed to acquire source.")
-				if terminateAsap {
-					panic("RunInitCommands:AcquireSource: failed to acquire source")
-				}
-
-				return errors.New("RunInitCommands:AcquireSource: failed to acquire source 000")
-			}
-
-			return nil
-		}, s)
-
-		if err == nil {
-			log.TraceLn(cid, "RunInitCommands:AcquireSource: got source. breaking.")
-			break
-		}
+	// No need to proceed if initialization has been completed already.
+	if !initCommandsExecutedAlready(cid) {
+		return
 	}
 
+	// Ensure that we can acquire a source before proceeding.
+	ensureSourceAcquisition(ctx, cid)
 	// Now, we are sure that we can acquire a source.
-	// Try to do a fetch with the source.
+	// Try to do a VSecM Safe API request with the source.
+	ensureApiConnectivity(ctx, cid)
 
-	log.TraceLn(cid, "Before checking api connectivity")
+	// Now we know that we can establish a connection to VSecM Safe
+	// and execute API requests. So, we can safely run init commands.
 
-	for {
-		s := backoff.Strategy{
-			MaxRetries:  20,
-			Delay:       1000,
-			Exponential: true,
-			MaxDuration: 30 * time.Second,
-		}
+	// Parse the commands file and execute the commands in it.
+	scanner := commandFileScanner(cid)
+	parseCommandsFile(ctx, cid, scanner)
 
-		err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
-			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: checking connectivity to safe")
-
-			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
-			if !acquired {
-				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to acquire source.")
-				if terminateAsap {
-					panic("RunInitCommands:CheckConnectivity: failed to acquire source")
-				}
-
-				return errors.New("RunInitCommands:CheckConnectivity: failed to acquire source")
-			}
-
-			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: acquired source successfully")
-
-			if err := safe.Check(ctx, src); err != nil {
-				log.TraceLn(cid, "RunInitCommands:CheckConnectivity: failed to verify connection to safe:", err.Error())
-				if terminateAsap {
-					panic("RunInitCommands:CheckConnectivity: failed to verify connection to safe")
-				}
-
-				return errors.Wrap(err, "RunInitCommands:CheckConnectivity: cannot establish connection to safe 001")
-			}
-
-			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")
-			return nil
-		}, s)
-
-		if err == nil {
-			log.TraceLn(cid, "exiting backoffs")
-			break
-		}
-	}
-
-	// Now we know that we can establish a connection to VSecM Safe.
-	// We can safely run init commands.
-
-	log.TraceLn(cid, "checking tombstone file")
-
-	// Parse tombstone file first:
-	tombstonePath := env.InitCommandTombstonePathForSentinel()
-	file, err := os.Open(tombstonePath)
-	if err != nil {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: no tombstone file found... skipping custom initialization.",
-		)
-		return
-	}
-
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			log.ErrorLn(cid, "Error closing tombstone file: ", err.Error())
-		}
-	}(file)
-
-	data, err := os.ReadFile(tombstonePath)
-
-	log.InfoLn(cid, fmt.Sprintf("tombstone:'%s'", string(data)))
-
-	if strings.TrimSpace(string(data)) == "complete" {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: Already initialized. Skipping custom initialization.",
-		)
-		return
-	}
-
-	filePath := env.InitCommandPathForSentinel()
-	file, err = os.Open(filePath)
-
-	if err != nil {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: no initialization file found... skipping custom initialization.",
-		)
-		return
-	}
-
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			log.ErrorLn(cid, "RunInitCommands: Error closing initialization file: ", err.Error())
-		}
-	}(file)
-
-	scanner := bufio.NewScanner(file)
-	var sc entity.SentinelCommand
-
-	log.TraceLn(cid, "Before parsing commands")
-
-dance:
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		log.TraceLn(cid, "line:", line)
-
-		if line == "" {
-			continue
-		}
-
-		parts := strings.SplitN(line, separator, 2)
-
-		if len(parts) != 2 && line != delimiter {
-			continue
-		}
-
-		if line == delimiter {
-			log.TraceLn(cid, "scanner: delimiter found")
-			if sc.ShouldSleep {
-				doSleep(sc.SleepIntervalMs)
-				sc = entity.SentinelCommand{}
-				continue
-			}
-
-			// TODO: get some of these from env vars.
-			s := backoff.Strategy{
-				MaxRetries:  20,
-				Delay:       1000,
-				Exponential: true,
-				MaxDuration: 30 * time.Second,
-			}
-
-			err = backoff.Retry("RunInitCommands:ProcessCommandBlock", func() error {
-				log.TraceLn(
-					cid,
-					"RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff",
-				)
-
-				err := processCommandBlock(ctx, sc)
-				if err != nil {
-					log.ErrorLn(
-						cid,
-						"RunInitCommands:ProcessCommandBlock:error:",
-						err.Error(),
-					)
-					if terminateAsap {
-						panic("RunInitCommands:ProcessCommandBlock failed")
-					}
-				}
-				return err
-			}, s)
-
-			if err != nil {
-				log.ErrorLn(
-					cid,
-					"RunInitCommands: error processing command block: ",
-					err.Error(),
-				)
-				if terminateAsap {
-					panic("RunInitCommands: error processing command block")
-				}
-			}
-
-			log.TraceLn(cid, "scanner: after delimiter")
-
-			sc = entity.SentinelCommand{}
-			continue
-		}
-
-		log.TraceLn(cid, "command found")
-
-		key := parts[0]
-		value := parts[1]
-
-		log.TraceLn(cid, "key", key, "value", value)
-
-		switch command(key) {
-		case exit:
-			// exit.
-			log.InfoLn(
-				cid,
-				"exit found during initialization.",
-				"skipping the rest of the commands.",
-				"skipping post initialization.",
-			)
-			// Move out of the loop to allow the keystone secret to be registered.
-			break dance
-		case workload:
-			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
-		case namespace:
-			sc.Namespaces = strings.SplitN(value, itemSeparator, -1)
-		case secret:
-			sc.Secret = value
-		case transformation:
-			sc.Template = value
-		case sleep:
-			sc.ShouldSleep = true
-			intms, err := strconv.Atoi(value)
-			if err != nil {
-				log.ErrorLn(cid, "RunInitCommands: Error parsing sleep interval: ", err.Error())
-			}
-			sc.SleepIntervalMs = intms
-		default:
-			log.InfoLn(cid, "RunInitCommands: unknown command: ", key)
-		}
-	}
-
-	log.TraceLn(cid, "scan finished")
-
-	if err := scanner.Err(); err != nil {
-		log.ErrorLn(
-			cid,
-			"RunInitCommands: Error reading initialization file: ",
-			err.Error(),
-		)
-		if terminateAsap {
-			panic("RunInitCommands: Error reading initialization file")
-		}
-	}
-
-	// TODO: get some of these from env vars.
-	s := backoff.Strategy{
-		MaxRetries:  20,
-		Delay:       1000,
-		Exponential: true,
-		MaxDuration: 30 * time.Second,
-	}
-
-	err = backoff.Retry("RunInitCommands:MarkKeystone", func() error {
-		log.TraceLn(cid, "RunInitCommands:MarkKeystone: retrying with exponential backoff")
-
-		// Assign a secret for VSecM Keystone
-		return processCommandBlock(ctx, entity.SentinelCommand{
-			WorkloadIds: []string{"vsecm-keystone"},
-			Namespaces:  []string{"vsecm-system"},
-			Secret:      "keystone-init",
-		})
-	}, s)
-
-	if err != nil {
-		log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
-		if terminateAsap {
-			panic("RunInitCommands: error setting keystone secret")
-		}
+	// Mark the keystone secret.
+	success := markKeystone(ctx, cid)
+	if !success {
+		// If we cannot set the keystone secret, we should not proceed.
 		return
 	}
 
 	// Wait before notifying Keystone. This way, if there are things that
 	// take time to reconcile, they have a chance to do so.
-	waitInterval = env.InitCommandRunnerWaitIntervalBeforeInitComplete()
+	waitInterval := env.InitCommandRunnerWaitIntervalBeforeInitComplete()
 	time.Sleep(waitInterval)
 
+	// Everything is set up. Mark the initialization as complete.
 	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
-	safe.MarkInitializationAsCompleted(ctx)
+	safe.MarkInitializationCompletion(ctx)
 }
