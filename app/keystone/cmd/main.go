@@ -21,7 +21,7 @@ import (
 func main() {
 	log.Println(
 		"VSecM Keystone",
-		fmt.Sprint("v%s", os.Getenv("APP_VERSION")),
+		fmt.Sprintf("v%s", os.Getenv("APP_VERSION")),
 	)
 
 	// Run on the main thread to wait forever.
