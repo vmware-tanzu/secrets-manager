@@ -11,6 +11,7 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/startup"
@@ -20,7 +21,12 @@ func main() {
 	id := "AEGIICNT"
 
 	log.InfoLn(&id, "Starting VSecM Init Container")
-	go startup.Watch()
+
+	// Wait for a specified duration before exiting the init container.
+	// This can be useful when you want things to reconcile before
+	// starting the main container.
+	d := env.WaitBeforeExitForInitContainer()
+	go startup.Watch(d)
 
 	//Print the diagnostic information about the environment.
 	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",

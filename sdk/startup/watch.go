@@ -29,7 +29,10 @@ func initialized() bool {
 // Watch continuously polls the associated secret of the workload to exist.
 // If the secret exists, and it is not empty, the function exits the init
 // container with a success status code (0).
-func Watch() {
+//
+//   - waitTimeBeforeExit: The duration to wait before a successful exit from
+//     the function.
+func Watch(waitTimeBeforeExit time.Duration) {
 	interval := env.PollIntervalForInitContainer()
 	ticker := time.NewTicker(interval)
 
@@ -45,11 +48,7 @@ func Watch() {
 			if initialized() {
 				log.InfoLn(&cid, "initialized... exiting the init process")
 
-				// Wait for a specified duration before exiting the init container.
-				// This can be useful when you want things to reconcile before
-				// starting the main container.
-				d := env.WaitBeforeExitForInitContainer()
-				time.Sleep(d)
+				time.Sleep(waitTimeBeforeExit)
 
 				os.Exit(0)
 			}
