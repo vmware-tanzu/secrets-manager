@@ -15,7 +15,6 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"net/url"
@@ -26,14 +25,18 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
+
+// TODO: move private fns to their own files.
 
 func createAuthorizer() tlsconfig.Authorizer {
 	return tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -172,6 +175,17 @@ func doPost(cid *string, client *http.Client, p string, md []byte) error {
 	return nil
 }
 
+// TODO: get some of these from env vars.
+// TODO: this method is duplicated in multiple places. Refactor.
+func backoffStrategy() backoff.Strategy {
+	return backoff.Strategy{
+		MaxRetries:  20,
+		Delay:       1000,
+		Exponential: true,
+		MaxDuration: 30 * time.Second,
+	}
+}
+
 // MarkInitializationCompletion is a function that signals the completion of a
 // post-initialization process.
 // It takes a parent context as an argument and performs several steps involving
@@ -261,11 +275,32 @@ func MarkInitializationCompletion(parentContext context.Context) {
 			return
 		}
 
-		doPost(cid, client, p, md)
+		// Try forever until success.
+		for {
+			s := backoffStrategy()
+
+			err := backoff.Retry("sentinel:post", func() error {
+				log.TraceLn(cid, "sentinel:post")
+
+				err := doPost(cid, client, p, md)
+				if err != nil {
+					log.ErrorLn(
+						cid,
+						"sentinel:post: error:", err.Error(), "will retry.",
+					)
+				}
+
+				return err
+			}, s)
+
+			if err == nil {
+				continue
+			}
+		}
 	}
 }
 
-var seed = time.Now().UnixNano()
+// var seed = time.Now().UnixNano()
 
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
