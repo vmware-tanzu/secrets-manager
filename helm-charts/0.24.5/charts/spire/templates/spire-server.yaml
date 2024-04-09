@@ -165,14 +165,19 @@ data:
 ---
 
 apiVersion: apps/v1
+{{- if eq .Values.server.kind "deployment" }}
 kind: Deployment
+{{- else }}
+kind: StatefulSet
+{{- end }}
 metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.namespace }}
   labels:
     app: spire-server
+    app.kubernetes.io/component: server
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: spire-server
@@ -203,6 +208,7 @@ spec:
 {{- if .Values.data.persistent }}
             - name: spire-data
               mountPath: /run/spire/server/data
+              readOnly: false
 {{- end }}
             - name: spire-config
               mountPath: /run/spire/server/config
@@ -224,11 +230,6 @@ spec:
               mountPath: /spire-controller-manager-config.yaml
               subPath: spire-controller-manager-config.yaml
       volumes:
-{{- if .Values.data.persistent }}
-        - name: spire-data
-          persistentVolumeClaim:
-            claimName: {{ .Values.data.persistentVolumeClaim.claimName }}
-{{- end }}
         - name: spire-config
           configMap:
             name: spire-server
@@ -237,6 +238,20 @@ spec:
         - name: spire-controller-manager-config
           configMap:
             name: spire-controller-manager-config
+  {{- if .Values.data.persistent }}
+  volumeClaimTemplates:
+    - metadata:
+        name: spire-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim }}
+        {{- end }}
+  {{- end }}
 
 ---
 
