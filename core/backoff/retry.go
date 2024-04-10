@@ -20,11 +20,11 @@ import (
 type Strategy struct {
 	// Maximum number of retries before giving up (inclusive)
 	// Default is 5
-	MaxRetries int // Maximum number of retries before giving up (inclusive)
+	MaxRetries int64 // Maximum number of retries before giving up (inclusive)
 	// Maximum delay to use between retries (in milliseconds)
 	// If Exponential is true, this is the initial delay
 	// Default is 1000
-	Delay int
+	Delay time.Duration
 
 	// Whether to use exponential backoff or not (if false, constant delay is used)
 	// Default is false
@@ -40,7 +40,7 @@ func Retry(ns string, f func() error, s Strategy) error {
 	s = withDefaults(s)
 	var err error
 
-	for i := 0; i <= s.MaxRetries; i++ {
+	for i := 0; i <= int(s.MaxRetries); i++ {
 		err = f()
 		if err == nil {
 			return nil
@@ -52,14 +52,15 @@ func Retry(ns string, f func() error, s Strategy) error {
 			// Calculate the delay for the current attempt. The delay is 2^i seconds.
 			delay := time.Duration(math.Pow(2, float64(i))) * time.Second
 			// Some randomness to avoid the thundering herd problem.
-			delay += time.Duration(rand.Intn(s.Delay)) * time.Millisecond
+			d := int(s.Delay)
+			delay += time.Duration(rand.Intn(d)) * time.Millisecond
 			if delay > s.MaxDuration {
 				delay = s.MaxDuration
 			}
 
 			retryDelay = delay
 		} else { // otherwise delay is constant for all retries
-			retryDelay = time.Duration(s.Delay) * time.Millisecond
+			retryDelay = s.Delay * time.Millisecond
 		}
 
 		time.Sleep(retryDelay)

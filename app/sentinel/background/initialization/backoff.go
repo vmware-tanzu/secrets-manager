@@ -12,15 +12,14 @@ package initialization
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
-	"time"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-// TODO: get some of these from env vars.
 func backoffStrategy() backoff.Strategy {
 	return backoff.Strategy{
-		MaxRetries:  20,
-		Delay:       1000,
-		Exponential: true,
-		MaxDuration: 30 * time.Second,
+		MaxRetries:  env.BackoffMaxRetries(),
+		Delay:       env.BackoffDelay(),
+		Exponential: env.BackoffMode() != "linear",
+		MaxDuration: env.BackoffMaxDuration(),
 	}
 }
