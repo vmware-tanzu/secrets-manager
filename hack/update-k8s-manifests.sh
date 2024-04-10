@@ -43,21 +43,14 @@ function produceK8sManifests() {
     echo "producing manifests for vsecm local deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-distroless.yaml || exit 1
     helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-distroless-fips.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $PHOTON_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-photon.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $PHOTON_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-photon-fips.yaml || exit 1
 
     echo "producing manifests for eks deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-distroless.yaml || exit 1
     helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $DISTROLESSS_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-distroless-fips.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $PHOTON_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-photon.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $PHOTON_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-photon-fips.yaml || exit 1
 
     echo "producing manifests for vsecm remote deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $remoteManifests/vsecm-distroless.yaml || exit 1
     helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $remoteManifests/vsecm-distroless-fips.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $PHOTON_IMAGE $DEPLOY_SPIRE_FALSE > $remoteManifests/vsecm-photon.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $PHOTON_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $remoteManifests/vsecm-photon-fips.yaml || exit 1
-
 }
 
 # validating version

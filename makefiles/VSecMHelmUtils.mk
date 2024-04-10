@@ -13,8 +13,6 @@ export LOCAL_REGISTRY := --set global.registry=localhost:5000
 export EKS_REGISTRY := --set global.registry=public.ecr.aws/h8y1n7y7
 export DISTROLESSS_IMAGE := --set global.baseImage=distroless
 export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
-export PHOTON_IMAGE := --set global.baseImage=photon
-export PHOTON_FIPS_IMAGE := --set global.baseImage=photon-fips
 export HELM_CHART_PATH := "./helm-charts/${VERSION}"
 export NAME_TEMPLATE := --name-template vsecm
 export DEPLOY_SAFE_FALSE := --set global.deploySafe=false
@@ -52,12 +50,6 @@ helm-install-distroless:
 helm-install-distroless-fips:
 	helm install vsecm ${HELM_CHART_PATH} ${DISTROLESSS_FIPS_IMAGE}
 
-helm-install-photon:
-	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_IMAGE}
-
-helm-install-photon-fips:
-	helm install vsecm ${HELM_CHART_PATH} ${PHOTON_FIPS_IMAGE}
-
 # Deletes the vsecm helm chart, while taking care of the SPIFFE CSI driver related
 # resource deletion prioritization issues.
 # Simply executing `helm uninstall` can result in dangling resources, which can
@@ -79,8 +71,8 @@ helm-chart-release:
 	./hack/release-helm-chart.sh ${VERSION}
 
 define validate_parameters
-	@if [ ${IMAGE} != "distroless" ] && [ ${IMAGE} != "distroless-fips" ] && [ ${IMAGE} != "photon" ] && [ ${IMAGE} != "photon-fips" ]; then\
-		echo "Invalid IMAGE, valid options for IMAGE are: [distroless, distroless-fips, photon, photon-fips] ";\
+	@if [ ${IMAGE} != "distroless" ] && [ ${IMAGE} != "distroless-fips" ]; then\
+		echo "Invalid IMAGE, valid options for IMAGE are: [distroless, distroless-fips] ";\
 		exit 1;\
 	fi
 	@if [ ! -d ${HELM_CHART_PATH} ]; then\

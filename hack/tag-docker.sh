@@ -36,15 +36,6 @@ docker pull vsecm/example-multiple-secrets:latest
 docker pull vsecm/example-using-init-container:"$VERSION"
 docker pull vsecm/example-using-init-container:latest
 
-docker pull vsecm/vsecm-photon-safe:"$VERSION"
-docker pull vsecm/vsecm-photon-safe:latest
-docker pull vsecm/vsecm-photon-sentinel:"$VERSION"
-docker pull vsecm/vsecm-photon-sentinel:latest
-docker pull vsecm/vsecm-photon-sidecar:"$VERSION"
-docker pull vsecm/vsecm-photon-sidecar:latest
-docker pull vsecm/vsecm-photon-init-container:"$VERSION"
-docker pull vsecm/vsecm-photon-init-container:latest
-
 export DOCKER_CONTENT_TRUST=1
 
 docker trust sign vsecm/vsecm-ist-safe:"$VERSION"
@@ -63,12 +54,3 @@ docker trust sign vsecm/example-multiple-secrets:"$VERSION"
 docker trust sign vsecm/example-multiple-secrets:latest
 docker trust sign vsecm/example-using-init-container:"$VERSION"
 docker trust sign vsecm/example-using-init-container:latest
-
-docker trust sign vsecm/vsecm-photon-safe:"$VERSION"
-docker trust sign vsecm/vsecm-photon-safe:latest
-docker trust sign vsecm/vsecm-photon-sentinel:"$VERSION"
-docker trust sign vsecm/vsecm-photon-sentinel:latest
-docker trust sign vsecm/vsecm-photon-sidecar:"$VERSION"
-docker trust sign vsecm/vsecm-photon-sidecar:latest
-docker trust sign vsecm/vsecm-photon-init-container:"$VERSION"
-docker trust sign vsecm/vsecm-photon-init-container:latest

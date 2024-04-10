@@ -80,10 +80,6 @@ Define image for VSecM Keystone
 {{- .Values.global.images.keystone.distrolessRepository }}
 {{- else if eq (lower $.Values.global.baseImage) "distroless-fips" }}
 {{- .Values.global.images.keystone.distrolessFipsRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon" }}
-{{- .Values.global.images.keystone.photonRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon-fips" }}
-{{- .Values.global.images.keystone.photonFipsRepository }}
 {{- else }}
 {{- .Values.global.images.keystone.distrolessRepository }}
 {{- end }}

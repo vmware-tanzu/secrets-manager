@@ -262,13 +262,11 @@ mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode
 If you are using one of the official FIPS-complaint VSecM Docker images,
 then it will be FIPS-compliant.
 
-As a FIPS-compliant base image you can choose from the following:
+As a FIPS-compliant base image you can use the following:
 
 * [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless base*)
-* [vsecm/vsecm-photon-fips-safe][vsecm-safe-photon-fips] (*using VMware Photon OS as a base*)
 
 [vsecm-safe-istanbul-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-ist-fips-safe/general
-[vsecm-safe-photon-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-photon-fips-safe/general
 
 ### VSECM_SAFE_IV_INITIALIZATION_INTERVAL
 

@@ -80,10 +80,6 @@ Define image for vsecm safe
 {{- .Values.global.images.safe.distrolessRepository }}
 {{- else if eq (lower $.Values.global.baseImage) "distroless-fips" }}
 {{- .Values.global.images.safe.distrolessFipsRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon" }}
-{{- .Values.global.images.safe.photonRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon-fips" }}
-{{- .Values.global.images.safe.photonFipsRepository }}
 {{- else }}
 {{- .Values.global.images.safe.distrolessRepository }}
 {{- end }}
