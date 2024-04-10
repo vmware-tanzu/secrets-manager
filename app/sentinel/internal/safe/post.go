@@ -12,7 +12,10 @@ package safe
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -153,7 +156,7 @@ func MarkInitializationCompletion(parentContext context.Context) {
 	}
 }
 
-// var seed = time.Now().UnixNano()
+var seed = time.Now().UnixNano()
 
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
@@ -171,16 +174,18 @@ func Post(parentContext context.Context,
 		ids += id + ", "
 	}
 
-	//// TODO: make this optional and disabled by default
-	//secret := sc.Secret
-	//uniqueData := fmt.Sprintf("%s-%d", secret, seed)
-	//dataBytes := []byte(uniqueData)
-	//hasher := sha256.New()
-	//hasher.Write(dataBytes)
-	//hashBytes := hasher.Sum(nil)
-	//hashString := hex.EncodeToString(hashBytes)
-	hashString := "TBD"
-	log.AuditLn(cid, "Sentinel:Post: workloadIds:", ids, "hash", hashString)
+	hashString := "<>"
+	if env.LogSecretFingerprints() {
+		secret := sc.Secret
+		uniqueData := fmt.Sprintf("%s-%d", secret, seed)
+		dataBytes := []byte(uniqueData)
+		hasher := sha256.New()
+		hasher.Write(dataBytes)
+		hashBytes := hasher.Sum(nil)
+		hashString = hex.EncodeToString(hashBytes)
+	}
+
+	log.AuditLn(cid, "Sentinel:Post: ws:", ids, "h:", hashString)
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)

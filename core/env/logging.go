@@ -13,6 +13,7 @@ package env
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 // LogLevel returns the value set by VSECM_LOG_LEVEL environment
@@ -33,4 +34,29 @@ func LogLevel() int {
 		return 3 // WARN
 	}
 	return l
+}
+
+// LogSecretFingerprints checks the "VSECM_LOG_SECRET_FINGERPRINTS" environment variable,
+// normalizes its value by trimming whitespace and converting it to lowercase, and
+// evaluates whether logging of secret fingerprints is enabled or not. The function
+// returns true if the environment variable is explicitly set to "true", otherwise,
+// it defaults to false.
+//
+// When `true`, VSecM logs will include partial hashes for the secrets. This
+// approach will be useful to verify changes to a secret without revealing it
+// in the logs. The partial hash is a cryptographically secure string, and there
+// is no way to retrieve the original secret from it.
+//
+// If not provided in the environment variables, this flag will be set to `false`
+// by default.
+//
+// Returns:
+// bool - true if logging of secret fingerprints is enabled, false otherwise.
+func LogSecretFingerprints() bool {
+	p := os.Getenv("VSECM_LOG_SECRET_FINGERPRINTS")
+	p = strings.ToLower(strings.TrimSpace(p))
+	if p == "" {
+		return false
+	}
+	return p == "true"
 }
