@@ -11,10 +11,13 @@
 package handle
 
 import (
+	"io"
+	"net/http"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
 	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
 	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
-	initializationRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/initialization"
 	keystoneRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/keystone"
 	listRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
 	receiveRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
@@ -22,8 +25,6 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
 )
 
 // InitializeRoutes initializes the HTTP routes for the web server. It sets up an
@@ -134,15 +135,6 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		if r.Method == http.MethodPost && p == "/sentinel/v1/keys" {
 			log.DebugLn(&cid, "Handler: will receive keys")
 			receiveRoute.Keys(cid, w, r, sid)
-			return
-		}
-
-		if r.Method == http.MethodPost && p == "/sentinel/v1/init-completed" {
-			log.DebugLn(
-				&cid,
-				"Handler:/sentinel/v1/init-completed: will mark init completion",
-			)
-			initializationRoute.InitComplete(cid, w, r, sid)
 			return
 		}
 
