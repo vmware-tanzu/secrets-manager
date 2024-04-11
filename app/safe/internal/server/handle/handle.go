@@ -15,6 +15,7 @@ import (
 	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
 	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
 	initializationRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/initialization"
+	keystoneRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/keystone"
 	listRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
 	receiveRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
 	secretRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/secret"
@@ -74,6 +75,13 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		p := r.URL.Path
 
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
+
+		// Return the current state of the Keystone secret.
+		// Either "initialized", or "pending"
+		if r.Method == http.MethodGet && p == "/sentinel/v1/keystone" {
+			log.DebugLn(&cid, "Handler: will keystone")
+			keystoneRoute.Status(cid, w, r, sid)
+		}
 
 		// Route to list secrets.
 		// Only VSecM Sentinel is allowed to call this API endpoint.

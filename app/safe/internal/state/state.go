@@ -148,6 +148,43 @@ func DecryptValue(value string) (string, error) {
 	return string(decrypted), nil
 }
 
+func SecretByName(cid string, name string) *entity.Secret {
+	k1, k2, k3 := RootKeyTriplet()
+	rkt := []string{k1, k2, k3}
+
+	// Check existing stored secrets files.
+	// If VSecM pod is evicted and revived, it will not have knowledge about
+	// the secret it has. This loop helps it re-populate its cache.
+	if !secret.SecretsPopulated() {
+		err := secret.PopulateSecrets(cid, rkt)
+		if err != nil {
+			log.WarnLn(&cid, "Failed to populate secrets from disk", err.Error())
+		}
+	}
+
+	s, ok := secret.Secrets.Load(name)
+	if !ok {
+		return nil
+	}
+
+	v := s.(entity.SecretStored)
+
+	return &entity.Secret{
+		Name:         v.Name,
+		Created:      entity.JsonTime(v.Created),
+		Updated:      entity.JsonTime(v.Updated),
+		NotBefore:    entity.JsonTime(v.NotBefore),
+		ExpiresAfter: entity.JsonTime(v.ExpiresAfter),
+	}
+}
+
+const keystoneWorkloadId = "vsecm-keystone"
+
+func KeystoneInitialized(cid string) bool {
+	ks := SecretByName(cid, keystoneWorkloadId)
+	return ks != nil
+}
+
 // AllSecrets returns a slice of entity.Secret containing all secrets
 // currently stored. If no secrets are found, an empty slice is
 // returned.

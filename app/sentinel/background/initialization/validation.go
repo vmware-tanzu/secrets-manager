@@ -11,46 +11,26 @@
 package initialization
 
 import (
-	"fmt"
-	"os"
-	"strings"
-
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func initCommandsExecutedAlready(cid *string) bool {
-	log.TraceLn(cid, "checking tombstone file")
+	log.TraceLn(cid, "check:initCommandsExecutedAlready")
 
-	// Parse tombstone file first:
-	tombstonePath := env.InitCommandTombstonePathForSentinel()
-	file, err := os.Open(tombstonePath)
-	if err != nil {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: no tombstone file found... skipping custom initialization.",
-		)
-		return false
-	}
+	s := backoffStrategy()
+	for {
+		err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+			initialized, err := safe.CheckInitialization()
+			if err != nil {
+				return err
+			}
+			return initialized
+		}, s)
 
-	defer func(file *os.File) {
-		err := file.Close()
 		if err != nil {
-			log.ErrorLn(cid, "Error closing tombstone file: ", err.Error())
+			log.ErrorLn(cid, "check:backoff:error", err.Error())
 		}
-	}(file)
-
-	data, err := os.ReadFile(tombstonePath)
-
-	log.InfoLn(cid, fmt.Sprintf("tombstone:'%s'", string(data)))
-
-	if strings.TrimSpace(string(data)) == "complete" {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: Already initialized. Skipping custom initialization.",
-		)
-		return false
 	}
-
-	return true
 }

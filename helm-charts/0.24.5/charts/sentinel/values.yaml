@@ -30,8 +30,6 @@ environments:
    value: ":8443"
  - name: VSECM_SENTINEL_INIT_COMMAND_PATH
    value: "/opt/vsecm-sentinel/init/data"
- - name: VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
-   value: "/opt/vsecm-sentinel/tombstone/init"
  - name: VSECM_SENTINEL_LOGGER_URL
    value: "localhost:50051"
  - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX

@@ -87,6 +87,16 @@ type SecretEncryptedListResponse struct {
 type SecretStringTimeListResponse struct {
 	Secrets   []data.SecretStringTime `json:"secrets"`
 	Algorithm crypto.Algorithm        `json:"algorithm"`
+	Err       string                  `json:"err,omitempty"`
+}
+
+type KeystoneStatusRequest struct {
+	Err string `json:"err,omitempty"`
+}
+
+type KeystoneStatusResponse struct {
+	Status data.KeystoneInitStatus `json:"status"`
+	Err    string                  `json:"err,omitempty"`
 }
 
 type GenericRequest struct {
