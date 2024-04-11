@@ -259,8 +259,6 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 			want: map[string][]byte{"VALUE": []byte("secret")},
 		},
 		{
-			//TODO: needs to this case, might be some issue with code
-			// here: https://github.com/vmware-tanzu/secrets-manager/blob/815c737ae2d08396fb0181ac0e6b5625f889f6c5/core/entity/data/v1/v1.go#L162-L170
 			name: "empty_template_valid_value",
 			fields: fields{
 				Values: []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},

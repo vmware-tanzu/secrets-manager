@@ -47,17 +47,4 @@ echo "example-using-init-container"
 docker trust sign vsecm/example-using-init-container:"$VERSION"
 docker trust sign vsecm/example-using-init-container:latest
 
-echo "vsecm-photon-safe"
-docker trust sign vsecm/vsecm-photon-safe:"$VERSION"
-docker trust sign vsecm/vsecm-photon-safe:latest
-echo "vsecm-photon-sentinel"
-docker trust sign vsecm/vsecm-photon-sentinel:"$VERSION"
-docker trust sign vsecm/vsecm-photon-sentinel:latest
-echo "vsecm-photon-sidecar"
-docker trust sign vsecm/vsecm-photon-sidecar:"$VERSION"
-docker trust sign vsecm/vsecm-photon-sidecar:latest
-echo "vsecm-photon-init-container"
-docker trust sign vsecm/vsecm-photon-init-container:"$VERSION"
-docker trust sign vsecm/vsecm-photon-init-container:latest
-
 echo "Everything is awesome!"

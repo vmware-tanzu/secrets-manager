@@ -35,7 +35,7 @@ variables:
 
 *`--set global.deploySpire=<true/false>`:
   This flag can be passed to install or skip SPIRE.
-*`--set global.baseImage=<distroless/distroless-fips/photon/photos-fips>`:
+*`--set global.baseImage=<distroless|distroless-fips>`:
   This flag can be passed to install VSecM with the given baseImage Docker image.
 
 Default values are `true` and `distroless` for `global.deploySpire`
@@ -48,8 +48,8 @@ helm install vsecm vsecm/helm-charts --version 0.22.4 \
   --set global.deploySpire=true --set global.baseImage=distroless
 ```
 
-Make sure to replace `<true/false>` and
-`<distroless/distroless-fips/photon/photos-fips>` with the desired values.
+Make sure to replace `<true|false>` and
+`<distroless|distroless-fips>` with the desired values.
 
 ## Environment Configuration
 

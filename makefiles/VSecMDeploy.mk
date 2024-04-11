@@ -50,35 +50,17 @@ deploy: deploy-spire
 deploy-fips: deploy-spire
 	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless-fips.yaml
 	$(MAKE) post-deploy
-deploy-photon: deploy-spire
-	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-photon.yaml
-	$(MAKE) post-deploy
-deploy-photon-fips: deploy-spire
-	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-photon-fips.yaml
-	$(MAKE) post-deploy
 deploy-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless.yaml
 	$(MAKE) post-deploy
 deploy-fips-local: deploy-spire
 	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml
 	$(MAKE) post-deploy
-deploy-photon-local: deploy-spire
-	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon.yaml
-	$(MAKE) post-deploy
-deploy-photon-fips-local: deploy-spire
-	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-photon-fips.yaml
-	$(MAKE) post-deploy
 deploy-eks: deploy-spire
 	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml
 	$(MAKE) post-deploy
 deploy-fips-eks: deploy-spire
 	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml
-	$(MAKE) post-deploy
-deploy-photon-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-photon.yaml
-	$(MAKE) post-deploy
-deploy-photon-fips-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-photon-fips.yaml
 	$(MAKE) post-deploy
 
 .SILENT:

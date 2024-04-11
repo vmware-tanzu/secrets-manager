@@ -80,10 +80,6 @@ Define image for VSecM Sentinel
 {{- .Values.global.images.sentinel.distrolessRepository }}
 {{- else if eq (lower $.Values.global.baseImage) "distroless-fips" }}
 {{- .Values.global.images.sentinel.distrolessFipsRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon" }}
-{{- .Values.global.images.sentinel.photonRepository }}
-{{- else if eq (lower $.Values.global.baseImage) "photon-fips" }}
-{{- .Values.global.images.sentinel.photonFipsRepository }}
 {{- else }}
 {{- .Values.global.images.sentinel.distrolessRepository }}
 {{- end }}

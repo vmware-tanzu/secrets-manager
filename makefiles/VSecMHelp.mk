@@ -66,20 +66,12 @@ help:
 	@echo "          ˃ make deploy;make test;"
 	@echo "    ⦿ Distroless FIPS images:"
 	@echo "          ˃ make deploy-fips;make test;"
-	@echo "    ⦿ Photon images:"
-	@echo "          ˃ make deploy-photon;make test;"
-	@echo "    ⦿ Photon FIPS images:"
-	@echo "          ˃ make deploy-photon-fips;make test;"
 	@echo "--------------------------------------------------------------------"
 	@echo "  Installation (*edge version*):"
 	@echo "    ⦿ Distroless EKS images:"
 	@echo "          ˃ make deploy-eks;make test-eks;"
 	@echo "    ⦿ Distroless eks FIPS images:"
 	@echo "          ˃ make deploy-fips-eks;make test-eks;"
-	@echo "    ⦿ Photon EKS images:"
-	@echo "          ˃ make deploy-photon-eks;make test-eks;"
-	@echo "    ⦿ Photon EKS FIPS images:"
-	@echo "          ˃ make deploy-photon-fips-eks;make test-eks;"
 	@echo "--------------------------------------------------------------------"
 	@echo "  Example Use Cases:"
 	@echo "    Using local images:"
@@ -96,7 +88,8 @@ h:
 	@echo "˃ make k8s-delete;make k8s-start;"
 	@echo '⦿ eval $$(minikube -p minikube docker-env)';
 	@echo "˃ make clean;"
-	@if [ $$(command -v protoc-gen-go >/dev/null 2>&1; echo $$?) -eq 0 ] && [ $$(command -v protoc-gen-go-grpc >/dev/null 2>&1; echo $$?) -eq 0 ]; then \
+	@if [ $$(command -v protoc-gen-go >/dev/null 2>&1; echo $$?) -eq 0 ] && \
+		[ $$(command -v protoc-gen-go-grpc >/dev/null 2>&1; echo $$?) -eq 0 ]; then \
 		echo "˃ make generate-proto-files"; \
 	else \
 		echo "˃ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest"; \
@@ -113,14 +106,12 @@ h:
 	@echo "--------------------------------------------------------------------"
 	@echo "˃ make build-local;make deploy-local;make test-local;"
 	@echo "˃ make build-local;make deploy-fips-local;make test-local;"
-	@echo "˃ make build-local;make deploy-photon-local;make test-local;"
-	@echo "˃ make build-local;make deploy-photon-fips-local;make test-local;"
 	@echo "--------------------------------------------------------------------"
 	@echo "Building and Remote Testing:"
 	@echo "    > Make sure you 'export DOCKER_CONTENT_TRUST=1' first."
 	@echo "    > --"
 	@echo "    > make build;make deployABC; make test"
-	@echo "    > (where ABC is one of: -fips, -photon, -photon-fips)"
+	@echo "    > (where ABC is one of: '-fips', '')"
 	@echo "Tagging:"
 	@echo "    ˃ make tag;"
 	@echo "--------------------------------------------------------------------"

@@ -18,16 +18,6 @@ keystone-bundle-ist-fips:
 	./hack/bundle.sh "vsecm-ist-fips-keystone" \
 		$(VERSION) "dockerfiles/vsecm-ist-fips/keystone.Dockerfile"
 
-# Packages the "VSecM Keystone" into a container image for Photon OS.
-keystone-bundle-photon:
-	./hack/bundle.sh "vsecm-photon-keystone" \
-		$(VERSION) "dockerfiles/vsecm-photon/keystone.Dockerfile"
-
-# Packages the "VSecM Keystone" into a container image for Photon OS and FIPS.
-keystone-bundle-photon-fips:
-	./hack/bundle.sh "vsecm-photon-fips-keystone" \
-		$(VERSION) "dockerfiles/vsecm-photon-fips/keystone.Dockerfile"
-
 # Pushes the "VSecM Keystone" container to the public registry.
 keystone-push-ist:
 	./hack/push.sh "vsecm-ist-keystone" $(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-keystone"
@@ -46,26 +36,6 @@ keystone-push-ist-fips-eks:
 	./hack/push.sh "vsecm-ist-fips-keystone" \
 		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-keystone"
 
-# Pushes the "VSecM Keystone" (Photon OS) container to the public registry.
-keystone-push-photon:
-	./hack/push.sh "vsecm-photon-keystone" \
-		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-keystone"
-
-# Pushes the "VSecM Keystone" (Photon OS) container to the public EKS registry.
-keystone-push-photon-eks:
-	./hack/push.sh "vsecm-photon-keystone" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-keystone"
-
-# Pushes the "VSecM Keystone" (Photon OS and FIPS) container to the public registry.
-keystone-push-photon-fips:
-	./hack/push.sh "vsecm-photon-fips-keystone" \
-		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-photon-fips-keystone"
-
-# Pushes the "VSecM Keystone" (Photon OS and FIPS) container to the public EKS registry.
-keystone-push-photon-fips-eks:
-	./hack/push.sh "vsecm-photon-fips-keystone" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-photon-fips-keystone"
-
 # Pushes the "VSecM Safe" container image to the local registry.
 keystone-push-ist-local:
 	./hack/push.sh "vsecm-ist-keystone" $(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-keystone"
@@ -74,14 +44,3 @@ keystone-push-ist-local:
 keystone-push-ist-fips-local:
 	./hack/push.sh "vsecm-ist-fips-keystone" \
 		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-ist-fips-keystone"
-
-# Pushes the "VSecM Keystone" (Photon OS) container image to the local registry.
-keystone-push-photon-local:
-	./hack/push.sh "vsecm-photon-keystone" \
-		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-keystone"
-
-# Pushes the "VSecM Keystone" (Photon OS) container image to the local registry.
-keystone-push-photon-fips-local:
-	./hack/push.sh "vsecm-photon-fips-keystone" \
-		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/vsecm-photon-fips-keystone"
-

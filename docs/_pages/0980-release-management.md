@@ -160,30 +160,7 @@ make test-local
 
 If the tests pass, go to the next step.
 
-### 4. Test VSecM Photon (i.e. VMware Photon) Images
-
-**VMware Secrets Manager** Photon series use [**VMware Photon OS**][photon] as
-their base images.
-
-[photon]: https://vmware.github.io/photon/
-
-```bash
-make k8s-delete
-make k8s-start
-eval $(minikube -p minikube docker-env)
-
-# For macOS, you might need to run `make mac-tunnel`
-# on a separate terminal.
-# For other Linuxes, you might not need it.
-#
-# make mac-tunnel
-
-make build-local
-make deploy-photon-local
-make test-local
-```
-
-### 5. Test VSecM Distroless FIPS Images
+### 4. Test VSecM Distroless FIPS Images
 
 ```bash
 make k8s-delete
@@ -201,25 +178,7 @@ make deploy-fips-local
 make test-local
 ```
 
-### 6. Test VSecM Photon FIPS Images
-
-```bash
-make k8s-delete
-make k8s-start
-eval $(minikube -p minikube docker-env)
-
-# For macOS, you might need to run `make mac-tunnel`
-# on a separate terminal.
-# For other Linuxes, you might not need it.
-#
-# make mac-tunnel
-
-make build-local
-make deploy-photon-fips-local
-make test-local
-```
-
-### 7. Test the `main` Branch on EKS
+### 5. Test the `main` Branch on EKS
 
 First build and publish images to ECR, then test them on EKS.
 
@@ -234,11 +193,11 @@ make deploy-eks
 make test-eks;
 ```
 
-### 7. Merge the Release Branch to `main`
+### 6. Merge the Release Branch to `main`
 
 If all tests pass, merge the release branch to `main`.
 
-### 8. Tagging
+### 7. Tagging
 
 Tagging needs to be done **on the build server**.
 
@@ -259,7 +218,7 @@ make build
 make tag
 ```
 
-### 9. Initializing Helm Charts
+### 8. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm charts are continuously developed and updated
@@ -280,7 +239,7 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 10. Update Kubernetes Manifests
+### 9. Update Kubernetes Manifests
 
 Based on the generated helm charts run `make k8s-manifests-update VERSION=<version>` target
 to update the Kubernetes manifests for the new release.
@@ -291,7 +250,7 @@ first.
 
 For example `make k8s-manifests-update VERSION=0.22.4`
 
-### 11. Release Helm Charts
+### 10. Release Helm Charts
 
 We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
@@ -314,18 +273,7 @@ the `gh-pages` branch.
 > using the workflow described above.
 {: .block-tip }
 
-### 12. Test the Released Helm Charts on a Cloud Cluster
-
-We have a AWS EKS test cluster that we test the helm charts on a production-like
-cloud cluster.
-
-To test the new helm chart run the following on the build server:
-
-```bash
-make test-eks
-```
-
-### 13. Add a Snapshot of the Current Documentation
+### 11. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned
 folders.
@@ -351,7 +299,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 13. All Set 🎉
+### 12. All Set 🎉
 
 You're all set.
 

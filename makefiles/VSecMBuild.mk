@@ -29,42 +29,22 @@ build: \
 	keystone-push-ist \
 	keystone-bundle-ist-fips \
 	keystone-push-ist-fips \
-	keystone-bundle-photon \
-	keystone-push-photon \
-	keystone-bundle-photon-fips \
-	keystone-push-photon-fips \
 	safe-bundle-ist \
 	safe-push-ist \
 	safe-bundle-ist-fips \
 	safe-push-ist-fips \
-	safe-bundle-photon \
-	safe-push-photon \
-	safe-bundle-photon-fips \
-	safe-push-photon-fips \
 	sidecar-bundle-ist \
 	sidecar-push-ist \
 	sidecar-bundle-ist-fips \
 	sidecar-push-ist-fips \
-	sidecar-bundle-photon \
-	sidecar-push-photon \
-	sidecar-bundle-photon-fips \
-	sidecar-push-photon-fips \
 	sentinel-bundle-ist \
 	sentinel-push-ist \
 	sentinel-bundle-ist-fips \
 	sentinel-push-ist-fips \
-	sentinel-bundle-photon \
-	sentinel-push-photon \
-	sentinel-bundle-photon-fips \
-	sentinel-push-photon-fips \
 	init-container-bundle-ist \
 	init-container-push-ist \
 	init-container-bundle-ist-fips \
-	init-container-push-ist-fips \
-	init-container-bundle-photon \
-	init-container-push-photon \
-	init-container-bundle-photon-fips \
-	init-container-push-photon-fips
+	init-container-push-ist-fips
 
 # Login to the public EKS registry.
 login-eks:
@@ -98,42 +78,23 @@ build-eks: \
 	keystone-push-ist-eks \
 	keystone-bundle-ist-fips \
 	keystone-push-ist-fips-eks \
-	keystone-bundle-photon \
-	keystone-push-photon-eks \
-	keystone-bundle-photon-fips \
-	keystone-push-photon-fips-eks \
 	safe-bundle-ist \
 	safe-push-ist-eks \
 	safe-bundle-ist-fips \
 	safe-push-ist-fips-eks \
-	safe-bundle-photon \
-	safe-push-photon-eks \
-	safe-bundle-photon-fips \
-	safe-push-photon-fips-eks \
 	sidecar-bundle-ist \
 	sidecar-push-ist-eks \
 	sidecar-bundle-ist-fips \
 	sidecar-push-ist-fips-eks \
-	sidecar-bundle-photon \
-	sidecar-push-photon-eks \
-	sidecar-bundle-photon-fips \
-	sidecar-push-photon-fips-eks \
 	sentinel-bundle-ist \
 	sentinel-push-ist-eks \
 	sentinel-bundle-ist-fips \
 	sentinel-push-ist-fips-eks \
-	sentinel-bundle-photon \
-	sentinel-push-photon-eks \
-	sentinel-bundle-photon-fips \
-	sentinel-push-photon-fips-eks \
 	init-container-bundle-ist \
 	init-container-push-ist-eks \
 	init-container-bundle-ist-fips \
-	init-container-push-ist-fips-eks \
-	init-container-bundle-photon \
-	init-container-push-photon-eks \
-	init-container-bundle-photon-fips \
-	init-container-push-photon-fips-eks
+	init-container-push-ist-fips-eks
+
 
 # Builds everything and pushes to the local registry.
 build-local: \
@@ -153,42 +114,22 @@ build-local: \
 	keystone-push-ist-local \
 	keystone-bundle-ist-fips \
 	keystone-push-ist-fips-local \
-	keystone-bundle-photon \
-	keystone-push-photon-local \
-	keystone-bundle-photon-fips \
-	keystone-push-photon-fips-local \
 	safe-bundle-ist \
 	safe-push-ist-local \
 	safe-bundle-ist-fips \
 	safe-push-ist-fips-local \
-	safe-bundle-photon \
-	safe-push-photon-local \
-	safe-bundle-photon-fips \
-	safe-push-photon-fips-local \
 	sidecar-bundle-ist \
 	sidecar-push-ist-local \
 	sidecar-bundle-ist-fips \
 	sidecar-push-ist-fips-local \
-	sidecar-bundle-photon \
-	sidecar-push-photon-local \
-	sidecar-bundle-photon-fips \
-	sidecar-push-photon-fips-local \
 	sentinel-bundle-ist \
 	sentinel-push-ist-local \
 	sentinel-bundle-ist-fips \
 	sentinel-push-ist-fips-local \
-	sentinel-bundle-photon \
-	sentinel-push-photon-local \
-	sentinel-bundle-photon-fips \
-	sentinel-push-photon-fips-local \
 	init-container-bundle-ist \
 	init-container-push-ist-local \
 	init-container-bundle-ist-fips \
-	init-container-push-ist-fips-local \
-	init-container-bundle-photon \
-	init-container-push-photon-local \
-	init-container-bundle-photon-fips \
-	init-container-push-photon-fips-local
+	init-container-push-ist-fips-local
 
 build-essentials-local: \
 	keygen-bundle \

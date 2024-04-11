@@ -11,172 +11,28 @@
 package safe
 
 import (
-	"bytes"
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
-	"github.com/pkg/errors"
-	"io"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
 
-	"github.com/spiffe/go-spiffe/v2/spiffeid"
+	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
-	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-// TODO: move private fns to their own files.
-
-func createAuthorizer() tlsconfig.Authorizer {
-	return tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
-		if validation.IsSafe(id.String()) {
-			return nil
-		}
-
-		return errors.New("Post: I don't know you, and it's crazy: '" +
-			id.String() + "'",
-		)
-	})
-}
-
-func decideBackingStore(backingStore string) data.BackingStore {
-	switch data.BackingStore(backingStore) {
-	case data.File:
-		return data.File
-	case data.Memory:
-		return data.Memory
-	default:
-		return env.BackingStoreForSafe()
-	}
-}
-
-func decideSecretFormat(format string) data.SecretFormat {
-	switch data.SecretFormat(format) {
-	case data.Json:
-		return data.Json
-	case data.Yaml:
-		return data.Yaml
-	default:
-		return data.Json
-	}
-}
-
-func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
-) reqres.KeyInputRequest {
-	return reqres.KeyInputRequest{
-		AgeSecretKey: ageSecretKey,
-		AgePublicKey: agePublicKey,
-		AesCipherKey: aesCipherKey,
-	}
-}
-
-func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
-	return reqres.SentinelInitCompleteRequest{}
-}
-
-func newSecretUpsertRequest(workloadIds []string, secret string,
-	namespaces []string, backingStore string, template string, format string,
-	encrypt, appendSecret bool, notBefore string, expires string,
-) reqres.SecretUpsertRequest {
-	bs := decideBackingStore(backingStore)
-	f := decideSecretFormat(format)
-
-	if notBefore == "" {
-		notBefore = "now"
-	}
-
-	if expires == "" {
-		expires = "never"
-	}
-
-	return reqres.SecretUpsertRequest{
-		WorkloadIds:  workloadIds,
-		BackingStore: bs,
-		Namespaces:   namespaces,
-		Template:     template,
-		Format:       f,
-		Encrypt:      encrypt,
-		AppendValue:  appendSecret,
-		Value:        secret,
-		NotBefore:    notBefore,
-		Expires:      expires,
-	}
-}
-
-func respond(cid *string, r *http.Response) {
-	if r == nil {
-		return
-	}
-
-	defer func(b io.ReadCloser) {
-		if b == nil {
-			return
-		}
-		err := b.Close()
-		if err != nil {
-			log.ErrorLn(cid, "Post: Problem closing request body.", err.Error())
-		}
-	}(r.Body)
-
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		log.ErrorLn(cid, "Post: Unable to read the response body from VSecM Safe.", err.Error())
-		return
-	}
-
-	println("")
-	println(string(body))
-	println("")
-}
-
-func printEndpointError(cid *string, err error) {
-	log.ErrorLn(cid, "Post: I am having problem generating VSecM Safe "+
-		"secrets api endpoint URL.", err.Error())
-}
-
-func printPayloadError(cid *string, err error) {
-	log.ErrorLn(cid, "Post: I am having problem generating the payload.", err.Error())
-}
-
-func doDelete(cid *string, client *http.Client, p string, md []byte) error {
-	req, err := http.NewRequest(http.MethodDelete, p, bytes.NewBuffer(md))
-	if err != nil {
-		return errors.Wrap(err, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.")
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-
-	r, err := client.Do(req)
-	if err != nil {
-		return errors.Wrap(err, "Post:Delete: Problem connecting to VSecM Safe API endpoint URL.")
-	}
-
-	respond(cid, r)
-	return nil
-}
-
-func doPost(cid *string, client *http.Client, p string, md []byte) error {
-	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
-	if err != nil {
-		return errors.Wrap(err, "Post: Problem connecting to VSecM Safe API endpoint URL.")
-	}
-	respond(cid, r)
-	return nil
-}
-
-// TODO: get some of these from env vars.
-// TODO: this method is duplicated in multiple places. Refactor.
 func backoffStrategy() backoff.Strategy {
 	return backoff.Strategy{
 		MaxRetries:  20,
@@ -300,7 +156,7 @@ func MarkInitializationCompletion(parentContext context.Context) {
 	}
 }
 
-// var seed = time.Now().UnixNano()
+var seed = time.Now().UnixNano()
 
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
@@ -318,16 +174,18 @@ func Post(parentContext context.Context,
 		ids += id + ", "
 	}
 
-	//// TODO: make this optional and disabled by default
-	//secret := sc.Secret
-	//uniqueData := fmt.Sprintf("%s-%d", secret, seed)
-	//dataBytes := []byte(uniqueData)
-	//hasher := sha256.New()
-	//hasher.Write(dataBytes)
-	//hashBytes := hasher.Sum(nil)
-	//hashString := hex.EncodeToString(hashBytes)
-	hashString := "TBD"
-	log.AuditLn(cid, "Sentinel:Post: workloadIds:", ids, "hash", hashString)
+	hashString := "<>"
+	if env.LogSecretFingerprints() {
+		secret := sc.Secret
+		uniqueData := fmt.Sprintf("%s-%d", secret, seed)
+		dataBytes := []byte(uniqueData)
+		hasher := sha256.New()
+		hasher.Write(dataBytes)
+		hashBytes := hasher.Sum(nil)
+		hashString = hex.EncodeToString(hashBytes)
+	}
+
+	log.AuditLn(cid, "Sentinel:Post: ws:", ids, "h:", hashString)
 
 	sourceChan := make(chan *workloadapi.X509Source)
 	proceedChan := make(chan bool)
