@@ -12,6 +12,7 @@ package initialization
 
 import (
 	"context"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
@@ -46,11 +47,11 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands(ctx context.Context) {
+func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	cid := ctx.Value("correlationId").(*string)
 
 	// No need to proceed if initialization has been completed already.
-	if !initCommandsExecutedAlready(cid) {
+	if !initCommandsExecutedAlready(ctx, source) {
 		return
 	}
 

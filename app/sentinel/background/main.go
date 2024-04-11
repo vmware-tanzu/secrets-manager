@@ -12,14 +12,27 @@ package main
 
 import (
 	"context"
+	"github.com/pkg/errors"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/background/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/rest"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 )
+
+func backoffStrategy() backoff.Strategy {
+	return backoff.Strategy{
+		MaxRetries:  env.BackoffMaxRetries(),
+		Delay:       env.BackoffDelay(),
+		Exponential: env.BackoffMode() != "linear",
+		MaxDuration: env.BackoffMaxDuration(),
+	}
+}
 
 func main() {
 	id := "VSECMSENTINEL"
@@ -34,14 +47,37 @@ func main() {
 
 	log.InfoLn(&id, "Executing the initialization commands (if any)")
 
+	ctx := context.WithValue(context.Background(), "correlationId", &id)
+
+	str := backoffStrategy()
+	var src *workloadapi.X509Source = nil
+	for {
+		err := backoff.Retry("background:fetchSource", func() error {
+			s, proceed := spiffe.AcquireSourceForSentinel(ctx)
+
+			if !proceed {
+				return errors.New("failed to acquire source")
+			}
+
+			src = s
+			return nil
+		}, str)
+
+		if err != nil {
+			continue
+		}
+
+		if src != nil {
+			break
+		}
+	}
+
 	// Execute the initialization commands (if any)
 	// This overloads the functionality of this process.
 	// If we end up adding more functionality to this process,
 	// we should refactor this and create a new process for the
 	// new functionality.
-	initialization.RunInitCommands(
-		context.WithValue(context.Background(), "correlationId", &id),
-	)
+	initialization.RunInitCommands(ctx, src)
 
 	log.InfoLn(&id, "Initialization commands executed successfully")
 
