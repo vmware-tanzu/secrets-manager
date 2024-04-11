@@ -52,22 +52,30 @@ func main() {
 	str := backoffStrategy()
 	var src *workloadapi.X509Source = nil
 	for {
+		log.TraceLn(&id, "Trying to fetch source...")
+
 		err := backoff.Retry("background:fetchSource", func() error {
+			log.TraceLn(&id, "Before acquiring source for sentinel")
+
 			s, proceed := spiffe.AcquireSourceForSentinel(ctx)
 
 			if !proceed {
+				log.TraceLn(&id, "will retry")
 				return errors.New("failed to acquire source")
 			}
 
+			log.TraceLn(&id, "acquired source!")
 			src = s
 			return nil
 		}, str)
 
 		if err != nil {
+			log.TraceLn(&id, "continue")
 			continue
 		}
 
 		if src != nil {
+			log.TraceLn(&id, "break")
 			break
 		}
 	}
