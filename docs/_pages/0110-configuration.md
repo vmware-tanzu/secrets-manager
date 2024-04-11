@@ -446,18 +446,6 @@ during the first deployment of **VSecM**.
 
 If not given, defaults to `"/opt/vsecm-sentinel/init/data"`.
 
-### VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
-
-**Used By**: *VSecM Sentinel*.
-
-`VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH` returns the path for the
-**VSecM Sentinel** initialization command tombstone file.
-
-Defaults to `"/opt/vsecm-sentinel/tombstone/init"`.
-
-This path is usually used to store a "*tombstone*" file or data indicating that
-the initialization command has been executed or is no longer valid.
-
 ### VSECM_SENTINEL_LOGGER_URL
 
 `VSECM_SENTINEL_LOGGER_URL` ise the URL for the **VSecM Sentinel** Logger.
