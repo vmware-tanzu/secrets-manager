@@ -224,7 +224,9 @@ func Post(parentContext context.Context,
 
 		authorizer := createAuthorizer()
 
-		if sc.InputKeys != "" {
+		if sc.SerializedRootKeys != "" {
+			log.InfoLn(cid, "Post: I am going to post the root keys.")
+
 			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
 				return errors.New("Post: I am having problem generating VSecM Safe secrets api endpoint URL.")
@@ -237,12 +239,12 @@ func Post(parentContext context.Context,
 				},
 			}
 
-			parts := strings.Split(sc.InputKeys, "\n")
+			parts := strings.Split(sc.SerializedRootKeys, "\n")
 			if len(parts) != 3 {
 				return errors.New("post: Bad data! Very bad data")
 			}
 
-			sr := newInputKeysRequest(parts[0], parts[1], parts[2])
+			sr := newRootKeyUpdateRequest(parts[0], parts[1], parts[2])
 			md, err := json.Marshal(sr)
 			if err != nil {
 				return errors.Wrap(err, "Post: I am having problem generating the payload.")
@@ -250,6 +252,8 @@ func Post(parentContext context.Context,
 
 			return doPost(cid, client, p, md)
 		}
+
+		log.InfoLn(cid, "Post: I am going to post the secrets.")
 
 		// Generate pattern-based random secrets if the secret has the prefix.
 		if strings.HasPrefix(sc.Secret, env.SecretGenerationPrefix()) {

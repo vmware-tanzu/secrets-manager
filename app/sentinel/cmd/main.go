@@ -88,17 +88,17 @@ func main() {
 	}()
 
 	safe.Post(ctx, entity.SentinelCommand{
-		WorkloadIds:  *workloadIds,
-		Secret:       *secret,
-		Namespaces:   *namespaces,
-		BackingStore: *backingStore,
-		Template:     *template,
-		Format:       *format,
-		Encrypt:      *encrypt,
-		DeleteSecret: *deleteSecret,
-		AppendSecret: *appendSecret,
-		InputKeys:    *inputKeys,
-		NotBefore:    *notBefore,
-		Expires:      *expires,
+		WorkloadIds:        *workloadIds,
+		Secret:             *secret,
+		Namespaces:         *namespaces,
+		BackingStore:       *backingStore,
+		Template:           *template,
+		Format:             *format,
+		Encrypt:            *encrypt,
+		DeleteSecret:       *deleteSecret,
+		AppendSecret:       *appendSecret,
+		SerializedRootKeys: *inputKeys,
+		NotBefore:          *notBefore,
+		Expires:            *expires,
 	})
 }

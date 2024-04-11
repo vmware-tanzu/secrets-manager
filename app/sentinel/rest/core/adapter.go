@@ -83,18 +83,18 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 
 	responseBody, err := safe.Post(ctx, r,
 		entity.SentinelCommand{
-			WorkloadIds:  req.Workloads,
-			Secret:       req.Secret,
-			Namespaces:   req.Namespaces,
-			BackingStore: req.BackingStore,
-			Template:     req.Template,
-			Format:       req.Format,
-			Encrypt:      req.Encrypt,
-			DeleteSecret: req.Delete,
-			AppendSecret: req.Append,
-			InputKeys:    req.InputKeys,
-			NotBefore:    req.NotBefore,
-			Expires:      req.Expires,
+			WorkloadIds:        req.Workloads,
+			Secret:             req.Secret,
+			Namespaces:         req.Namespaces,
+			BackingStore:       req.BackingStore,
+			Template:           req.Template,
+			Format:             req.Format,
+			Encrypt:            req.Encrypt,
+			DeleteSecret:       req.Delete,
+			AppendSecret:       req.Append,
+			SerializedRootKeys: req.InputKeys,
+			NotBefore:          req.NotBefore,
+			Expires:            req.Expires,
 		})
 
 	if err != nil {

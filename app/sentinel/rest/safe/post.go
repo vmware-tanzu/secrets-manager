@@ -219,7 +219,7 @@ func Post(parentContext context.Context, r *http.Request, sc entity.SentinelComm
 
 		authorizer := createAuthorizer()
 
-		if sc.InputKeys != "" {
+		if sc.SerializedRootKeys != "" {
 			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
 				return "", printEndpointError(cid, err)
@@ -232,7 +232,7 @@ func Post(parentContext context.Context, r *http.Request, sc entity.SentinelComm
 				},
 			}
 
-			parts := strings.Split(sc.InputKeys, "\n")
+			parts := strings.Split(sc.SerializedRootKeys, "\n")
 			if len(parts) != 3 {
 				return "", printPayloadError(cid, errors.New("post: Bad data! Very bad data"))
 			}

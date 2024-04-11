@@ -26,20 +26,20 @@ type VSecMInternalCommand struct {
 }
 
 type SentinelCommand struct {
-	WorkloadIds     []string
-	Namespaces      []string
-	Secret          string
-	Template        string
-	DeleteSecret    bool
-	AppendSecret    bool
-	BackingStore    string
-	Format          string
-	Encrypt         bool
-	NotBefore       string
-	Expires         string
-	InputKeys       string
-	ShouldSleep     bool
-	SleepIntervalMs int
+	WorkloadIds        []string
+	Namespaces         []string
+	Secret             string
+	Template           string
+	DeleteSecret       bool
+	AppendSecret       bool
+	BackingStore       string
+	Format             string
+	Encrypt            bool
+	NotBefore          string
+	Expires            string
+	SerializedRootKeys string
+	ShouldSleep        bool
+	SleepIntervalMs    int
 }
 
 type (
