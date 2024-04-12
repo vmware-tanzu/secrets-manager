@@ -15,7 +15,6 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -80,7 +79,6 @@ func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	waitInterval := env.InitCommandRunnerWaitIntervalBeforeInitComplete()
 	time.Sleep(waitInterval)
 
-	// Everything is set up. Mark the initialization as complete.
+	// Everything is set up.
 	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
-	safe.MarkInitializationCompletion(ctx)
 }
