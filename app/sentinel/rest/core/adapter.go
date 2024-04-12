@@ -21,20 +21,19 @@ import (
 )
 
 type SecretRequest struct {
-	Workloads    []string `json:"workload"`
-	Secret       string   `json:"secret"`
-	Namespaces   []string `json:"namespaces,omitempty"`
-	UseK8s       bool     `json:"use-k8s,omitempty"`
-	Encrypt      bool     `json:"encrypt,omitempty"`
-	Delete       bool     `json:"delete,omitempty"`
-	Append       bool     `json:"append,omitempty"`
-	List         bool     `json:"list,omitempty"`
-	Template     string   `json:"template,omitempty"`
-	Format       string   `json:"format,omitempty"`
-	BackingStore string   `json:"store,omitempty"`
-	InputKeys    string   `json:"input-keys,omitempty"`
-	NotBefore    string   `json:"nbf,omitempty"`
-	Expires      string   `json:"exp,omitempty"`
+	Workloads          []string `json:"workload"`
+	Secret             string   `json:"secret"`
+	Namespaces         []string `json:"namespaces,omitempty"`
+	Encrypt            bool     `json:"encrypt,omitempty"`
+	Delete             bool     `json:"delete,omitempty"`
+	Append             bool     `json:"append,omitempty"`
+	List               bool     `json:"list,omitempty"`
+	Template           string   `json:"template,omitempty"`
+	Format             string   `json:"format,omitempty"`
+	BackingStore       string   `json:"store,omitempty"`
+	SerializedRootKeys string   `json:"root-keys,omitempty"`
+	NotBefore          string   `json:"nbf,omitempty"`
+	Expires            string   `json:"exp,omitempty"`
 }
 
 func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretRequest) {
@@ -76,7 +75,7 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 		req.Namespaces = []string{"default"}
 	}
 
-	if invalidInput(req.Workloads, req.Encrypt, req.InputKeys, req.Secret, req.Delete) {
+	if invalidInput(req.Workloads, req.Encrypt, req.SerializedRootKeys, req.Secret, req.Delete) {
 		http.Error(w, "Input Validation Failure", http.StatusInternalServerError)
 		return
 	}
@@ -92,7 +91,7 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 			Encrypt:            req.Encrypt,
 			DeleteSecret:       req.Delete,
 			AppendSecret:       req.Append,
-			SerializedRootKeys: req.InputKeys,
+			SerializedRootKeys: req.SerializedRootKeys,
 			NotBefore:          req.NotBefore,
 			Expires:            req.Expires,
 		})
