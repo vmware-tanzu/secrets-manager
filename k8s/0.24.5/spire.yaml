@@ -633,6 +633,7 @@ metadata:
   namespace: spire-system
   labels:
     app: spire-server
+    app.kubernetes.io/component: server
 spec:
   replicas: 1
   selector:
