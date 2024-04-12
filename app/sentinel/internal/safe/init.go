@@ -47,7 +47,7 @@ func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (b
 		)
 	})
 
-	checkUrl := "/sentinel/entity/keystone"
+	checkUrl := "/sentinel/v1/keystone"
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), checkUrl)
 	if err != nil {

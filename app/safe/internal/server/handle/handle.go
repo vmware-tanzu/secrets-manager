@@ -138,7 +138,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
-		log.DebugLn(&cid, "Handler: route mismatch")
+		log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err = io.WriteString(w, "")
