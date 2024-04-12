@@ -204,6 +204,17 @@ func SecretByName(cid string, name string) *entity.Secret {
 
 const keystoneWorkloadId = "vsecm-keystone"
 
+// KeystoneInitialized checks whether the keystone secret is registered.
+//
+// This is a utility function that depends on the SecretByName function to check
+// for the presence of the specific secret. A return value of true indicates that
+// the keystone is initialized and ready for use, while false indicates it is not.
+//
+// Parameters:
+//   - cid string: A correlation ID used for logging and tracing.
+//
+// Returns:
+//   - bool: True if the keystone secret is present, false otherwise.
 func KeystoneInitialized(cid string) bool {
 	ks := SecretByName(cid, keystoneWorkloadId)
 	return ks != nil
