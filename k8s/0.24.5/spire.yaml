@@ -627,7 +627,7 @@ spec:
 ---
 # Source: vsecm/charts/spire/templates/spire-server.yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: spire-server
   namespace: spire-system
