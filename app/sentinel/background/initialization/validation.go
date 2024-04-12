@@ -40,7 +40,7 @@ func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Sourc
 			continue
 		}
 
-		log.TraceLn(cid, "check:return", initialized)
+		log.TraceLn(cid, "check:return initialized:", initialized)
 		return initialized
 	}
 }
