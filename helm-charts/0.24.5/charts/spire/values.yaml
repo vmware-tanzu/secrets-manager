@@ -20,7 +20,7 @@ replicaCount: 1
 ## @param server.kind Define SPIRE server deployment type. 
 ## Can be statefulset/deployment. Defaults to statefulset if not set. This feature is experimental.
 server:
-  kind: statefulset
+  kind: deployment
 
 # Override it with an image pull secret that you need as follows:
 # imagePullSecrets:
