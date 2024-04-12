@@ -98,7 +98,8 @@ ensuring our software stays dependable and effective for production use.
 
 ## 🦆🦆🦆 (*Docs*)
 
-[Official documentation on **vsecm.com**](https://vsecm.com/).
+* [Official documentation on **vsecm.com**](https://vsecm.com/).
+* [Go Docs on **pkg.go.dev**](https://pkg.go.dev/github.com/vmware-tanzu/secrets-manager)
 
 ## A Note on Security
 
