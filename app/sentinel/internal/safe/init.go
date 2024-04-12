@@ -95,6 +95,8 @@ func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (b
 		)
 	}
 
+	log.TraceLn(cid, "json result: ' ", string(res), " ' status: ", r.Status, "code", r.StatusCode)
+
 	var result entity.KeystoneStatusResponse
 
 	if err := json.Unmarshal(res, &result); err != nil {
