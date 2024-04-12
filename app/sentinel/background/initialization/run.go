@@ -71,17 +71,23 @@ func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 
 	// Parse the commands file and execute the commands in it.
 	file, scanner := commandFileScanner(cid)
-	if file != nil {
-		defer func(file *os.File) {
-			err := file.Close()
-			if err != nil {
-				log.ErrorLn(cid,
-					"RunInitCommands: Error closing initialization file: ",
-					err.Error(),
-				)
-			}
-		}(file)
+	if file == nil {
+		log.ErrorLn(cid, "file is nil, exiting")
+		return
 	}
+	if scanner == nil {
+		log.ErrorLn(cid, "scanner is nil, exiting")
+		return
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.ErrorLn(cid,
+				"RunInitCommands: Error closing initialization file: ",
+				err.Error(),
+			)
+		}
+	}(file)
 
 	log.TraceLn(cid, "RunInitCommands: before parsing commands file")
 
