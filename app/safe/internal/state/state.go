@@ -148,6 +148,30 @@ func DecryptValue(value string) (string, error) {
 	return string(decrypted), nil
 }
 
+// SecretByName retrieves a secret by its name.
+// This function first checks if the secrets have been populated in the cache.
+// If not, it populates the secrets using the root key triplet. It then attempts
+// to load the secret by name from the populated cache.
+//
+// Parameters:
+//   - cid  string: A correlation ID used to track the request and associated logging.
+//     This ID helps in tracing and debugging operations across different components
+//     or services that handle the secret data.
+//   - name string: The name of the secret to be retrieved.
+//
+// Returns:
+//   - *entity.Secret: A pointer to the Secret entity if found. The Secret structure
+//     includes fields such as Name, Created, Updated, NotBefore, and ExpiresAfter.
+//     Each of these timestamp fields is converted from the stored format to a
+//     JSON compatible format. Returns nil if no secret with the provided name is
+//     found in the cache.
+//
+// Error Handling:
+//   - If there is an error in populating the secrets from the disk (e.g., due to
+//     read errors or  data corruption), the function logs a warning message with
+//     the correlation ID and the error message but continues execution. This does
+//     not halt the function, and it subsequently tries to fetch the secret if
+//     already available in the cache.
 func SecretByName(cid string, name string) *entity.Secret {
 	k1, k2, k3 := RootKeyTriplet()
 	rkt := []string{k1, k2, k3}
