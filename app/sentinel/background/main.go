@@ -80,6 +80,8 @@ func main() {
 		}
 	}
 
+	log.TraceLn(&id, "before RunInitCommands")
+
 	// Execute the initialization commands (if any)
 	// This overloads the functionality of this process.
 	// If we end up adding more functionality to this process,
@@ -92,6 +94,7 @@ func main() {
 	if env.SentinelEnableOIDCResourceServer() {
 		go rest.RunRestServer()
 	}
+
 	// Run on the main thread to wait forever.
 	system.KeepAlive()
 }
