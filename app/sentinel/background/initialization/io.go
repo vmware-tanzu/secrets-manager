@@ -147,13 +147,27 @@ dance:
 			sc.Secret = value
 		case transformation:
 			sc.Template = value
+		case encrypt:
+			sc.Encrypt = true
+		case remove:
+			sc.DeleteSecret = true
+		case join:
+			sc.AppendSecret = true
+		case format:
+			sc.Format = value
+		case keys:
+			sc.SerializedRootKeys = value
+		case notBefore:
+			sc.NotBefore = value
+		case expires:
+			sc.Expires = value
 		case sleep:
 			sc.ShouldSleep = true
-			intms, err := strconv.Atoi(value)
+			intervalMs, err := strconv.Atoi(value)
 			if err != nil {
 				log.ErrorLn(cid, "RunInitCommands: Error parsing sleep interval: ", err.Error())
 			}
-			sc.SleepIntervalMs = intms
+			sc.SleepIntervalMs = intervalMs
 		default:
 			log.InfoLn(cid, "RunInitCommands: unknown command: ", key)
 		}

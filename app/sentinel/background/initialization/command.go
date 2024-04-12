@@ -12,9 +12,20 @@ package initialization
 
 type command string
 
-const workload command = "w"
-const namespace command = "n"
-const secret command = "s"
-const transformation command = "t"
+// Special Commands
 const sleep = "sleep"
 const exit = "exit"
+
+// Sentinel Commands
+// These should match `./app/sentinel/cmd/parse.go` values.
+const encrypt command = "e"
+const expires command = "E"
+const format command = "f"
+const join command = "a"
+const keys command = "i"
+const namespace command = "n"
+const notBefore command = "N"
+const remove command = "d"
+const secret command = "s"
+const transformation command = "t"
+const workload command = "w"
