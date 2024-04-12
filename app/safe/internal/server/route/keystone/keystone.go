@@ -101,7 +101,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		log.TraceLn(&cid, "Status: keystone initialized")
 
 		res := reqres.KeystoneStatusResponse{
-			Status: data.Pending,
+			Status: data.Ready,
 		}
 
 		j.Event = event.Ok
@@ -127,10 +127,12 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		return
 	}
 
+	// Below: not initialized
+
 	log.TraceLn(&cid, "Status: keystone not initialized")
 
 	res := reqres.KeystoneStatusResponse{
-		Status: data.Ready,
+		Status: data.Pending,
 	}
 
 	j.Event = event.Ok
