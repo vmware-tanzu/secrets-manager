@@ -50,7 +50,8 @@ func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	cid := ctx.Value("correlationId").(*string)
 
 	// No need to proceed if initialization has been completed already.
-	if !initCommandsExecutedAlready(ctx, source) {
+	if initCommandsExecutedAlready(ctx, source) {
+		log.TraceLn(cid, "RunInitCommands: executed already. exiting")
 		return
 	}
 
