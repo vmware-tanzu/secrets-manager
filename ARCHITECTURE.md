@@ -18,4 +18,4 @@ main system components:
 For more details, [you can view the full architecture documentation here][architecture].
 
 [spire]: https://spiffe.io/downloads/ "SPIRE"
-[architecture]:
+[architecture]: https://vsecm.com/docs/architecture "VSecM Architecture"
