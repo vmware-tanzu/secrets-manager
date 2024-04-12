@@ -11,46 +11,36 @@
 package initialization
 
 import (
-	"fmt"
-	"os"
-	"strings"
-
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"context"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func initCommandsExecutedAlready(cid *string) bool {
-	log.TraceLn(cid, "checking tombstone file")
+func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Source) bool {
+	cid := ctx.Value("correlationId").(*string)
 
-	// Parse tombstone file first:
-	tombstonePath := env.InitCommandTombstonePathForSentinel()
-	file, err := os.Open(tombstonePath)
-	if err != nil {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: no tombstone file found... skipping custom initialization.",
-		)
-		return false
-	}
+	log.TraceLn(cid, "check:initCommandsExecutedAlready")
 
-	defer func(file *os.File) {
-		err := file.Close()
+	s := backoffStrategy()
+	initialized := false
+	for {
+		err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+			i, err := safe.CheckInitialization(ctx, src)
+			if err != nil {
+				return err
+			}
+			initialized = i
+			return nil
+		}, s)
+
 		if err != nil {
-			log.ErrorLn(cid, "Error closing tombstone file: ", err.Error())
+			log.ErrorLn(cid, "check:backoff:error", err.Error())
+			continue
 		}
-	}(file)
 
-	data, err := os.ReadFile(tombstonePath)
-
-	log.InfoLn(cid, fmt.Sprintf("tombstone:'%s'", string(data)))
-
-	if strings.TrimSpace(string(data)) == "complete" {
-		log.InfoLn(
-			cid,
-			"RunInitCommands: Already initialized. Skipping custom initialization.",
-		)
-		return false
+		log.TraceLn(cid, "check:return initialized:", initialized)
+		return initialized
 	}
-
-	return true
 }

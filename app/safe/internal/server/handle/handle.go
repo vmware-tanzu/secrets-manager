@@ -11,18 +11,20 @@
 package handle
 
 import (
+	"io"
+	"net/http"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
 	deleteRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
 	fetchRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
-	initializationRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/initialization"
+	keystoneRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/keystone"
 	listRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
 	receiveRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
 	secretRoute "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/secret"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
-	"io"
-	"net/http"
 )
 
 // InitializeRoutes initializes the HTTP routes for the web server. It sets up an
@@ -74,6 +76,13 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		p := r.URL.Path
 
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", r.Method)
+
+		// Return the current state of the Keystone secret.
+		// Either "initialized", or "pending"
+		if r.Method == http.MethodGet && p == "/sentinel/v1/keystone" {
+			log.DebugLn(&cid, "Handler: will keystone")
+			keystoneRoute.Status(cid, w, r, sid)
+		}
 
 		// Route to list secrets.
 		// Only VSecM Sentinel is allowed to call this API endpoint.
@@ -129,16 +138,7 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			return
 		}
 
-		if r.Method == http.MethodPost && p == "/sentinel/v1/init-completed" {
-			log.DebugLn(
-				&cid,
-				"Handler:/sentinel/v1/init-completed: will mark init completion",
-			)
-			initializationRoute.InitComplete(cid, w, r, sid)
-			return
-		}
-
-		log.DebugLn(&cid, "Handler: route mismatch")
+		log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err = io.WriteString(w, "")

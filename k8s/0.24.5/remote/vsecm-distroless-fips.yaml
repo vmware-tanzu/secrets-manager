@@ -131,16 +131,6 @@ type: Opaque
 stringData:
   data: "exit:true\n--\n"
 ---
-# Source: vsecm/charts/sentinel/templates/Secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vsecm-sentinel-init-tombstone
-  namespace: vsecm-system
-type: Opaque
-stringData:
-  init: "not-initialized"
----
 # Source: vsecm/charts/safe/templates/hook-preinstall-role.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -612,9 +602,6 @@ spec:
             - name: init-command-volume
               # /opt/vsecm-sentinel/init/data will contain the init script.
               mountPath: /opt/vsecm-sentinel/init
-            - name : tombstone-volume
-              # /opt/vsecm-sentinel/tombstone/init will contain the tombstone file.
-              mountPath: /opt/vsecm-sentinel/tombstone
           #
           # You can configure VSecM Sentinel by providing
           # environment variables.
@@ -640,8 +627,6 @@ spec:
               value: ":8443"
             - name: VSECM_SENTINEL_INIT_COMMAND_PATH
               value: "/opt/vsecm-sentinel/init/data"
-            - name: VSECM_SENTINEL_INIT_COMMAND_TOMBSTONE_PATH
-              value: "/opt/vsecm-sentinel/tombstone/init"
             - name: VSECM_SENTINEL_LOGGER_URL
               value: "localhost:50051"
             - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
@@ -672,9 +657,6 @@ spec:
         - name: init-command-volume
           secret:
             secretName: vsecm-sentinel-init-secret
-        - name: tombstone-volume
-          secret:
-            secretName: vsecm-sentinel-init-tombstone
 ---
 # Source: vsecm/charts/keystone/templates/Identity.yaml
 # /*

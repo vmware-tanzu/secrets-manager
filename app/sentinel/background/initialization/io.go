@@ -23,7 +23,7 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func commandFileScanner(cid *string) *bufio.Scanner {
+func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 	filePath := env.InitCommandPathForSentinel()
 	file, err := os.Open(filePath)
 
@@ -32,24 +32,17 @@ func commandFileScanner(cid *string) *bufio.Scanner {
 			cid,
 			"RunInitCommands: no initialization file found... skipping custom initialization.",
 		)
-		return nil
+		return nil, nil
 	}
 
-	defer func(file *os.File) {
-		err := file.Close()
-		if err != nil {
-			log.ErrorLn(cid, "RunInitCommands: Error closing initialization file: ", err.Error())
-		}
-	}(file)
-
-	log.TraceLn(cid, "Before parsing commands")
+	log.TraceLn(cid, "Before parsing commands 001")
 
 	// Parse the commands file and execute the commands in it.
-	return bufio.NewScanner(file)
+	return file, bufio.NewScanner(file)
 }
 
 func parseCommandsFile(ctx context.Context, cid *string, scanner *bufio.Scanner) {
-	log.TraceLn(cid, "Before parsing commands")
+	log.TraceLn(cid, "Before parsing commands 002")
 
 	sc := entity.SentinelCommand{}
 	terminateAsap := env.TerminateSentinelOnInitCommandConnectivityFailure()
@@ -63,8 +56,11 @@ func parseCommandsFile(ctx context.Context, cid *string, scanner *bufio.Scanner)
 		return
 	}
 
+	log.TraceLn(cid, "beginning scan")
 dance:
 	for scanner.Scan() {
+		log.TraceLn(cid, "scan:for")
+
 		line := strings.TrimSpace(scanner.Text())
 		log.TraceLn(cid, "line:", line)
 

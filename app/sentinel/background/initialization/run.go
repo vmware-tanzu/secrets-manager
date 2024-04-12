@@ -12,9 +12,10 @@ package initialization
 
 import (
 	"context"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"os"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -46,13 +47,16 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands(ctx context.Context) {
+func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	cid := ctx.Value("correlationId").(*string)
 
 	// No need to proceed if initialization has been completed already.
-	if !initCommandsExecutedAlready(cid) {
+	if initCommandsExecutedAlready(ctx, source) {
+		log.TraceLn(cid, "RunInitCommands: executed already. exiting")
 		return
 	}
+
+	log.TraceLn(cid, "RunInitCommands: starting the init flow")
 
 	// Ensure that we can acquire a source before proceeding.
 	ensureSourceAcquisition(ctx, cid)
@@ -63,13 +67,39 @@ func RunInitCommands(ctx context.Context) {
 	// Now we know that we can establish a connection to VSecM Safe
 	// and execute API requests. So, we can safely run init commands.
 
+	log.TraceLn(cid, "RunInitCommands: before getting the scanner")
+
 	// Parse the commands file and execute the commands in it.
-	scanner := commandFileScanner(cid)
+	file, scanner := commandFileScanner(cid)
+	if file == nil {
+		log.ErrorLn(cid, "file is nil, exiting")
+		return
+	}
+	if scanner == nil {
+		log.ErrorLn(cid, "scanner is nil, exiting")
+		return
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			log.ErrorLn(cid,
+				"RunInitCommands: Error closing initialization file: ",
+				err.Error(),
+			)
+		}
+	}(file)
+
+	log.TraceLn(cid, "RunInitCommands: before parsing commands file")
+
 	parseCommandsFile(ctx, cid, scanner)
+
+	log.TraceLn(cid, "RunInitCommands: before marking keystone")
 
 	// Mark the keystone secret.
 	success := markKeystone(ctx, cid)
 	if !success {
+		log.TraceLn(cid, "RunInitCommands: failed to mark keystone. exiting")
+
 		// If we cannot set the keystone secret, we should not proceed.
 		return
 	}
@@ -79,7 +109,6 @@ func RunInitCommands(ctx context.Context) {
 	waitInterval := env.InitCommandRunnerWaitIntervalBeforeInitComplete()
 	time.Sleep(waitInterval)
 
-	// Everything is set up. Mark the initialization as complete.
+	// Everything is set up.
 	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
-	safe.MarkInitializationCompletion(ctx)
 }

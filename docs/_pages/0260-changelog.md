@@ -18,7 +18,10 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* Removed the tombstone feature, we use VSecM Keystone instead of tombstone,
+  which is more reliable, secure, and under our control.
+* Minor bug fixes and feature enhancements.
+* Documentation updates.
 
 ## [v0.24.1] - 2024-03-31
 
