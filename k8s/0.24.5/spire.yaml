@@ -627,12 +627,13 @@ spec:
 ---
 # Source: vsecm/charts/spire/templates/spire-server.yaml
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: spire-server
   namespace: spire-system
   labels:
     app: spire-server
+    app.kubernetes.io/component: server
 spec:
   replicas: 1
   selector:
