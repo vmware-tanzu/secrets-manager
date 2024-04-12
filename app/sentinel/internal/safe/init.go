@@ -30,6 +30,24 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
+// CheckInitialization verifies if VSecM Sentinel has executed its init commands
+// stanza successfully. This function utilizes a SPIFFE-based mTLS authentication
+// mechanism to securely connect to a specified API endpoint.
+//
+// Parameters:
+//   - ctx context.Context: The context carrying the correlation ID used for
+//     logging and tracing the operation across different system components.
+//     The correlation ID is extracted from the context for error logging purposes.
+//   - source *workloadapi.X509Source: A pointer to an X509Source, which provides
+//     the credentials necessary for mTLS configuration. The source must not be nil,
+//     as it is essential for establishing the TLS connection.
+//
+// Returns:
+//   - bool: Returns true if VSecM Sentinel is initialized; false otherwise .
+//   - error: Returns an error if the workload source is nil, URL joining fails,
+//     the API call fails, the response body cannot be read, or the JSON
+//     response cannot be unmarshalled. The error will provide a detailed
+//     message about the nature of the failure.
 func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (bool, error) {
 	cid := ctx.Value("correlationId").(*string)
 
