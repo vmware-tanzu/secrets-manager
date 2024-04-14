@@ -11,9 +11,9 @@
 
 title: Mounting Kubernetes Secrets
 layout: post
-prev_url: /docs/use-case-encryption/
+prev_url: /docs/use-case-sdk-retrieve-secrets/
 permalink: /docs/use-case-mounting-secrets-as-env-vars/
-next_url: /docs/showcase/
+next_url: /docs/use-case-encrypting-large-files/
 ---
 
 ## Situation Analysis
@@ -37,7 +37,9 @@ Secrets in any namespace.
 
 ## High-Level Diagram
 
-![High-Level Diagram](/assets/vsecm-usecase-mount-k8s-secret.jpg "High-Level Diagram")
+Open the image in a new tab to see the full-size version:
+
+![High-Level Diagram](/assets/mount-secrets.png "High-Level Diagram")
 
 ## Implementation
 

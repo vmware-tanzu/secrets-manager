@@ -15,11 +15,15 @@
         {% endif %}
     </head>
     <body>
+
+
         <div class="book">
 
             {%- include toc-date.html -%}
 
             <div class="book-body">
+
+
                 <div class="book-header" role="navigation">
                     <h1>
                         <i class="fa fa-circle-o-notch fa-spin"></i>
@@ -32,6 +36,22 @@
                 </div>
 
                 <div class="body-inner">
+                    {%- include notification.html -%}
+
+                    <p style="text-align:center;padding-bottom:4em;border-bottom:1px #444444 dashed;margin-bottom:3em;">
+                        {% if page.prev_url %}
+                        <a href="{{ page.prev_url }}" style="xbox-shadow: rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;background:#70b7ff6a;color: #000000;padding:0.6em 0.8em;border-radius:4px;min-width:100px;display:inline-block;">«« previous</a>
+                        {% endif %}
+
+                        {% if page.next_url %}
+                        <a href="{{ page.next_url }}" style="xbox-shadow: rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
+rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
+rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;background:#70b7ff6a;color: #000000;padding:0.6em 0.8em;border-radius:4px;min-width:100px;display:inline-block;">next »»</a>
+                        {% endif %}
+                    </p>
+
                     {%- include body.html -%}
                 </div>
             </div>

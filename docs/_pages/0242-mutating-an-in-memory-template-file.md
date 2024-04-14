@@ -11,9 +11,9 @@
 
 title: Mutating a Template File
 layout: post
-prev_url: /docs/use-case-encryption/
+prev_url: /docs/use-case-secrets-as-volumes/
 permalink: /docs/use-case-in-memory-template/
-next_url: /docs/showcase/
+next_url: /docs/use-case-sdk-retrieve-secrets/
 ---
 
 ## Situation Analysis

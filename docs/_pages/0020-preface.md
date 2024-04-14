@@ -11,7 +11,7 @@
 
 title: Preface
 layout: post
-prev_url: /docs/blog/
+prev_url: /docs/quickstart/
 permalink: /docs/navigation/
 next_url: /docs/about/
 ---
@@ -21,8 +21,7 @@ next_url: /docs/about/
 Yes, this website is intentionally created like a book. We wanted to make
 sure that you have a great experience reading our documentation, and we
 believe that following the documentation cover-to-cover as if it were a book
-is the best way to learn about **VMware Secrets Manager** (*VSecM*) for
-Cloud-Native Apps.
+is the best way to learn about **VMware Secrets Manager**.
 
 We use a heavily customized version of [the Jekyll GitBook Theme][gitbook-theme]
 to achieve this. [You can check the source code for this website on

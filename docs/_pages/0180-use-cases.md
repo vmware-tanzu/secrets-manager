@@ -13,12 +13,12 @@ title: About Use Cases
 layout: post
 prev_url: /docs/production/
 permalink: /docs/use-cases/
-next_url: /docs/use-cases-overview/
+next_url: /docs/use-case-overview/
 ---
 
 ## Introduction 🐢
 
-This document lists various use cases to register secrets to Kubernetes
+This section lists various use cases to register secrets to Kubernetes
 workloads using **VMware Secrets Manager**, in tutorial form. Each tutorial isolated in
 itself, explaining a specific feature of **VMware Secrets Manager**.
 
@@ -34,18 +34,23 @@ We advise you to follow these tutorials in the sequence they are presented here.
 We've structured them this way to start with simpler use cases and progressively
 introduce more advanced techniques as we build upon our knowledge.
 
-1. [Overview and Prerequisites](/docs/use-cases-overview)
+1. [Overview and Prerequisites](/docs/use-case-overview)
+2. [Registering Secrets](/docs/use-case-registering-secrets)
+3. [Using Init Command](/docs/use-case-init-command)
+4. [Revealing Secrets](/docs/use-case-retrieving-secrets)
 2. [Using **VSecM Sidecar**](/docs/use-case-sidecar)
 3. [Using **VSecM SDK**](/docs/use-case-sdk)
 4. [Using **VSecM Init Container**](/docs/use-case-init-container)
 5. [Encrypting Secrets](/docs/use-case-encryption)
 6. [Transforming Secrets](/docs/use-case-transformation)
-7. [Mounting Secrets as Volumes](/docs/secrets-as-volumes)
+7. [Mounting Secrets as Volumes](/docs/use-case-secrets-as-volumes)
 8. [Mutating a Template File](/docs/use-case-in-memory-template/)
 9. [Retrieving Secrets from **VSecM SDK**](/docs/use-case-sdk-retrieves-secrets/)
 10. [Mounting Kubernetes Secrets](/docs/use-case-mounting-secrets-as-env-vars/)
 11. [Encrypting Large Files](/docs/use-case-encrypting-large-files/)
-12. [**VMware Secrets Manager** Showcase](/docs/showcase)
+12. [Setting the Root Keys Externally](/docs/use-case-encrypting-large-files/)
+13. [Generating Pattern-Based Randomized Secrets](/docs/use-case-setting-root-key/)
+14. [**VMware Secrets Manager** Showcase](/docs/use-case-showcase)
 
 ## Further Reading
 

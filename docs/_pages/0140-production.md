@@ -11,7 +11,7 @@
 
 title: Production Setup
 layout: post
-prev_url: /docs/contributing/
+prev_url: /docs/dev-env/
 permalink: /docs/production/
 next_url: /docs/use-cases/
 ---

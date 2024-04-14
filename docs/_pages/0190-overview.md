@@ -12,8 +12,8 @@
 title: Overview
 layout: post
 prev_url: /docs/use-cases/
-permalink: /docs/use-cases-overview/
-next_url: /docs/use-case-sidecar/
+permalink: /docs/use-case-overview/
+next_url: /docs/use-case-registering-secrets/
 ---
 
 ## Introduction
@@ -70,7 +70,7 @@ make k8s-start
 > You can of course use other tools such as [microk8s], or [kind], [k38][k3s]
 > or even a full-blown managed Kubernetes cluster; however it will be virtually
 > impossible to cover all possible tooling and OS combinations. Therefore,
-> we'll only provide instructions for **minikube** in this document.
+> we'll only provide instructions for **Minikube** in this document.
 {: .block-tip}
 
 [minikube]: https://minikube.sigs.k8s.io/docs/ "minikube"

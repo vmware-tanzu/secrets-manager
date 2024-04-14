@@ -11,9 +11,9 @@
 
 title: Encrypting Large Files
 layout: post
-prev_url: /docs/use-case-encryption/
+prev_url: /docs/use-case-mounting-secrets-as-env-vars/
 permalink: /docs/use-case-encrypting-large-files/
-next_url: /docs/showcase/
+next_url: /docs/use-case-setting-root-key/
 ---
 
 ## Situation Analysis
@@ -39,7 +39,9 @@ Here's one of several ways the interaction mentioned in the former section can h
 This sequence diagram follows a GitOps-like workflow, yet it can be adapted to 
 various other scenarios, too.
 
-![High-Level Diagram](/assets/vsecm-use-case-large-files.jpg "High-Level Diagram")
+Open the image in a new tab to see the full-size version:
+
+![High-Level Diagram](/assets/large-files.png "High-Level Diagram")
 
 ## Implementation
 
@@ -135,11 +137,11 @@ workflows, offering an adaptable solution to security challenges.
 This system enhances security and maintains operational efficiency by automating 
 critical aspects of the encryption process.
 
-The potential for VSecM to autonomously generate and manage AES keys further 
+The potential for **VSecM** to autonomously generate and manage AES keys further 
 streamlines the process, reducing the need for manual intervention and minimizing 
 human error. 
 
-Future contributions to the VSecM project, as highlighted by the open issues, 
+Future contributions to the **VSecM** project, as highlighted by the open issues, 
 will undoubtedly enhance its capabilities and ease of integration.
 
 By adopting this approach, organizations can strike an effective balance between 

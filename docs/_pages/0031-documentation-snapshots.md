@@ -13,7 +13,7 @@ title: Documentation Snapshots
 layout: post
 prev_url: /docs/endorsements/
 permalink: /docs/doc-snapshots/
-next_url: /docs/quickstart/
+next_url: /docs/philosophy/
 ---
 
 Here are the **VMware Secrets Manager** documentations captured in time for 

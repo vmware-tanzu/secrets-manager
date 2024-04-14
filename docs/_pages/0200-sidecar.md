@@ -11,20 +11,42 @@
 
 title: Using VSecM Sidecar
 layout: post
-prev_url: /docs/use-cases-overview/
+prev_url: /docs/use-case-retrieving-secrets/
 permalink: /docs/use-case-sidecar/
-next_url: /docs/use-case-sdk/
+next_url: /docs/use-case-init-container/
 ---
 
-## Using With **VSecM Sidecar**
+## Situation Analysis
+
+There might be times you don't have direct control over the application code
+to integrate **VMware Secrets Manager** SDK. In such cases, you can use
+**VSecM Sidecar** to inject secrets into your application.
+
+**VSceM Sidecar** is a container that runs alongside your application container
+and injects secrets into a shared in-memory volume. Your application can then
+read the secrets from that volume.
+
+## Strategy
+
+Use **VSecM Sidecar** to inject secrets into your application container.
+
+## High-Level Diagram
+
+Open the image in a new tab to see its full-size version:
+
+![High-Level Diagram](/assets/vsecm-sidecar.png "High-Level Diagram")
+
+## Implementation
 
 Let's deploy our demo workload that will use **VSecM Sidecar**.
 
 You can find the deployment manifests inside the
 [`./examples/workload-using-sidecar/k8s`][workload-yaml] folder of your
-cloned **VMware Secrets Manager** folder.
+cloned **VMware Secrets Manager** project.
 
 [workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using_sidecar/k8s
+
+### Deploying the Example Workload
 
 To deploy our workload using that manifest, execute the following:
 
@@ -39,7 +61,7 @@ make example-sidecar-deploy
 
 And that's it. You have your demo workload up and running.
 
-## Read the Source
+### Read the Source
 
 Make sure [you examine the manifests][workload-yaml] to gain an understanding
 of what kinds of entities you've deployed to your cluster.
@@ -48,10 +70,10 @@ You'll see that there are two images in the `Deployment` object declared inside
 that folder:
 
 * `vsecm/example`: This is the container that has the business logic.
-* `vsecm/vsecm-ist-sidecar`: This **VMware Secrets Manager**-managed container injects
-  secrets to a place that our demo container can consume.
+* `vsecm/vsecm-ist-sidecar`: This **VMware Secrets Manager**-managed container 
+  injects secrets to a place that our demo container can consume.
 
-## The Demo App
+### The Demo App
 
 [Here is the source code of the demo container's app][workload-src] for the
 sake of completeness.
@@ -75,10 +97,10 @@ for {
 }
 ```
 
-## ClusterSPIFFEID
+### ClusterSPIFFEID
 
-Yet, how do we tell **VMware Secrets Manager** about our app so that it can identify it to
-deliver secrets?
+Yet, how do we tell **VMware Secrets Manager** about our app so that it can 
+identify it to deliver secrets?
 
 For this, there is an identity file that defines a `ClusterSPIFFEID` for
 the workload:
@@ -113,7 +135,7 @@ This identity descriptor, tells **VMware Secrets Manager** that the workload:
 * Is bound to a certain service account,
 * And as a certain name.
 
-When the time comes, **VMware Secrets Manager** will read this identity and learn 
+When the time comes, **VMware Secrets Manager** will read this identity and learn
 about which workload is requesting secrets. Then it can decide to deliver
 the secrets (*because the workload is registered*) or deny dispatching them
 (*because the workload is unknown/unregistered*).
@@ -131,7 +153,7 @@ the secrets (*because the workload is registered*) or deny dispatching them
 > Therefore, creating a `ClusterSPIFFEID` is a way to **irrefutably**,
 > **securely**, and **cryptographically** identify a workload.
 
-## Verifying the Deployment
+### Verifying the Deployment
 
 If you have been following along so far, when you execute `kubectl get po` will
 give you something like this:
@@ -163,7 +185,7 @@ Failed to read the secrets file. Will retry in 5 seconds...
 What we see here that our workload checks for the secrets file and cannot
 find it for a while, and displays a failure message.
 
-## Registering a Secret
+### Registering a Secret
 
 Let's register a secret and see how the logs change:
 
@@ -205,9 +227,9 @@ through **VSecM Sidecar** behind the scenes.
 >
 > In our case, we will register secrets to workloads using it.
 
-## Registering Multiple Secrets
+### Registering Multiple Secrets
 
-If needed, you can associate more than one secret to a worklad, for this, you'll
+If needed, you can associate more than one secret to a workload, for this, you'll
 need to use the `-a` (for "*append*") flag.
 
 ```bash 
@@ -247,17 +269,17 @@ Yes, we have two secrets in an array.
 with the workload, and a JSON Array of strings if the workload has more than
 one secret registered.
 
-## More About ClusterSPIFFEID
+### More About `ClusterSPIFFEID`s
 
 Let's dig a bit deeper.
 
-[`ClusterSPIFFEID`][clusterspiffeid] is a Kubernetes Custom Resource that enables distributing
-[**SPIRE**](https://spiffe.io/) identities to workloads in a cloud-native
+[`ClusterSPIFFEID`][clusterspiffeid] is a Kubernetes Custom Resource that enables 
+distributing [**SPIRE**](https://spiffe.io/) identities to workloads in a cloud-native
 and declarative way.
 
 Assuming you've had a chance to review the deployment manifests as recommended
 at the start of this tutorial, you might have noticed something similar to what's
-presented below in the [`Identity.yaml`][identity-yaml]."
+presented below in the [`Identity.yaml`][identity-yaml].
 
 [identity-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_sidecar/k8s/Identity.yaml
 [clusterspiffeid]: https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md
@@ -274,7 +296,7 @@ The `example` part from that template is the **name** that **VMware Secrets Mana
 will identify this workload as. That is the name we used when we registered
 the secret to our workload.
 
-## **VSecM Sentinel** Commands
+### **VSecM Sentinel** Commands
 
 You can execute
 `kubectl exec -it $sentinelPod -n vsecm-system -- safe --help`
@@ -288,10 +310,24 @@ information and usage examples on **VSecM Sentinel**.
 
 ## Conclusion
 
-Yay 🎉. That was our first secret.
+**VSecM Sidecar** presents a robust solution for securely managing and injecting 
+secrets into application containers without directly modifying the application code. 
+This approach leverages the sidecar pattern, effectively decoupling the secret 
+management from the application's business logic, thereby enhancing security 
+and maintainability.
 
-In the next tutorial, we will do something similar; however, this time we
-will leverage [**VSecM SDK**](/docs/sdk) instead of **VSecM Sidecar**.
+This approach not only simplifies the integration of secret management into 
+existing Kubernetes deployments but also strengthens security protocols by 
+minimizing direct access to sensitive information. 
+
+As observed, the seamless functionality of registering and appending multiple 
+secrets highlights the flexibility and scalability of the 
+**VMware Secrets Manager** ecosystem.
+
+By utilizing **VSecM Sidecar**, organizations can achieve a higher level of 
+security assurance and operational efficiency in managing secrets, which is 
+crucial for maintaining the integrity and confidentiality of application data 
+in dynamic and complex cloud environments. 
 
 <p class="github-button">
   <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0200-sidecar.md">

@@ -11,7 +11,6 @@
 
 title: VMware Secrets Manager for Cloud-Native Apps
 layout: post
-prev_url: /docs/showcase/
 permalink: /
 next_url: /docs/community/
 ---
@@ -37,16 +36,22 @@ If you want to get started quickly, check out the [**quickstart tutorial**](/doc
 
 If you're looking for a specific use case, check out the examples below:
 
+* [Registering Secrets](/docs/use-case-registering-secrets)
+* [Using Init Command](/docs/use-case-init-command)
+* [Revealing Secrets](/docs/use-case-retrieving-secrets)
 * [Using **VSecM Sidecar**](/docs/use-case-sidecar)
 * [Using **VSecM SDK**](/docs/use-case-sdk)
 * [Using **VSecM Init Container**](/docs/use-case-init-container)
 * [Encrypting Secrets](/docs/use-case-encryption)
 * [Transforming Secrets](/docs/use-case-transformation)
-* [Mounting Secrets as Volumes](/docs/secrets-as-volumes)
+* [Mounting Secrets as Volumes](/docs/use-case-secrets-as-volumes)
 * [Mutating a Template File](/docs/use-case-in-memory-template/)
 * [Retrieving Secrets from **VSecM SDK**](/docs/use-case-sdk-retrieves-secrets/)
 * [Mounting Kubernetes Secrets](/docs/use-case-mounting-secrets-as-env-vars/)
 * [Encrypting Large Files](/docs/use-case-encrypting-large-files/)
+* [Setting the Root Keys Externally](/docs/use-case-encrypting-large-files/)
+* [Generating Pattern-Based Randomized Secrets](/docs/use-case-setting-root-key/)
+* [**VMware Secrets Manager** Showcase](/docs/use-case-random-secrets/)
 
 ## **VMware Secrets Manager** in Action
 

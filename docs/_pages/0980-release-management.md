@@ -11,7 +11,7 @@
 
 title: Release Management
 layout: post
-prev_url: /
+prev_url: /docs/roadmap/
 permalink: /docs/release-management/
 next_url: /docs/governance/
 ---

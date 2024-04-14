@@ -16,7 +16,6 @@ permalink: /docs/architecture/
 next_url: /docs/installation
 ---
 
-
 ## Introduction
 
 This section discusses **VMware Secrets Manager** architecture and building blocks
@@ -84,8 +83,8 @@ Here is a simplified overview of how various actors on a
 
 [`vsecm-keygen`][keygen] is a utility that generates the root key that 
 **VSecM Safe** uses, if manual input mode is set. By default, **VSecM Safe**
-generates the root key automatically; however, you can opt-out from this
-if want to control the root key yourself and provide your own key.
+generates the root key automatically; however, you can opt out from this
+if you want to control the root key yourself and provide your own key.
 
 You can check out the [CLI documentation][cli] for more information
 about how to use **VSecM Keygen**.
@@ -97,6 +96,14 @@ Again, can check out the [CLI documentation][cli] for more information.
 [keygen]: https://github.com/vmware-tanzu/secrets-manager/tree/main/app/keygen
 [cli]: https://vsecm.com/docs/cli
 
+### VSecM Keystone
+
+// TODO: explain.
+
+### VSecM Init Container
+
+// TODO: explain.
+
 ## High-Level Architecture
 
 ### Dispatching Identities
@@ -107,9 +114,14 @@ components and consumer workloads.
 **VSecM Sidecar** periodically talks to **VSecM Safe** to check if there is
 a new secret to be updated.
 
-![VMware Secrets Manager High Level Architecture](/assets/vsecm-hla.png "VMware Secrets Managers High Level Architecture")
+Open the image above in a new tab or window to see it in full size:
 
-Open the image above in a new tab or window to see it in full size.
+![VMware Secrets Manager Sidecar](/assets/vsecm-sidecar.png "VMware Secrets Manager Sidecar")
+
+Alternatively, you can use **VSecM SDK** to retrieve secrets from **VSecM Safe**
+programmatically:
+
+![Using VSecM SDK](/assets/vsecm-sdk.png "Using VSecM SDK")
 
 ### Creating Secrets
 
@@ -124,9 +136,9 @@ SPIFFE ID format wor workloads is as follows:
 
 ```text
 {% raw %}spiffe://vsecm.com/workload/$workloadName
-/ns/{{ .PodMeta.Namespace }}
-/sa/{{ .PodSpec.ServiceAccountName }}
-/n/{{ .PodMeta.Name }}{% endraw %}
+  /ns/{{ .PodMeta.Namespace }}
+  /sa/{{ .PodSpec.ServiceAccountName }}
+  /n/{{ .PodMeta.Name }}{% endraw %}
 ```
 
 For the non-`vsecm-system` workloads that **Safe** injects secrets,
@@ -138,16 +150,16 @@ the service account and namespace*):
 
 ```text
 {% raw %}spiffe://vsecm.com/workload/vsecm-safe
-/ns/{{ .PodMeta.Namespace }}
-/sa/{{ .PodSpec.ServiceAccountName }}
-/n/{{ .PodMeta.Name }}{% endraw %}
+  /ns/{{ .PodMeta.Namespace }}
+  /sa/{{ .PodSpec.ServiceAccountName }}
+  /n/{{ .PodMeta.Name }}{% endraw %}
 ```
 
 ```text
 {% raw %}spiffe://vsecm.com/workload/vsecm-sentinel
-/ns/{{ .PodMeta.Namespace }}
-/sa/{{ .PodSpec.ServiceAccountName }}
-/n/{{ .PodMeta.Name }}{% endraw %}
+  /ns/{{ .PodMeta.Namespace }}
+  /sa/{{ .PodSpec.ServiceAccountName }}
+  /n/{{ .PodMeta.Name }}{% endraw %}
 ```
 
 ## Persisting Secrets
@@ -166,7 +178,7 @@ persistent storage.
 > Check out the [**Configuration**](/docs/configuration) section for more
 > details.
 >
-> Also, you can opt-out from auto-generating the private and public keys
+> Also, you can opt out from auto-generating the private and public keys
 > and provide your own keys. However, when you do this, you will have to
 > manually unlock **VSecM Safe** by providing your keys every time it
 > crashes. If you let **VSecM Safe** auto-generate the keys,
@@ -181,7 +193,7 @@ it is kept in memory and served from memory for better performance.
 Unfortunately, this also means the amount of secrets you have for all
 your workloads **has to** fit in the memory you allocate to **VSecM Safe**.
 
-## **VSecM Safe** Bootstrapping Flow
+## Bootstrapping Flow of **VSecM Safe**
 
 To persist secrets, **VSecM Safe** needs a way to generate and securely store
 the initial cryptographic keys that are utilized for decrypting and encrypting 
@@ -194,6 +206,11 @@ Here is a sequence diagram of the **VSecM Safe** bootstrapping flow:
 
 Note that, until bootstrapping is complete, **VSecM Safe** will not respond to
 any API requests that you make from **VSecM Sentinel**.
+
+Here is a simplified version of the bootstrapping flow without taking the
+"manual key input" option into account:
+
+![VSecM Safe Bootstrapping](/assets/vsecm-bootstrap-simplified.png "VSecM Safe Bootstrapping Flow (Simplified)")
 
 [age]: https://github.com/FiloSottile/age
 

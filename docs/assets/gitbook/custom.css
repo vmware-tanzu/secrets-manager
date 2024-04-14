@@ -1,5 +1,4 @@
---- 
---- 
+
 .book-body {
     overflow-y: scroll;
 }
@@ -291,19 +290,13 @@ pre:has(code.language-mermaid[data-processed="true"]) {
     border-left-width: 0.5em;
     text-align: center;
     background: #fdfeac;
-    background: -webkit-linear-gradient(to right, #fdfeac, #d5eefe);
-    background: linear-gradient(to right, #fdfeac, #d5eefe);
 
     border-radius: 4px;
+    border: 2px #A9AB3B dashed;
 
     max-width: 650px;
     display: block;
     margin: 1em auto 3em auto;
-
-    box-shadow:
-        rgba(50, 49, 93, 0.25) 0px 12px 25px -11px,
-        rgba(0, 0, 0, 0.3) 0px 7px 15px -10px,
-        rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
 :root {

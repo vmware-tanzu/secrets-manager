@@ -13,7 +13,7 @@ title: Roadmap
 layout: post
 prev_url: /docs/releases/
 permalink: /docs/roadmap/
-next_url: /
+next_url: /docs/release-management/
 ---
 
 ## Introduction

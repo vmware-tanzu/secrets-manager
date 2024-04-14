@@ -13,7 +13,7 @@ title: Security
 layout: post
 prev_url: /docs/maintainers/
 permalink: /docs/security/
-next_url: /docs/navigation/
+next_url: /docs/quickstart/
 ---
 
 
