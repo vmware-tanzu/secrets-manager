@@ -12,8 +12,8 @@
 title: Mounting Secrets as Volumes
 layout: post
 prev_url: /docs/use-case-transformation/
-permalink: /docs/secrets-as-volumes/
-next_url: /docs/showcase/
+permalink: /docs/use-case-secrets-as-volumes/
+next_url: /docs/use-case-in-memory-template/
 ---
 
 ## Situation Analysis
@@ -33,7 +33,9 @@ workload needs when needed.
 
 ## High-Level Diagram
 
-![High-Level Diagram](/assets/vsecm-usecase-mountfs.jpg "High-Level Diagram")
+Open the image in a new tab to see the full-size version:
+
+![High-Level Diagram](/assets/mount-to-volume.png "High-Level Diagram")
 
 ## Implementation
 

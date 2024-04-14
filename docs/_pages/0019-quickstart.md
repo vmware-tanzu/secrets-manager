@@ -11,9 +11,9 @@
 
 title: Quickstart
 layout: post
-prev_url: /docs/endorsements/
+prev_url: /docs/security/
 permalink: /docs/quickstart/
-next_url: /docs/philosophy/
+next_url: /docs/navigation/
 ---
 
 > **Get Your Hands Dirty**

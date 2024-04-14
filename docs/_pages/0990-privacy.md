@@ -13,12 +13,12 @@ title: Privacy Policy
 layout: post
 prev_url: /docs/governance/
 permalink: /docs/privacy/
-next_url: /
 ---
 
 > This is the shortest privacy policy you'll possibly read.
 >
 > We hate writing boring copyright stuff, so please don't make us write more.
+{: .block-tip}
 
 ## We Don't Track No Cookies
 

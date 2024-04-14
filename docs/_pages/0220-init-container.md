@@ -9,29 +9,50 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VSecM Init Container
+title: Using VSecM Init Container
 layout: post
 prev_url: /docs/use-case-sdk/
 permalink: /docs/use-case-init-container/
 next_url: /docs/use-case-encryption/
 ---
 
-## Using **VSecM Init Container**
+## Situation Analysis
 
-In certain situations you might not have full control over the source code
+In certain cases you might not have full control over the source code
 of your workloads. For example, your workload can be a containerized third
 party binary executable that you don't have the source code of. It might
 be consuming Kubernetes `Secret`s through injected environment variables,
 and the like.
 
-Luckily, with **VSecM Init Container** you can interpolate secrets stored in
-**VSecM Safe** to the `Data` section of Kubernetes `Secret`s at runtime to
-be consumed by the workloads.
+Luckily, with **VSecM Init Container** you can let the workload
+wait until you register secrets to it. In addition, you can create
+Kubernetes `Secret`s for the workload and let it consume them as environment
+variables or file mounts similar to how it did before.
 
-☝️ This sounds a bit mouthful. Fear not: Everything will be crystal clear
-after you go through this tutorial.
+## Strategy
 
-## Cleanup
+Use **VSecM Sentinel** to register a secret; use the `k8s:` prefix in the
+name of the secret to make it a Kubernetes `Secret` instead of a VSecM secret.
+
+The workload will consume the Kubernetes `Secret` in the usual way that it
+consumes Kubernetes `Secret`s, like environment variables or file mounts.
+
+## High-Level Diagram
+
+Open the image in a new tab to see its full-size version:
+
+![High-Level Diagram](/assets/init-container.png "High-Level Diagram")
+
+## Implementation
+
+Our approach is twofold:
+
+1. Create a Kubernetes `Secret` for the workload using **VSecM Sentinel**.
+2. Let the workload wait for the secret using **VSecM Init Container**.
+
+Let's begin.
+
+### Cleanup
 
 Let's remove our workload and its associated secret to start with a
 clean slate:
@@ -51,14 +72,14 @@ kubectl exec vsecm-sentinel-778b7fdc78-86v6d -n \
 # {"secrets":[]}
 ```
 
-## Read the Source
+### Read the Source
 
 Make sure [you examine the manifests][workload-yaml] to gain an understanding
 of what kinds of entities you've deployed to your cluster.
 
 [workload-yaml]: https://github.com/vmware-tanzu/secrets-manager/tree/main/examples/using_init_container/k8s
 
-## Demo Workload
+### Demo Workload
 
 Here are certain important code pieces from the demo workload that we are
 going to deploy soon.
@@ -117,7 +138,7 @@ spec:
 [deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_init_container/k8s/Deployment.yaml
 [secret-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_init_container/k8s/Secret.yaml
 
-## Deploy the Demo Workload
+### Deploy the Demo Workload
 
 To begin, let's deploy our demo workload:
 
@@ -157,7 +178,7 @@ Here are the containers in that [`Deployment.yaml`][deployment-yaml]
 
 It's the `init-container` that waits until the workload acquires a secret.
 
-## Registering Secrets to the Workload
+### Registering Secrets to the Workload
 
 To make the init container exit successfully and initialize the main
 container of the Pod, execute the following script:
@@ -171,22 +192,26 @@ SENTINEL=$(kubectl get po -n vsecm-system \
 
 # Execute the command needed to interpolate the secret.
 kubectl exec "$SENTINEL" -n vsecm-system -- safe \
--w "example" \
+-w "k8s:example-secret" \
 -n "default" \
 -s '{"username": "root", \
   "password": "SuperSecret", "value": "VSecMRocks"}' \
 -t '{"USERNAME":"{{.username}}", \
-  "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}' \
-
-# Sit back and relax.{% endraw %}
+  "PASSWORD":"{{.password}}", "VALUE": "{{.value}}"}'{% endraw %}
 ```
 
 Here are the meanings of the parameters in the above command:
 
 * `-w` is the name of the workload.
 * `-n` identifies the namespace of the Kubernetes `Secret`.
-* `-t` is the template to be used to transform the fields of the payload.
 * `-s` is the actual value of the secret.
+
+### Initializing the Workload
+
+We have created a Kubernetes `Secret`.
+
+TODO: the workflow has changed, you will need to register a vsecm secret
+targeted for the workload to trigger its init container.
 
 Now let's check if our pod has initialized:
 
@@ -223,9 +248,7 @@ exit with a success status code and let the main container initialize.
 Here is a sequence diagram of how the secret is transformed (*open the image
 in a new tab for a larger version*):
 
-// TODO: this sequence diagram should change.
-
-![Transforming Secrets](/assets/vsecm-secret-transformation.png "Transforming Secrets")
+![Transforming Secrets](/assets/transform-secrets.png "Transforming Secrets")
 
 ## Conclusion
 
@@ -248,8 +271,6 @@ use [**VSecM SDK**][tutorial-sdk] or [**VSecM Sidecar**][tutorial-sidecar] inste
 
 That being said, it's good to have this option, and we are sure you can find
 other creative ways to leverage it too.
-
-Next, we'll learn how to encrypt secrets for safe storage.
 
 [tutorial-sdk]: /docs/use-case-sdk
 [tutorial-sidecar]: /docs/use-case-sidecar

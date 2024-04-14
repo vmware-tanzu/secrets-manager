@@ -9,39 +9,47 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: VSecM Encryption
+title: Encrypting Secrets Using VSecM
 layout: post
 prev_url: /docs/use-case-init-container/
 permalink: /docs/use-case-encryption/
 next_url: /docs/use-case-transformation/
 ---
 
-## Introduction
+## Situation Analysis
 
-This tutorial will introduce how you can use **VSecM Sentinel** encrypt secrets
-for safe keeping outside your cluster.
+Sometimes you might want to store your secrets in a safe place, and you might
+want to share them with others. However, you don't want to share them in plain
+test. This is where **VSecM Sentinel** comes in.
 
-## What Is the Benefit?
+Using **VSecM Sentinel**, you can encrypt your secrets and store them in a safe
+place. When you're ready to use the secret, you can decrypt it using **VSecM
+Safe** and distribute it to the workload that needs it.
 
 Since the secret will be encrypted, you can freely share it, and store in
-source control systems.
+source control systems. When you're ready to submit a secret to the workload, 
+rather than providing the secret in plain text, you can deliver its encrypted 
+version to **VSecM Safe**.
 
-When you're ready to submit a secret to the workload, rather than providing the
-secret in plain text, you can deliver its encrypted version to **VSecM Safe**.
+## Strategy
 
-This method offers a couple of distinct benefits:
+Use **VSecM Sentinel** to encrypt your secrets. Safely store the secrets in
+a source control system, or share them with others. When you're ready to use
+the secrets, provide it to **VSecM Safe** through **VSecM Sentinel** using the
+`-e` flag to indicate that the secret is encrypted.
 
-Firstly, it increases your overall security.
+## High-Level Diagram
 
-Secondly, it allows for role differentiation: The individual (*or process*) who
-submits the secret doesn't have to know its actual content; instead, they work
-with the encrypted version.
+Open the image in a new tab to see the full-size version:
 
-Consequently, even if an impostor tries to mimic this individual, they wouldn't
-be able to decipher the secret's true value, drastically reducing potential
-avenues for attack.
+![High-Level Diagram](/assets/encrypt.jpg "High-Level Diagram")
 
-## About the Encryption Process
+## Implementation
+
+This use case will introduce how you can use **VSecM Sentinel** encrypt secrets
+for safe keeping outside your cluster.
+
+### About the Encryption Process
 
 Please note that the encryption process and its inner workings remain mostly
 hidden to the end-user, ensuring a user-friendly experience.
@@ -50,7 +58,7 @@ The process employs asymmetric encryption, where the secret is encrypted with a
 public key and decrypted using a private key by **VSecM Safe**. However,
 this is an implementation detail which can be subject to change.
 
-## Cleanup
+### Cleanup
 
 Let's remove the workload as usual:
 
@@ -73,32 +81,18 @@ OK{% endraw %}
 
 That should be enough cleanup for the next steps.
 
-## Introducing **VSecM Inspector**
+### Introducing **VSecM Inspector**
 
 We will use **VSecM Inspector** like a debugger, to diagnose the
 state of our system.
 
-By the time of this writing **VSecM Inspector** is not an official 
-**VMware Secrets Manager** component, so we'll piggyback on a `Deployment` 
-manifest that was used in a former workshop. When we have an `vsecm-inspector` 
-pod that we can officially use for diagnostic purposes, this paragraph will be 
-edited to reflect that too.
+You can find sample deployment manifests for **VSecM Inspector** 
+[in the **Transforming Secrets Using VSecM**][transforming-secrets] use case.
 
-Yet, for now, let's deploy the workshop version of it.
+[transforming-secrets]: /docs/use-case-transformation/ "Transforming Secrets Using VSecM"
 
-```bash 
-# Switch to the VMware Secrets Manager repo:
-cd $WORKSPACE/secrets-manager
-# Install VSecM Inspector:
-cd examples/pre-vsecm-workshop/inspector
-kubectl apply -f ServiceAccount.yaml 
-kubectl apply -k .
-# Register VSecM Inspector's ClusterSPIFFEID
-cd ../ids
-kubectl apply -f Inspector.yaml
-```
-
-Now let's test it:
+After following the linked guide, and installing **VSecM Inspector**,  let's
+test it:
 
 ```bash
 INSPECTOR=$(kubectl get po -n default \
@@ -111,7 +105,7 @@ kubectl exec $INSPECTOR -- ./env
 # Secret does not exist
 ```
 
-## Encrypting a Secret
+### Encrypting a Secret
 
 Now, let's encrypt a secret using **VSecM Sentinel**:
 
@@ -137,7 +131,7 @@ Here `-s` is for the secret we would like to encrypt, and `-e` indicates
 that we are not going to store the secret (*yet*), instead we want **VSecM Sentinel**
 to output the encrypted value of the secret to us.
 
-## Registering the Encrypted Secret
+### Registering the Encrypted Secret
 
 To register an encrypted secret, we use the `-e` flag to indicate that the
 secret is not plain text, and it is encrypted.
@@ -159,10 +153,10 @@ kubectl exec $INSPECTOR -- ./env
 
 And yes, it did.
 
-## Be Aware of the `vsecm-root-key` Kubernetes `Secret`
+### Be Aware of the `vsecm-root-key` Kubernetes `Secret`
 
 One thing to note is, if you lose access to the Kubernetes `Secret` named
-`vsecm-root-key` in `vsecm-system` namespace, then you will lose the
+`vsecm-root-key` in the `vsecm-system` namespace, then you will lose the
 ability to register your encrypted secrets (*since, during bootstrapping
 when VSecM Safe cannot find the secret, it will create a brand new one,
 invalidating all encrypted values*).
@@ -173,13 +167,27 @@ from the backups.
 
 ## Conclusion
 
-This tutorial demonstrated how you can encrypt a secret value and register the
+This use case demonstrated how you can encrypt a secret value and register the
 encrypted value to **VSecM Safe** instead of the plain text secret. This
 technique provides and added layer of protection, and also allows you to
 safe the secret anywhere you like including source control systems.
 
-Next up, you'll learn about secret transformations.
+**VMware Secrets Manager** offers a robust solution for the secure encryption, 
+storage, and distribution of secrets within Cloud Native environments. By 
+leveraging **VSecM Sentinel** and **VSecM Safe**, organizations can maintain the 
+confidentiality of their sensitive information while ensuring easy access when 
+necessary. 
 
+The encrypted secrets can be safely stored in source control systems or shared 
+with authorized personnel without risk, given the assurance of strong encryption 
+measures. 
+
+Regular backups and diligent management of encryption keys form the cornerstone 
+of a robust security strategy, ensuring that even in the face of system failures 
+or security breaches, data integrity and access can be quickly restored. 
+This comprehensive approach to secret management showcases the efficacy of 
+**VSecM** in addressing the complex security challenges faced by enterprises 
+today, promoting a secure, efficient, and compliant operational environment.
 
 <p class="github-button">
   <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/_pages/0230-encrypt.md">

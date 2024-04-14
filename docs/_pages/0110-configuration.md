@@ -39,6 +39,8 @@ The following section contain a breakdown of all of these environment variables.
 
 [helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
 
+// TODO: some of the env vars are missing; add them.
+
 ### SPIFFE_ENDPOINT_SOCKET
 
 **Used By**: *VSecM Sentinel*, *VSecM Sidecar*,
@@ -242,7 +244,7 @@ mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode
 
 > **You Need Host Support for FIPS-Compliant Mode**
 > 
-> Note that this is not a guarantee that VSecM Safe will actually
+> Note that this is not a guarantee that **VSecM Safe** will actually
 > run in FIPS compliant mode, as it depends on the underlying base image.
 > 
 > In addition, the host environment will need to be compliant too.

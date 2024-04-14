@@ -11,9 +11,9 @@
 
 title: VSecM Showcase
 layout: post
-prev_url: /docs/use-case-transformation/
-permalink: /docs/showcase/
-next_url: /
+prev_url: /docs/use-case-encrypting-large-files/
+permalink: /docs/use-case-showcase/
+next_url: /docs/changelog/
 ---
 
 ## Introduction

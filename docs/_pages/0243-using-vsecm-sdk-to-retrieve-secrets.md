@@ -9,11 +9,11 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title: Retrieve Secrets via SDK
+title: Retrieving Secrets via SDK
 layout: post
-prev_url: /docs/use-case-encryption/
-permalink: /docs/use-case-sdk-retrieves-secrets/
-next_url: /docs/showcase/
+prev_url: /docs/use-case-in-memory-template/
+permalink: /docs/use-case-sdk-retrieve-secrets/
+next_url: /docs/use-case-mounting-secrets-as-env-vars/
 ---
 
 ## Situation Analysis
@@ -31,7 +31,11 @@ Fetching secrets using VSecM SDK will also enable you to…
 
 ## High-Level Diagram
 
-![High-Level Diagram](/assets/vsecm-usecase-using-sdk.jpg "High-Level Diagram")
+Open the images in a new tab to see the full-size versions:
+
+![High-Level Diagram](/assets/using-sdk.png "High-Level Diagram")
+
+![High-Level Diagram](/assets/using-vsecm-sdk.png "High-Level Diagram")
 
 ## Implementation
 
@@ -107,6 +111,7 @@ spec:
 ```
 
 ### Application Code
+
 Since we have access to source code, our application can directly fetch its 
 secrets as follows:
 
@@ -155,6 +160,25 @@ func main() {
 > * [VSecM Rust SDK][sdk-rust]
 > * [VSecM Python SDK][sdk-python]
 {: .block-warning}
+
+### The Benefit of Using **VSecM SDK**
+
+**VSecM SDK** gives direct control of **VSecM Safe** to your workload.
+
+The advantage of this approach is: you are in charge.
+The downside of it is: Well, you are in charge 🙂.
+
+But, jokes aside, your application will have to be
+more tightly bound to **VMware Secrets Manager** without a sidecar.
+
+However, when you use a sidecar, your application does not have any idea of
+**VMware Secrets Manager**'s existence. From its perspective, it is merely
+reading from a file that something magically updates every once in a while. This
+"*separation of concerns*" can make your application architecture more
+adaptable to changes.
+
+As in anything, there is no one true way to do it. Your approach will depend
+on your project's requirements.
 
 ## Conclusion
 
