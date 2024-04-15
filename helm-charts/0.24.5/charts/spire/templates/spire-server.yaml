@@ -177,6 +177,9 @@ metadata:
     app: spire-server
     app.kubernetes.io/component: server
 spec:
+  {{- if eq .Values.server.kind "statefulset" }}
+  serviceName: spire-server
+  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
