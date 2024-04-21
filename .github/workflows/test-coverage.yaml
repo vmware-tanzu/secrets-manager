@@ -13,25 +13,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: 1.22
-      - name: Install protoc
-        run: sudo apt install protobuf-compiler
-      - name: Install protoc-gen-go
-        run: |
-          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-      - name: Compile Protobuf
-        run: |
-          protoc --proto_path=core/log/rpc \
-                 --go_out=core/log/rpc/generated \
-                 --go-grpc_out=core/log/rpc/generated \
-                 --go_opt=paths=source_relative \
-                 --go-grpc_opt=paths=source_relative \
-                 core/log/rpc/log.proto
       - name: Download dependencies
         run: go mod download
       - name: Test
         run: go test -v ./...
-
       - name: Update Coverage Report
         uses: ncruces/go-coverage-report@57ac6f0f19874f7afbab596105154f08004f482e
         with:
