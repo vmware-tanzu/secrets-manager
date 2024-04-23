@@ -20,7 +20,7 @@ next_url: /docs/use-case-transformation/
 
 Sometimes you might want to store your secrets in a safe place, and you might
 want to share them with others. However, you don't want to share them in plain
-test. This is where **VSecM Sentinel** comes in.
+text. This is where **VSecM Sentinel** comes in.
 
 Using **VSecM Sentinel**, you can encrypt your secrets and store them in a safe
 place. When you're ready to use the secret, you can decrypt it using **VSecM

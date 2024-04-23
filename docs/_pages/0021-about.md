@@ -53,6 +53,7 @@ This is where **VMware Secrets Manager**, comes into play:
 > **VMware Secrets Manager** offers a *secure*, *user-friendly*, *cloud-native* 
 > secrets store that's robust yet *lightweight*, requiring almost zero DevOps 
 > skills for installation and maintenance.
+{: .block-tip}
 
 In addition, **VMware Secrets Manager**...
 
@@ -103,8 +104,11 @@ your cluster to securely use **VMware Secrets Manager**.
 > If you let **VMware Secrets Manager** generate the root token for you, you
 > will not have to worry about this, and when the system crashes, it will
 > automatically unlock itself, so you can `#sleepmore`.
+> 
+> [Check out the **VSecM Configuration Reference**][config-ref] for details.
 {: .block-tip }
 
+[config-ref]: /docs/configuration "VSecM Configuration"
 [production]: /docs/production
 [gitbook-theme]: https://github.com/sighingnow/jekyll-gitbook "Jekyll GitBook Theme"
 [github]: https://github.com/vmware-tanzu/secrets-manager/tree/main/docs "VMware Secrets Manager Documentation on GitHub"

@@ -147,7 +147,7 @@ the secrets (*because the workload is registered*) or deny dispatching them
 > behind the scenes.
 >
 > For every `ClusterSPIFFEID` created this way,
-> `SPIRE` (*VSecM' identity control plane*) will deliver an **X.509 SVID**
+> `SPIRE` (*VSecM identity control plane*) will deliver an **X.509 SVID**
 > bundle to the workload.
 >
 > Therefore, creating a `ClusterSPIFFEID` is a way to **irrefutably**,
