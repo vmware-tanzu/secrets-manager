@@ -35,6 +35,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: spire-agent
+      priorityClassName: system-node-critical
       containers:
         - name: spire-agent
           image: {{ .Values.global.images.spireAgent.repository }}:{{ .Values.global.images.spireAgent.tag }}

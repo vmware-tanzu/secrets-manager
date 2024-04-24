@@ -38,6 +38,9 @@ spec:
       serviceAccountName: {{ include "keystone.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      priorityClassName: system-cluster-critical
+
       initContainers:
         - name: init-container
           image: "{{ .Values.global.registry }}/{{ .Values.global.images.initContainer.repository }}:{{ .Values.global.images.initContainer.tag }}"

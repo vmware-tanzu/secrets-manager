@@ -36,6 +36,12 @@ service:
   port: 8081
   annotations: {}
 
+bundleEndpoint:
+  # ClusterIP, NodePort, LoadBalancer
+  type: ClusterIP
+  port: 8081
+  annotations: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

@@ -637,6 +637,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: spire-agent
+      priorityClassName: system-node-critical
       containers:
         - name: spire-agent
           image: ghcr.io/spiffe/spire-agent:1.9.1
@@ -786,6 +787,9 @@ spec:
     spec:
       serviceAccountName: spire-server
       shareProcessNamespace: true
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: spire-server
           image: ghcr.io/spiffe/spire-server:1.9.1

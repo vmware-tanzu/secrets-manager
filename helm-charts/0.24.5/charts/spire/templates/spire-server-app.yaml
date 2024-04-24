@@ -40,6 +40,9 @@ spec:
 {{- end }}
       serviceAccountName: spire-server
       shareProcessNamespace: true
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: spire-server
           image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}

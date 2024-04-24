@@ -321,6 +321,9 @@ spec:
       serviceAccountName: vsecm-keystone
       securityContext:
         {}
+
+      priorityClassName: system-cluster-critical
+
       initContainers:
         - name: init-container
           image: "localhost:5000/vsecm-ist-init-container:0.24.5"
@@ -434,6 +437,9 @@ spec:
       serviceAccountName: vsecm-safe
       securityContext:
         {}
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: main
           image: "localhost:5000/vsecm-ist-fips-safe:0.24.5"
@@ -591,6 +597,9 @@ spec:
       serviceAccountName: vsecm-sentinel
       securityContext:
         {}
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: main
           image: "localhost:5000/vsecm-ist-fips-sentinel:0.24.5"
