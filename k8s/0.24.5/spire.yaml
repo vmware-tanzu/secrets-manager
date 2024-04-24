@@ -82,6 +82,14 @@ data:
       trust_domain = "vsecm.com"
     }
 
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "9982"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
     plugins {
       NodeAttestor "k8s_psat" {
         plugin_data {
@@ -647,6 +655,23 @@ spec:
             requests:
               memory: 512Mi
               cpu: 50m
+
+          ports:
+            - containerPort: 9982
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 30
+
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/config

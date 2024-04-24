@@ -45,6 +45,23 @@ spec:
             requests:
               memory: {{ .Values.resources.agent.requests.memory }}
               cpu: {{ .Values.resources.agent.requests.cpu }}
+
+          ports:
+            - containerPort: 9982
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 30
+
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/config
