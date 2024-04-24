@@ -30,6 +30,14 @@ data:
       }
     }
 
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
     plugins {
       DataStore "sql" {
         plugin_data {

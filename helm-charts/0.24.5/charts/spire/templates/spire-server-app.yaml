@@ -54,6 +54,25 @@ spec:
               cpu: {{ .Values.resources.agent.requests.cpu }}
           ports:
             - containerPort: 8081
+              protocol: TCP
+            - containerPort: 8080
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
           volumeMounts:
 {{- if .Values.data.persistent }}
             - name: spire-data
