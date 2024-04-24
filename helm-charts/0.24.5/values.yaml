@@ -41,7 +41,7 @@ global:
       pullPolicy: IfNotPresent
     spiffeCsiDriver:
       repository: ghcr.io/spiffe/spiffe-csi-driver
-      tag: 0.2.5
+      tag: 0.2.6
       pullPolicy: IfNotPresent
     nodeDriverRegistrar:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
