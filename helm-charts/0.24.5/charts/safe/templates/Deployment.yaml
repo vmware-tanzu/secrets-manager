@@ -38,6 +38,9 @@ spec:
       serviceAccountName: {{ include "safe.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: main
           image: "{{ .Values.global.registry }}/{{- include "safe.repository" .}}:{{ .Values.global.images.safe.tag }}"

@@ -37,11 +37,11 @@ global:
       tag: 0.24.5
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
-      tag: 1.9.1
+      tag: 1.9.4
       pullPolicy: IfNotPresent
     spiffeCsiDriver:
       repository: ghcr.io/spiffe/spiffe-csi-driver
-      tag: 0.2.5
+      tag: 0.2.6
       pullPolicy: IfNotPresent
     nodeDriverRegistrar:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
@@ -49,11 +49,11 @@ global:
       pullPolicy: IfNotPresent
     spireServer:
       repository: ghcr.io/spiffe/spire-server
-      tag: 1.9.1
+      tag: 1.9.4
       pullPolicy: IfNotPresent
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
-      tag: 0.4.3
+      tag: 0.5.0
       pullPolicy: IfNotPresent
   vsecm:
     namespace: vsecm-system

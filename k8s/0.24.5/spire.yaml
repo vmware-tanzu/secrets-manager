@@ -15,7 +15,7 @@ kind: Namespace
 metadata:
   name: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-agent.yaml
+# Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -33,7 +33,7 @@ metadata:
   name: spire-agent
   namespace: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-service-account.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -51,7 +51,17 @@ metadata:
   name: spire-server
   namespace: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-agent.yaml
+# Source: vsecm/charts/spire/templates/spire-agent-config-map.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # ConfigMap for the SPIRE agent featuring:
 # 1) PSAT node attestation
 # 2) K8S Workload Attestation over the secure kubelet port
@@ -70,6 +80,14 @@ data:
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
       trust_domain = "vsecm.com"
+    }
+
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "9982"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
     }
 
     plugins {
@@ -113,8 +131,8 @@ data:
     kind: ControllerManagerConfig
     metrics:
       bindAddress: 127.0.0.1:8082
-    healthProbe:
-      bindAddress: 127.0.0.1:8083
+    health:
+      healthProbeBindAddress: 0.0.0.0:8083
     leaderElection:
       leaderElect: true
       resourceName: 98c9c988.spiffe.io
@@ -132,7 +150,17 @@ data:
       - kube-public
       - kubernetes-dashboard
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-bundle-config-map.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # ConfigMap containing the latest trust bundle for the trust domain. It is
 # updated by SPIRE using the k8sbundle notifier plugin. SPIRE agents mount
 # this config map and use the certificate to bootstrap trust with the SPIRE
@@ -143,7 +171,17 @@ metadata:
   name: spire-bundle
   namespace: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-config-map.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # ConfigMap containing the SPIRE server configuration.
 apiVersion: v1
 kind: ConfigMap
@@ -164,6 +202,14 @@ data:
           port = 8443
         }
       }
+    }
+
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
     }
 
     plugins {
@@ -192,6 +238,7 @@ data:
 
       Notifier "k8sbundle" {
         plugin_data {
+          config_map = "spire-bundle"
           namespace = "spire-system"
         }
       }
@@ -264,7 +311,17 @@ rules:
     resources: ["clusterstaticentries/status"]
     verbs: ["get", "patch", "update"]
 ---
-# Source: vsecm/charts/spire/templates/spire-agent.yaml
+# Source: vsecm/charts/spire/templates/spire-agent-cluster-role.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # Required cluster role to allow spire-agent to query k8s API server
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -275,7 +332,17 @@ rules:
     resources: ["pods","nodes","nodes/proxy"]
     verbs: ["get"]
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-cluster-role.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # Required cluster role to allow spire-server to query k8s API server
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -315,7 +382,17 @@ subjects:
     name: spire-server
     namespace: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-agent.yaml
+# Source: vsecm/charts/spire/templates/spire-agent-cluster-role-binding.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # Binds above cluster role to spire-agent service account
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -330,7 +407,17 @@ roleRef:
   name: spire-agent-cluster-role
   apiGroup: rbac.authorization.k8s.io
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-cluster-role-binding.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # Binds above cluster role to spire-server service account
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -374,7 +461,17 @@ rules:
     resources: ["events"]
     verbs: ["create", "patch"]
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-role.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # Role for the SPIRE server
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
@@ -418,7 +515,17 @@ subjects:
     name: spire-server
     namespace: spire-system
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-role-binding.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 # RoleBinding granting the spire-server-role to the SPIRE server
 # service account.
 kind: RoleBinding
@@ -435,8 +542,69 @@ roleRef:
   name: spire-server-role
   apiGroup: rbac.authorization.k8s.io
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
-# Service definition for SPIRE server defining the gRPC port.
+# Source: vsecm/charts/spire/templates/spire-server-bundle-endpoint.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# Service definition for SPIRE server bundle endpoint
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-server-bundle-endpoint
+  namespace: spire-system
+spec:
+  type: ClusterIP
+  ports:
+    - name: api
+      port: 8443
+      protocol: TCP
+  selector:
+    app: spire-server
+---
+# Source: vsecm/charts/spire/templates/spire-server-controller-manager-webhook-service.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# Service definition for SPIRE controller manager webhook
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-controller-manager-webhook-service
+  namespace: spire-system
+spec:
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
+  selector:
+    app: spire-server
+---
+# Source: vsecm/charts/spire/templates/spire-server-service.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# ServiceAccount used by the SPIRE server.
 apiVersion: v1
 kind: Service
 metadata:
@@ -452,39 +620,17 @@ spec:
   selector:
     app: spire-server
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
-# Service definition for SPIRE server bundle endpoint
-apiVersion: v1
-kind: Service
-metadata:
-  name: spire-server-bundle-endpoint
-  namespace: spire-system
-spec:
-  type: NodePort
-  ports:
-    - name: api
-      port: 8443
-      protocol: TCP
-  selector:
-    app: spire-server
----
-# Source: vsecm/charts/spire/templates/spire-server.yaml
-#
-# Service definition for SPIRE controller manager webhook
-apiVersion: v1
-kind: Service
-metadata:
-  name: spire-controller-manager-webhook-service
-  namespace: spire-system
-spec:
-  ports:
-    - port: 443
-      protocol: TCP
-      targetPort: 9443
-  selector:
-    app: spire-server
----
-# Source: vsecm/charts/spire/templates/spire-agent.yaml
+# Source: vsecm/charts/spire/templates/spire-agent-daemonset.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -508,15 +654,33 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: spire-agent
+      priorityClassName: system-node-critical
       containers:
         - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.9.1
+          image: ghcr.io/spiffe/spire-agent:1.9.4
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/config/agent.conf"]
           resources:
             requests:
               memory: 512Mi
               cpu: 50m
+
+          ports:
+            - containerPort: 9982
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 30
+
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/config
@@ -530,7 +694,7 @@ spec:
               mountPath: /run/spire/sockets
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
-          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.5
+          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.6
           imagePullPolicy: IfNotPresent
           args: [
             "-workload-api-socket-dir", "/spire-agent-socket",
@@ -625,7 +789,17 @@ spec:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
 ---
-# Source: vsecm/charts/spire/templates/spire-server.yaml
+# Source: vsecm/charts/spire/templates/spire-server-app.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -647,9 +821,12 @@ spec:
     spec:
       serviceAccountName: spire-server
       shareProcessNamespace: true
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: spire-server
-          image: ghcr.io/spiffe/spire-server:1.9.1
+          image: ghcr.io/spiffe/spire-server:1.9.4
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
           resources:
@@ -658,6 +835,25 @@ spec:
               cpu: 50m
           ports:
             - containerPort: 8081
+              protocol: TCP
+            - containerPort: 8080
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
           volumeMounts:
             - name: spire-config
               mountPath: /run/spire/server/config
@@ -665,10 +861,22 @@ spec:
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
         - name: spire-controller-manager
-          image: ghcr.io/spiffe/spire-controller-manager:0.4.3
+          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9443
+            - containerPort: 8083
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+
           args:
             - "--config=spire-controller-manager-config.yaml"
           volumeMounts:

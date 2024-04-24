@@ -38,6 +38,9 @@ spec:
       serviceAccountName: {{ include "sentinel.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      priorityClassName: system-cluster-critical
+
       containers:
         - name: main
           image: "{{ .Values.global.registry }}/{{- include "sentinel.repository" .}}:{{ .Values.global.images.sentinel.tag }}"
