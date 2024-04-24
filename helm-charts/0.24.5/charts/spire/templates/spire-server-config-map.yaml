@@ -29,9 +29,12 @@ data:
         }
       }
 
+{{- if .Values.experimental.eventsBasedCache }}
       experimental {
         events_based_cache = true
       }
+{{- end }}
+
     }
 
     health_checks {

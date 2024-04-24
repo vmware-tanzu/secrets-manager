@@ -30,6 +30,9 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+experimental:
+  eventsBasedCache: false
+
 service:
   # ClusterIP, NodePort, LoadBalancer
   type: ClusterIP
