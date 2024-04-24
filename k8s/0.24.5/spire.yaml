@@ -238,6 +238,7 @@ data:
 
       Notifier "k8sbundle" {
         plugin_data {
+          config_map = "spire-bundle"
           namespace = "spire-system"
         }
       }
