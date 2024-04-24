@@ -20,8 +20,8 @@
 helm install vsecm vsecm/vsecm
 
 echo "verifying vsecm installation"
-kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-sentinel
+kubectl wait --timeout=60s --for=condition=Available deployment -n vsecm-system vsecm-sentinel
 echo "vsecm-sentinel: deployment available"
-kubectl wait --for=condition=Available deployment -n vsecm-system vsecm-safe
+kubectl wait --timeout=60s --for=condition=Available deployment -n vsecm-system vsecm-safe
 echo "vsecm-safe: deployment available"
 echo "vsecm installation successful"
