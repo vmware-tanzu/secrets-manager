@@ -559,7 +559,7 @@ metadata:
   name: spire-server-bundle-endpoint
   namespace: spire-system
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: api
       port: 8443
