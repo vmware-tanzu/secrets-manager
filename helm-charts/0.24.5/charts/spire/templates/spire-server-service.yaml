@@ -23,3 +23,4 @@ spec:
       protocol: TCP
   selector:
     app: spire-server
+  
