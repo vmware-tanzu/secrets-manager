@@ -22,6 +22,7 @@ metadata:
     app.kubernetes.io/component: server
 spec:
   {{- if eq .Values.server.kind "statefulset" }}
+  # noinspection KubernetesUnknownKeys
   serviceName: spire-server
   {{- end }}
   replicas: {{ .Values.replicaCount }}
@@ -89,6 +90,18 @@ spec:
           imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
           ports:
             - containerPort: 9443
+            - containerPort: 8083
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+
           args:
             - "--config=spire-controller-manager-config.yaml"
           volumeMounts:
@@ -108,6 +121,7 @@ spec:
           configMap:
             name: spire-controller-manager-config
   {{- if .Values.data.persistent }}
+  # noinspection KubernetesUnknownKeys
   volumeClaimTemplates:
     - metadata:
         name: spire-data
