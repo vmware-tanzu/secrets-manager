@@ -28,6 +28,10 @@ data:
           port = 8443
         }
       }
+
+      experimental {
+        events_based_cache = true
+      }
     }
 
     health_checks {
