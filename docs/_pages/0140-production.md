@@ -105,12 +105,28 @@ a starting point for **VMware Secrets Manager**-managed containers:
       # correctly, everything would work fine.
 ```
 
+## Ensure Your Clusters Up-to-Date
+
+Although not directly related to VSecM, keeping your clusters updated is a 
+fundamental aspect of maintaining a secure and robust production environment. 
+By implementing a proactive update strategy, you not only protect your infrastructure 
+from known threats but also maintain compliance with industry standards and regulations. 
+
+Timely updates ensure that the cluster is safeguarded against known vulnerabilities, 
+which can prevent potential security leaks.
+
+Regularly updating your cluster components ensures that you benefit from the latest 
+security patches and performance improvements. These updates often include fixes 
+for security flaws that, if exploited, could lead to unauthorized access, data 
+breaches, or loss of service. Failing to apply updates can leave your cluster 
+vulnerable to attacks that exploit outdated software vulnerabilities.
+
 ## Back Up Your Cluster Regularly
 
-**VMware Secrets Manager** is designed to be resilient; however, losing access to your sensitive
-data is possible by inadvertently deleting a Kubernetes `Secret` that you are
-not supposed to delete. Or, your backing store that contains the secrets can get
-corrupted for any reason.
+**VMware Secrets Manager** is designed to be resilient; however, losing access 
+to your sensitive data is possible by inadvertently deleting a Kubernetes 
+`Secret` that you are not supposed to delete. Or, your backing store that 
+contains the secrets can get corrupted for any reason.
 
 Cloud Native or not, you rely on hardware which--intrinsically--is unreliable.
 
