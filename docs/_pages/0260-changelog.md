@@ -39,7 +39,7 @@ TBD
   commands.
 * Added Generated protobuffer files into the source code for ease of maintenance.
 
-## Changed
+### Changed
 
 * Removed the tombstone feature, we use VSecM Keystone instead of tombstone,
   which is more reliable, secure, and under our control.
@@ -51,9 +51,17 @@ TBD
 * VSecM Keystone, and VSecM Keystone secrets are being used instead of tombstone.
 * Various other stabilization improvements.
 
-## Fixed
+### Fixed
 
 * Minor bug fixes and feature enhancements.
+
+### Security
+
+* Fixed CVE-2023-45288 [net/http, x/net/http2: close connections when receiving too many headers](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/12)
+* Fixed GHSA-pxvg-2qj5-37jq [Nokogiri updates packaged libxml2 to v2.10.4 to resolve multiple CVEs](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/13)
+* Fixed GHSA-xc9x-jj77-9p9j [Nokogiri update packaged libxml2 to v2.12.5 to resolve CVE-2024-25062](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/14)
+* Fixed GHSA-vcc3-rw6f-jv97 [Use-after-free in libxml2 via Nokogiri::XML::Reader](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/15)
+* Addressed CVE-2020-8559 [Privilege Escalation in Kubernetes](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/16)
 
 ## [v0.24.1] - 2024-03-31
 
