@@ -9,7 +9,7 @@
 # <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
-VERSION="0.25.0"
+VERSION="0.25.1"
 
 docker run --rm \
   -v "$(pwd)":/vsecm \
