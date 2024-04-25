@@ -28,13 +28,13 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-using-sidecar:0.24.5
+        image: vsecm/example-using-sidecar:0.25.0
         volumeMounts:
         # `main` shares this volume with `sidecar`.
         - mountPath: /opt/vsecm
           name: vsecm-secrets-volume
       - name: sidecar
-        image: vsecm/vsecm-ist-sidecar:0.24.5
+        image: vsecm/vsecm-ist-sidecar:0.25.0
         volumeMounts:
         # /opt/vsecm/secrets.json is the place the secrets will be at.
         - mountPath: /opt/vsecm

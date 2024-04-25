@@ -25,7 +25,7 @@ RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
 
-ENV APP_VERSION="0.24.5"
+ENV APP_VERSION="0.25.0"
 
 LABEL "maintainers"="VSecM Maintainers <maintainers@vsecm.com>"
 LABEL "version"=$APP_VERSION

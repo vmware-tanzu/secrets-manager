@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: public.ecr.aws/h8y1n7y7/example-using-init-container:0.24.5
+        image: public.ecr.aws/h8y1n7y7/example-using-init-container:0.25.0
       initContainers:
       - name: init-container
-        image: public.ecr.aws/h8y1n7y7/vsecm-ist-init-container:0.24.5
+        image: public.ecr.aws/h8y1n7y7/vsecm-ist-init-container:0.25.0
