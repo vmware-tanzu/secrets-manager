@@ -17,11 +17,6 @@
 ## @param replicaCount SPIRE server currently runs with a sqlite database. Scaling to multiple instances will not work until we use an external database.
 replicaCount: 1
 
-## @param server.kind Define SPIRE server deployment type. 
-## Can be statefulset/deployment. Defaults to statefulset if not set. This feature is experimental.
-server:
-  kind: deployment
-
 # Override it with an image pull secret that you need as follows:
 # imagePullSecrets:
 #  - name: my-registry-secret

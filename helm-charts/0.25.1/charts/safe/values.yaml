@@ -19,7 +19,7 @@ readinessPort: 8082
 rootKeySecretName: &rootKeyName vsecm-root-key
 
 data:
-  persistent: false
+  persistent: true
   # Define the PVC if `persistent` is true.
   persistentVolumeClaim:
     storageClass: ""
