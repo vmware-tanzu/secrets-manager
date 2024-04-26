@@ -44,6 +44,8 @@ environments:
    value: "300000"
  - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
    value: "100000"
+ - name: VSECM_SENTINEL_TERMINATE_ON_INIT_COMMAND_CONNECTIVITY_FAILURE
+   value: "true"
 
 # Override it with an image pull secret that you need as follows:
 # imagePullSecrets:
