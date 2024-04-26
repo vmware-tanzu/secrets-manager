@@ -116,3 +116,19 @@ spec:
             items:
               - key: KEY_TXT
                 path: key.txt
+
+{{- if .Values.data.persistent }}
+  # noinspection KubernetesUnknownKeys
+  volumeClaimTemplates:
+    - metadata:
+        name: spire-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim }}
+        {{- end }}
+{{- end }}

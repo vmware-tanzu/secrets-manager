@@ -22,7 +22,10 @@ data:
   persistent: false
   # Define the PVC if `persistent` is true.
   persistentVolumeClaim:
-    claimName: "your-pvc-name" # Replace with your PVC name.
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
   # Define the hostPath if `persistent` is false.
   hostPath:
     path: "/var/local/vsecm/data"
