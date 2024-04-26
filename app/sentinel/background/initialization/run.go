@@ -12,7 +12,6 @@ package initialization
 
 import (
 	"context"
-	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"os"
 	"time"
 
@@ -47,8 +46,18 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
+func RunInitCommands(ctx context.Context) {
 	cid := ctx.Value("correlationId").(*string)
+
+	waitInterval := env.InitCommandRunnerWaitBeforeExecIntervalForSentinel()
+	time.Sleep(waitInterval)
+
+	// Ensure that we can acquire a source before proceeding.
+	source := ensureSourceAcquisition(ctx, cid)
+
+	// Now, we are sure that we can acquire a source.
+	// Try to do a VSecM Safe API request with the source.
+	ensureApiConnectivity(ctx, cid)
 
 	// No need to proceed if initialization has been completed already.
 	if initCommandsExecutedAlready(ctx, source) {
@@ -57,12 +66,6 @@ func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	}
 
 	log.TraceLn(cid, "RunInitCommands: starting the init flow")
-
-	// Ensure that we can acquire a source before proceeding.
-	ensureSourceAcquisition(ctx, cid)
-	// Now, we are sure that we can acquire a source.
-	// Try to do a VSecM Safe API request with the source.
-	ensureApiConnectivity(ctx, cid)
 
 	// Now we know that we can establish a connection to VSecM Safe
 	// and execute API requests. So, we can safely run init commands.
@@ -100,13 +103,14 @@ func RunInitCommands(ctx context.Context, source *workloadapi.X509Source) {
 	if !success {
 		log.TraceLn(cid, "RunInitCommands: failed to mark keystone. exiting")
 
-		// If we cannot set the keystone secret, we should not proceed.
+		// If we cannot set the keystone secret, better to retry everything.
+		panic("RunInitCommands: failed to set keystone secret")
 		return
 	}
 
 	// Wait before notifying Keystone. This way, if there are things that
 	// take time to reconcile, they have a chance to do so.
-	waitInterval := env.InitCommandRunnerWaitIntervalBeforeInitComplete()
+	waitInterval = env.InitCommandRunnerWaitIntervalBeforeInitComplete()
 	time.Sleep(waitInterval)
 
 	// Everything is set up.

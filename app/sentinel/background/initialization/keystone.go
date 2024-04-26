@@ -15,13 +15,10 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func markKeystone(ctx context.Context, cid *string) bool {
-	terminateAsap := env.TerminateSentinelOnInitCommandConnectivityFailure()
-
 	s := backoffStrategy()
 	err := backoff.Retry("RunInitCommands:MarkKeystone", func() error {
 		log.TraceLn(cid, "RunInitCommands:MarkKeystone: retrying with exponential backoff")
@@ -33,22 +30,13 @@ func markKeystone(ctx context.Context, cid *string) bool {
 			Secret:      "keystone-init",
 		})
 
-		if err != nil {
-			if terminateAsap {
-				panic("RunInitCommands: error setting keystone secret")
-			}
-		}
-
 		return err
 	}, s)
 
-	if err != nil {
-		log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
-		if terminateAsap {
-			panic("RunInitCommands: error setting keystone secret")
-		}
-		return false
+	if err == nil {
+		return true
 	}
 
-	return true
+	log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
+	panic("RunInitCommands: error setting keystone secret")
 }

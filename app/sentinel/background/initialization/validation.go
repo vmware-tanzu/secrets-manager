@@ -23,24 +23,24 @@ func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Sourc
 
 	log.TraceLn(cid, "check:initCommandsExecutedAlready")
 
-	s := backoffStrategy()
 	initialized := false
-	for {
-		err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
-			i, err := safe.CheckInitialization(ctx, src)
-			if err != nil {
-				return err
-			}
-			initialized = i
-			return nil
-		}, s)
 
+	s := backoffStrategy()
+	err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+		i, err := safe.CheckInitialization(ctx, src)
 		if err != nil {
-			log.ErrorLn(cid, "check:backoff:error", err.Error())
-			continue
+			return err
 		}
 
-		log.TraceLn(cid, "check:return initialized:", initialized)
+		initialized = i
+
+		return nil
+	}, s)
+
+	if err == nil {
 		return initialized
 	}
+
+	// I shouldn't be here.
+	panic("RunInitCommands:initCommandsExecutedAlready: failed to check command initialization")
 }

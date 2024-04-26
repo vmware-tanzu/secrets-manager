@@ -45,15 +45,9 @@ func parseCommandsFile(ctx context.Context, cid *string, scanner *bufio.Scanner)
 	log.TraceLn(cid, "Before parsing commands 002")
 
 	sc := entity.SentinelCommand{}
-	terminateAsap := env.TerminateSentinelOnInitCommandConnectivityFailure()
 
 	if scanner == nil {
-		if terminateAsap {
-			log.ErrorLn(cid, "RunInitCommands: error scanning commands file")
-			panic("RunInitCommands: error scanning commands file")
-		}
-
-		return
+		panic("RunInitCommands: error scanning commands file")
 	}
 
 	log.TraceLn(cid, "beginning scan")
@@ -97,10 +91,8 @@ dance:
 						"RunInitCommands:ProcessCommandBlock:error:",
 						err.Error(),
 					)
-					if terminateAsap {
-						panic("RunInitCommands:ProcessCommandBlock failed")
-					}
 				}
+
 				return err
 			}, s)
 
@@ -110,9 +102,10 @@ dance:
 					"RunInitCommands: error processing command block: ",
 					err.Error(),
 				)
-				if terminateAsap {
-					panic("RunInitCommands: error processing command block")
-				}
+
+				// If command failed, then the initialization is not totally successful.
+				// Thus, it is best to crash the container to restart the initialization.
+				panic("RunInitCommands:ProcessCommandBlock failed")
 			}
 
 			log.TraceLn(cid, "scanner: after delimiter")
@@ -181,8 +174,9 @@ dance:
 			"RunInitCommands: Error reading initialization file: ",
 			err.Error(),
 		)
-		if terminateAsap {
-			panic("RunInitCommands: Error reading initialization file")
-		}
+
+		// If command failed, then the initialization is not totally successful.
+		// Thus, it is best to crash the container to restart the initialization.
+		panic("RunInitCommands: Error in scanning the file")
 	}
 }
