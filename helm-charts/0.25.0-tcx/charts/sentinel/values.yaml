@@ -40,6 +40,10 @@ environments:
    value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
  - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
    value: "false"
+ - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC
+   value: "300000"
+ - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
+   value: "100000"
 
 # Override it with an image pull secret that you need as follows:
 # imagePullSecrets:
