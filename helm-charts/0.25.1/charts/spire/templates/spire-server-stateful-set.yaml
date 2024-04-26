@@ -125,6 +125,6 @@ spec:
           requests:
             storage: {{ .Values.data.persistentVolumeClaim.size }}
         {{- if .Values.data.persistentVolumeClaim.storageClass }}
-        storageClassName: {{ .Values.data.persistentVolumeClaim }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
         {{- end }}
   {{- end }}
