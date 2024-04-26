@@ -34,32 +34,11 @@ this page, and also [the changelog](/docs/changelog/) to reflect the changes.
 
 ## Active Iterations
 
-### VSecM v0.24.0 (*codename: Draco*) 
-
-**Feb 29, 2023 - Mar 27, 2023**
-
-To automate things and be able to dynamically follow issues better, from 
-this point on we'll label them and share the GitHub filter here, instead
-of outlining them one by one.
-
-This iteration will be focused on demos and documentation.
-
-[Here is a list of issues that are candidate for VSecM vDraco](https://github.com/vmware-tanzu/secrets-manager/issues?q=is%3Aissue+label%3Av0.24.0-candidate+).
-
-### VSecM v0.25.0 (*codename: Eridanus*) 
-
-**Mar 28, 2023 - Apr 24, 2024**
-
-This iteration, our focus will be on testing, test automation, and test coverage.
-
-[Here is a list of issues that are candidate for VSecM 
-vEridanus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.25.0-candidate+).
-
 ### VSecM v0.26.0 (*codename: Fornax*) 
 
 **Apr 25, 2024 - May 22, 2024**
 
-This iteration is all about SDKs (C++, Python, Rust, and Java).
+This iteration will be mainly about stability and documentation updates.
 
 [Here is a list of issues that are candidate for VSecM vFornax
 ](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.0-candidate+).
@@ -69,7 +48,8 @@ This iteration is all about SDKs (C++, Python, Rust, and Java).
 **May 23, 2024 - Jun 19, 2024**
 
 The sole focus of this iteration is increasing test coverage product-wide, 
-as best as we can.
+as best as we can. We’ll start with integration tests; and focus on unit
+tests on the next iteration.
 
 [Here is a list of issues that are candidate for VSecM vGemini
 ](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.27.0-candidate+).
@@ -78,9 +58,8 @@ as best as we can.
 
 **Jun 20, 2024 - Jul 17, 2024**
 
-This iteration is about improving **VSecM Sentinel** to ingest different kinds
-of secrets, including very long secrets from a stdin pipe. This will be a 
-feature-focused iteration.
+This iteration is again about increasing coverage. We will focus on 
+unit tests.
 
 [Here is a list of issues that are candidate for VSecM vHydra](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.28.0-candidate+).
 
@@ -88,7 +67,8 @@ feature-focused iteration.
 
 **Jul 18, 2024 - Aug 14, 2024**
 
-This is a bug-bash iteration where we'll leave no bug left behind.
+In this iteration, we will focus on adding use cases and tutorials, along with
+any stability and security improvement that may come our way.
 
 [Here is a list of issues that are candidate for VSecM vIndus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.29.0-candidate+).
 
@@ -96,8 +76,8 @@ This is a bug-bash iteration where we'll leave no bug left behind.
 
 **Aug 15, 2024 - Sep 11, 2024**
 
-This iteration is about enabling external access to **VSecM Safe** in a secure
-manner. We will also focus on secure logging and preventing log tampering.
+This iteration will be about adding more features that may be immediately
+useful around **VSecM Sentinel** CLI.
 
 [Here is a list of issues that are candidate for VSecM vLupus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.30.0-candidate+).
 
@@ -105,8 +85,7 @@ manner. We will also focus on secure logging and preventing log tampering.
 
 **Sep 12, 2024 - Oct 09, 2024**
 
-This iteration is about visibility and metrics. We'll create a `/stats` and a
-`/health` endpoint for **VSecM Safe** among other observability improvements.
+This iteration is about SDKs and KMS integration. 
 
 [Here is a list of issues that are candidate for VSecM vMensa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.31.0-candidate+).
 
@@ -114,19 +93,16 @@ This iteration is about visibility and metrics. We'll create a `/stats` and a
 
 **Oct 10, 2024 - Nov 06, 2024**
 
-In this iteration we'll do a full-blown self-security assessment and publish
-our findings. These findings will be used later for a third-party security
-audit.
+This iteration is about visibility and metrics. We'll create a `/stats` and a
+`/health` endpoint for **VSecM Safe** among other observability improvements.
 
 [Here is a list of issues that are candidate for VSecM vNorma](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.32.0-candidate+).
-
-* Google Cloud KMS Integration
 
 ### VSecM v0.33.0 (*codename: Orion*)
 
 **Nov 07, 2024 - Dec 04, 2024**
 
-In this iteration, we will focus on non-Kubernetes **VSecM** deployments.
+This iteration we’ll focus on helm charts and code coverage.
 
 [Here is a list of issues that are candidate for VSecM vOrion](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.33.0-candidate+).
 
@@ -134,7 +110,8 @@ In this iteration, we will focus on non-Kubernetes **VSecM** deployments.
 
 **Dec 05, 2024 - Jan 01, 2025**
 
-This iteration is about UI/UX fixed on the website, and CSS cleanup.
+We will continue with the helm charts work that we have started in the
+previous iteration.
 
 [Here is a list of issues that are candidate for VSecM vPerseus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.34.0-candidate+).
 
@@ -142,8 +119,8 @@ This iteration is about UI/UX fixed on the website, and CSS cleanup.
 
 **Jan 02, 2025 - Jan 29, 2025**
 
-We'll focus on creating Kubernetes Operators around **VSecM** to better 
-coordinate certain workflows.
+We'll focus on more advanced use cases, such as OIDC authentication and 
+storing the root keys in an external KMS.
 
 [Here is a list of issues that are candidate for VSecM vReticulum](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+).
 
@@ -151,7 +128,7 @@ coordinate certain workflows.
 
 **Jan 30, 2025 - Feb 26, 2025**
 
-This iteration is focused on better state management.
+This iteration, we’ll continue with KMS integration and OIDC authentication.
 
 [Here is a list of issues that are candidate for VSecM vSagittarius](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.36.0-candidate+).
 
@@ -159,12 +136,38 @@ This iteration is focused on better state management.
 
 **Feb 27, 2025 -- Mar 26 2025**
 
-This is a "*catch all*" that contains all remaining documented future plans.
-We will create new iterations from it as the time gets closer.
+The main focus of this iteration is integrating with upstream cloud providers
+such as AWS, Azure and GCP.
 
 [Here is a list of issues that are candidate for VSecM vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
 
+### VSecM v0.38.0 (*codename: Ursa*)
+
+This is a "*catch all*" that contains all remaining documented future plans.
+We will create new iterations from it as the time gets closer.
+
+[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+).
+
 ## Closed Iterations
+
+### VSecM v0.25.0 (*codename: Eridanus*)
+
+**Mar 28, 2023 - Apr 24, 2024**
+
+This iteration was mostly about security and stability.
+
+[Here is a list of issues that were closed in vEridanus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.25.0-candidate+).
+
+### VSecM v0.24.0 (*codename: Draco*)
+
+**Feb 29, 2023 - Mar 27, 2023**
+
+To automate things and be able to dynamically follow issues better, from
+this point on we started labeling them and share the GitHub filter here.
+
+This iteration was mainly focused on demos and documentation.
+
+[Here is a list of issues that were closed in  vDraco](https://github.com/vmware-tanzu/secrets-manager/issues?q=is%3Aissue+label%3Av0.24.0-candidate+).
 
 ### VSecM v0.23.0 (*codename: Cassiopeia*)
 
