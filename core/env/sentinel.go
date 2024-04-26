@@ -34,7 +34,7 @@ func InitCommandPathForSentinel() string {
 	return p
 }
 
-func InitCommandRunnerWaitIntervalForSentinel() time.Duration {
+func InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration {
 	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
 	if p == "" {
 		p = "0"
@@ -56,14 +56,6 @@ func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
 		return 0 * time.Millisecond
 	}
 	return time.Duration(i) * time.Millisecond
-}
-
-func TerminateSentinelOnInitCommandConnectivityFailure() bool {
-	p := os.Getenv("VSECM_SENTINEL_TERMINATE_ON_INIT_COMMAND_CONNECTIVITY_FAILURE")
-	if p == "" {
-		return false
-	}
-	return p == "true"
 }
 
 // OIDCProviderBaseUrlForSentinel returns the prefix to be used for the names of secrets that
