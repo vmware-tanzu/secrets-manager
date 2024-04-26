@@ -559,7 +559,7 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-            - name: vsecm-data
+            - name: vsecm-persistent-data
               mountPath: /var/local/vsecm/data
               readOnly: false
             - name: spire-agent-socket
@@ -667,7 +667,7 @@ spec:
                 path: key.txt
   volumeClaimTemplates:
     - metadata:
-        name: vsecm-data
+        name: vsecm-persistent-data
       spec:
         accessModes:
           - ReadWriteOnce

@@ -51,7 +51,7 @@ spec:
               protocol: TCP
           volumeMounts:
 {{- if .Values.data.persistent }}
-            - name: vsecm-data
+            - name: vsecm-persistent-data
               mountPath: {{ .Values.data.hostPath.path }}
               readOnly: false
 {{- end }}
@@ -124,7 +124,7 @@ spec:
 {{- if .Values.data.persistent }}
   volumeClaimTemplates:
     - metadata:
-        name: vsecm-data
+        name: vsecm-persistent-data
       spec:
         accessModes:
           - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
