@@ -230,11 +230,12 @@ func ManualRootKeyUpdatesK8sSecret() bool {
 
 // DataPathForSafe returns the path to the safe data directory.
 // The path is determined by the VSECM_SAFE_DATA_PATH environment variable.
-// If the environment variable is not set, the default path "/data" is returned.
+// If the environment variable is not set, the default path "/var/local/vsecm/data"
+// is returned.
 func DataPathForSafe() string {
 	p := os.Getenv("VSECM_SAFE_DATA_PATH")
 	if p == "" {
-		p = "/data"
+		p = "/var/local/vsecm/data"
 	}
 	return p
 }

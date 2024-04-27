@@ -599,7 +599,7 @@ func TestSafeDataPath(t *testing.T) {
 	}{
 		{
 			name: "default_safe_data_path",
-			want: "/data",
+			want: "/var/local/vsecm/data",
 		},
 		{
 			name: "safe_data_path_from_env",

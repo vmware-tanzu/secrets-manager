@@ -559,14 +559,12 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-            - name: vsecm-persistent-data
+            - name: vsecm-data
               mountPath: /var/local/vsecm/data
               readOnly: false
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
-            - name: vsecm-data
-              mountPath: /data
             - name: vsecm-root-key
               mountPath: /key
               readOnly: true
@@ -597,7 +595,7 @@ spec:
             - name: VSECM_ROOT_KEY_PATH
               value: "/key/key.txt"
             - name: VSECM_SAFE_DATA_PATH
-              value: "/data"
+              value: "/var/local/vsecm/data"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
             - name: VSECM_SAFE_FIPS_COMPLIANT
@@ -667,7 +665,7 @@ spec:
                 path: key.txt
   volumeClaimTemplates:
     - metadata:
-        name: vsecm-persistent-data
+        name: vsecm-data
       spec:
         accessModes:
           - ReadWriteOnce

@@ -50,16 +50,12 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
-{{- if .Values.data.persistent }}
-            - name: vsecm-persistent-data
+            - name: vsecm-data
               mountPath: {{ .Values.data.hostPath.path }}
               readOnly: false
-{{- end }}
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
-            - name: vsecm-data
-              mountPath: /data
             - name: vsecm-root-key
               mountPath: /key
               readOnly: true
@@ -124,7 +120,7 @@ spec:
 {{- if .Values.data.persistent }}
   volumeClaimTemplates:
     - metadata:
-        name: vsecm-persistent-data
+        name: vsecm-data
       spec:
         accessModes:
           - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
