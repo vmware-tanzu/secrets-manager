@@ -655,6 +655,11 @@ spec:
           csi:
             driver: "csi.spiffe.io"
             readOnly: true
+        # `vsecm-data` is used to persist the encrypted backups of the secrets.
+        - name: vsecm-data
+          hostPath:
+            path: /var/local/vsecm/data
+            type: DirectoryOrCreate
 
         # `vsecm-root-key` stores the encryption keys to restore secrets from vsecm-data.
         - name: vsecm-root-key
@@ -663,15 +668,6 @@ spec:
             items:
               - key: KEY_TXT
                 path: key.txt
-  volumeClaimTemplates:
-    - metadata:
-        name: vsecm-data
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
 ---
 # Source: vsecm/charts/keystone/templates/Identity.yaml
 # /*

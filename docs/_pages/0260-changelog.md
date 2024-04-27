@@ -18,7 +18,13 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* Converted VSecM Safe and SPIRE Server to StatefulSets (because they are stateful).
+* VSecM Sentinel "init command" loop now exits the container if it cannot execute
+  commands after exponential backoff. The former behavior was to retry forever,
+  and that was not a cloud-native way of handling the situation. Panicking 
+  early and thus killing the pod fixed issues with things like persistent volumes
+  and CSI drivers.
+* Minor bug fixes in the VSecM Sentinel init command workflow.
 
 ## [0.25.0] - 2024-04-24
 
