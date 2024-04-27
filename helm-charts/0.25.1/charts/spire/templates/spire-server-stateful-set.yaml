@@ -9,11 +9,7 @@
 # */
 
 apiVersion: apps/v1
-{{- if eq .Values.server.kind "deployment" }}
-kind: Deployment
-{{- else }}
 kind: StatefulSet
-{{- end }}
 metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.namespace }}
@@ -21,10 +17,7 @@ metadata:
     app: spire-server
     app.kubernetes.io/component: server
 spec:
-  {{- if eq .Values.server.kind "statefulset" }}
-  # noinspection KubernetesUnknownKeys
   serviceName: spire-server
-  {{- end }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -132,6 +125,6 @@ spec:
           requests:
             storage: {{ .Values.data.persistentVolumeClaim.size }}
         {{- if .Values.data.persistentVolumeClaim.storageClass }}
-        storageClassName: {{ .Values.data.persistentVolumeClaim }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
         {{- end }}
   {{- end }}

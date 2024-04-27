@@ -9,7 +9,7 @@
 # */
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "safe.fullname" . }}
   namespace: {{ .Values.global.vsecm.namespace }}
@@ -50,11 +50,12 @@ spec:
               name: http
               protocol: TCP
           volumeMounts:
+            - name: vsecm-data
+              mountPath: {{ .Values.data.hostPath.path }}
+              readOnly: false
             - name: spire-agent-socket
               mountPath: /spire-agent-socket
               readOnly: true
-            - name: vsecm-data
-              mountPath: /data
             - name: vsecm-root-key
               mountPath: /key
               readOnly: true
@@ -99,16 +100,15 @@ spec:
           csi:
             driver: "csi.spiffe.io"
             readOnly: true
+
+{{- if not .Values.data.persistent }}
         # `vsecm-data` is used to persist the encrypted backups of the secrets.
         - name: vsecm-data
-          {{- if .Values.data.persistent }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.data.persistentVolumeClaim.claimName }}
-          {{- else }}
           hostPath:
             path: {{ .Values.data.hostPath.path }}
             type: DirectoryOrCreate
-          {{- end }}
+{{- end}}
+
         # `vsecm-root-key` stores the encryption keys to restore secrets from vsecm-data.
         - name: vsecm-root-key
           secret:
@@ -116,3 +116,18 @@ spec:
             items:
               - key: KEY_TXT
                 path: key.txt
+
+{{- if .Values.data.persistent }}
+  volumeClaimTemplates:
+    - metadata:
+        name: vsecm-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
+        {{- end }}
+{{- end }}

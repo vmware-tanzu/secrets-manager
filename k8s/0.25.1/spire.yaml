@@ -790,7 +790,7 @@ spec:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
 ---
-# Source: vsecm/charts/spire/templates/spire-server-app.yaml
+# Source: vsecm/charts/spire/templates/spire-server-stateful-set.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -802,7 +802,7 @@ spec:
 # */
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: spire-server
   namespace: spire-system
@@ -810,6 +810,7 @@ metadata:
     app: spire-server
     app.kubernetes.io/component: server
 spec:
+  serviceName: spire-server
   replicas: 1
   selector:
     matchLabels:
