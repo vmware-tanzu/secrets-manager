@@ -1,0 +1,142 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets… secret
+# >/
+# <>/' Copyright 2023–present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# Default values for spire.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  images:
+    spireAgent:
+      repository: tcx-docker-local.artifactory.eng.vmware.com/third-party/images/ghcr.io/spiffe/spire-agent
+      tag: 1.9.1
+      pullPolicy: IfNotPresent
+    spiffeCsiDriver:
+      repository: tcx-docker-local.artifactory.eng.vmware.com/third-party/images/ghcr.io/spiffe/spiffe-csi-driver
+      tag: 0.2.5
+      pullPolicy: IfNotPresent
+    nodeDriverRegistrar:
+      repository: tcx-docker-local.artifactory.eng.vmware.com/third-party/images/registry.k8s.io/sig-storage/csi-node-driver-registrar
+      tag: v2.10.0
+      pullPolicy: IfNotPresent
+    spireServer:
+      repository: tcx-docker-local.artifactory.eng.vmware.com/third-party/images/ghcr.io/spiffe/spire-server
+      tag: 1.9.1
+      pullPolicy: IfNotPresent
+    spireControllerManager:
+      repository: tcx-docker-local.artifactory.eng.vmware.com/third-party/images/ghcr.io/spiffe/spire-controller-manager
+      tag: 0.4.3
+      pullPolicy: IfNotPresent
+  spire:
+    # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
+    # identify the trust domain of a workload. If you use anything other than
+    # the default `vsecm.com`, you must also update the relevant environment
+    # variables that does SPIFFE ID validation.
+    #
+    # To prevent accidental collisions (two trust domains select identical names),
+    # operators are advised to select trust domain names which are highly likely
+    # to be globally unique. Even though a trust domain name is not a DNS name,
+    # using a registered domain name as a suffix of a trust domain name, when
+    # available, will reduce chances of an accidental collision; for example,
+    # if a trust domain operator owns the domain name `example.com`,
+    # then using a trust domain name such as `apps.example.com` would likely
+    # not produce a collision. When trust domain names are automatically generated
+    # without operator input, randomly generating a unique name (such as a UUID)
+    # is strongly advised.
+    trustDomain: "vsecm.com"
+    namespace: spire-system
+    logLevel: DEBUG
+    serverPort: 8081
+
+## @section Chart parameters
+##
+## @param replicaCount SPIRE server currently runs with a sqlite database. Scaling to multiple instances will not work until we use an external database.
+replicaCount: 1
+
+## @param server.kind Define SPIRE server deployment type. 
+## Can be statefulset/deployment. Defaults to statefulset if not set. This feature is experimental.
+server:
+  kind: deployment
+
+imagePullSecrets:
+  - name: kubelet-pull-secret
+nameOverride: ""
+fullnameOverride: ""
+
+experimental:
+  eventsBasedCache: false
+
+service:
+  # ClusterIP, NodePort, LoadBalancer
+  type: ClusterIP
+  port: 8081
+  annotations: {}
+
+bundleEndpoint:
+  # ClusterIP, NodePort, LoadBalancer
+  type: ClusterIP
+  port: 8443
+  annotations: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources:
+  # These are the default resources suitable for a moderate SPIRE usage.
+  # Of course, it's best to do your own benchmarks and update these
+  # requests and limits to your production needs accordingly.
+  # That being said, as a rule of thumb, do not limit the CPU request
+  # on SPIRE Agent and SPIRE server. It's best to let them leverage
+  # the available excess CPU, if available.
+  server:
+    requests:
+      memory: "1Gi"
+      cpu: "100m"
+  agent:
+    requests:
+      memory: "512Mi"
+      cpu: "50m"
+  spiffeCsiDriver:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+data:
+  persistent: false
+  # Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
