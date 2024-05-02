@@ -16,6 +16,7 @@ metadata:
   labels:
     {{- include "safe.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "safe.fullname" . }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
