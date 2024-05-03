@@ -51,6 +51,12 @@ serviceAccount:
 
 podAnnotations: {}
 
+spireAgent:
+  annotations: 
+    # Define a helm hook to make spire-agent daemonSet deploy after spire-server statefulSet
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+
 podSecurityContext: {}
   # fsGroup: 2000
 
