@@ -11,7 +11,7 @@
 package rpc
 
 import (
-	core "github.com/vmware-tanzu/secrets-manager/core/log"
+	level "github.com/vmware-tanzu/secrets-manager/core/log/level"
 )
 
 // FatalLn logs a fatal message with the provided correlationId and message
@@ -24,8 +24,8 @@ func FatalLn(correlationId *string, v ...any) {
 // ErrorLn logs an error message with the provided correlationId and message
 // arguments if the current log level is Error or lower.
 func ErrorLn(correlationId *string, v ...any) {
-	l := core.GetLevel()
-	if l < core.Error {
+	l := level.Get()
+	if l < level.Error {
 		return
 	}
 
@@ -36,8 +36,8 @@ func ErrorLn(correlationId *string, v ...any) {
 // WarnLn logs a warning message with the provided correlationId and message
 // arguments if the current log level is Warn or lower.
 func WarnLn(correlationId *string, v ...any) {
-	l := core.GetLevel()
-	if l < core.Warn {
+	l := level.Get()
+	if l < level.Warn {
 		return
 	}
 
@@ -48,8 +48,8 @@ func WarnLn(correlationId *string, v ...any) {
 // InfoLn logs an informational message with the provided correlationId and
 // message arguments if the current log level is Info or lower.
 func InfoLn(correlationId *string, v ...any) {
-	l := core.GetLevel()
-	if l < core.Info {
+	l := level.Get()
+	if l < level.Info {
 		return
 	}
 
@@ -68,8 +68,8 @@ func AuditLn(correlationId *string, v ...any) {
 // DebugLn logs a debug message with the provided correlationId and message
 // arguments if the current log level is Debug or lower.
 func DebugLn(correlationId *string, v ...any) {
-	l := core.GetLevel()
-	if l < core.Debug {
+	l := level.Get()
+	if l < level.Debug {
 		return
 	}
 
@@ -80,8 +80,8 @@ func DebugLn(correlationId *string, v ...any) {
 // TraceLn logs a trace message with the provided correlationId and message
 // arguments if the current log level is Trace or lower.
 func TraceLn(correlationId *string, v ...any) {
-	l := core.GetLevel()
-	if l < core.Trace {
+	l := level.Get()
+	if l < level.Trace {
 		return
 	}
 
