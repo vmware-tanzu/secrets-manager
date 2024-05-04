@@ -32,6 +32,7 @@ next_url: /docs/releases/
 * Renamed certain modules and functions for clarity.
 * Introduced certain environment variables whose functionalities will be
   implemented later.
+* updated helm charts, removed hard coded namespace references from service URLs.
 
 ## [0.25.1] - 2024-04-26
 
