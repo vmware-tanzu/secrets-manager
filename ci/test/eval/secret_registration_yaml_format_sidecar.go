@@ -11,11 +11,13 @@
 package eval
 
 import (
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
 	"strings"
 	"time"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
+	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
 )
 
 func SecretRegistrationYAMLFormatSidecar() error {

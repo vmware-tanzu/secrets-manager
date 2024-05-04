@@ -47,14 +47,6 @@ func parseInputKeys(parser *argparse.Parser) *string {
 	})
 }
 
-func parseBackingStore(parser *argparse.Parser) *string {
-	return parser.String("b", "store", &argparse.Options{
-		Required: false,
-		Help: "backing store type (file|memory) (default: file). " +
-			"Overrides VSECM_SAFE_BACKING_STORE",
-	})
-}
-
 func parseWorkload(parser *argparse.Parser) *[]string {
 	return parser.StringList("w", "workload", &argparse.Options{
 		Required: false,

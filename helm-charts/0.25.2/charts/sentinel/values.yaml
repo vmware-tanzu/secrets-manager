@@ -20,12 +20,16 @@ environments:
    value: "unix:///spire-agent-socket/agent.sock"
  - name: VSECM_LOG_LEVEL
    value: "7"
+ - name: VSECM_NAMESPACE_SYSTEM
+   value: "{{ .Values.global.vsecm.namespace }}"
+ - name: VSECM_NAMESPACE_SPIRE
+   value: "{{ .Values.global.spire.namespace }}"
  - name: VSECM_PROBE_LIVENESS_PORT
    value: ":8081"
  - name: VSECM_SAFE_ENDPOINT_URL
-   value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+   value: "https://vsecm-safe.{{ .Values.global.vsecm.namespace }}.svc.cluster.local:8443/"
  - name: VSECM_SAFE_SPIFFEID_PREFIX
-   value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+   value: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-safe/n/"
  - name: VSECM_SAFE_TLS_PORT
    value: ":8443"
  - name: VSECM_SENTINEL_INIT_COMMAND_PATH
@@ -35,7 +39,7 @@ environments:
  - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
    value: "gen:"
  - name: VSECM_SENTINEL_SPIFFEID_PREFIX
-   value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+   value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-sentinel/n/"
  - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
    value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
  - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER

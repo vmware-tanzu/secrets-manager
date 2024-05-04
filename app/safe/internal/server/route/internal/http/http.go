@@ -14,7 +14,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -34,11 +34,11 @@ import (
 //   - []byte: The request body as a byte slice. Returns nil if an error occurs
 //     while reading the body.
 func ReadBody(cid string, r *http.Request, w http.ResponseWriter,
-	j audit.JournalEntry) []byte {
+	j journal.Entry) []byte {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		j.Event = event.BrokenBody
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err2 := io.WriteString(w, "")

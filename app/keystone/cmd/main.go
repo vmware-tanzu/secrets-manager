@@ -12,14 +12,22 @@ package main
 
 import (
 	"fmt"
-	"log"
+	sys "log"
 	"os"
 
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 )
 
 func main() {
-	log.Println(
+	id := crypto.Id()
+
+	//Print the diagnostic information about the environment.
+	envVarsToPrint := []string{"APP_VERSION"}
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+
+	sys.Println(
 		"VSecM Keystone",
 		fmt.Sprintf("v%s", os.Getenv("APP_VERSION")),
 	)

@@ -12,10 +12,12 @@ package vsecm
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"strings"
 	"time"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
 
 func Sentinel() (string, error) {

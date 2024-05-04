@@ -23,7 +23,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -62,12 +62,15 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 		)
 	}
 
-	defer func() {
-		err := source.Close()
+	defer func(s *workloadapi.X509Source) {
+		if s == nil {
+			return
+		}
+		err := s.Close()
 		if err != nil {
 			log.InfoLn(&cid, "Fetch: problem closing source: ", err.Error())
 		}
-	}()
+	}(source)
 
 	svid, err := source.GetX509SVID()
 	if err != nil {
@@ -116,14 +119,14 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 		)
 	}
 
-	defer func() {
-		err := r.Body.Close()
+	defer func(b io.ReadCloser) {
+		err := b.Close()
 		if err != nil {
 			if err != nil {
 				log.InfoLn(&cid, "Fetch: problem closing response body: ", err.Error())
 			}
 		}
-	}()
+	}(r.Body)
 
 	// Related to [1]. Hint the server that we wish to close the connection
 	// as soon as we are done with it.

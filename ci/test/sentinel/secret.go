@@ -12,12 +12,14 @@ package sentinel
 
 import (
 	"fmt"
-	errors "github.com/pkg/errors"
+	"regexp"
+	"strings"
+
+	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/wait"
-	"regexp"
-	"strings"
 )
 
 func DeleteSecret() error {
@@ -36,6 +38,7 @@ func DeleteSecret() error {
 }
 
 func SetKubernetesSecretToTriggerInitContainer() error {
+
 	// Define the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
 	if err != nil {

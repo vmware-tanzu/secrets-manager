@@ -11,9 +11,11 @@
 package workload
 
 import (
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"strings"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
 
 func Example() (string, error) {

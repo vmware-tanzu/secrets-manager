@@ -12,12 +12,12 @@ package bootstrap
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/queue"
 	"os"
 	"time"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -53,7 +53,7 @@ func Monitor(
 	channels ChannelsToMonitor,
 	timedOut <-chan bool,
 ) {
-	counter := 3
+	counter := 3 // Number of channels ins `channels` to wait for.
 	for {
 		if counter == 0 {
 			break
@@ -65,7 +65,7 @@ func Monitor(
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
-				state.Initialize()
+				queue.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
 				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
@@ -76,7 +76,7 @@ func Monitor(
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
-				state.Initialize()
+				queue.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
 				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
@@ -87,7 +87,8 @@ func Monitor(
 			counter--
 			log.InfoLn(correlationId, "remaining operations before ready:", counter)
 			if counter == 0 {
-				state.Initialize()
+				// Start all background jobs.
+				queue.Initialize()
 				log.DebugLn(correlationId, "Creating readiness probe.")
 				go probe.CreateReadiness()
 				log.AuditLn(correlationId, "VSecM Safe is ready to serve.")
@@ -128,7 +129,7 @@ func AcquireSource(
 	}
 
 	svidId := svid.ID
-	if !validation.IsSafe(svid.ID.String()) {
+	if !validation.IsSafe(svidId.String()) {
 		log.FatalLn(
 			id, "SpiffeId check: I don't know you, and it's crazy:", svidId.String(),
 		)
@@ -171,9 +172,9 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 
 	secret := string(data)
 
-	if secret != state.BlankRootKeyValue {
+	if secret != crypto.BlankRootKeyValue {
 		log.InfoLn(id, "Secret has been set in the cluster, will reuse it")
-		state.SetRootKey(secret)
+		crypto.SetRootKey(secret)
 		updatedSecret <- true
 		return
 	}

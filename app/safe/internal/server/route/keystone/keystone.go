@@ -17,11 +17,12 @@ import (
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -45,37 +46,36 @@ import (
 //   - Proper SPIFFE ID format and keystone initialization are crucial for the
 //     correct execution of this function.
 func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !state.RootKeySet() {
+	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Status: Root key not set")
 		return
 	}
 
-	j := audit.JournalEntry{
+	j := journal.Entry{
 		CorrelationId: cid,
-		Entity:        reqres.KeystoneStatusRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
 		Event:         event.Enter,
 	}
 
-	audit.Log(j)
+	journal.Log(j)
 
 	// Only sentinel can get the status.
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
 	log.TraceLn(&cid, "Status: before defer")
 
-	defer func() {
-		err := r.Body.Close()
+	defer func(b io.ReadCloser) {
+		err := b.Close()
 		if err != nil {
 			log.InfoLn(&cid, "Status: Problem closing body")
 		}
-	}()
+	}(r.Body)
 
 	log.TraceLn(&cid, "Status: after defer")
 
@@ -84,7 +84,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	if len(parts) == 0 {
 		j.Event = event.BadPeerSvid
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -95,7 +95,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		return
 	}
 
-	initialized := state.KeystoneInitialized(cid)
+	initialized := collection.KeystoneInitialized(cid)
 
 	if initialized {
 		log.TraceLn(&cid, "Status: keystone initialized")
@@ -105,8 +105,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 
 		j.Event = event.Ok
-		j.Entity = res
-		audit.Log(j)
+		journal.Log(j)
 
 		resp, err := json.Marshal(res)
 		if err != nil {
@@ -136,8 +135,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	}
 
 	j.Event = event.Ok
-	j.Entity = res
-	audit.Log(j)
+	journal.Log(j)
 
 	resp, err := json.Marshal(res)
 	if err != nil {

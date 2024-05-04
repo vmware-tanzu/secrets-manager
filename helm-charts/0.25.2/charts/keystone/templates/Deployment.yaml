@@ -54,23 +54,16 @@ spec:
             # You can configure VSecM Init Container by providing
             # environment variables.
             #
-            # See https://vsecm.com/configuration for more information
-            # about these environment variables.
+            # See https://vsecm.com/configuration for more information about
+            # these environment variables.
             #
             # When you don't explicitly provide env vars here, VMware Secrets Manager
-            # Init Container will assume the default values outlined in the given
-            # link above.
+            # Init Container will assume the default values outlined in the given link above.
             #
-            - name: SPIFFE_ENDPOINT_SOCKET
-              value: "unix:///spire-agent-socket/agent.sock"
-            - name: VSECM_LOG_LEVEL
-              value: "7"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
-              value: "5000"
+            {{- range .Values.initEnvironments }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
       containers:
         - name: main
           image: "{{ .Values.global.registry }}/{{- include "keystone.repository" .}}:{{ .Values.global.images.keystone.tag }}"

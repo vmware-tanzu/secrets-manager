@@ -11,20 +11,18 @@
 package receive
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"strings"
 
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/http"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/journal"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/json"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -46,12 +44,11 @@ import (
 //     authorization validation.
 func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
-	j.Entity = reqres.KeyInputRequest{}
-	audit.Log(j)
+	journal.Log(j)
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
@@ -60,19 +57,18 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	body := httq.ReadBody(cid, r, w, j)
 	if body == nil {
 		j.Event = event.BadPayload
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
 	ur := json.UnmarshalKeyInputRequest(cid, body, j, w)
 	if ur == nil {
 		j.Event = event.BadPayload
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
 	sr := *ur
-	j.Entity = sr
 
 	aesCipherKey := strings.TrimSpace(sr.AesCipherKey)
 	agePrivateKey := strings.TrimSpace(sr.AgeSecretKey)
@@ -80,12 +76,12 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 
 	if aesCipherKey == "" || agePrivateKey == "" || agePublicKey == "" {
 		j.Event = event.BadPayload
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
-	state.SetRootKey(keysCombined)
+	crypto.SetRootKey(keysCombined)
 
 	if env.ManualRootKeyUpdatesK8sSecret() {
 		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {

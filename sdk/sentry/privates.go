@@ -44,7 +44,7 @@ func fetchSecrets() error {
 
 	// VSecM Safe was successfully queried, but no secrets found.
 	// This means someone has deleted the secret. We cannot let
-	// the workload linger with the existing secret, so we deletion
+	// the workload linger with the existing secret, so we remove
 	// it from the workload too.
 	//
 	// If the user wants a more fine-tuned control for this case,

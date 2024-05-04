@@ -11,7 +11,6 @@
 package env
 
 import (
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 	"os"
 	"strconv"
 	"strings"
@@ -162,24 +161,6 @@ func FipsCompliantModeForSafe() bool {
 	}
 
 	return p == "true"
-}
-
-// BackingStoreForSafe returns the storage type for the data,
-// as specified in the VSECM_SAFE_BACKING_STORE environment variable.
-// If the environment variable is not set, it defaults to "file".
-// Any value that is not "file" will mean VSecM Safe will store
-// its state in-memory
-func BackingStoreForSafe() data.BackingStore {
-	s := os.Getenv("VSECM_SAFE_BACKING_STORE")
-	if s == "" {
-		return data.File
-	}
-
-	if data.BackingStore(s) == data.File {
-		return data.File
-	}
-
-	return data.Memory
 }
 
 // SecretBackupCountForSafe retrieves the number of backups to keep for VSecM Safe

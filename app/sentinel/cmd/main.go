@@ -20,29 +20,38 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
-func main() {
-	parser := argparse.NewParser("safe", "Assigns secrets to workloads.")
+const defaultNs = "default"
 
-	id, err := crypto.RandomString(8)
-	if err != nil {
-		id = "VSECMSENTINEL"
-	}
+func main() {
+	id := crypto.Id()
+
+	parser := argparse.NewParser("safe", "Assigns secrets to workloads.")
 
 	ctx, cancel := context.WithCancel(
 		context.WithValue(context.Background(), "correlationId", &id),
 	)
-
 	defer cancel()
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
+
+	go func() {
+		select {
+		case <-c:
+			println("Operation was cancelled.")
+			// It is okay to cancel a cancelled context.
+			cancel()
+		}
+	}()
 
 	list := parseList(parser)
 	deleteSecret := parseDeleteSecret(parser)
 	appendSecret := parseAppendSecret(parser)
 	namespaces := parseNamespaces(parser)
 	inputKeys := parseInputKeys(parser)
-	backingStore := parseBackingStore(parser)
 	workloadIds := parseWorkload(parser)
 	secret := parseSecret(parser)
 	template := parseTemplate(parser)
@@ -51,7 +60,7 @@ func main() {
 	notBefore := parseNotBefore(parser)
 	expires := parseExpires(parser)
 
-	err = parser.Parse(os.Args)
+	err := parser.Parse(os.Args)
 	if err != nil {
 		println(err.Error())
 		println()
@@ -61,37 +70,36 @@ func main() {
 
 	if *list {
 		if *encrypt {
-			safe.Get(ctx, true)
+			err = safe.Get(ctx, true)
+			if err != nil {
+				println("Error getting from VSecM Safe:", err.Error())
+				return
+			}
+
 			return
 		}
-		safe.Get(ctx, false)
+
+		err = safe.Get(ctx, false)
+		if err != nil {
+			println("Error getting from VSecM Safe:", err.Error())
+			return
+		}
+
 		return
 	}
 
 	if *namespaces == nil || len(*namespaces) == 0 {
-		*namespaces = []string{"default"}
+		*namespaces = []string{defaultNs}
 	}
 
 	if inputValidationFailure(workloadIds, encrypt, inputKeys, secret, deleteSecret) {
 		return
 	}
 
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
-
-	go func() {
-		select {
-		case <-c:
-			println("Operation was cancelled.")
-			cancel()
-		}
-	}()
-
-	safe.Post(ctx, entity.SentinelCommand{
+	err = safe.Post(ctx, entity.SentinelCommand{
 		WorkloadIds:        *workloadIds,
 		Secret:             *secret,
 		Namespaces:         *namespaces,
-		BackingStore:       *backingStore,
 		Template:           *template,
 		Format:             *format,
 		Encrypt:            *encrypt,
@@ -101,4 +109,9 @@ func main() {
 		NotBefore:          *notBefore,
 		Expires:            *expires,
 	})
+
+	if err != nil {
+		println("Error posting to VSecM Safe:", err.Error())
+		return
+	}
 }

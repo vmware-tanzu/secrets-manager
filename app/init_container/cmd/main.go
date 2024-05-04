@@ -11,6 +11,7 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
@@ -18,7 +19,12 @@ import (
 )
 
 func main() {
-	id := "AEGIICNT"
+	id := crypto.Id()
+
+	//Print the diagnostic information about the environment.
+	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
+		"VSECM_SAFE_ENDPOINT_URL"}
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	log.InfoLn(&id, "Starting VSecM Init Container")
 
@@ -27,11 +33,6 @@ func main() {
 	// starting the main container.
 	d := env.WaitBeforeExitForInitContainer()
 	go startup.Watch(d)
-
-	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
-		"VSECM_SAFE_ENDPOINT_URL"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	// Block the process from exiting, but also be graceful and honor the
 	// termination signals that may come from the orchestrator.

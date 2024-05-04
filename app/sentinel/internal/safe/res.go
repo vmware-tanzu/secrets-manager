@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets... secret
+>/
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package safe
 
 import (
@@ -31,13 +41,4 @@ func respond(cid *string, r *http.Response) {
 	println("")
 	println(string(body))
 	println("")
-}
-
-func printEndpointError(cid *string, err error) {
-	log.ErrorLn(cid, "Post: I am having problem generating VSecM Safe "+
-		"secrets api endpoint URL.", err.Error())
-}
-
-func printPayloadError(cid *string, err error) {
-	log.ErrorLn(cid, "Post: I am having problem generating the payload.", err.Error())
 }

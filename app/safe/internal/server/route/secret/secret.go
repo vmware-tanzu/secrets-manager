@@ -11,18 +11,18 @@
 package secret
 
 import (
+	"io"
 	"net/http"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/crypto"
 	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/http"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/journal"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/json"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -36,17 +36,17 @@ import (
 //   - r: An http.Request object containing the details of the client's request.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !state.RootKeySet() {
+	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Secret: Root key not set")
 		return
 	}
 
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
-	audit.Log(j)
+	journal.Log(j)
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
@@ -55,7 +55,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	body := httq.ReadBody(cid, r, w, j)
 	if body == nil {
 		j.Event = event.BadPayload
-		audit.Log(j)
+		journal.Log(j)
 
 		return
 	}
@@ -65,18 +65,15 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	ur := json.UnmarshalSecretUpsertRequest(cid, body, j, w)
 	if ur == nil {
 		j.Event = event.BadPayload
-		audit.Log(j)
+		journal.Log(j)
 
 		return
 	}
 
 	sr := *ur
 
-	j.Entity = sr
-
 	workloadIds := sr.WorkloadIds
 	value := sr.Value
-	backingStore := sr.BackingStore
 	namespaces := sr.Namespaces
 	template := sr.Template
 	format := sr.Format
@@ -86,8 +83,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	expiresAfter := sr.Expires
 
 	if len(workloadIds) == 0 && encrypt {
-		// has a side effect of sending response.
-		crypto.Encrypt(cid, value, j, w)
+		httq.SendEncryptedValue(cid, value, j, w)
 
 		return
 	}
@@ -97,27 +93,37 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	}
 
 	log.DebugLn(&cid, "Secret:Upsert: ", "workloadIds:", workloadIds,
-		"namespaces:", namespaces, "backingStore:", backingStore,
+		"namespaces:", namespaces,
 		"template:", template, "format:", format, "encrypt:", encrypt,
 		"appendValue:", appendValue,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if len(workloadIds) == 0 && !encrypt {
 		j.Event = event.NoWorkloadId
-		audit.Log(j)
+		journal.Log(j)
 
 		return
 	}
 
 	// `encrypt` means that the value is encrypted, so we need to decrypt it.
 	if encrypt {
-		v, failed := crypto.Decrypt(cid, value, j, w)
-		value = v
+		decrypted, err := crypto.DecryptValue(value)
 
-		// If decryption failed, we already sent the response.
-		if failed {
+		// If decryption failed, return an error response.
+		if err != nil {
+			log.InfoLn(&cid, "Secret: Decryption failed", err.Error())
+
+			w.WriteHeader(http.StatusInternalServerError)
+			_, err := io.WriteString(w, "")
+			if err != nil {
+				log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+			}
+
 			return
 		}
+
+		// Update the value of the request to the decoded value.
+		sr.Value = decrypted
 	}
 
 	nb := entity.JsonTime{}
@@ -157,7 +163,6 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			Name: workloadId,
 			Meta: entity.SecretMeta{
 				Namespaces:    namespaces,
-				BackingStore:  backingStore,
 				Template:      template,
 				Format:        format,
 				CorrelationId: cid,

@@ -11,12 +11,14 @@
 package eval
 
 import (
+	"strings"
+
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
-	"strings"
 )
 
 func setYAMLSecret(value, transform string) error {

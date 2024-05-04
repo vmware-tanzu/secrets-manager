@@ -11,34 +11,40 @@
 package insertion
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// SecretUpsertQueue items are persisted to files. They are buffered, so that they
-// can be written in the order they are queued and there are no concurrent
-// writes to the same file at a time. An alternative approach would be
-// to have a map of queues of `SecretsStored`s per file name but that
-// feels like an overkill.
-var SecretUpsertQueue = make(chan entity.SecretStored, env.SecretBufferSizeForSafe())
+// SecretUpsertQueue items are persisted to files. They are buffered, so
+// that they can be written in the order they are queued and there are
+// no concurrent writes to the same file at a time. An alternative
+// approach would be to have a map of queues of `SecretsStored`s per file
+// name but that feels like an overkill.
+var SecretUpsertQueue = make(
+	chan entity.SecretStored,
+	env.SecretBufferSizeForSafe(),
+)
 
 // ProcessSecretQueue manages a continuous loop that processes secrets from the
 // SecretUpsertQueue, persisting each secret to disk storage. This function is
 // crucial for ensuring that changes to secrets are reliably stored, supporting
-// both new secrets and updates to existing ones. The operations of this function
-// is critical for maintaining the integrity and consistency of secret data
-// within the system.
-func ProcessSecretQueue(rootKeyTriplet []string) {
+// both new secrets and updates to existing ones. The operations of
+// this function is critical for maintaining the integrity and consistency
+// of secret data within the system.
+func ProcessSecretQueue() {
 	errChan := make(chan error)
 
-	id := "AEGIHSCR"
+	id := crypto.Id()
 
 	go func() {
 		for e := range errChan {
 			// If the `persist` operation spews out an error, log it.
-			log.ErrorLn(&id, "processSecretQueue: error persisting secret:", e.Error())
+			log.ErrorLn(
+				&id, "processSecretQueue: error persisting secret:", e.Error(),
+			)
 		}
 	}()
 
@@ -57,7 +63,16 @@ func ProcessSecretQueue(rootKeyTriplet []string) {
 
 		cid := secret.Meta.CorrelationId
 
-		log.TraceLn(&cid, "processSecretQueue: picked a secret", len(SecretUpsertQueue))
+		log.TraceLn(
+			&cid,
+			"processSecretQueue: picked a secret",
+			len(SecretUpsertQueue),
+		)
+
+		// TODO: switch based on persistence mode (configurable from env)
+		// if mode file; persist to disc
+		// any other mode shall panic for now
+		// if mode is memory then no persistence at all
 
 		// Persist the secret to disk.
 		//
@@ -66,7 +81,7 @@ func ProcessSecretQueue(rootKeyTriplet []string) {
 		//
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processSecretQueue` goroutine.
-		persistence.PersistToDisk(secret, rootKeyTriplet, errChan)
+		io.PersistToDisk(secret, errChan)
 
 		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
 	}

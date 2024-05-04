@@ -11,71 +11,15 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
-
-func rootKeyTriplet(content string) (string, string, string) {
-	if content == "" {
-		return "", "", ""
-	}
-
-	parts := strings.Split(content, "\n")
-
-	if len(parts) != 3 {
-		return "", "", ""
-	}
-
-	return parts[0], parts[1], parts[2]
-}
-
-func keys() (string, string, string) {
-	p := env.RootKeyPathForKeyGen()
-
-	content, err := os.ReadFile(p)
-	if err != nil {
-		log.Fatalf("Error reading file: %v", err)
-	}
-
-	trimmed := strings.TrimSpace(string(content))
-
-	return rootKeyTriplet(trimmed)
-}
-
-func decrypt(value []byte, algorithm crypto.Algorithm) (string, error) {
-	privateKey, _, aesKey := keys()
-
-	decodedValue, err := base64.StdEncoding.DecodeString(string(value))
-	if err != nil {
-		return "", err
-	}
-
-	if algorithm == crypto.Age {
-		res, err := crypto.DecryptBytesAge(decodedValue, privateKey)
-
-		if err != nil {
-			return "", err
-		}
-
-		return string(res), nil
-	}
-
-	res, err := crypto.DecryptBytesAes(decodedValue, aesKey)
-
-	if err != nil {
-		return "", err
-	}
-
-	return string(res), nil
-}
 
 func secrets() entity.SecretStringTimeListResponse {
 	p := env.ExportedSecretPathForKeyGen()
@@ -108,7 +52,7 @@ func printDecryptedKeys() {
 		values := secret.EncryptedValue
 
 		for i, v := range values {
-			dv, err := decrypt([]byte(v), algorithm)
+			dv, err := crypto.Decrypt([]byte(v), algorithm)
 			if err != nil {
 				println("Error decrypting value:", err.Error())
 				continue

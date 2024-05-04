@@ -12,14 +12,14 @@ package deletion
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
@@ -96,13 +96,13 @@ func deleteSecretFromKubernetes(secret entity.SecretStored, errChan chan error) 
 	}
 }
 
-// ProcessK8sSecretDeleteQueue manages the deletion of Kubernetes secrets that
+// ProcessK8sSecretQueue manages the deletion of Kubernetes secrets that
 // have been marked for deletion and placed in a queue. This operation is controlled
 // by an environment configuration that determines whether the deletion of linked
 // K8s secrets is permitted. The function employs goroutines for concurrent deletion
 // tasks and asynchronous error reporting, aiming to optimize the deletion
 // process and handle potential errors effectively.
-func ProcessK8sSecretDeleteQueue() {
+func ProcessK8sSecretQueue() {
 	errChan := make(chan error)
 	id := "AEGIHK8D"
 

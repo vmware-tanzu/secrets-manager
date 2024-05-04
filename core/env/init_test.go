@@ -106,7 +106,7 @@ func TestSystemNamespace(t *testing.T) {
 					}
 				}
 			}()
-			if got := SystemNamespace(); got != tt.want {
+			if got := NamespaceForVSecMSystem(); got != tt.want {
 				t.Errorf("SystemNamespace() = %v, want %v", got, tt.want)
 			}
 		})

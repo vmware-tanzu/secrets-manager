@@ -11,8 +11,9 @@
 package stats
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/insertion"
 	"sync"
+	
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/insertion"
 )
 
 // Status is a struct representing the current state of the secret manager,

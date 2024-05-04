@@ -122,23 +122,23 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 //     API boundaries. It must contain a "correlationId" value.
 //   - showEncryptedSecrets: A boolean flag indicating whether to retrieve
 //     encrypted secrets. If true, secrets are shown in encrypted form.
-func Get(ctx context.Context, showEncryptedSecrets bool) {
+func Get(ctx context.Context, showEncryptedSecrets bool) error {
 	cid := ctx.Value("correlationId").(*string)
 
 	log.AuditLn(cid, "Sentinel:Get")
 
 	source, proceed := spiffe.AcquireSourceForSentinel(ctx)
-	defer func() {
-		if source == nil {
+	defer func(s *workloadapi.X509Source) {
+		if s == nil {
 			return
 		}
-		err := source.Close()
+		err := s.Close()
 		if err != nil {
 			log.ErrorLn(cid, "Get: Problem closing the workload source.")
 		}
-	}()
+	}(source)
 	if !proceed {
-		return
+		return errors.New("Get: Problem acquiring source")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -156,11 +156,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		log.ErrorLn(
-			cid,
-			"Get: I am having problem generating VSecM Safe secrets api endpoint URL.",
-		)
-		return
+		return errors.Wrap(err, "Problem generating VSecM Safe secrets api endpoint URL")
 	}
 
 	tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -172,10 +168,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 
 	r, err := client.Get(p)
 	if err != nil {
-		log.ErrorLn(cid,
-			"Get: Problem connecting to VSecM Safe API endpoint URL.", err.Error(),
-		)
-		return
+		return errors.Wrap(err, "Problem connecting to VSecM Safe API endpoint URL")
 	}
 
 	defer func(b io.ReadCloser) {
@@ -190,11 +183,12 @@ func Get(ctx context.Context, showEncryptedSecrets bool) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.ErrorLn(cid, "Get: Unable to read the response body from VSecM Safe.")
-		return
+		return errors.Wrap(err, "Unable to read the response body from VSecM Safe")
 	}
 
 	println("")
 	println(string(body))
 	println("")
+
+	return nil
 }

@@ -12,64 +12,39 @@
 // log levels.
 package std
 
-import (
-	"github.com/vmware-tanzu/secrets-manager/core/log"
-	stdlib "log"
-)
-
-// logMessage logs a message with the specified level, correlation ID, and
-// message arguments. It checks the current log level to decide if the message
-// should be logged.
-func logMessage(level log.Level, prefix string, correlationID *string, v ...any) {
-	if level != log.Audit && log.GetLevel() < level {
-		return
-	}
-
-	args := make([]any, 0, len(v)+2)
-	args = append(args, prefix)
-	if correlationID != nil {
-		args = append(args, *correlationID)
-	}
-	args = append(args, v...)
-
-	if level == log.Fatal {
-		stdlib.Fatalln(args...)
-	} else {
-		stdlib.Println(args...)
-	}
-}
+import "github.com/vmware-tanzu/secrets-manager/core/log/level"
 
 // FatalLn logs a fatal level message and exits.
 func FatalLn(correlationID *string, v ...any) {
-	logMessage(log.Fatal, "[FATAL]", correlationID, v...)
+	logMessage(level.Fatal, "[FATAL]", correlationID, v...)
 }
 
 // ErrorLn logs an error level message.
 func ErrorLn(correlationID *string, v ...any) {
-	logMessage(log.Error, "[ERROR]", correlationID, v...)
+	logMessage(level.Error, "[ERROR]", correlationID, v...)
 }
 
 // WarnLn logs a warning level message.
 func WarnLn(correlationID *string, v ...any) {
-	logMessage(log.Warn, "[WARN]", correlationID, v...)
+	logMessage(level.Warn, "[WARN]", correlationID, v...)
 }
 
 // InfoLn logs an info level message.
 func InfoLn(correlationID *string, v ...any) {
-	logMessage(log.Info, "[INFO]", correlationID, v...)
+	logMessage(level.Info, "[INFO]", correlationID, v...)
 }
 
 // AuditLn logs an audit level message.
 func AuditLn(correlationID *string, v ...any) {
-	logMessage(log.Audit, "[AUDIT]", correlationID, v...)
+	logMessage(level.Audit, "[AUDIT]", correlationID, v...)
 }
 
 // DebugLn logs a debug level message.
 func DebugLn(correlationID *string, v ...any) {
-	logMessage(log.Debug, "[DEBUG]", correlationID, v...)
+	logMessage(level.Debug, "[DEBUG]", correlationID, v...)
 }
 
 // TraceLn logs a trace level message.
 func TraceLn(correlationID *string, v ...any) {
-	logMessage(log.Trace, "[TRACE]", correlationID, v...)
+	logMessage(level.Trace, "[TRACE]", correlationID, v...)
 }

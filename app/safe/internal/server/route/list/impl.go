@@ -17,11 +17,11 @@ import (
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -29,37 +29,35 @@ import (
 func doList(cid string, w http.ResponseWriter, r *http.Request,
 	spiffeid string, encrypted bool,
 ) {
-	if !state.RootKeySet() {
+	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Masked: Root key not set")
 		return
 	}
 
-	j := audit.JournalEntry{
+	j := journal.Entry{
 		CorrelationId: cid,
-		Entity:        reqres.SecretListRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
 		Event:         event.Enter,
 	}
-
-	audit.Log(j)
+	journal.Log(j)
 
 	// Only sentinel can list.
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
 	log.TraceLn(&cid, "Masked: before defer")
 
-	defer func() {
-		err := r.Body.Close()
+	defer func(b io.ReadCloser) {
+		err := b.Close()
 		if err != nil {
 			log.InfoLn(&cid, "Masked: Problem closing body")
 		}
-	}()
+	}(r.Body)
 
 	log.TraceLn(&cid, "Masked: after defer")
 
@@ -68,7 +66,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 
 	if len(parts) == 0 {
 		j.Event = event.BadPeerSvid
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -80,7 +78,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	}
 
 	workloadId := parts[0]
-	secrets := state.AllSecrets(cid)
+	secrets := collection.AllSecrets(cid)
 
 	log.DebugLn(&cid, "Masked: will send. workload id:", workloadId)
 
@@ -90,22 +88,21 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			algo = crypto.Aes
 		}
 
-		secrets := state.AllSecretsEncrypted(cid)
+		secrets := collection.AllSecretsEncrypted(cid)
 
 		sfr := reqres.SecretEncryptedListResponse{
 			Secrets:   secrets,
 			Algorithm: algo,
 		}
 
-		sfrToLog := reqres.SecretEncryptedListResponse{
-			// hide secrets from the log
-			Secrets:   nil,
-			Algorithm: algo,
-		}
+		//sfrToLog := reqres.SecretEncryptedListResponse{
+		//	// hide secrets from the log
+		//	Secrets:   nil,
+		//	Algorithm: algo,
+		//}
 
 		j.Event = event.Ok
-		j.Entity = sfrToLog
-		audit.Log(j)
+		journal.Log(j)
 
 		resp, err := json.Marshal(sfr)
 
@@ -132,8 +129,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	}
 
 	j.Event = event.Ok
-	j.Entity = sfr
-	audit.Log(j)
+	journal.Log(j)
 
 	resp, err := json.Marshal(sfr)
 	if err != nil {

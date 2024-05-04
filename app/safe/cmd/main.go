@@ -13,24 +13,28 @@ package main
 import (
 	"context"
 
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server"
+	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
 
 func main() {
-	id, err := crypto.RandomString(8)
-	if err != nil {
-		id = "VSECMSAFE"
-	}
+	id := crypto.Id()
+
+	//Print the diagnostic information about the environment.
+	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
+		"VSECM_SAFE_FIPS_COMPLIANT", "VSECM_SAFE_SPIFFEID_PREFIX",
+		"VSECM_SAFE_TLS_PORT", "VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"}
+	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	ctx, cancel := context.WithCancel(
 		context.WithValue(context.Background(), "correlationId", &id),
 	)
-
-	bootstrap.ValidateEnvironment()
+	defer cancel()
 
 	log.InfoLn(&id, "Acquiring identity...")
 
@@ -54,12 +58,6 @@ func main() {
 		}, timedOut,
 	)
 
-	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
-		"VSECM_SAFE_FIPS_COMPLIANT", "VSECM_SAFE_SPIFFEID_PREFIX",
-		"VSECM_SAFE_TLS_PORT", "VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
-
 	// Time out if things take too long.
 	go bootstrap.NotifyTimeout(timedOut)
 
@@ -69,16 +67,18 @@ func main() {
 	// App is alive; however, not yet ready to accept connections.
 	go probe.CreateLiveness()
 
-	defer cancel()
-
 	source := bootstrap.AcquireSource(ctx, acquiredSvid)
-	defer func() {
+	defer func(s *workloadapi.X509Source) {
+		if s == nil {
+			return
+		}
+
 		// Close the source after the server (1) is done serving, likely
 		// when the app is shutting down due to an eviction or a panic.
-		if err := source.Close(); err != nil {
+		if err := s.Close(); err != nil {
 			log.InfoLn(&id, "Problem closing SVID Bundle source: %v\n", err)
 		}
-	}()
+	}(source)
 
 	// (1)
 	if err := server.Serve(source, serverStarted); err != nil {

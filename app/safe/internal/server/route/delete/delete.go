@@ -12,15 +12,16 @@ package delete
 
 import (
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -34,14 +35,13 @@ import (
 //   - r: An http.Request object containing the request details from the client.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !state.RootKeySet() {
+	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Delete: Root key not set")
 		return
 	}
 
-	j := audit.JournalEntry{
+	j := journal.Entry{
 		CorrelationId: cid,
-		Entity:        reqres.SecretDeleteRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
@@ -50,7 +50,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
-		audit.Log(j)
+		journal.Log(j)
 		return
 	}
 
@@ -59,7 +59,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		j.Event = event.BrokenBody
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -88,7 +88,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		println("error", err.Error())
 
 		j.Event = event.RequestTypeMismatch
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -101,8 +101,6 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		return
 	}
 
-	j.Entity = sr
-
 	workloadIds := sr.WorkloadIds
 
 	println("workloadIds", workloadIds)
@@ -111,7 +109,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		println("empty workload ids")
 
 		j.Event = event.NoWorkloadId
-		audit.Log(j)
+		journal.Log(j)
 
 		println("exiting from the empty workload ids case")
 
@@ -121,7 +119,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	log.DebugLn(&cid, "Secret:Delete: ", "workloadIds:", workloadIds)
 
 	for _, workloadId := range workloadIds {
-		state.DeleteSecret(entity.SecretStored{
+		collection.DeleteSecret(entity.SecretStored{
 			Name: workloadId,
 			Meta: entity.SecretMeta{
 				CorrelationId: cid,
@@ -132,7 +130,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	log.DebugLn(&cid, "Delete:End: workloadIds:", workloadIds)
 
 	j.Event = event.Ok
-	audit.Log(j)
+	journal.Log(j)
 
 	_, err = io.WriteString(w, "OK")
 	if err != nil {
