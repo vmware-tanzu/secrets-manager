@@ -49,7 +49,7 @@ func IsAuthorizedJWT(cid string, r *http.Request) bool {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-
+			log.ErrorLn(&cid, "Error closing response body:", err)
 		}
 	}(resp.Body)
 

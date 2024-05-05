@@ -95,12 +95,6 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			Algorithm: algo,
 		}
 
-		//sfrToLog := reqres.SecretEncryptedListResponse{
-		//	// hide secrets from the log
-		//	Secrets:   nil,
-		//	Algorithm: algo,
-		//}
-
 		j.Event = event.Ok
 		journal.Log(j)
 

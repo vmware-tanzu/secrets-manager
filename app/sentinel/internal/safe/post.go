@@ -32,15 +32,6 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
-//func backoffStrategy() backoff.Strategy {
-//	return backoff.Strategy{
-//		MaxRetries:  20,
-//		Delay:       1000,
-//		Exponential: true,
-//		MaxDuration: 30 * time.Second,
-//	}
-//}
-
 var seed = time.Now().UnixNano()
 
 func Post(parentContext context.Context,
