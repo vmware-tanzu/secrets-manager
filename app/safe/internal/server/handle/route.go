@@ -74,9 +74,9 @@ func routeSentinelPostSecrets(cid string, r *http.Request, w http.ResponseWriter
 	if m == http.MethodPost && p == "/sentinel/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
 		routeSecret.Secret(cid, w, r, sid)
-		return false
+		return true
 	}
-	return true
+	return false
 }
 
 func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
@@ -89,9 +89,9 @@ func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWrit
 	if m == http.MethodDelete && p == "/sentinel/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will delete")
 		routeDelete.Delete(cid, w, r, sid)
-		return false
+		return true
 	}
-	return true
+	return false
 }
 
 func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
@@ -103,9 +103,9 @@ func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter, s
 	if m == http.MethodPost && p == "/sentinel/v1/keys" {
 		log.DebugLn(&cid, "Handler: will receive keys")
 		routeReceive.Keys(cid, w, r, sid)
-		return false
+		return true
 	}
-	return true
+	return false
 }
 
 func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
@@ -119,9 +119,9 @@ func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter,
 	if m == http.MethodGet && p == "/workload/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/workload/v1/secrets: will fetch")
 		routeFetch.Fetch(cid, w, r, sid)
-		return false
+		return true
 	}
-	return true
+	return false
 }
 
 func routeWorkloadPostSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
