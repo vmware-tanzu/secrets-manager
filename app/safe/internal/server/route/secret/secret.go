@@ -133,6 +133,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 		// Update the value of the request to the decoded value.
 		sr.Value = decrypted
+		value = sr.Value
 	} else {
 		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
 		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
