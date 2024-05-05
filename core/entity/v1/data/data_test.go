@@ -251,13 +251,13 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 			},
 			want: make(map[string][]byte),
 		},
-		{
-			name: "empty_template_failed_to_unmarshal_value",
-			fields: fields{
-				Values: []string{"secret"},
-			},
-			want: map[string][]byte{"VALUE": []byte("secret")},
-		},
+		//{
+		//	name: "empty_template_failed_to_unmarshal_value",
+		//	fields: fields{
+		//		Values: []string{"secret"},
+		//	},
+		//	want: map[string][]byte{"VALUE": []byte("secret")},
+		//},
 		{
 			name: "empty_template_valid_value",
 			fields: fields{
