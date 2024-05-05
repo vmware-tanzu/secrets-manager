@@ -57,6 +57,9 @@ global:
       pullPolicy: IfNotPresent
   vsecm:
     namespace: vsecm-system
+    safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+    safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+    sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
   spire:
     # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
     # identify the trust domain of a workload. If you use anything other than

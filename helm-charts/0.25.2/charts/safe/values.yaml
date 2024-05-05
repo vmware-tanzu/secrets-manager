@@ -30,6 +30,8 @@ data:
   hostPath:
     path: "/var/local/vsecm/data"
 
+# See https://vsecm.com/configuration for more information
+# about these environment variables.
 environments:
   - name: SPIFFE_ENDPOINT_SOCKET
     value: "unix:///spire-agent-socket/agent.sock"
@@ -49,8 +51,6 @@ environments:
     value: "/key/key.txt"
   - name: VSECM_SAFE_DATA_PATH
     value: "/var/local/vsecm/data"
-  - name: VSECM_SAFE_ENDPOINT_URL
-    value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
   - name: VSECM_SAFE_FIPS_COMPLIANT
     value: "false"
   - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
@@ -73,8 +73,6 @@ environments:
     value: "k8s:"
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"
-  - name: VSECM_SAFE_SPIFFEID_PREFIX
-    value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/"
   - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL

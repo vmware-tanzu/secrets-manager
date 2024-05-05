@@ -10,7 +10,73 @@
 
 package crypto
 
-import "filippo.io/age"
+import (
+	"strings"
+	"sync"
+
+	"filippo.io/age"
+)
+
+const BlankRootKeyValue = "{}"
+
+// RootKey is the key used for encryption, decryption, backup, and restore.
+var RootKey = ""
+var RootKeyLock sync.RWMutex
+
+// SetRootKey sets the age key to be used for encryption and decryption.
+func SetRootKey(k string) {
+	// id := Id()
+
+	RootKeyLock.Lock()
+	defer RootKeyLock.Unlock()
+
+	// TODO: ensure that root key secret is updated too
+	// TODO: root key secret shall have backing store option: file, database, various secret stores, in-memory
+	// TODO: Periodically sync root key secret from the backing store into memory
+
+	RootKey = k
+}
+
+// RootKeySet returns true if the root key has been set.
+func RootKeySet() bool {
+	RootKeyLock.RLock()
+	defer RootKeyLock.RUnlock()
+
+	return RootKey != ""
+}
+
+type Rkt struct {
+	PrivateKey string
+	PublicKey  string
+	AesSeed    string
+}
+
+// RootKeyTriplet splits the RootKey into three components, if it is properly
+// formatted.
+//
+// The function returns a triplet of strings representing the parts of the RootKey,
+// separated by newlines. If the RootKey is empty or does not contain exactly
+// three parts, the function returns three empty strings.
+func RootKeyTriplet() Rkt {
+	RootKeyLock.RLock()
+	defer RootKeyLock.RUnlock()
+
+	if RootKey == "" {
+		return Rkt{}
+	}
+
+	parts := strings.Split(RootKey, "\n")
+
+	if len(parts) != 3 {
+		return Rkt{}
+	}
+
+	return Rkt{
+		PrivateKey: parts[0],
+		PublicKey:  parts[1],
+		AesSeed:    parts[2],
+	}
+}
 
 // GenerateKeys generates a pair of X25519 keys for public key encryption
 // using the age library, as well as an AES seed for symmetric encryption.
@@ -52,3 +118,16 @@ func GenerateKeys() (string, string, string, error) {
 func CombineKeys(privateKey, publicKey, aesSeed string) string {
 	return privateKey + "\n" + publicKey + "\n" + aesSeed
 }
+
+//func Keys() (string, string, string) {
+//	p := env.RootKeyPathForKeyGen()
+//
+//	content, err := os.ReadFile(p)
+//	if err != nil {
+//		log.Fatalf("Error reading file: %v", err)
+//	}
+//
+//	trimmed := strings.TrimSpace(string(content))
+//
+//	return rootKeyTriplet(trimmed)
+//}

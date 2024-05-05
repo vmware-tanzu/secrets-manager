@@ -11,10 +11,11 @@
 package initialization
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	"golang.org/x/net/context"
+	"context"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
 func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) error {

@@ -11,20 +11,21 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func main() {
-	id := "VSECMKEYGEN"
+	id := crypto.Id()
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_KEYGEN_DECRYPT"}
+	envVarsToPrint := []string{
+		"APP_VERSION", "VSECM_LOG_LEVEL", "VSECM_KEYGEN_DECRYPT",
+	}
 	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
-	d := env.KeyGenDecrypt()
-
-	if d {
+	if env.KeyGenDecrypt() {
 		printDecryptedKeys()
 		return
 	}

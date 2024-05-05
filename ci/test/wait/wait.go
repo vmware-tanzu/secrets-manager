@@ -12,9 +12,11 @@ package wait
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"time"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
 
 func ForExampleWorkloadDeletion() error {

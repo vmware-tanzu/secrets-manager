@@ -12,10 +12,12 @@ package eval
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
-	"time"
 )
 
 func SecretRegistrationJSONFormatSidecar() error {

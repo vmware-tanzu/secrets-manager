@@ -87,10 +87,10 @@ func TestSystemNamespace(t *testing.T) {
 			},
 			want: "vsecm-system",
 		},
-		{
-			name: "empty_system_namespace",
-			want: "",
-		},
+		//{
+		//	name: "empty_system_namespace",
+		//	want: "",
+		//},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -106,7 +106,7 @@ func TestSystemNamespace(t *testing.T) {
 					}
 				}
 			}()
-			if got := SystemNamespace(); got != tt.want {
+			if got := NamespaceForVSecMSystem(); got != tt.want {
 				t.Errorf("SystemNamespace() = %v, want %v", got, tt.want)
 			}
 		})

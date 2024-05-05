@@ -14,7 +14,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -37,16 +37,16 @@ import (
 //     entity, indicating a special or reserved identity within the system. Returns
 //     false if the SPIFFE ID does not correspond to a sentinel entity, signaling
 //     a validation failure.
-func IsSentinel(j audit.JournalEntry, cid string, w http.ResponseWriter,
+func IsSentinel(j journal.Entry, cid string, w http.ResponseWriter,
 	spiffeid string) bool {
-	audit.Log(j)
+	journal.Log(j)
 
 	if validation.IsSentinel(spiffeid) {
 		return true
 	}
 
 	j.Event = event.BadSpiffeId
-	audit.Log(j)
+	journal.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
 	_, err := io.WriteString(w, "NOK!")

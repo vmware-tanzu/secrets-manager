@@ -14,8 +14,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
 	"io"
 	"net/http"
 	"net/url"
@@ -25,6 +23,8 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	data "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"

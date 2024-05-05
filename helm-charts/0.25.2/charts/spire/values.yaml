@@ -14,7 +14,8 @@
 
 ## @section Chart parameters
 ##
-## @param replicaCount SPIRE server currently runs with a sqlite database. Scaling to multiple instances will not work until we use an external database.
+## @param replicaCount SPIRE server currently runs with a sqlite database.
+## Scaling to multiple instances will not work until we use an external database.
 replicaCount: 1
 
 # Override it with an image pull secret that you need as follows:

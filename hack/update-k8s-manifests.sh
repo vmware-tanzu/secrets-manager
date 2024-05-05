@@ -38,6 +38,7 @@ function produceK8sManifests() {
     cp "$helmChartPath/$crds/"* "$k8sManifestsDirectory/$crds/"
 
     echo "producing manifests for spire deployments"
+
     helm template "$helmChartPath" $NAME_TEMPLATE $DEPLOY_KEYSTONE_FALSE $DEPLOY_SAFE_FALSE $DEPLOY_SENTINEL_FALSE > $k8sManifestsDirectory/spire.yaml || exit 1
 
     echo "producing manifests for vsecm local deployments"

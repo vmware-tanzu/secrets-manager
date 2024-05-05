@@ -1,10 +1,11 @@
 package main
 
 import (
+	"os"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/eval"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/state"
-	"os"
 )
 
 func sadCuddle(err error) {

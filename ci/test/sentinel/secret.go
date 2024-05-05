@@ -12,12 +12,14 @@ package sentinel
 
 import (
 	"fmt"
-	errors "github.com/pkg/errors"
+	"regexp"
+	"strings"
+
+	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/wait"
-	"regexp"
-	"strings"
 )
 
 func DeleteSecret() error {
@@ -36,6 +38,7 @@ func DeleteSecret() error {
 }
 
 func SetKubernetesSecretToTriggerInitContainer() error {
+
 	// Define the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
 	if err != nil {
@@ -62,7 +65,7 @@ func SetKubernetesSecretToTriggerInitContainer() error {
 		return fmt.Errorf("set_kubernetes_secret: Failed to wait for workload readiness: %w", err)
 	}
 
-	fmt.Println("done: set_kubernetes_secret()")
+	println("done: set_kubernetes_secret()")
 	return nil
 }
 
@@ -111,7 +114,7 @@ func SetEncryptedSecret(value string) error {
 	out := ""
 	// Remove the lines that do not contain the secret to encrypt.
 	for _, line := range lines {
-		logLinePattern := regexp.MustCompile(`\[(INFO|DEBUG|WARN|ERROR)\]`)
+		logLinePattern := regexp.MustCompile(`\[(INFO|DEBUG|WARN|ERROR)]`)
 		if !logLinePattern.MatchString(line) && strings.TrimSpace(line) != "" {
 			out += line
 		}

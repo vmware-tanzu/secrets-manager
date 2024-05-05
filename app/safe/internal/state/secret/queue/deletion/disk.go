@@ -14,7 +14,7 @@ import (
 	"os"
 	"path"
 
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -24,14 +24,14 @@ import (
 // writes to the same file at a time.
 var SecretDeleteQueue = make(chan entity.SecretStored, env.SecretDeleteBufferSizeForSafe())
 
-// ProcessSecretDeleteQueue continuously processes a queue of secrets scheduled for
+// ProcessSecretQueue continuously processes a queue of secrets scheduled for
 // deletion, removing each secret from disk. This function plays a crucial role in
 // the secure management of secrets by ensuring that outdated or unnecessary
 // secrets are not left stored, potentially posing a security risk.
 //
 // It operates in an endless loop, monitoring a global queue of secrets to be
 // deleted.
-func ProcessSecretDeleteQueue() {
+func ProcessSecretQueue() {
 	errChan := make(chan error)
 
 	id := "AEGIHSCD"

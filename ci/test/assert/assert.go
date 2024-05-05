@@ -12,11 +12,13 @@ package assert
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/workload"
-	"strings"
 )
 
 func SentinelCanEncryptSecret(value string) error {
@@ -62,7 +64,7 @@ func InitContainerIsRunning() error {
 }
 
 func WorkloadIsRunning() error {
-	fmt.Println("Asserting workload is running...")
+	println("Asserting workload is running...")
 
 	// Define the workload pod.
 	w, err := workload.Example()

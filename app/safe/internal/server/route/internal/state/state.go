@@ -14,24 +14,12 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
-
-// RootKeySet checks if a root key has been set in the application's state. This
-// function is typically used to determine if the application's cryptographic
-// foundation is initialized and ready for operation.
-//
-// Returns:
-//   - bool: True if a root key is set, indicating that cryptographic operations
-//     can proceed. False indicates that the root key is not set, and cryptographic
-//     operations may not be possible.
-func RootKeySet() bool {
-	return state.RootKeySet()
-}
 
 // Upsert handles the insertion or update of a secret in the application's state.
 // It supports appending values to existing secrets and logs the completion of
@@ -49,13 +37,13 @@ func RootKeySet() bool {
 //     operation's outcome.
 func Upsert(secretToStore entity.SecretStored,
 	appendValue bool, workloadId string, cid string,
-	j audit.JournalEntry, w http.ResponseWriter,
+	j journal.Entry, w http.ResponseWriter,
 ) {
-	state.UpsertSecret(secretToStore, appendValue)
+	collection.UpsertSecret(secretToStore, appendValue)
 	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
 
 	j.Event = event.Ok
-	audit.Log(j)
+	journal.Log(j)
 
 	_, err := io.WriteString(w, "OK")
 	if err != nil {

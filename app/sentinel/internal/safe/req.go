@@ -10,7 +10,7 @@
 
 package safe
 
-import reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+import reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 
 func newRootKeyUpdateRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 ) reqres.KeyInputRequest {
@@ -21,15 +21,14 @@ func newRootKeyUpdateRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 	}
 }
 
-func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
-	return reqres.SentinelInitCompleteRequest{}
-}
+//func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
+//	return reqres.SentinelInitCompleteRequest{}
+//}
 
 func newSecretUpsertRequest(workloadIds []string, secret string,
-	namespaces []string, backingStore string, template string, format string,
+	namespaces []string, template string, format string,
 	encrypt, appendSecret bool, notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
-	bs := decideBackingStore(backingStore)
 	f := decideSecretFormat(format)
 
 	if notBefore == "" {
@@ -41,15 +40,14 @@ func newSecretUpsertRequest(workloadIds []string, secret string,
 	}
 
 	return reqres.SecretUpsertRequest{
-		WorkloadIds:  workloadIds,
-		BackingStore: bs,
-		Namespaces:   namespaces,
-		Template:     template,
-		Format:       f,
-		Encrypt:      encrypt,
-		AppendValue:  appendSecret,
-		Value:        secret,
-		NotBefore:    notBefore,
-		Expires:      expires,
+		WorkloadIds: workloadIds,
+		Namespaces:  namespaces,
+		Template:    template,
+		Format:      f,
+		Encrypt:     encrypt,
+		AppendValue: appendSecret,
+		Value:       secret,
+		NotBefore:   notBefore,
+		Expires:     expires,
 	}
 }

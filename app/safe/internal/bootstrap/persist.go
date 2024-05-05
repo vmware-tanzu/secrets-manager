@@ -13,18 +13,19 @@ package bootstrap
 import (
 	"context"
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
-
-	v1 "k8s.io/api/core/v1"
-	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	v1 "k8s.io/api/core/v1"
+	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
+
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
+
+const rootKeyField = "KEY_TXT"
 
 func PersistKeys(privateKey, publicKey, aesSeed string) error {
 	config, err := rest.InClusterConfig()
@@ -39,7 +40,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 
 	data := make(map[string][]byte)
 	keysCombined := crypto.CombineKeys(privateKey, publicKey, aesSeed)
-	data["KEY_TXT"] = ([]byte)(keysCombined)
+	data[rootKeyField] = ([]byte)(keysCombined)
 
 	// Serialize the Secret's configuration to JSON
 	secretConfigJSON, err := json.Marshal(v1.Secret{
@@ -49,7 +50,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 		},
 		ObjectMeta: metaV1.ObjectMeta{
 			Name:      env.RootKeySecretNameForSafe(),
-			Namespace: env.SystemNamespace(),
+			Namespace: env.NamespaceForVSecMSystem(),
 		},
 		Data: data,
 	})
@@ -59,9 +60,9 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 
 	// Update the Secret in the cluster
 	err = backoff.RetryFixed(
-		env.SystemNamespace(),
+		env.NamespaceForVSecMSystem(),
 		func() error {
-			_, err = k8sApi.CoreV1().Secrets(env.SystemNamespace()).Update(
+			_, err = k8sApi.CoreV1().Secrets(env.NamespaceForVSecMSystem()).Update(
 				context.Background(),
 				&v1.Secret{
 					TypeMeta: metaV1.TypeMeta{
@@ -70,7 +71,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 					},
 					ObjectMeta: metaV1.ObjectMeta{
 						Name:      env.RootKeySecretNameForSafe(),
-						Namespace: env.SystemNamespace(),
+						Namespace: env.NamespaceForVSecMSystem(),
 						Annotations: map[string]string{
 							"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
 						},
@@ -91,7 +92,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 		return errors.Wrap(err, "Error creating the secret")
 	}
 
-	state.SetRootKey(keysCombined)
+	crypto.SetRootKey(keysCombined)
 
 	return nil
 }

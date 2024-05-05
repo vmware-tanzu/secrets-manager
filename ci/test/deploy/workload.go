@@ -12,10 +12,11 @@ package deploy
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
 
 func WorkloadUsingSDK() error {

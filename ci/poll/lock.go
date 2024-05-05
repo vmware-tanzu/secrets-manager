@@ -11,6 +11,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 	"time"
@@ -24,12 +25,12 @@ func createLockFile() error {
 	if err == nil {
 		return nil
 	}
-	defer func() {
-		err := lockFile.Close()
+	defer func(l io.ReadCloser) {
+		err := l.Close()
 		if err != nil {
 			log.Printf("Error closing lock file: %s", err)
 		}
-	}()
+	}(lockFile)
 
 	if !os.IsExist(err) {
 		return err

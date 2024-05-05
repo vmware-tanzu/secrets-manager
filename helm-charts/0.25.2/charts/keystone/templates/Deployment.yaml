@@ -54,23 +54,48 @@ spec:
             # You can configure VSecM Init Container by providing
             # environment variables.
             #
-            # See https://vsecm.com/configuration for more information
-            # about these environment variables.
+            # See https://vsecm.com/configuration for more information about
+            # these environment variables.
             #
             # When you don't explicitly provide env vars here, VMware Secrets Manager
-            # Init Container will assume the default values outlined in the given
-            # link above.
+            # Init Container will assume the default values outlined in the given link above.
             #
-            - name: SPIFFE_ENDPOINT_SOCKET
-              value: "unix:///spire-agent-socket/agent.sock"
-            - name: VSECM_LOG_LEVEL
-              value: "7"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/"
+          {{- $safeInitEndpointUrlSet := false }}
+          {{- $safeInitSpiffeIdPrefixSet := false }}
+          {{- $vsecmInitNamespaceSet := false }}
+          {{- $spireInitNamespaceSet := false }}
+          {{- range .Values.initEnvironments }}
+            {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
+              {{- $safeInitEndpointUrlSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
+              {{- $safeInitSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
+              {{- $vsecmInitNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
+              {{- $spireInitNamespaceSet = true }}
+            {{- end }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- if not $safeInitEndpointUrlSet }}
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
+          {{- end }}
+          {{- if not $safeInitSpiffeIdPrefixSet }}
             - name: VSECM_SAFE_SPIFFEID_PREFIX
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
-              value: "5000"
+              value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $vsecmInitNamespaceSet }}
+            - name: VSECM_NAMESPACE_SYSTEM
+              value: {{ .Values.global.vsecm.namespace | quote }}
+          {{- end }}
+          {{- if not $spireInitNamespaceSet }}
+            - name: VSECM_NAMESPACE_SPIRE
+              value: {{ .Values.global.spire.namespace | quote }}
+          {{- end }}
       containers:
         - name: main
           image: "{{ .Values.global.registry }}/{{- include "keystone.repository" .}}:{{ .Values.global.images.keystone.tag }}"
@@ -90,10 +115,42 @@ spec:
           # Sentinel will assume the default values outlined in the given link above.
           #
           env:
-            {{- range .Values.environments }}
+          {{- $safeEndpointUrlSet := false }}
+          {{- $safeSpiffeIdPrefixSet := false }}
+          {{- $vsecmNamespaceSet := false }}
+          {{- $spireNamespaceSet := false }}
+          {{- range .Values.environments }}
+            {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
+              {{- $safeEndpointUrlSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
+              {{- $safeSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
+              {{- $vsecmNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
+              {{- $spireNamespaceSet = true }}
+            {{- end }}
             - name: {{ .name }}
               value: {{ .value | quote }}
-            {{- end }}
+          {{- end }}
+          {{- if not $safeEndpointUrlSet }}
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
+          {{- end }}
+          {{- if not $safeSpiffeIdPrefixSet }}
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $vsecmNamespaceSet }}
+            - name: VSECM_NAMESPACE_SYSTEM
+              value: {{ .Values.global.vsecm.namespace | quote }}
+          {{- end }}
+          {{- if not $spireNamespaceSet }}
+            - name: VSECM_NAMESPACE_SPIRE
+              value: {{ .Values.global.spire.namespace | quote }}
+          {{- end }}
           resources:
             requests:
               memory: {{ .Values.resources.requests.memory }}

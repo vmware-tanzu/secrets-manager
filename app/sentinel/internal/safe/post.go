@@ -25,22 +25,21 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
-func backoffStrategy() backoff.Strategy {
-	return backoff.Strategy{
-		MaxRetries:  20,
-		Delay:       1000,
-		Exponential: true,
-		MaxDuration: 30 * time.Second,
-	}
-}
+//func backoffStrategy() backoff.Strategy {
+//	return backoff.Strategy{
+//		MaxRetries:  20,
+//		Delay:       1000,
+//		Exponential: true,
+//		MaxDuration: 30 * time.Second,
+//	}
+//}
 
 var seed = time.Now().UnixNano()
 
@@ -93,15 +92,15 @@ func Post(parentContext context.Context,
 
 		return errors.New("Post: Operation was cancelled due to an unknown reason.")
 	case source := <-sourceChan:
-		defer func() {
-			if source == nil {
+		defer func(s *workloadapi.X509Source) {
+			if s == nil {
 				return
 			}
-			err := source.Close()
+			err := s.Close()
 			if err != nil {
 				log.ErrorLn(cid, "Post: Problem closing the workload source.")
 			}
-		}()
+		}(source)
 
 		proceed := <-proceedChan
 		if !proceed {
@@ -170,7 +169,7 @@ func Post(parentContext context.Context,
 		}
 
 		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
-			sc.BackingStore, sc.Template, sc.Format,
+			sc.Template, sc.Format,
 			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
 
 		md, err := json.Marshal(sr)

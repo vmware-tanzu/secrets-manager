@@ -15,9 +15,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -31,10 +31,10 @@ import (
 // - spiffeid (string): The SPIFFE ID that was determined to be invalid.
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
-	j audit.JournalEntry,
+	j journal.Entry,
 ) {
 	j.Event = event.BadSpiffeId
-	audit.Log(j)
+	journal.Log(j)
 
 	log.DebugLn(&cid, "Fetch: bad spiffeid", spiffeid)
 
@@ -55,10 +55,10 @@ func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 // - spiffeid (string): The peer's SPIFFE ID that was found to be invalid.
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadPeerSvidResponse(cid string, w http.ResponseWriter,
-	spiffeid string, j audit.JournalEntry,
+	spiffeid string, j journal.Entry,
 ) {
 	j.Event = event.BadPeerSvid
-	audit.Log(j)
+	journal.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
 	_, err := io.WriteString(w, "")
@@ -76,52 +76,16 @@ func BadPeerSvidResponse(cid string, w http.ResponseWriter,
 // - w (http.ResponseWriter): The HTTP response writer to send back the response.
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
 func NoSecretResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry,
+	j journal.Entry,
 ) {
 	j.Event = event.NoSecret
-	audit.Log(j)
+	journal.Log(j)
 
 	w.WriteHeader(http.StatusNotFound)
 	_, err2 := io.WriteString(w, "")
 	if err2 != nil {
 		log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
 	}
-}
-
-// InitCompleteSuccessResponse logs a successful initialization event and sends
-// the initialization completion response back to the client. It marshals and
-// sends a structured response indicating successful initialization.
-//
-// Parameters:
-//   - cid (string): Correlation ID for operation tracing and logging.
-//   - w (http.ResponseWriter): The HTTP response writer to send back the response.
-//   - j (audit.JournalEntry): An audit journal entry for recording the event.
-//   - sfr (reqres.SentinelInitCompleteResponse): The response payload to be
-//     marshaled and sent.
-func InitCompleteSuccessResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry, sfr reqres.SentinelInitCompleteResponse) {
-	j.Event = event.Ok
-	j.Entity = sfr
-	audit.Log(j)
-
-	resp, err := json.Marshal(sfr)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "Problem unmarshalling response")
-		if err2 != nil {
-			log.InfoLn(&cid, "Problem sending response", err2.Error())
-		}
-		return
-	}
-
-	log.DebugLn(&cid, "before response")
-
-	_, err = io.WriteString(w, string(resp))
-	if err != nil {
-		log.InfoLn(&cid, "Problem sending response", err.Error())
-	}
-
-	log.DebugLn(&cid, "after response")
 }
 
 // SuccessResponse logs a successful operation event and sends a structured
@@ -135,10 +99,9 @@ func InitCompleteSuccessResponse(cid string, w http.ResponseWriter,
 //   - sfr (reqres.SecretFetchResponse): The secret fetch response payload to be
 //     marshaled and sent.
 func SuccessResponse(cid string, w http.ResponseWriter,
-	j audit.JournalEntry, sfr reqres.SecretFetchResponse) {
+	j journal.Entry, sfr reqres.SecretFetchResponse) {
 	j.Event = event.Ok
-	j.Entity = sfr
-	audit.Log(j)
+	journal.Log(j)
 
 	resp, err := json.Marshal(sfr)
 	if err != nil {

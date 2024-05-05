@@ -11,6 +11,8 @@
 package validation
 
 import (
+	"fmt"
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"strings"
 )
@@ -31,4 +33,26 @@ func IsSafe(spiffeid string) bool {
 // It does this by checking if the SPIFFEID has the SpiffeIdPrefixForWorkload as its prefix.
 func IsWorkload(spiffeid string) bool {
 	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForWorkload())
+}
+
+func EnsureSafe(source *workloadapi.X509Source) {
+	svid, err := source.GetX509SVID()
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"Unable to get X.509 SVID from source bundle: %s",
+				err.Error(),
+			),
+		)
+	}
+
+	svidId := svid.ID
+	if !IsSafe(svidId.String()) {
+		panic(
+			fmt.Sprintf(
+				"SpiffeId check: I don't know you, and it's crazy: %s",
+				svidId.String(),
+			),
+		)
+	}
 }

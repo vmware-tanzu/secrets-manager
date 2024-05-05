@@ -13,6 +13,7 @@ package crypto
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 
 	"github.com/pkg/errors"
 )
@@ -38,6 +39,14 @@ func RandomString(n int) (string, error) {
 	}
 
 	return string(bytes), nil
+}
+
+func Id() string {
+	id, err := RandomString(8)
+	if err != nil {
+		id = fmt.Sprintf("CRYPTO-ERR: %s", err.Error())
+	}
+	return id
 }
 
 // generateAesSeed generates a random 256-bit AES key, and returns it as a

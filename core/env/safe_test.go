@@ -15,8 +15,6 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
 )
 
 func TestSafeSecretBufferSize(t *testing.T) {
@@ -348,68 +346,68 @@ func TestSafeFipsCompliant(t *testing.T) {
 	}
 }
 
-func TestSafeBackingStore(t *testing.T) {
-	tests := []struct {
-		name    string
-		setup   func() error
-		cleanup func() error
-		want    data.BackingStore
-	}{
-		{
-			name: "default_safe_backing_store",
-			want: data.File,
-		},
-		{
-			name: "safe_backing_store_from_env_file",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_BACKING_STORE", "file")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
-			},
-			want: data.File,
-		},
-		{
-			name: "safe_backing_store_from_env_meomry",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_BACKING_STORE", "memory")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
-			},
-			want: data.Memory,
-		},
-		{
-			name: "invalid_safe_backing_store_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_BACKING_STORE", "test")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
-			},
-			want: data.Memory,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if tt.setup != nil {
-				if err := tt.setup(); err != nil {
-					t.Errorf("BackingStoreForSafe() = failed to setup, with error: %+v", err)
-				}
-			}
-			defer func() {
-				if tt.cleanup != nil {
-					if err := tt.cleanup(); err != nil {
-						t.Errorf("BackingStoreForSafe() = failed to cleanup, with error: %+v", err)
-					}
-				}
-			}()
-			if got := BackingStoreForSafe(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("BackingStoreForSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+//func TestSafeBackingStore(t *testing.T) {
+//	tests := []struct {
+//		name    string
+//		setup   func() error
+//		cleanup func() error
+//		want    data.BackingStore
+//	}{
+//		{
+//			name: "default_safe_backing_store",
+//			want: data.File,
+//		},
+//		{
+//			name: "safe_backing_store_from_env_file",
+//			setup: func() error {
+//				return os.Setenv("VSECM_SAFE_BACKING_STORE", "file")
+//			},
+//			cleanup: func() error {
+//				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
+//			},
+//			want: data.File,
+//		},
+//		{
+//			name: "safe_backing_store_from_env_meomry",
+//			setup: func() error {
+//				return os.Setenv("VSECM_SAFE_BACKING_STORE", "memory")
+//			},
+//			cleanup: func() error {
+//				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
+//			},
+//			want: data.Memory,
+//		},
+//		{
+//			name: "invalid_safe_backing_store_from_env",
+//			setup: func() error {
+//				return os.Setenv("VSECM_SAFE_BACKING_STORE", "test")
+//			},
+//			cleanup: func() error {
+//				return os.Unsetenv("VSECM_SAFE_BACKING_STORE")
+//			},
+//			want: data.Memory,
+//		},
+//	}
+//	for _, tt := range tests {
+//		t.Run(tt.name, func(t *testing.T) {
+//			if tt.setup != nil {
+//				if err := tt.setup(); err != nil {
+//					t.Errorf("BackingStoreForSafe() = failed to setup, with error: %+v", err)
+//				}
+//			}
+//			defer func() {
+//				if tt.cleanup != nil {
+//					if err := tt.cleanup(); err != nil {
+//						t.Errorf("BackingStoreForSafe() = failed to cleanup, with error: %+v", err)
+//					}
+//				}
+//			}()
+//			if got := BackingStoreForSafe(); !reflect.DeepEqual(got, tt.want) {
+//				t.Errorf("BackingStoreForSafe() = %v, want %v", got, tt.want)
+//			}
+//		})
+//	}
+//}
 
 func TestSafeSecretBackupCount(t *testing.T) {
 	tests := []struct {

@@ -12,10 +12,12 @@ package vsecm
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"strings"
 	"time"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
 
 func Sentinel() (string, error) {
@@ -40,14 +42,14 @@ func Sentinel() (string, error) {
 			break // Successfully defined sentinel
 		} else if len(sentinelNames) > 1 {
 			// Handle case where multiple sentinel pods are returned
-			fmt.Println("Multiple sentinel pods found, selecting the first one.")
+			println("Multiple sentinel pods found, selecting the first one.")
 			sentinel = sentinelNames[0]
 			break
 		}
 
 		// If no sentinel pod was found, wait before retrying
 		if sentinel == "" {
-			fmt.Println("No sentinel pod found, retrying...")
+			println("No sentinel pod found, retrying...")
 			time.Sleep(10 * time.Second)
 		}
 	}

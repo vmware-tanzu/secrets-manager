@@ -15,9 +15,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -37,14 +37,14 @@ import (
 // Returns:
 //   - *reqres.SecretUpsertRequest: A pointer to the unmarshalled SecretUpsertRequest
 //     struct, or nil if unmarshalling fails.
-func UnmarshalSecretUpsertRequest(cid string, body []byte, j audit.JournalEntry,
+func UnmarshalSecretUpsertRequest(cid string, body []byte, j journal.Entry,
 	w http.ResponseWriter) *reqres.SecretUpsertRequest {
 	var sr reqres.SecretUpsertRequest
 
 	err := json.Unmarshal(body, &sr)
 	if err != nil {
 		j.Event = event.RequestTypeMismatch
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
@@ -74,14 +74,14 @@ func UnmarshalSecretUpsertRequest(cid string, body []byte, j audit.JournalEntry,
 // Returns:
 //   - *reqres.KeyInputRequest: A pointer to the unmarshalled KeyInputRequest
 //     struct, or nil if unmarshalling fails.
-func UnmarshalKeyInputRequest(cid string, body []byte, j audit.JournalEntry,
+func UnmarshalKeyInputRequest(cid string, body []byte, j journal.Entry,
 	w http.ResponseWriter) *reqres.KeyInputRequest {
 	var sr reqres.KeyInputRequest
 
 	err := json.Unmarshal(body, &sr)
 	if err != nil {
 		j.Event = event.RequestTypeMismatch
-		audit.Log(j)
+		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")

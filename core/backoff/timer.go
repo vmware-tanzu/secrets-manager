@@ -11,8 +11,9 @@
 package backoff
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 var maxInterval = env.MaxPollIntervalForSidecar()

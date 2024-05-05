@@ -12,15 +12,17 @@ package fetch
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/extract"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/handle"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state"
-	"github.com/vmware-tanzu/secrets-manager/core/audit"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
+	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/reqres/safe/v1"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
@@ -37,21 +39,20 @@ import (
 //   - r: An http.Request object containing the request details from the client.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !state.RootKeySet() {
+	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Fetch: Root key not set")
 		return
 	}
 
-	j := audit.JournalEntry{
+	j := journal.Entry{
 		CorrelationId: cid,
-		Entity:        reqres.SecretFetchRequest{},
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
 		Event:         event.Enter,
 	}
 
-	audit.Log(j)
+	journal.Log(j)
 
 	// Only workloads can fetch.
 	if !validation.IsWorkload(spiffeid) {
@@ -61,12 +62,12 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) 
 
 	log.DebugLn(&cid, "Fetch: sending response")
 
-	defer func() {
-		err := r.Body.Close()
+	defer func(b io.ReadCloser) {
+		err := b.Close()
 		if err != nil {
 			log.InfoLn(&cid, "Fetch: Problem closing body")
 		}
-	}()
+	}(r.Body)
 
 	log.DebugLn(&cid, "Fetch: preparing request")
 
@@ -76,7 +77,7 @@ func Fetch(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) 
 		return
 	}
 
-	secret, err := state.ReadSecret(cid, workloadId)
+	secret, err := collection.ReadSecret(cid, workloadId)
 	if err != nil {
 		log.WarnLn(&cid, "Fetch: Problem reading secret", err.Error())
 	}

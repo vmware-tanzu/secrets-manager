@@ -18,7 +18,21 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
-TBD
+* Simplified audit journaling
+* Refactoring and code organization
+* Now helm-chart can deploy VSecM and SPIRE to any namespace, before it had
+  to be `vsecm-system` and `spire-system` respectively.
+* removed "backing store" from secret meta info; backing store will be set
+  at a global level.
+* removed `-b` (backing store) flag from VSecM Sentinel's CLI too.
+* Added certain useful methods from `internal` packages to the `core` package
+  to make it more reusable. These functionalities may be part of the SDK too,
+  later.
+* Organized imports and functions according to the project standards.
+* Renamed certain modules and functions for clarity.
+* Introduced certain environment variables whose functionalities will be
+  implemented later.
+* updated helm charts, removed hard coded namespace references from service URLs.
 
 ## [0.25.1] - 2024-04-26
 

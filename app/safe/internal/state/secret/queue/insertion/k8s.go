@@ -11,8 +11,8 @@
 package insertion
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io/persistence"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -62,7 +62,7 @@ func ProcessK8sSecretQueue() {
 		//
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processK8sSecretQueue` goroutine.
-		persistence.PersistToK8s(secret, errChan)
+		io.PersistToK8s(secret, errChan)
 
 		log.TraceLn(&cid, "processK8sSecretQueue: Should have persisted k8s secret")
 	}

@@ -11,10 +11,12 @@
 package eval
 
 import (
+	"time"
+
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
-	"time"
 )
 
 func SecretDeletionSidecar() error {

@@ -11,12 +11,14 @@
 package eval
 
 import (
+	"time"
+
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/workload"
-	"time"
 )
 
 func InitContainer() error {

@@ -12,6 +12,7 @@ package state
 
 import (
 	"github.com/pkg/errors"
+
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/wait"

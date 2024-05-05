@@ -14,7 +14,7 @@ import (
 	"context"
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/data/v1"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
