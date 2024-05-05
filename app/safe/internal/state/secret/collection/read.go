@@ -11,6 +11,7 @@
 package collection
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -256,6 +257,8 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 	}
 
 	log.TraceLn(&cid, "UpsertSecret: Parsed secret. Will set transformed value.")
+
+	fmt.Println("parsedStr", parsedStr)
 
 	secretStored.ValueTransformed = parsedStr
 	stats.CurrentState.Increment(secretStored.Name, Secrets.Load)

@@ -11,6 +11,7 @@
 package secret
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -107,6 +108,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	// `encrypt` means that the value is encrypted, so we need to decrypt it.
 	if encrypt {
+		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+
 		decrypted, err := crypto.DecryptValue(value)
 
 		// If decryption failed, return an error response.
@@ -121,6 +124,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 			return
 		}
+
+		fmt.Println("Decrypted value: ", decrypted)
 
 		// Update the value of the request to the decoded value.
 		sr.Value = decrypted
