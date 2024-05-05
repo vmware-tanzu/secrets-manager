@@ -11,7 +11,6 @@
 package secret
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -108,11 +107,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	// `encrypt` means that the value is encrypted, so we need to decrypt it.
 	if encrypt {
-		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+		log.TraceLn(&cid, "Secret: Value is encrypted")
 
 		decrypted, err := crypto.DecryptValue(value)
 
@@ -129,17 +124,11 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			return
 		}
 
-		fmt.Println("Decrypted value: ", decrypted)
-
 		// Update the value of the request to the decoded value.
 		sr.Value = decrypted
 		value = sr.Value
 	} else {
-		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
-		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
+		log.TraceLn(&cid, "Secret: Value is not encrypted")
 	}
 
 	nb := entity.JsonTime{}

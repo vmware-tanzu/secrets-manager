@@ -64,7 +64,7 @@ func InitContainerIsRunning() error {
 }
 
 func WorkloadIsRunning() error {
-	fmt.Println("Asserting workload is running...")
+	println("Asserting workload is running...")
 
 	// Define the workload pod.
 	w, err := workload.Example()
