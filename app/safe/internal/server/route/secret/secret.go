@@ -109,6 +109,10 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	// `encrypt` means that the value is encrypted, so we need to decrypt it.
 	if encrypt {
 		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS ENCRYPTED!!!!!!!")
 
 		decrypted, err := crypto.DecryptValue(value)
 
@@ -129,6 +133,12 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 		// Update the value of the request to the decoded value.
 		sr.Value = decrypted
+	} else {
+		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
+		fmt.Println("VALUE IS NOT ENCRYPTED!!!!!!!")
 	}
 
 	nb := entity.JsonTime{}
