@@ -49,23 +49,32 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 
 		switch {
 		case routeSentinelGetKeystone(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:001")
 			return
 		case routeSentinelGetSecrets(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:002")
 			return
 		case routeSentinelGetSecretsReveal(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:003")
 			return
 		case routeSentinelPostSecrets(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:004")
 			return
 		case routeSentinelDeleteSecrets(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:005")
 			return
 		case routeSentinelPostKeys(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:006")
 			return
 		case routeWorkloadGetSecrets(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:007")
 			return
 		case routeWorkloadPostSecrets(cid, r, w, sid):
+			log.TraceLn(&cid, "Handler:008")
 			return
 		}
 
+		log.TraceLn(&cid, "Handler:009")
 		routeFallback(cid, r, w, sid)
 	})
 }
