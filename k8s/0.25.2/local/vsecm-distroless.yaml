@@ -722,6 +722,8 @@ spec:
               value: "https://vsecm-safe.vsecm-system-modified.svc.cluster.local:8443/"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system-modified/sa/vsecm-safe/n/"
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system-modified/sa/vsecm-sentinel/n/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system-modified"
             - name: VSECM_NAMESPACE_SPIRE

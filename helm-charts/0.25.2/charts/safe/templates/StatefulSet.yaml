@@ -74,12 +74,16 @@ spec:
           {{- $spireNamespaceSet := false }}
           {{- $safeEndpointUrlSet := false }}
           {{- $safeSpiffeIdPrefixSet := false }}
+          {{- $sentinelSpiffeIdPrefixSet := false }}
           {{- range .Values.environments }}
             {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
               {{- $safeEndpointUrlSet = true }}
             {{- end }}
             {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
               {{- $safeSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SENTINEL_SPIFFEID_PREFIX" }}
+              {{- $sentinelSpiffeIdPrefixSet = true }}
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
               {{- $vsecmNamespaceSet = true }}
@@ -98,6 +102,10 @@ spec:
           {{- if not $safeSpiffeIdPrefixSet }}
             - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $sentinelSpiffeIdPrefixSet }}
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.sentinelSpiffeIdPrefix | quote }}
           {{- end }}
           {{- if not $vsecmNamespaceSet }}
             - name: VSECM_NAMESPACE_SYSTEM
