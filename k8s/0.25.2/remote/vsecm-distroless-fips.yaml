@@ -126,7 +126,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: vsecm-sentinel-init-secret
-  namespace: vsecm-system
+  namespace: vsecm-system-modified
 type: Opaque
 stringData:
   data: "exit:true\n--\n"

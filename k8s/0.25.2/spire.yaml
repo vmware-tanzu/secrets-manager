@@ -144,8 +144,8 @@ data:
       - kube-public
       - spire-system-modified
       - local-path-storage
-      # - do not ignore vsecm-system!
-      # - vsecm-system
+      # - do not ignore vsecm-system-modified!
+      # - vsecm-system-modified
       - kube-node-lease
       - kube-public
       - kubernetes-dashboard

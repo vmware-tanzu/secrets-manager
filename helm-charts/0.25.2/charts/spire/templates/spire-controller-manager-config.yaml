@@ -32,8 +32,8 @@ data:
       - kube-public
       - {{ .Values.global.spire.namespace }}
       - local-path-storage
-      # - do not ignore vsecm-system!
-      # - vsecm-system
+      # - do not ignore {{ .Values.global.vsecm.namespace }}!
+      # - {{ .Values.global.vsecm.namespace }}
       - kube-node-lease
       - kube-public
       - kubernetes-dashboard
