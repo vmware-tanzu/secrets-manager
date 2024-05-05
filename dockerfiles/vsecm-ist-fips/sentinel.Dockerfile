@@ -20,7 +20,7 @@ WORKDIR /build
 # GOEXPERIMENT=boringcrypto is required for FIPS compliance.
 RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o safe \
     ./app/sentinel/cmd/main.go ./app/sentinel/cmd/help.go ./app/sentinel/cmd/parse.go
-RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/background/main.go
+RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/background/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
