@@ -118,3 +118,16 @@ func GenerateKeys() (string, string, string, error) {
 func CombineKeys(privateKey, publicKey, aesSeed string) string {
 	return privateKey + "\n" + publicKey + "\n" + aesSeed
 }
+
+//func Keys() (string, string, string) {
+//	p := env.RootKeyPathForKeyGen()
+//
+//	content, err := os.ReadFile(p)
+//	if err != nil {
+//		log.Fatalf("Error reading file: %v", err)
+//	}
+//
+//	trimmed := strings.TrimSpace(string(content))
+//
+//	return rootKeyTriplet(trimmed)
+//}
