@@ -56,10 +56,10 @@ global:
       tag: 0.5.0
       pullPolicy: IfNotPresent
   vsecm:
-    namespace: vsecm-system-modified
-    safeEndpointUrl: "https://vsecm-safe.vsecm-system-modified.svc.cluster.local:8443/"
-    safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system-modified/sa/vsecm-safe/n/"
-    sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system-modified/sa/vsecm-sentinel/n/"
+    namespace: vsecm-system
+    safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+    safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+    sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
   spire:
     # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
     # identify the trust domain of a workload. If you use anything other than
@@ -77,7 +77,7 @@ global:
     # without operator input, randomly generating a unique name (such as a UUID)
     # is strongly advised.
     trustDomain: "vsecm.com"
-    namespace: spire-system-modified
+    namespace: spire-system
     logLevel: DEBUG
     serverPort: 8081
 
