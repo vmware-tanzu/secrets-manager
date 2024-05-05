@@ -125,8 +125,8 @@ use `make helm-delete`  command:
 ```bash
 # note that using `helm uninstall vsecm` is not recommended as it may
 # leave some resources behind in the cluster.
-# You are encouraged to use `make helm-delete` instead.
-make helm-delete
+# You are encouraged to use `make helm-uninstall` instead.
+make helm-uninstall
 ```
 
 <p class="github-button">
