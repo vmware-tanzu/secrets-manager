@@ -23,7 +23,7 @@ func NamespaceForVSecMSystem() string {
 func NamespaceForSpire() string {
 	u := os.Getenv("VSECM_NAMESPACE_SPIRE")
 	if u == "" {
-		u = "vsecm-system"
+		u = "spire-system"
 	}
 	return u
 }

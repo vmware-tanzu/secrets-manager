@@ -65,10 +65,50 @@ spec:
           # Sentinel will assume the default values outlined in the given link above.
           #
           env:
-            {{- range .Values.environments }}
+          {{- $safeEndpointUrlSet := false }}
+          {{- $safeSpiffeIdPrefixSet := false }}
+          {{- $sentinelSpiffeIdPrefixSet := false }}
+          {{- $vsecmNamespaceSet := false }}
+          {{- $spireNamespaceSet := false }}
+          {{- range .Values.environments }}
+            {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
+              {{- $safeEndpointUrlSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
+              {{- $safeSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SENTINEL_SPIFFEID_PREFIX" }}
+              {{- $sentinelSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
+              {{- $vsecmNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
+              {{- $spireNamespaceSet = true }}
+            {{- end }}
             - name: {{ .name }}
               value: {{ .value | quote }}
-            {{- end }}
+          {{- end }}
+          {{- if not $safeEndpointUrlSet }}
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
+          {{- end }}
+          {{- if not $safeSpiffeIdPrefixSet }}
+            - name: VSECM_SAFE_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $sentinelSpiffeIdPrefixSet }}
+            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.sentinelSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $vsecmNamespaceSet }}
+            - name: VSECM_NAMESPACE_SYSTEM
+              value: {{ .Values.global.vsecm.namespace | quote }}
+          {{- end }}
+          {{- if not $spireNamespaceSet }}
+            - name: VSECM_NAMESPACE_SPIRE
+              value: {{ .Values.global.spire.namespace | quote }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /

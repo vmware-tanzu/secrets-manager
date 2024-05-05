@@ -37,10 +37,6 @@ environments:
     value: "unix:///spire-agent-socket/agent.sock"
   - name: VSECM_LOG_LEVEL
     value: "7"
-  - name: VSECM_NAMESPACE_SYSTEM
-    value: "{{ .Values.global.vsecm.namespace }}"
-  - name: VSECM_NAMESPACE_SPIRE
-    value: "{{ .Values.global.spire.namespace }}"
   - name: VSECM_PROBE_LIVENESS_PORT
     value: ":8081"
   - name: VSECM_PROBE_READINESS_PORT
@@ -55,8 +51,6 @@ environments:
     value: "/key/key.txt"
   - name: VSECM_SAFE_DATA_PATH
     value: "/var/local/vsecm/data"
-  - name: VSECM_SAFE_ENDPOINT_URL
-    value: "https://vsecm-safe.{{ .Values.global.vsecm.namespace }}.svc.cluster.local:8443/"
   - name: VSECM_SAFE_FIPS_COMPLIANT
     value: "false"
   - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
@@ -79,8 +73,6 @@ environments:
     value: "k8s:"
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"
-  - name: VSECM_SAFE_SPIFFEID_PREFIX
-    value: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .Values.global.vsecm.namespace }}/sa/vsecm-safe/n/"
   - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
     value: "spiffe://vsecm.com/workload/"
   - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
