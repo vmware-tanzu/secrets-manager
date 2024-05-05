@@ -21,10 +21,6 @@ func newRootKeyUpdateRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 	}
 }
 
-//func newInitCompletedRequest() reqres.SentinelInitCompleteRequest {
-//	return reqres.SentinelInitCompleteRequest{}
-//}
-
 func newSecretUpsertRequest(workloadIds []string, secret string,
 	namespaces []string, template string, format string,
 	encrypt, appendSecret bool, notBefore string, expires string,
