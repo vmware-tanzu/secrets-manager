@@ -18,6 +18,17 @@ next_url: /docs/releases/
 
 ## Recent Updates
 
+TBD
+
+## [0.25.2] - 2024-05-06
+
+This release introduced many structural changes. The functionality remains
+the same, but the codebase is more organized and easier to maintain. 
+We had to temporarily disable some of the unit tests to make the release
+happen on time. We will re-enable them before the next release.
+
+### Changed
+
 * Simplified audit journaling
 * Refactoring and code organization
 * Now helm-chart can deploy VSecM and SPIRE to any namespace, before it had
