@@ -24,3 +24,7 @@
         }
     }
 ```
+
+# TEST INSTRUCTIONS
+- If you want to test properly you should revert changes to this **[commit](https://github.com/vmware-tanzu/secrets-manager/pull/732/commits/caa16943b6e2aeac714486b5e73b2aa13f1515c1)**
+- Check README
