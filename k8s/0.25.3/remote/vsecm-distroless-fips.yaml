@@ -32,11 +32,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.25.2
+    helm.sh/chart: keystone-0.25.3
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.2"
+    app.kubernetes.io/version: "0.25.3"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -298,11 +298,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.25.2
+    helm.sh/chart: keystone-0.25.3
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.2"
+    app.kubernetes.io/version: "0.25.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -326,7 +326,7 @@ spec:
 
       initContainers:
         - name: init-container
-          image: "vsecm/vsecm-ist-init-container:0.25.2"
+          image: "vsecm/vsecm-ist-init-container:0.25.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /spire-agent-socket
@@ -369,7 +369,7 @@ spec:
               value: "spire-system"
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-keystone:0.25.2"
+          image: "vsecm/vsecm-ist-fips-keystone:0.25.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -467,7 +467,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-sentinel:0.25.2"
+          image: "vsecm/vsecm-ist-fips-sentinel:0.25.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -600,7 +600,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-safe:0.25.2"
+          image: "vsecm/vsecm-ist-fips-safe:0.25.3"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
