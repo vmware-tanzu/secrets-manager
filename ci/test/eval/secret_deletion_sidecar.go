@@ -11,6 +11,7 @@
 package eval
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -20,8 +21,8 @@ import (
 )
 
 func SecretDeletionSidecar() error {
-	println("----")
-	println("🧪     Testing: Secret deletion (sidecar)...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing: Secret deletion (sidecar)...")
 
 	if err := sentinel.DeleteSecret(); err != nil {
 		return errors.Wrap(err, "deleteSecret failed")
@@ -34,7 +35,7 @@ func SecretDeletionSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretNoValue failed")
 	}
 
-	println("🟢   PASS: Secret deletion (sidecar) successful")
-	println("----")
+	fmt.Println("🟢   PASS: Secret deletion (sidecar) successful")
+	fmt.Println("----")
 	return nil
 }

@@ -11,6 +11,7 @@
 package backoff
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"time"
@@ -64,7 +65,7 @@ func Retry(ns string, f func() error, s Strategy) error {
 		}
 
 		time.Sleep(retryDelay)
-		println("Retrying after", retryDelay, "ms", "for", ns, "namespace --",
+		fmt.Println("Retrying after", retryDelay, "ms", "for", ns, "namespace --",
 			"attempt", i+1, "of", s.MaxRetries+1)
 	}
 

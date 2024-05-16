@@ -20,7 +20,7 @@ import (
 )
 
 func ForExampleWorkloadDeletion() error {
-	println("Waiting for example workload deletion...")
+	fmt.Println("Waiting for example workload deletion...")
 
 	_, err := io.Exec("kubectl", "wait",
 		"--for=delete", "deployment", "-n",
@@ -36,7 +36,7 @@ func ForExampleWorkloadDeletion() error {
 }
 
 func ForExampleWorkload() error {
-	println("Waiting for example workload...")
+	fmt.Println("Waiting for example workload...")
 
 	const maxRetries = 5
 	for retries := 0; retries < maxRetries; retries++ {

@@ -65,7 +65,7 @@ func SetKubernetesSecretToTriggerInitContainer() error {
 		return fmt.Errorf("set_kubernetes_secret: Failed to wait for workload readiness: %w", err)
 	}
 
-	println("done: set_kubernetes_secret()")
+	fmt.Println("done: set_kubernetes_secret()")
 	return nil
 }
 

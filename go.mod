@@ -1,13 +1,12 @@
 module github.com/vmware-tanzu/secrets-manager
 
-go 1.22.0
+go 1.22.3
 
 require (
 	filippo.io/age v1.1.1
 	github.com/akamensky/argparse v1.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/spiffe/go-spiffe/v2 v2.1.7
-	golang.org/x/net v0.23.0
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.33.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -39,6 +38,7 @@ require (
 	github.com/zeebo/errs v1.3.0 // indirect
 	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/mod v0.15.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/oauth2 v0.13.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/term v0.18.0 // indirect

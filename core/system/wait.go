@@ -11,6 +11,7 @@
 package system
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -29,7 +30,7 @@ func KeepAlive() {
 	signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 	select {
 	case e := <-s:
-		println(e)
+		fmt.Println(e)
 		panic("bye cruel world!")
 	}
 }

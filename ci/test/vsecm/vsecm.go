@@ -42,16 +42,14 @@ func Sentinel() (string, error) {
 			break // Successfully defined sentinel
 		} else if len(sentinelNames) > 1 {
 			// Handle case where multiple sentinel pods are returned
-			println("Multiple sentinel pods found, selecting the first one.")
+			fmt.Println("Multiple sentinel pods found, selecting the first one.")
 			sentinel = sentinelNames[0]
 			break
 		}
 
 		// If no sentinel pod was found, wait before retrying
-		if sentinel == "" {
-			println("No sentinel pod found, retrying...")
-			time.Sleep(10 * time.Second)
-		}
+		fmt.Println("No sentinel pod found, retrying...")
+		time.Sleep(10 * time.Second)
 	}
 
 	if sentinel == "" {

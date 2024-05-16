@@ -90,7 +90,7 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 	defer func(w io.WriteCloser) {
 		err := w.Close()
 		if err != nil {
-			println(
+			fmt.Println(
 				fmt.Sprintf(
 					"encryptToWriterAge: problem closing stream: %s",
 					err.Error(),

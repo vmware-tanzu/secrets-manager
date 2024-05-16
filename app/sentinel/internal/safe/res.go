@@ -11,6 +11,7 @@
 package safe
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -38,7 +39,7 @@ func respond(cid *string, r *http.Response) {
 		return
 	}
 
-	println("")
-	println(string(body))
-	println("")
+	fmt.Println("")
+	fmt.Println(string(body))
+	fmt.Println("")
 }

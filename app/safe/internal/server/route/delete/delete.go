@@ -12,6 +12,7 @@ package delete
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -80,12 +81,12 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	log.DebugLn(&cid, "Delete: Parsed request body")
 
-	println("request body", string(body))
+	fmt.Println("request body", string(body))
 
 	var sr reqres.SecretDeleteRequest
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
-		println("error", err.Error())
+		fmt.Println("error", err.Error())
 
 		j.Event = event.RequestTypeMismatch
 		journal.Log(j)
@@ -96,22 +97,22 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
 		}
 
-		println("returning from error case")
+		fmt.Println("returning from error case")
 
 		return
 	}
 
 	workloadIds := sr.WorkloadIds
 
-	println("workloadIds", workloadIds)
+	fmt.Println("workloadIds", workloadIds)
 
 	if len(workloadIds) == 0 {
-		println("empty workload ids")
+		fmt.Println("empty workload ids")
 
 		j.Event = event.NoWorkloadId
 		journal.Log(j)
 
-		println("exiting from the empty workload ids case")
+		fmt.Println("exiting from the empty workload ids case")
 
 		return
 	}

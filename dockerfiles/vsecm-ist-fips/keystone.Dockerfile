@@ -9,7 +9,7 @@
 # */
 
 # builder image
-FROM golang:1.22.0-alpine3.19 as builder
+FROM golang:1.22.3-alpine3.19 as builder
 
 RUN mkdir /build
 COPY app /build/app

@@ -20,7 +20,7 @@ import (
 )
 
 func WorkloadUsingSDK() error {
-	println("Deploying workload that uses the SDK...")
+	fmt.Println("Deploying workload that uses the SDK...")
 
 	origin := os.Getenv("ORIGIN")
 	var deployCommand string
@@ -48,12 +48,12 @@ func WorkloadUsingSDK() error {
 		return fmt.Errorf("waiting for workload failed: %w", err)
 	}
 
-	println("Deployed workload that uses the SDK.")
+	fmt.Println("Deployed workload that uses the SDK.")
 	return nil
 }
 
 func WorkloadUsingSidecar() error {
-	println("Deploying workload that uses the sidecar...")
+	fmt.Println("Deploying workload that uses the sidecar...")
 
 	origin := os.Getenv("ORIGIN")
 	var command string
@@ -80,12 +80,12 @@ func WorkloadUsingSidecar() error {
 		return fmt.Errorf("waiting for workload failed: %w", err)
 	}
 
-	println("Deployed workload that uses the sidecar.")
+	fmt.Println("Deployed workload that uses the sidecar.")
 	return nil
 }
 
 func WorkloadUsingInitContainer() error {
-	println("Deploying workload that uses the init container...")
+	fmt.Println("Deploying workload that uses the init container...")
 
 	origin := os.Getenv("ORIGIN")
 	var command string

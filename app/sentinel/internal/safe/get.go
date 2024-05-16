@@ -186,9 +186,9 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 		return errors.Wrap(err, "Unable to read the response body from VSecM Safe")
 	}
 
-	println("")
-	println(string(body))
-	println("")
+	fmt.Println("")
+	fmt.Println(string(body))
+	fmt.Println("")
 
 	return nil
 }

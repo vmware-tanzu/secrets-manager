@@ -11,6 +11,8 @@
 package eval
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
@@ -19,8 +21,8 @@ import (
 )
 
 func SecretEncryption() error {
-	println("----")
-	println("🧪     Testing: Encrypting secrets...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing: Encrypting secrets...")
 
 	value := "!VSecMRocks!"
 
@@ -40,7 +42,7 @@ func SecretEncryption() error {
 		return errors.Wrap(err, "asserting workload secret value")
 	}
 
-	println("🟢   PASS: Secret encryption successful")
-	println("----")
+	fmt.Println("🟢   PASS: Secret encryption successful")
+	fmt.Println("----")
 	return nil
 }
