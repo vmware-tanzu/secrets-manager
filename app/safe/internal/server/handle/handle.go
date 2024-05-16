@@ -48,33 +48,33 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", m)
 
 		switch {
-		case routeSentinelGetKeystone(cid, r, w, sid):
+		case routeSentinelGetKeystone(cid, r, w):
 			log.TraceLn(&cid, "Handler:001")
 			return
-		case routeSentinelGetSecrets(cid, r, w, sid):
+		case routeSentinelGetSecrets(cid, r, w):
 			log.TraceLn(&cid, "Handler:002")
 			return
-		case routeSentinelGetSecretsReveal(cid, r, w, sid):
+		case routeSentinelGetSecretsReveal(cid, r, w):
 			log.TraceLn(&cid, "Handler:003")
 			return
-		case routeSentinelPostSecrets(cid, r, w, sid):
+		case routeSentinelPostSecrets(cid, r, w):
 			log.TraceLn(&cid, "Handler:004")
 			return
-		case routeSentinelDeleteSecrets(cid, r, w, sid):
+		case routeSentinelDeleteSecrets(cid, r, w):
 			log.TraceLn(&cid, "Handler:005")
 			return
-		case routeSentinelPostKeys(cid, r, w, sid):
+		case routeSentinelPostKeys(cid, r, w):
 			log.TraceLn(&cid, "Handler:006")
 			return
-		case routeWorkloadGetSecrets(cid, r, w, sid):
+		case routeWorkloadGetSecrets(cid, r, w):
 			log.TraceLn(&cid, "Handler:007")
 			return
-		case routeWorkloadPostSecrets(cid, r, w, sid):
+		case routeWorkloadPostSecrets(cid, r, w):
 			log.TraceLn(&cid, "Handler:008")
 			return
 		}
 
 		log.TraceLn(&cid, "Handler:009")
-		routeFallback(cid, r, w, sid)
+		routeFallback(cid, r, w)
 	})
 }

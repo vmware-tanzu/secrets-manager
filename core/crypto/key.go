@@ -23,8 +23,8 @@ const BlankRootKeyValue = "{}"
 var RootKey = ""
 var RootKeyLock sync.RWMutex
 
-// SetRootKey sets the age key to be used for encryption and decryption.
-func SetRootKey(k string) {
+// SetRootKeyInMemory sets the age key to be used for encryption and decryption.
+func SetRootKeyInMemory(k string) {
 	// id := Id()
 
 	RootKeyLock.Lock()

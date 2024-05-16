@@ -92,7 +92,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 		return errors.Wrap(err, "Error creating the secret")
 	}
 
-	crypto.SetRootKey(keysCombined)
+	crypto.SetRootKeyInMemory(keysCombined)
 
 	return nil
 }
