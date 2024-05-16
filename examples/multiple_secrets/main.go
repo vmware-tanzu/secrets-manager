@@ -13,6 +13,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
