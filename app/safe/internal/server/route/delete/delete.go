@@ -13,6 +13,7 @@ package delete
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 
@@ -36,8 +37,17 @@ import (
 //   - r: An http.Request object containing the request details from the client.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Delete(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Delete: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
+		}
+
 		return
 	}
 
@@ -52,6 +62,13 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
+		}
+
 		return
 	}
 
