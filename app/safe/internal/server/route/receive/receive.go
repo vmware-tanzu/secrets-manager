@@ -87,7 +87,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	crypto.SetRootKeyInMemory(keysCombined)
 
 	if env.ManualRootKeyUpdatesK8sSecret() {
-		if err := bootstrap.PersistKeys(
+		if err := bootstrap.PersistRootKeysToRootKeyBackingStore(
 			crypto.RootKeyCollection{
 				PrivateKey: agePrivateKey,
 				PublicKey:  agePublicKey,

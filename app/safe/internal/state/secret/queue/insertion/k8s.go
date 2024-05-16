@@ -12,6 +12,7 @@ package insertion
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -21,15 +22,21 @@ import (
 // `Secret` counterparts.
 var K8sSecretUpsertQueue = make(chan entity.SecretStored, env.K8sSecretBufferSizeForSafe())
 
-// ProcessK8sSecretQueue continuously processes a queue of Kubernetes secrets
+// ProcessK8sPrefixedSecretQueue continuously processes a queue of Kubernetes secrets
 // (K8sSecretUpsertQueue), attempting to persist each secret into the Kubernetes
 // cluster, specifically into etcd as a Kubernetes Secret. The function employs
 // asynchronous error handling and is designed to operate continuously within a
 // dedicated goroutine.
-func ProcessK8sSecretQueue() {
+//
+// This queue is for secrets that are generated via the `k8s:` prefix in their
+// workload name. When the workload name starts with a `k8s:` prefix, VSecM will
+// create an actual Kubernetes secret along with the secret it stores locally.
+// This is especially useful for legacy use cases where a workload cannot
+// directly consume vsecm-minted secrets.
+func ProcessK8sPrefixedSecretQueue() {
 	errChan := make(chan error)
 
-	id := "AEGIHK8S"
+	id := crypto.Id()
 
 	go func() {
 		for e := range errChan {

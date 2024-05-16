@@ -28,13 +28,13 @@ var SecretUpsertQueue = make(
 	env.SecretBufferSizeForSafe(),
 )
 
-// ProcessSecretQueue manages a continuous loop that processes secrets from the
+// ProcessSecretBackingStoreQueue manages a continuous loop that processes secrets from the
 // SecretUpsertQueue, persisting each secret to disk storage. This function is
 // crucial for ensuring that changes to secrets are reliably stored, supporting
 // both new secrets and updates to existing ones. The operations of
 // this function is critical for maintaining the integrity and consistency
 // of secret data within the system.
-func ProcessSecretQueue() {
+func ProcessSecretBackingStoreQueue() {
 	errChan := make(chan error)
 
 	id := crypto.Id()

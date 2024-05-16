@@ -19,8 +19,7 @@ import (
 // another to process the Kubernetes secret queue. These goroutines are
 // responsible for handling queued secrets and persisting them to disk.
 func Initialize() {
-	go insertion.ProcessSecretQueue()
-	go insertion.ProcessK8sSecretQueue()
+	go insertion.ProcessSecretBackingStoreQueue()
+	go insertion.ProcessK8sPrefixedSecretQueue()
 	go deletion.ProcessSecretQueue()
-	go deletion.ProcessK8sSecretQueue()
 }
