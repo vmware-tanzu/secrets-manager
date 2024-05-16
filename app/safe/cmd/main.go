@@ -17,6 +17,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
@@ -26,13 +27,13 @@ func main() {
 	id := crypto.Id()
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
-		"VSECM_SAFE_FIPS_COMPLIANT", "VSECM_SAFE_SPIFFEID_PREFIX",
-		"VSECM_SAFE_TLS_PORT", "VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, []string{
+		string(constants.AppVersion),
+		string(constants.VSecMLogLevel),
+	})
 
 	ctx, cancel := context.WithCancel(
-		context.WithValue(context.Background(), "correlationId", &id),
+		context.WithValue(context.Background(), constants.CorrelationId, &id),
 	)
 	defer cancel()
 
@@ -62,11 +63,12 @@ func main() {
 	go bootstrap.NotifyTimeout(timedOut)
 
 	// Create initial cryptographic seeds off-cycle.
-	go bootstrap.CreateCryptoKey(&id, updatedSecret)
+	go bootstrap.CreateRootKey(&id, updatedSecret)
 
 	// App is alive; however, not yet ready to accept connections.
 	go probe.CreateLiveness()
 
+	log.InfoLn(&id, "before acquiring source...")
 	source := bootstrap.AcquireSource(ctx, acquiredSvid)
 	defer func(s *workloadapi.X509Source) {
 		if s == nil {

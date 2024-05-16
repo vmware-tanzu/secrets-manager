@@ -142,14 +142,14 @@ func AcquireSource(
 	return source
 }
 
-// CreateCryptoKey generates or reuses a cryptographic key pair for the
+// CreateRootKey generates or reuses a cryptographic key pair for the
 // application, taking an id for logging purposes and a channel updatedSecret
 // to signal when the secret has been updated. If the secret key is not mounted
 // at the expected location or there are any errors reading the key file, the
 // function logs a fatal message and exits. If the secret has not been set in
 // the cluster, the function generates a new key pair, persists them, and
 // signals the updatedSecret channel.
-func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
+func CreateRootKey(id *string, updatedSecret chan<- bool) {
 	if env.RootKeyInputModeManual() {
 		log.InfoLn(id, "Manual key input enabled. Skipping automatic key generation.")
 		updatedSecret <- true
@@ -160,13 +160,13 @@ func CreateCryptoKey(id *string, updatedSecret chan<- bool) {
 	keyPath := env.RootKeyPathForSafe()
 
 	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
-		log.FatalLn(id, "CreateCryptoKey: Secret key not mounted at", keyPath)
+		log.FatalLn(id, "CreateRootKey: Secret key not mounted at", keyPath)
 		return
 	}
 
 	data, err := os.ReadFile(keyPath)
 	if err != nil {
-		log.FatalLn(id, "CreateCryptoKey: Error reading file:", err.Error())
+		log.FatalLn(id, "CreateRootKey: Error reading file:", err.Error())
 		return
 	}
 

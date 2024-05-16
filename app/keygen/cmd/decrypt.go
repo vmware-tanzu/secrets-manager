@@ -21,7 +21,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-func secrets() entity.SecretStringTimeListResponse {
+func secrets() entity.SecretEncryptedListResponse {
 	p := env.ExportedSecretPathForKeyGen()
 
 	content, err := os.ReadFile(p)
@@ -29,7 +29,7 @@ func secrets() entity.SecretStringTimeListResponse {
 		log.Fatalf("Error reading file: %v", err)
 	}
 
-	var secrets entity.SecretStringTimeListResponse
+	var secrets entity.SecretEncryptedListResponse
 
 	err = json.Unmarshal(content, &secrets)
 	if err != nil {
@@ -60,8 +60,8 @@ func printDecryptedKeys() {
 			fmt.Printf("Value[%d]: %s\n", i, dv)
 		}
 
-		fmt.Println("Created:", secret.Created)
-		fmt.Println("Updated:", secret.Updated)
+		fmt.Println("Created:", secret.Created.String())
+		fmt.Println("Updated:", secret.Updated.String())
 		fmt.Println("---")
 	}
 }

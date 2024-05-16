@@ -21,8 +21,8 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"

@@ -12,7 +12,7 @@ package main
 
 import (
 	"fmt"
-	
+
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )

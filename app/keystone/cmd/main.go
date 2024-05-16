@@ -15,6 +15,7 @@ import (
 	sys "log"
 	"os"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/system"
@@ -24,12 +25,11 @@ func main() {
 	id := crypto.Id()
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, []string{string(constants.AppVersion)})
 
 	sys.Println(
 		"VSecM Keystone",
-		fmt.Sprintf("v%s", os.Getenv("APP_VERSION")),
+		fmt.Sprintf("v%s", os.Getenv(string(constants.AppVersion))),
 	)
 
 	// Run on the main thread to wait forever.
