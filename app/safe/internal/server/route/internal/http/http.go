@@ -19,9 +19,9 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// ReadBody reads the HTTP request body and returns it as a byte slice. It handles
-// errors by logging and responding with an appropriate HTTP status code. This
-// function is typically used to process request payloads in an HTTP server context.
+// ReadBody reads the HTTP request body and returns it as a byte slice. It
+// handles errors by logging and responding with an appropriate HTTP status
+// code.
 //
 // Parameters:
 //   - cid (string): Correlation ID for operation tracing and logging.
@@ -33,17 +33,19 @@ import (
 // Returns:
 //   - []byte: The request body as a byte slice. Returns nil if an error occurs
 //     while reading the body.
-func ReadBody(cid string, r *http.Request, w http.ResponseWriter,
-	j journal.Entry) []byte {
+func ReadBody(
+	cid string, r *http.Request, w http.ResponseWriter,
+	j journal.Entry,
+) []byte {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		j.Event = event.BrokenBody
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
-		_, err2 := io.WriteString(w, "")
-		if err2 != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err2.Error())
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 		}
 
 		return nil

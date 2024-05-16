@@ -63,6 +63,7 @@ func Delete(
 		Event:         event.Enter,
 	}
 
+	// Only sentinel can execute delete requests.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
 		return

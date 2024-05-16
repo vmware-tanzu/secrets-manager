@@ -19,28 +19,33 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Source) bool {
+func initCommandsExecutedAlready(
+	ctx context.Context, src *workloadapi.X509Source,
+) bool {
 	cid := ctx.Value("correlationId").(*string)
 
 	log.TraceLn(cid, "check:initCommandsExecutedAlready")
 
 	initialized := false
 
-	err := backoff.RetryExponential("RunInitCommands:CheckConnectivity", func() error {
-		i, err := safe.CheckInitialization(ctx, src)
-		if err != nil {
-			return err
-		}
+	err := backoff.RetryExponential(
+		"RunInitCommands:CheckConnectivity",
+		func() error {
+			i, err := safe.CheckInitialization(ctx, src)
+			if err != nil {
+				return err
+			}
 
-		initialized = i
+			initialized = i
 
-		return nil
-	})
+			return nil
+		})
 
 	if err == nil {
 		return initialized
 	}
 
 	// I shouldn't be here.
-	panic("RunInitCommands:initCommandsExecutedAlready: failed to check command initialization")
+	panic("RunInitCommands" +
+		":initCommandsExecutedAlready: failed to check command initialization")
 }

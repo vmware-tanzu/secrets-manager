@@ -19,23 +19,28 @@ import (
 )
 
 func markKeystone(ctx context.Context, cid *string) bool {
-	err := backoff.RetryExponential("RunInitCommands:MarkKeystone", func() error {
-		log.TraceLn(cid, "RunInitCommands:MarkKeystone: retrying with exponential backoff")
+	err := backoff.RetryExponential(
+		"RunInitCommands:MarkKeystone",
+		func() error {
+			log.TraceLn(cid, "RunInitCommands:MarkKeystone"+
+				": retrying with exponential backoff")
 
-		// Assign a secret for VSecM Keystone
-		err := processCommandBlock(ctx, entity.SentinelCommand{
-			WorkloadIds: []string{"vsecm-keystone"},
-			Namespaces:  []string{"vsecm-system"},
-			Secret:      "keystone-init",
+			// Assign a secret for VSecM Keystone
+			err := processCommandBlock(ctx, entity.SentinelCommand{
+				WorkloadIds: []string{"vsecm-keystone"},
+				Namespaces:  []string{"vsecm-system"},
+				Secret:      "keystone-init",
+			})
+
+			return err
 		})
-
-		return err
-	})
 
 	if err == nil {
 		return true
 	}
 
-	log.ErrorLn(cid, "RunInitCommands: error setting keystone secret: ", err.Error())
+	log.ErrorLn(
+		cid, "RunInitCommands: error setting keystone secret: ",
+		err.Error())
 	panic("RunInitCommands: error setting keystone secret")
 }
