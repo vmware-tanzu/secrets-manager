@@ -29,10 +29,11 @@ func convertMapToStringBytes(inputMap map[string]string) map[string][]byte {
 	return data
 }
 
-// handleTemplateFailure is used when applying a template to the secret's value fails.
-// It attempts to unmarshal the 'value' string as JSON into the 'data' map. If the unmarshaling
-// fails, it creates a new empty 'data' map and populates it with a single entry, "VALUE",
-// containing the original 'value' as []byte.
+// handleTemplateFailure is used when applying a template to the secret's value
+// fails. It attempts to unmarshal the 'value' string as JSON into the 'data'
+// map. If the unmarshaling fails, it creates a new empty 'data' map and
+// populates it with a single entry, "VALUE", containing the original 'value' as
+// []byte.
 func convertValueToMap(values []string) map[string][]byte {
 	var data map[string][]byte
 
@@ -53,9 +54,10 @@ func convertValueToMap(values []string) map[string][]byte {
 }
 
 // handleNoTemplate is used when there is no template defined.
-// It attempts to unmarshal the 'value' string as JSON. If successful, it returns
-// a map with the JSON key-value pairs converted to []byte values; otherwise, it
-// returns a map with a single entry, "VALUE", containing the original 'value' as []byte.
+// It attempts to unmarshal the 'value' string as JSON. If successful, it
+// returns a map with the JSON key-value pairs converted to []byte values;
+// otherwise, it returns a map with a single entry, "VALUE", containing the
+// original 'value' as []byte.
 func convertValueNoTemplate(values []string) map[string][]byte {
 	var data map[string][]byte
 	var jsonData map[string]string
@@ -102,7 +104,8 @@ func parseForK8sSecret(secret SecretStored) (map[string]string, error) {
 	secretData := make(map[string]string)
 
 	if len(secret.Values) == 0 {
-		return secretData, fmt.Errorf("no values found for secret %s", secret.Name)
+		return secretData, fmt.Errorf("no values found for secret %s",
+			secret.Name)
 	}
 
 	jsonData := strings.TrimSpace(secret.Values[0])
@@ -137,7 +140,9 @@ func parseForK8sSecret(secret SecretStored) (map[string]string, error) {
 	return output, nil
 }
 
-func transform(value string, tmpStr string, f SecretFormat) (string, error) {
+func transform(
+	value string, tmpStr string, f SecretFormat,
+) (string, error) {
 	jsonData := strings.TrimSpace(value)
 
 	parsedString := ""
@@ -150,7 +155,8 @@ func transform(value string, tmpStr string, f SecretFormat) (string, error) {
 	switch f {
 	case Json:
 		// If the parsed string is a valid JSON, return it as is.
-		// Otherwise, assume the parsing failed and return the original JSON string.
+		// Otherwise, assume the parsing failed and return the original
+		// JSON string.
 		if tpl.ValidJSON(parsedString) {
 			return parsedString, nil
 		} else {
@@ -166,7 +172,8 @@ func transform(value string, tmpStr string, f SecretFormat) (string, error) {
 		} else {
 			// Parsed string is not a valid JSON, so return it as is.
 			// It can be either a valid YAML already, or some random string.
-			// There is not much can be done at this point other than returning it.
+			// There is not much can be done at this point other than
+			// returning it.
 			return parsedString, nil
 		}
 	case Raw:

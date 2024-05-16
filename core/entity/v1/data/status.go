@@ -10,6 +10,7 @@
 
 package data
 
+// InitStatus is the initialization status of VSecM Sentinel.
 type InitStatus string
 
 var (

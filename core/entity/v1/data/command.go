@@ -14,6 +14,8 @@ type VSecMInternalCommand struct {
 	LogLevel int `json:"logLevel"`
 }
 
+// SentinelCommand is the command that VSecM Sentinel uses to perform
+// REST API operations on VSecM Safe.
 type SentinelCommand struct {
 	WorkloadIds        []string
 	Namespaces         []string

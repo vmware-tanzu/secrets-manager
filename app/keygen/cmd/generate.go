@@ -20,8 +20,10 @@ func printGeneratedKeys() {
 	rkt, err := crypto.NewRootKeyCollection()
 
 	if err != nil {
+		fmt.Println()
 		fmt.Println("Failed to generate keys:")
 		fmt.Println(err.Error())
+		fmt.Println()
 		return
 	}
 
