@@ -12,6 +12,14 @@ package env
 
 import "os"
 
+// NamespaceForVSecMSystem returns the namespace for the VSecM apps.
+// The namespace is determined by the environment variable
+// "VSECM_NAMESPACE_SYSTEM". If the variable is not set or is empty,
+// it defaults to "vsecm-system".
+//
+// Returns:
+//
+//	string: The namespace to be used for the VSecM system.
 func NamespaceForVSecMSystem() string {
 	u := os.Getenv("VSECM_NAMESPACE_SYSTEM")
 	if u == "" {
@@ -20,6 +28,14 @@ func NamespaceForVSecMSystem() string {
 	return u
 }
 
+// NamespaceForSpire returns the namespace for SPIRE.
+// The namespace is determined by the environment variable
+// "VSECM_NAMESPACE_SPIRE". If the variable is not set or is empty,
+// it defaults to "spire-system".
+//
+// Returns:
+//
+//	string: The namespace to be used for SPIRE.
 func NamespaceForSpire() string {
 	u := os.Getenv("VSECM_NAMESPACE_SPIRE")
 	if u == "" {
