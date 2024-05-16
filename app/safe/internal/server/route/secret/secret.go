@@ -77,6 +77,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
 	// TODO: why does this method have a side effect?!
+	// TODO: there are other methods that have similar side effects too, they
+	// should not.
 	body := httq.ReadBody(cid, r, w, j)
 	if body == nil {
 		j.Event = event.BadPayload

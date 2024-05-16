@@ -11,6 +11,7 @@
 package receive
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"strings"
@@ -43,6 +44,8 @@ import (
 //   - spiffeid (string): The SPIFFE ID associated with the requester, used for
 //     authorization validation.
 func Keys(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 

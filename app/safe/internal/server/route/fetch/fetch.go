@@ -12,6 +12,7 @@ package fetch
 
 import (
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"time"
@@ -39,8 +40,17 @@ import (
 //   - r: An http.Request object containing the request details from the client.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Fetch(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Fetch: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Status: problem sending response", spiffeid)
+		}
+
 		return
 	}
 

@@ -12,6 +12,7 @@ package keystone
 
 import (
 	"encoding/json"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"strings"
@@ -45,9 +46,18 @@ import (
 //   - This function is designed to be called by VSecM Sentinel (a trusted entity).
 //   - Proper SPIFFE ID format and keystone initialization are crucial for the
 //     correct execution of this function.
-func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+func Status(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Status: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Status: problem sending response", spiffeid)
+		}
+
 		return
 	}
 
@@ -65,6 +75,13 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Status: problem sending response", spiffeid)
+		}
+
 		return
 	}
 

@@ -12,6 +12,7 @@ package list
 
 import (
 	"encoding/json"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"strings"
@@ -29,8 +30,17 @@ import (
 func doList(cid string, w http.ResponseWriter, r *http.Request,
 	encrypted bool,
 ) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Masked: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
+		}
+
 		return
 	}
 
@@ -47,6 +57,13 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
+		}
+
 		return
 	}
 
