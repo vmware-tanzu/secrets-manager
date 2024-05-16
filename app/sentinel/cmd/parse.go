@@ -43,7 +43,8 @@ func parseNamespaces(parser *argparse.Parser) *[]string {
 func parseInputKeys(parser *argparse.Parser) *string {
 	return parser.String("i", "input-keys", &argparse.Options{
 		Required: false,
-		Help:     "A string containing the private and public Age keys and AES seed, each separated by '\\n'",
+		Help: "A string containing the private and public " +
+			"Age keys and AES seed, each separated by '\\n'",
 	})
 }
 
@@ -81,9 +82,9 @@ func parseFormat(parser *argparse.Parser) *string {
 func parseEncrypt(parser *argparse.Parser) *bool {
 	return parser.Flag("e", "encrypt", &argparse.Options{
 		Required: false, Default: false,
-		Help: "returns an encrypted version of the secret if used with `-s`; " +
-			"decrypts the secret before registering it to the workload if used " +
-			"with `-s` and `-w`",
+		Help: "returns an encrypted version of the secret if used with " +
+			"`-s`; decrypts the secret before registering it to the " +
+			"workload if used with `-s` and `-w`",
 	})
 }
 

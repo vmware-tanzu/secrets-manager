@@ -34,7 +34,8 @@ func printSecretNeeded() {
 	fmt.Println("")
 }
 
-func inputValidationFailure(workload *[]string, encrypt *bool, inputKeys *string,
+func inputValidationFailure(
+	workload *[]string, encrypt *bool, inputKeys *string,
 	secret *string, deleteSecret *bool) bool {
 
 	// You need to provide a workload name if you are not encrypting a secret,

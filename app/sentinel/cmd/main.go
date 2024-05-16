@@ -93,7 +93,9 @@ func main() {
 		*namespaces = []string{defaultNs}
 	}
 
-	if inputValidationFailure(workloadIds, encrypt, inputKeys, secret, deleteSecret) {
+	if inputValidationFailure(
+		workloadIds, encrypt, inputKeys, secret, deleteSecret,
+	) {
 		return
 	}
 

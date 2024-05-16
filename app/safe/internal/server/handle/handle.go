@@ -11,6 +11,7 @@
 package handle
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"net/http"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -35,14 +36,8 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 
 		validation.EnsureSafe(source)
 
-		id, err := spiffeIdFromRequest(r)
+		sid := spiffe.IdAsString(cid, r)
 
-		if err != nil {
-			log.WarnLn(&cid, "Handler: blocking insecure svid", id, err)
-			return
-		}
-
-		sid := id.String()
 		p := r.URL.Path
 		m := r.Method
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", m)
