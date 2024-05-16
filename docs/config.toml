@@ -1,0 +1,23 @@
+base_url = "https://vsecm.com/"
+title = "VMWare Secrets Manager"
+description = "keep your secrets... secret"
+
+compile_sass = true
+build_search_index = true
+
+[search]
+index_format = "elasticlunr_json"
+
+[markdown]
+highlight_code = true
+highlight_theme = "nord"
+#highlight_theme = "css"
+#highlight_themes_css = [
+#  { theme = "base16-ocean-dark", filename = "syntax-theme-dark.css" },
+#  { theme = "base16-ocean-light", filename = "syntax-theme-light.css" },
+#]
+
+smart_punctuation = true
+
+[extra]
+author = "VMware Secrets Manager Contributors"
