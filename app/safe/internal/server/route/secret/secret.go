@@ -11,6 +11,7 @@
 package secret
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"time"
@@ -35,8 +36,25 @@ import (
 //   - w: An http.ResponseWriter object used to send responses back to the client.
 //   - r: An http.Request object containing the details of the client's request.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+func Secret(cid string, w http.ResponseWriter, r *http.Request) {
+	// TODO: check other routes too, you should get spiffeid from IdAsString(c, r
+
+	spiffeid := spiffe.IdAsString(cid, r)
+	if spiffeid == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "NOK!")
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
+		return
+	}
+
 	if !crypto.RootKeySet() {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "NOK!")
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
 		log.InfoLn(&cid, "Secret: Root key not set")
 		return
 	}
@@ -45,6 +63,12 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	journal.Log(j)
 
 	if !validation.IsSentinel(j, cid, w, spiffeid) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "NOK!")
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
+
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
 		return
@@ -52,6 +76,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
+	// TODO: why does this method have a side effect?!
 	body := httq.ReadBody(cid, r, w, j)
 	if body == nil {
 		j.Event = event.BadPayload
@@ -62,6 +87,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	log.DebugLn(&cid, "Secret: Parsed request body")
 
+	// TODO: why does this method have a side effect?!
 	ur := json.UnmarshalSecretUpsertRequest(cid, body, j, w)
 	if ur == nil {
 		j.Event = event.BadPayload

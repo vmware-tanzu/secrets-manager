@@ -27,7 +27,7 @@ import (
 )
 
 func doList(cid string, w http.ResponseWriter, r *http.Request,
-	spiffeid string, encrypted bool,
+	encrypted bool,
 ) {
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Masked: Root key not set")

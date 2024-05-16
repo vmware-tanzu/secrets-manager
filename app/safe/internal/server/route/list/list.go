@@ -22,7 +22,7 @@ import (
 // - r: A pointer to an http.Request representing the received HTTP request.
 // - spiffeid: spiffe id of the caller.
 func Masked(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	doList(cid, w, r, spiffeid, false)
+	doList(cid, w, r, false)
 }
 
 // Encrypted returns all registered workloads to the system. Similar to `Masked`
@@ -34,5 +34,5 @@ func Masked(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 // - r: A pointer to an http.Request representing the received HTTP request.
 // - spiffeid: spiffe id of the caller.
 func Encrypted(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	doList(cid, w, r, spiffeid, true)
+	doList(cid, w, r, true)
 }

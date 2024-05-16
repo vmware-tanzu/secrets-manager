@@ -35,7 +35,7 @@ import (
 //   - w: An http.ResponseWriter object used to send responses back to the client.
 //   - r: An http.Request object containing the request details from the client.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 	if !crypto.RootKeySet() {
 		log.InfoLn(&cid, "Delete: Root key not set")
 		return
