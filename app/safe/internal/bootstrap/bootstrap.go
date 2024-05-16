@@ -216,7 +216,7 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 
 	log.InfoLn(id, "Secret has not been set yet. Will compute a secure secret.")
 
-	privateKey, publicKey, aesSeed, err := crypto.NewRootKeyCollection()
+	rkt, err := crypto.NewRootKeyCollection()
 
 	if err != nil {
 		log.FatalLn(id, "Failed to generate keys", err.Error())
@@ -231,7 +231,7 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 	// Pod crash or eviction. As of Mar,17, 2024 the only trusted
 	// backing store is the VSecM root key Kubernetes Secret; however
 	// this will change in the future.
-	if err = PersistKeys(privateKey, publicKey, aesSeed); err != nil {
+	if err = PersistKeys(rkt); err != nil {
 		log.FatalLn(id, "Failed to persist keys", err.Error())
 	}
 

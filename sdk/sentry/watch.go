@@ -11,10 +11,11 @@
 package sentry
 
 import (
+	"time"
+
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"time"
 )
 
 // Watch synchronizes the internal state of the sidecar by talking to

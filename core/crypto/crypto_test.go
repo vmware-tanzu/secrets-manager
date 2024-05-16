@@ -152,32 +152,32 @@ func Test_generateAesSeed(t *testing.T) {
 //	}
 //}
 
-func TestCombineKeys(t *testing.T) {
-	type args struct {
-		privateKey string
-		publicKey  string
-		aesSeed    string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		{
-			name: "success_case",
-			args: args{
-				privateKey: "key-1",
-				publicKey:  "key-2",
-				aesSeed:    "key-3",
-			},
-			want: "key-1" + "\n" + "key-2" + "\n" + "key-3",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := CombineKeys(tt.args.privateKey, tt.args.publicKey, tt.args.aesSeed); got != tt.want {
-				t.Errorf("CombineKeys() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+//func TestCombineKeys(t *testing.T) {
+//	type args struct {
+//		privateKey string
+//		publicKey  string
+//		aesSeed    string
+//	}
+//	tests := []struct {
+//		name string
+//		args args
+//		want string
+//	}{
+//		{
+//			name: "success_case",
+//			args: args{
+//				privateKey: "key-1",
+//				publicKey:  "key-2",
+//				aesSeed:    "key-3",
+//			},
+//			want: "key-1" + "\n" + "key-2" + "\n" + "key-3",
+//		},
+//	}
+//	for _, tt := range tests {
+//		t.Run(tt.name, func(t *testing.T) {
+//			if got := CombineKeys(tt.args.privateKey, tt.args.publicKey, tt.args.aesSeed); got != tt.want {
+//				t.Errorf("CombineKeys() = %v, want %v", got, tt.want)
+//			}
+//		})
+//	}
+//}

@@ -26,7 +26,8 @@ const (
 	everything = chars + numbers + "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
 )
 
-// generatorExprRanges represents a range of characters used in string generation.
+// generatorExprRanges represents a range of characters used in string
+// generation.
 type generatorExprRanges [][]byte
 
 // seedAndReturnRandom returns a random integer based on a newly seeded source.
@@ -56,13 +57,15 @@ func everythingSlice(from, to byte) (string, error) {
 		strings.LastIndex(everything, string(to))
 
 	if l > r {
-		return "", fmt.Errorf("invalid range specified: %s-%s", string(from), string(to))
+		return "", fmt.Errorf("invalid range specified: %s-%s", string(from),
+			string(to))
 	}
 
 	return everything[l:r], nil
 }
 
-// replaceWithGenerated replaces a substring in a given string with randomly generated characters.
+// replaceWithGenerated replaces a substring in a given string with randomly
+// generated characters.
 // The generated string adheres to specified character ranges and lengths.
 //
 // Parameters:
@@ -73,7 +76,8 @@ func everythingSlice(from, to byte) (string, error) {
 //
 // Returns:
 // An error if the character range is empty or invalid.
-func replaceWithGenerated(s *string, expression string, ranges [][]byte, length int) error {
+func replaceWithGenerated(s *string, expression string, ranges [][]byte,
+	length int) error {
 	var alphabet string
 
 	for _, r := range ranges {
@@ -130,7 +134,8 @@ func findExpressionPos(s string) generatorExprRanges {
 	return result
 }
 
-// rangesAndLength extracts a character range expression and its specified length from a string.
+// rangesAndLength extracts a character range expression and its specified
+// length from a string.
 //
 // Parameters:
 // s - The string containing the expression and length specification.

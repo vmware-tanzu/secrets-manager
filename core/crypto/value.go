@@ -12,15 +12,17 @@ package crypto
 
 import "github.com/pkg/errors"
 
-// GenerateValue creates a string based on a template with embedded generator expressions.
-// The generator expressions specify character ranges and lengths for random string parts.
+// GenerateValue creates a string based on a template with embedded generator
+// expressions. The generator expressions specify character ranges and lengths
+// for random string parts.
 //
 // Parameters:
 // template - The string template containing generator expressions.
 //
 // Returns:
 // The generated string adhering to the template specifications.
-// An error if any generator expression is invalid or if the string generation fails.
+// An error if any generator expression is invalid or if the string
+// generation fails.
 //
 // Example Usage:
 //

@@ -27,7 +27,7 @@ import (
 
 const rootKeyField = "KEY_TXT"
 
-func PersistKeys(privateKey, publicKey, aesSeed string) error {
+func PersistKeys(rkt crypto.RootKeyCollection) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Wrap(err, "Error creating client config")
@@ -39,7 +39,7 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 	}
 
 	data := make(map[string][]byte)
-	keysCombined := crypto.CombineKeys(privateKey, publicKey, aesSeed)
+	keysCombined := rkt.Combine()
 	data[rootKeyField] = ([]byte)(keysCombined)
 
 	// Serialize the Secret's configuration to JSON

@@ -87,7 +87,13 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	crypto.SetRootKeyInMemory(keysCombined)
 
 	if env.ManualRootKeyUpdatesK8sSecret() {
-		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {
+		if err := bootstrap.PersistKeys(
+			crypto.RootKeyCollection{
+				PrivateKey: agePrivateKey,
+				PublicKey:  agePublicKey,
+				AesSeed:    aesCipherKey,
+			},
+		); err != nil {
 			log.ErrorLn(&cid, "Keys: Problem persisting keys", err.Error())
 		}
 	}
