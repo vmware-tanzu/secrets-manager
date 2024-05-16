@@ -49,7 +49,7 @@ func HandleCommandSecrets(
 	ok := AuthorizedJWT(id, r)
 	if !ok {
 		http.Error(w,
-			"authorizedJWT : Please provide correct credentials",
+			"isAuthorizedJWT : Please provide correct credentials",
 			http.StatusBadRequest)
 		return
 	}

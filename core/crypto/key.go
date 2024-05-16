@@ -45,33 +45,33 @@ func RootKeySet() bool {
 	return RootKey != ""
 }
 
-type Rkt struct {
+type RootKeyCollection struct {
 	PrivateKey string
 	PublicKey  string
 	AesSeed    string
 }
 
-// RootKeyTriplet splits the RootKey into three components, if it is properly
+// RootKeyCollectionFromMemory splits the RootKey into three components, if it is properly
 // formatted.
 //
 // The function returns a triplet of strings representing the parts of the RootKey,
 // separated by newlines. If the RootKey is empty or does not contain exactly
 // three parts, the function returns three empty strings.
-func RootKeyTriplet() Rkt {
+func RootKeyCollectionFromMemory() RootKeyCollection {
 	RootKeyLock.RLock()
 	defer RootKeyLock.RUnlock()
 
 	if RootKey == "" {
-		return Rkt{}
+		return RootKeyCollection{}
 	}
 
 	parts := strings.Split(RootKey, "\n")
 
 	if len(parts) != 3 {
-		return Rkt{}
+		return RootKeyCollection{}
 	}
 
-	return Rkt{
+	return RootKeyCollection{
 		PrivateKey: parts[0],
 		PublicKey:  parts[1],
 		AesSeed:    parts[2],

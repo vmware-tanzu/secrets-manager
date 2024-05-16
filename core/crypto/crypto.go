@@ -23,11 +23,13 @@ type Algorithm string
 const Age = Algorithm("age")
 const Aes = Algorithm("aes")
 
+const letters = "abcdefghijklmnopqrstuvwxyz" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
 var reader = rand.Read
 
 // RandomString generates a cryptographically-unique secure random string.
 func RandomString(n int) (string, error) {
-	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	bytes := make([]byte, n)
 
 	if _, err := reader(bytes); err != nil {
@@ -78,7 +80,8 @@ func generateAesSeed() (string, error) {
 
 	_, err := reader(key)
 	if err != nil {
-		return "", errors.Wrap(err, "generateAesSeed: failed to generate random key")
+		return "", errors.Wrap(err,
+			"generateAesSeed: failed to generate random key")
 	}
 
 	return hex.EncodeToString(key), nil

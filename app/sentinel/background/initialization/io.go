@@ -30,7 +30,8 @@ func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"RunInitCommands: no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... "+
+				"skipping custom initialization.",
 		)
 		return nil, nil
 	}
@@ -41,7 +42,9 @@ func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 	return file, bufio.NewScanner(file)
 }
 
-func parseCommandsFile(ctx context.Context, cid *string, scanner *bufio.Scanner) {
+func parseCommandsFile(
+	ctx context.Context, cid *string, scanner *bufio.Scanner,
+) {
 	log.TraceLn(cid, "Before parsing commands 002")
 
 	sc := entity.SentinelCommand{}

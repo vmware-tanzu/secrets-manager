@@ -70,7 +70,7 @@ func EncryptValue(value string) (string, error) {
 //     Possible errors include issues with the public key (such as being empty or unparseable)
 //     and failures related to the encryption process or writing to the writer interface.
 func EncryptToWriterAge(out io.Writer, data string) error {
-	rkt := RootKeyTriplet()
+	rkt := RootKeyCollectionFromMemory()
 	publicKey := rkt.PublicKey
 
 	if publicKey == "" {
@@ -125,7 +125,7 @@ var lastEncryptToWriterAesCall time.Time
 //     encounters an issue. This includes errors related to call frequency, key
 //     management, encryption initialization, and data writing.
 func EncryptToWriterAes(out io.Writer, data string) error {
-	rkt := RootKeyTriplet()
+	rkt := RootKeyCollectionFromMemory()
 
 	// Calling this method too frequently can result in a less-than random IV,
 	// which can be used to break the encryption when combined with other

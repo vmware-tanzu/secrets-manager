@@ -17,7 +17,8 @@ import (
 	"time"
 )
 
-// Strategy is a configuration for the backoff strategy to use when retrying operations.
+// Strategy is a configuration for the backoff strategy to use when retrying
+// operations.
 type Strategy struct {
 	// Maximum number of retries before giving up (inclusive)
 	// Default is 5
@@ -27,7 +28,8 @@ type Strategy struct {
 	// Default is 1000
 	Delay time.Duration
 
-	// Whether to use exponential backoff or not (if false, constant delay is used)
+	// Whether to use exponential backoff or not (if false, constant delay is
+	// used)
 	// Default is false
 	Exponential bool
 	// Maximum duration to wait between retries (in milliseconds)
@@ -35,9 +37,45 @@ type Strategy struct {
 	MaxDuration time.Duration
 }
 
-// Retry is a helper function to retry an operation with the given strategy.
-// It returns an error if the operation fails after all retries.
-func Retry(ns string, f func() error, s Strategy) error {
+// Retry implements a retry mechanism for a function that can fail
+// (return an error).
+// It accepts a scope for logging or identification purposes, a function that
+// it will attempt to execute, and a strategy defining the behavior of the retry
+// logic.
+//
+// The retry strategy allows for setting maximum retries, initial delay, whether
+// to use exponential backoff, and a maximum duration for the delay. If
+// exponential backoff is enabled, the delay between retries increases
+// exponentially with each attempt, combined with a small randomization to
+// prevent synchronization issues (thundering herd problem).
+// If the function succeeds (returns nil), Retry will terminate early.
+// If all retries are exhausted, the last error is returned.
+//
+// Params:
+//
+//	scope string - A descriptive name or identifier for the context of the retry
+//	operation.
+//	f func() error - The function to execute and retry if it fails.
+//	s Strategy - Struct defining the retry parameters including maximum retries,
+//	delay strategy, and max delay.
+//
+// Returns:
+//
+//	error - The last error returned by the function after all retries, or nil
+//	if the function eventually succeeds.
+//
+// Example of usage:
+//
+//	err := Retry("database_connection", connectToDatabase, Strategy{
+//	    MaxRetries: 5,
+//	    Delay: 100,
+//	    Exponential: true,
+//	    MaxDuration: 10 * time.Second,
+//	})
+//	if err != nil {
+//	    fmt.Println("Failed to connect to database after retries:", err)
+//	}
+func Retry(scope string, f func() error, s Strategy) error {
 	s = withDefaults(s)
 	var err error
 
@@ -50,7 +88,8 @@ func Retry(ns string, f func() error, s Strategy) error {
 		var retryDelay time.Duration
 		// if exponential backoff is enabled then delay increases exponentially
 		if s.Exponential {
-			// Calculate the delay for the current attempt. The delay is 2^i seconds.
+			// Calculate the delay for the current attempt. The delay is
+			// 2^i seconds.
 			delay := time.Duration(math.Pow(2, float64(i))) * time.Second
 			// Some randomness to avoid the thundering herd problem.
 			d := int(s.Delay)
@@ -65,16 +104,19 @@ func Retry(ns string, f func() error, s Strategy) error {
 		}
 
 		time.Sleep(retryDelay)
-		fmt.Println("Retrying after", retryDelay, "ms", "for", ns, "namespace --",
-			"attempt", i+1, "of", s.MaxRetries+1)
+		_, _ = fmt.Printf(
+			"Retrying after %d ms for the scope '%s' -- attempt %d of %d",
+			retryDelay, scope, i+1, s.MaxRetries+1,
+		)
 	}
 
 	return err
 }
 
-// RetryExponential is a helper function to retry an operation with exponential backoff.
-func RetryExponential(ns string, f func() error) error {
-	return Retry(ns, f, Strategy{
+// RetryExponential is a helper function to retry an operation with exponential
+// backoff.
+func RetryExponential(scope string, f func() error) error {
+	return Retry(scope, f, Strategy{
 		MaxRetries:  5,
 		Delay:       1000,
 		Exponential: true,
@@ -83,8 +125,8 @@ func RetryExponential(ns string, f func() error) error {
 }
 
 // RetryFixed is a helper function to retry an operation with fixed backoff.
-func RetryFixed(ns string, f func() error) error {
-	return Retry(ns, f, Strategy{
+func RetryFixed(scope string, f func() error) error {
+	return Retry(scope, f, Strategy{
 		MaxRetries: 5,
 		Delay:      1000,
 	})

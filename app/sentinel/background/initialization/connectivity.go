@@ -12,6 +12,7 @@ package initialization
 
 import (
 	"context"
+
 	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"time"

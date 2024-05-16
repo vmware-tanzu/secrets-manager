@@ -15,6 +15,24 @@ import (
 	"net/http"
 )
 
+// HandleSecrets processes incoming HTTP requests related to secrets management.
+// This function is specifically designed to handle POST requests. It decodes
+// the JSON body to a SecretRequest and delegates the actual business logic to
+// HandleCommandSecrets.
+//
+// Parameters:
+//   - w: the http.ResponseWriter used to write the HTTP response.
+//   - r: the *http.Request containing all the request data including headers,
+//     query parameters, and the body.
+//
+// Usage:
+//
+//	http.HandleFunc("/api/secrets", secrets.HandleSecrets)
+//
+// Errors:
+//   - Returns HTTP 405 if the method is not POST.
+//   - Returns HTTP 400 if the request body cannot be decoded into
+//     SecretRequest.
 func HandleSecrets(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Unsupported method", http.StatusMethodNotAllowed)
