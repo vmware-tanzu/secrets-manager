@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
+
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 

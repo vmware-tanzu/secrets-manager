@@ -33,6 +33,18 @@ func PollIntervalForInitContainer() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
+// WaitBeforeExitForInitContainer retrieves the wait time before exit for an
+// init container. The duration is determined by the environment variable
+// "VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT" and defaults to zero if the variable
+// is not set or cannot be parsed.
+//
+// The environment variable is expected to be an integer value representing the
+// wait time in milliseconds. If parsing fails, the function will return 0
+// milliseconds.
+//
+// Returns:
+//
+//	time.Duration: The wait time before exit, in milliseconds.
 func WaitBeforeExitForInitContainer() time.Duration {
 	p := os.Getenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
 	if p == "" {

@@ -21,10 +21,12 @@ func RootKeyPathForKeyGen() string {
 	return p
 }
 
-// ExportedSecretPathForKeyGen returns the path where the exported secrets are stored.
-// It reads the environment variable VSECM_KEYGEN_EXPORTED_SECRET_PATH to determine
-// the path.
-// If the environment variable is not set, it defaults to "/opt/vsecm/secrets.json".
+// ExportedSecretPathForKeyGen returns the path where the exported secrets are
+// stored. It reads the environment variable VSECM_KEYGEN_EXPORTED_SECRET_PATH
+// to determine the path.
+//
+// If the environment variable is not set, it defaults to
+// "/opt/vsecm/secrets.json".
 //
 // Returns:
 //

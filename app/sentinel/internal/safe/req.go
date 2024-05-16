@@ -12,7 +12,8 @@ package safe
 
 import reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 
-func newRootKeyUpdateRequest(ageSecretKey, agePublicKey, aesCipherKey string,
+func newRootKeyUpdateRequest(
+	ageSecretKey, agePublicKey, aesCipherKey string,
 ) reqres.KeyInputRequest {
 	return reqres.KeyInputRequest{
 		AgeSecretKey: ageSecretKey,

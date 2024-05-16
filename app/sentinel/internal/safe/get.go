@@ -29,9 +29,9 @@ import (
 )
 
 // Check validates the connectivity to VSecM Safe by calling the "list secrets"
-// API and expecting a successful response. The successful return (`nil`) from this
-// method means that VSecM Safe is up, and VSecM Sentinel is able to establish
-// and authorized request and get a meaningful response body.
+// API and expecting a successful response. The successful return (`nil`) from
+// this method means that VSecM Safe is up, and VSecM Sentinel is able to
+// establish an authorized request and get a meaningful response body.
 //
 // Parameters:
 //   - ctx: Context used for operation cancellation and passing metadata such as
@@ -41,9 +41,10 @@ import (
 //
 // Returns:
 //   - An error if the validation fails, the workload source is nil, there's an
-//     issue with constructing the API endpoint URL, problems occur during the HTTP
-//     request to the VSecM Safe API endpoint, or the response body cannot be read.
-//     The error includes a descriptive message indicating the nature of the failure.
+//     issue with constructing the API endpoint URL, problems occur during the
+//     HTTP request to the VSecM Safe API endpoint, or the response body cannot
+//     be read. The error includes a descriptive message indicating the nature
+//     of the failure.
 func Check(ctx context.Context, source *workloadapi.X509Source) error {
 	cid := ctx.Value("correlationId").(*string)
 
@@ -68,7 +69,8 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		return errors.Wrap(
 			err,
 			fmt.Sprintf(
-				"check: I am having problem generating VSecM Safe secrets api endpoint URL: %s\n",
+				"check: I am having problem generating"+
+					" VSecM Safe secrets api endpoint URL: %s\n",
 				safeUrl,
 			),
 		)
@@ -86,7 +88,8 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		return errors.Wrap(
 			err,
 			fmt.Sprintf(
-				"check: Problem connecting to VSecM Safe API endpoint URL: %s\n",
+				"check: Problem connecting to"+
+					" VSecM Safe API endpoint URL: %s\n",
 				safeUrl,
 			),
 		)
@@ -146,7 +149,8 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 			return nil
 		}
 
-		return errors.New("I don't know you, and it's crazy: '" + id.String() + "'")
+		return errors.New("I don't know you, and it's crazy: '" +
+			id.String() + "'")
 	})
 
 	safeUrl := "/sentinel/v1/secrets"
@@ -156,7 +160,8 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		return errors.Wrap(err, "Problem generating VSecM Safe secrets api endpoint URL")
+		return errors.Wrap(err,
+			"Problem generating VSecM Safe secrets api endpoint URL")
 	}
 
 	tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -168,7 +173,8 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	r, err := client.Get(p)
 	if err != nil {
-		return errors.Wrap(err, "Problem connecting to VSecM Safe API endpoint URL")
+		return errors.Wrap(err,
+			"Problem connecting to VSecM Safe API endpoint URL")
 	}
 
 	defer func(b io.ReadCloser) {
@@ -183,7 +189,8 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		return errors.Wrap(err, "Unable to read the response body from VSecM Safe")
+		return errors.Wrap(err,
+			"Unable to read the response body from VSecM Safe")
 	}
 
 	fmt.Println("")

@@ -31,16 +31,17 @@ import (
 )
 
 // CheckInitialization verifies if VSecM Sentinel has executed its init commands
-// stanza successfully. This function utilizes a SPIFFE-based mTLS authentication
-// mechanism to securely connect to a specified API endpoint.
+// stanza successfully. This function utilizes a SPIFFE-based mTLS
+// authentication mechanism to securely connect to a specified API endpoint.
 //
 // Parameters:
 //   - ctx context.Context: The context carrying the correlation ID used for
 //     logging and tracing the operation across different system components.
-//     The correlation ID is extracted from the context for error logging purposes.
-//   - source *workloadapi.X509Source: A pointer to an X509Source, which provides
-//     the credentials necessary for mTLS configuration. The source must not be nil,
-//     as it is essential for establishing the TLS connection.
+//     The correlation ID is extracted from the context for error logging
+//     purposes.
+//   - source *workloadapi.X509Source: A pointer to an X509Source, which
+//     provides the credentials necessary for mTLS configuration. The source
+//     must not be nil, as it is essential for establishing the TLS connection.
 //
 // Returns:
 //   - bool: Returns true if VSecM Sentinel is initialized; false otherwise .
@@ -48,7 +49,9 @@ import (
 //     the API call fails, the response body cannot be read, or the JSON
 //     response cannot be unmarshalled. The error will provide a detailed
 //     message about the nature of the failure.
-func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (bool, error) {
+func CheckInitialization(
+	ctx context.Context, source *workloadapi.X509Source,
+) (bool, error) {
 	cid := ctx.Value("correlationId").(*string)
 
 	if source == nil {
@@ -72,7 +75,8 @@ func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (b
 		return false, errors.Wrap(
 			err,
 			fmt.Sprintf(
-				"check: I am having problem generating VSecM Safe secrets api endpoint URL: %s\n",
+				"check: I am having problem"+
+					" generating VSecM Safe secrets api endpoint URL: %s\n",
 				checkUrl,
 			),
 		)
@@ -90,7 +94,8 @@ func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (b
 		return false, errors.Wrap(
 			err,
 			fmt.Sprintf(
-				"check: Problem connecting to VSecM Safe API endpoint URL: %s\n",
+				"check: Problem connecting"+
+					" to VSecM Safe API endpoint URL: %s\n",
 				checkUrl,
 			),
 		)
@@ -113,7 +118,8 @@ func CheckInitialization(ctx context.Context, source *workloadapi.X509Source) (b
 		)
 	}
 
-	log.TraceLn(cid, "json result: ' ", string(res), " ' status: ", r.Status, "code", r.StatusCode)
+	log.TraceLn(cid, "json result: ' ", string(res), " ' status: ",
+		r.Status, "code", r.StatusCode)
 
 	var result entity.KeystoneStatusResponse
 
