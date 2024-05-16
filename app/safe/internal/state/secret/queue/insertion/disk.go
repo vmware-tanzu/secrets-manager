@@ -28,16 +28,16 @@ var SecretUpsertQueue = make(
 	env.SecretBufferSizeForSafe(),
 )
 
-// ProcessSecretBackingStoreQueue manages a continuous loop that processes secrets from the
-// SecretUpsertQueue, persisting each secret to disk storage. This function is
-// crucial for ensuring that changes to secrets are reliably stored, supporting
-// both new secrets and updates to existing ones. The operations of
-// this function is critical for maintaining the integrity and consistency
-// of secret data within the system.
+// ProcessSecretBackingStoreQueue manages a continuous loop that processes
+// secrets from the SecretUpsertQueue, persisting each secret to disk storage.
+// This function is crucial for ensuring that changes to secrets are reliably
+// stored, supporting both new secrets and updates to existing ones. The
+// operations of this function is critical for maintaining the integrity and
+// consistency of secret data within the system.
 func ProcessSecretBackingStoreQueue() {
 	errChan := make(chan error)
 
-	id := crypto.Id()
+	cid := crypto.Id()
 
 	go func() {
 		for e := range errChan {
@@ -95,6 +95,7 @@ func ProcessSecretBackingStoreQueue() {
 		// It is meant to be called inside this `processSecretQueue` goroutine.
 		io.PersistToDisk(secret, errChan)
 
-		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
+		log.TraceLn(&cid,
+			"processSecretQueue: should have persisted the secret.")
 	}
 }

@@ -12,8 +12,6 @@ package delete
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 
@@ -28,15 +26,20 @@ import (
 )
 
 // Delete handles the deletion of a secret identified by a workload ID.
-// It performs a series of checks and logging steps before carrying out the deletion.
+// It performs a series of checks and logging steps before carrying out the
+// deletion.
 //
 // Parameters:
 //   - cid: A string representing the correlation ID for the request, used for
 //     tracking and logging purposes.
-//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - w: An http.ResponseWriter object used to send responses back to the
+//     client.
 //   - r: An http.Request object containing the request details from the client.
-//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Delete(cid string, w http.ResponseWriter, r *http.Request) {
+//   - spiffeid: A string representing the SPIFFE ID of the client making the
+//     request.
+func Delete(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
 	if !crypto.RootKeySetInMemory() {
@@ -86,6 +89,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
 	defer func(b io.ReadCloser) {
 		if b == nil {
 			return
@@ -98,12 +102,11 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 
 	log.DebugLn(&cid, "Delete: Parsed request body")
 
-	fmt.Println("request body", string(body))
-
 	var sr reqres.SecretDeleteRequest
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
-		fmt.Println("error", err.Error())
+		log.DebugLn(&cid,
+			"Delete: Error unmarshalling request body", err.Error())
 
 		j.Event = event.RequestTypeMismatch
 		journal.Log(j)
@@ -114,22 +117,19 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
 		}
 
-		fmt.Println("returning from error case")
-
+		log.TraceLn(&cid, "Delete: Exiting from error case")
 		return
 	}
 
 	workloadIds := sr.WorkloadIds
 
-	fmt.Println("workloadIds", workloadIds)
-
 	if len(workloadIds) == 0 {
-		fmt.Println("empty workload ids")
+		log.TraceLn(&cid, "Delete: Empty workload ids")
 
 		j.Event = event.NoWorkloadId
 		journal.Log(j)
 
-		fmt.Println("exiting from the empty workload ids case")
+		log.TraceLn(&cid, "Delete: Exiting from empty workload ids case")
 
 		return
 	}

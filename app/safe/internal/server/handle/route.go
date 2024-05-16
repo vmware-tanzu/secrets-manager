@@ -23,7 +23,9 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func routeSentinelGetKeystone(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelGetKeystone(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -37,7 +39,9 @@ func routeSentinelGetKeystone(cid string, r *http.Request, w http.ResponseWriter
 	return false
 }
 
-func routeSentinelGetSecrets(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelGetSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -52,7 +56,9 @@ func routeSentinelGetSecrets(cid string, r *http.Request, w http.ResponseWriter)
 	return false
 }
 
-func routeSentinelGetSecretsReveal(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelGetSecretsReveal(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -64,7 +70,9 @@ func routeSentinelGetSecretsReveal(cid string, r *http.Request, w http.ResponseW
 	return false
 }
 
-func routeSentinelPostSecrets(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelPostSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -79,7 +87,9 @@ func routeSentinelPostSecrets(cid string, r *http.Request, w http.ResponseWriter
 	return false
 }
 
-func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelDeleteSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -94,7 +104,9 @@ func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWrit
 	return false
 }
 
-func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeSentinelPostKeys(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -108,7 +120,9 @@ func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter) b
 	return false
 }
 
-func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter) bool {
+func routeWorkloadGetSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -124,13 +138,18 @@ func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter)
 	return false
 }
 
-func routeWorkloadPostSecrets(cid string, r *http.Request, w http.ResponseWriter) bool {
-	log.DebugLn(&cid, "Handler:/workload/v1/secrets: will post", r.Method, r.URL.Path)
+func routeWorkloadPostSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
+	log.DebugLn(&cid,
+		"Handler:/workload/v1/secrets: will post", r.Method, r.URL.Path)
 
 	panic("routeWorkloadPostSecrets not implemented")
 }
 
-func routeFallback(cid string, r *http.Request, w http.ResponseWriter) {
+func routeFallback(
+	cid string, r *http.Request, w http.ResponseWriter,
+) {
 	log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI)
 
 	w.WriteHeader(http.StatusBadRequest)

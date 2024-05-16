@@ -12,7 +12,6 @@ package fetch
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"time"
@@ -25,6 +24,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
@@ -36,10 +36,14 @@ import (
 // Parameters:
 //   - cid: A string representing the correlation ID for the request, used for
 //     tracking and logging purposes.
-//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - w: An http.ResponseWriter object used to send responses back to the
+//     client.
 //   - r: An http.Request object containing the request details from the client.
-//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Fetch(cid string, w http.ResponseWriter, r *http.Request) {
+//   - spiffeid: A string representing the SPIFFE ID of the client making the
+//     request.
+func Fetch(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
 	if !crypto.RootKeySetInMemory() {
