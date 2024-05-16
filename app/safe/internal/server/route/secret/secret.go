@@ -11,7 +11,6 @@
 package secret
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"time"
@@ -25,6 +24,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 // Secret handles the creation, updating, and management of secrets.
@@ -33,9 +33,11 @@ import (
 // Parameters:
 //   - cid: A string representing the correlation ID for the request, used for
 //     logging and tracking purposes.
-//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - w: An http.ResponseWriter object used to send responses back to the
+//     client.
 //   - r: An http.Request object containing the details of the client's request.
-//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
+//   - spiffeid: A string representing the SPIFFE ID of the client making the
+//     request.
 func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 	spiffeid := spiffe.IdAsString(cid, r)
 	if spiffeid == "" {

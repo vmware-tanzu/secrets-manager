@@ -88,6 +88,10 @@ func Status(
 	// Only sentinel can get the status.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
+
+		j.Event = event.BadSpiffeId
+		journal.Log(j)
+
 		return
 	}
 
