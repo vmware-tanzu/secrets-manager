@@ -59,16 +59,17 @@ func EncryptValue(value string) (string, error) {
 // modern encryption.
 //
 // Parameters:
-//   - out (io.Writer): The writer interface where the encrypted data will be written.
-//     This could be a file, a network connection, or any other type that implements
-//     the io.Writer interface.
-//   - data (string): The plaintext data that needs to be encrypted. This function
-//     converts the string to a byte slice and encrypts it.
+//   - out (io.Writer): The writer interface where the encrypted data will be
+//     written. This could be a file, a network connection, or any other type
+//     that implements the io.Writer interface.
+//   - data (string): The plaintext data that needs to be encrypted. This
+//     function converts the string to a byte slice and encrypts it.
 //
 // Returns:
-//   - error: If any step in the encryption or writing process fails, an error is returned.
-//     Possible errors include issues with the public key (such as being empty or unparseable)
-//     and failures related to the encryption process or writing to the writer interface.
+//   - error: If any step in the encryption or writing process fails, an error
+//     is returned. Possible errors include issues with the public key (such as
+//     being empty or unparseable) and failures related to the encryption
+//     process or writing to the writer interface.
 func EncryptToWriterAge(out io.Writer, data string) error {
 	rkt := RootKeyCollectionFromMemory()
 	publicKey := rkt.PublicKey
@@ -79,12 +80,14 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 
 	recipient, err := age.ParseX25519Recipient(publicKey)
 	if err != nil {
-		return errors.Wrap(err, "encryptToWriterAge: failed to parse public key")
+		return errors.Wrap(err,
+			"encryptToWriterAge: failed to parse public key")
 	}
 
 	wrappedWriter, err := age.Encrypt(out, recipient)
 	if err != nil {
-		return errors.Wrap(err, "encryptToWriterAge: failed to create encrypted file")
+		return errors.Wrap(err,
+			"encryptToWriterAge: failed to create encrypted file")
 	}
 
 	defer func(w io.WriteCloser) {
@@ -100,7 +103,8 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 	}(wrappedWriter)
 
 	if _, err := io.WriteString(wrappedWriter, data); err != nil {
-		return errors.Wrap(err, "encryptToWriterAge: failed to write to encrypted file")
+		return errors.Wrap(err,
+			"encryptToWriterAge: failed to write to encrypted file")
 	}
 
 	return nil
@@ -108,22 +112,22 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 
 var lastEncryptToWriterAesCall time.Time
 
-// EncryptToWriterAes encrypts the given data string using the AES encryption standard
-// and writes the encrypted data to the specified io.Writer. This function emphasizes
-// secure encryption practices, including the management of the Initialization
-// Vector (IV) and the AES key.
+// EncryptToWriterAes encrypts the given data string using the AES encryption
+// standard and writes the encrypted data to the specified io.Writer. This
+// function emphasizes secure encryption practices, including the management
+// of the Initialization Vector (IV) and the AES key.
 //
 // Parameters:
-//   - out (io.Writer): The output writer where the encrypted data will be written.
-//     This writer can represent various types of data sinks, such as files, network
-//     connections, or in-memory buffers.
-//   - data (string): The plaintext data to be encrypted. This data is converted to
-//     a byte slice and then encrypted using AES.
+//   - out (io.Writer): The output writer where the encrypted data will be
+//     written. This writer can represent various types of data sinks, such
+//     as files, network connections, or in-memory buffers.
+//   - data (string): The plaintext data to be encrypted. This data is
+//     converted to a byte slice and then encrypted using AES.
 //
 // Returns:
-//   - error: An error is returned if any step of the encryption or writing process
-//     encounters an issue. This includes errors related to call frequency, key
-//     management, encryption initialization, and data writing.
+//   - error: An error is returned if any step of the encryption or writing
+//     process encounters an issue. This includes errors related to call
+//     frequency, key management, encryption initialization, and data writing.
 func EncryptToWriterAes(out io.Writer, data string) error {
 	rkt := RootKeyCollectionFromMemory()
 
@@ -158,7 +162,8 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 
 	block, err := aes.NewCipher(aesKeyDecoded)
 	if err != nil {
-		return errors.Wrap(err, "encryptToWriter: failed to create AES cipher block")
+		return errors.Wrap(err,
+			"encryptToWriter: failed to create AES cipher block")
 	}
 
 	totalSize := uint64(aes.BlockSize) + uint64(len(data))
@@ -180,7 +185,8 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 
 	_, err = out.Write(ciphertext)
 	if err != nil {
-		return errors.Wrap(err, "encryptToWriter: failed to write to encrypted file")
+		return errors.Wrap(err,
+			"encryptToWriter: failed to write to encrypted file")
 	}
 
 	return nil

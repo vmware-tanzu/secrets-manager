@@ -39,7 +39,7 @@ import (
 func Delete(cid string, w http.ResponseWriter, r *http.Request) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
-	if !crypto.RootKeySet() {
+	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Delete: Root key not set")
 
 		w.WriteHeader(http.StatusBadRequest)

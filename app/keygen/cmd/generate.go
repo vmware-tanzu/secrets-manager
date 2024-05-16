@@ -17,7 +17,7 @@ import (
 )
 
 func printGeneratedKeys() {
-	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
+	rkt, err := crypto.NewRootKeyCollection()
 
 	if err != nil {
 		fmt.Println("Failed to generate keys:")
@@ -26,6 +26,6 @@ func printGeneratedKeys() {
 	}
 
 	fmt.Println()
-	fmt.Println(crypto.CombineKeys(privateKey, publicKey, aesSeed))
+	fmt.Println(rkt.Combine())
 	fmt.Println()
 }

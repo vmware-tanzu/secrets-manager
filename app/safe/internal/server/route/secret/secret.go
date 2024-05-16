@@ -49,7 +49,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !crypto.RootKeySet() {
+	if !crypto.RootKeySetInMemory() {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "NOK!")
 		if err != nil {

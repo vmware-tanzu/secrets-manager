@@ -32,7 +32,7 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 ) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
-	if !crypto.RootKeySet() {
+	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Masked: Root key not set")
 
 		w.WriteHeader(http.StatusBadRequest)

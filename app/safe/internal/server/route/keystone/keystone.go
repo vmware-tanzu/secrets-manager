@@ -49,7 +49,7 @@ import (
 func Status(cid string, w http.ResponseWriter, r *http.Request) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
-	if !crypto.RootKeySet() {
+	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Status: Root key not set")
 
 		w.WriteHeader(http.StatusBadRequest)

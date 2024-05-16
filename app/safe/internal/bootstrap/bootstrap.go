@@ -216,7 +216,7 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 
 	log.InfoLn(id, "Secret has not been set yet. Will compute a secure secret.")
 
-	privateKey, publicKey, aesSeed, err := crypto.GenerateKeys()
+	privateKey, publicKey, aesSeed, err := crypto.NewRootKeyCollection()
 
 	if err != nil {
 		log.FatalLn(id, "Failed to generate keys", err.Error())
