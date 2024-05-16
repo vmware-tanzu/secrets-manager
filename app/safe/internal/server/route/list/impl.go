@@ -54,16 +54,8 @@ func doList(
 	journal.Log(j)
 
 	// Only sentinel can list.
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
-		}
-
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 

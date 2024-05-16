@@ -53,9 +53,8 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	journal.Log(j)
 
 	// Only sentinel can set keys.
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 

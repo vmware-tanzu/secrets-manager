@@ -60,15 +60,9 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "NOK!")
-		if err != nil {
-			log.ErrorLn(&cid, "error writing response", err.Error())
-		}
-
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
+	// Only sentinel can do this.
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 
