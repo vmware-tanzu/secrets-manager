@@ -19,8 +19,7 @@ import (
 )
 
 func markKeystone(ctx context.Context, cid *string) bool {
-	s := backoffStrategy()
-	err := backoff.Retry("RunInitCommands:MarkKeystone", func() error {
+	err := backoff.RetryExponential("RunInitCommands:MarkKeystone", func() error {
 		log.TraceLn(cid, "RunInitCommands:MarkKeystone: retrying with exponential backoff")
 
 		// Assign a secret for VSecM Keystone
@@ -31,7 +30,7 @@ func markKeystone(ctx context.Context, cid *string) bool {
 		})
 
 		return err
-	}, s)
+	})
 
 	if err == nil {
 		return true

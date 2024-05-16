@@ -79,9 +79,7 @@ dance:
 				continue
 			}
 
-			s := backoffStrategy()
-
-			err := backoff.Retry("RunInitCommands:ProcessCommandBlock", func() error {
+			err := backoff.RetryExponential("RunInitCommands:ProcessCommandBlock", func() error {
 				log.TraceLn(
 					cid,
 					"RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff",
@@ -97,7 +95,7 @@ dance:
 				}
 
 				return err
-			}, s)
+			})
 
 			if err != nil {
 				log.ErrorLn(

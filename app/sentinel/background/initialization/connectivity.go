@@ -26,8 +26,7 @@ import (
 func ensureApiConnectivity(ctx context.Context, cid *string) {
 	log.TraceLn(cid, "Before checking api connectivity")
 
-	s := backoffStrategy()
-	err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+	err := backoff.RetryExponential("RunInitCommands:CheckConnectivity", func() error {
 		log.TraceLn(cid, "RunInitCommands:CheckConnectivity: checking connectivity to safe")
 
 		src, acquired := spiffe.AcquireSourceForSentinel(ctx)
@@ -47,7 +46,7 @@ func ensureApiConnectivity(ctx context.Context, cid *string) {
 
 		log.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")
 		return nil
-	}, s)
+	})
 
 	if err == nil {
 		log.TraceLn(cid, "exiting backoffs")

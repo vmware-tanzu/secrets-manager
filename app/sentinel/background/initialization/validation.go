@@ -12,7 +12,7 @@ package initialization
 
 import (
 	"context"
-	
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
@@ -26,8 +26,7 @@ func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Sourc
 
 	initialized := false
 
-	s := backoffStrategy()
-	err := backoff.Retry("RunInitCommands:CheckConnectivity", func() error {
+	err := backoff.RetryExponential("RunInitCommands:CheckConnectivity", func() error {
 		i, err := safe.CheckInitialization(ctx, src)
 		if err != nil {
 			return err
@@ -36,7 +35,7 @@ func initCommandsExecutedAlready(ctx context.Context, src *workloadapi.X509Sourc
 		initialized = i
 
 		return nil
-	}, s)
+	})
 
 	if err == nil {
 		return initialized

@@ -17,10 +17,12 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/pkg/errors"
 
+	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -28,6 +30,10 @@ import (
 )
 
 var lastBackedUpIndex = make(map[string]int)
+
+// Only one thread reaches lastBackupIndex at a time;
+// but still using this lock for defensive programming.
+var lastBackupIndexLock = sync.Mutex{}
 
 func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 	data, err := json.Marshal(secret)
@@ -42,7 +48,7 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 	defer func(f io.ReadCloser) {
 		err := f.Close()
 		if err != nil {
-			id := "AEGIIOCL"
+			id := crypto.Id()
 			log.InfoLn(&id, "saveSecretToDisk: problem closing file", err.Error())
 		}
 	}(file)
@@ -54,17 +60,17 @@ func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 	return crypto.EncryptToWriterAge(file, string(data))
 }
 
-// PersistToDisk saves a given secret to disk and also creates a backup copy of the
-// secret. The function is designed to enhance data durability through retries and
-// backup management based on environmental configurations.
+// PersistToDisk saves a given secret to disk and also creates a backup copy
+// of the secret. The function is designed to enhance data durability through
+// retries and backup management based on environmental configurations.
 //
 // Parameters:
-//   - secret (entity.SecretStored): The secret to be saved, which is a structured
-//     entity containing the secret's name and possibly other metadata or the secret
-//     data itself.
+//   - secret (entity.SecretStored): The secret to be saved, which is a
+//     structured entity containing the secret's name and possibly other
+//     metadata or the secret data itself.
 //   - errChan (chan<- error): A channel through which errors are reported. This
-//     channel allows the function to operate asynchronously, notifying the caller
-//     of any issues in the process of persisting the secret.
+//     channel allows the function to operate asynchronously, notifying the
+//     caller of any issues in the process of persisting the secret.
 func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 	backupCount := env.SecretBackupCountForSafe()
 
@@ -81,11 +87,13 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 		}
 	}
 
+	lastBackupIndexLock.Lock()
 	index, found := lastBackedUpIndex[secret.Name]
 	if !found {
 		lastBackedUpIndex[secret.Name] = 0
 		index = 0
 	}
+	lastBackupIndexLock.Unlock()
 
 	newIndex := math.Mod(float64(index+1), float64(backupCount))
 
@@ -95,19 +103,18 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 		secret.Name+"-"+strconv.Itoa(int(newIndex))+"-"+".age.backup",
 	)
 
-	// TODO: use the standard backoff algo here.
-	err = saveSecretToDisk(secret, dataPath)
+	err = backoff.RetryExponential("PersistToDisk", func() error {
+		return saveSecretToDisk(secret, dataPath)
+	})
+
 	if err != nil {
-		// Retry once more.
-		time.Sleep(500 * time.Millisecond)
-		err := saveSecretToDisk(secret, dataPath)
-		if err != nil {
-			errChan <- err
-			// Do not change lastBackedUpIndex
-			// since the backup was not successful.
-			return
-		}
+		errChan <- err
+		// Do not change lastBackedUpIndex
+		// since the backup was not successful.
+		return
 	}
 
+	lastBackupIndexLock.Lock()
 	lastBackedUpIndex[secret.Name] = int(newIndex)
+	lastBackupIndexLock.Unlock()
 }
