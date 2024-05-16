@@ -12,7 +12,6 @@ package list
 
 import (
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"io"
 	"net/http"
 	"strings"
@@ -25,10 +24,11 @@ import (
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
-func doList(cid string, w http.ResponseWriter, r *http.Request,
-	encrypted bool,
+func doList(
+	cid string, w http.ResponseWriter, r *http.Request, encrypted bool,
 ) {
 	spiffeid := spiffe.IdAsString(cid, r)
 
@@ -121,7 +121,8 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			w.WriteHeader(http.StatusInternalServerError)
 			_, err := io.WriteString(w, "Masked: Problem marshalling response")
 			if err != nil {
-				log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
+				log.ErrorLn(&cid,
+					"Masked: Problem sending response", err.Error())
 			}
 			return
 		}

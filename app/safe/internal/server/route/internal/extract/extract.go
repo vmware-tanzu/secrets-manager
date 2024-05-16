@@ -24,14 +24,14 @@ import (
 // the SPIFFE ID.
 //
 // Parameters:
-//   - spiffeid (string): The SPIFFE ID string from which the workload identifier
-//     and parts are to be extracted.
+//   - spiffeid (string): The SPIFFE ID string from which the workload
+//     identifier and parts are to be extracted.
 //
 // Returns:
-//   - (string, []string): The first return value is the workload identifier, which
-//     is essentially the first part of the SPIFFE ID after removing the prefix. The
-//     second return value is a slice of strings representing all parts of the
-//     SPIFFE ID after the prefix removal.
+//   - (string, []string): The first return value is the workload identifier,
+//     which is essentially the first part of the SPIFFE ID after removing the
+//     prefix. The second return value is a slice of strings representing all
+//     parts of the SPIFFE ID after the prefix removal.
 func WorkloadIDAndParts(spiffeid string) (string, []string) {
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForWorkload(), "", 1)
 	parts := strings.Split(tmp, "/")
@@ -41,10 +41,10 @@ func WorkloadIDAndParts(spiffeid string) (string, []string) {
 	return "", nil
 }
 
-// SecretValue determines the appropriate representation of a secret's value to use,
-// giving precedence to a transformed value over the raw values. This function
-// supports both current implementations and backward compatibility by handling
-// secrets with multiple values or transformed values.
+// SecretValue determines the appropriate representation of a secret's value to
+// use, giving precedence to a transformed value over the raw values. This
+// function supports both current implementations and backward compatibility by
+// handling secrets with multiple values or transformed values.
 //
 // Parameters:
 //   - cid (string): Correlation ID for operation tracing and logging.
@@ -53,8 +53,8 @@ func WorkloadIDAndParts(spiffeid string) (string, []string) {
 //
 // Returns:
 //   - string: The selected representation of the secret's value. This could be
-//     the transformed value, a single raw value, a JSON-encoded string of multiple
-//     values, or an empty string in case of an error.
+//     the transformed value, a single raw value, a JSON-encoded string of
+//     multiple values, or an empty string in case of an error.
 func SecretValue(cid string, secret *entity.SecretStored) string {
 	if secret.ValueTransformed != "" {
 		log.TraceLn(&cid, "Fetch: using transformed value")
@@ -67,6 +67,7 @@ func SecretValue(cid string, secret *entity.SecretStored) string {
 
 	log.TraceLn(&cid, "Fetch: using raw value")
 
+	// If there is only one value, return it, instead of returning an array.
 	if len(secret.Values) == 1 {
 		return secret.Values[0]
 	}

@@ -37,8 +37,6 @@ import (
 //   - r: An http.Request object containing the details of the client's request.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the request.
 func Secret(cid string, w http.ResponseWriter, r *http.Request) {
-	// TODO: check other routes too, you should get spiffeid from IdAsString(c, r
-
 	spiffeid := spiffe.IdAsString(cid, r)
 	if spiffeid == "" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -146,7 +144,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			_, err := io.WriteString(w, "")
 			if err != nil {
-				log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+				log.InfoLn(&cid,
+					"Secret: Problem sending response", err.Error())
 			}
 
 			return
@@ -174,17 +173,19 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if expiresAfter == "never" {
-		// This is the largest time go std. lib can represent.
+		// This is the largest time go stdlib can represent.
 		// It is far enough into the future that the author does not care
 		// what happens after.
 		exp = entity.JsonTime(
-			time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+			time.Date(9999, time.December,
+				31, 23, 59, 59, 999999999, time.UTC),
 		)
 	} else {
 		expTime, err := time.Parse(time.RFC3339, expiresAfter)
 		if err != nil {
 			exp = entity.JsonTime(
-				time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+				time.Date(9999, time.December,
+					31, 23, 59, 59, 999999999, time.UTC),
 			)
 		} else {
 			exp = entity.JsonTime(expTime)

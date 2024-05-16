@@ -21,14 +21,16 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// Upsert handles the insertion or update of a secret in the application's state.
-// It supports appending values to existing secrets and logs the completion of
-// the operation. If specified, it also sends an HTTP response indicating success.
+// Upsert handles the insertion or update of a secret in the application's
+// state. It supports appending values to existing secrets and logs the
+// completion of the operation. If specified, it also sends an HTTP response
+// indicating success.
 //
 // Parameters:
-//   - secretToStore (entity.SecretStored): The secret entity to be inserted or updated.
-//   - appendValue (bool): A flag indicating whether to append the value to an existing
-//     secret (if true) or overwrite the existing secret (if false).
+//   - secretToStore (entity.SecretStored): The secret entity to be inserted or
+//     updated.
+//   - appendValue (bool): A flag indicating whether to append the value to an
+//     existing secret (if true) or overwrite the existing secret (if false).
 //   - workloadId (string): The identifier of the workload associated with the
 //     secret operation, used for logging purposes.
 //   - cid (string): Correlation ID for operation tracing and logging.
