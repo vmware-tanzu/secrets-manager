@@ -13,7 +13,6 @@ package io
 import (
 	"context"
 	"strings"
-	"time"
 
 	"github.com/pkg/errors"
 	apiV1 "k8s.io/api/core/v1"
@@ -28,28 +27,22 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// saveSecretToKubernetes saves a given SecretStored entity to a Kubernetes cluster.
-// It handles the process of configuring a Kubernetes client, determining the
-// appropriate  secret name, and either creating or updating the secret in the
-// specified namespace.
+// saveSecretToKubernetes saves a given SecretStored entity to a Kubernetes
+// cluster. It handles the process of configuring a Kubernetes client,
+// determining the appropriate  secret name, and either creating or updating the
+// secret in the specified namespace.
 //
 // The secret data is prepared by converting the input secret entity into a
 // map suitable for Kubernetes. The namespace for the secret is extracted from
 // the secret's metadata.
 //
 // Parameters:
-// - secret: An entity.SecretStored object containing the secret data to be stored.
+//   - secret: An entity.SecretStored object containing the secret data to be
+//     stored.
 //
 // Returns:
-//   - error: An error object that will be non-nil if an error occurs at any step of
-//     the process.
-//
-// Example:
-// err := saveSecretToKubernetes(mySecret)
-//
-//	if err != nil {
-//	    log.Fatalf("Failed to save secret: %v", err)
-//	}
+//   - error: An error object that will be non-nil if an error occurs at any
+//     step of the process.
 //
 // Note: This function assumes it is running within a Kubernetes cluster as it
 // uses InClusterConfig to generate the Kubernetes client configuration.
@@ -168,18 +161,19 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 const initialSecretValue = `{"empty":true}`
 
-// PersistToK8s attempts to save a provided secret entity into a Kubernetes (K8s)
-// cluster. The function is structured to handle potential errors through retries
-// and communicates any persistent issues back to the caller via an error channel.
-// It employs logging for traceability of the operation's progress and outcomes.
+// PersistToK8s attempts to save a provided secret entity into a Kubernetes
+// cluster. The function is structured to handle potential errors through
+// retries and communicates any persistent issues back to the caller via an
+// error channel. It employs logging for traceability of the operation's
+// progress and outcomes.
 //
 // Parameters:
 //   - secret (entity.SecretStored): A structured entity containing the secret's
-//     metadata and values to be persisted. The metadata includes a CorrelationId
-//     for tracing the operation.
+//     metadata and values to be persisted. The metadata includes a
+//     CorrelationId for tracing the operation.
 //   - errChan (chan<- error): A channel through which errors are reported. This
-//     channel allows the function to notify the caller of any failures in persisting
-//     the secret, enabling asynchronous error handling.
+//     channel allows the function to notify the caller of any failures in
+//     persisting the secret, enabling asynchronous error handling.
 func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 	cid := secret.Meta.CorrelationId
 
@@ -198,20 +192,14 @@ func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 		secret.Values[0] = initialSecretValue
 	}
 
-	// TODO: use the same backoff algorithm.
 	log.TraceLn(&cid, "persistK8s: Will try saving secret to k8s.")
-	err := saveSecretToKubernetes(secret)
-	log.TraceLn(&cid, "persistK8s: should have saved secret to k8s.")
+	err := backoff.RetryExponential("PersistToK8s", func() error {
+		return saveSecretToKubernetes(secret)
+	})
+
 	if err != nil {
-		log.TraceLn(&cid, "persistK8s: Got error while trying to save, will retry.")
-		// Retry once more.
-		time.Sleep(500 * time.Millisecond)
-		log.TraceLn(&cid, "persistK8s: Retrying saving secret to k8s.")
-		err := saveSecretToKubernetes(secret)
-		log.TraceLn(&cid, "persistK8s: Should have saved secret.")
-		if err != nil {
-			log.TraceLn(&cid, "persistK8s: still error, pushing the error to errChan")
-			errChan <- err
-		}
+		log.TraceLn(
+			&cid, "persistK8s: still error, pushing the error to errChan")
+		errChan <- err
 	}
 }

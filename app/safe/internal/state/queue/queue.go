@@ -21,5 +21,5 @@ import (
 func Initialize() {
 	go insertion.ProcessSecretBackingStoreQueue()
 	go insertion.ProcessK8sPrefixedSecretQueue()
-	go deletion.ProcessSecretQueue()
+	go deletion.ProcessSecretBackingStoreQueue()
 }
