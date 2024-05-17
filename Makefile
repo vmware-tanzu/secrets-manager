@@ -12,7 +12,7 @@
 ifdef VSECM_VERSION
 	VERSION := $(VSECM_VERSION)
 else
-	VERSION := 0.25.3
+	VERSION := 0.25.4
 endif
 
 # Set deploySpire to false, if you want to use existing spire deployment
