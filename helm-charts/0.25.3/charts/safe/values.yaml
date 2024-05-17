@@ -69,7 +69,7 @@ environments:
     value: "10"
   - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
     value: "10000"
-  - name: VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX
+  - name: VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
     value: "k8s:"
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"

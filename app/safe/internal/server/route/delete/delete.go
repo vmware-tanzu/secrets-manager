@@ -23,20 +23,35 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 // Delete handles the deletion of a secret identified by a workload ID.
-// It performs a series of checks and logging steps before carrying out the deletion.
+// It performs a series of checks and logging steps before carrying out the
+// deletion.
 //
 // Parameters:
 //   - cid: A string representing the correlation ID for the request, used for
 //     tracking and logging purposes.
-//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - w: An http.ResponseWriter object used to send responses back to the
+//     client.
 //   - r: An http.Request object containing the request details from the client.
-//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !crypto.RootKeySet() {
+//   - spiffeid: A string representing the SPIFFE ID of the client making the
+//     request.
+func Delete(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
+	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Delete: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
+		}
+
 		return
 	}
 
@@ -48,9 +63,9 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		Event:         event.Enter,
 	}
 
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
+	// Only sentinel can execute delete requests.
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 
@@ -68,6 +83,7 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		}
 		return
 	}
+
 	defer func(b io.ReadCloser) {
 		if b == nil {
 			return
@@ -80,12 +96,11 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	log.DebugLn(&cid, "Delete: Parsed request body")
 
-	println("request body", string(body))
-
 	var sr reqres.SecretDeleteRequest
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
-		println("error", err.Error())
+		log.DebugLn(&cid,
+			"Delete: Error unmarshalling request body", err.Error())
 
 		j.Event = event.RequestTypeMismatch
 		journal.Log(j)
@@ -96,22 +111,19 @@ func Delete(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			log.InfoLn(&cid, "Delete: Problem sending response", err.Error())
 		}
 
-		println("returning from error case")
-
+		log.TraceLn(&cid, "Delete: Exiting from error case")
 		return
 	}
 
 	workloadIds := sr.WorkloadIds
 
-	println("workloadIds", workloadIds)
-
 	if len(workloadIds) == 0 {
-		println("empty workload ids")
+		log.TraceLn(&cid, "Delete: Empty workload ids")
 
 		j.Event = event.NoWorkloadId
 		journal.Log(j)
 
-		println("exiting from the empty workload ids case")
+		log.TraceLn(&cid, "Delete: Exiting from empty workload ids case")
 
 		return
 	}

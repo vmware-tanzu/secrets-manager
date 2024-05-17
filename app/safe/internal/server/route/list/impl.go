@@ -24,13 +24,23 @@ import (
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
-func doList(cid string, w http.ResponseWriter, r *http.Request,
-	spiffeid string, encrypted bool,
+func doList(
+	cid string, w http.ResponseWriter, r *http.Request, encrypted bool,
 ) {
-	if !crypto.RootKeySet() {
+	spiffeid := spiffe.IdAsString(cid, r)
+
+	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Masked: Root key not set")
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
+		}
+
 		return
 	}
 
@@ -44,9 +54,8 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 	journal.Log(j)
 
 	// Only sentinel can list.
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 
@@ -104,7 +113,8 @@ func doList(cid string, w http.ResponseWriter, r *http.Request,
 			w.WriteHeader(http.StatusInternalServerError)
 			_, err := io.WriteString(w, "Masked: Problem marshalling response")
 			if err != nil {
-				log.ErrorLn(&cid, "Masked: Problem sending response", err.Error())
+				log.ErrorLn(&cid,
+					"Masked: Problem sending response", err.Error())
 			}
 			return
 		}

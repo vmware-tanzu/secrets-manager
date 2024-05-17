@@ -21,7 +21,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-func secrets() entity.SecretStringTimeListResponse {
+func secrets() entity.SecretEncryptedListResponse {
 	p := env.ExportedSecretPathForKeyGen()
 
 	content, err := os.ReadFile(p)
@@ -29,7 +29,7 @@ func secrets() entity.SecretStringTimeListResponse {
 		log.Fatalf("Error reading file: %v", err)
 	}
 
-	var secrets entity.SecretStringTimeListResponse
+	var secrets entity.SecretEncryptedListResponse
 
 	err = json.Unmarshal(content, &secrets)
 	if err != nil {
@@ -44,24 +44,24 @@ func printDecryptedKeys() {
 
 	algorithm := ss.Algorithm
 
-	println("Algorithm:", algorithm)
-	println("---")
+	fmt.Println("Algorithm:", algorithm)
+	fmt.Println("---")
 	for _, secret := range ss.Secrets {
-		println("Name:", secret.Name)
+		fmt.Println("Name:", secret.Name)
 
 		values := secret.EncryptedValue
 
 		for i, v := range values {
 			dv, err := crypto.Decrypt([]byte(v), algorithm)
 			if err != nil {
-				println("Error decrypting value:", err.Error())
+				fmt.Println("Error decrypting value:", err.Error())
 				continue
 			}
 			fmt.Printf("Value[%d]: %s\n", i, dv)
 		}
 
-		println("Created:", secret.Created)
-		println("Updated:", secret.Updated)
-		println("---")
+		fmt.Println("Created:", secret.Created.String())
+		fmt.Println("Updated:", secret.Updated.String())
+		fmt.Println("---")
 	}
 }

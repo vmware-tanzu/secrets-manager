@@ -11,6 +11,7 @@
 package eval
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -21,8 +22,8 @@ import (
 )
 
 func SecretRegistrationYAMLFormatSidecar() error {
-	println("----")
-	println("🧪     Testing Secret registration (YAML transformation)...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing Secret registration (YAML transformation)...")
 
 	value := `{"username": "*root*", "password": "*CasHC0w*"}`
 	transform := `{"USERNAME":"{{.username}}", "PASSWORD":"{{.password}}"}`
@@ -53,7 +54,7 @@ USERNAME: '*root*'
 		return errors.Wrap(err, "deleteSecret failed")
 	}
 
-	println("🟢   PASS: Secret registration (YAML transformation sidecar) successful")
-	println("----")
+	fmt.Println("🟢   PASS: Secret registration (YAML transformation sidecar) successful")
+	fmt.Println("----")
 	return nil
 }

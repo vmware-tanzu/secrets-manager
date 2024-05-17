@@ -22,33 +22,43 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 // Keys processes a request to set root cryptographic keys within the application,
-// validating the SPIFFE ID of the requester and the payload structure before proceeding.
-// This function is pivotal in scenarios where updating the application's cryptographic
-// foundation is required, often performed by a trusted sentinel entity.
+// validating the SPIFFE ID of the requester and the payload structure before
+// proceeding.
 //
-// The returned keys need to be protected and kept secret, as they are the foundation
-// for the cryptographic operations within the application. The keys are used to encrypt
-// and decrypt secrets, and to sign and verify the integrity of the data.
+// This function is pivotal in scenarios where updating the application's
+// cryptographic foundation is required, often performed by a trusted
+// VSecM Sentinel entity.
+//
+// The returned keys need to be protected and kept secret, as they are the
+// foundation for the cryptographic operations within the application. The keys
+// are used to encrypt and decrypt secrets, and to sign and verify the integrity
+// of the data.
 //
 // Parameters:
 //   - cid (string): Correlation ID for operation tracing and logging.
-//   - w (http.ResponseWriter): The HTTP response writer to send back responses or
-//     errors.
+//   - w (http.ResponseWriter): The HTTP response writer to send back responses
+//     or errors.
 //   - r (*http.Request): The incoming HTTP request containing the payload.
 //   - spiffeid (string): The SPIFFE ID associated with the requester, used for
 //     authorization validation.
-func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
+func Keys(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
+	// Only sentinel can set keys.
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
+
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
+
 		return
 	}
 
@@ -81,12 +91,16 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
 	}
 
 	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
-	crypto.SetRootKey(keysCombined)
+	crypto.SetRootKeyInMemory(keysCombined)
 
-	if env.ManualRootKeyUpdatesK8sSecret() {
-		if err := bootstrap.PersistKeys(agePrivateKey, agePublicKey, aesCipherKey); err != nil {
-			log.ErrorLn(&cid, "Keys: Problem persisting keys", err.Error())
-		}
+	if err := bootstrap.PersistRootKeysToRootKeyBackingStore(
+		crypto.RootKeyCollection{
+			PrivateKey: agePrivateKey,
+			PublicKey:  agePublicKey,
+			AesSeed:    aesCipherKey,
+		},
+	); err != nil {
+		log.ErrorLn(&cid, "Keys: Problem persisting keys", err.Error())
 	}
 
 	log.DebugLn(&cid, "Keys: before response")

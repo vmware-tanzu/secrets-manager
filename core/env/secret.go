@@ -33,7 +33,7 @@ func SecretGenerationPrefix() string {
 // as a Kubernetes secret.
 //
 // It fetches the value of the environment variable
-// VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX.
+// VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX.
 // If this environment variable is not set or is empty, it defaults to "k8s:".
 //
 // This way, you can use VSecM to generate Kubernetes Secrets instead of
@@ -46,7 +46,7 @@ func SecretGenerationPrefix() string {
 //   - A string representing the prefix for Kubernetes secrets.
 //     The default value is "k8s:" if the environment variable is not set or empty.
 func StoreWorkloadAsK8sSecretPrefix() string {
-	p := os.Getenv("VSECM_SAFE_STORE_WORKLOAD_AS_K8S_SECRET_PREFIX")
+	p := os.Getenv("VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX")
 	if p == "" {
 		return "k8s:"
 	}

@@ -11,9 +11,11 @@
 package level
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"fmt"
 	"os"
 	"testing"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func TestLogLevel(t *testing.T) {
@@ -86,7 +88,7 @@ func TestLogLevel(t *testing.T) {
 			}()
 
 			if got := Get(); int(got) != tt.want {
-				println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
+				fmt.Println("Get env", os.Getenv("VSECM_LOG_LEVEL"))
 			}
 		})
 	}

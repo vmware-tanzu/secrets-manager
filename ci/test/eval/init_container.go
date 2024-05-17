@@ -11,6 +11,7 @@
 package eval
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -22,8 +23,8 @@ import (
 )
 
 func InitContainer() error {
-	println("----")
-	println("🧪     Testing: Init Container...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing: Init Container...")
 
 	if err := deploy.WorkloadUsingInitContainer(); err != nil {
 		return errors.Wrap(err, "deployWorkloadUsingInitContainer failed")
@@ -54,7 +55,7 @@ func InitContainer() error {
 		return errors.Wrap(err, "assertWorkloadIsRunning failed")
 	}
 
-	println("🟢   PASS: Init Container test passed.")
-	println("----")
+	fmt.Println("🟢   PASS: Init Container test passed.")
+	fmt.Println("----")
 	return nil
 }

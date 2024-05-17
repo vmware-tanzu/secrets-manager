@@ -25,6 +25,7 @@ import (
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 // Status handles HTTP requests to determine the current status of
@@ -35,21 +36,16 @@ import (
 //
 // Parameters:
 //   - cid: A unique identifier for the correlation of logs and audit entries.
-//   - w: The http.ResponseWriter object through which HTTP responses are written.
-//   - r: The http.Request received from the client. This contains all the details
-//     about the request made by the client.
+//   - w: The http.ResponseWriter object through which HTTP responses are
+//     written.
+//   - r: The http.Request received from the client. This contains all the
+//     details about the request made by the client.
 //   - spiffeid: The SPIFFE ID of the entity making the request, used for
 //     authentication and logging.
-//
-// Note:
-//   - This function is designed to be called by VSecM Sentinel (a trusted entity).
-//   - Proper SPIFFE ID format and keystone initialization are crucial for the
-//     correct execution of this function.
-func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !crypto.RootKeySet() {
-		log.InfoLn(&cid, "Status: Root key not set")
-		return
-	}
+func Status(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
+	spiffeid := spiffe.IdAsString(cid, r)
 
 	j := journal.Entry{
 		CorrelationId: cid,
@@ -61,10 +57,41 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	journal.Log(j)
 
-	// Only sentinel can get the status.
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
+	if spiffeid == "" {
+		log.InfoLn(&cid, "Status: Bad SPIFFE ID")
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.ErrorLn(&cid, "Status: Problem sending response", err.Error())
+		}
+
 		j.Event = event.BadSpiffeId
 		journal.Log(j)
+
+		return
+	}
+
+	if !crypto.RootKeySetInMemory() {
+		log.InfoLn(&cid, "Status: Root key not set")
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.ErrorLn(&cid, "Status: Problem sending response", err.Error())
+		}
+
+		j.Event = event.RootKeyNotSet
+		journal.Log(j)
+
+		return
+	}
+
+	// Only sentinel can get the status.
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
+
+		j.Event = event.BadSpiffeId
+		journal.Log(j)
+
 		return
 	}
 
@@ -95,9 +122,7 @@ func Status(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 		return
 	}
 
-	initialized := collection.KeystoneInitialized(cid)
-
-	if initialized {
+	if collection.KeystoneInitialized(cid) {
 		log.TraceLn(&cid, "Status: keystone initialized")
 
 		res := reqres.KeystoneStatusResponse{

@@ -12,12 +12,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry" // <- SDK
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/sdk/sentry" // <- SDK
 )
 
 func main() {
@@ -28,7 +29,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			println(e)
+			fmt.Println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -38,14 +39,14 @@ func main() {
 		d, err := sentry.Fetch()
 
 		if err != nil {
-			println("Failed to read the secrets file. Will retry in 5 seconds...")
-			println(err.Error())
+			fmt.Println("Failed to read the secrets file. Will retry in 5 seconds...")
+			fmt.Println(err.Error())
 			time.Sleep(5 * time.Second)
 			continue
 		}
 
 		if d.Data == "" {
-			println("no secret yet... will check again later.")
+			fmt.Println("no secret yet... will check again later.")
 			time.Sleep(5 * time.Second)
 			continue
 		}

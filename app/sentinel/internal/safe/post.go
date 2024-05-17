@@ -105,7 +105,8 @@ func Post(parentContext context.Context,
 
 			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
-				return errors.New("Post: I am having problem generating VSecM Safe secrets api endpoint URL.")
+				return errors.New("Post: I am having problem" +
+					" generating VSecM Safe secrets api endpoint URL.")
 			}
 
 			tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -123,7 +124,8 @@ func Post(parentContext context.Context,
 			sr := newRootKeyUpdateRequest(parts[0], parts[1], parts[2])
 			md, err := json.Marshal(sr)
 			if err != nil {
-				return errors.Wrap(err, "Post: I am having problem generating the payload.")
+				return errors.Wrap(err,
+					"Post: I am having problem generating the payload.")
 			}
 
 			return doPost(cid, client, p, md)
@@ -148,7 +150,8 @@ func Post(parentContext context.Context,
 		if err != nil {
 			return errors.Wrap(
 				err,
-				"Post: I am having problem generating VSecM Safe secrets api endpoint URL.",
+				"Post: I am having problem "+
+					"generating VSecM Safe secrets api endpoint URL.",
 			)
 		}
 
@@ -165,7 +168,8 @@ func Post(parentContext context.Context,
 
 		md, err := json.Marshal(sr)
 		if err != nil {
-			return errors.Wrap(err, "Post: I am having problem generating the payload.")
+			return errors.Wrap(err,
+				"Post: I am having problem generating the payload.")
 		}
 
 		if sc.DeleteSecret {

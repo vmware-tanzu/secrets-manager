@@ -21,8 +21,10 @@ import (
 // - w: An http.ResponseWriter used to write the HTTP response.
 // - r: A pointer to an http.Request representing the received HTTP request.
 // - spiffeid: spiffe id of the caller.
-func Masked(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	doList(cid, w, r, spiffeid, false)
+func Masked(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
+	doList(cid, w, r, false)
 }
 
 // Encrypted returns all registered workloads to the system. Similar to `Masked`
@@ -33,6 +35,8 @@ func Masked(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 // - w: An http.ResponseWriter used to write the HTTP response.
 // - r: A pointer to an http.Request representing the received HTTP request.
 // - spiffeid: spiffe id of the caller.
-func Encrypted(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	doList(cid, w, r, spiffeid, true)
+func Encrypted(
+	cid string, w http.ResponseWriter, r *http.Request,
+) {
+	doList(cid, w, r, true)
 }

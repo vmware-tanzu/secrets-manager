@@ -34,6 +34,17 @@ func InitCommandPathForSentinel() string {
 	return p
 }
 
+// InitCommandRunnerWaitBeforeExecIntervalForSentinel retrieves the interval
+// to wait before executing an init command stanza of Sentinel. The interval is
+// determined by the environment variable
+// "VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC", which is expected to contain
+// an integer value representing the wait time in milliseconds.
+// If the environment variable is not set or cannot be parsed, it defaults to
+// zero milliseconds.
+//
+// Returns:
+//
+//	time.Duration: The wait interval in milliseconds before executing an init command.
 func InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration {
 	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
 	if p == "" {
@@ -46,6 +57,18 @@ func InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
+// InitCommandRunnerWaitIntervalBeforeInitComplete retrieves the interval
+// to wait after the init command stanza of Sentinel has been completed. The
+// interval is determined by the environment variable
+// "VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE",
+// which is expected to contain an integer value representing the wait time
+// in milliseconds. If the environment variable is not set or cannot be parsed,
+// it defaults to zero milliseconds.
+//
+// Returns:
+//
+//	time.Duration: The wait interval in milliseconds after initialization is
+//	complete.
 func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
 	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE")
 	if p == "" {
@@ -58,25 +81,16 @@ func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// OIDCProviderBaseUrlForSentinel returns the prefix to be used for the names of secrets that
-// VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
-// cluster as Kubernetes `Secret` objects.
-//
-// The prefix is retrieved using the "VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL"
-// environment variable. If this variable is not set or is empty, the default
-// value "" is returned.
+// OIDCProviderBaseUrlForSentinel returns the url to be used for the
+// OIDC provider base URL for VSecM	Sentinel. This url is used when
+// VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER is set to "true".
 func OIDCProviderBaseUrlForSentinel() string {
 	p := os.Getenv("VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL")
 	return p
 }
 
-// SentinelEnableOIDCResourceServer returns the prefix to be used for the names of secrets that
-// VSecM Safe stores, when it is configured to persist the secret in the Kubernetes
-// cluster as Kubernetes `Secret` objects.
-//
-// The prefix is retrieved using the "VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER"
-// environment variable. If this variable is not set or is empty, the default
-// value "FALSE" is returned.
+// SentinelEnableOIDCResourceServer is a flag that enables the OIDC resource
+// server functionality in VSecM Sentinel.
 func SentinelEnableOIDCResourceServer() bool {
 	p := os.Getenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
 	if p == "" {

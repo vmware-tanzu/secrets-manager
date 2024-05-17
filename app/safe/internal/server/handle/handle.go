@@ -17,15 +17,17 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-// InitializeRoutes initializes the HTTP routes for the web server. It sets up an
-// HTTP handler function for the root URL ("/"). The handler uses the given
+// InitializeRoutes initializes the HTTP routes for the web server. It sets up
+// an HTTP handler function for the root URL ("/"). The handler uses the given
 // X509Source to retrieve X.509 SVIDs for validating incoming connections.
 //
 // Parameters:
-//   - source: A pointer to a `workloadapi.X509Source`, used to obtain X.509 SVIDs.
+//   - source: A pointer to a `workloadapi.X509Source`, used to obtain X.509
+//     SVIDs.
 //
 // Note: The InitializeRoutes function should be called only once, usually
 // during server initialization.
@@ -35,46 +37,47 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 
 		validation.EnsureSafe(source)
 
-		id, err := spiffeIdFromRequest(r)
+		id, err := spiffe.IdFromRequest(r)
 
 		if err != nil {
 			log.WarnLn(&cid, "Handler: blocking insecure svid", id, err)
 			return
 		}
 
-		sid := id.String()
+		sid := spiffe.IdAsString(cid, r)
+
 		p := r.URL.Path
 		m := r.Method
 		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", m)
 
 		switch {
-		case routeSentinelGetKeystone(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:001")
+		case routeSentinelGetKeystone(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:001")
 			return
-		case routeSentinelGetSecrets(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:002")
+		case routeSentinelGetSecrets(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:002")
 			return
-		case routeSentinelGetSecretsReveal(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:003")
+		case routeSentinelGetSecretsReveal(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:003")
 			return
-		case routeSentinelPostSecrets(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:004")
+		case routeSentinelPostSecrets(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:004")
 			return
-		case routeSentinelDeleteSecrets(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:005")
+		case routeSentinelDeleteSecrets(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:005")
 			return
-		case routeSentinelPostKeys(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:006")
+		case routeSentinelPostKeys(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:006")
 			return
-		case routeWorkloadGetSecrets(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:007")
+		case routeWorkloadGetSecrets(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:007")
 			return
-		case routeWorkloadPostSecrets(cid, r, w, sid):
-			log.TraceLn(&cid, "Handler:008")
+		case routeWorkloadPostSecrets(cid, r, w):
+			log.TraceLn(&cid, "InitializeRoutes:Handler:008")
 			return
 		}
 
-		log.TraceLn(&cid, "Handler:009")
-		routeFallback(cid, r, w, sid)
+		log.TraceLn(&cid, "InitializeRoutes:Handler:009")
+		routeFallback(cid, r, w)
 	})
 }

@@ -18,6 +18,7 @@ var (
 	Raw  SecretFormat = "raw"
 )
 
+// Secret represents the secret that is safe to view.
 type Secret struct {
 	Name         string   `json:"name"`
 	Created      JsonTime `json:"created"`
@@ -26,6 +27,8 @@ type Secret struct {
 	ExpiresAfter JsonTime `json:"expiresAfter"`
 }
 
+// SecretEncrypted represents the secret with an encrypted value.
+// It is still safe to view since the value of it is encrypted.
 type SecretEncrypted struct {
 	Name           string   `json:"name"`
 	EncryptedValue []string `json:"value"`
@@ -35,15 +38,9 @@ type SecretEncrypted struct {
 	ExpiresAfter   JsonTime `json:"expiresAfter"`
 }
 
-type SecretStringTime struct {
-	Name           string   `json:"name"`
-	EncryptedValue []string `json:"value"`
-	Created        string   `json:"created"`
-	Updated        string   `json:"updated"`
-	NotBefore      JsonTime `json:"notBefore"`
-	ExpiresAfter   JsonTime `json:"expiresAfter"`
-}
-
+// SecretMeta represents the metadata of the secret that is not
+// directly relevant to the secret itself but provides additional
+// context for VSecM Safe's internal operations.
 type SecretMeta struct {
 	// Defaults to "default"
 	Namespaces []string `json:"namespaces"`

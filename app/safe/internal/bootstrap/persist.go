@@ -21,13 +21,24 @@ import (
 	"k8s.io/client-go/rest"
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-const rootKeyField = "KEY_TXT"
-
-func PersistKeys(privateKey, publicKey, aesSeed string) error {
+// PersistRootKeysToRootKeyBackingStore persists the root keys to the
+// configured backing store. This is useful to restore VSecM Safe back to
+// operation if it crashes or gets temporarily evicted by the scheduler.
+//
+// If the persist operation succeed, it updates the root keys stored in the
+// memory too.
+//
+// This function is typically called during the first bootstrapping of
+// VSecM Safe when there are no keys that have been registered yet.
+//
+// Note that changing the root key without backing up the existing one means
+// the secrets backed up with the old key will be impossible to decrypt.
+func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Wrap(err, "Error creating client config")
@@ -39,8 +50,8 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 	}
 
 	data := make(map[string][]byte)
-	keysCombined := crypto.CombineKeys(privateKey, publicKey, aesSeed)
-	data[rootKeyField] = ([]byte)(keysCombined)
+	keysCombined := rkt.Combine()
+	data[string(constants.RootKeyText)] = ([]byte)(keysCombined)
 
 	// Serialize the Secret's configuration to JSON
 	secretConfigJSON, err := json.Marshal(v1.Secret{
@@ -62,7 +73,8 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 	err = backoff.RetryFixed(
 		env.NamespaceForVSecMSystem(),
 		func() error {
-			_, err = k8sApi.CoreV1().Secrets(env.NamespaceForVSecMSystem()).Update(
+			_, err = k8sApi.CoreV1().Secrets(
+				env.NamespaceForVSecMSystem()).Update(
 				context.Background(),
 				&v1.Secret{
 					TypeMeta: metaV1.TypeMeta{
@@ -88,11 +100,12 @@ func PersistKeys(privateKey, publicKey, aesSeed string) error {
 			return err
 		},
 	)
+
 	if err != nil {
 		return errors.Wrap(err, "Error creating the secret")
 	}
 
-	crypto.SetRootKey(keysCombined)
+	crypto.SetRootKeyInMemory(keysCombined)
 
 	return nil
 }

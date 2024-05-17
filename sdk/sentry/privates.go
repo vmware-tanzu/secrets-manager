@@ -12,9 +12,11 @@ package sentry
 
 import (
 	"bufio"
-	"github.com/pkg/errors"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"os"
+
+	"github.com/pkg/errors"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func saveData(data string) error {

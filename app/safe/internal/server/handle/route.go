@@ -23,7 +23,9 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func routeSentinelGetKeystone(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelGetKeystone(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -31,13 +33,15 @@ func routeSentinelGetKeystone(cid string, r *http.Request, w http.ResponseWriter
 	// Either "initialized", or "pending"
 	if m == http.MethodGet && p == "/sentinel/v1/keystone" {
 		log.DebugLn(&cid, "Handler: will keystone")
-		routeKeystone.Status(cid, w, r, sid)
+		routeKeystone.Status(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeSentinelGetSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelGetSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -46,25 +50,29 @@ func routeSentinelGetSecrets(cid string, r *http.Request, w http.ResponseWriter,
 	// Calling it from anywhere else will error out.
 	if m == http.MethodGet && p == "/sentinel/v1/secrets" {
 		log.DebugLn(&cid, "Handler: will list")
-		routeList.Masked(cid, w, r, sid)
+		routeList.Masked(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeSentinelGetSecretsReveal(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelGetSecretsReveal(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
 	if m == http.MethodGet && p == "/sentinel/v1/secrets?reveal=true" {
 		log.DebugLn(&cid, "Handler: will list encrypted secrets")
-		routeList.Encrypted(cid, w, r, sid)
+		routeList.Encrypted(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeSentinelPostSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelPostSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -73,13 +81,15 @@ func routeSentinelPostSecrets(cid string, r *http.Request, w http.ResponseWriter
 	// Calling it from anywhere else will error out.
 	if m == http.MethodPost && p == "/sentinel/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
-		routeSecret.Secret(cid, w, r, sid)
+		routeSecret.Secret(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelDeleteSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -88,13 +98,15 @@ func routeSentinelDeleteSecrets(cid string, r *http.Request, w http.ResponseWrit
 	// Calling it from anywhere else will error out.
 	if m == http.MethodDelete && p == "/sentinel/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will delete")
-		routeDelete.Delete(cid, w, r, sid)
+		routeDelete.Delete(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeSentinelPostKeys(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -102,13 +114,15 @@ func routeSentinelPostKeys(cid string, r *http.Request, w http.ResponseWriter, s
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	if m == http.MethodPost && p == "/sentinel/v1/keys" {
 		log.DebugLn(&cid, "Handler: will receive keys")
-		routeReceive.Keys(cid, w, r, sid)
+		routeReceive.Keys(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
+func routeWorkloadGetSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
 	p := r.URL.Path
 	m := r.Method
 
@@ -118,20 +132,25 @@ func routeWorkloadGetSecrets(cid string, r *http.Request, w http.ResponseWriter,
 	// error out.
 	if m == http.MethodGet && p == "/workload/v1/secrets" {
 		log.DebugLn(&cid, "Handler:/workload/v1/secrets: will fetch")
-		routeFetch.Fetch(cid, w, r, sid)
+		routeFetch.Fetch(cid, w, r)
 		return true
 	}
 	return false
 }
 
-func routeWorkloadPostSecrets(cid string, r *http.Request, w http.ResponseWriter, sid string) bool {
-	log.DebugLn(&cid, "Handler:/workload/v1/secrets: will post", r.Method, r.URL.Path, sid, w)
+func routeWorkloadPostSecrets(
+	cid string, r *http.Request, w http.ResponseWriter,
+) bool {
+	log.DebugLn(&cid,
+		"Handler:/workload/v1/secrets: will post", r.Method, r.URL.Path)
 
 	panic("routeWorkloadPostSecrets not implemented")
 }
 
-func routeFallback(cid string, r *http.Request, w http.ResponseWriter, sid string) {
-	log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI, sid)
+func routeFallback(
+	cid string, r *http.Request, w http.ResponseWriter,
+) {
+	log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI)
 
 	w.WriteHeader(http.StatusBadRequest)
 	_, err := io.WriteString(w, "")

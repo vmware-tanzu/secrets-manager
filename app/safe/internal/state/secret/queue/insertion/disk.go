@@ -28,22 +28,22 @@ var SecretUpsertQueue = make(
 	env.SecretBufferSizeForSafe(),
 )
 
-// ProcessSecretQueue manages a continuous loop that processes secrets from the
-// SecretUpsertQueue, persisting each secret to disk storage. This function is
-// crucial for ensuring that changes to secrets are reliably stored, supporting
-// both new secrets and updates to existing ones. The operations of
-// this function is critical for maintaining the integrity and consistency
-// of secret data within the system.
-func ProcessSecretQueue() {
+// ProcessSecretBackingStoreQueue manages a continuous loop that processes
+// secrets from the SecretUpsertQueue, persisting each secret to disk storage.
+// This function is crucial for ensuring that changes to secrets are reliably
+// stored, supporting both new secrets and updates to existing ones. The
+// operations of this function is critical for maintaining the integrity and
+// consistency of secret data within the system.
+func ProcessSecretBackingStoreQueue() {
 	errChan := make(chan error)
 
-	id := crypto.Id()
+	cid := crypto.Id()
 
 	go func() {
 		for e := range errChan {
 			// If the `persist` operation spews out an error, log it.
 			log.ErrorLn(
-				&id, "processSecretQueue: error persisting secret:", e.Error(),
+				&cid, "processSecretQueue: error persisting secret:", e.Error(),
 			)
 		}
 	}()
@@ -52,10 +52,27 @@ func ProcessSecretQueue() {
 		// Buffer overflow check.
 		if len(SecretUpsertQueue) == env.SecretBufferSizeForSafe() {
 			log.ErrorLn(
-				&id,
+				&cid,
 				"processSecretQueue: there are too many k8s secrets queued. "+
 					"The goroutine will BLOCK until the queue is cleared.",
 			)
+		}
+
+		store := env.BackingStoreForSafe()
+		switch store {
+		case entity.Memory:
+			log.TraceLn(&cid, "ProcessSecretQueue: using in-memory store.")
+			return
+		case entity.File:
+			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to disk.")
+		case entity.Kubernetes:
+			panic("implement kubernetes store")
+		case entity.AwsSecretStore:
+			panic("implement aws secret store")
+		case entity.AzureSecretStore:
+			panic("implement azure secret store")
+		case entity.GcpSecretStore:
+			panic("implement gcp secret store")
 		}
 
 		// Get a secret to be persisted to the disk.
@@ -69,11 +86,6 @@ func ProcessSecretQueue() {
 			len(SecretUpsertQueue),
 		)
 
-		// TODO: switch based on persistence mode (configurable from env)
-		// if mode file; persist to disc
-		// any other mode shall panic for now
-		// if mode is memory then no persistence at all
-
 		// Persist the secret to disk.
 		//
 		// Each secret is persisted one at a time, with the order they
@@ -83,6 +95,7 @@ func ProcessSecretQueue() {
 		// It is meant to be called inside this `processSecretQueue` goroutine.
 		io.PersistToDisk(secret, errChan)
 
-		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
+		log.TraceLn(&cid,
+			"processSecretQueue: should have persisted the secret.")
 	}
 }

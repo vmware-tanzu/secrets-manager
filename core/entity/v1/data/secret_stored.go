@@ -16,6 +16,7 @@ import (
 	"time"
 )
 
+// SecretStored represents a secret stored in VSecM Safe.
 type SecretStored struct {
 	// Name of the secret.
 	Name string
@@ -98,9 +99,9 @@ func (secret SecretStored) ToMap() map[string]any {
 // Here is how the template transformation is applied:
 //
 //  1. Compute parsedString:
-//     If the Meta.Template field is empty, then parsedString is the original value.
-//     Otherwise, parsedString is the result of applying the template transformation
-//     to the original value.
+//     If the Meta.Template field is empty, then parsedString is the original
+//     value. Otherwise, parsedString is the result of applying the template
+//     transformation to the original value.
 //
 // 2.	Compute the output string:
 //   - If the Meta.Format field is Json, then the output string is parsedString
@@ -108,8 +109,8 @@ func (secret SecretStored) ToMap() map[string]any {
 //   - If the Meta.Format field is Yaml, then the output string is the result of
 //     transforming parsedString into Yaml if parsedString is a valid JSON,
 //     otherwise it's parsedString.
-//   - If the Meta.Format field is Raw, then the output string is simply the parsedString,
-//     without any specific format checks or transformations.
+//   - If the Meta.Format field is Raw, then the output string is simply the
+//     parsedString, without any specific format checks or transformations.
 func (secret SecretStored) Parse() (string, error) {
 	if len(secret.Values) == 0 {
 		return "", fmt.Errorf("no values found for secret %s", secret.Name)
@@ -118,7 +119,8 @@ func (secret SecretStored) Parse() (string, error) {
 	parseFailed := false
 	var results []string
 	for _, v := range secret.Values {
-		transformed, err := transform(v, secret.Meta.Template, secret.Meta.Format)
+		transformed, err := transform(v,
+			secret.Meta.Template, secret.Meta.Format)
 		if err != nil {
 			parseFailed = true
 			continue
@@ -136,7 +138,8 @@ func (secret SecretStored) Parse() (string, error) {
 	if len(results) == 1 {
 		// Can happen if there are N values, but only 1 was successfully parsed.
 		if parseFailed {
-			return results[0], fmt.Errorf("failed to parse secret %s", secret.Name)
+			return results[0],
+				fmt.Errorf("failed to parse secret %s", secret.Name)
 		}
 
 		return results[0], nil
@@ -147,7 +150,8 @@ func (secret SecretStored) Parse() (string, error) {
 		return "", err
 	}
 	if parseFailed {
-		return string(marshaled), fmt.Errorf("failed to parse secret %s", secret.Name)
+		return string(marshaled),
+			fmt.Errorf("failed to parse secret %s", secret.Name)
 	}
 
 	return string(marshaled), nil

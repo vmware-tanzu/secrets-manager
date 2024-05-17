@@ -27,47 +27,35 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
-	resultChan := make(chan *workloadapi.X509Source)
-	errorChan := make(chan error)
-
-	cid := ctx.Value("correlationId").(*string)
-
-	go func() {
-		source, err := workloadapi.NewX509Source(
-			ctx, workloadapi.WithClientOptions(
-				workloadapi.WithAddr(env.SpiffeSocketUrl()),
-			),
-		)
-
-		if err != nil {
-			errorChan <- err
-			return
-		}
-
-		if err != nil {
-			log.Println(cid, "acquireSource: I am having trouble fetching my identity from SPIRE.", err.Error())
-			log.Println(cid,
-				"acquireSource: I won't proceed until you put me in a secured container.", err.Error())
-			errorChan <- err
-			return
-		}
-		resultChan <- source
-	}()
-
-	select {
-	case source := <-resultChan:
-		return source, true
-	case err := <-errorChan:
-		log.Println(cid, "acquireSource: I cannot execute command because I cannot talk to SPIRE.", err.Error())
-		return nil, false
-	case <-ctx.Done():
-		log.Println(cid, "acquireSource: Operation was cancelled.")
-		return nil, false
-	}
-}
-
-func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (string, error) {
+// Get fetches secrets from the VSecM Safe API, optionally including encrypted
+// secrets in the response. This function constructs a secure client and makes
+// a GET request to the API based on the input parameters. The response is then
+// returned as a string, or an error is generated if the process fails at any
+// step.
+//
+// Parameters:
+//   - ctx: a context.Context that must contain a 'correlationId' used for
+//     logging.
+//   - r: the *http.Request containing the original HTTP request details.
+//     Headers from this request may be propagated to the API request.
+//   - showEncryptedSecrets: a boolean indicating whether to retrieve encrypted
+//     secrets.
+//
+// Returns:
+//   - A string containing the API response if the request is successful.
+//   - An error detailing what went wrong during the operation if unsuccessful.
+//
+// Usage:
+//
+//	response, err := secrets.Get(ctx, req, true)
+//	if err != nil {
+//	    log.Println("Error fetching secrets:", err)
+//	} else {
+//	    log.Println("Fetched secrets:", response)
+//	}
+func Get(
+	ctx context.Context, r *http.Request, showEncryptedSecrets bool,
+) (string, error) {
 	cid := ctx.Value("correlationId").(*string)
 	log.Println(cid, "Get: start")
 
@@ -78,7 +66,8 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 		}
 		err := s.Close()
 		if err != nil {
-			log.Println(cid, "Get: Problem closing the workload source.", err.Error())
+			log.Println(cid,
+				"Get: Problem closing the workload source.", err.Error())
 		}
 	}(source)
 	if !proceed {
@@ -90,7 +79,8 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 			return nil
 		}
 
-		return errors.New("I don't know you, and it's crazy: '" + id.String() + "'")
+		return errors.New("I don't know you, and it's crazy: '" +
+			id.String() + "'")
 	})
 
 	safeUrl := "/sentinel/v1/secrets"
@@ -100,8 +90,10 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		log.Println(cid, "Get: I am having problem generating VSecM Safe secrets api endpoint URL.", err.Error())
-		return "", fmt.Errorf("get: I am having problem generating VSecM Safe secrets api endpoint URL: %v", err.Error())
+		log.Println(cid, "Get: I am having problem generating "+
+			"VSecM Safe secrets api endpoint URL.", err.Error())
+		return "", fmt.Errorf("get: I am having problem "+
+			"generating VSecM Safe secrets api endpoint URL: %v", err.Error())
 	}
 
 	tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -112,7 +104,13 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 	}
 
 	req, err := http.NewRequest(http.MethodGet, p, nil)
-	selectedHeaders := []string{"Authorization", "Content-Type", "ClientId", "ClientSecret", "UserName"}
+	if err != nil {
+		log.Println(cid, "Get: Problem creating request.", err.Error())
+		return "", fmt.Errorf("get: Problem creating request: %v", err.Error())
+	}
+
+	selectedHeaders := []string{"Authorization",
+		"Content-Type", "ClientId", "ClientSecret", "UserName"}
 	for _, headerName := range selectedHeaders {
 		if value := r.Header.Get(headerName); value != "" {
 			req.Header.Set(headerName, value)
@@ -121,8 +119,13 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 
 	response, err := client.Do(req)
 	if err != nil {
-		log.Println(cid, "Get: Problem connecting to VSecM Safe API endpoint URL.", err.Error())
-		return "", fmt.Errorf("get: Problem connecting to VSecM Safe API endpoint URL: %v", err.Error())
+		log.Println(cid,
+			"Get: Problem connecting to VSecM Safe API endpoint URL.",
+			err.Error())
+		return "",
+			fmt.Errorf("get: Problem connecting to VSecM"+
+				" Safe API endpoint URL: %v",
+				err.Error())
 	}
 
 	defer func(b io.ReadCloser) {
@@ -137,8 +140,13 @@ func Get(ctx context.Context, r *http.Request, showEncryptedSecrets bool) (strin
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		log.Println(cid, "Get: Unable to read the response body from VSecM Safe.", err.Error())
-		return "", fmt.Errorf("get: Unable to read the response body from VSecM Safe: %v", err.Error())
+		log.Println(cid,
+			"Get: Unable to read the response body from VSecM Safe.",
+			err.Error())
+		return "",
+			fmt.Errorf("get: Unable to read"+
+				" the response body from VSecM Safe: %v",
+				err.Error())
 	}
 
 	return string(body), nil

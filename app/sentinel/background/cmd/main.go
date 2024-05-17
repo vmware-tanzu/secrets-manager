@@ -15,6 +15,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/background/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/server"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
@@ -27,9 +28,10 @@ func main() {
 	id := crypto.Id()
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
-		"VSECM_SENTINEL_SECRET_GENERATION_PREFIX"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, []string{
+		string(constants.AppVersion),
+		string(constants.VSecMLogLevel),
+	})
 
 	go probe.CreateLiveness()
 	go rpc.CreateLogServer()

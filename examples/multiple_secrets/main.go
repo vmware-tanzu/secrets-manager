@@ -13,10 +13,12 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
 
 func main() {
@@ -27,7 +29,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			println(e)
+			fmt.Println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -35,13 +37,13 @@ func main() {
 	// Fetch the secret from the VSecM Safe.
 	d, err := sentry.Fetch()
 	if err != nil {
-		println("Failed to fetch the secrets. Try again later.")
-		println(err.Error())
+		fmt.Println("Failed to fetch the secrets. Try again later.")
+		fmt.Println(err.Error())
 		return
 	}
 
 	if d.Data == "" {
-		println("No secret yet... Try again later.")
+		fmt.Println("No secret yet... Try again later.")
 		return
 	}
 
@@ -51,8 +53,8 @@ func main() {
 		var dataSlice []string
 		err = json.Unmarshal([]byte(d.Data), &dataSlice)
 		if err != nil {
-			println("Failed to unmarshal the data into a slice of strings. Check the data format.")
-			println(err.Error())
+			fmt.Println("Failed to unmarshal the data into a slice of strings. Check the data format.")
+			fmt.Println(err.Error())
 			return
 		}
 
@@ -65,17 +67,17 @@ func main() {
 		// Base64 decode the string
 		decodedString, err := base64.StdEncoding.DecodeString(concatString)
 		if err != nil {
-			println("Failed to decode the base64 string.")
-			println(err.Error())
-			println("Raw data:")
-			println(d.Data)
+			fmt.Println("Failed to decode the base64 string.")
+			fmt.Println(err.Error())
+			fmt.Println("Raw data:")
+			fmt.Println(d.Data)
 			return
 		}
 
 		// Print the result
-		println(string(decodedString))
+		fmt.Println(string(decodedString))
 	} else {
 		// d.Data is a collection of Secrets.
-		println(d.Data)
+		fmt.Println(d.Data)
 	}
 }

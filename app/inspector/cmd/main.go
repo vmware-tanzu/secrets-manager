@@ -11,6 +11,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/vmware-tanzu/secrets-manager/core/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
@@ -21,15 +23,15 @@ func main() {
 	// Fetch the secret from the VSecM Safe.
 	d, err := sentry.Fetch()
 	if err != nil {
-		println("Err:", err.Error())
+		fmt.Println("Err:", err.Error())
 		return
 	}
 
 	if d.Data == "" {
-		println("<nil>")
+		fmt.Println("<nil>")
 		return
 	}
 
 	// d.Data is a collection of VSecM secrets.
-	println(d.Data)
+	fmt.Println(d.Data)
 }

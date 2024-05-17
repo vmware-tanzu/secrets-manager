@@ -14,12 +14,13 @@ import "os"
 
 // SpiffeIdPrefixForSentinel returns the prefix for the Safe SPIFFE ID.
 // The prefix is obtained from the environment variable
-// VSECM_SENTINEL_SPIFFEID_PREFIX. If the variable is not set, the default prefix is
-// used.
+// VSECM_SENTINEL_SPIFFEID_PREFIX. If the variable is not set, the default
+// prefix is used.
 func SpiffeIdPrefixForSentinel() string {
 	p := os.Getenv("VSECM_SENTINEL_SPIFFEID_PREFIX")
 	if p == "" {
-		p = "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+		p = "spiffe://vsecm.com/workload/" +
+			"vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
 	}
 	return p
 }
@@ -31,13 +32,15 @@ func SpiffeIdPrefixForSentinel() string {
 func SpiffeIdPrefixForSafe() string {
 	p := os.Getenv("VSECM_SAFE_SPIFFEID_PREFIX")
 	if p == "" {
-		p = "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+		p = "spiffe://vsecm.com/workload/" +
+			"vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
 	}
 	return p
 }
 
 // SpiffeIdPrefixForWorkload returns the prefix for the Workload's SPIFFE ID.
-// The prefix is obtained from the environment variable VSECM_WORKLOAD_SPIFFEID_PREFIX.
+// The prefix is obtained from the environment variable
+// VSECM_WORKLOAD_SPIFFEID_PREFIX.
 // If the variable is not set, the default prefix is used.
 func SpiffeIdPrefixForWorkload() string {
 	p := os.Getenv("VSECM_WORKLOAD_SPIFFEID_PREFIX")

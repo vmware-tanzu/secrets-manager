@@ -51,8 +51,28 @@ func DecryptValue(value string) (string, error) {
 	return string(decrypted), nil
 }
 
+// DecryptBytesAge decrypts data using an X25519 private key extracted
+// from memory. This function is intended to decrypt a slice of bytes that have
+// been encrypted using the age encryption tool, specifically formatted for
+// X25519 keys.
+//
+// Parameters:
+//   - data: the byte slice containing the encrypted data.
+//
+// Returns:
+//   - A byte slice containing the decrypted data if successful.
+//   - An error if decryption fails at any stage, including issues with key
+//     parsing, opening the encrypted content, or reading the decrypted data.
+//
+// Usage:
+//
+//	decryptedData, err := cryptography.DecryptBytesAge(encryptedBytes)
+//	if err != nil {
+//	    log.Fatalf("Failed to decrypt: %v", err)
+//	}
+//	fmt.Println("Decrypted data:", string(decryptedData))
 func DecryptBytesAge(data []byte) ([]byte, error) {
-	rkt := RootKeyTriplet()
+	rkt := RootKeyCollectionFromMemory()
 	privateKey := rkt.PrivateKey
 
 	identity, err := age.ParseX25519Identity(privateKey)
@@ -83,8 +103,29 @@ func DecryptBytesAge(data []byte) ([]byte, error) {
 	return out.Bytes(), nil
 }
 
+// DecryptBytesAes decrypts data that has been encrypted using AES encryption.
+// This function assumes that the AES key is retrieved from a key-holder in
+// memory and that the initial vector (IV) is prepended to the ciphertext. The
+// function supports AES encryption modes that use CFB (Cipher Feedback Mode).
+//
+// Parameters:
+//   - data: a byte slice containing the encrypted data, with the IV at the
+//     beginning.
+//
+// Returns:
+//   - A byte slice containing the decrypted data if the process is successful.
+//   - An error if any step of the decryption process fails, including key
+//     retrieval, key decoding, cipher block creation, or data processing.
+//
+// Usage:
+//
+//	decryptedData, err := crypto.DecryptBytesAes(encryptedData)
+//	if err != nil {
+//	    log.Fatalf("Failed to decrypt: %v", err)
+//	}
+//	fmt.Println("Decrypted data:", string(decryptedData))
 func DecryptBytesAes(data []byte) ([]byte, error) {
-	rkt := RootKeyTriplet()
+	rkt := RootKeyCollectionFromMemory()
 	aesKey := rkt.AesSeed
 
 	aesKeyDecoded, err := hex.DecodeString(aesKey)
@@ -114,6 +155,26 @@ func DecryptBytesAes(data []byte) ([]byte, error) {
 	return data, nil
 }
 
+// Decrypt decrypts the provided base64-encoded value using the specified
+// algorithm. This function first decodes the base64-encoded input, and then
+// depending on the algorithm specified, it either decrypts using age or AES.
+//
+// Parameters:
+//   - value: a byte slice containing the base64-encoded data to be decrypted.
+//   - algorithm: the Algorithm type specifying which decryption method to use.
+//
+// Returns:
+//   - A string containing the decrypted data if successful.
+//   - An error if decoding fails, or if the decryption process encounters an
+//     issue.
+//
+// Usage:
+//
+//	decryptedText, err := crypto.Decrypt(encodedValue, cryptography.AES)
+//	if err != nil {
+//	    log.Fatalf("Failed to decrypt: %v", err)
+//	}
+//	fmt.Println("Decrypted text:", decryptedText)
 func Decrypt(value []byte, algorithm Algorithm) (string, error) {
 	decodedValue, err := base64.StdEncoding.DecodeString(string(value))
 	if err != nil {
@@ -140,26 +201,29 @@ func Decrypt(value []byte, algorithm Algorithm) (string, error) {
 }
 
 // DecryptDataFromDisk takes a key as input and attempts to decrypt the data
-// associated with that key from the disk. The key is used to locate the data file,
-// which is expected to have a ".age" extension
-// and to be stored in a directory specified by the environment's data path for safe storage.
+// associated with that key from the disk. The key is used to locate the data
+// file, which is expected to have a ".age" extension
+// and to be stored in a directory specified by the environment's data path for
+// safe storage.
 //
 // Parameters:
-//   - key (string): A string representing the unique identifier for the data to be
-//     decrypted. The actual data file is expected to be named using this key with a
-//     ".age" extension.
+//   - key (string): A string representing the unique identifier for the data
+//     to be decrypted. The actual data file is expected to be named using this
+//     key with a ".age" extension.
 //
 // Returns:
-//   - ([]byte, error): This function returns two values. The first value is a byte
-//     slice containing the decrypted data if the process is successful. The second value
-//     is an error object that will be non-nil if any step of the decryption process fails.
-//     Possible errors include the absence of the target data file on disk and failures
-//     related to reading the file or the decryption process itself.
+//   - ([]byte, error): This function returns two values. The first value is a
+//     byte slice containing the decrypted data if the process is successful.
+//     The second value is an error object that will be non-nil if any step of
+//     the decryption process fails. Possible errors include the absence of the
+//     target data file on disk and failures related to reading the file or the
+//     decryption process itself.
 func DecryptDataFromDisk(key string) ([]byte, error) {
 	dataPath := path.Join(env.DataPathForSafe(), key+".age")
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
-		return nil, errors.Wrap(err, "decryptDataFromDisk: No file at: "+dataPath)
+		return nil, errors.Wrap(err,
+			"decryptDataFromDisk: No file at: "+dataPath)
 	}
 
 	data, err := os.ReadFile(dataPath)

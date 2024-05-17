@@ -10,6 +10,7 @@
 
 package data
 
+// BackingStore is the backing store for the data for VSecM Safe.
 type BackingStore string
 
 var (

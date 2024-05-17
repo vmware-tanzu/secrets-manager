@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"
@@ -9,7 +10,7 @@ import (
 )
 
 func sadCuddle(err error) {
-	println("Error running tests:", err.Error())
+	fmt.Println("Error running tests:", err.Error())
 	os.Exit(1)
 }
 

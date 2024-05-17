@@ -36,11 +36,11 @@ func LogLevel() int {
 	return l
 }
 
-// LogSecretFingerprints checks the "VSECM_LOG_SECRET_FINGERPRINTS" environment variable,
-// normalizes its value by trimming whitespace and converting it to lowercase, and
-// evaluates whether logging of secret fingerprints is enabled or not. The function
-// returns true if the environment variable is explicitly set to "true", otherwise,
-// it defaults to false.
+// LogSecretFingerprints checks the "VSECM_LOG_SECRET_FINGERPRINTS" environment
+// variable, normalizes its value by trimming whitespace and converting it to
+// lowercase, and evaluates whether logging of secret fingerprints is enabled
+// or not. The function returns true if the environment variable is explicitly
+// set to "true", otherwise, it defaults to false.
 //
 // When `true`, VSecM logs will include partial hashes for the secrets. This
 // approach will be useful to verify changes to a secret without revealing it

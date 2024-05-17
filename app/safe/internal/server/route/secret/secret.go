@@ -24,6 +24,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 // Secret handles the creation, updating, and management of secrets.
@@ -32,11 +33,28 @@ import (
 // Parameters:
 //   - cid: A string representing the correlation ID for the request, used for
 //     logging and tracking purposes.
-//   - w: An http.ResponseWriter object used to send responses back to the client.
+//   - w: An http.ResponseWriter object used to send responses back to the
+//     client.
 //   - r: An http.Request object containing the details of the client's request.
-//   - spiffeid: A string representing the SPIFFE ID of the client making the request.
-func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string) {
-	if !crypto.RootKeySet() {
+//   - spiffeid: A string representing the SPIFFE ID of the client making the
+//     request.
+func Secret(cid string, w http.ResponseWriter, r *http.Request) {
+	spiffeid := spiffe.IdAsString(cid, r)
+	if spiffeid == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "NOK!")
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
+		return
+	}
+
+	if !crypto.RootKeySetInMemory() {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "NOK!")
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
 		log.InfoLn(&cid, "Secret: Root key not set")
 		return
 	}
@@ -44,14 +62,17 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 
-	if !validation.IsSentinel(j, cid, w, spiffeid) {
-		j.Event = event.BadSpiffeId
-		journal.Log(j)
+	// Only sentinel can do this.
+	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		respond(w)
 		return
 	}
 
 	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
+	// TODO: why does this method have a side effect?!
+	// TODO: there are other methods that have similar side effects too, they
+	// should not.
 	body := httq.ReadBody(cid, r, w, j)
 	if body == nil {
 		j.Event = event.BadPayload
@@ -62,6 +83,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 
 	log.DebugLn(&cid, "Secret: Parsed request body")
 
+	// TODO: why does this method have a side effect?!
 	ur := json.UnmarshalSecretUpsertRequest(cid, body, j, w)
 	if ur == nil {
 		j.Event = event.BadPayload
@@ -118,7 +140,8 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 			w.WriteHeader(http.StatusInternalServerError)
 			_, err := io.WriteString(w, "")
 			if err != nil {
-				log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+				log.InfoLn(&cid,
+					"Secret: Problem sending response", err.Error())
 			}
 
 			return
@@ -146,17 +169,19 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request, spiffeid string)
 	}
 
 	if expiresAfter == "never" {
-		// This is the largest time go std. lib can represent.
+		// This is the largest time go stdlib can represent.
 		// It is far enough into the future that the author does not care
 		// what happens after.
 		exp = entity.JsonTime(
-			time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+			time.Date(9999, time.December,
+				31, 23, 59, 59, 999999999, time.UTC),
 		)
 	} else {
 		expTime, err := time.Parse(time.RFC3339, expiresAfter)
 		if err != nil {
 			exp = entity.JsonTime(
-				time.Date(9999, time.December, 31, 23, 59, 59, 999999999, time.UTC),
+				time.Date(9999, time.December,
+					31, 23, 59, 59, 999999999, time.UTC),
 			)
 		} else {
 			exp = entity.JsonTime(expTime)

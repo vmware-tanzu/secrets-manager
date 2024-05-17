@@ -11,6 +11,7 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -22,9 +23,11 @@ func main() {
 	id := crypto.Id()
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL",
-		"VSECM_SAFE_ENDPOINT_URL"}
-	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+	log.PrintEnvironmentInfo(&id, []string{
+		string(constants.AppVersion),
+		string(constants.VSecMLogLevel),
+		string(constants.VSecMSafeEndpointUrl),
+	})
 
 	log.InfoLn(&id, "Starting VSecM Init Container")
 

@@ -30,7 +30,8 @@ func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 	if err != nil {
 		log.InfoLn(
 			cid,
-			"RunInitCommands: no initialization file found... skipping custom initialization.",
+			"RunInitCommands: no initialization file found... "+
+				"skipping custom initialization.",
 		)
 		return nil, nil
 	}
@@ -41,7 +42,9 @@ func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 	return file, bufio.NewScanner(file)
 }
 
-func parseCommandsFile(ctx context.Context, cid *string, scanner *bufio.Scanner) {
+func parseCommandsFile(
+	ctx context.Context, cid *string, scanner *bufio.Scanner,
+) {
 	log.TraceLn(cid, "Before parsing commands 002")
 
 	sc := entity.SentinelCommand{}
@@ -76,25 +79,26 @@ dance:
 				continue
 			}
 
-			s := backoffStrategy()
-
-			err := backoff.Retry("RunInitCommands:ProcessCommandBlock", func() error {
-				log.TraceLn(
-					cid,
-					"RunInitCommands:ProcessCommandBlock: processCommandBlock: retrying with exponential backoff",
-				)
-
-				err := processCommandBlock(ctx, sc)
-				if err != nil {
-					log.ErrorLn(
+			err := backoff.RetryExponential(
+				"RunInitCommands:ProcessCommandBlock",
+				func() error {
+					log.TraceLn(
 						cid,
-						"RunInitCommands:ProcessCommandBlock:error:",
-						err.Error(),
+						"RunInitCommands:ProcessCommandBlock"+
+							": retrying with exponential backoff",
 					)
-				}
 
-				return err
-			}, s)
+					err := processCommandBlock(ctx, sc)
+					if err != nil {
+						log.ErrorLn(
+							cid,
+							"RunInitCommands:ProcessCommandBlock:error:",
+							err.Error(),
+						)
+					}
+
+					return err
+				})
 
 			if err != nil {
 				log.ErrorLn(
@@ -103,8 +107,10 @@ dance:
 					err.Error(),
 				)
 
-				// If command failed, then the initialization is not totally successful.
-				// Thus, it is best to crash the container to restart the initialization.
+				// If command failed, then the initialization is not totally
+				// successful.
+				// Thus, it is best to crash the container to restart the
+				// initialization.
 				panic("RunInitCommands:ProcessCommandBlock failed")
 			}
 
@@ -130,7 +136,9 @@ dance:
 				"skipping the rest of the commands.",
 				"skipping post initialization.",
 			)
-			// Move out of the loop to allow the keystone secret to be registered.
+
+			// Move out of the loop to allow the keystone secret to be
+			// registered.
 			break dance
 		case workload:
 			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
@@ -158,7 +166,8 @@ dance:
 			sc.ShouldSleep = true
 			intervalMs, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(cid, "RunInitCommands: Error parsing sleep interval: ", err.Error())
+				log.ErrorLn(cid, "RunInitCommands"+
+					": Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intervalMs
 		default:
@@ -176,7 +185,8 @@ dance:
 		)
 
 		// If command failed, then the initialization is not totally successful.
-		// Thus, it is best to crash the container to restart the initialization.
+		// Thus, it is best to crash the container to restart the
+		// initialization.
 		panic("RunInitCommands: Error in scanning the file")
 	}
 }

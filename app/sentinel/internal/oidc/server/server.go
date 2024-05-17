@@ -20,6 +20,7 @@ import (
 func Serve() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/secrets", engine.HandleSecrets)
+
 	log.Println("VSecM Server started at :8085")
 	log.Fatal(http.ListenAndServe(":8085", mux))
 }

@@ -22,15 +22,17 @@ import (
 )
 
 // BadSvidResponse logs an event for a bad SPIFFE ID and sends an HTTP 400 Bad
-// Request response. This function is typically invoked when the SPIFFE ID provided
-// in a request is invalid or malformed.
+// Request response. This function is typically invoked when the SPIFFE ID
+// provided in a request is invalid or malformed.
 //
 // Parameters:
-// - cid (string): Correlation ID for operation tracing and logging.
-// - w (http.ResponseWriter): The HTTP response writer to send back the response.
-// - spiffeid (string): The SPIFFE ID that was determined to be invalid.
-// - j (audit.JournalEntry): An audit journal entry for recording the event.
-func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
+//   - cid (string): Correlation ID for operation tracing and logging.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the
+//     response.
+//   - spiffeid (string): The SPIFFE ID that was determined to be invalid.
+//   - j (audit.JournalEntry): An audit journal entry for recording the event.
+func BadSvidResponse(
+	cid string, w http.ResponseWriter, spiffeid string,
 	j journal.Entry,
 ) {
 	j.Event = event.BadSpiffeId
@@ -50,11 +52,13 @@ func BadSvidResponse(cid string, w http.ResponseWriter, spiffeid string,
 // in a mutual TLS session is found to be invalid or unacceptable.
 //
 // Parameters:
-// - cid (string): Correlation ID for operation tracing and logging.
-// - w (http.ResponseWriter): The HTTP response writer to send back the response.
+//   - cid (string): Correlation ID for operation tracing and logging.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the
+//     response.
 // - spiffeid (string): The peer's SPIFFE ID that was found to be invalid.
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
-func BadPeerSvidResponse(cid string, w http.ResponseWriter,
+func BadPeerSvidResponse(
+	cid string, w http.ResponseWriter,
 	spiffeid string, j journal.Entry,
 ) {
 	j.Event = event.BadPeerSvid
@@ -72,19 +76,21 @@ func BadPeerSvidResponse(cid string, w http.ResponseWriter,
 // a secret results in no matching secret being available.
 //
 // Parameters:
-// - cid (string): Correlation ID for operation tracing and logging.
-// - w (http.ResponseWriter): The HTTP response writer to send back the response.
-// - j (audit.JournalEntry): An audit journal entry for recording the event.
-func NoSecretResponse(cid string, w http.ResponseWriter,
+//   - cid (string): Correlation ID for operation tracing and logging.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the
+//     response.
+//   - j (audit.JournalEntry): An audit journal entry for recording the event.
+func NoSecretResponse(
+	cid string, w http.ResponseWriter,
 	j journal.Entry,
 ) {
 	j.Event = event.NoSecret
 	journal.Log(j)
 
 	w.WriteHeader(http.StatusNotFound)
-	_, err2 := io.WriteString(w, "")
-	if err2 != nil {
-		log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
+	_, err := io.WriteString(w, "")
+	if err != nil {
+		log.InfoLn(&cid, "Fetch: Problem sending response", err.Error())
 	}
 }
 
@@ -94,7 +100,8 @@ func NoSecretResponse(cid string, w http.ResponseWriter,
 //
 // Parameters:
 //   - cid (string): Correlation ID for operation tracing and logging.
-//   - w (http.ResponseWriter): The HTTP response writer to send back the response.
+//   - w (http.ResponseWriter): The HTTP response writer to send back the
+//     response.
 //   - j (audit.JournalEntry): An audit journal entry for recording the event.
 //   - sfr (reqres.SecretFetchResponse): The secret fetch response payload to be
 //     marshaled and sent.

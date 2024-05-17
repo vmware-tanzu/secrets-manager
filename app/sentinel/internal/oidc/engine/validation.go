@@ -13,8 +13,8 @@ package engine
 func invalidInput(workloads []string, encrypt bool,
 	inputKeys string, secret string, deleteSecret bool) bool {
 
-	// You need to provide a workload collection if you are not encrypting a secret,
-	// or if you are not providing input keys.
+	// You need to provide a workload collection if you are not encrypting
+	// a secret, or if you are not providing input keys.
 	if workloads != nil && len(workloads) == 0 && !encrypt && inputKeys == "" {
 		return true
 	}

@@ -11,6 +11,8 @@
 package eval
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
@@ -18,8 +20,8 @@ import (
 )
 
 func SecretDeletion() error {
-	println("----")
-	println("🧪     Testing: Secret deletion...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing: Secret deletion...")
 
 	if err := sentinel.DeleteSecret(); err != nil {
 		return errors.Wrap(err, "deleting secret")
@@ -29,7 +31,7 @@ func SecretDeletion() error {
 		return errors.Wrap(err, "asserting workload secret no value")
 	}
 
-	println("🟢   PASS: Secret deletion successful")
-	println("----")
+	fmt.Println("🟢   PASS: Secret deletion successful")
+	fmt.Println("----")
 	return nil
 }

@@ -36,20 +36,21 @@ type SecretRequest struct {
 	Expires            string   `json:"exp,omitempty"`
 }
 
-func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretRequest) {
-	id, err := crypto.RandomString(8)
-	if err != nil {
-		id = "VSECSENTINELREST"
-	}
+func HandleCommandSecrets(
+	w http.ResponseWriter, r *http.Request, req *SecretRequest,
+) {
+	id := crypto.Id()
 
 	ctx, cancel := context.WithCancel(
 		context.WithValue(context.Background(), "correlationId", &id),
 	)
 	defer cancel()
 
-	ok := IsAuthorizedJWT(id, r)
+	ok := AuthorizedJWT(id, r)
 	if !ok {
-		http.Error(w, "isAuthorizedJWT : Please provide correct credentials", http.StatusBadRequest)
+		http.Error(w,
+			"isAuthorizedJWT : Please provide correct credentials",
+			http.StatusBadRequest)
 		return
 	}
 
@@ -75,8 +76,11 @@ func HandleCommandSecrets(w http.ResponseWriter, r *http.Request, req *SecretReq
 		req.Namespaces = []string{"default"}
 	}
 
-	if invalidInput(req.Workloads, req.Encrypt, req.SerializedRootKeys, req.Secret, req.Delete) {
-		http.Error(w, "Input Validation Failure", http.StatusInternalServerError)
+	if invalidInput(req.Workloads, req.Encrypt,
+		req.SerializedRootKeys, req.Secret, req.Delete,
+	) {
+		http.Error(w, "Input Validation Failure",
+			http.StatusInternalServerError)
 		return
 	}
 

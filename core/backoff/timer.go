@@ -26,8 +26,8 @@ var InitialInterval = env.PollIntervalForSidecar()
 // ExponentialBackoff calculates the next interval for retrying an operation,
 // based on the outcome of the current attempt (success or failure), the current
 // interval, and the counts of successive successes and errors. It adjusts the
-// interval according to an exponential backoff strategy, which expands the interval
-// after failures and shrinks it following a series of successes.
+// interval according to an exponential backoff strategy, which expands the
+// interval after failures and shrinks it following a series of successes.
 //
 // Parameters:
 // - success (bool): Indicates whether the current attempt was successful.
@@ -41,8 +41,8 @@ var InitialInterval = env.PollIntervalForSidecar()
 //     the defined minimum and maximum boundaries.
 //   - int64: The updated count of successive successes, reset to 0 after an
 //     interval adjustment or continued incrementation upon success.
-//   - int64: The updated count of successive errors, reset to 0 after an interval
-//     adjustment or continued incrementation upon failure.
+//   - int64: The updated count of successive errors, reset to 0 after an
+//     interval adjustment or continued incrementation upon failure.
 func ExponentialBackoff(
 	success bool, interval time.Duration, successCount, errorCount int64,
 ) (time.Duration, int64, int64) {

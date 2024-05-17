@@ -131,29 +131,12 @@ func K8sSecretDeleteBufferSizeForSafe() int {
 	return l
 }
 
-// RemoveLinkedK8sSecretsModeForSafe returns a boolean indicating whether VSecM Safe
-// should delete linked Kubernetes secrets when as safe managed secret is deleted.
-//
-// The removal of linked Kubernetes secrets is determined by the environment variable
-// VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS.
-//
-// If the environment variable is not set or its value is not "true",
-// the function returns false. Otherwise, the function returns true.
-func RemoveLinkedK8sSecretsModeForSafe() bool {
-	p := strings.ToLower(os.Getenv("VSECM_SAFE_REMOVE_LINKED_K8S_SECRETS"))
-	if p == "" {
-		return false
-	}
-
-	return p == "true"
-}
-
-// FipsCompliantModeForSafe returns a boolean indicating whether VSecM Safe should run in
-// FIPS compliant mode. Note that this is not a guarantee that VSecM Safe will
-// run in FIPS compliant mode, as it depends on the underlying base image.
-// If you are using one of the official FIPS-complaint VMware Secrets Manager Docker images,
-// then it will be FIPS-compliant. Check https://vsecm.com/configuration/
-// for more details.
+// FipsCompliantModeForSafe returns a boolean indicating whether VSecM Safe
+// should run in FIPS compliant mode. Note that this is not a guarantee that
+// VSecM Safe will run in FIPS compliant mode, as it depends on the underlying
+// base image. If you are using one of the official FIPS-complaint
+// VMware Secrets Manager Docker images, then it will be FIPS-compliant.
+// Check https://vsecm.com/configuration/ for more details.
 func FipsCompliantModeForSafe() bool {
 	p := strings.ToLower(os.Getenv("VSECM_SAFE_FIPS_COMPLIANT"))
 	if p == "" {
@@ -163,9 +146,12 @@ func FipsCompliantModeForSafe() bool {
 	return p == "true"
 }
 
-// SecretBackupCountForSafe retrieves the number of backups to keep for VSecM Safe
-// secrets. If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT is not
-// set or is not a valid integer, the default value of 3 will be returned.
+// SecretBackupCountForSafe retrieves the number of backups to keep for VSecM
+// Safe secrets. If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT
+// is not set or is not a valid integer, the default value of 3 will be returned.
+//
+// Note: there are plans to deprecate this feature in the future in favor of
+// a more robust database-driven changelog solution for secrets.
 func SecretBackupCountForSafe() int {
 	p := os.Getenv("VSECM_SAFE_SECRET_BACKUP_COUNT")
 	if p == "" {
@@ -191,22 +177,6 @@ func RootKeyInputModeManual() bool {
 		return true
 	}
 	return false
-}
-
-// ManualRootKeyUpdatesK8sSecret returns a boolean indicating whether to
-// update the Kubernetes secret when the root key is provided manually to VSecM Safe.
-// If the environment variable is not set or its value is not "true", the function
-// returns false. Otherwise, the function returns true.
-func ManualRootKeyUpdatesK8sSecret() bool {
-	p := os.Getenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET")
-	if p == "" {
-		return false
-	}
-	if strings.ToLower(p) == "true" {
-		return true
-	}
-	return false
-
 }
 
 // DataPathForSafe returns the path to the safe data directory.
@@ -274,8 +244,8 @@ func BootstrapTimeoutForSafe() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// RootKeySecretNameForSafe returns the name of the environment variable that holds
-// the VSecM Safe age key. The value is retrieved using the
+// RootKeySecretNameForSafe returns the name of the environment variable that
+// holds the VSecM Safe age key. The value is retrieved using the
 // "VSECM_ROOT_KEY_NAME" environment variable. If this variable is
 // not set or is empty, the default value "vsecm-root-key" is returned.
 func RootKeySecretNameForSafe() string {

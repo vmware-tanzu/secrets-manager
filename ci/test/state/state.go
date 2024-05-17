@@ -11,6 +11,8 @@
 package state
 
 import (
+	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
@@ -19,8 +21,8 @@ import (
 )
 
 func Cleanup() error {
-	println("----")
-	println("🧹 Cleanup...")
+	fmt.Println("----")
+	fmt.Println("🧹 Cleanup...")
 
 	// Determine the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
@@ -51,7 +53,7 @@ func Cleanup() error {
 		return errors.Wrap(err, "cleanup: Failed to wait for workload deletion")
 	}
 
-	println("✨ All clean and shiny!")
-	println("----")
+	fmt.Println("✨ All clean and shiny!")
+	fmt.Println("----")
 	return nil
 }

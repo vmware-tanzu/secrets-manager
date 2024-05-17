@@ -11,6 +11,7 @@
 package eval
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
@@ -20,8 +21,8 @@ import (
 )
 
 func SecretRegistrationSidecar() error {
-	println("----")
-	println("🧪     Testing: Secret registration (sidecar)...")
+	fmt.Println("----")
+	fmt.Println("🧪     Testing: Secret registration (sidecar)...")
 
 	value := "!VSecMRocks!"
 
@@ -36,7 +37,7 @@ func SecretRegistrationSidecar() error {
 		return errors.Wrap(err, "assertWorkloadSecretValue failed")
 	}
 
-	println("🟢   PASS: Secret registration (sidecar) successful")
-	println("----")
+	fmt.Println("🟢   PASS: Secret registration (sidecar) successful")
+	fmt.Println("----")
 	return nil
 }

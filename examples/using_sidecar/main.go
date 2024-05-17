@@ -17,6 +17,7 @@ package main
 // And, that's a good way to separate cross-cutting concerns.
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -39,7 +40,7 @@ func main() {
 		signal.Notify(s, syscall.SIGINT, syscall.SIGTERM)
 		select {
 		case e := <-s:
-			println(e)
+			fmt.Println(e)
 			panic("bye cruel world!")
 		}
 	}()
@@ -47,10 +48,10 @@ func main() {
 	for {
 		dat, err := os.ReadFile(sidecarSecretsPath())
 		if err != nil {
-			println("Failed to read the secrets file. Will retry in 5 seconds...")
-			println(err.Error())
+			fmt.Println("Failed to read the secrets file. Will retry in 5 seconds...")
+			fmt.Println(err.Error())
 		} else {
-			println("secret: '", string(dat), "'")
+			fmt.Println("secret: '", string(dat), "'")
 		}
 
 		time.Sleep(5 * time.Second)

@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -41,7 +42,7 @@ func main() {
 	go func() {
 		select {
 		case <-c:
-			println("Operation was cancelled.")
+			fmt.Println("Operation was cancelled.")
 			// It is okay to cancel a cancelled context.
 			cancel()
 		}
@@ -62,8 +63,8 @@ func main() {
 
 	err := parser.Parse(os.Args)
 	if err != nil {
-		println(err.Error())
-		println()
+		fmt.Println(err.Error())
+		fmt.Println()
 		printUsage(parser)
 		return
 	}
@@ -72,7 +73,7 @@ func main() {
 		if *encrypt {
 			err = safe.Get(ctx, true)
 			if err != nil {
-				println("Error getting from VSecM Safe:", err.Error())
+				fmt.Println("Error getting from VSecM Safe:", err.Error())
 				return
 			}
 
@@ -81,7 +82,7 @@ func main() {
 
 		err = safe.Get(ctx, false)
 		if err != nil {
-			println("Error getting from VSecM Safe:", err.Error())
+			fmt.Println("Error getting from VSecM Safe:", err.Error())
 			return
 		}
 
@@ -92,7 +93,9 @@ func main() {
 		*namespaces = []string{defaultNs}
 	}
 
-	if inputValidationFailure(workloadIds, encrypt, inputKeys, secret, deleteSecret) {
+	if inputValidationFailure(
+		workloadIds, encrypt, inputKeys, secret, deleteSecret,
+	) {
 		return
 	}
 
@@ -111,7 +114,7 @@ func main() {
 	})
 
 	if err != nil {
-		println("Error posting to VSecM Safe:", err.Error())
+		fmt.Println("Error posting to VSecM Safe:", err.Error())
 		return
 	}
 }

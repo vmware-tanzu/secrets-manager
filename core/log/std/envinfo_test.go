@@ -234,10 +234,10 @@ package std
 //func resetLogger(reader *os.File, writer *os.File) {
 //	err := reader.Close()
 //	if err != nil {
-//		println("error closing reader was ", err)
+//		fmt.Println("error closing reader was ", err)
 //	}
 //	if err = writer.Close(); err != nil {
-//		println("error closing writer was ", err)
+//		fmt.Println("error closing writer was ", err)
 //	}
 //	log.SetOutput(os.Stderr)
 //}

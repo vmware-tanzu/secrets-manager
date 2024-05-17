@@ -15,22 +15,54 @@ import (
 	"os"
 )
 
+// RootKeyStoreTypeForSafe determines the root key store type for
+// VSecM Safe.
+//
+// The function retrieves this configuration from an environment variable.
+// If the variable is not set or is explicitly set to "k8s", which is the
+// default.
+//
+// Returns:
+//   - The configured root key store as a data.BackingStore.
+//   - Panics if the environment variable is set to anything other than "k8s",
+//     as it is currently the only supported root key store type.
+//
+// Usage:
+//
+//	storeType := config.RootKeyStoreTypeForSafe()
 func RootKeyStoreTypeForSafe() data.BackingStore {
 	s := os.Getenv("VSECM_SAFE_ROOT_KEY_STORE")
 	if s == "" {
 		return data.Kubernetes
 	}
 
-	// TODO: implement other store options too.
+	if s != string(data.Kubernetes) {
+		panic("Only Kubernetes is supported as a root key store")
+	}
 	return data.Kubernetes
 }
 
+// BackingStoreForSafe determines the backing store type for the VSecM Safe.
+// This configuration is retrieved from an environment variable. If the variable
+// is not set or explicitly set to "file", and "file" is used as the default and
+// only supported backing store.
+//
+// Returns:
+//   - The configured backing store as a data.BackingStore.
+//   - Panics if the environment variable is set to anything other than "file",
+//     as it is currently the only supported backing store type.
+//
+// Usage:
+//
+//	backingStore := config.BackingStoreForSafe()
 func BackingStoreForSafe() data.BackingStore {
 	s := os.Getenv("VSECM_SAFE_BACKING_STORE")
 	if s == "" {
 		return data.File
 	}
 
-	// TODO: implement other store options too.
+	if s != string(data.File) {
+		panic("Only File is supported as a backing store")
+	}
 	return data.File
 }

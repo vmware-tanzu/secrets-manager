@@ -11,6 +11,7 @@
 package safe
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -34,11 +35,13 @@ func respond(cid *string, r *http.Response) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.ErrorLn(cid, "Post: Unable to read the response body from VSecM Safe.", err.Error())
+		log.ErrorLn(cid,
+			"Post: Unable to read the response body from VSecM Safe.",
+			err.Error())
 		return
 	}
 
-	println("")
-	println(string(body))
-	println("")
+	fmt.Println("")
+	fmt.Println(string(body))
+	fmt.Println("")
 }

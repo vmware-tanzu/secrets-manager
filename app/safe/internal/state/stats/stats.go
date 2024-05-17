@@ -12,7 +12,7 @@ package stats
 
 import (
 	"sync"
-	
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/queue/insertion"
 )
 

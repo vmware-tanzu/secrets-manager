@@ -24,15 +24,15 @@ func main() {
 
 	// Validate origin
 	if *origin != "remote" && *origin != "eks" && *origin != "local" {
-		println("Invalid origin. Must be 'remote', 'eks', or 'local'.")
+		fmt.Println("Invalid origin. Must be 'remote', 'eks', or 'local'.")
 		os.Exit(1)
 	}
 
-	println("---- VSecM Integration Tests ----")
+	fmt.Println("---- VSecM Integration Tests ----")
 	fmt.Printf("Running tests for %s origin\n", *origin)
 
 	if *ci == "" {
-		println(`
+		fmt.Println(`
 This script assumes that you have a local minikube cluster running,
 and you have already installed SPIRE and VMware Secrets Manager.
 Also, make sure you have executed 'eval $(minikube docker-env)'
