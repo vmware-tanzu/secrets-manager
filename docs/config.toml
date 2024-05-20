@@ -1,3 +1,4 @@
+# base_url = "https://vsecm.com/v0.25.3/"
 base_url = "https://vsecm.com/"
 title = "VMWare Secrets Manager"
 description = "keep your secrets... secret"

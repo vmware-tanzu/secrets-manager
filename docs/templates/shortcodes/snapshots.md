@@ -11,6 +11,7 @@
 -->
 
 * [Latest](https://vsecm.com/)
+* [v0.25.0](https://vsecm.com/v0.25.3/)
 * [v0.25.0](https://vsecm.com/v0.25.0/)
 * [v0.24.1](https://vsecm.com/v0.24.1/)
 * [v0.24.0](https://vsecm.com/v0.24.0/)
