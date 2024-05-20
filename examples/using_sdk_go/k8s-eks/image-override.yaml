@@ -18,4 +18,4 @@ spec:
     spec:
       containers:
       - name: main
-        image: public.ecr.aws/h8y1n7y7/example-using-sdk-go:0.25.3
+        image: public.ecr.aws/h8y1n7y7/example-using-sdk-go:0.25.4

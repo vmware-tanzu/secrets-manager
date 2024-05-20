@@ -28,7 +28,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-multiple-secrets:0.25.3
+        image: vsecm/example-multiple-secrets:0.25.4
         volumeMounts:
         # Volume mount for SPIRE unix domain socket.
         - name: spire-agent-socket

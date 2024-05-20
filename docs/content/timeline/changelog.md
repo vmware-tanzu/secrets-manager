@@ -15,6 +15,10 @@ weight = 11
 
 ## Recent Updates
 
+TBD
+
+## [0.25.3] - 2024-05-17
+
 * Removed some configuration options including `
   VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` because how the root key will
   be updated will be depending on backing store implementation. And it does
@@ -28,7 +32,19 @@ weight = 11
 * Removed Kubernetes secrets deletion queue because we do not link Kubernetes
   secrets to workloads anymore. Deletion of ad-hoc VSecM-generated Kubernetes
   `Secret`s will be handled by upcoming configuration options. Right now,
-  VSecM Safe can only create and update, but not delete Kubernetes `Secret`s
+  VSecM Safe can only create and update, but not delete Kubernetes `Secret`s.
+* Stability improvements, including adding "exponential backoff"s to places
+  where requests can be retried before giving up; also letting the apps
+  crash (*and be re-crated by the scheduler*) if certain critical requests fail
+  even after a fair amount exponentially-backed-off of retries (*10 by default*).
+* An entire overhaul of the documentation website: It is now faster, more 
+  accessible, more usable, easier to navigate and follow.
+* Added an experimental Java SDK. The keyword here is: **experimental**; we
+  do know that it does not work out-of-the box, so we are not providing any
+  documentation yet: Feel free to join our Slack channel to learn more about
+  how best you can use it.
+* Refactorings and improvements across the entire codebase.
+* Introduced [Architectural Decision Records](https://vsecm.com/documentation/architecture/adr-intro/)
 
 ## [0.25.2] - 2024-05-06
 
