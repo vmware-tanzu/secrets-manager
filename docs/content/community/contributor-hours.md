@@ -42,9 +42,21 @@ interested in the project to come together and discuss key aspects of
 
 ## Meeting Recordings
 
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+### VMware Secrets Manager Contributor Sync 003 -- 2024-03-28
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe 
+src="https://player.vimeo.com/video/949785613?h=e5af4f58be&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+title="VMware Secrets Manager Contributor Sync 003 — 2024-03-28"></iframe></div>
+
 ### VMware Secrets Manager Contributor Sync 002 -- 2024-01-25
 
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/907104093?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VMware Secrets Manager Contributor Sync 002 (2024-01-25)"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/907104093?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+frameborder="0" allow="autoplay; fullscreen; picture-in-picture" 
+style="position:absolute;top:0;left:0;width:100%;height:100%;" title="VMware Secrets Manager Contributor Sync 002 (2024-01-25)"></iframe></div>
 
 ### VMware Secrets Manager Contributor Sync 001 -- 2023-09-29
 
