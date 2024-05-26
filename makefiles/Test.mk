@@ -28,7 +28,10 @@ cover:
     	echo "Test coverage is less than $(threshold)"; \
 		exit 0; \
 	fi
-	@echo "Test coverage is greater than $(threshold)"
+	if [ "$$coverage" != "" ] && awk 'BEGIN{exit !('"$$coverage"'>=$(threshold))}'; then \
+		echo "Test coverage is greater than $(threshold)"; \
+		exit 0; \
+	fi
 	@rm -f $(coverage_file)
 
 #
