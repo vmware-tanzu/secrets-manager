@@ -23,7 +23,8 @@ import (
 const (
 	chars      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	numbers    = "0123456789"
-	everything = chars + numbers + "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
+	symbols    = "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
+	everything = chars + numbers + symbols
 )
 
 // generatorExprRanges represents a range of characters used in string
@@ -86,6 +87,8 @@ func replaceWithGenerated(s *string, expression string, ranges [][]byte,
 			alphabet += everything
 		case `\d`:
 			alphabet += numbers
+		case `\s`:
+			alphabet += symbols
 		default:
 			if slice, err := everythingSlice(r[0], r[1]); err != nil {
 				return err
