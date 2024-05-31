@@ -14,7 +14,6 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
-	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 type Entry struct {
@@ -24,19 +23,6 @@ type Entry struct {
 	Url           string
 	SpiffeId      string
 	Event         state.Event
-}
-
-func printAudit(correlationId string, e state.Event,
-	method, url, spiffeid, payload string) {
-	std.AuditLn(
-		&correlationId,
-		string(e),
-		"{{"+
-			"method:[["+method+"]],"+
-			"url:[["+url+"]],"+
-			"spiffeid:[["+spiffeid+"]],"+
-			"payload:[["+payload+"]]}}",
-	)
 }
 
 // Log prints an audit log entry to the standard output. The log entry includes
