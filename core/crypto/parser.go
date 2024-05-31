@@ -87,7 +87,7 @@ func replaceWithGenerated(s *string, expression string, ranges [][]byte,
 			alphabet += everything
 		case `\d`:
 			alphabet += numbers
-		case `\s`:
+		case `\symbol`:
 			alphabet += symbols
 		default:
 			if slice, err := everythingSlice(r[0], r[1]); err != nil {
