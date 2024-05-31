@@ -8,7 +8,10 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
+package journal
+
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
