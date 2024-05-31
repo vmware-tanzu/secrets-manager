@@ -80,3 +80,36 @@ func TestLogLevel(t *testing.T) {
 		})
 	}
 }
+
+func TestLogSecretFingerprints(t *testing.T) {
+	tests := []struct {
+		name     string
+		envValue string
+		expected bool
+	}{
+		{"Empty environment variable", "", false},
+		{"Exact 'true' value", "true", true},
+		{"Exact 'false' value", "false", false},
+		{"Whitespace around 'true'", "  true  ", true},
+		{"Uppercase 'TRUE'", "TRUE", true},
+		{"Mixed case 'TrUe'", "TrUe", true},
+		{"Random string", "random", false},
+		{"Whitespace only", "   ", false},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Set the environment variable
+			os.Setenv("VSECM_LOG_SECRET_FINGERPRINTS", tt.envValue)
+			defer os.Unsetenv("VSECM_LOG_SECRET_FINGERPRINTS")
+
+			// Call the function
+			result := LogSecretFingerprints()
+
+			// Check if the result is as expected
+			if result != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, result)
+			}
+		})
+	}
+}
