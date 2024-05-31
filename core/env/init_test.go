@@ -112,3 +112,33 @@ func TestSystemNamespace(t *testing.T) {
 		})
 	}
 }
+
+func TestWaitBeforeExitForInitContainer(t *testing.T) {
+	tests := []struct {
+		name     string
+		envValue string
+		expected time.Duration
+	}{
+		{"Empty environment variable", "", 0 * time.Millisecond},
+		{"Valid millisecond value", "100", 100 * time.Millisecond},
+		{"Invalid value", "invalid", 0 * time.Millisecond},
+		{"Negative value", "-100", -100 * time.Millisecond},
+		{"Large value", "1000000", 1000000 * time.Millisecond},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Set the environment variable
+			os.Setenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT", tt.envValue)
+			defer os.Unsetenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
+
+			// Call the function
+			result := WaitBeforeExitForInitContainer()
+
+			// Check if the result is as expected
+			if result != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, result)
+			}
+		})
+	}
+}
