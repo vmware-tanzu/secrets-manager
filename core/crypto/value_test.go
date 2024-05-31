@@ -33,7 +33,7 @@ func TestGenerateValue(t *testing.T) {
 		{
 			name: "Success case for alphanumeric and symbol",
 			args: args{
-				template: `foo[\s]{4}bar`,
+				template: `foo[\symbol]{4}bar`,
 			},
 			wantErr:     false,
 			errorOutput: "",
