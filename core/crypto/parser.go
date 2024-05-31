@@ -23,7 +23,7 @@ import (
 const (
 	chars      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	numbers    = "0123456789"
-	symbols    = "~!@#$%^&*()-_+={}[]\\|<,>.?/\"';:`"
+	symbols    = "!@#$%^&*()-_+={}[]|<>,.?/"
 	everything = chars + numbers + symbols
 )
 
