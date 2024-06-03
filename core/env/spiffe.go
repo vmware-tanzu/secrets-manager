@@ -22,3 +22,11 @@ func SpiffeSocketUrl() string {
 	}
 	return p
 }
+
+func SpiffeTrustDomain() string {
+	p := os.Getenv("SPIFFE_TRUST_DOMAIN")
+	if p == "" {
+		p = "vsecm.com"
+	}
+	return p
+}
