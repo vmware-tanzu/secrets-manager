@@ -70,7 +70,7 @@ func Id() string {
 //
 //	hexKey: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
 //
-// Note:   .
+// Note:
 //
 //		The function uses the crypto/rand package for secure random number
 //	 generation, suitable for cryptographic purposes.
