@@ -15,7 +15,8 @@ weight = 11
 
 ## Recent Updates
 
-TBD
+* Added ability to have regex-based SPIFFE ID matchers.
+* Enabled stricter validation on SPIFFE IDs to reduce configuration errors.
 
 ## [0.25.3] - 2024-05-17
 
