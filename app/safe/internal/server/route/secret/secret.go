@@ -70,24 +70,32 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 
 	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
-	// TODO: why does this method have a side effect?!
-	// TODO: there are other methods that have similar side effects too, they
-	// should not.
-	body := httq.ReadBody(cid, r, w, j)
+	body, _ := httq.ReadBody(cid, r)
 	if body == nil {
 		j.Event = event.BadPayload
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+		}
 
 		return
 	}
 
 	log.DebugLn(&cid, "Secret: Parsed request body")
 
-	// TODO: why does this method have a side effect?!
-	ur := json.UnmarshalSecretUpsertRequest(cid, body, j, w)
+	ur, _ := json.UnmarshalSecretUpsertRequest(body)
 	if ur == nil {
 		j.Event = event.BadPayload
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+		}
 
 		return
 	}
