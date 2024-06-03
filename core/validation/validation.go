@@ -14,28 +14,130 @@ import (
 	"fmt"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"regexp"
 	"strings"
 )
 
-// IsSentinel returns true if the given SPIFFEID is a Sentinel ID.
-// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForSentinel
-// as its prefix.
+const spiffeRegexPrefixStart = "^"
+
+// IsSentinel checks if a given SPIFFE ID belongs to VSecM Sentinel.
+//
+// A SPIFFE ID (SPIFFE IDentifier) is a URI that uniquely identifies a workload
+// in a secure, interoperable way. This function verifies if the provided
+// SPIFFE ID meets the criteria to be classified as a workload ID based on
+// certain environmental settings.
+//
+// The function performs the following checks:
+//  1. If the `spiffeid` starts with a "^", it assumed that it is a regular
+//     expression pattern, it compiles the expression and checks if the SPIFFE
+//     ID matches it.
+//  2. Otherwise, it checks if the SPIFFE ID starts with the proper  prefix.
+//
+// Parameters:
+//
+//	spiffeid (string): The SPIFFE ID to be checked.
+//
+// Returns:
+//
+//	bool: `true` if the SPIFFE ID belongs to VSecM Sentinel, `false` otherwise.
 func IsSentinel(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSentinel())
+	prefix := env.SpiffeIdPrefixForSentinel()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			return false
+		}
+		return re.MatchString(spiffeid)
+	}
+
+	if !strings.HasPrefix(
+		spiffeid,
+		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		return false
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
 }
 
-// IsSafe returns true if the given SPIFFEID is a Safe ID.
-// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForSafe
-// as its prefix.
+// IsSafe checks if a given SPIFFE ID belongs to VSecM Safe.
+//
+// A SPIFFE ID (SPIFFE IDentifier) is a URI that uniquely identifies a workload
+// in a secure, interoperable way. This function verifies if the provided
+// SPIFFE ID meets the criteria to be classified as a workload ID based on
+// certain environmental settings.
+//
+// The function performs the following checks:
+//  1. If the `spiffeid` starts with a "^", it assumed that it is a regular
+//     expression pattern, it compiles the expression and checks if the SPIFFE
+//     ID matches it.
+//  2. Otherwise, it checks if the SPIFFE ID starts with the proper prefix.
+//
+// Parameters:
+//
+//	spiffeid (string): The SPIFFE ID to be checked.
+//
+// Returns:
+//
+//	bool: `true` if the SPIFFE ID belongs to VSecM Safe, `false` otherwise.
 func IsSafe(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForSafe())
+	prefix := env.SpiffeIdPrefixForSafe()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			return false
+		}
+		return re.MatchString(spiffeid)
+	}
+
+	if !strings.HasPrefix(
+		spiffeid,
+		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		return false
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
 }
 
-// IsWorkload returns true if the given SPIFFEID is a WorkloadIds ID.
-// It does this by checking if the SPIFFEID has the SpiffeIdPrefixForWorkload
-// as its prefix.
+// IsWorkload checks if a given SPIFFE ID belongs to a workload.
+//
+// A SPIFFE ID (SPIFFE IDentifier) is a URI that uniquely identifies a workload
+// in a secure, interoperable way. This function verifies if the provided
+// SPIFFE ID meets the criteria to be classified as a workload ID based on
+// certain environmental settings.
+//
+// The function performs the following checks:
+//  1. If the `spiffeid` starts with a "^", it assumed that it is a regular
+//     expression pattern, it compiles the expression and checks if the SPIFFE
+//     ID matches it.
+//  2. Otherwise, it checks if the SPIFFE ID starts with the proper prefix.
+//
+// Parameters:
+//
+//	spiffeid (string): The SPIFFE ID to be checked.
+//
+// Returns:
+//
+//	bool: `true` if the SPIFFE ID belongs to a workload, `false` otherwise.
 func IsWorkload(spiffeid string) bool {
-	return strings.HasPrefix(spiffeid, env.SpiffeIdPrefixForWorkload())
+	prefix := env.SpiffeIdPrefixForWorkload()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			return false
+		}
+		return re.MatchString(spiffeid)
+	}
+
+	if !strings.HasPrefix(
+		spiffeid,
+		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		return false
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
 }
 
 // EnsureSafe checks the safety of the SPIFFE ID from the provided X509Source.
