@@ -12,8 +12,7 @@ Helm chart for keystone
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| environments[0].name | string | `"SPIFFE_ENDPOINT_SOCKET"` |  |
-| environments[0].value | string | `"unix:///spire-agent-socket/agent.sock"` |  |
+| environments[0] | object | `{"name":"SPIFFE_ENDPOINT_SOCKET","value":"unix:///spire-agent-socket/agent.sock"}` | The SPIFFE endpoint socket. This is used to communicat with the SPIRE agent. If you change this, you will need to change the associated volumeMount in the Deployment.yaml too. |
 | environments[1].name | string | `"VSECM_LOG_LEVEL"` |  |
 | environments[1].value | string | `"7"` |  |
 | environments[2].name | string | `"VSECM_WORKLOAD_SPIFFEID_PREFIX"` |  |
