@@ -19,6 +19,9 @@ livenessPort: 8081
 # about these environment variables.
 
 environments:
+  # environments.SPIFFE_ENDPOINT_SOCKET -- The SPIFFE endpoint socket. This
+  # is used to communicat with the SPIRE agent. If you change this, you
+  # will need to change the associated volumeMount in the Deployment.yaml too.
   - name: SPIFFE_ENDPOINT_SOCKET
     value: "unix:///spire-agent-socket/agent.sock"
   - name: VSECM_LOG_LEVEL
