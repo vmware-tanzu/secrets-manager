@@ -20,6 +20,7 @@ minikube start \
     --extra-config=apiserver.authorization-mode=Node,RBAC \
     --memory="$MEMORY" \
     --cpus="$CPU" \
+    --nodes="$NODES" \
     --insecure-registry "10.0.0.0/24"
 
 echo "waiting 10 secs before enabling registry"

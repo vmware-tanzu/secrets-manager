@@ -17,6 +17,9 @@ weight = 11
 
 * Added ability to have regex-based SPIFFE ID matchers.
 * Enabled stricter validation on SPIFFE IDs to reduce configuration errors.
+* Added ability to optionailly use multiple worker nodes for the development
+  clusters.
+* Documentation updates.
 
 ## [0.25.3] - 2024-05-17
 
