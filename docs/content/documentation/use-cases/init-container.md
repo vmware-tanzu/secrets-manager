@@ -214,15 +214,37 @@ Here are the meanings of the parameters in the above command:
 * `-w` is the name of the workload.
 * `-n` identifies the namespace of the Kubernetes `Secret`.
 * `-s` is the actual value of the secret.
+* `-t` is the template that will transform this secret to the `data` portion 
+  of the Kubernetes `Secret`.
 
 ### Initializing the Workload
 
 We have created a Kubernetes `Secret`.
 
-TODO: the workflow has changed, you will need to register a vsecm secret
-targeted for the workload to trigger its init container.
+Next, we will register a dummy secret to the workload using **VSecM Sentinel**.
+This will make the init container exit successfully and let the main container
+of the workload initialize.
 
-Now let's check if our pod has initialized:
+```bash
+kubectl exec "$SENTINEL" -n vsecm-system -- safe \
+  -w "example" \
+  -s "trigger" \
+  -n default
+```
+
+> **Why Do We Need a Dummy Secret?**
+> 
+> This use case assumes that we do not have access to the source code of the
+> workload. The workload is designed to consume secrets as environment variables.
+> 
+> If we had access to the source code, we could have modified it to consume
+> secrets from [**VSecM SDK**][vsecm-sdk] or [**VSecM Sidecar**][vsecm-sidecar].
+> In that case, we would not need to register a dummy secret to the workload.
+
+[vsecm-sdk]: @/documentation/use-cases/vsecm-sdk.md
+[vsecm-sidecar]: @/documentation/use-cases/sidecar.md
+
+Now, let's check if our pod has initialized:
 
 ```bash 
 kubectl get po
