@@ -9,17 +9,41 @@
 # */
 
 global:
-  # global.deploySpire -- Deploy SPIRE components. If set to false, SPIRE
-  # components will not be deployed. This is useful when SPIRE is already
-  # deployed in the cluster.
+  # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
+  # deployed. This is useful when SPIRE is already deployed in the cluster.
   deploySpire: true
-  #
-  deployKeystone: true
+  # -- Deploy SPIRE Controller Manager. SPIRE Controller Manager is required
+  # for ClusterSPIFFEIDs to function. If something else on your system assigns
+  # ClusterSPIFFEIDs to your workloads, or if you want to manually manage your
+  # SPIRE Server registration entries, you can set this flag to `false`.
+  deploySpireControllerManager: true
+  # -- Setting this `false` will skip ClusterSPIFFEID creation for VSecM 
+  # components. All ClusterSPIFFEID templates will merely be ignored during
+  # helm installation. Keeping this `true`, while `deploySpireControllerManager`
+  # is `false` will cause the helm installation to fail.
+  useClusterSpiffeIds: true
 
-  # possible options for baseImage (distroless, distroless-fips)
+  # -- Deploy the Keystone VSecM component. VSecM Keystone is a lightweight
+  # Pod that is initialized only after VSecM Sentinel completes it
+  # `initCommand` initialization sequence.
+  deployKeystone: true
+  # -- Deploy VSecM Sentinel. VSecM Sentinel is the only admin interface where
+  # you can register secrets. For best security, you might want to disable
+  # the initial deployment of it. This way, you can deploy VSecM Sentinel
+  # off-cycle later when you need it.
+  deploySentinel: true
+
+  # -- Possible options for baseImage (distroless, distroless-fips). When in
+  # doubt, stick with distroless.
   baseImage: distroless
+  # -- Registry url. Defaults to "vsecm", which points to the public vsecm
+  # DockerHub registry: <https://hub.docker.com/u/vsecm>.
   registry: vsecm
+  # -- An integer between 0 and 7. 0: Logs are off (only audit events will be
+  # logged). 7: Highest log verbosity level (TRACE).
   logLevel: "7"
+  # -- Where to find the dependent images of VSecM.
+  # Normally, you would not need to modify this.
   images:
     keystone:
       distrolessRepository: vsecm-ist-keystone
@@ -39,35 +63,46 @@ global:
     initContainer:
       repository: vsecm-ist-init-container
       tag: 0.25.4
+
+    # -- Container registry details of SPIRE Agent.
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
       tag: 1.9.4
       pullPolicy: IfNotPresent
+    # -- Container registry details of SPIFFE CSI Driver.
     spiffeCsiDriver:
       repository: ghcr.io/spiffe/spiffe-csi-driver
       tag: 0.2.6
       pullPolicy: IfNotPresent
+    # -- Container registry details of SPIFFE CSI Node Driver Registrar.
     nodeDriverRegistrar:
       repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
       tag: v2.10.0
       pullPolicy: IfNotPresent
+    # -- Container registry details of SPIRE Server.
     spireServer:
       repository: ghcr.io/spiffe/spire-server
       tag: 1.9.4
       pullPolicy: IfNotPresent
+    # -- Container registry details of SPIRE Controller Manager.
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
       tag: 0.5.0
       pullPolicy: IfNotPresent
+
+  # - VSecM-related global configuration.
   vsecm:
     namespace: vsecm-system
     safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-    useClusterSpiffeIds: true
+
     safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
     sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     keystoneSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+  
+  # SPIRE-related global configuration.
   spire:
     # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
     # identify the trust domain of a workload. If you use anything other than
@@ -88,5 +123,3 @@ global:
     namespace: spire-system
     logLevel: DEBUG
     serverPort: 8081
-
-podAnnotations: {}

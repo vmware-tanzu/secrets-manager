@@ -8,6 +8,8 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if .Values.global.useClusterSpiffeIds }}
+
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
@@ -21,3 +23,5 @@ spec:
   workloadSelectorTemplates:
     - "k8s:ns:{{ .Values.global.vsecm.namespace }}"
     - "k8s:sa:{{ include "keystone.serviceAccountName" . }}"
+
+{{- end }}

@@ -8,6 +8,8 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if Values.global.deploySpireControllerManager }}
+
 # Service definition for SPIRE controller manager webhook
 apiVersion: v1
 kind: Service
@@ -21,3 +23,5 @@ spec:
       targetPort: 9443
   selector:
     app: spire-server
+
+{{- end }}
