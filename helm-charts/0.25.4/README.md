@@ -83,7 +83,7 @@ For further details about subcharts follow these links:
 * [VsecM Keystone](charts/keystone/README.md)
 * [SPIRE](charts/spire/README.md)
 
-Please check out [the official VSecM documentation][ducks]
+Please check out [the official **VSecM** documentation][ducks]
 for more information about **VSecM** components and the overall
 **VSecM** architecture.
 
