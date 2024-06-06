@@ -15,16 +15,25 @@ weight = 11
 
 ## Recent Updates
 
-* Added ability to have regex-based SPIFFE ID matchers.
+* Added the ability to have regex-based SPIFFE ID matchers.
 * Enabled stricter validation on SPIFFE IDs to reduce configuration errors.
-* Added ability to optionailly use multiple worker nodes for the development
+* Added ability to optionally use multiple worker nodes for the development
   clusters.
+* Introduced `helm-docs` to automatically augment the documentation with the
+  Helm chart's values.yaml.
+* Added the ability to deploy VSecM without SPIRE Controller Manager. In this
+  mode, the operator will need to manually create SPIRE Server registration
+  entries.
+* Added the ability to not create `ClusterSPIFFEID`s for the VSecM components
+  automatically. In this mode, the operator will need to manually create those
+  required `ClusterSPIFFEID`s.
 * Documentation updates.
+* Introduced `helm-docs` for helm chart documentation.
 
 ## [0.25.3] - 2024-05-17
 
-* Removed some configuration options including `
-  VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` because how the root key will
+* Removed some configuration options including
+  `VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` because how the root key will
   be updated will be depending on backing store implementation. And it does
   not make sense for an operator updating the root key in memory but not
   updating the backing Kubernetes secret. That could bring inconsistencies

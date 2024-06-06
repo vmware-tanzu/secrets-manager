@@ -700,7 +700,6 @@ spec:
             - containerPort: 9443
             - containerPort: 8083
               name: healthz
-
           livenessProbe:
             httpGet:
               path: /healthz

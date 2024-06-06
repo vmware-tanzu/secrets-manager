@@ -62,6 +62,7 @@ spec:
             #
           {{- $safeInitEndpointUrlSet := false }}
           {{- $safeInitSpiffeIdPrefixSet := false }}
+          {{- $workloadInitSpiffeIdPrefixSet := false }}
           {{- $vsecmInitNamespaceSet := false }}
           {{- $spireInitNamespaceSet := false }}
           {{- range .Values.initEnvironments }}
@@ -70,6 +71,9 @@ spec:
             {{- end }}
             {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
               {{- $safeInitSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_WORKLOAD_SPIFFEID_PREFIX" }}
+              {{- $workloadInitSpiffeIdPrefixSet = true }}
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
               {{- $vsecmInitNamespaceSet = true }}
@@ -87,6 +91,10 @@ spec:
           {{- if not $safeInitSpiffeIdPrefixSet }}
             - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $workloadInitSpiffeIdPrefixSet }}
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.workloadSpiffeIdPrefix | quote }}
           {{- end }}
           {{- if not $vsecmInitNamespaceSet }}
             - name: VSECM_NAMESPACE_SYSTEM
@@ -117,6 +125,7 @@ spec:
           env:
           {{- $safeEndpointUrlSet := false }}
           {{- $safeSpiffeIdPrefixSet := false }}
+          {{- $workloadSpiffeIdPrefixSet := false }}
           {{- $vsecmNamespaceSet := false }}
           {{- $spireNamespaceSet := false }}
           {{- range .Values.environments }}
@@ -125,6 +134,9 @@ spec:
             {{- end }}
             {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
               {{- $safeSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_WORKLOAD_SPIFFEID_PREFIX" }}
+              {{- $workloadSpiffeIdPrefixSet = true }}
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
               {{- $vsecmNamespaceSet = true }}
@@ -142,6 +154,10 @@ spec:
           {{- if not $safeSpiffeIdPrefixSet }}
             - name: VSECM_SAFE_SPIFFEID_PREFIX
               value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $workloadSpiffeIdPrefixSet }}
+            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+              value: {{ .Values.global.vsecm.workloadSpiffeIdPrefix | quote }}
           {{- end }}
           {{- if not $vsecmNamespaceSet }}
             - name: VSECM_NAMESPACE_SYSTEM

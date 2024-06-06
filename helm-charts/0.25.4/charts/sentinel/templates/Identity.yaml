@@ -8,16 +8,14 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if .Values.global.useClusterSpiffeIds }}
+
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
   name: {{ include "sentinel.fullname" . }}
 spec:
-  spiffeIDTemplate: "spiffe://{{ .Values.global.spire.trustDomain }}\
-    /workload/{{ include "sentinel.fullname" . }}\
-    /ns/{{`{{ .PodMeta.Namespace }}`}}\
-    /sa/{{`{{ .PodSpec.ServiceAccountName }}`}}\
-    /n/{{`{{ .PodMeta.Name }}`}}"
+  spiffeIDTemplate: {{ .Values.global.vsecm.sentinelSpiffeIdTemplate }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: {{ include "sentinel.fullname" . }}
@@ -25,3 +23,5 @@ spec:
   workloadSelectorTemplates:
     - "k8s:ns:{{ .Values.global.vsecm.namespace }}"
     - "k8s:sa:{{ include "sentinel.serviceAccountName" . }}"
+
+{{- end }}

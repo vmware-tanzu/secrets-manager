@@ -29,7 +29,7 @@ k8s-delete:
 	./hack/minikube-delete.sh
 # Brings up a fresh Minikube cluster.
 k8s-start:
-	@NODES=$(NODES) @CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
+	@NODES=$(NODES) CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
 
 deploy-spire-crds:
 	kubectl apply -f ${MANIFESTS_BASE_PATH}/crds
