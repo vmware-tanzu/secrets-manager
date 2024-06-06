@@ -28,6 +28,7 @@ weight = 11
   automatically. In this mode, the operator will need to manually create those
   required `ClusterSPIFFEID`s.
 * Documentation updates.
+* Introduced `helm-docs` for helm chart documentation.
 
 ## [0.25.3] - 2024-05-17
 

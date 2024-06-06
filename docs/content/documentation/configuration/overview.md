@@ -30,13 +30,15 @@ The following section contain a breakdown of all of these environment variables.
 > For **production setup**, check out [**VMware Secrets Manager Production
 > Deployment**](@/documentation/production/overview.md).
 
-
 ## Environment Variables
 
 > **Using VSecM Helm Charts**?
 >
 > If you are using [**VMware Secrets Manager Helm Charts**][helm-charts],
 > you can configure these environment variables using the `values.yaml` file.
+>
+> You can check out the details [from the official VSecM Helm Charts
+> documentation][helm-charts].
 
 
 [helm-charts]: https://vmware-tanzu.github.io/secrets-manager/

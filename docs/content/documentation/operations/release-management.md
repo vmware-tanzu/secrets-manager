@@ -269,8 +269,12 @@ the `gh-pages` branch.
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
 
+### 11. Update Helm Documentation
 
-### 11. Add a Snapshot of the Current Documentation
+If you have updated inline documentation in helm charts, make sure to reflect
+the changes by running `./hack/helm-docs.sh`.
+
+### 12. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned
 folders.
@@ -296,7 +300,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 12. All Set 🎉
+### 13. All Set 🎉
 
 You're all set.
 
