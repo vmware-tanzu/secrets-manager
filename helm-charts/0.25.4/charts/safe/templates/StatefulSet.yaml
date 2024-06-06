@@ -87,7 +87,7 @@ spec:
               {{- $sentinelSpiffeIdPrefixSet = true }}
             {{- end }}
             {{- if eq .name "VSECM_WORKLOAD_SPIFFEID_PREFIX" }}
-              {{- $sentinelSpiffeIdPrefixSet = true }}
+              {{- $workloadSpiffeIdPrefixSet = true }}
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
               {{- $vsecmNamespaceSet = true }}
