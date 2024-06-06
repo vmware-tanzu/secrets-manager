@@ -8,7 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-{{- if Values.global.deploySpireControllerManager }}
+{{- if .Values.global.deploySpireControllerManager }}
 
 # Service definition for SPIRE controller manager webhook
 apiVersion: v1

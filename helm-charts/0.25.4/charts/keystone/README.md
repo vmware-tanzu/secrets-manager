@@ -8,36 +8,23 @@ Helm chart for keystone
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `100` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| environments[0] | object | `{"name":"SPIFFE_ENDPOINT_SOCKET","value":"unix:///spire-agent-socket/agent.sock"}` | The SPIFFE endpoint socket. This is used to communicat with the SPIRE agent. If you change this, you will need to change the associated volumeMount in the Deployment.yaml too. |
-| environments[1].name | string | `"VSECM_LOG_LEVEL"` |  |
-| environments[1].value | string | `"7"` |  |
-| environments[2].name | string | `"VSECM_WORKLOAD_SPIFFEID_PREFIX"` |  |
-| environments[2].value | string | `"spiffe://vsecm.com/workload/"` |  |
-| environments[3].name | string | `"VSECM_SAFE_TLS_PORT"` |  |
-| environments[3].value | string | `":8443"` |  |
-| fullnameOverride | string | `""` |  |
-| imagePullSecrets | list | `[]` |  |
-| initEnvironments[0].name | string | `"SPIFFE_ENDPOINT_SOCKET"` |  |
-| initEnvironments[0].value | string | `"unix:///spire-agent-socket/agent.sock"` |  |
-| initEnvironments[1].name | string | `"VSECM_LOG_LEVEL"` |  |
-| initEnvironments[1].value | string | `"7"` |  |
-| initEnvironments[2].name | string | `"VSECM_WORKLOAD_SPIFFEID_PREFIX"` |  |
-| initEnvironments[2].value | string | `"spiffe://vsecm.com/workload/"` |  |
-| initEnvironments[3].name | string | `"VSECM_INIT_CONTAINER_POLL_INTERVAL"` |  |
-| initEnvironments[3].value | string | `"5000"` |  |
+| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Autoscaling settings. Note that, by default, autoscaling is disabled. It does not typically make sense to autoscale VSecM Keystone as it is a control plane component with minimal resource requirements. |
+| environments | list | `[{"name":"VSECM_LOG_LEVEL","value":"7"}]` | See https://vsecm.com/configuration for more information about these environment variables. |
+| environments[0] | object | `{"name":"VSECM_LOG_LEVEL","value":"7"}` | The log level. 0: Logs are off (only audit events will be logged) 7: TRACE level logging (maximum verbosity). |
+| fullnameOverride | string | `""` | The fullname override of the chart. |
+| imagePullSecrets | list | `[]` | Override it with an image pull secret that you need as follows: imagePullSecrets:  - name: my-registry-secret |
+| initEnvironments | list | `[{"name":"SPIFFE_ENDPOINT_SOCKET","value":"unix:///spire-agent-socket/agent.sock"},{"name":"VSECM_LOG_LEVEL","value":"7"},{"name":"VSECM_INIT_CONTAINER_POLL_INTERVAL","value":"5000"}]` | See https://vsecm.com/configuration for more information about these environment variables. |
+| initEnvironments[0] | object | `{"name":"SPIFFE_ENDPOINT_SOCKET","value":"unix:///spire-agent-socket/agent.sock"}` | The SPIFFE endpoint socket. This is used to communicate with the SPIRE  agent. If you change this, you will need to change the associated  volumeMount in the Deployment.yaml too. |
+| initEnvironments[1] | object | `{"name":"VSECM_LOG_LEVEL","value":"7"}` | The log level. 0: Logs are off (only audit events will be logged) 7: TRACE level logging (maximum verbosity). |
+| initEnvironments[2] | object | `{"name":"VSECM_INIT_CONTAINER_POLL_INTERVAL","value":"5000"}` | The interval (in milliseconds) that the VSecM Init Container will poll the VSecM Safe for secrets. |
 | livenessPort | int | `8081` |  |
-| nameOverride | string | `""` |  |
-| podAnnotations | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
+| nameOverride | string | `""` | The name override of the chart. |
+| podAnnotations | object | `{}` | Additional pod annotations. |
+| podSecurityContext | object | `{}` | Pod security context overrides. |
 | replicaCount | int | `1` |  |
-| resources.requests.cpu | string | `"5m"` |  |
-| resources.requests.memory | string | `"20Mi"` |  |
-| securityContext | object | `{}` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.name | string | `"vsecm-keystone"` |  |
+| resources | object | `{"requests":{"cpu":"5m","memory":"20Mi"}}` | Resource limits and requests. |
+| serviceAccount | object | `{"annotations":{},"create":true,"name":"vsecm-keystone"}` | The service account to use. |
+| serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |
+| serviceAccount.create | bool | `true` | Specifies whether a service account should be created. |
+| serviceAccount.name | string | `"vsecm-keystone"` | The name of the service account to use. If not set and 'create' is true, a name is generated using the fullname template. |
 

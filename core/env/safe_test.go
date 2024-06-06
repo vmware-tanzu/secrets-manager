@@ -176,59 +176,6 @@ func TestSafeSecretDeleteBufferSize(t *testing.T) {
 	}
 }
 
-func TestSafeK8sSecretDeleteBufferSize(t *testing.T) {
-	tests := []struct {
-		name    string
-		setup   func() error
-		cleanup func() error
-		want    int
-	}{
-		{
-			name: "default_safe_k8s_secret_delete_buffer_size",
-			want: 10,
-		},
-		{
-			name: "safe_k8s_secret_delete_buffer_size_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE", "1")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE")
-			},
-			want: 1,
-		},
-		{
-			name: "invalid_safe_k8s_secret_delete_buffer_size_from_env",
-			setup: func() error {
-				return os.Setenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE", "test")
-			},
-			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE")
-			},
-			want: 10,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if tt.setup != nil {
-				if err := tt.setup(); err != nil {
-					t.Errorf("K8sSecretDeleteBufferSizeForSafe() = failed to setup, with error: %+v", err)
-				}
-			}
-			defer func() {
-				if tt.cleanup != nil {
-					if err := tt.cleanup(); err != nil {
-						t.Errorf("K8sSecretDeleteBufferSizeForSafe() = failed to cleanup, with error: %+v", err)
-					}
-				}
-			}()
-			if got := K8sSecretDeleteBufferSizeForSafe(); got != tt.want {
-				t.Errorf("K8sSecretDeleteBufferSizeForSafe() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 //func TestSafeRemoveLinkedK8sSecrets(t *testing.T) {
 //	tests := []struct {
 //		name    string

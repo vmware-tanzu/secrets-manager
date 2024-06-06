@@ -39,27 +39,29 @@ global:
   # -- Registry url. Defaults to "vsecm", which points to the public vsecm
   # DockerHub registry: <https://hub.docker.com/u/vsecm>.
   registry: vsecm
-  # -- An integer between 0 and 7. 0: Logs are off (only audit events will be
-  # logged). 7: Highest log verbosity level (TRACE).
-  logLevel: "7"
+
   # -- Where to find the dependent images of VSecM.
   # Normally, you would not need to modify this.
   images:
+    # - Container registry details for VSecM Keystone.
     keystone:
       distrolessRepository: vsecm-ist-keystone
       distrolessFipsRepository: vsecm-ist-fips-keystone
       tag: 0.25.4
       pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Safe.
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe
       tag: 0.25.4
       pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Sentinel.    
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
       tag: 0.25.4
       pullPolicy: IfNotPresent
+    # - Container registry details fro VSecM Init Container.
     initContainer:
       repository: vsecm-ist-init-container
       tag: 0.25.4
@@ -92,19 +94,39 @@ global:
 
   # - VSecM-related global configuration.
   vsecm:
+    # - This is where all VSecM components will be deployed.
     namespace: vsecm-system
+
+    # - The endpoint URL of the VSecM Safe Service
     safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
 
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from VSecM Safe. You can also use regular expression
+    # matchers. Check out the official documentation at https://vsecm.com
+    # for details.
     safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from VSecM Sentinel. You can also use regular expression
+    # matchers. Check out the official documentation at https://vsecm.com
+    # for details.
     sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from a Workload. If the SPIFFE ID of the workload does not
+    # match this pattern, then VSecM Safe will reject the workload's request.
+    # You can also use regular expression # matchers. Check out the official
+    # documentation at https://vsecm.com for details.
+    workloadSpiffeIdPrefix: "spiffe://vsecm.com/workload/"
 
+    # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+    # - The SPIFFE ID template that VSecM Sentinel's ClusterSPIFFEID will use.
     sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+    # - The SPIFFE ID template that VSecM Keystone's ClusterSPIFFEID will use.
     keystoneSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
   
-  # SPIRE-related global configuration.
+  # -- SPIRE-related global configuration.
   spire:
-    # The trust domain is the root of the SPIFFE ID hierarchy. It is used to
+    # -- The trust domain is the root of the SPIFFE ID hierarchy. It is used to
     # identify the trust domain of a workload. If you use anything other than
     # the default `vsecm.com`, you must also update the relevant environment
     # variables that does SPIFFE ID validation.
@@ -120,6 +142,10 @@ global:
     # without operator input, randomly generating a unique name (such as a UUID)
     # is strongly advised.
     trustDomain: "vsecm.com"
+    # -- This is the namespace where the SPIRE components will be deployed.
     namespace: spire-system
+    # -- The log level of the SPIRE components. This is useful for debugging.
     logLevel: DEBUG
+    # -- The SPIRE Server port. This is the port where the SPIRE Server will
+    # listen for incoming connections.
     serverPort: 8081

@@ -108,29 +108,6 @@ func SecretDeleteBufferSizeForSafe() int {
 	return l
 }
 
-// K8sSecretDeleteBufferSizeForSafe returns the buffer size for the VSecM Safe
-// Kubernetes secret deletion queue.
-//
-// The buffer size is determined by the environment variable
-// VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE.
-//
-// If the environment variable is not set, the default buffer size is 10.
-// If the environment variable is set and can be parsed as an integer,
-// it will be used as the buffer size.
-// If the environment variable is set but cannot be parsed as an integer,
-// the default buffer size is used.
-func K8sSecretDeleteBufferSizeForSafe() int {
-	p := os.Getenv("VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE")
-	if p == "" {
-		return 10
-	}
-	l, err := strconv.Atoi(p)
-	if err != nil {
-		return 10
-	}
-	return l
-}
-
 // FipsCompliantModeForSafe returns a boolean indicating whether VSecM Safe
 // should run in FIPS compliant mode. Note that this is not a guarantee that
 // VSecM Safe will run in FIPS compliant mode, as it depends on the underlying
