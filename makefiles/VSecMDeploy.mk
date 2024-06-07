@@ -22,7 +22,7 @@ MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 
 # Removes the former VSecM deployment without entirely destroying the cluster.
 clean:
-	./hack/uninstall.sh $(VSECM_NAMESPACE_SYSTEM) $(VSECM_NAMESPACE_SPIRE)
+	./hack/uninstall.sh $(VSECM_NAMESPACE_SYSTEM) $(VSECM_NAMESPACE_SPIRE) $(VSECM_NAMESPACE_SPIRE_SERVER)
 
 # Completely removes the Minikube cluster.
 k8s-delete:
@@ -39,7 +39,7 @@ deploy-spire:
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
 		echo "verifying SPIRE installation"; \
-		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE) \
+		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE_SERVER) \
 		echo "spire-server: deployment available"; \
 		echo "spire installation successful"; \
 	fi

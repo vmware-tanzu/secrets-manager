@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-SPIRE_SERVER=$(kubectl get po -n spire-system \
+SPIRE_SERVER=$(kubectl get po -n spire-server \
   | grep "spire-server-" | awk '{print $1}')
 export SPIRE_SERVER=SPIRE_SERVER
 

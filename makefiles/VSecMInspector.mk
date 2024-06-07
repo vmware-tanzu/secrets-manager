@@ -27,6 +27,3 @@ inspector-push-eks:
 inspector-push-local:
 	./hack/push.sh "vsecm-inspector" $(VERSION) \
 		"$(VSECM_LOCAL_REGISTRY_URL)/vsecm-inspector"
-
-potato:
-	./hack/potato.sh $(VSECM_NAMESPACE_SPIRE)

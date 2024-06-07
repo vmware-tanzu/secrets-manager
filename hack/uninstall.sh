@@ -12,11 +12,13 @@
 
 VSECM_NS="$1"
 SPIRE_NS="$2"
+SPIRE_SERVER_NS="$3"
 
 if kubectl get ns | grep vsecm-system; then
   # Order is important for SPIFFE SCI Driver to properly unmount volumes.
   # ref: https://github.com/spiffe/spiffe-csi#failure-to-terminate-pods-when-driver-is-unhealthy-or-removed
   kubectl delete ns $VSECM_NS
+  kubectl delete ns $SPIRE_SERVER_NS
   kubectl delete ns $SPIRE_NS
 
   kubectl delete ClusterSPIFFEID example
