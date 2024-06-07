@@ -1,20 +1,4 @@
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: spire-system
----
 # Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -729,40 +713,6 @@ spec:
           configMap:
             name: spire-controller-manager-config
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spiffe-csi-driver.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: storage.k8s.io/v1
-kind: CSIDriver
-metadata:
-  name: "csi.spiffe.io"
-spec:
-  # We only support ephemeral, inline volumes. We don't need a controller to
-  # provision and attach volumes.
-  attachRequired: false
-
-  # We want the pod information so that the CSI driver can verify that an
-  # ephemeral mount was requested.
-  podInfoOnMount: true
-
-  # We don't want (or need) K8s to change ownership on the contents of the mount
-  # when it is mounted into the pod, since the Workload API is completely open
-  # (i.e. 0777).
-  # Note, this was added in Kubernetes 1.19, so omit
-  fsGroupPolicy: None
-
-  # We only support ephemeral volumes. Note that this requires Kubernetes 1.16
-  volumeLifecycleModes: # added in Kubernetes 1.16, this field is beta
-    - Ephemeral
----
 # Source: vsecm/charts/spire/templates/spire-controller-manager-webhook.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -821,6 +771,42 @@ webhooks:
         operations: ["CREATE", "UPDATE"]
         resources: ["clusterstaticentries"]
     sideEffects: None
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-system
+  annotations:
+    "helm.sh/hook": pre-install
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-server
+  annotations:
+    "helm.sh/hook": pre-install
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-daemonset.yaml
 # /*
@@ -993,3 +979,39 @@ spec:
           hostPath:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spiffe-csi-driver.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: "csi.spiffe.io"
+  annotations:
+    "helm.sh/hook": pre-install
+spec:
+  # We only support ephemeral, inline volumes. We don't need a controller to
+  # provision and attach volumes.
+  attachRequired: false
+
+  # We want the pod information so that the CSI driver can verify that an
+  # ephemeral mount was requested.
+  podInfoOnMount: true
+
+  # We don't want (or need) K8s to change ownership on the contents of the mount
+  # when it is mounted into the pod, since the Workload API is completely open
+  # (i.e. 0777).
+  # Note, this was added in Kubernetes 1.19, so omit
+  fsGroupPolicy: None
+
+  # We only support ephemeral volumes. Note that this requires Kubernetes 1.16
+  volumeLifecycleModes: # added in Kubernetes 1.16, this field is beta
+    - Ephemeral
