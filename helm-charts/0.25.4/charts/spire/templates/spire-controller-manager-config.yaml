@@ -12,7 +12,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-controller-manager-config
-  namespace: {{ .Values.global.spire.namespace }}
+  namespace: {{ .Values.global.spire.serverNamespace }}
 data:
   spire-controller-manager-config.yaml: |
     apiVersion: spire.spiffe.io/v1alpha1
@@ -24,13 +24,14 @@ data:
     leaderElection:
       leaderElect: true
       resourceName: 98c9c988.spiffe.io
-      resourceNamespace: {{ .Values.global.spire.namespace }}
+      resourceNamespace: {{ .Values.global.spire.serverNamespace }}
     clusterName: vsecm-cluster
     trustDomain: vsecm.com
     ignoreNamespaces:
       - kube-system
       - kube-public
       - {{ .Values.global.spire.namespace }}
+      - {{ .Values.global.spire.serverNamespace }}
       - local-path-storage
       # - do not ignore {{ .Values.global.vsecm.namespace }}!
       # - {{ .Values.global.vsecm.namespace }}

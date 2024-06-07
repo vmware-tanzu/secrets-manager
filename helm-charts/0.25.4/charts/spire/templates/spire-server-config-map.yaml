@@ -13,7 +13,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
-  namespace: {{ .Values.global.spire.namespace }}
+  namespace: {{ .Values.global.spire.serverNamespace }}
 data:
   server.conf: |
     server {
@@ -57,7 +57,7 @@ data:
         plugin_data {
           clusters = {
             "vsecm-cluster" = {
-              service_account_allow_list = ["{{ .Values.global.spire.namespace }}:spire-agent"]
+              service_account_allow_list = ["{{ .Values.global.spire.serverNamespace }}:spire-agent"]
             }
           }
         }
@@ -72,7 +72,7 @@ data:
       Notifier "k8sbundle" {
         plugin_data {
           config_map = "spire-bundle"
-          namespace = "{{ .Values.global.spire.namespace }}"
+          namespace = "{{ .Values.global.spire.serverNamespace }}"
         }
       }
     }

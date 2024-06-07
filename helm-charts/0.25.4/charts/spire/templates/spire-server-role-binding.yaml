@@ -14,11 +14,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role-binding
-  namespace: {{ .Values.global.spire.namespace }}
+  namespace: {{ .Values.global.spire.serverNamespace }}
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: {{ .Values.global.spire.namespace }}
+    namespace: {{ .Values.global.spire.serverNamespace }}
 roleRef:
   kind: Role
   name: spire-server-role

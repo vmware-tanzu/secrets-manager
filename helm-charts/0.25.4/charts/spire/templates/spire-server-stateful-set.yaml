@@ -12,7 +12,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: spire-server
-  namespace: {{ .Values.global.spire.namespace }}
+  namespace: {{ .Values.global.spire.serverNamespace }}
   labels:
     app: spire-server
     app.kubernetes.io/component: server
@@ -24,7 +24,7 @@ spec:
       app: spire-server
   template:
     metadata:
-      namespace: {{ .Values.global.spire.namespace }}
+      namespace: {{ .Values.global.spire.serverNamespace }}
       labels:
         app: spire-server
     spec:

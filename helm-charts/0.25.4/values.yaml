@@ -144,6 +144,9 @@ global:
     trustDomain: "vsecm.com"
     # -- This is the namespace where the SPIRE components will be deployed.
     namespace: spire-system
+    # -- It is best to keep the SPIRE server namespace separate from other
+    # SPIRE components for an added layer of security.
+    serverNamespace: spire-server
     # -- The log level of the SPIRE components. This is useful for debugging.
     logLevel: DEBUG
     # -- The SPIRE Server port. This is the port where the SPIRE Server will

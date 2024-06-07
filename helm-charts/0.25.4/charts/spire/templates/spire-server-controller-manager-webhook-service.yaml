@@ -15,7 +15,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-controller-manager-webhook-service
-  namespace: {{ .Values.global.spire.namespace }}
+  namespace: {{ .Values.global.spire.serverNamespace }}
 spec:
   ports:
     - port: 443
