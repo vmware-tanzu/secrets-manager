@@ -186,7 +186,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-bundle
-  namespace: spire-server
+  namespace: spire-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server-config-map.yaml
 # /*
