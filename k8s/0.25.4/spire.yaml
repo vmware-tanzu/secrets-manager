@@ -1,4 +1,36 @@
 ---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-system
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-server
+---
 # Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -366,7 +398,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-cluster-role-binding.yaml
 # /*
@@ -435,7 +467,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: leader-election-role
-  namespace: spire-system
+  namespace: spire-server
 rules:
   - apiGroups: [""]
     resources: ["configmaps"]
@@ -491,7 +523,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: leader-election-rolebinding
-  namespace: spire-system
+  namespace: spire-server
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -499,7 +531,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-server-role-binding.yaml
 # /*
@@ -771,42 +803,6 @@ webhooks:
         operations: ["CREATE", "UPDATE"]
         resources: ["clusterstaticentries"]
     sideEffects: None
----
-# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: spire-system
-  annotations:
-    "helm.sh/hook": pre-install
----
-# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: spire-server
-  annotations:
-    "helm.sh/hook": pre-install
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-daemonset.yaml
 # /*
