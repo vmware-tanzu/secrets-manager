@@ -242,7 +242,7 @@ data:
         plugin_data {
           clusters = {
             "vsecm-cluster" = {
-              service_account_allow_list = ["spire-server:spire-agent"]
+              service_account_allow_list = ["spire-system:spire-agent"]
             }
           }
         }
@@ -257,7 +257,7 @@ data:
       Notifier "k8sbundle" {
         plugin_data {
           config_map = "spire-bundle"
-          namespace = "spire-server"
+          namespace = "spire-system"
         }
       }
     }
