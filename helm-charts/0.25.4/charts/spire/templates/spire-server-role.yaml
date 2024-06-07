@@ -13,7 +13,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role
-  namespace: {{ .Values.global.spire.serverNamespace }}
+  namespace: {{ .Values.global.spire.namespace }}
 rules:
   # allow "get" access to pods (to resolve selectors for PSAT attestation)
   - apiGroups: [""]
