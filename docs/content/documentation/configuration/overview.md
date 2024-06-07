@@ -25,10 +25,21 @@ variables.
 
 The following section contain a breakdown of all of these environment variables.
 
+> **With Great Flexibility Comes Responsibility**
+>
+> Using environment variables to configure **VSecM** offers operators 
+> significant flexibility. However, it's important to be mindful that 
+> incorrect configurations can potentially reduce your apps' security.
+>
+> For detailed guidance on secure configurations, please refer to 
+> the [**Production Deployment Instructions**][prod].
+
 > **Looking for VMware Secrets Manager Production Tips**?
 >
 > For **production setup**, check out [**VMware Secrets Manager Production
-> Deployment**](@/documentation/production/overview.md).
+> Deployment**][prod].
+
+[prod]: @/documentation/production/overview.md
 
 ## Environment Variables
 
@@ -39,7 +50,6 @@ The following section contain a breakdown of all of these environment variables.
 >
 > You can check out the details [from the official VSecM Helm Charts
 > documentation][helm-charts].
-
 
 [helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
 

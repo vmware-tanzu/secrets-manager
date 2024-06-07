@@ -21,27 +21,28 @@ This article will overview them.
 
 ## Version Compatibility
 
-We test **VMware Secrets Manager** with the recent stable version of Kubernetes and Minikube.
+We test **VMware Secrets Manager** with the recent stable version of Kubernetes 
+and Minikube.
 
 As long as there isn't a change in the **major** version number your
 Kubernetes client and server you use, things will likely work just fine.
 
 ## Resource Requirements
 
-**VMware Secrets Manager** is designed from the ground up to work in environments with limited
-resources, such as edge computing and IoT.
+**VMware Secrets Manager** is designed from the ground up to work in 
+environments with limited resources, such as edge computing and IoT.
 
-That being said, **VMware Secrets Manager**, by design, is a memory-intensive application.
-However, even when you throw all your secrets at it, **VSecM Safe**'s peak
-memory consumption will be in the order or 10-20 megabytes of RAM. The CPU
-consumption will be within reasonable limits too.
+That being said, **VMware Secrets Manager**, by design, is a memory-intensive 
+application. However, even when you throw all your secrets at it, 
+**VSecM Safe**'s peak memory consumption will be in the order or 10-20 megabytes 
+of RAM. The CPU consumption will be within reasonable limits too.
 
 However, it's crucial to understand that every system and user profile is unique.
 Factors such as the number and size of secrets, concurrent processes, and system
 specifications can influence these averages. Therefore, it is always advisable to
-benchmark **VMware Secrets Manager** and **SPIRE** on your own system under your specific usage
-conditions to accurately gauge the resource requirements to ensure optimal
-performance.
+benchmark **VMware Secrets Manager** and **SPIRE** on your own system under your 
+specific usage conditions to accurately gauge the resource requirements to 
+ensure optimal performance.
 
 Benchmark your system usage and set **CPU** and **Memory** limits to the
 **VSecM Safe** pod.
@@ -144,6 +145,32 @@ cluster's last known good state.
 **Set up your backups from day zero**.
 
 [velero]: https://velero.io/ "Velero"
+
+## Double Check Your VSecM Configuration
+
+**VMware Secrets Manager** uses *environment variables* to configure various
+aspects of its compoments. Although, using environment variables to configure
+**VSecM** provides flexibility, it requires additional care and
+attention---especially when your configuration deviates from the defaults
+provided.
+
+For example, if you have a permissive environment variable for 
+`VSECM_WORKLOAD_SPIFFEID_PREFIX`, then certain apps can incorrectly identify
+as workloads. Similarly, a misconfiguration of an environmnet variable or a
+`ClusterSPIFFEID` may result in an unauthorized workload gaining access to 
+another workload's secrets.
+
+Treat SPIFFE IDs, and `ClusterSPIFFEID`s similar to how you treat any identitiy:
+Make sure they are assigned to the apps and workloads that they ought to have
+been assigned. Make sure that you are matching the correct selectors and labels
+when defining `ClusterSPIFFEID`s for your workloads. And make sure that
+your `*_SPIFFEID_PREFIX` environment variables are restrictive enough: This is
+especially important if you use regular expression matchers in those 
+environment variables.
+
+For mor information [check out the **VSecM** configuration reference][config].
+
+[config]: @/documentation/configuration/oveview.md
 
 ## Restrict Access To `vsecm-root-key`
 
@@ -528,7 +555,8 @@ security feature for several reasons:
 > **OpenShift Support**
 >
 > For Kubernetes deployments such as [OpenShift][openshift] where enabling `hostPath`
-> requires additional permissions [you can follow SPIRE's official documentation][spire-openshift]
+> requires additional permissions 
+> [you can follow SPIRE's official documentation][spire-openshift].
 
 
 [spire-openshift]: https://spiffe.io/docs/latest/deploying/spire_agent/#openshift-support
