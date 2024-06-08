@@ -31,6 +31,14 @@ func TestGenerateValue(t *testing.T) {
 			errorOutput: "",
 		},
 		{
+			name: "Success case for alphanumeric and symbol",
+			args: args{
+				template: `foo[\x]{4}bar`,
+			},
+			wantErr:     false,
+			errorOutput: "",
+		},
+		{
 			name: "Fail case for invalid regex",
 			args: args{
 				template: `pass[z-a]{8}`,

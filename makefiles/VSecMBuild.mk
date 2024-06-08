@@ -112,24 +112,14 @@ build-local: \
 	example-init-container-push-local \
 	keystone-bundle-ist \
 	keystone-push-ist-local \
-	keystone-bundle-ist-fips \
-	keystone-push-ist-fips-local \
 	safe-bundle-ist \
 	safe-push-ist-local \
-	safe-bundle-ist-fips \
-	safe-push-ist-fips-local \
 	sidecar-bundle-ist \
 	sidecar-push-ist-local \
-	sidecar-bundle-ist-fips \
-	sidecar-push-ist-fips-local \
 	sentinel-bundle-ist \
 	sentinel-push-ist-local \
-	sentinel-bundle-ist-fips \
-	sentinel-push-ist-fips-local \
 	init-container-bundle-ist \
-	init-container-push-ist-local \
-	init-container-bundle-ist-fips \
-	init-container-push-ist-fips-local
+	init-container-push-ist-local
 
 build-essentials-local: \
 	keygen-bundle \
@@ -143,4 +133,4 @@ build-essentials-local: \
 	sentinel-bundle-ist \
 	sentinel-push-ist-local \
 	init-container-bundle-ist \
-	init-container-push-ist-local \
+	init-container-push-ist-local

@@ -232,6 +232,15 @@ curl localhost:50565/v2/_catalog
 
 ```
 
+> **Do You Need Multiple Nodes**
+>
+> If you are using Minikube Docker driver, you can configure it to start
+> with multiple nodes. This can be useful if you want to test an
+> advanced scenario where more than one **SPIRE Agent** may be required.
+> 
+> For that, set up the `VSECM_MINIKUBE_NODE_COUNT` variable to the number
+> of Kubernetes worker nodes you wish to use in your development environment.
+
 There are two issues here:
 
 * First, all the local development scripts assume port 5000 as the repository port;

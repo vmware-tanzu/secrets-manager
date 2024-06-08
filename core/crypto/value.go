@@ -40,6 +40,8 @@ import "github.com/pkg/errors"
 //	log.Printf("result4=%v; err=%v", result, err)
 //	result, _ = Generate(`foo[\d]{8}bar`)
 //	log.Printf("result5=%v", result)
+//	result, _ = Generate(`foo[\symbol]{4}`)
+//	log.Printf("result5=%v", result)
 //
 // Example Output:
 //

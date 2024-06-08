@@ -64,17 +64,31 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 
 	log.DebugLn(&cid, "Keys: sentinel spiffeid:", spiffeid)
 
-	body := httq.ReadBody(cid, r, w, j)
+	body, _ := httq.ReadBody(cid, r)
 	if body == nil {
-		j.Event = event.BadPayload
+		j.Event = event.BrokenBody
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Keys: Problem sending response", err.Error())
+		}
+
 		return
 	}
 
-	ur := json.UnmarshalKeyInputRequest(cid, body, j, w)
+	ur, _ := json.UnmarshalKeyInputRequest(body)
 	if ur == nil {
 		j.Event = event.BadPayload
 		journal.Log(j)
+
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Keys: Problem sending response", err.Error())
+		}
+
 		return
 	}
 

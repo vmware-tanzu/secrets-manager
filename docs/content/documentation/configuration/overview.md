@@ -25,11 +25,21 @@ variables.
 
 The following section contain a breakdown of all of these environment variables.
 
+> **With Great Flexibility Comes Responsibility**
+>
+> Using environment variables to configure **VSecM** offers operators 
+> significant flexibility. However, it's important to be mindful that 
+> incorrect configurations can potentially reduce your apps' security.
+>
+> For detailed guidance on secure configurations, please refer to 
+> the [**Production Deployment Instructions**][prod].
+
 > **Looking for VMware Secrets Manager Production Tips**?
 >
 > For **production setup**, check out [**VMware Secrets Manager Production
-> Deployment**](@/documentation/production/overview.md).
+> Deployment**][prod].
 
+[prod]: @/documentation/production/overview.md
 
 ## Environment Variables
 
@@ -37,7 +47,9 @@ The following section contain a breakdown of all of these environment variables.
 >
 > If you are using [**VMware Secrets Manager Helm Charts**][helm-charts],
 > you can configure these environment variables using the `values.yaml` file.
-
+>
+> You can check out the details [from the official VSecM Helm Charts
+> documentation][helm-charts].
 
 [helm-charts]: https://vmware-tanzu.github.io/secrets-manager/
 
@@ -486,6 +498,20 @@ a SPIFFE source bundle.
 If the environment variable is not set, or cannot be parsed, defaults to
 `10000` milliseconds.
 
+> **RegEx Prefixes**
+>
+> You can use regular expressions for:
+> * `VSECM_SENTINEL_SPIFFEID_PREFIX`,
+> * `VSECM_SAFE_SPIFFEID_PREFIX`,
+> * and `VSECM_WORKLOAD_SPIFFEID_PREFIX`.
+> 
+> When the prefix string starts with a "^", VSecM will validate the
+> SPIFFE ID based on the given regular expression.
+>
+> For example, a pattern `"^spiffe://vsecm\.com/workload/(app1|app2)$`
+> will treat `"spiffe://vsecm.com/workload/app1"` and
+> `"spiffe://vsecm.com/workload/app2"` as SPIFFE IDs that can be trusted.
+
 ### VSECM_SAFE_SPIFFEID_PREFIX
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
@@ -494,6 +520,8 @@ Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
 variable.
 
 `VSECM_SAFE_SPIFFEID_PREFIX` is required for validation.
+
+If the prefix starts with `"^"`, it will be treated as a regular expression.
 
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"`
@@ -610,6 +638,8 @@ Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
 
 `VSECM_SENTINEL_SPIFFEID_PREFIX` is required for validation.
 
+If the prefix starts with `"^"`, it will be treated as a regular expression.
+
 If not provided, it will default to:
 `"spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"`
 
@@ -684,5 +714,7 @@ Both **VSecM Safe** and **workloads** use this environment variable.
 
 `VSECM_WORKLOAD_SPIFFEID_PREFIX` is required for validation. If not provided,
 it will default to: `"spiffe://vsecm.com/workload/"`
+
+If the prefix starts with `"^"`, it will be treated as a regular expression.
 
 {{ edit() }}

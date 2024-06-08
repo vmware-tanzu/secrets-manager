@@ -14,41 +14,32 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// ReadBody reads the HTTP request body and returns it as a byte slice. It
-// handles errors by logging and responding with an appropriate HTTP status
-// code.
+// ReadBody reads the body from an HTTP request and returns it as a byte slice.
+// If there is an error reading the body, it returns the error.
 //
-// Parameters:
-//   - cid (string): Correlation ID for operation tracing and logging.
-//   - r (*http.Request): The HTTP request from which the body will be read.
-//   - w (http.ResponseWriter): The HTTP response writer to send back errors in
-//     case of failure.
-//   - j (audit.JournalEntry): An audit journal entry for recording the event.
+// The function takes the following parameters:
+//   - cid: A string representing the correlation ID for logging purposes.
+//   - r: A pointer to an http.Request from which the body is to be read.
 //
-// Returns:
-//   - []byte: The request body as a byte slice. Returns nil if an error occurs
-//     while reading the body.
-func ReadBody(
-	cid string, r *http.Request, w http.ResponseWriter,
-	j journal.Entry,
-) []byte {
+// It returns:
+//   - A byte slice containing the body of the request.
+//   - An error if there was an issue reading the body or closing the request body.
+//
+// Example usage:
+//
+//	body, err := ReadBody(cid, request)
+//	if err != nil {
+//	  log.Error("Failed to read body:", err)
+//	  // Handle error
+//	}
+//	// Use body
+func ReadBody(cid string, r *http.Request) ([]byte, error) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		j.Event = event.BrokenBody
-		journal.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
-		}
-
-		return nil
+		return nil, err
 	}
 
 	defer func(b io.ReadCloser) {
@@ -57,9 +48,9 @@ func ReadBody(
 		}
 		err := b.Close()
 		if err != nil {
-			log.InfoLn(&cid, "Secret: Problem closing body", err.Error())
+			log.InfoLn(&cid, "ReadBody: Problem closing body", err.Error())
 		}
 	}(r.Body)
 
-	return body
+	return body, nil
 }

@@ -17,6 +17,7 @@ MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
 MANIFESTS_EKS_PATH="${MANIFESTS_BASE_PATH}/eks"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
 CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
+NODES ?= $(or $(VSECM_MINIKUBE_NODE_COUNT),1)
 MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 
 # Removes the former VSecM deployment without entirely destroying the cluster.
@@ -28,7 +29,7 @@ k8s-delete:
 	./hack/minikube-delete.sh
 # Brings up a fresh Minikube cluster.
 k8s-start:
-	@CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
+	@NODES=$(NODES) CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
 
 deploy-spire-crds:
 	kubectl apply -f ${MANIFESTS_BASE_PATH}/crds

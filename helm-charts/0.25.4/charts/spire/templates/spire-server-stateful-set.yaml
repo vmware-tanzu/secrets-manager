@@ -78,6 +78,8 @@ spec:
               readOnly: true
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
+
+{{- if .Values.global.deploySpireControllerManager }}
         - name: spire-controller-manager
           image: {{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}
           imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
@@ -85,7 +87,7 @@ spec:
             - containerPort: 9443
             - containerPort: 8083
               name: healthz
-
+{{- end }}
           livenessProbe:
             httpGet:
               path: /healthz
