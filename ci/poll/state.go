@@ -12,7 +12,7 @@ package main
 
 import "os"
 
-const commitHashFile = "/opt/vsecm/commit-hash"
+var commitHashFile = "/opt/vsecm/commit-hash"
 
 func readCommitHashFromFile() (string, error) {
 	data, err := os.ReadFile(commitHashFile)
