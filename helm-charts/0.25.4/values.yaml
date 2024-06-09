@@ -147,6 +147,9 @@ global:
     # -- It is best to keep the SPIRE server namespace separate from other
     # SPIRE components for an added layer of security.
     serverNamespace: spire-server
+    # -- The SPIRE Server address. This is the address where the SPIRE Server
+    # that the agents will connect to.
+    serverAddress: "spire-server.spire-server.svc.cluster.local"
     # -- The log level of the SPIRE components. This is useful for debugging.
     logLevel: DEBUG
     # -- The SPIRE Server port. This is the port where the SPIRE Server will

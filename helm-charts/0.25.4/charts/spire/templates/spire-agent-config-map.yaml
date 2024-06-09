@@ -21,7 +21,7 @@ data:
     agent {
       data_dir = "/run/spire"
       log_level = {{ .Values.global.spire.logLevel | quote }}
-      server_address = "spire-server"
+      server_address = {{ .Values.global.spire.serverAddress | quote }}
       server_port = {{ .Values.global.spire.serverPort | quote }}
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"

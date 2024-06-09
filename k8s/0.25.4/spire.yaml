@@ -91,7 +91,7 @@ data:
     agent {
       data_dir = "/run/spire"
       log_level = "DEBUG"
-      server_address = "spire-server"
+      server_address = "spire-server.spire-server.svc.cluster.local"
       server_port = "8081"
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
@@ -166,6 +166,29 @@ data:
       - kube-node-lease
       - kube-public
       - kubernetes-dashboard
+      - openshift-cluster-node-tuning-operator
+      - openshift-cluster-samples-operator
+      - openshift-cluster-storage-operator
+      - openshift-console-operator
+      - openshift-console
+      - openshift-dns
+      - openshift-dns-operator
+      - openshift-image-registry
+      - openshift-ingress
+      - openshift-kube-storage-version-migrator
+      - openshift-kube-storage-version-migrator-operator
+      - openshift-kube-proxy
+      - openshift-marketplace
+      - openshift-monitoring
+      - openshift-multus
+      - openshift-network-diagnostics
+      - openshift-network-operator
+      - openshift-operator-lifecycle-manager
+      - openshift-roks-metrics
+      - openshift-service-ca-operator
+      - openshift-service-ca
+      - ibm-odf-validation-webhook
+      - ibm-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server-bundle-config-map.yaml
 # /*
