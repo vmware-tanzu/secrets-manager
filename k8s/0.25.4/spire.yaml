@@ -15,6 +15,22 @@ kind: Namespace
 metadata:
   name: spire-system
 ---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-server
+---
 # Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -49,7 +65,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spire-server
-  namespace: spire-system
+  namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-config-map.yaml
 # /*
@@ -75,7 +91,7 @@ data:
     agent {
       data_dir = "/run/spire"
       log_level = "DEBUG"
-      server_address = "spire-server"
+      server_address = "spire-server.spire-server.svc.cluster.local"
       server_port = "8081"
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
@@ -124,7 +140,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-controller-manager-config
-  namespace: spire-system
+  namespace: spire-server
 data:
   spire-controller-manager-config.yaml: |
     apiVersion: spire.spiffe.io/v1alpha1
@@ -136,19 +152,43 @@ data:
     leaderElection:
       leaderElect: true
       resourceName: 98c9c988.spiffe.io
-      resourceNamespace: spire-system
+      resourceNamespace: spire-server
     clusterName: vsecm-cluster
     trustDomain: vsecm.com
     ignoreNamespaces:
       - kube-system
       - kube-public
       - spire-system
+      - spire-server
       - local-path-storage
       # - do not ignore vsecm-system!
       # - vsecm-system
       - kube-node-lease
       - kube-public
       - kubernetes-dashboard
+      - openshift-cluster-node-tuning-operator
+      - openshift-cluster-samples-operator
+      - openshift-cluster-storage-operator
+      - openshift-console-operator
+      - openshift-console
+      - openshift-dns
+      - openshift-dns-operator
+      - openshift-image-registry
+      - openshift-ingress
+      - openshift-kube-storage-version-migrator
+      - openshift-kube-storage-version-migrator-operator
+      - openshift-kube-proxy
+      - openshift-marketplace
+      - openshift-monitoring
+      - openshift-multus
+      - openshift-network-diagnostics
+      - openshift-network-operator
+      - openshift-operator-lifecycle-manager
+      - openshift-roks-metrics
+      - openshift-service-ca-operator
+      - openshift-service-ca
+      - ibm-odf-validation-webhook
+      - ibm-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server-bundle-config-map.yaml
 # /*
@@ -187,7 +227,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
-  namespace: spire-system
+  namespace: spire-server
 data:
   server.conf: |
     server {
@@ -381,7 +421,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-cluster-role-binding.yaml
 # /*
@@ -424,11 +464,11 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-cluster-role-binding
-  namespace: spire-system
+  namespace: spire-server
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 roleRef:
   kind: ClusterRole
   name: spire-server-cluster-role
@@ -450,7 +490,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: leader-election-role
-  namespace: spire-system
+  namespace: spire-server
 rules:
   - apiGroups: [""]
     resources: ["configmaps"]
@@ -506,7 +546,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: leader-election-rolebinding
-  namespace: spire-system
+  namespace: spire-server
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -514,7 +554,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-server-role-binding.yaml
 # /*
@@ -537,7 +577,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 roleRef:
   kind: Role
   name: spire-server-role
@@ -559,7 +599,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-server-bundle-endpoint
-  namespace: spire-system
+  namespace: spire-server
 spec:
   type: ClusterIP
   ports:
@@ -585,7 +625,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-controller-manager-webhook-service
-  namespace: spire-system
+  namespace: spire-server
 spec:
   ports:
     - port: 443
@@ -610,7 +650,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-server
-  namespace: spire-system
+  namespace: spire-server
 spec:
   type: ClusterIP
   ports:
@@ -636,7 +676,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: spire-server
-  namespace: spire-system
+  namespace: spire-server
   labels:
     app: spire-server
     app.kubernetes.io/component: server
@@ -648,7 +688,7 @@ spec:
       app: spire-server
   template:
     metadata:
-      namespace: spire-system
+      namespace: spire-server
       labels:
         app: spire-server
     spec:
@@ -728,40 +768,6 @@ spec:
           configMap:
             name: spire-controller-manager-config
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spiffe-csi-driver.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: storage.k8s.io/v1
-kind: CSIDriver
-metadata:
-  name: "csi.spiffe.io"
-spec:
-  # We only support ephemeral, inline volumes. We don't need a controller to
-  # provision and attach volumes.
-  attachRequired: false
-
-  # We want the pod information so that the CSI driver can verify that an
-  # ephemeral mount was requested.
-  podInfoOnMount: true
-
-  # We don't want (or need) K8s to change ownership on the contents of the mount
-  # when it is mounted into the pod, since the Workload API is completely open
-  # (i.e. 0777).
-  # Note, this was added in Kubernetes 1.19, so omit
-  fsGroupPolicy: None
-
-  # We only support ephemeral volumes. Note that this requires Kubernetes 1.16
-  volumeLifecycleModes: # added in Kubernetes 1.16, this field is beta
-    - Ephemeral
----
 # Source: vsecm/charts/spire/templates/spire-controller-manager-webhook.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -782,7 +788,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
     name: vclusterfederatedtrustdomain.kb.io
@@ -796,7 +802,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
     name: vclusterspiffeid.kb.io
@@ -810,7 +816,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail
     name: clusterstaticentry.kb.io
@@ -992,3 +998,39 @@ spec:
           hostPath:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spiffe-csi-driver.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: "csi.spiffe.io"
+  annotations:
+    "helm.sh/hook": pre-install
+spec:
+  # We only support ephemeral, inline volumes. We don't need a controller to
+  # provision and attach volumes.
+  attachRequired: false
+
+  # We want the pod information so that the CSI driver can verify that an
+  # ephemeral mount was requested.
+  podInfoOnMount: true
+
+  # We don't want (or need) K8s to change ownership on the contents of the mount
+  # when it is mounted into the pod, since the Workload API is completely open
+  # (i.e. 0777).
+  # Note, this was added in Kubernetes 1.19, so omit
+  fsGroupPolicy: None
+
+  # We only support ephemeral volumes. Note that this requires Kubernetes 1.16
+  volumeLifecycleModes: # added in Kubernetes 1.16, this field is beta
+    - Ephemeral

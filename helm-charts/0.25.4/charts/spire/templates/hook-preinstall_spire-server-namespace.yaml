@@ -1,5 +1,3 @@
-/usr/bin/env bash
-
 # /*
 # |    Protect your secrets, protect your sensitive data.
 # :    Explore VMware Secrets Manager docs at https://vsecm.com/
@@ -10,9 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-SPIRE_SERVER=$(kubectl get po -n spire-server \
-  | grep "spire-server-" | awk '{print $1}')
-export SPIRE_SERVER=SPIRE_SERVER
-
-kubectl exec -n spire-system $SPIRE_SERVER -- \
-  /opt/spire/bin/spire-server bundle show
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.global.spire.serverNamespace }}

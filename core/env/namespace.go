@@ -28,6 +28,7 @@ func NamespaceForVSecMSystem() string {
 	return u
 }
 
+// TODO: nobody uses this; remove it from docs and the code.
 // NamespaceForSpire returns the namespace for SPIRE.
 // The namespace is determined by the environment variable
 // "VSECM_NAMESPACE_SPIRE". If the variable is not set or is empty,
@@ -36,10 +37,10 @@ func NamespaceForVSecMSystem() string {
 // Returns:
 //
 //	string: The namespace to be used for SPIRE.
-func NamespaceForSpire() string {
-	u := os.Getenv("VSECM_NAMESPACE_SPIRE")
-	if u == "" {
-		u = "spire-system"
-	}
-	return u
-}
+//func NamespaceForSpire() string {
+///	u := os.Getenv("VSECM_NAMESPACE_SPIRE")
+//	if u == "" {
+//		u = "spire-system"
+//	}
+//	return u
+//}
