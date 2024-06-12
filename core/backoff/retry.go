@@ -12,7 +12,9 @@ package backoff
 
 import (
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"math"
 	"math/rand"
 	"time"
@@ -76,29 +78,31 @@ type Strategy struct {
 //	    fmt.Println("Failed to connect to database after retries:", err)
 //	}
 func Retry(scope string, f func() error, s Strategy) error {
+	cid := crypto.Id()
+
 	s = withDefaults(s)
 	var err error
 
-	counter := 0
+	log.TraceLn(&cid, "Retry: starting retry loop")
 
 	for i := 0; i <= int(s.MaxRetries); i++ {
 		err = f()
-		fmt.Println("executed the function")
-		if err == nil && counter > 3 {
-			fmt.Println("no error, returning nil")
+
+		log.TraceLn(&cid, "Retry: executed the function")
+
+		if err == nil {
+			log.TraceLn(&cid, "Retry: success")
 			return nil
 		}
-		counter++
 
 		var multiplier float64 = 1
+
 		// if exponential backoff is enabled then delay increases exponentially:
 		if s.Exponential {
 			multiplier = math.Pow(2, float64(i))
 		}
 
 		sDelayMs := s.Delay.Milliseconds()
-		fmt.Println("s.Delay", s.Delay)
-		fmt.Println("sDelayMs", sDelayMs)
 
 		delayMs := multiplier * float64(sDelayMs)
 		delay := time.Duration(delayMs) * time.Millisecond
@@ -110,13 +114,13 @@ func Retry(scope string, f func() error, s Strategy) error {
 			delay = s.MaxWait
 		}
 
-		fmt.Println("Will sleep for", delay, "before retrying")
-		fmt.Println("index", i, "multiplier", multiplier, "delay", delay, "jitter", jitter)
-		fmt.Println("max wait", s.MaxWait)
+		log.TraceLn(&cid, "Retry: will sleep:", delay)
+
 		time.Sleep(delay)
-		_, _ = fmt.Printf(
-			"Retrying after %d ms for the scope '%s' -- attempt %d of %d",
-			delay, scope, i+1, s.MaxRetries+1,
+
+		log.TraceLn(&cid,
+			"Retrying after", delay, "ms for the scope",
+			scope, "-- attempt", i+1, "of", s.MaxRetries+1,
 		)
 	}
 
