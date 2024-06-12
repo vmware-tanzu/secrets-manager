@@ -79,13 +79,16 @@ func Retry(scope string, f func() error, s Strategy) error {
 	s = withDefaults(s)
 	var err error
 
+	counter := 0
+
 	for i := 0; i <= int(s.MaxRetries); i++ {
 		err = f()
 		fmt.Println("executed the function")
-		if err == nil {
+		if err == nil && counter > 3 {
 			fmt.Println("no error, returning nil")
 			return nil
 		}
+		counter++
 
 		var multiplier float64 = 1
 		// if exponential backoff is enabled then delay increases exponentially:
@@ -106,6 +109,8 @@ func Retry(scope string, f func() error, s Strategy) error {
 		}
 
 		fmt.Println("Will sleep for", delay, "before retrying")
+		fmt.Println("index", i, "multiplier", multiplier, "delay", delay, "jitter", jitter)
+		fmt.Println("max wait", s.MaxWait)
 		time.Sleep(delay)
 		_, _ = fmt.Printf(
 			"Retrying after %d ms for the scope '%s' -- attempt %d of %d",
