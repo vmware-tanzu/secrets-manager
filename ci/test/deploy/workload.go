@@ -22,7 +22,7 @@ import (
 func WorkloadUsingSDK() error {
 	fmt.Println("Deploying workload that uses the SDK...")
 
-	origin := os.Getenv("ORIGIN")
+	origin := os.Getenv("VSECM_OIDC_ORIGIN")
 	var deployCommand string
 
 	switch origin {
@@ -87,7 +87,7 @@ func WorkloadUsingSidecar() error {
 func WorkloadUsingInitContainer() error {
 	fmt.Println("Deploying workload that uses the init container...")
 
-	origin := os.Getenv("ORIGIN")
+	origin := os.Getenv("VSECM_OIDC_ORIGIN")
 	var command string
 
 	// Determine the deployment command based on the ORIGIN environment variable.
