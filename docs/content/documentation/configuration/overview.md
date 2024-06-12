@@ -93,11 +93,11 @@ options are `"exponential"` and `"linear"`.
 If the environment variable is not set, or if its value is `"exponential"`,
 `"exponential"` is used. For any other non-empty value, `"linear"` is used.
 
-### VSECM_BACKOFF_MAX_DURATION
+### VSECM_BACKOFF_MAX_WAIT
 
 **Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, *VSecM Init Container*.
 
-`VSECM_BACKOFF_MAX_DURATION` configures the maximum duration the backoff
+`VSECM_BACKOFF_MAX_WAIT` configures the maximum duration the backoff
 algorithm can wait before retrying an operation. This is used to prevent
 excessive waiting times in case of repeated failures.
 

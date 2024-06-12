@@ -196,26 +196,26 @@ func TestBackoffMaxDuration(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.envValue != "" {
-				err := os.Setenv("VSECM_BACKOFF_MAX_DURATION", tt.envValue)
+				err := os.Setenv("VSECM_BACKOFF_MAX_WAIT", tt.envValue)
 				if err != nil {
 					t.Errorf("Error setting environment variable: %v", err)
 					return
 				}
 			} else {
-				err := os.Unsetenv("VSECM_BACKOFF_MAX_DURATION")
+				err := os.Unsetenv("VSECM_BACKOFF_MAX_WAIT")
 				if err != nil {
 					t.Errorf("Error unsetting environment variable: %v", err)
 					return
 				}
 			}
 
-			result := BackoffMaxDuration()
+			result := BackoffMaxWait()
 
 			if result != tt.expected {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_BACKOFF_MAX_DURATION")
+			os.Unsetenv("VSECM_BACKOFF_MAX_WAIT")
 		})
 	}
 }

@@ -87,7 +87,7 @@ func BackoffMode() string {
 	return "exponential"
 }
 
-// BackoffMaxDuration reads the "VSECM_BACKOFF_MAX_DURATION" environment variable,
+// BackoffMaxWait reads the "VSECM_BACKOFF_MAX_WAIT" environment variable,
 // parses its value as an int64, and returns the parsed number as a time.Duration
 // in milliseconds. If the environment variable is not set or cannot be parsed,
 // a default maximum duration of 30000 milliseconds is returned. This function is
@@ -97,8 +97,8 @@ func BackoffMode() string {
 //
 // Returns:
 // time.Duration - the maximum backoff duration.
-func BackoffMaxDuration() time.Duration {
-	p := os.Getenv("VSECM_BACKOFF_MAX_DURATION")
+func BackoffMaxWait() time.Duration {
+	p := os.Getenv("VSECM_BACKOFF_MAX_WAIT")
 	if p == "" {
 		p = "30000"
 	}
