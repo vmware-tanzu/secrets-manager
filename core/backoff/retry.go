@@ -12,6 +12,7 @@ package backoff
 
 import (
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"math"
 	"math/rand"
 	"time"
@@ -23,18 +24,17 @@ type Strategy struct {
 	// Maximum number of retries before giving up (inclusive)
 	// Default is 5
 	MaxRetries int64 // Maximum number of retries before giving up (inclusive)
-	// Maximum delay to use between retries (in milliseconds)
-	// If Exponential is true, this is the initial delay
-	// Default is 1000
+
+	// Initial delay between retries (in milliseconds).
 	Delay time.Duration
 
-	// Whether to use exponential backoff or not (if false, constant delay is
-	// used)
+	// Whether to use exponential backoff or not (if false, constant delay
+	// (plus a random jitter) is used)
 	// Default is false
 	Exponential bool
 	// Maximum duration to wait between retries (in milliseconds)
 	// Default is 10 seconds
-	MaxDuration time.Duration
+	MaxWait time.Duration
 }
 
 // Retry implements a retry mechanism for a function that can fail
@@ -70,7 +70,7 @@ type Strategy struct {
 //	    MaxRetries: 5,
 //	    Delay: 100,
 //	    Exponential: true,
-//	    MaxDuration: 10 * time.Second,
+//	    MaxWait: 10 * time.Second,
 //	})
 //	if err != nil {
 //	    fmt.Println("Failed to connect to database after retries:", err)
@@ -85,51 +85,54 @@ func Retry(scope string, f func() error, s Strategy) error {
 			return nil
 		}
 
-		var retryDelay time.Duration
-		// if exponential backoff is enabled then delay increases exponentially
+		var multiplier float64 = 1
+		// if exponential backoff is enabled then delay increases exponentially:
 		if s.Exponential {
-			// Calculate the delay for the current attempt. The delay is
-			// 2^i seconds.
-			delay := time.Duration(math.Pow(2, float64(i))) * time.Second
-			// Some randomness to avoid the thundering herd problem.
-			d := int(s.Delay)
-			delay += time.Duration(rand.Intn(d)) * time.Millisecond
-			if delay > s.MaxDuration {
-				delay = s.MaxDuration
-			}
-
-			retryDelay = delay
-		} else { // otherwise delay is constant for all retries
-			retryDelay = s.Delay * time.Millisecond
+			multiplier = math.Pow(2, float64(i))
 		}
 
-		time.Sleep(retryDelay)
+		sDelayMs := s.Delay.Milliseconds()
+
+		delayMs := multiplier * float64(s.Delay.Milliseconds())
+		delay := time.Duration(delayMs) * time.Millisecond
+
+		// Some randomness to avoid the thundering herd problem.
+		jitter := rand.Intn(int(sDelayMs))
+		delay += time.Duration(jitter) * time.Millisecond
+		if delay > s.MaxWait {
+			delay = s.MaxWait
+		}
+
+		time.Sleep(delay)
 		_, _ = fmt.Printf(
 			"Retrying after %d ms for the scope '%s' -- attempt %d of %d",
-			retryDelay, scope, i+1, s.MaxRetries+1,
+			delay, scope, i+1, s.MaxRetries+1,
 		)
 	}
 
 	return err
 }
 
+func BaseStrategy() Strategy {
+	return Strategy{
+		MaxRetries:  env.BackoffMaxRetries(),
+		Delay:       env.BackoffDelay() * time.Millisecond,
+		Exponential: env.BackoffMode() == "exponential",
+		MaxWait:     env.BackoffMaxWait() * time.Millisecond,
+	}
+}
+
 // RetryExponential is a helper function to retry an operation with exponential
 // backoff.
 func RetryExponential(scope string, f func() error) error {
-	return Retry(scope, f, Strategy{
-		MaxRetries:  5,
-		Delay:       1000,
-		Exponential: true,
-		MaxDuration: 10 * time.Second,
-	})
+	return Retry(scope, f, BaseStrategy())
 }
 
 // RetryFixed is a helper function to retry an operation with fixed backoff.
 func RetryFixed(scope string, f func() error) error {
-	return Retry(scope, f, Strategy{
-		MaxRetries: 5,
-		Delay:      1000,
-	})
+	s := BaseStrategy()
+	s.Exponential = false
+	return Retry(scope, f, s)
 }
 
 // withDefaults sets default values for the strategy if they are not set.
@@ -140,8 +143,8 @@ func withDefaults(s Strategy) Strategy {
 	if s.Delay == 0 {
 		s.Delay = 1000
 	}
-	if s.Exponential && s.MaxDuration == 0 {
-		s.MaxDuration = 10 * time.Second
+	if s.Exponential && s.MaxWait == 0 {
+		s.MaxWait = 10 * time.Second
 	}
 
 	return s

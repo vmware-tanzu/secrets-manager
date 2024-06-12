@@ -62,7 +62,7 @@ func TestRetry(t *testing.T) {
 		{
 			name:                  "TestSetMaxDurationIfExponentialEnabledAndMaxDurationZero",
 			failuresBeforeSuccess: 3,
-			strategy:              Strategy{Exponential: true, MaxDuration: 0},
+			strategy:              Strategy{Exponential: true, MaxWait: 0},
 			expectError:           false,
 		},
 	}
