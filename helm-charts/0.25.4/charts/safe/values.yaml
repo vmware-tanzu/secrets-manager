@@ -45,6 +45,19 @@ environments:
   # volumeMount in the Deployment.yaml too.
   - name: SPIFFE_ENDPOINT_SOCKET
     value: "unix:///spire-agent-socket/agent.sock"
+  # -- The interval between retries (in milliseconds) for the default backoff strategy.
+  - name: VSECM_BACKOFF_DELAY
+    value: "1000"
+  # -- The maximum number of retries for the default backoff strategy before it gives up.
+  - name: VSECM_BACKOFF_MAX_RETRIES
+    value: "10"
+  # -- The maximum wait time (in milliseconds) for the default backoff strategy.
+  - name: VSECM_BACKOFF_MAX_WAIT
+    value: "10000"
+  # -- The backoff mode. The default is "exponential".
+  # Allowed values: "exponential", "linear"
+  - name: VSECM_BACKOFF_MODE
+    value: "exponential"
   # -- The log level. 0: Logs are off (only audit events will be logged)
   # 7: TRACE level logging (maximum verbosity).
   - name: VSECM_LOG_LEVEL

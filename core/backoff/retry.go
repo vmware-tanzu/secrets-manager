@@ -11,19 +11,20 @@
 package backoff
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"math"
 	"math/rand"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // Strategy is a configuration for the backoff strategy to use when retrying
 // operations.
 type Strategy struct {
 	// Maximum number of retries before giving up (inclusive)
-	// Default is 5
+	// Default is 10
 	MaxRetries int64 // Maximum number of retries before giving up (inclusive)
 
 	// Initial delay between retries (in milliseconds).

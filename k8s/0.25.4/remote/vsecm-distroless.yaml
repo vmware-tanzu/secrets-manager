@@ -349,12 +349,28 @@ spec:
               value: "unix:///spire-agent-socket/agent.sock"
             
             
-            - name: VSECM_LOG_LEVEL
-              value: "7"
+            - name: VSECM_BACKOFF_DELAY
+              value: "1000"
+            
+            
+            - name: VSECM_BACKOFF_MAX_RETRIES
+              value: "10"
+            
+            
+            - name: VSECM_BACKOFF_MAX_WAIT
+              value: "10000"
+            
+            
+            - name: VSECM_BACKOFF_MODE
+              value: "exponential"
             
             
             - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
               value: "5000"
+            
+            
+            - name: VSECM_LOG_LEVEL
+              value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
             - name: VSECM_SAFE_SPIFFEID_PREFIX
@@ -384,6 +400,22 @@ spec:
           # Sentinel will assume the default values outlined in the given link above.
           #
           env:
+            
+            
+            - name: VSECM_BACKOFF_DELAY
+              value: "1000"
+            
+            
+            - name: VSECM_BACKOFF_MAX_RETRIES
+              value: "10"
+            
+            
+            - name: VSECM_BACKOFF_MAX_WAIT
+              value: "10000"
+            
+            
+            - name: VSECM_BACKOFF_MODE
+              value: "exponential"
             
             
             - name: VSECM_LOG_LEVEL
@@ -479,6 +511,22 @@ spec:
             
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
+            
+            - name: VSECM_BACKOFF_DELAY
+              value: "1000"
+            
+            
+            - name: VSECM_BACKOFF_MAX_RETRIES
+              value: "10"
+            
+            
+            - name: VSECM_BACKOFF_MAX_WAIT
+              value: "10000"
+            
+            
+            - name: VSECM_BACKOFF_MODE
+              value: "exponential"
             
             
             - name: VSECM_LOG_LEVEL
@@ -614,6 +662,22 @@ spec:
             
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
+            
+            - name: VSECM_BACKOFF_DELAY
+              value: "1000"
+            
+            
+            - name: VSECM_BACKOFF_MAX_RETRIES
+              value: "10"
+            
+            
+            - name: VSECM_BACKOFF_MAX_WAIT
+              value: "10000"
+            
+            
+            - name: VSECM_BACKOFF_MODE
+              value: "exponential"
             
             
             - name: VSECM_LOG_LEVEL
