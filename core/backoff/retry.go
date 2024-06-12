@@ -98,7 +98,9 @@ func Retry(scope string, f func() error, s Strategy) error {
 
 		sDelayMs := s.Delay.Milliseconds()
 
-		delayMs := multiplier * float64(s.Delay.Milliseconds())
+		fmt.Println("sDelayMs", sDelayMs)
+
+		delayMs := multiplier * float64(sDelayMs)
 		delay := time.Duration(delayMs) * time.Millisecond
 
 		// Some randomness to avoid the thundering herd problem.
@@ -122,6 +124,12 @@ func Retry(scope string, f func() error, s Strategy) error {
 }
 
 func BaseStrategy() Strategy {
+	fmt.Println("strategy")
+	fmt.Println("env.BackoffMaxRetries()", env.BackoffMaxRetries())
+	fmt.Println("env.BackoffDelay()", env.BackoffDelay())
+	fmt.Println("env.BackoffMode()", env.BackoffMode())
+	fmt.Println("env.BackoffMaxWait()", env.BackoffMaxWait())
+
 	return Strategy{
 		MaxRetries:  env.BackoffMaxRetries(),
 		Delay:       env.BackoffDelay() * time.Millisecond,
