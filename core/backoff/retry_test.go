@@ -93,7 +93,7 @@ func TestRetryExponential(t *testing.T) {
 		},
 		{
 			name:                  "FailAllRetries",
-			failuresBeforeSuccess: 6, // Exceeds the default 5 retries
+			failuresBeforeSuccess: 12, // Exceeds the default 10 retries
 			expectError:           true,
 		},
 	}
@@ -124,7 +124,7 @@ func TestRetryFixed(t *testing.T) {
 		},
 		{
 			name:                  "FailAllRetries",
-			failuresBeforeSuccess: 6, // Exceeds the default 5 retries
+			failuresBeforeSuccess: 12, // Exceeds the default 10 retries
 			expectError:           true,
 		},
 	}
