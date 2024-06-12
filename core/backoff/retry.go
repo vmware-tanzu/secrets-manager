@@ -81,7 +81,9 @@ func Retry(scope string, f func() error, s Strategy) error {
 
 	for i := 0; i <= int(s.MaxRetries); i++ {
 		err = f()
+		fmt.Println("executed the function")
 		if err == nil {
+			fmt.Println("no error, returning nil")
 			return nil
 		}
 
@@ -103,6 +105,7 @@ func Retry(scope string, f func() error, s Strategy) error {
 			delay = s.MaxWait
 		}
 
+		fmt.Println("Will sleep for", delay, "before retrying")
 		time.Sleep(delay)
 		_, _ = fmt.Printf(
 			"Retrying after %d ms for the scope '%s' -- attempt %d of %d",
