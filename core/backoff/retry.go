@@ -11,7 +11,6 @@
 package backoff
 
 import (
-	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -133,12 +132,6 @@ var Exponential Mode = "exponential"
 var Linear Mode = "linear"
 
 func BaseStrategy() Strategy {
-	fmt.Println("strategy")
-	fmt.Println("env.BackoffMaxRetries()", env.BackoffMaxRetries())
-	fmt.Println("env.BackoffDelay()", env.BackoffDelay())
-	fmt.Println("env.BackoffMode()", env.BackoffMode())
-	fmt.Println("env.BackoffMaxWait()", env.BackoffMaxWait())
-
 	return Strategy{
 		MaxRetries:  env.BackoffMaxRetries(),
 		Delay:       env.BackoffDelay(),
