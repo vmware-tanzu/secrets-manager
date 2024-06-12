@@ -102,6 +102,9 @@ func Retry(scope string, f func() error, s Strategy) error {
 		}
 
 		sDelayMs := s.Delay.Milliseconds()
+		if sDelayMs == 0 {
+			sDelayMs = 10
+		}
 
 		delayMs := multiplier * float64(sDelayMs)
 		delay := time.Duration(delayMs) * time.Millisecond
