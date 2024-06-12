@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-const lockFilePath = "/opt/vsecm/git_poller.lock"
+var lockFilePath = "/opt/vsecm/git_poller.lock"
 
 // createLockFile tries to create a lock file and returns an error if it already exists
 func createLockFile() error {

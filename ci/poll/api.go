@@ -18,7 +18,7 @@ import (
 	"net/http"
 )
 
-const (
+var (
 	githubAPIURL = "https://api.github.com/repos/vmware-tanzu/secrets-manager/git/refs/heads/main"
 )
 
