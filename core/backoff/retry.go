@@ -97,7 +97,7 @@ func Retry(scope string, f func() error, s Strategy) error {
 		}
 
 		sDelayMs := s.Delay.Milliseconds()
-
+		fmt.Println("s.Delay", s.Delay)
 		fmt.Println("sDelayMs", sDelayMs)
 
 		delayMs := multiplier * float64(sDelayMs)
@@ -123,6 +123,11 @@ func Retry(scope string, f func() error, s Strategy) error {
 	return err
 }
 
+type Mode string
+
+var Exponential Mode = "exponential"
+var Linear Mode = "linear"
+
 func BaseStrategy() Strategy {
 	fmt.Println("strategy")
 	fmt.Println("env.BackoffMaxRetries()", env.BackoffMaxRetries())
@@ -132,9 +137,9 @@ func BaseStrategy() Strategy {
 
 	return Strategy{
 		MaxRetries:  env.BackoffMaxRetries(),
-		Delay:       env.BackoffDelay() * time.Millisecond,
-		Exponential: env.BackoffMode() == "exponential",
-		MaxWait:     env.BackoffMaxWait() * time.Millisecond,
+		Delay:       env.BackoffDelay(),
+		Exponential: env.BackoffMode() == string(Exponential),
+		MaxWait:     env.BackoffMaxWait(),
 	}
 }
 
