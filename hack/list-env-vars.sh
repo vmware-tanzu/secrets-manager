@@ -13,6 +13,8 @@
 SEARCH_DIR="."
 
 env_vars=$(find "$SEARCH_DIR" -type f -name "*.go" \
+  -not -path "*/Makefile" \
+  -not -path "*/makefiles/*" \
   -not -path "*/vendor/*" \
   -not -path "*/examples/*" \
   -not -path "*/ci/test/*" \

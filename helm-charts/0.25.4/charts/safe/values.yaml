@@ -62,6 +62,11 @@ environments:
   # 7: TRACE level logging (maximum verbosity).
   - name: VSECM_LOG_LEVEL
     value: "7"
+  # -- Useful for debugging. This will log cryptographic fingerprints of
+  # secrets without revealing the secret itself. It is recommended to keep
+  # this "false" in production.
+  - name: VSECM_LOG_SECRET_FINGERPRINTS
+    value: "false"
   # -- The port that the liveness probe listens on.
   - name: VSECM_PROBE_LIVENESS_PORT
     value: ":8081"
@@ -77,6 +82,12 @@ environments:
   # bootstrapping before it bails out.
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
     value: "300000"
+  # -- Whether to automatically generate root cryptographic material or
+  # expect it to be provided through VSecM Sentinel CLI by the operator.
+  # If set to "false", VSecM Safe will automatically generate the root keys,
+  # which will make the operator's life easier.
+  - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
+    value: "false"
   # -- The name of the VSecM Root Key Secret.
   - name: VSECM_ROOT_KEY_NAME
     value: *rootKeyName
@@ -97,12 +108,6 @@ environments:
   # operations until the buffer has space.
   - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
     value: "10"
-  # -- Whether to automatically generate root cryptographic material or
-  # expect it to be provided through VSecM Sentinel CLI by the operator.
-  # If set to "false", VSecM Safe will automatically generate the root keys,
-  # which will make the operator's life easier.
-  - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
-    value: "false"
   # -- How many versions of older secrets should be kept.
   - name: VSECM_SAFE_SECRET_BACKUP_COUNT
     value: "3"
@@ -122,6 +127,10 @@ environments:
   # secrets as Kubernetes secrets.
   - name: VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
     value: "k8s:"
+  # -- The place where the VSecM Safe will store its root key.
+  # The only possible value is "k8s" at the moment.
+  - name: VSECM_SAFE_ROOT_KEY_STORE
+    value: "k8s"
   # -- The port that the VSecM Safe will listen on.
   - name: VSECM_SAFE_TLS_PORT
     value: ":8443"
