@@ -11,7 +11,6 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 	"strconv"
 	"strings"
 
@@ -31,6 +30,26 @@ const (
 	Debug
 	Trace
 )
+
+var level = struct {
+	Off   Level
+	Fatal Level
+	Error Level
+	Warn  Level
+	Info  Level
+	Audit Level
+	Debug Level
+	Trace Level
+}{
+	Off:   Off,
+	Fatal: Fatal,
+	Error: Error,
+	Warn:  Warn,
+	Info:  Info,
+	Audit: Audit,
+	Debug: Debug,
+	Trace: Trace,
+}
 
 // LogLevel returns the value set by VSECM_LOG_LEVEL environment
 // variable, or a default level.
