@@ -23,11 +23,16 @@ import (
 // default interval of 5000 milliseconds.
 func PollIntervalForInitContainer() time.Duration {
 	p := constants.GetEnv(constants.VSecMInitContainerPollInterval)
+	d, _ := strconv.Atoi(string(constants.VSecMInitContainerPollIntervalDefault))
 	if p == "" {
 		p = string(constants.VSecMInitContainerPollIntervalDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }
@@ -46,11 +51,16 @@ func PollIntervalForInitContainer() time.Duration {
 //	time.Duration: The wait time before exit, in milliseconds.
 func WaitBeforeExitForInitContainer() time.Duration {
 	p := constants.GetEnv(constants.VSecMInitContainerWaitBeforeExit)
+	d, _ := strconv.Atoi(string(constants.VSecMInitContainerWaitBeforeExitDefault))
 	if p == "" {
 		p = string(constants.VSecMInitContainerWaitBeforeExitDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }

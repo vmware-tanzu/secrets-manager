@@ -21,11 +21,16 @@ import (
 // `VSECM_SIDECAR_MAX_POLL_INTERVAL` or returns 300000 milliseconds as default.
 func MaxPollIntervalForSidecar() time.Duration {
 	p := constants.GetEnv(constants.VSecMSidecarMaxPollInterval)
+	d, _ := strconv.Atoi(string(constants.VSecMSidecarMaxPollIntervalDefault))
 	if p == "" {
 		p = string(constants.VSecMSidecarMaxPollIntervalDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }
@@ -36,11 +41,16 @@ func MaxPollIntervalForSidecar() time.Duration {
 // `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER` or returns 2 as default.
 func ExponentialBackoffMultiplierForSidecar() int64 {
 	p := constants.GetEnv(constants.VSecMSidecarExponentialBackoffMultiplier)
+	d, _ := strconv.Atoi(string(constants.VSecMSidecarExponentialBackoffMultiplierDefault))
 	if p == "" {
 		p = string(constants.VSecMSidecarExponentialBackoffMultiplierDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return i
+	}
 
 	return i
 }
@@ -50,11 +60,16 @@ func ExponentialBackoffMultiplierForSidecar() int64 {
 // variable `VSECM_SIDECAR_SUCCESS_THRESHOLD` or returns 3 as default.
 func SuccessThresholdForSidecar() int64 {
 	p := constants.GetEnv(constants.VSecMSidecarSuccessThreshold)
+	d, _ := strconv.Atoi(string(constants.VSecMSidecarSuccessThresholdDefault))
 	if p == "" {
 		p = string(constants.VSecMSidecarSuccessThresholdDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return i
+	}
 
 	return i
 }
@@ -64,11 +79,16 @@ func SuccessThresholdForSidecar() int64 {
 // variable `VSECM_SIDECAR_ERROR_THRESHOLD` or returns 2 as default.
 func ErrorThresholdForSidecar() int64 {
 	p := constants.GetEnv(constants.VSecMSidecarErrorThreshold)
+	d, _ := strconv.Atoi(string(constants.VSecMSidecarErrorThresholdDefault))
 	if p == "" {
 		p = string(constants.VSecMSidecarErrorThresholdDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return i
+	}
 
 	return i
 }
@@ -79,11 +99,16 @@ func ErrorThresholdForSidecar() int64 {
 // set or if there is an error in parsing the value.
 func PollIntervalForSidecar() time.Duration {
 	p := constants.GetEnv(constants.VSecMSidecarPollInterval)
+	d, _ := strconv.Atoi(string(constants.VSecMSidecarPollIntervalDefault))
 	if p == "" {
 		p = string(constants.VSecMSidecarPollIntervalDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }

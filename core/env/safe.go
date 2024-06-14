@@ -205,11 +205,16 @@ func RootKeyPathForSafe() string {
 //	time.Duration: The time duration in milliseconds for acquiring the source.
 func SourceAcquisitionTimeoutForSafe() time.Duration {
 	p := constants.GetEnv(constants.VSecMSafeSourceAcquisitionTimeout)
+	d, _ := strconv.Atoi(string(constants.VSecMSafeSourceAcquisitionTimeoutDefault))
 	if p == "" {
 		p = string(constants.VSecMSafeSourceAcquisitionTimeoutDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }
@@ -221,11 +226,16 @@ func SourceAcquisitionTimeoutForSafe() time.Duration {
 // set or if there is an error in parsing the value.
 func BootstrapTimeoutForSafe() time.Duration {
 	p := constants.GetEnv(constants.VSecMSafeBootstrapTimeout)
+	d, _ := strconv.Atoi(string(constants.VSecMSafeBootstrapTimeoutDefault))
 	if p == "" {
 		p = string(constants.VSecMSafeBootstrapTimeoutDefault)
 	}
 
-	i, _ := strconv.ParseInt(p, 10, 32)
+	i, err := strconv.ParseInt(p, 10, 32)
+	if err != nil {
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
+	}
 
 	return time.Duration(i) * time.Millisecond
 }
