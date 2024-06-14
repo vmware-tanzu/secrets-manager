@@ -13,7 +13,6 @@ package env
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"math"
-	"os"
 	"strconv"
 	"time"
 )
@@ -28,8 +27,8 @@ const infiniteDuration = time.Duration(math.MaxInt64)
 //   - A time.Duration representing the interval at which root keys should be synchronized.
 //   - Returns an infinite duration if the interval is set to "never" or if there is an error in parsing the interval.
 func RootKeySyncIntervalForSafe() time.Duration {
-	p := os.Getenv("VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL")
-	if p == "" || p == "never" {
+	p := constants.GetEnv(constants.VSecMSafeSyncRootKeyInterval)
+	if p == "" || constants.Never(p) {
 		return infiniteDuration
 	}
 

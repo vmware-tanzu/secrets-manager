@@ -392,7 +392,8 @@ then it will be FIPS-compliant.
 
 As a FIPS-compliant base image you can use the following:
 
-* [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless base*)
+* [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless 
+  base*)
 
 [vsecm-safe-istanbul-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-ist-fips-safe/general
 
@@ -487,20 +488,6 @@ If the environment variable is not set, or cannot be parsed, defaults to
 > For example, a pattern `"^spiffe://vsecm\.com/workload/(app1|app2)$`
 > will treat `"spiffe://vsecm.com/workload/app1"` and
 > `"spiffe://vsecm.com/workload/app2"` as SPIFFE IDs that can be trusted.
-
-### VSECM_SPIFFEID_PREFIX_SAFE
-
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
-
-Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
-variable.
-
-`VSECM_SPIFFEID_PREFIX_SAFE` is required for validation.
-
-If the prefix starts with `"^"`, it will be treated as a regular expression.
-
-If not provided, it will default to:
-`"spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"`
 
 ### VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
 
