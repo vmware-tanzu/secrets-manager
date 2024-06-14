@@ -11,12 +11,26 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
+	// "github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"strings"
 	"time"
 )
+
+// Redefine some constants to avoid import cycle.
+type Mode string
+
+var Exponential Mode = "exponential"
+var Linear Mode = "linear"
+
+var backoff = struct {
+	Exponential Mode
+	Linear      Mode
+}{
+	Exponential: "exponential",
+	Linear:      "linear",
+}
 
 // BackoffMaxRetries reads the "VSECM_BACKOFF_MAX_RETRIES" environment variable,
 // parses its value as an int64, and returns the parsed number. If the

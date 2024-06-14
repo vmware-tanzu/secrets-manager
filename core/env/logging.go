@@ -11,10 +11,25 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 	"strconv"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
+)
+
+type Level int
+
+// Redefine log levels to avoid import cycle.
+const (
+	Off Level = iota
+	Fatal
+	Error
+	Warn
+	Info
+	Audit
+	Debug
+	Trace
 )
 
 // LogLevel returns the value set by VSECM_LOG_LEVEL environment
