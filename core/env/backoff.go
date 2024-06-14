@@ -19,6 +19,8 @@ import (
 )
 
 // Redefine some constants to avoid import cycle.
+
+// Mode.
 type Mode string
 
 var Exponential Mode = "exponential"
@@ -28,8 +30,8 @@ var backoff = struct {
 	Exponential Mode
 	Linear      Mode
 }{
-	Exponential: "exponential",
-	Linear:      "linear",
+	Exponential: Exponential,
+	Linear:      Linear,
 }
 
 // BackoffMaxRetries reads the "VSECM_BACKOFF_MAX_RETRIES" environment variable,
