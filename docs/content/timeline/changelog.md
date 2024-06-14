@@ -402,7 +402,7 @@ more reliable and resilient.
 ### Changed
 
 * **BREAKING**: Environment variables related to SPIFFEID are renamed from
-  i.e. `VSECM_SENTINEL_SVID_PREFIX` to `VSECM_SENTINEL_SPIFFEID_PREFIX`.
+  i.e. `VSECM_SENTINEL_SVID_PREFIX` to `VSECM_SPIFFEID_PREFIX_SENTINEL`.
 
 ### Added
 

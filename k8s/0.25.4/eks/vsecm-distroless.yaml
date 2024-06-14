@@ -373,9 +373,9 @@ spec:
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -422,9 +422,9 @@ spec:
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -557,9 +557,9 @@ spec:
               value: "gen:"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -752,11 +752,11 @@ spec:
               value: ":8443"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"

@@ -49,9 +49,9 @@ func TestSecretSyncIntervalForSafe(t *testing.T) {
 
 	for _, test := range tests {
 		os.Setenv("VSECM_SAFE_SYNC_SECRETS_INTERVAL", test.envValue)
-		actual := SecretSyncIntervalForSafe()
+		actual := SecretsSyncIntervalForSafe()
 		if actual != test.expected {
-			t.Errorf("SecretSyncIntervalForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
+			t.Errorf("SecretsSyncIntervalForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
 		}
 	}
 }

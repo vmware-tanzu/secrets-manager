@@ -24,7 +24,7 @@ func main() {
 	log.PrintEnvironmentInfo(&id, []string{
 		string(constants.AppVersion),
 		string(constants.VSecMLogLevel),
-		string(constants.VSecMKeyGenDecryptMode),
+		string(constants.VSecMKeygenDecryptMode),
 	})
 
 	if env.KeyGenDecrypt() {

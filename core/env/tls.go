@@ -10,15 +10,17 @@
 
 package env
 
-import "os"
+import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
+)
 
 // TlsPort returns the secure port for VSecM Safe to listen on.
 // It checks the VSECM_SAFE_TLS_PORT environment variable. If the variable
 // is not set, it defaults to ":8443".
 func TlsPort() string {
-	p := os.Getenv("VSECM_SAFE_TLS_PORT")
+	p := constants.GetEnv(constants.VSecMSafeTlsPort)
 	if p == "" {
-		p = ":8443"
+		p = string(constants.VSecMSafeTlsPortDefault)
 	}
 	return p
 }

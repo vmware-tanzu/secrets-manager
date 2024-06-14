@@ -74,10 +74,10 @@ spec:
             {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
               {{- $safeEndpointUrlSet = true }}
             {{- end }}
-            {{- if eq .name "VSECM_SAFE_SPIFFEID_PREFIX" }}
+            {{- if eq .name "VSECM_SPIFFEID_PREFIX_SAFE" }}
               {{- $safeSpiffeIdPrefixSet = true }}
             {{- end }}
-            {{- if eq .name "VSECM_SENTINEL_SPIFFEID_PREFIX" }}
+            {{- if eq .name "VSECM_SPIFFEID_PREFIX_SENTINEL" }}
               {{- $sentinelSpiffeIdPrefixSet = true }}
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
@@ -94,11 +94,11 @@ spec:
               value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
           {{- end }}
           {{- if not $safeSpiffeIdPrefixSet }}
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
           {{- end }}
           {{- if not $sentinelSpiffeIdPrefixSet }}
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: {{ .Values.global.vsecm.sentinelSpiffeIdPrefix | quote }}
           {{- end }}
           {{- if not $vsecmNamespaceSet }}

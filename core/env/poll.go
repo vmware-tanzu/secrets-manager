@@ -11,7 +11,7 @@
 package env
 
 import (
-	"os"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"time"
 )
@@ -20,14 +20,13 @@ import (
 // sidecar process. The value is read from the environment variable
 // `VSECM_SIDECAR_MAX_POLL_INTERVAL` or returns 300000 milliseconds as default.
 func MaxPollIntervalForSidecar() time.Duration {
-	p := os.Getenv("VSECM_SIDECAR_MAX_POLL_INTERVAL")
+	p := constants.GetEnv(constants.VSecMSidecarMaxPollInterval)
 	if p == "" {
-		p = "300000"
+		p = string(constants.VSecMSidecarMaxPollIntervalDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 300000 * time.Millisecond
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return time.Duration(i) * time.Millisecond
 }
 
@@ -36,14 +35,13 @@ func MaxPollIntervalForSidecar() time.Duration {
 // The value is read from the environment variable
 // `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER` or returns 2 as default.
 func ExponentialBackoffMultiplierForSidecar() int64 {
-	p := os.Getenv("VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER")
+	p := constants.GetEnv(constants.VSecMSidecarExponentialBackoffMultiplier)
 	if p == "" {
-		p = "2"
+		p = string(constants.VSecMSidecarExponentialBackoffMultiplierDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 2
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return i
 }
 
@@ -51,14 +49,13 @@ func ExponentialBackoffMultiplierForSidecar() int64 {
 // polls before reducing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_SUCCESS_THRESHOLD` or returns 3 as default.
 func SuccessThresholdForSidecar() int64 {
-	p := os.Getenv("VSECM_SIDECAR_SUCCESS_THRESHOLD")
+	p := constants.GetEnv(constants.VSecMSidecarSuccessThreshold)
 	if p == "" {
-		p = "3"
+		p = string(constants.VSecMSidecarSuccessThresholdDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 3
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return i
 }
 
@@ -66,14 +63,13 @@ func SuccessThresholdForSidecar() int64 {
 // before increasing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_ERROR_THRESHOLD` or returns 2 as default.
 func ErrorThresholdForSidecar() int64 {
-	p := os.Getenv("VSECM_SIDECAR_ERROR_THRESHOLD")
+	p := constants.GetEnv(constants.VSecMSidecarErrorThreshold)
 	if p == "" {
-		p = "2"
+		p = string(constants.VSecMSidecarErrorThresholdDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 2
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return i
 }
 
@@ -82,13 +78,12 @@ func ErrorThresholdForSidecar() int64 {
 // variable, with a default value of 20000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
 func PollIntervalForSidecar() time.Duration {
-	p := os.Getenv("VSECM_SIDECAR_POLL_INTERVAL")
+	p := constants.GetEnv(constants.VSecMSidecarPollInterval)
 	if p == "" {
-		p = "20000"
+		p = string(constants.VSecMSidecarPollIntervalDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 20000 * time.Millisecond
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return time.Duration(i) * time.Millisecond
 }
