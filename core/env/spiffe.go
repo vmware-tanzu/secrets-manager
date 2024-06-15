@@ -25,6 +25,16 @@ func SpiffeSocketUrl() string {
 	return p
 }
 
+// SpiffeTrustDomain retrieves the SPIFFE trust domain from environment 
+// variables.
+// 
+// This function looks for the trust domain using the environment variable 
+// defined by `constants.SpiffeTrustDomain`. If the environment variable is not 
+// set or is an empty string, it defaults to the value specified by 
+// `constants.SpiffeTrustDomainDefault`.
+//
+// Returns:
+//   - A string representing the SPIFFE trust domain.
 func SpiffeTrustDomain() string {
 	p := constants.GetEnv(constants.SpiffeTrustDomain)
 	if p == "" {

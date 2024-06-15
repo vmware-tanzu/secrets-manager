@@ -66,7 +66,24 @@ will be used.
 
 ### SPIFFE_TRUST_DOMAIN
 
-TODO:// update me.
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *VSecM Sidecar*, *Workloads*.
+
+`SPIFFE_TRUST_DOMAIN` specifies which trust domain that the Kubernetes cluster
+**VSecM** deployed on is configued with.
+
+By default, it is `"vsecm.com"`.
+
+The workload SPIFFE IDs will have this trust domain as per the SPIFFE
+standard.
+
+For example, for the SPIFFE ID 
+`spiffe://vsecm.com/workload/app/s/app/n/app-1234`, `vsecm.com` is the 
+*trust domain*.
+
+For more information about SPIFFE IDs and trust domains, 
+[check out the official SPIFFE documentation][spiffe-docs].
+
+[spiffe-docs]: https://spiffe.io/
 
 ### VSECM_BACKOFF_DELAY
 
@@ -421,7 +438,15 @@ If the environment variable is not set, the default buffer size is `10`.
 
 ### VSECM_SAFE_ROOT_KEY_STORE
 
-TODO:// write me.
+**Used By**: *VSecM Safe*.
+
+`VSECM_SAFE_ROOT_KEY_STORE` determines the root key store type for **VSecM
+Safe**.
+
+As of this version, the only valid value is `"k8s"`, meaning that the **VSecM
+Safe** will store its root keys in a Kubernetes Secret.
+
+Defaults to `"k8s"` when not provided.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
@@ -501,23 +526,38 @@ If this environment variable is not set or is empty, it defaults to `"k8s:"`.
 
 ### VSECM_SAFE_SYNC_DELETED_SECRETS
 
-TODO:// write me.
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
 
 ### VSECM_SAFE_SYNC_EXPIRED_SECRETS
 
-TODO:// write me.
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
 
 ### VSECM_SAFE_SYNC_INTERPOLATED_K8S_SECRETS
 
-TODO:// write me.
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
 
 ### VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL
 
-TODO:// write me.
+**Used By**: "VSecM Safe".
+
+As of this version, this configuration has no effect.
+It is a work in progress.
 
 ### VSECM_SAFE_SYNC_SECRETS_INTERVAL
 
-TODO:// write me.
+**Used By**: "VSecM Safe".
+
+As of this version, this configuration has no effect.
+It is a work in progress.
 
 ### VSECM_SAFE_TLS_PORT
 
