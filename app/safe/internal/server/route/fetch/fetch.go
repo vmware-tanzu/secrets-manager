@@ -1,4 +1,4 @@
-/*
+o/*
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
@@ -93,7 +93,8 @@ func Fetch(
 
 	secret, err := collection.ReadSecret(cid, workloadId)
 	if err != nil {
-		log.WarnLn(&cid, "Fetch: Problem reading secret", err.Error())
+		log.WarnLn(&cid, "Fetch: Attemted to read secret from disk.")
+		log.TraceLn(&cid, "Likely expected error. No need to panic:", err.Error())
 	}
 
 	log.TraceLn(&cid, "Fetch: workloadId", workloadId)
