@@ -40,7 +40,7 @@ deploy-spire:
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
 		echo "verifying SPIRE installation"; \
-		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE_SERVER) \
+		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE_SERVER); \
 		echo "spire-server: deployment available"; \
 		echo "spire installation successful"; \
 		echo "sleeping for 15 seconds for webhooks to become responsive"; \
