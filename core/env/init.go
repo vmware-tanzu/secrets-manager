@@ -11,7 +11,7 @@
 package env
 
 import (
-	"os"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"time"
 )
@@ -22,14 +22,18 @@ import (
 // variable is not set or is not a valid integer value, the function returns the
 // default interval of 5000 milliseconds.
 func PollIntervalForInitContainer() time.Duration {
-	p := os.Getenv("VSECM_INIT_CONTAINER_POLL_INTERVAL")
+	p := constants.GetEnv(constants.VSecMInitContainerPollInterval)
+	d, _ := strconv.Atoi(string(constants.VSecMInitContainerPollIntervalDefault))
 	if p == "" {
-		p = "5000"
+		p = string(constants.VSecMInitContainerPollIntervalDefault)
 	}
+
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 5000 * time.Millisecond
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
 	}
+
 	return time.Duration(i) * time.Millisecond
 }
 
@@ -46,13 +50,17 @@ func PollIntervalForInitContainer() time.Duration {
 //
 //	time.Duration: The wait time before exit, in milliseconds.
 func WaitBeforeExitForInitContainer() time.Duration {
-	p := os.Getenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
+	p := constants.GetEnv(constants.VSecMInitContainerWaitBeforeExit)
+	d, _ := strconv.Atoi(string(constants.VSecMInitContainerWaitBeforeExitDefault))
 	if p == "" {
-		p = "0"
+		p = string(constants.VSecMInitContainerWaitBeforeExitDefault)
 	}
+
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 0 * time.Millisecond
+		i = int64(d)
+		return time.Duration(i) * time.Millisecond
 	}
+
 	return time.Duration(i) * time.Millisecond
 }

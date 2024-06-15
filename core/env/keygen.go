@@ -1,7 +1,17 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets... secret
+>/
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package env
 
 import (
-	"os"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // RootKeyPathForKeyGen returns the root key path. Root key is used to decrypt
@@ -14,9 +24,9 @@ import (
 //
 //	string: The path to the root key.
 func RootKeyPathForKeyGen() string {
-	p := os.Getenv("VSECM_KEYGEN_ROOT_KEY_PATH")
+	p := constants.GetEnv(constants.VSecMKeygenRootKeyPath)
 	if p == "" {
-		return "/opt/vsecm/keys.txt"
+		return string(constants.VSecMKeygenRootKeyPathDefault)
 	}
 	return p
 }
@@ -32,9 +42,9 @@ func RootKeyPathForKeyGen() string {
 //
 //	string: The path to the exported secrets.
 func ExportedSecretPathForKeyGen() string {
-	p := os.Getenv("VSECM_KEYGEN_EXPORTED_SECRET_PATH")
+	p := constants.GetEnv(constants.VSecMKeygenExportedSecretPath)
 	if p == "" {
-		return "/opt/vsecm/secrets.json"
+		return string(constants.VSecMKeygenExportedSecretPathDefault)
 	}
 	return p
 }
@@ -54,6 +64,6 @@ func ExportedSecretPathForKeyGen() string {
 //
 //	bool: True if decryption should proceed, false otherwise.
 func KeyGenDecrypt() bool {
-	p := os.Getenv("VSECM_KEYGEN_DECRYPT")
-	return p == "true"
+	p := constants.GetEnv(constants.VSecMKeygenDecrypt)
+	return constants.True(p)
 }

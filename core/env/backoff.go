@@ -11,11 +11,28 @@
 package env
 
 import (
-	"os"
+	// "github.com/vmware-tanzu/secrets-manager/core/backoff"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"strings"
 	"time"
 )
+
+// Redefine some constants to avoid import cycle.
+
+// Mode.
+type Mode string
+
+var Exponential Mode = "exponential"
+var Linear Mode = "linear"
+
+var backoff = struct {
+	Exponential Mode
+	Linear      Mode
+}{
+	Exponential: Exponential,
+	Linear:      Linear,
+}
 
 // BackoffMaxRetries reads the "VSECM_BACKOFF_MAX_RETRIES" environment variable,
 // parses its value as an int64, and returns the parsed number. If the
@@ -27,13 +44,14 @@ import (
 // Returns:
 // int64 - the maximum number of retries.
 func BackoffMaxRetries() int64 {
-	p := os.Getenv("VSECM_BACKOFF_MAX_RETRIES")
+	p := constants.GetEnv(constants.VSecMBackoffMaxRetries)
 	if p == "" {
-		p = "10"
+		p = string(constants.VSecMBackoffMaxRetriesDefault)
 	}
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		return 10
+		i, _ := strconv.Atoi(string(constants.VSecMBackoffMaxRetriesDefault))
+		return int64(i)
 	}
 
 	return i
@@ -50,10 +68,11 @@ func BackoffMaxRetries() int64 {
 // Returns:
 // time.Duration - the initial backoff delay duration.
 func BackoffDelay() time.Duration {
-	p := os.Getenv("VSECM_BACKOFF_DELAY")
+	p := constants.GetEnv(constants.VSecMBackoffDelay)
 	if p == "" {
-		p = "1000"
+		p = string(constants.VSecMBackoffDelayDefault)
 	}
+
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
 		return 1000 * time.Millisecond
@@ -73,18 +92,18 @@ func BackoffDelay() time.Duration {
 // Returns:
 // string - the backoff mode, either "exponential" or "linear".
 func BackoffMode() string {
-	p := os.Getenv("VSECM_BACKOFF_MODE")
+	p := constants.GetEnv(constants.VSecMBackoffMode)
 	p = strings.TrimSpace(p)
 
 	if p == "" {
-		return "exponential"
+		return string(backoff.Exponential)
 	}
 
-	if p != "exponential" {
-		return "linear"
+	if p != string(backoff.Exponential) {
+		return string(backoff.Linear)
 	}
 
-	return "exponential"
+	return string(backoff.Exponential)
 }
 
 // BackoffMaxWait reads the "VSECM_BACKOFF_MAX_WAIT" environment variable,
@@ -98,10 +117,11 @@ func BackoffMode() string {
 // Returns:
 // time.Duration - the maximum backoff duration.
 func BackoffMaxWait() time.Duration {
-	p := os.Getenv("VSECM_BACKOFF_MAX_WAIT")
+	p := constants.GetEnv(constants.VSecMBackoffMaxWait)
 	if p == "" {
-		p = "30000"
+		p = string(constants.VSecMBackoffMaxWaitDefault)
 	}
+
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
 		return 30000 * time.Millisecond

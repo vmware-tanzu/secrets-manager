@@ -64,9 +64,41 @@ The following section contain a breakdown of all of these environment variables.
 If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
 will be used.
 
+### SPIFFE_TRUST_DOMAIN
+
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *VSecM Sidecar*, *Workloads*.
+
+`SPIFFE_TRUST_DOMAIN` specifies which trust domain that the Kubernetes cluster
+**VSecM** deployed on is configued with.
+
+By default, it is `"vsecm.com"`.
+
+The workload SPIFFE IDs will have this trust domain as per the SPIFFE
+standard.
+
+For example, for the SPIFFE ID 
+`spiffe://vsecm.com/workload/app/s/app/n/app-1234`, `vsecm.com` is the 
+*trust domain*.
+
+For more information about SPIFFE IDs and trust domains, 
+[check out the official SPIFFE documentation][spiffe-docs].
+
+[spiffe-docs]: https://spiffe.io/
+
+### VSECM_BACKOFF_DELAY
+
+**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, 
+*VSecM Init Container*.
+
+`VSECM_BACKOFF_DELAY` configures the initial delay for backoff algorithms. This
+introduces a waiting period before retrying an operation after a failure.
+
+If not given, defaults to `"1000"` milliseconds.``
+
 ### VSECM_BACKOFF_MAX_RETRIES
 
-**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, *VSecM Init Container*.
+**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, 
+*VSecM Init Container*.
 
 `VSECM_BACKOFF_MAX_RETRIES` configures the maximum number of retries in internal
 backoff algorithms. This is used in scenarios where operations might fail
@@ -74,28 +106,10 @@ transiently and require repeated attempts to succeed.
 
 If not given, defaults to `"10"`.
 
-### VSECM_BACKOFF_DELAY
-
-**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, *VSecM Init Container*.
-
-`VSECM_BACKOFF_DELAY` configures the initial delay for backoff algorithms. This
-introduces a waiting period before retrying an operation after a failure.
-
-If not given, defaults to `"1000"` milliseconds.``
-
-### VSECM_BACKOFF_MODE
-
-**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, *VSecM Init Container*.
-
-`VSECM_BACKOFF_MODE` determines the backoff strategy to be used. Available
-options are `"exponential"` and `"linear"`.
-
-If the environment variable is not set, or if its value is `"exponential"`,
-`"exponential"` is used. For any other non-empty value, `"linear"` is used.
-
 ### VSECM_BACKOFF_MAX_WAIT
 
-**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, *VSecM Init Container*.
+**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, 
+*VSecM Init Container*.
 
 `VSECM_BACKOFF_MAX_WAIT` configures the maximum duration the backoff
 algorithm can wait before retrying an operation. This is used to prevent
@@ -108,26 +122,16 @@ This variable is crucial for defining the upper limit on the duration to which
 backoff delay can grow, ensuring that retry mechanisms do not result in
 excessively long wait times.
 
-### VSECM_ROOT_KEY_NAME
+### VSECM_BACKOFF_MODE
 
-**Used By**: *VSecM Safe*.
+**Used By**: *VSecM Sentinel*, *VSecM Safe*, *VSecM Sidecar*, 
+*VSecM Init Container*.
 
-`VSECM_ROOT_KEY_NAME` is how the age secret key is referenced by
-name inside **VSecM Safe**'s code. If not set, defaults to `"vsecm-root-key"`.
+`VSECM_BACKOFF_MODE` determines the backoff strategy to be used. Available
+options are `"exponential"` and `"linear"`.
 
-If you change the value of this environment variable, make sure to change the
-relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
-this is to do a project wide search and find and replace places where reference
-`"vsecm-root-key"` to your new name of choice.
-
-### VSECM_ROOT_KEY_PATH
-
-**Used By**: *VSecM Safe*.
-
-`VSECM_ROOT_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
-that contains the encryption keys.
-
-If not given, it will default to `"/key/key.txt"`.
+If the environment variable is not set, or if its value is `"exponential"`,
+`"exponential"` is used. For any other non-empty value, `"linear"` is used.
 
 ### VSECM_INIT_CONTAINER_POLL_INTERVAL
 
@@ -155,10 +159,13 @@ of `"0"` milliseconds will be assumed.
 
 **Used By**: *VSecM Keygen*.
 
-`VSECM_KEYGEN_DECRYPT` determines if the decryption process should be executed.
+`VSECM_KEYGEN_DECRYPT` determines if **VSecM Keygen** should decrypt the secrets
+JSON file instead of generation a root key (*which is its default behavior*).
 
-If this value is not `"true"`, **VSecM Keygen** will generate a new root key.
-Otherwise, **VSecM Keygen** will attempt to decrypt the secrets
+If this value is  anything but `"true"`, **VSecM Keygen** will generate a new
+root key. Otherwise, it will attempt to decrypt the secrets provided to it.
+
+Defaults to `"false"`.
 
 ### VSECM_KEYGEN_EXPORTED_SECRET_PATH
 
@@ -169,6 +176,15 @@ stored. This needs to be mounted to the container that you run **VSecM Keygen**.
 
 If the environment variable is not set, it defaults to
 `"/opt/vsecm/secrets.json"`.
+
+### VSECM_KEYGEN_ROOT_KEY_PATH
+
+**Used By**: *VSecM Keygen*.
+
+`VSECM_KEYGEN_ROOT_KEY_PATH` is the path where the root key is stored. This
+needs to be mounted to the container that you run **VSecM Keygen**.
+
+If not given, it defaults to `"/opt/vsecm/keys.txt"`.
 
 ### VSECM_LOG_LEVEL
 
@@ -212,6 +228,19 @@ in the logs.
 The partial hash is a cryptographically secure string, and there is no way to
 retrieve the original secret from it.
 
+### VSECM_NAMESPACE_SYSTEM
+
+**Used By**: *VSecM Safe*.
+
+`VSECM_NAMESPACE_SYSTEM` environment variable specifies the namespace in
+which a **VSecM** instance is deployed.
+
+Ensure this is set as an environment variable for your containers; it's a
+critical piece. **VSecM Safe** and Sentinel rely on it to precisely locate the
+deployment's namespace. For instance, Safe leverages this information to
+securely store age keys within a designated secret, as specified by the
+`VSECM_ROOT_KEY_NAME` configuration.
+
 ### VSECM_PROBE_LIVENESS_PORT
 
 **Used By**: *VSecM Sentinel*, *VSecM Safe*.
@@ -234,35 +263,63 @@ will serve.
 
 Defaults to `:8082`.
 
-### VSECM_KEYGEN_DECRYPT
+### VSECM_ROOT_KEY_INPUT_MODE_MANUAL
 
-**Used By**: *VSecM Keygen*.
+**Used By**: *VSecM Safe*.
 
-`VSECM_KEYGEN_DECRYPT` determines if **VSecM Keygen** should decrypt the secrets
-JSON file instead of generation a root key (*which is its default behavior*).
+`VSECM_ROOT_KEY_INPUT_MODE_MANUAL` is a boolean indicating whether to use manual
+cryptographic key input for **VSecM Safe**, instead of letting the bootstrap
+flow automatically compute cryptographic keys.
 
-If this value is  anything but `"true"`, **VSecM Keygen** will generate a new
-root key. Otherwise, it will attempt to decrypt the secrets provided to it.
+If the environment variable is not set or its value is not `"true"`, the
+bootstrap flow will **not** compute the cryptographic keys automatically.
 
-Defaults to `"false"`.
+If this variable is set to `"true"` then a human operator has to provide the
+necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe** to
+unlock itself and start serving API requests.
 
-### VSECM_KEYGEN_EXPORTED_SECRET_PATH
+> **Setting the Root Key Manually**
+>
+> You can [set the root key programmatically using
+> **VSecM Sentinel**][vsecm-sentinel-root].
 
-**Used By**: *VSecM Keygen*.
+[vsecm-sentinel-root]: @/documentation/usage/cli.md
 
-`VSECM_KEYGEN_EXPORTED_SECRET_PATH` is the path where the exported secrets are
-stored. This needs to be mounted to the container that you run **VSecM Keygen**.
+The control offered by this approach changes the threat boundary of
+**VSecM Safe**. With this approach, the responsibility of securing the
+*root key* is on you as the operator. This is different than the default
+behavior of **VSecM Safe** where the *root key* is randomly-generated in a
+cryptographically secure way and stored in a Kubernetes `Secret`.
 
-If not given, it defaults to `"/opt/vsecm/secrets.json"`.
+Using a Kubernetes `Secret` to store the *root key* is still secure,
+especially if you encrypt your `etcd` and establish a **tight RBAC** over the
+Kubernetes `Secret`that stores the *root key*.
 
-### VSECM_KEYGEN_ROOT_KEY_PATH
+Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
+respond to API requests until a *root key* is provided, using **VSecM Sentinel**.
 
-**Used By**: *VSecM Keygen*.
+[vsecm-sentinel-cli]: @/documentation/usage/cli.md
 
-`VSECM_KEYGEN_ROOT_KEY_PATH` is the path where the root key is stored. This
-needs to be mounted to the container that you run **VSecM Keygen**.
+### VSECM_ROOT_KEY_NAME
 
-If not given, it defaults to `"/opt/vsecm/keys.txt"`.
+**Used By**: *VSecM Safe*.
+
+`VSECM_ROOT_KEY_NAME` is how the age secret key is referenced by
+name inside **VSecM Safe**'s code. If not set, defaults to `"vsecm-root-key"`.
+
+If you change the value of this environment variable, make sure to change the
+relevant `Secret` and `Deployment` YAML manifests too. The easiest way to do
+this is to do a project wide search and find and replace places where reference
+`"vsecm-root-key"` to your new name of choice.
+
+### VSECM_ROOT_KEY_PATH
+
+**Used By**: *VSecM Safe*.
+
+`VSECM_ROOT_KEY_PATH` is where **VSecM Safe** will fetch the `"key.txt"`
+that contains the encryption keys.
+
+If not given, it will default to `"/key/key.txt"`.
 
 ### VSECM_SAFE_BACKING_STORE
 
@@ -324,9 +381,10 @@ If not provided, it will default to:
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_SAFE_FIPS_COMPLIANT` is required for **VSecM Safe** to run in FIPS-compliant
-mode. Defaults to `"false"`, which means **VSecM Safe** will run in non-FIPS-compliant
-mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode.
+`VSECM_SAFE_FIPS_COMPLIANT` is required for **VSecM Safe** to run in 
+FIPS-compliant mode. Defaults to `"false"`, which means **VSecM Safe** will run 
+in non-FIPS-compliant mode. Setting it to `"true"` will make **VSecM Safe** run 
+in FIPS-compliant mode.
 
 > **You Need Host Support for FIPS-Compliant Mode**
 >
@@ -346,13 +404,13 @@ mode. Setting it to `"true"` will make **VSecM Safe** run in FIPS-compliant mode
 > **VSecM Safe** will still need to undergo this formal FIPS approval process
 > to be officially recognized as FIPS compliant.
 
-
 If you are using one of the official FIPS-complaint VSecM Docker images,
 then it will be FIPS-compliant.
 
 As a FIPS-compliant base image you can use the following:
 
-* [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless base*)
+* [vsecm/vsecm-ist-fips-safe][vsecm-safe-istanbul-fips] (*using a Distroless 
+  base*)
 
 [vsecm-safe-istanbul-fips]: https://hub.docker.com/repository/docker/vsecm/vsecm-ist-fips-safe/general
 
@@ -378,73 +436,17 @@ Kubernetes secret queue.
 
 If the environment variable is not set, the default buffer size is `10`.
 
-### VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE
+### VSECM_SAFE_ROOT_KEY_STORE
 
 **Used By**: *VSecM Safe*.
 
-`VSECM_SAFE_K8S_SECRET_DELETE_BUFFER_SIZE` the buffer size for the
-**VSecM Safe** Kubernetes secret deletion queue.
+`VSECM_SAFE_ROOT_KEY_STORE` determines the root key store type for **VSecM
+Safe**.
 
-If the environment variable is not set, the default buffer size is `10`.
+As of this version, the only valid value is `"k8s"`, meaning that the **VSecM
+Safe** will store its root keys in a Kubernetes Secret.
 
-### VSECM_ROOT_KEY_INPUT_MODE_MANUAL
-
-**Used By**: *VSecM Safe*.
-
-`VSECM_ROOT_KEY_INPUT_MODE_MANUAL` is a boolean indicating whether to use manual
-cryptographic key input for **VSecM Safe**, instead of letting the bootstrap
-flow automatically compute cryptographic keys.
-
-If the environment variable is not set or its value is not `"true"`, the
-bootstrap flow will **not** compute the cryptographic keys automatically.
-
-If this variable is set to `"true"` then a human operator has to provide the
-necessary cryptographic keys using **VSecM Sentinel** for **VSecM** Safe** to
-unlock itself and start serving API requests.
-
-> **Setting the Root Key Manually**
->
-> You can [set the root key programmatically using
-> **VSecM Sentinel**][vsecm-sentinel-root].
-
-
-[vsecm-sentinel-root]: @/documentation/usage/cli.md
-
-The control offered by this approach changes the threat boundary of
-**VSecM Safe**. With this approach, the responsibility of securing the
-*root key* is on you as the operator. This is different than the default
-behavior of **VSecM Safe** where the *root key* is randomly-generated in a
-cryptographically secure way and stored in a Kubernetes `Secret`.
-
-Using a Kubernetes `Secret` to store the *root key* is still secure,
-especially if you encrypt your `etcd` and establish a **tight RBAC** over the
-Kubernetes `Secret`that stores the *root key*.
-
-Also note that when this variable is set to `"true"`, **VSecM Safe** will **not**
-respond to API requests until a *root key* is provided, using **VSecM Sentinel**.
-
-[vsecm-sentinel-cli]: @/documentation/usage/cli.md
-
-### VSECM_NAMESPACE_SYSTEM
-
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *VSecM Sidecar*, *Workloads*.
-
-`VSECM_NAMESPACE_SYSTEM` environment variable specifies the namespace in
-which a VSecM instance is deployed.
-
-Ensure this is set as an environment variable for your containers; it's a
-critical piece. VSecM Safe and Sentinel rely on it to precisely locate the
-deployment's namespace. For instance, Safe leverages this information to
-securely store age keys within a designated secret, as specified by the
-`VSECM_ROOT_KEY_NAME` configuration.
-
-// NamespaceForSpire returns the namespace for SPIRE.
-// The namespace is determined by the environment variable "VSECM_NAMESPACE_SPIRE".
-// If the variable is not set or is empty, it defaults to "spire-system".
-//
-// Returns:
-//
-//	string: The namespace to be used for SPIRE.
+Defaults to `"k8s"` when not provided.
 
 ### VSECM_SAFE_SECRET_BACKUP_COUNT
 
@@ -501,9 +503,9 @@ If the environment variable is not set, or cannot be parsed, defaults to
 > **RegEx Prefixes**
 >
 > You can use regular expressions for:
-> * `VSECM_SENTINEL_SPIFFEID_PREFIX`,
-> * `VSECM_SAFE_SPIFFEID_PREFIX`,
-> * and `VSECM_WORKLOAD_SPIFFEID_PREFIX`.
+> * `VSECM_SPIFFEID_PREFIX_SENTINEL`,
+> * `VSECM_SPIFFEID_PREFIX_SAFE`,
+> * and `VSECM_SPIFFEID_PREFIX_WORKLOAD`.
 > 
 > When the prefix string starts with a "^", VSecM will validate the
 > SPIFFE ID based on the given regular expression.
@@ -511,20 +513,6 @@ If the environment variable is not set, or cannot be parsed, defaults to
 > For example, a pattern `"^spiffe://vsecm\.com/workload/(app1|app2)$`
 > will treat `"spiffe://vsecm.com/workload/app1"` and
 > `"spiffe://vsecm.com/workload/app2"` as SPIFFE IDs that can be trusted.
-
-### VSECM_SAFE_SPIFFEID_PREFIX
-
-**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
-
-Both **VSecM Sentinel**, **VSecM Safe**, and **workload**s use this environment
-variable.
-
-`VSECM_SAFE_SPIFFEID_PREFIX` is required for validation.
-
-If the prefix starts with `"^"`, it will be treated as a regular expression.
-
-If not provided, it will default to:
-`"spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"`
 
 ### VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
 
@@ -535,6 +523,41 @@ indicates the secret shall be stored as a Kubernetes `Secret`. The prefix
 is as part of the `-w` flag (*as in `-w k8s:my-secret`*).
 
 If this environment variable is not set or is empty, it defaults to `"k8s:"`.
+
+### VSECM_SAFE_SYNC_DELETED_SECRETS
+
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
+
+### VSECM_SAFE_SYNC_EXPIRED_SECRETS
+
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
+
+### VSECM_SAFE_SYNC_INTERPOLATED_K8S_SECRETS
+
+**Used By**: *VSecM Safe*.
+
+This configuration has no effect as of this version.
+It is a work in progress.
+
+### VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL
+
+**Used By**: "VSecM Safe".
+
+As of this version, this configuration has no effect.
+It is a work in progress.
+
+### VSECM_SAFE_SYNC_SECRETS_INTERVAL
+
+**Used By**: "VSecM Safe".
+
+As of this version, this configuration has no effect.
+It is a work in progress.
 
 ### VSECM_SAFE_TLS_PORT
 
@@ -551,6 +574,15 @@ than one manifest, and restart or redeploy **VMware Secrets Manager** and
 
 Defaults to `":8443"`.
 
+### VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER` is a flag that enables the OIDC
+resource server functionality in **VSecM Sentinel**.
+
+Defaults to "false".
+
 ### VSECM_SENTINEL_INIT_COMMAND_PATH
 
 **Used By**: *VSecM Sentinel*.
@@ -563,6 +595,18 @@ during the first deployment of **VSecM**.
 
 If not given, defaults to `"/opt/vsecm-sentinel/init/data"`.
 
+### VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE` is the interval to wait 
+after executing an **init command** stanza of Sentinel.
+
+The interval is an integer value representing the wait time in milliseconds.
+
+If the environment variable is not set or cannot be parsed, it defaults to
+zero milliseconds.
+
 ### VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC
 
 **Used By**: *VSecM Sentinel*.
@@ -573,18 +617,6 @@ executing an **init command** stanza of Sentinel.
 The interval is an integer value representing the wait time in milliseconds.
 
 If the environment variable is not set or cannot be parsed, it defaults to 
-zero milliseconds.
-
-### VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_EXEC
-
-**Used By**: *VSecM Sentinel*.
-
-`VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_EXEC` is the interval to wait after
-executing an **init command** stanza of Sentinel.
-
-The interval is an integer value representing the wait time in milliseconds.
-
-If the environment variable is not set or cannot be parsed, it defaults to
 zero milliseconds.
 
 ### VSECM_SENTINEL_LOGGER_URL
@@ -609,15 +641,6 @@ server that **VSecM Sentinel** uses. This url is used when
 
 Defaults to `""`.
 
-### VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
-
-**Used By**: *VSecM Sentinel*.
-
-`VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER` is a flag that enables the OIDC
-resource server functionality in **VSecM Sentinel**.
-
-Defaults to "false".
-
 ### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
 
 **Used By**: *VSecM Sentinel*.
@@ -630,13 +653,13 @@ it as a "*template*" rather than a literal value.
 
 If the environment variable is not set or is empty, it defaults to `"gen:"`.
 
-### VSECM_SENTINEL_SPIFFEID_PREFIX
+### VSECM_SPIFFEID_PREFIX_SENTINEL
 
 **Used By**: *VSecM Safe*, *VSecM Sentinel*.
 
 Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
 
-`VSECM_SENTINEL_SPIFFEID_PREFIX` is required for validation.
+`VSECM_SPIFFEID_PREFIX_SENTINEL` is required for validation.
 
 If the prefix starts with `"^"`, it will be treated as a regular expression.
 
@@ -685,6 +708,15 @@ that the sidecar polls **VSecM Safe** for new secrets.
 
 Defaults to `20000` milliseconds, if not provided.
 
+### VSECM_SIDECAR_SECRETS_PATH
+
+**Used By**: *VSecM Sidecar*
+
+`VSECM_SIDECAR_SECRETS_PATH` is path to the secrets file used by the
+**VSecM Sidecar**.
+
+If not specified, it has a default value of `"/opt/vsecm/secrets.json"`.
+
 ### VSECM_SIDECAR_SUCCESS_THRESHOLD
 
 **Used By**:  *VSecM Sidecar*.
@@ -697,22 +729,13 @@ results before reducing the poll interval. Defaults to `3`.
 The next interval is calculated by dividing the current interval with
 `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER`.
 
-### VSECM_SIDECAR_SECRETS_PATH
-
-**Used By**: *VSecM Sidecar*
-
-`VSECM_SIDECAR_SECRETS_PATH` is path to the secrets file used by the
-**VSecM Sidecar**.
-
-If not specified, it has a default value of `"/opt/vsecm/secrets.json"`.
-
-### VSECM_WORKLOAD_SPIFFEID_PREFIX
+### VSECM_SPIFFEID_PREFIX_WORKLOAD
 
 **Used By**: *VSecM Safe*, *Workloads*.
 
 Both **VSecM Safe** and **workloads** use this environment variable.
 
-`VSECM_WORKLOAD_SPIFFEID_PREFIX` is required for validation. If not provided,
+`VSECM_SPIFFEID_PREFIX_WORKLOAD` is required for validation. If not provided,
 it will default to: `"spiffe://vsecm.com/workload/"`
 
 If the prefix starts with `"^"`, it will be treated as a regular expression.

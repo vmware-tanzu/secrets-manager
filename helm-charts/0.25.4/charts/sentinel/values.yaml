@@ -21,23 +21,28 @@ environments:
  # -- The SPIFFE endpoint socket. This is used to communicate with the SPIRE.
  - name: SPIFFE_ENDPOINT_SOCKET
    value: "unix:///spire-agent-socket/agent.sock"
-  # -- The interval between retries (in milliseconds) for the default backoff strategy.
+ # -- The interval between retries (in milliseconds) for the default backoff strategy.
  - name: VSECM_BACKOFF_DELAY
    value: "1000"
-  # -- The maximum number of retries for the default backoff strategy before it gives up.
+ # -- The maximum number of retries for the default backoff strategy before it gives up.
  - name: VSECM_BACKOFF_MAX_RETRIES
    value: "10"
-  # -- The maximum wait time (in milliseconds) for the default backoff strategy.
+ # -- The maximum wait time (in milliseconds) for the default backoff strategy.
  - name: VSECM_BACKOFF_MAX_WAIT
    value: "10000"
-  # -- The backoff mode. The default is "exponential".
-  # Allowed values: "exponential", "linear"
+ # -- The backoff mode. The default is "exponential".
+ # Allowed values: "exponential", "linear"
  - name: VSECM_BACKOFF_MODE
    value: "exponential"
  # -- The log level. 0: Logs are off (only audit events will be logged),
  # 7: TRACE level logging (maximum verbosity).
  - name: VSECM_LOG_LEVEL
    value: "7"
+ # -- Useful for debugging. This will log cryptographic fingerprints of
+ # secrets without revealing the secret itself. It is recommended to keep
+ # this "false" in production.
+ - name: VSECM_LOG_SECRET_FINGERPRINTS
+   value: "false"
  # -- The port that the liveness probe listens on.
  - name: VSECM_PROBE_LIVENESS_PORT
    value: ":8081"
@@ -53,6 +58,14 @@ environments:
  # -- The path where the initialization commands are mounted.
  - name: VSECM_SENTINEL_INIT_COMMAND_PATH
    value: "/opt/vsecm-sentinel/init/data"
+ # -- The amount of time to wait (in milliseconds) after all
+ # initialization commands are executed.
+ - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
+   value: "0"
+ # -- The amount of time to wait (in milliseconds) before executing the
+ # initialization commands.
+ - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC
+   value: "0"
  # -- VSecM Sentinel uses a gRPC logger to log audit events. This is the URL of the
  # gRPC logger.
  - name: VSECM_SENTINEL_LOGGER_URL

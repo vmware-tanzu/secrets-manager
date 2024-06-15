@@ -11,7 +11,7 @@
 package env
 
 import (
-	"os"
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"time"
 )
@@ -27,9 +27,9 @@ import (
 //
 //	string: The path to the Sentinel initialization commands file.
 func InitCommandPathForSentinel() string {
-	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_PATH")
+	p := constants.GetEnv(constants.VSecMSentinelInitCommandPath)
 	if p == "" {
-		p = "/opt/vsecm-sentinel/init/data"
+		p = string(constants.VSecMSentinelInitCommandPathDefault)
 	}
 	return p
 }
@@ -46,14 +46,14 @@ func InitCommandPathForSentinel() string {
 //
 //	time.Duration: The wait interval in milliseconds before executing an init command.
 func InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration {
-	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
+	p := constants.GetEnv(constants.VSecMSentinelInitCommandWaitBeforeExec)
+
 	if p == "" {
-		p = "0"
+		p = string(constants.VSecMSentinelInitCommandWaitBeforeExecDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 0 * time.Millisecond
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return time.Duration(i) * time.Millisecond
 }
 
@@ -70,14 +70,13 @@ func InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration {
 //	time.Duration: The wait interval in milliseconds after initialization is
 //	complete.
 func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
-	p := os.Getenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE")
+	p := constants.GetEnv(constants.VSecMSentinelInitCommandWaitAfterInitComplete)
 	if p == "" {
-		p = "0"
+		p = string(constants.VSecMSentinelInitCommandWaitAfterInitCompleteDefault)
 	}
-	i, err := strconv.ParseInt(p, 10, 32)
-	if err != nil {
-		return 0 * time.Millisecond
-	}
+
+	i, _ := strconv.ParseInt(p, 10, 32)
+
 	return time.Duration(i) * time.Millisecond
 }
 
@@ -85,16 +84,13 @@ func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
 // OIDC provider base URL for VSecM	Sentinel. This url is used when
 // VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER is set to "true".
 func OIDCProviderBaseUrlForSentinel() string {
-	p := os.Getenv("VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL")
+	p := constants.GetEnv(constants.VSecMSentinelOidcProviderBaseUrl)
 	return p
 }
 
 // SentinelEnableOIDCResourceServer is a flag that enables the OIDC resource
 // server functionality in VSecM Sentinel.
 func SentinelEnableOIDCResourceServer() bool {
-	p := os.Getenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
-	if p == "" {
-		return false
-	}
-	return p == "true"
+	p := constants.GetEnv(constants.VSecMSentinelEnableOidcResourceServer)
+	return constants.True(p)
 }

@@ -11,10 +11,45 @@
 package env
 
 import (
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
+
+type Level int
+
+// Redefine log levels to avoid import cycle.
+const (
+	Off Level = iota
+	Fatal
+	Error
+	Warn
+	Info
+	Audit
+	Debug
+	Trace
+)
+
+var level = struct {
+	Off   Level
+	Fatal Level
+	Error Level
+	Warn  Level
+	Info  Level
+	Audit Level
+	Debug Level
+	Trace Level
+}{
+	Off:   Off,
+	Fatal: Fatal,
+	Error: Error,
+	Warn:  Warn,
+	Info:  Info,
+	Audit: Audit,
+	Debug: Debug,
+	Trace: Trace,
+}
 
 // LogLevel returns the value set by VSECM_LOG_LEVEL environment
 // variable, or a default level.
@@ -22,17 +57,20 @@ import (
 // VSECM_LOG_LEVEL determines the verbosity of the logs.
 // 0: logs are off, 7: highest verbosity (TRACE).
 func LogLevel() int {
-	p := os.Getenv("VSECM_LOG_LEVEL")
+	p := constants.GetEnv(constants.VSecMLogLevel)
 	if p == "" {
-		return 3 // WARN
+		return int(level.Warn)
 	}
+
 	l, _ := strconv.Atoi(p)
-	if l == 0 {
-		return 3 // WARN
+	if l == int(level.Off) {
+		return int(level.Warn)
 	}
-	if l < 0 || l > 7 {
-		return 3 // WARN
+
+	if l < int(level.Off) || l > int(level.Trace) {
+		return int(level.Warn)
 	}
+
 	return l
 }
 
@@ -53,10 +91,10 @@ func LogLevel() int {
 // Returns:
 // bool - true if logging of secret fingerprints is enabled, false otherwise.
 func LogSecretFingerprints() bool {
-	p := os.Getenv("VSECM_LOG_SECRET_FINGERPRINTS")
+	p := constants.GetEnv(constants.VSecMLogSecretFingerprints)
 	p = strings.ToLower(strings.TrimSpace(p))
 	if p == "" {
 		return false
 	}
-	return p == "true"
+	return constants.True(p)
 }

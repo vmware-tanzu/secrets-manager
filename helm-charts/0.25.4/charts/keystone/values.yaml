@@ -62,6 +62,10 @@ initEnvironments:
   # the VSecM Safe for secrets.
   - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
     value: "5000"
+  # -- The time (in milliseconds) that the VSecM Init Container will wait
+  # before exiting and yielding the control to the main container.
+  - name: VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT
+    value: "0"
   # -- The log level. 0: Logs are off (only audit events will be logged)
   # 7: TRACE level logging (maximum verbosity).
   - name: VSECM_LOG_LEVEL

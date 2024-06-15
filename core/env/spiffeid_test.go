@@ -29,10 +29,10 @@ func TestSentinelSpiffeIdPrefix(t *testing.T) {
 		{
 			name: "sentinel_spiffeid_prefix_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SENTINEL_SPIFFEID_PREFIX", "spiffe://vsecm.com/workload/vsecm-sentinel/test")
+				return os.Setenv("VSECM_SPIFFEID_PREFIX_SENTINEL", "spiffe://vsecm.com/workload/vsecm-sentinel/test")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SENTINEL_SPIFFEID_PREFIX")
+				return os.Unsetenv("VSECM_SPIFFEID_PREFIX_SENTINEL")
 			},
 			want: "spiffe://vsecm.com/workload/vsecm-sentinel/test",
 		},
@@ -72,10 +72,10 @@ func TestSafeSpiffeIdPrefix(t *testing.T) {
 		{
 			name: "safe_spiffeid_prefix_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SAFE_SPIFFEID_PREFIX", "spiffe://vsecm.com/workload/vsecm-safe/test")
+				return os.Setenv("VSECM_SPIFFEID_PREFIX_SAFE", "spiffe://vsecm.com/workload/vsecm-safe/test")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_SAFE_SPIFFEID_PREFIX")
+				return os.Unsetenv("VSECM_SPIFFEID_PREFIX_SAFE")
 			},
 			want: "spiffe://vsecm.com/workload/vsecm-safe/test",
 		},
@@ -115,10 +115,10 @@ func TestWorkloadSpiffeIdPrefix(t *testing.T) {
 		{
 			name: "safe_spiffeid_prefix_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_WORKLOAD_SPIFFEID_PREFIX", "spiffe://vsecm.com/workload/test/")
+				return os.Setenv("VSECM_SPIFFEID_PREFIX_WORKLOAD", "spiffe://vsecm.com/workload/test/")
 			},
 			cleanup: func() error {
-				return os.Unsetenv("VSECM_WORKLOAD_SPIFFEID_PREFIX")
+				return os.Unsetenv("VSECM_SPIFFEID_PREFIX_WORKLOAD")
 			},
 			want: "spiffe://vsecm.com/workload/test/",
 		},

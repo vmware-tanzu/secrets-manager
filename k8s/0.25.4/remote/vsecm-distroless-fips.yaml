@@ -369,13 +369,17 @@ spec:
               value: "5000"
             
             
+            - name: VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT
+              value: "0"
+            
+            
             - name: VSECM_LOG_LEVEL
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -422,9 +426,9 @@ spec:
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -533,6 +537,10 @@ spec:
               value: "7"
             
             
+            - name: VSECM_LOG_SECRET_FINGERPRINTS
+              value: "false"
+            
+            
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             
@@ -543,6 +551,14 @@ spec:
             
             - name: VSECM_SENTINEL_INIT_COMMAND_PATH
               value: "/opt/vsecm-sentinel/init/data"
+            
+            
+            - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
+              value: "0"
+            
+            
+            - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC
+              value: "0"
             
             
             - name: VSECM_SENTINEL_LOGGER_URL
@@ -557,9 +573,9 @@ spec:
               value: "gen:"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
@@ -684,6 +700,10 @@ spec:
               value: "7"
             
             
+            - name: VSECM_LOG_SECRET_FINGERPRINTS
+              value: "false"
+            
+            
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             
@@ -698,6 +718,10 @@ spec:
             
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
               value: "300000"
+            
+            
+            - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
+              value: "false"
             
             
             - name: VSECM_ROOT_KEY_NAME
@@ -724,10 +748,6 @@ spec:
               value: "10"
             
             
-            - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
-              value: "false"
-            
-            
             - name: VSECM_SAFE_SECRET_BACKUP_COUNT
               value: "3"
             
@@ -748,15 +768,19 @@ spec:
               value: "k8s:"
             
             
+            - name: VSECM_SAFE_ROOT_KEY_STORE
+              value: "k8s"
+            
+            
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://vsecm.com/workload/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"

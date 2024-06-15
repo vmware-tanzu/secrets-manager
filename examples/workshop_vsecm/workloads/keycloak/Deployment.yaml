@@ -31,9 +31,9 @@ spec:
           value: "unix:///spire-agent-socket/agent.sock"
         - name: VSECM_LOG_LEVEL
           value: "7"
-        - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+        - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
           value: "spiffe://vsecm.com/workload/"
-        - name: VSECM_SAFE_SPIFFEID_PREFIX
+        - name: VSECM_SPIFFEID_PREFIX_SAFE
           value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
         - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
           value: "5000"

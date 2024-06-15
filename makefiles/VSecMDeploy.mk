@@ -27,6 +27,7 @@ clean:
 # Completely removes the Minikube cluster.
 k8s-delete:
 	./hack/minikube-delete.sh
+
 # Brings up a fresh Minikube cluster.
 k8s-start:
 	@NODES=$(NODES) CPU=$(CPU) MEMORY=$(MEMORY) ./hack/minikube-start.sh
@@ -42,26 +43,53 @@ deploy-spire:
 		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE_SERVER) \
 		echo "spire-server: deployment available"; \
 		echo "spire installation successful"; \
+		echo "sleeping for 15 seconds for webhooks to become responsive"; \
+		sleep 15; \
 	fi
 
 # Deploys VSecM to the cluster.
 deploy: deploy-spire
-	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless.yaml
+	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless.yaml; \
+	}
 	$(MAKE) post-deploy
 deploy-fips: deploy-spire
-	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless-fips.yaml
+	kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless-fips.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_REMOTE_PATH}/vsecm-distroless-fips.yaml; \
+	}
 	$(MAKE) post-deploy
 deploy-local: deploy-spire
-	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless.yaml
+	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless.yaml; \
+	}
 	$(MAKE) post-deploy
 deploy-fips-local: deploy-spire
-	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml
+	kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml; \
+	}
+
 	$(MAKE) post-deploy
 deploy-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml; \
+	}
 	$(MAKE) post-deploy
 deploy-fips-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml
+	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml || { \
+		echo "Command failed, retrying in 15 seconds..." \
+		sleep 15; \
+		kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml; \
+	}
 	$(MAKE) post-deploy
 
 .SILENT:

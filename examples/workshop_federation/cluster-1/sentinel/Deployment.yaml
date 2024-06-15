@@ -48,11 +48,11 @@ spec:
           env:
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
-            - name: VSECM_WORKLOAD_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
               value: "spiffe://cluster1.demo/workload/"
-            - name: VSECM_SENTINEL_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://cluster1.demo/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-            - name: VSECM_SAFE_SPIFFEID_PREFIX
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "spiffe://cluster2.demo/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"

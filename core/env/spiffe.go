@@ -10,23 +10,35 @@
 
 package env
 
-import "os"
+import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
+)
 
 // SpiffeSocketUrl returns the URL for the SPIFFE endpoint socket used in the
 // VMware Secrets Manager system. The URL is obtained from the environment variable
 // SPIFFE_ENDPOINT_SOCKET. If the variable is not set, the default URL is used.
 func SpiffeSocketUrl() string {
-	p := os.Getenv("SPIFFE_ENDPOINT_SOCKET")
+	p := constants.GetEnv(constants.SpiffeEndpointSocket)
 	if p == "" {
-		p = "unix:///spire-agent-socket/agent.sock"
+		p = string(constants.SpiffeEndpointSocketDefault)
 	}
 	return p
 }
 
+// SpiffeTrustDomain retrieves the SPIFFE trust domain from environment 
+// variables.
+// 
+// This function looks for the trust domain using the environment variable 
+// defined by `constants.SpiffeTrustDomain`. If the environment variable is not 
+// set or is an empty string, it defaults to the value specified by 
+// `constants.SpiffeTrustDomainDefault`.
+//
+// Returns:
+//   - A string representing the SPIFFE trust domain.
 func SpiffeTrustDomain() string {
-	p := os.Getenv("SPIFFE_TRUST_DOMAIN")
+	p := constants.GetEnv(constants.SpiffeTrustDomain)
 	if p == "" {
-		p = "vsecm.com"
+		p = string(constants.SpiffeTrustDomainDefault)
 	}
 	return p
 }

@@ -155,7 +155,7 @@ attention---especially when your configuration deviates from the defaults
 provided.
 
 For example, if you have a permissive environment variable for 
-`VSECM_WORKLOAD_SPIFFEID_PREFIX`, then certain apps can incorrectly identify
+`VSECM_SPIFFEID_PREFIX_WORKLOAD`, then certain apps can incorrectly identify
 as workloads. Similarly, a misconfiguration of an environmnet variable or a
 `ClusterSPIFFEID` may result in an unauthorized workload gaining access to 
 another workload's secrets.

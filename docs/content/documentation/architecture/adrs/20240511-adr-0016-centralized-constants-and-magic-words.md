@@ -55,7 +55,7 @@ type EnvVarName string
 
 const AppVersion EnvVarName = "APP_VERSION"
 const VSecMLogLevel EnvVarName = "VSECM_LOG_LEVEL"
-const VSecMSafeSpiffeIdPrefix EnvVarName = "VSECM_SAFE_SPIFFEID_PREFIX"
+const VSecMSafeSpiffeIdPrefix EnvVarName = "VSECM_SPIFFEID_PREFIX_SAFE"
 const VSecMSafeEndpointUrl EnvVarName = "VSECM_SAFE_ENDPOINT_URL"
 const VSecMKeyGenDecryptMode EnvVarName = "VSECM_KEYGEN_DECRYPT"
 

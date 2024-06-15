@@ -185,7 +185,7 @@ func TestSidecarErrorThreshold(t *testing.T) {
 	}{
 		{
 			name: "default_vsecm_sidecar_error_threshold",
-			want: 2,
+			want: 3,
 		},
 		{
 			name: "vsecm_sidecar_error_threshold_from_env",
@@ -205,7 +205,7 @@ func TestSidecarErrorThreshold(t *testing.T) {
 			cleanup: func() error {
 				return os.Unsetenv("VSECM_SIDECAR_ERROR_THRESHOLD")
 			},
-			want: 2,
+			want: 3,
 		},
 	}
 	for _, tt := range tests {
