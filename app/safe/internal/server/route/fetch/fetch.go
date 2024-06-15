@@ -1,4 +1,4 @@
-o/*
+/*
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/
 </
