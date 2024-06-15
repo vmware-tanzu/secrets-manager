@@ -38,7 +38,7 @@ check_namespace_deleted() {
 if kubectl get deployment vsecm-sentinel -n "$VSECM_NS"; then
   kubectl delete deployment vsecm-sentinel -n "$VSECM_NS" || \
     { echo "Failed to delete vsecm-sentinel deployment"; exit 1; }
-  kubectl wait --for=delete pod -l app=vsecm-sentinel -n "$VSECM_NS" --timeout=60s || \
+  kubectl wait --for=delete pod -l app=vsecm-sentinel -n "$VSECM_NS" --timeout=120s || \
     { echo "Timeout or error while waiting for vsecm-sentinel pods to delete"; exit 1; }
 else
   echo "vsecm-sentinel deployment does not exist. Skipping delete."
@@ -47,7 +47,7 @@ fi
 if kubectl get deployment vsecm-safe -n "$VSECM_NS"; then
   kubectl delete deployment vsecm-safe -n "$VSECM_NS" || \
     { echo "Failed to delete vsecm-safe deployment"; exit 1; }
-  kubectl wait --for=delete pod -l app=vsecm-safe -n "$VSECM_NS" --timeout=60s || \
+  kubectl wait --for=delete pod -l app=vsecm-safe -n "$VSECM_NS" --timeout=120s || \
     { echo "Timeout or error while waiting for vsecm-safe pods to delete"; exit 1; }
 else
   echo "vsecm-safe deployment does not exist. Skipping delete."
