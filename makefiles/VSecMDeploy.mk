@@ -40,7 +40,7 @@ deploy-spire:
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \
 		echo "verifying SPIRE installation"; \
-		kubectl wait --for=condition=ready pod spire-server-0 --timeout=60s -n $(VSECM_NAMESPACE_SPIRE_SERVER); \
+		kubectl wait --for=condition=ready pod spire-server-0 --timeout=120s -n $(VSECM_NAMESPACE_SPIRE_SERVER); \
 		echo "spire-server: deployment available"; \
 		echo "spire installation successful"; \
 		echo "sleeping for 15 seconds for webhooks to become responsive"; \
@@ -96,9 +96,9 @@ deploy-fips-eks: deploy-spire
 .PHONY: post-deploy
 post-deploy:
 	echo "verifying vsecm installation"
-	kubectl wait --timeout=60s --for=condition=Available deployment -n $(VSECM_NAMESPACE_SYSTEM) vsecm-sentinel
+	kubectl wait --timeout=120s --for=condition=Available deployment -n $(VSECM_NAMESPACE_SYSTEM) vsecm-sentinel
 	echo "vsecm-sentinel: deployment available"
-	kubectl wait --for=condition=ready pod vsecm-safe-0 --timeout=60s -n $(VSECM_NAMESPACE_SYSTEM)
+	kubectl wait --for=condition=ready pod vsecm-safe-0 --timeout=120s -n $(VSECM_NAMESPACE_SYSTEM)
 	echo "vsecm-safe: deployment available"
 	echo "vsecm installation successful"
 
