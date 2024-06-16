@@ -115,7 +115,7 @@ create commit messages.
 We require a sign-off commit message in the following format on each commit in
 pull request with your name and email address:
 
-```text
+```txt
 Sample commit message.
 
 Signed-off-by: Jane Doe <jane.doe@example.com>

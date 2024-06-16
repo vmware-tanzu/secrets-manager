@@ -170,7 +170,7 @@ kubectl logs example-5d564458b6-vsmtm -f
 
 The output will be something like this:
 
-```text
+```txt
 Failed to read the secrets file. Will retry in 5 seconds...
 open /opt/vsecm/secrets.json: no such file or directory
 Failed to read the secrets file. Will retry in 5 seconds...
@@ -281,7 +281,7 @@ presented below in the [`Identity.yaml`][identity-yaml].
 [identity-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/examples/using_sidecar/k8s/Identity.yaml
 [clusterspiffeid]: https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md
 
-```text
+```txt
 spiffeIDTemplate: "spiffe://vsecm.com\
   /workload/example\
   /ns/{{ .PodMeta.Namespace }}\

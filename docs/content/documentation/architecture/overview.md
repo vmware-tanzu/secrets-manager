@@ -156,7 +156,7 @@ to **VSecM Safe**.
 
 SPIFFE ID format wor workloads is as follows:
 
-```text
+```txt
 spiffe://vsecm.com/workload/$workloadName
   /ns/{{ .PodMeta.Namespace }}
   /sa/{{ .PodSpec.ServiceAccountName }}
@@ -170,14 +170,14 @@ For `vsecm-system` components, we use `vsecm-safe` and `vsecm-sentinel`
 for the `$workloadName` (*along with other attestors such as attesting
 the service account and namespace*):
 
-```text
+```txt
 spiffe://vsecm.com/workload/vsecm-safe
   /ns/{{ .PodMeta.Namespace }}
   /sa/{{ .PodSpec.ServiceAccountName }}
   /n/{{ .PodMeta.Name }}
 ```
 
-```text
+```txt
 spiffe://vsecm.com/workload/vsecm-sentinel
   /ns/{{ .PodMeta.Namespace }}
   /sa/{{ .PodSpec.ServiceAccountName }}
