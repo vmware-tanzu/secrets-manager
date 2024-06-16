@@ -201,7 +201,7 @@ you'll have to restart the **workload**'s pod for any changes to take effect.
 
 Here are what various log levels correspond to:
 
-```text
+```txt
 Off   = 0
 Fatal = 1
 Error = 2

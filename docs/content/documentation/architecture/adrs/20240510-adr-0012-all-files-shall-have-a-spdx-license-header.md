@@ -26,7 +26,7 @@ identifier at the top of every file.
 
 This is the license header format that we will use:
 
-```plaintext
+```txt
 /*
 |    Protect your secrets, protect your sensitive data.
 :    Explore VMware Secrets Manager docs at https://vsecm.com/

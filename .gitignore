@@ -11,8 +11,7 @@
 # Docs
 docs/_site
 docs/.jekyll-cache
-
-.DS_Store
+public/
 
 # Mac
 .DS_Store

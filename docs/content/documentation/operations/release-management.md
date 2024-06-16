@@ -111,6 +111,26 @@ kubectl get po -n vsecm-system
 # Output should list `vsecm-safe` and `vsecm-sentinel`.
 ```
 
+## Publishing the Current Documentation
+
+Before cutting a release, make sure to publish the current documentation.
+
+Make sure you have a local Docker server running before
+publishing the documentation.
+
+```bash
+cd $WORKSPACE/secrets-manager
+
+# Creates a local server to preview the documentation.
+# Navigate to https://localhost:8000/ and make sure
+# everything looks good.
+./hack/web-serve.sh
+
+# Run this while the local web server is still up
+# to publish the documentation:
+./hack/web-synch.sh
+```
+
 ## Cutting a Release
 
 Before every release cut, follow the steps outlined below.

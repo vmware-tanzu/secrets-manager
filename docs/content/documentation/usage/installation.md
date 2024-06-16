@@ -81,7 +81,7 @@ kubectl get po -n vsecm-system
 
 You should see something similar to the following output:
 
-```text
+```txt
 NAME                             READY   STATUS
 vsecm-safe-85dd95949c-f4mhj      1/1     Running
 vsecm-sentinel-6dc9b476f-djnq7   1/1     Running
@@ -95,7 +95,7 @@ kubectl get po -n spire-system
 
 You should see something similar to the following output:
 
-```text
+```txt
 NAME                           READY   STATUS
 spire-agent-p9m27              3/3     Running
 spire-server-6fb4f57c8-6s7ns   2/2     Running

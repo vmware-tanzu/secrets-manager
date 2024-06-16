@@ -30,7 +30,7 @@ kubectl get po -n vsecm-system
 
 The response to the above command will be similar to the following:
 
-```text
+```txt
 NAME                              READY
 vsecm-safe-5f6948c84c-vkrdh       1/1
 vsecm-sentinel-5998b5dbfc-lvw44   1/1
@@ -234,7 +234,7 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 When the workload fetches the secret through the workload API, this is what
 it sees as the value:
 
-```text
+```txt
 {"USER": "root", "PASS": "SuperSecret", "VALUE": "VSecMRocks"}
 ```
 
@@ -255,7 +255,7 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 The above command will result in the following secret value to the workload
 that receives it:
 
-```text
+```txt
 USER: root
 PASS: SuperSecret
 VALUE: VSecMRocks
@@ -281,7 +281,7 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 The above command will result in the following secret value to the workload
 that receives it:
 
-```text
+```txt
 username: root
 password: SuperSecret
 value: VSecMRocks
@@ -308,7 +308,7 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 
 and will result in the following as the secret value for the workload:
 
-```text
+```txt
 USER»»»root
 ```
 
@@ -323,7 +323,7 @@ kubectl exec "$SENTINEL" -n vsecm-system -- safe \
 
 Will provide the following to the workload:
 
-```text
+```txt
 USER»»»root
 ```
 

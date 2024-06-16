@@ -58,7 +58,7 @@ As in any secrets management solution, your compute and memory requirements
 will depend on several factors, such as:
 
 * The number of workloads in the cluster
-* The number of secrets **Safe** (*VMware Secrets Manager' Secrets Store*) has to manage
+* The number of secrets **Safe** (*VMware Secrets Manager's Secrets Store*) has to manage
   (*see [architecture details][architecture] for more context*)
 * The number of workloads interacting with **Safe**
   (*see [architecture details][architecture] for more context*)
@@ -74,7 +74,7 @@ cluster and allocate your resources accordingly.
 That being said, here are the resource allocation reported by `kubectl top`
 for a demo setup on a single-node minikube cluster to give an idea:
 
-```text 
+```txt 
 NAMESPACE     WORKLOAD            CPU(cores) MEMORY(bytes)
 vsecm-system  vsecm-safe          1m         9Mi
 vsecm-system  vsecm-sentinel      1m         3Mi
@@ -170,7 +170,7 @@ environment variables.
 
 For mor information [check out the **VSecM** configuration reference][config].
 
-[config]: @/documentation/configuration/oveview.md
+[config]: @/documentation/configuration/overview.md
 
 ## Restrict Access To `vsecm-root-key`
 
@@ -319,8 +319,6 @@ its KEK and provide a plain text secret to the attacker.
 
 ##### Secure Your House Before Securing Your Jewelry
 
-So, **yes**, securing `etcd` will marginally increase your security posture.
-Yet, it does not make too much of a difference unless you have **already**
 secured your virtual infrastructure **and** physical data center. And
 if you haven't secured your virtual and physical assets, then you are in big
 trouble at day zero, even before you set up your cluster, so encrypting
@@ -743,7 +741,9 @@ works as expected, you can reduce the log level to `INFO` or `WARN`.
 For this, you will need to modify the `VSECM_LOG_LEVEL` environment variable
 in the **VSecM Safe** and **VSecM Sidecar** Deployment manifests.
 
-See [**Configuring VMware Secrets Manager**](@/documentation/configuration/overview.md) for details.
+See [**Configuring VMware Secrets Manager**][config] for details.
+
+[config]: @/documentation/configuration/overview.md
 
 ## Conclusion
 
