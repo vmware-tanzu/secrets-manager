@@ -472,69 +472,6 @@ func TestRootKeyInputMode(t *testing.T) {
 	}
 }
 
-//func TestManualRootKeyUpdatesK8sSecrets(t *testing.T) {
-//	tests := []struct {
-//		name    string
-//		setup   func() error
-//		cleanup func() error
-//		want    bool
-//	}{
-//		{
-//			name: "default_safe_manual_root_key_updates_k8s_secret",
-//			want: false,
-//		},
-//		{
-//			name: "safe_manual_root_key_updates_k8s_secret_from_env_true",
-//			setup: func() error {
-//				return os.Setenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET", "true")
-//			},
-//			cleanup: func() error {
-//				return os.Unsetenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET")
-//			},
-//			want: true,
-//		},
-//		{
-//			name: "safe_manual_root_key_updates_k8s_secret_from_env_false",
-//			setup: func() error {
-//				return os.Setenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET", "false")
-//			},
-//			cleanup: func() error {
-//				return os.Unsetenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET")
-//			},
-//			want: false,
-//		},
-//		{
-//			name: "invalid_safe_manual_root_key_updates_k8s_secret_from_env",
-//			setup: func() error {
-//				return os.Setenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET", "test")
-//			},
-//			cleanup: func() error {
-//				return os.Unsetenv("VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET")
-//			},
-//			want: false,
-//		},
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			if tt.setup != nil {
-//				if err := tt.setup(); err != nil {
-//					t.Errorf("ManualRootKeyUpdatesK8sSecret() = failed to setup, with error: %+v", err)
-//				}
-//			}
-//			defer func() {
-//				if tt.cleanup != nil {
-//					if err := tt.cleanup(); err != nil {
-//						t.Errorf("ManualRootKeyUpdatesK8sSecret() = failed to cleanup, with error: %+v", err)
-//					}
-//				}
-//			}()
-//			if got := ManualRootKeyUpdatesK8sSecret(); got != tt.want {
-//				t.Errorf("ManualRootKeyUpdatesK8sSecret() = %v, want %v", got, tt.want)
-//			}
-//		})
-//	}
-//}
-
 func TestSafeDataPath(t *testing.T) {
 	tests := []struct {
 		name    string

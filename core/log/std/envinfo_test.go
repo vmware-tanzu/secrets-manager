@@ -197,30 +197,8 @@ package std
 //		t.Errorf("Unexpected output:\nExpected: \n%s\nActual: \n%s", expectedOutput, capturedOutput.String())
 //	}
 //}
-//
-//func TestPrintAdditionalInformation(t *testing.T) {
-//	// Prepare the input data
-//	info := make(map[string]string)
-//
-//	// Call the function
-//	printAdditionalInformation(info)
-//
-//	// Expected values
-//	expectedEnvVariables := strings.Join(getAllEnvironmentVariables(), ", ")
-//	expectedGoVersion := runtime.Version()
-//
-//	// Compare actual vs expected values
-//	if info["ENVIRONMENT_VARIABLES"] != expectedEnvVariables {
-//		t.Errorf("Unexpected value for ENVIRONMENT_VARIABLES:\nExpected: %s\nActual: %s",
-//			expectedEnvVariables, info["ENVIRONMENT_VARIABLES"])
-//	}
-//
-//	if info["GO_VERSION"] != expectedGoVersion {
-//		t.Errorf("Unexpected value for GO_VERSION:\nExpected: %s\nActual: %s",
-//			expectedGoVersion, info["GO_VERSION"])
-//	}
-//}
-//
+
+
 //func mockLogger(t *testing.T) (*bufio.Scanner, *os.File, *os.File) {
 //	reader, writer, err := os.Pipe()
 //	if err != nil {

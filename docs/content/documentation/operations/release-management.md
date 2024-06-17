@@ -269,6 +269,18 @@ For example `make k8s-manifests-update VERSION=0.22.4`
 
 ### 10. Release Helm Charts
 
+> **Pull Recent `gh-pages` Changes**
+>
+> Before you proceed, make sure that you have your `gh-pages` local branc
+> is up to date:
+>
+> ```bash
+> cd $WORKSPACE/secrets-manager
+> git checkout gh-pages
+> git pull
+> git checkout main
+> ```
+
 We offer the [./hack/release-helm-chart.sh][release_script] script for your use.
 To execute the script, provide the version of the helm-charts that you want
 to release as an argument.
