@@ -13,6 +13,9 @@
 # Enable strict error checking.
 set -euo pipefail
 
+# Update vendor dependencies:
+go mod vendor
+
 echo "Running Go unit tests..."
 if ! go test ./... -cover; then
     echo "Go unit tests failed, exiting."

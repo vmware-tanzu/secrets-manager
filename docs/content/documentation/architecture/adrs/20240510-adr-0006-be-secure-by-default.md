@@ -32,7 +32,7 @@ weight = 6
 ## Context and Problem Statement
 
 **VMware Secrets Manager** stores your sensitive data in memory. None of your 
-secrets are stored as plain text on disk. Any secret that**VMware Secrets 
+secrets are stored as plain text on disk. Any secret that **VMware Secrets 
 Manager** saves to any other medium is encrypted.
 
 Yes, that brings up resource limitations, since the amount of secrets you can
