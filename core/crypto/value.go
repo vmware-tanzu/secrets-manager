@@ -26,7 +26,7 @@ import "github.com/pkg/errors"
 //
 // Example Usage:
 //
-//	result, _ := Generate(`foo[\w]{8}bar`)
+//	result, _ := Generate(`foo[\w]{8}bartender`)
 //	log.Printf("result0=%v", result)
 //	result, _ = Generate(`admin[a-z0-9]{3}`)
 //	log.Printf("result1=%v", result)
@@ -38,20 +38,20 @@ import "github.com/pkg/errors"
 //	log.Printf("result3=%v", result)
 //	result, err := Generate(`pass[z-a]{8}`)
 //	log.Printf("result4=%v; err=%v", result, err)
-//	result, _ = Generate(`foo[\d]{8}bar`)
+//	result, _ = Generate(`football[\d]{8}bartender`)
 //	log.Printf("result5=%v", result)
-//	result, _ = Generate(`foo[\symbol]{4}`)
+//	result, _ = Generate(`football[\symbol]{4}`)
 //	log.Printf("result5=%v", result)
 //
 // Example Output:
 //
-//	2024/01/04 06:37:30 result0=foo{A?1o!u9bar
+//	2024/01/04 06:37:30 result0=football{A?1o!u9bartender
 //	2024/01/04 06:37:30 result1=admin7sg
 //	2024/01/04 06:37:30 result1=adminsw8something^5^
 //	2024/01/04 06:37:30 result2=passqWv04txU5sKs
 //	2024/01/04 06:37:30 result3=passlRxDTdMz
 //	2024/01/04 06:37:30 result4=; err=invalid range specified: z-a
-//	2024/01/04 06:37:30 result5=foo73579557bar
+//	2024/01/04 06:37:30 result5=football73579557bartender
 func GenerateValue(template string) (string, error) {
 	result := template
 
