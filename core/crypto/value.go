@@ -26,7 +26,7 @@ import "github.com/pkg/errors"
 //
 // Example Usage:
 //
-//	result, _ := Generate(`foo[\w]{8}bartender`)
+//	result, _ := Generate(`football[\w]{8}bartender`)
 //	log.Printf("result0=%v", result)
 //	result, _ = Generate(`admin[a-z0-9]{3}`)
 //	log.Printf("result1=%v", result)
