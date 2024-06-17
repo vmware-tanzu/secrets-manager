@@ -21,12 +21,12 @@ const delimiter = ":"
 const empty = "<no value>"
 
 // removeKeyValueWithNoValue takes an input string containing key-value pairs
-// and filters out pairs where the value is "<empty>". It splits the input
+// and filters out pairs where the value is "<no value>". It splits the input
 // string into key-value pairs, iterates through them, and retains only the
-// pairs with values that are not equal to "<empty>".
+// pairs with values that are not equal to "<no value>".
 // The function then joins the filtered pairs back into a string and returns the
 // resulting string. This function effectively removes key-value pairs with
-// "<empty>" from the input string. Helpful for data cleaning and filtering
+// "<no value>" from the input string. Helpful for data cleaning and filtering
 // when you want to omit certain key/value pairs from a template.
 func removeKeyValueWithNoValue(input string) string {
 	// Split the input string into key-value pairs
@@ -39,7 +39,7 @@ func removeKeyValueWithNoValue(input string) string {
 		keyValue := strings.SplitN(pair, delimiter, 2)
 		if len(keyValue) == 2 && keyValue[1] != empty {
 			// Add the pair to the filtered pairs if the value is not
-			// "<empty>"
+			// "<no value>"
 			filteredPairs = append(filteredPairs, pair)
 		}
 	}
