@@ -30,7 +30,7 @@ func Watch() {
 
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {
-		cid = "VSECMSDK"
+		panic("Unable to create a secure correlation id.")
 	}
 
 	for {

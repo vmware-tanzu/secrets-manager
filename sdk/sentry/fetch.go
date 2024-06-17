@@ -46,7 +46,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {
-		cid = "VSECMSDK"
+		panic("Unable to create a secure correlation id.")
 	}
 
 	var source *workloadapi.X509Source

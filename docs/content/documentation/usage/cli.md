@@ -482,7 +482,7 @@ the output of `kubectl exec $SENTINEL -n vsecm-system -- safe -l -e`.
 **VSecM Sentinel** can generate random secrets based on a pattern. Here are
 some of the patterns that you can use:
 
-* `foo[\w]{8}bar`: will generate a random string that starts with `foo`,
+* `footballt[\w]{8}bar`: will generate a random string that starts with `football`,
   ends with `bar`, and has 8 characters in between.
 * `admin[a-z0-9]{3}`: will generate a random string that starts with `admin`,
   and has 3 characters in between, which can be either lowercase letters or
@@ -493,7 +493,7 @@ some of the patterns that you can use:
 * `pass[a-zA-Z0-9]{12}`: will generate a random string that starts with `pass`,
   and has 12 characters in between, which can be either lowercase letters,
   uppercase letters, or numbers.
-* `foo[\d]{8}bar`: will generate a random string that starts with `foo`,
+* `football[\d]{8}bar`: will generate a random string that starts with `football`,
   ends with `bar`, and has 8 digits in between.
 
 To use these patterns, simply prefix the `-v` flag with `gen:` (*or
@@ -503,7 +503,7 @@ to override it*) as follows:
 ```bash
 kubectl exec "$SENTINEL" -n vsecm-system -- safe \
   -w "example" \
-  -s "gen:foo[\w]{8}bar"
+  -s "gen:football[\w]{8}bartender"
 # The secret will be randomized based on the pattern above.  
 
 ```

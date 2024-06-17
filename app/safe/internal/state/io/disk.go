@@ -18,7 +18,6 @@ import (
 	"path"
 	"strconv"
 	"sync"
-	"time"
 
 	"github.com/pkg/errors"
 
@@ -77,14 +76,14 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 	// Save the secret
 	dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
 
-	err := saveSecretToDisk(secret, dataPath)
+	err := backoff.RetryExponential("PersistToDisk", func() error {
+		return saveSecretToDisk(secret, dataPath)
+	})
+
 	if err != nil {
-		// Retry once more.
-		time.Sleep(500 * time.Millisecond)
-		err := saveSecretToDisk(secret, dataPath)
-		if err != nil {
-			errChan <- err
-		}
+		errChan <- err
+		// Do not proceed, since the primary save was not successful.
+		return
 	}
 
 	lastBackupIndexLock.Lock()
@@ -103,9 +102,10 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 		secret.Name+"-"+strconv.Itoa(int(newIndex))+"-"+".age.backup",
 	)
 
-	err = backoff.RetryExponential("PersistToDisk", func() error {
-		return saveSecretToDisk(secret, dataPath)
-	})
+	err = backoff.RetryExponential(
+		"PersistBackupToDisk", func() error {
+			return saveSecretToDisk(secret, dataPath)
+		})
 
 	if err != nil {
 		errChan <- err

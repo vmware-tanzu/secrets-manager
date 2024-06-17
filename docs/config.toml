@@ -22,3 +22,4 @@ smart_punctuation = true
 
 [extra]
 author = "VMware Secrets Manager Contributors"
+version = "0.25.4"
