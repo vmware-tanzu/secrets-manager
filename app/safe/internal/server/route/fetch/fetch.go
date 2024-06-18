@@ -16,8 +16,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/extract"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/handle"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/extract"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/handle"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
