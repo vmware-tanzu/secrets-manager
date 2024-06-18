@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
@@ -13,8 +14,18 @@ func TestReadWriteCommitHashToFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error creating temporary file: %s", err)
 	}
-	defer tempFile.Close()
-	defer os.Remove(tempFile.Name())
+	defer func(tempFile *os.File) {
+		err := tempFile.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(tempFile)
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(tempFile.Name())
 
 	commitHashFile = tempFile.Name()
 

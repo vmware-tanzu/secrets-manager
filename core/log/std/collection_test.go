@@ -11,6 +11,7 @@
 package std
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -34,10 +35,20 @@ func TestSortKeys(t *testing.T) {
 
 func TestEnvVars(t *testing.T) {
 	// Temporarily set some environment variables for testing
-	os.Setenv("VAR1", "value1")
-	os.Setenv("VAR2", "value2")
-	defer os.Unsetenv("VAR1")
-	defer os.Unsetenv("VAR2")
+	_ = os.Setenv("VAR1", "value1")
+	_ = os.Setenv("VAR2", "value2")
+	defer func() {
+		err := os.Unsetenv("VAR1")
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
+	defer func() {
+		err := os.Unsetenv("VAR2")
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
 
 	expected := []string{"VAR1", "VAR2"}
 	actual := envVars()

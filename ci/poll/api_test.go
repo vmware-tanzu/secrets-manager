@@ -19,7 +19,7 @@ func Test_getLatestCommitHash(t *testing.T) {
 			expectedSha: "d3b07384d113edec49eaa6238ad5ff00",
 			response: httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusOK)
-				w.Write([]byte(`{"object": {"sha": "d3b07384d113edec49eaa6238ad5ff00"}}`))
+				_, _ = w.Write([]byte(`{"object": {"sha": "d3b07384d113edec49eaa6238ad5ff00"}}`))
 			})),
 			want:    "d3b07384d113edec49eaa6238ad5ff00",
 			wantErr: false,
@@ -29,7 +29,7 @@ func Test_getLatestCommitHash(t *testing.T) {
 			expectedSha: "",
 			response: httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Write([]byte(`{"message": "Internal Server Error"}`))
+				_, _ = w.Write([]byte(`{"message": "Internal Server Error"}`))
 			})),
 			want:    "",
 			wantErr: true,

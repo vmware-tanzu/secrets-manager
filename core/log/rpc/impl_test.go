@@ -39,7 +39,7 @@ package rpc
 //}
 //
 //func TestLogTextBuilder(t *testing.T) {
-//	// Define a regex pattern for the timestamp
+//	// Define a regexp pattern for the timestamp
 //	// This example assumes an ISO 8601 format, adjust as needed
 //	timeRegex := `\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}`
 //

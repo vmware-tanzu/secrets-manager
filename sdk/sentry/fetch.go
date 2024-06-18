@@ -29,7 +29,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
-var ErrSecretNotFound = errors.New("Secret does not exist")
+var ErrSecretNotFound = errors.New("secret does not exist")
 
 // Fetch fetches the up-to-date secret that has been registered to the workload.
 //
@@ -87,7 +87,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	// Make sure that we are calling Safe from a workload that VSecM knows about.
 	if !validation.IsWorkload(svid.ID.String()) {
-		return reqres.SecretFetchResponse{}, errors.New("Fetch: untrusted workload")
+		return reqres.SecretFetchResponse{}, errors.New("fetch: untrusted workload")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -101,7 +101,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), "/workload/v1/secrets")
 	if err != nil {
 		return reqres.SecretFetchResponse{},
-			errors.New("Fetch: problem generating server url")
+			errors.New("fetch: problem generating server url")
 	}
 
 	client := &http.Client{

@@ -11,6 +11,7 @@
 package probe
 
 import (
+	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
@@ -19,8 +20,13 @@ import (
 )
 
 func TestCreateLiveness(t *testing.T) {
-	os.Setenv("VSECM_PROBE_LIVENESS_PORT", ":8095")
-	defer os.Unsetenv("VSECM_PROBE_LIVENESS_PORT")
+	_ = os.Setenv("VSECM_PROBE_LIVENESS_PORT", ":8095")
+	defer func() {
+		err := os.Unsetenv("VSECM_PROBE_LIVENESS_PORT")
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
 
 	t.Logf("Creating liveness probe...")
 	go CreateLiveness()
@@ -30,7 +36,12 @@ func TestCreateLiveness(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error sending request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(resp.Body)
 
 	t.Logf("Checking response status code...")
 	if resp.StatusCode != http.StatusOK {
@@ -51,8 +62,13 @@ func TestCreateLiveness(t *testing.T) {
 }
 
 func TestCreateReadiness(t *testing.T) {
-	os.Setenv("VSECM_PROBE_READINESS_PORT", ":8096")
-	defer os.Unsetenv("VSECM_PROBE_READINESS_PORT")
+	_ = os.Setenv("VSECM_PROBE_READINESS_PORT", ":8096")
+	defer func() {
+		err := os.Unsetenv("VSECM_PROBE_READINESS_PORT")
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
 
 	t.Logf("Creating readiness probe...")
 	go CreateReadiness()
@@ -62,7 +78,12 @@ func TestCreateReadiness(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Error sending request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(resp.Body)
 
 	t.Logf("Checking response status code...")
 	if resp.StatusCode != http.StatusOK {

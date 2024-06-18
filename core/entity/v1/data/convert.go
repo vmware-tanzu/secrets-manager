@@ -32,7 +32,7 @@ func convertMapToStringBytes(inputMap map[string]string) map[string][]byte {
 
 // handleTemplateFailure is used when applying a template to the secret's value
 // fails. It attempts to unmarshal the 'value' string as JSON into the 'data'
-// map. If the unmarshaling fails, it creates a new empty 'data' map and
+// map. If the unmarshalling fails, it creates a new empty 'data' map and
 // populates it with a single entry, "VALUE", containing the original 'value' as
 // []byte.
 func convertValueToMap(values []string) map[string][]byte {

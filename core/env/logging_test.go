@@ -100,8 +100,13 @@ func TestLogSecretFingerprints(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set the environment variable
-			os.Setenv("VSECM_LOG_SECRET_FINGERPRINTS", tt.envValue)
-			defer os.Unsetenv("VSECM_LOG_SECRET_FINGERPRINTS")
+			_ = os.Setenv("VSECM_LOG_SECRET_FINGERPRINTS", tt.envValue)
+			defer func() {
+				err := os.Unsetenv("VSECM_LOG_SECRET_FINGERPRINTS")
+				if err != nil {
+					fmt.Println(err.Error())
+				}
+			}()
 
 			// Call the function
 			result := LogSecretFingerprints()

@@ -143,7 +143,7 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 	if time.Since(lastEncryptToWriterAesCall) < time.Millisecond*time.Duration(
 		env.IvInitializationIntervalForSafe(),
 	) {
-		return errors.New("Calls too frequent")
+		return errors.New("calls too frequent")
 	}
 
 	lastEncryptToWriterAesCall = time.Now()

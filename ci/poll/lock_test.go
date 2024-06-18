@@ -24,7 +24,10 @@ func Test_createLockFile(t *testing.T) {
 
 				lockFilePath = tempFile.Name()
 
-				tempFile.Close()
+				err = tempFile.Close()
+				if err != nil {
+					return
+				}
 			},
 			wantErr: true,
 		},

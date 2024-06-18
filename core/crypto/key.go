@@ -61,7 +61,8 @@ func (rkt RootKeyCollection) Combine() string {
 	return rkt.PrivateKey + "\n" + rkt.PublicKey + "\n" + rkt.AesSeed
 }
 
-// RktFromMemory creates a new Rkt struct from the RootKey stored in memory.
+// RootKeyCollectionFromMemory creates a new Rkt struct from the
+// RootKey stored in memory.
 func RootKeyCollectionFromMemory() RootKeyCollection {
 	RootKeyLock.RLock()
 	defer RootKeyLock.RUnlock()

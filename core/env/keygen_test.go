@@ -55,7 +55,7 @@ func TestRootKeyPathForKeyGen(t *testing.T) {
 				t.Errorf("Expected %s, but got %s", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_KEYGEN_ROOT_KEY_PATH")
+			_ = os.Unsetenv("VSECM_KEYGEN_ROOT_KEY_PATH")
 		})
 	}
 }
@@ -100,7 +100,7 @@ func TestExportedSecretPathForKeyGen(t *testing.T) {
 				t.Errorf("Expected %s, but got %s", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_KEYGEN_EXPORTED_SECRET_PATH")
+			_ = os.Unsetenv("VSECM_KEYGEN_EXPORTED_SECRET_PATH")
 		})
 	}
 }
@@ -151,7 +151,7 @@ func TestKeyGenDecrypt(t *testing.T) {
 			}
 
 			// Clean up
-			os.Unsetenv("VSECM_KEYGEN_DECRYPT")
+			_ = os.Unsetenv("VSECM_KEYGEN_DECRYPT")
 		})
 	}
 }

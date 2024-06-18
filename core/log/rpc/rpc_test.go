@@ -12,6 +12,7 @@ package rpc
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"os"
 	"strings"
@@ -64,9 +65,14 @@ func TestSendLogMessage(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error creating log server: %v", err)
 	}
-	defer lis.Close()
+	defer func(lis net.Listener) {
+		err := lis.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(lis)
 
-	os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
+	_ = os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
@@ -126,9 +132,14 @@ func TestLogServiceSendLog(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error creating log server: %v", err)
 	}
-	defer lis.Close()
+	defer func(lis net.Listener) {
+		err := lis.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(lis)
 
-	os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
+	_ = os.Setenv("VSECM_SENTINEL_LOGGER_URL", lis.Addr().String())
 
 	grpcServer := grpc.NewServer()
 	generated.RegisterLogServiceServer(grpcServer, server)
@@ -146,7 +157,12 @@ func TestLogServiceSendLog(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to dial server: %v", err)
 	}
-	defer conn.Close()
+	defer func(conn *grpc.ClientConn) {
+		err := conn.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}(conn)
 	client := generated.NewLogServiceClient(conn)
 
 	// Call the SendLog method of the LogServiceServer
@@ -159,7 +175,8 @@ func TestLogServiceSendLog(t *testing.T) {
 	if response == nil {
 		t.Error("Response should not be nil")
 	}
-	if response.Message != "" {
+
+	if response != nil && response.Message != "" {
 		t.Error("Response message should be empty")
 	}
 	if server.ReceivedMessage != mockRequest.Message {

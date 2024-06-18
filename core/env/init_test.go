@@ -11,6 +11,7 @@
 package env
 
 import (
+	"fmt"
 	"os"
 	"reflect"
 	"testing"
@@ -129,8 +130,13 @@ func TestWaitBeforeExitForInitContainer(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Set the environment variable
-			os.Setenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT", tt.envValue)
-			defer os.Unsetenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
+			_ = os.Setenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT", tt.envValue)
+			defer func() {
+				err := os.Unsetenv("VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT")
+				if err != nil {
+					fmt.Println(err.Error())
+				}
+			}()
 
 			// Call the function
 			result := WaitBeforeExitForInitContainer()

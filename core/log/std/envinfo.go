@@ -15,7 +15,7 @@ package std
 func PrintEnvironmentInfo(id *string, envVarsToExpect []string) {
 	info := make(map[string]string)
 
-	notFound := updateInfoWithExpectedEnvVars(id, envVarsToExpect, info)
+	notFound := updateInfoWithExpectedEnvVars(envVarsToExpect, info)
 	for _, v := range notFound {
 		WarnLn(id, "Environment variable '"+v+"' not found")
 	}

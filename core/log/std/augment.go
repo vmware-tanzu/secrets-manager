@@ -17,7 +17,7 @@ import (
 )
 
 func updateInfoWithExpectedEnvVars(
-	id *string, envVarsToPrint []string, info map[string]string) []string {
+	envVarsToPrint []string, info map[string]string) []string {
 	var nf []string
 
 	for _, envVar := range envVarsToPrint {

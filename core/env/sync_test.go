@@ -28,7 +28,7 @@ func TestRootKeySyncIntervalForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL", test.envValue)
 		actual := RootKeySyncIntervalForSafe()
 		if actual != test.expected {
 			t.Errorf("RootKeySyncIntervalForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
@@ -48,7 +48,7 @@ func TestSecretSyncIntervalForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_SYNC_SECRETS_INTERVAL", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_SYNC_SECRETS_INTERVAL", test.envValue)
 		actual := SecretsSyncIntervalForSafe()
 		if actual != test.expected {
 			t.Errorf("SecretsSyncIntervalForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
@@ -69,7 +69,7 @@ func TestSyncDeletedSecretsForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_SYNC_DELETED_SECRETS", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_SYNC_DELETED_SECRETS", test.envValue)
 		actual := SyncDeletedSecretsForSafe()
 		if actual != test.expected {
 			t.Errorf("SyncDeletedSecretsForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
@@ -90,7 +90,7 @@ func TestSyncInterpolatedKubernetesSecretsForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_SYNC_INTERPOLATED_K8S_SECRETS", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_SYNC_INTERPOLATED_K8S_SECRETS", test.envValue)
 		actual := SyncInterpolatedKubernetesSecretsForSafe()
 		if actual != test.expected {
 			t.Errorf("SyncInterpolatedKubernetesSecretsForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
@@ -111,7 +111,7 @@ func TestSyncExpiredSecretsSecretsForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_SYNC_EXPIRED_SECRETS", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_SYNC_EXPIRED_SECRETS", test.envValue)
 		actual := SyncExpiredSecretsSecretsForSafe()
 		if actual != test.expected {
 			t.Errorf("SyncExpiredSecretsSecretsForSafe() with env value %q = %v; expected %v", test.envValue, actual, test.expected)
