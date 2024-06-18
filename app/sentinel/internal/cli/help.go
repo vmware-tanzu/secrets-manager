@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package cli
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ import (
 	"github.com/akamensky/argparse"
 )
 
-func printUsage(parser *argparse.Parser) {
+func PrintUsage(parser *argparse.Parser) {
 	fmt.Print(parser.Usage("safe"))
 }
 
@@ -34,7 +34,7 @@ func printSecretNeeded() {
 	fmt.Println("")
 }
 
-func inputValidationFailure(
+func InputValidationFailure(
 	workload *[]string, encrypt *bool, inputKeys *string,
 	secret *string, deleteSecret *bool) bool {
 

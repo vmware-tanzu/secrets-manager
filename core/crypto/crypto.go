@@ -13,9 +13,8 @@ package crypto
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
-
 	"errors"
+	"fmt"
 )
 
 type Algorithm string

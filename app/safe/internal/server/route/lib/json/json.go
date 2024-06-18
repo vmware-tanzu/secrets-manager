@@ -12,6 +12,7 @@ package json
 
 import (
 	"encoding/json"
+
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 )
 

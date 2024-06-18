@@ -11,9 +11,10 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // MaxPollIntervalForSidecar returns the maximum interval for polling by the

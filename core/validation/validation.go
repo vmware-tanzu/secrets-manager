@@ -12,10 +12,12 @@ package validation
 
 import (
 	"fmt"
-	"github.com/spiffe/go-spiffe/v2/workloadapi"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"regexp"
 	"strings"
+
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 const spiffeRegexPrefixStart = "^"

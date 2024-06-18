@@ -11,9 +11,10 @@
 package probe
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"log"
 	"net/http"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 // CreateLiveness sets up and starts an HTTP server on the port specified by

@@ -11,9 +11,8 @@
 package eval
 
 import (
-	"fmt"
-
 	"errors"
+	"fmt"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"

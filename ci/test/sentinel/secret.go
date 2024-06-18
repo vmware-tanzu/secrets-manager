@@ -11,11 +11,10 @@
 package sentinel
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
-
-	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"

@@ -19,6 +19,7 @@ import (
 
 	"github.com/akamensky/argparse"
 
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/cli"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
@@ -48,24 +49,24 @@ func main() {
 		}
 	}()
 
-	list := parseList(parser)
-	deleteSecret := parseDeleteSecret(parser)
-	appendSecret := parseAppendSecret(parser)
-	namespaces := parseNamespaces(parser)
-	inputKeys := parseInputKeys(parser)
-	workloadIds := parseWorkload(parser)
-	secret := parseSecret(parser)
-	template := parseTemplate(parser)
-	format := parseFormat(parser)
-	encrypt := parseEncrypt(parser)
-	notBefore := parseNotBefore(parser)
-	expires := parseExpires(parser)
+	list := cli.ParseList(parser)
+	deleteSecret := cli.ParseDeleteSecret(parser)
+	appendSecret := cli.ParseAppendSecret(parser)
+	namespaces := cli.ParseNamespaces(parser)
+	inputKeys := cli.ParseInputKeys(parser)
+	workloadIds := cli.ParseWorkload(parser)
+	secret := cli.ParseSecret(parser)
+	template := cli.ParseTemplate(parser)
+	format := cli.ParseFormat(parser)
+	encrypt := cli.ParseEncrypt(parser)
+	notBefore := cli.ParseNotBefore(parser)
+	expires := cli.ParseExpires(parser)
 
 	err := parser.Parse(os.Args)
 	if err != nil {
 		fmt.Println(err.Error())
 		fmt.Println()
-		printUsage(parser)
+		cli.PrintUsage(parser)
 		return
 	}
 
@@ -93,7 +94,7 @@ func main() {
 		*namespaces = []string{defaultNs}
 	}
 
-	if inputValidationFailure(
+	if cli.InputValidationFailure(
 		workloadIds, encrypt, inputKeys, secret, deleteSecret,
 	) {
 		return

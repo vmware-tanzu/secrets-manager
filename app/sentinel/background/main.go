@@ -13,7 +13,7 @@ package main
 import (
 	"context"
 
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/background/initialization"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/server"
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"

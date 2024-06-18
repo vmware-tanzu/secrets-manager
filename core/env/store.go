@@ -11,9 +11,10 @@
 package env
 
 import (
+	"os"
+
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"os"
 )
 
 // RootKeyStoreTypeForSafe determines the root key store type for

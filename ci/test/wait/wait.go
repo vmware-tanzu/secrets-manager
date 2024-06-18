@@ -11,10 +11,9 @@
 package wait
 
 import (
+	"errors"
 	"fmt"
 	"time"
-
-	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )

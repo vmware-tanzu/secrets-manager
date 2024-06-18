@@ -11,9 +11,10 @@
 package std
 
 import (
+	"strings"
+
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-	"strings"
 )
 
 // toCustomCase formats a string to a custom case, replacing underscores
