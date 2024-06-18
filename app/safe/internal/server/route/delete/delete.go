@@ -15,7 +15,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"

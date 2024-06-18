@@ -16,9 +16,9 @@ import (
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
-	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/http"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/json"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/internal/validation"
+	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/http"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/json"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
