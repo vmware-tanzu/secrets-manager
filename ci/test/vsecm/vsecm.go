@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )

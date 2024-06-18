@@ -17,7 +17,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -66,9 +66,9 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		return errors.Wrap(
+		return errors.Join(
 			err,
-			fmt.Sprintf(
+			fmt.Errorf(
 				"check: I am having problem generating"+
 					" VSecM Safe secrets api endpoint URL: %s\n",
 				safeUrl,
@@ -85,9 +85,9 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 
 	r, err := client.Get(p)
 	if err != nil {
-		return errors.Wrap(
+		return errors.Join(
 			err,
-			fmt.Sprintf(
+			fmt.Errorf(
 				"check: Problem connecting to"+
 					" VSecM Safe API endpoint URL: %s\n",
 				safeUrl,
@@ -107,8 +107,9 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 
 	_, err = io.ReadAll(r.Body)
 	if err != nil {
-		return errors.Wrap(
-			err, "check: Unable to read the response body from VSecM Safe",
+		return errors.Join(
+			err,
+			errors.New("check: Unable to read the response body from VSecM Safe"),
 		)
 	}
 
@@ -141,7 +142,7 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 		}
 	}(source)
 	if !proceed {
-		return errors.New("Get: Problem acquiring source")
+		return errors.New("get: Problem acquiring source")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -160,8 +161,10 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		return errors.Wrap(err,
-			"Problem generating VSecM Safe secrets api endpoint URL")
+		return errors.Join(
+			err,
+			errors.New("problem generating VSecM Safe secrets api endpoint URL"),
+		)
 	}
 
 	tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -173,8 +176,10 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	r, err := client.Get(p)
 	if err != nil {
-		return errors.Wrap(err,
-			"Problem connecting to VSecM Safe API endpoint URL")
+		return errors.Join(
+			err,
+			errors.New("problem connecting to VSecM Safe API endpoint URL"),
+		)
 	}
 
 	defer func(b io.ReadCloser) {
@@ -189,8 +194,10 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		return errors.Wrap(err,
-			"Unable to read the response body from VSecM Safe")
+		return errors.Join(
+			err,
+			errors.New("unable to read the response body from VSecM Safe"),
+		)
 	}
 
 	fmt.Println("")

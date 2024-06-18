@@ -13,11 +13,11 @@ package sentry
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"net/url"
 
-	"github.com/pkg/errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -57,9 +57,13 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 		),
 	)
 	if err != nil {
-		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "Fetch: failed getting SVID Bundle from the SPIFFE Workload API",
-		)
+		return reqres.SecretFetchResponse{},
+			errors.Join(
+				err,
+				errors.New(
+					"fetch: failed getting SVID Bundle from the SPIFFE Workload API",
+				),
+			)
 	}
 
 	defer func(s *workloadapi.X509Source) {
@@ -75,7 +79,10 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	svid, err := source.GetX509SVID()
 	if err != nil {
 		return reqres.SecretFetchResponse{},
-			errors.Wrap(err, "Fetch: error getting SVID from source")
+			errors.Join(
+				err,
+				errors.New("fetch: error getting SVID from source"),
+			)
 	}
 
 	// Make sure that we are calling Safe from a workload that VSecM knows about.
@@ -114,8 +121,9 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	r, err := client.Get(p)
 	if err != nil {
-		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "Fetch: problem connecting to VSecM Safe API endpoint",
+		return reqres.SecretFetchResponse{}, errors.Join(
+			err,
+			errors.New("fetch: problem connecting to VSecM Safe API endpoint"),
 		)
 	}
 
@@ -138,16 +146,20 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "unable to read the response body from VSecM Safe API endpoint",
+		return reqres.SecretFetchResponse{}, errors.Join(
+			err,
+			errors.New(
+				"unable to read the response body from VSecM Safe API endpoint",
+			),
 		)
 	}
 
 	var sfr reqres.SecretFetchResponse
 	err = json.Unmarshal(body, &sfr)
 	if err != nil {
-		return reqres.SecretFetchResponse{}, errors.Wrap(
-			err, "unable to deserialize response",
+		return reqres.SecretFetchResponse{}, errors.Join(
+			err,
+			errors.New("unable to deserialize response"),
 		)
 	}
 

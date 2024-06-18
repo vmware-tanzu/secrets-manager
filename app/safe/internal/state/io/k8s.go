@@ -14,7 +14,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pkg/errors"
+	"errors"
 	apiV1 "k8s.io/api/core/v1"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -49,7 +49,10 @@ import (
 func saveSecretToKubernetes(secret entity.SecretStored) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		return errors.Wrap(err, "could not create client config")
+		return errors.Join(
+			err,
+			errors.New("could not create client config"),
+		)
 	}
 
 	// If the secret does not have the k8s: prefix, then it is not a k8s secret;
@@ -60,7 +63,10 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return errors.Wrap(err, "could not create client")
+		return errors.Join(
+			err,
+			errors.New("could not create client"),
+		)
 	}
 
 	k8sSecretName := secret.Name
@@ -116,7 +122,10 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 				},
 			)
 			if err != nil {
-				return errors.Wrap(err, "error creating the secret")
+				return errors.Join(
+					err,
+					errors.New("error creating the secret"),
+				)
 			}
 
 			continue
@@ -152,7 +161,10 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 			},
 		)
 		if err != nil {
-			return errors.Wrap(err, "error updating the secret")
+			return errors.Join(
+				err,
+				errors.New("error updating the secret"),
+			)
 		}
 	}
 

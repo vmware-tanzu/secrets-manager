@@ -13,7 +13,7 @@ package eval
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -28,18 +28,30 @@ func SecretRegistrationAppend() error {
 	value := fmt.Sprintf(`["%s","%s"]`, secret2, secret1)
 
 	if err := sentinel.AppendSecret(secret1); err != nil {
-		return errors.Wrap(err, "appending secret 1")
+		return errors.Join(
+			err,
+			errors.New("appending secret 1"),
+		)
 	}
 	if err := sentinel.AppendSecret(secret2); err != nil {
-		return errors.Wrap(err, "appending secret 2")
+		return errors.Join(
+			err,
+			errors.New("appending secret 2"),
+		)
 	}
 
 	if err := assert.WorkloadSecretHasValue(value); err != nil {
-		return errors.Wrap(err, "asserting workload secret value")
+		return errors.Join(
+			err,
+			errors.New("asserting workload secret value"),
+		)
 	}
 
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (append mode) successful")

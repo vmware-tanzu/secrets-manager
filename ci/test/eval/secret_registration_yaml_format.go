@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
@@ -29,7 +29,10 @@ func setYAMLSecret(value, transform string) error {
 
 	s, err := vsecm.Sentinel()
 	if err != nil || s == "" {
-		return errors.Wrap(err, "setYAMLSecret: Failed to get sentinel")
+		return errors.Join(
+			err,
+			errors.New("setYAMLSecret: Failed to get sentinel"),
+		)
 	}
 
 	// Executing command within the sentinel pod to set the YAML secret with
@@ -38,7 +41,10 @@ func setYAMLSecret(value, transform string) error {
 		"--", "safe", "-w", "example", "-n", "default", "-s", value,
 		"-t", transform, "-f", "yaml")
 	if err != nil {
-		return errors.Wrap(err, "setYAMLSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("setYAMLSecret: Failed to exec kubectl"),
+		)
 	}
 
 	return nil
@@ -53,7 +59,10 @@ func SecretRegistrationYAMLFormat() error {
 
 	err := setYAMLSecret(value, transform)
 	if err != nil {
-		return errors.Wrap(err, "setYAMLSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setYAMLSecret failed"),
+		)
 	}
 
 	expectedTransformed := `
@@ -63,11 +72,17 @@ USERNAME: '*root*'
 	if err := assert.WorkloadSecretHasValue(
 		strings.TrimSpace(expectedTransformed),
 	); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (YAML transformation) successful")

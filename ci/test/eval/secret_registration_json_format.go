@@ -13,7 +13,7 @@ package eval
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -27,15 +27,24 @@ func SecretRegistrationJSONFormat() error {
 	transform := `{"USERNAME":"*root*", "PASSWORD":"*CasHC0w*"}`
 
 	if err := sentinel.SetJSONSecret(value, transform); err != nil {
-		return errors.Wrap(err, "setJSONSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setJSONSecret failed"),
+		)
 	}
 
 	if err := assert.WorkloadSecretHasValue(transform); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (JSON transformation) successful")

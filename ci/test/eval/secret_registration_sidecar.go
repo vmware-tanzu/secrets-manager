@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -27,14 +27,20 @@ func SecretRegistrationSidecar() error {
 	value := "!VSecMRocks!"
 
 	if err := sentinel.SetSecret(value); err != nil {
-		return errors.Wrap(err, "setSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setSecret failed"),
+		)
 	}
 
 	// Pause to simulate waiting for the secret to propagate or system to update.
 	time.Sleep(5 * time.Second)
 
 	if err := assert.WorkloadSecretHasValue(value); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (sidecar) successful")

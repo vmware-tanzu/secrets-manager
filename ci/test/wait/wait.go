@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
@@ -27,8 +27,9 @@ func ForExampleWorkloadDeletion() error {
 		"default", "--selector=app.kubernetes.io/name=example")
 
 	if err != nil {
-		return errors.Wrap(err,
-			"waitForExampleWorkloadDeletion: Failed to wait for deletion",
+		return errors.Join(
+			err,
+			errors.New("waitForExampleWorkloadDeletion: Failed to wait for deletion"),
 		)
 	}
 

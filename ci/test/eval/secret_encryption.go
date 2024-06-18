@@ -13,7 +13,7 @@ package eval
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"
@@ -27,19 +27,31 @@ func SecretEncryption() error {
 	value := "!VSecMRocks!"
 
 	if err := assert.SentinelCanEncryptSecret(value); err != nil {
-		return errors.Wrap(err, "asserting encrypted secret")
+		return errors.Join(
+			err,
+			errors.New("asserting encrypted secret"),
+		)
 	}
 
 	if err := deploy.WorkloadUsingSDK(); err != nil {
-		return errors.Wrap(err, "deploying workload using SDK")
+		return errors.Join(
+			err,
+			errors.New("deploying workload using SDK"),
+		)
 	}
 
 	if err := sentinel.SetEncryptedSecret(value); err != nil {
-		return errors.Wrap(err, "setting encrypted secret")
+		return errors.Join(
+			err,
+			errors.New("setting encrypted secret"),
+		)
 	}
 
 	if err := assert.WorkloadSecretHasValue(value); err != nil {
-		return errors.Wrap(err, "asserting workload secret value")
+		return errors.Join(
+			err,
+			errors.New("asserting workload secret value"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret encryption successful")

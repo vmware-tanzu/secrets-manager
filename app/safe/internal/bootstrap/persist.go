@@ -14,7 +14,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/pkg/errors"
+	"errors"
 	v1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -41,12 +41,18 @@ import (
 func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		return errors.Wrap(err, "Error creating client config")
+		return errors.Join(
+			err,
+			errors.New("error creating client config"),
+		)
 	}
 
 	k8sApi, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return errors.Wrap(err, "Error creating k8sApi")
+		return errors.Join(
+			err,
+			errors.New("error creating k8sApi"),
+		)
 	}
 
 	data := make(map[string][]byte)
@@ -66,7 +72,10 @@ func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 		Data: data,
 	})
 	if err != nil {
-		return errors.Wrap(err, "Error marshalling the secret")
+		return errors.Join(
+			err,
+			errors.New("error marshalling the secret"),
+		)
 	}
 
 	// Update the Secret in the cluster
@@ -102,7 +111,10 @@ func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 	)
 
 	if err != nil {
-		return errors.Wrap(err, "Error creating the secret")
+		return errors.Join(
+			err,
+			errors.New("error creating the secret"),
+		)
 	}
 
 	crypto.SetRootKeyInMemory(keysCombined)

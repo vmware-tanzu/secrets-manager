@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -29,7 +29,10 @@ func SecretRegistrationJSONFormatSidecar() error {
 
 	// Simulate setting a JSON secret with a transformation.
 	if err := sentinel.SetJSONSecret(value, transform); err != nil {
-		return errors.Wrap(err, "setJSONSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setJSONSecret failed"),
+		)
 	}
 
 	// Pause to allow time for the secret to be processed by the system.
@@ -39,7 +42,10 @@ func SecretRegistrationJSONFormatSidecar() error {
 
 	// Assert the transformed secret's value.
 	if err := assert.WorkloadSecretHasValue(transformed); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	// Delete the secret as part of cleanup.

@@ -15,7 +15,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 )
 
 type Algorithm string
@@ -80,8 +80,10 @@ func generateAesSeed() (string, error) {
 
 	_, err := reader(key)
 	if err != nil {
-		return "", errors.Wrap(err,
-			"generateAesSeed: failed to generate random key")
+		return "", errors.Join(
+			err,
+			errors.New("generateAesSeed: failed to generate random key"),
+		)
 	}
 
 	return hex.EncodeToString(key), nil

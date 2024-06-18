@@ -18,12 +18,12 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	data "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -72,9 +72,9 @@ func CheckInitialization(
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), checkUrl)
 	if err != nil {
-		return false, errors.Wrap(
+		return false, errors.Join(
 			err,
-			fmt.Sprintf(
+			fmt.Errorf(
 				"check: I am having problem"+
 					" generating VSecM Safe secrets api endpoint URL: %s\n",
 				checkUrl,
@@ -91,9 +91,9 @@ func CheckInitialization(
 
 	r, err := client.Get(p)
 	if err != nil {
-		return false, errors.Wrap(
+		return false, errors.Join(
 			err,
-			fmt.Sprintf(
+			fmt.Errorf(
 				"check: Problem connecting"+
 					" to VSecM Safe API endpoint URL: %s\n",
 				checkUrl,
@@ -113,8 +113,9 @@ func CheckInitialization(
 
 	res, err := io.ReadAll(r.Body)
 	if err != nil {
-		return false, errors.Wrap(
-			err, "check: Unable to read the response body from VSecM Safe",
+		return false, errors.Join(
+			err,
+			errors.New("check: Unable to read the response body from VSecM Safe"),
 		)
 	}
 
@@ -124,7 +125,7 @@ func CheckInitialization(
 	var result entity.KeystoneStatusResponse
 
 	if err := json.Unmarshal(res, &result); err != nil {
-		log.ErrorLn(cid, "error unmarshaling JSON: %v", err.Error())
+		log.ErrorLn(cid, "error unmarshalling JSON: %v", err.Error())
 		return false, err
 	}
 

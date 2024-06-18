@@ -22,8 +22,8 @@ import (
 	"math"
 	"time"
 
+	"errors"
 	"filippo.io/age"
-	"github.com/pkg/errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
@@ -80,14 +80,18 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 
 	recipient, err := age.ParseX25519Recipient(publicKey)
 	if err != nil {
-		return errors.Wrap(err,
-			"encryptToWriterAge: failed to parse public key")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriterAge: failed to parse public key"),
+		)
 	}
 
 	wrappedWriter, err := age.Encrypt(out, recipient)
 	if err != nil {
-		return errors.Wrap(err,
-			"encryptToWriterAge: failed to create encrypted file")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriterAge: failed to create encrypted file"),
+		)
 	}
 
 	defer func(w io.WriteCloser) {
@@ -103,8 +107,10 @@ func EncryptToWriterAge(out io.Writer, data string) error {
 	}(wrappedWriter)
 
 	if _, err := io.WriteString(wrappedWriter, data); err != nil {
-		return errors.Wrap(err,
-			"encryptToWriterAge: failed to write to encrypted file")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriterAge: failed to write to encrypted file"),
+		)
 	}
 
 	return nil
@@ -157,13 +163,18 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 	}()
 
 	if err != nil {
-		return errors.Wrap(err, "encryptToWriter: failed to decode AES key")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriter: failed to decode AES key"),
+		)
 	}
 
 	block, err := aes.NewCipher(aesKeyDecoded)
 	if err != nil {
-		return errors.Wrap(err,
-			"encryptToWriter: failed to create AES cipher block")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriter: failed to create AES cipher block"),
+		)
 	}
 
 	totalSize := uint64(aes.BlockSize) + uint64(len(data))
@@ -185,8 +196,10 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 
 	_, err = out.Write(ciphertext)
 	if err != nil {
-		return errors.Wrap(err,
-			"encryptToWriter: failed to write to encrypted file")
+		return errors.Join(
+			err,
+			errors.New("encryptToWriter: failed to write to encrypted file"),
+		)
 	}
 
 	return nil

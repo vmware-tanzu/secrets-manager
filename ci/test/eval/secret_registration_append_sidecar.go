@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -29,11 +29,17 @@ func SecretRegistrationAppendSidecar() error {
 	value := fmt.Sprintf(`["%s","%s"]`, secret2, secret1)
 
 	if err := sentinel.AppendSecret(secret1); err != nil {
-		return errors.Wrap(err, "appendSecret failed for secret1")
+		return errors.Join(
+			err,
+			errors.New("appendSecret failed for secret1"),
+		)
 	}
 
 	if err := sentinel.AppendSecret(secret2); err != nil {
-		return errors.Wrap(err, "appendSecret failed for secret2")
+		return errors.Join(
+			err,
+			errors.New("appendSecret failed for secret2"),
+		)
 	}
 
 	// Pause to allow time for the system to process the appended secrets.
@@ -41,12 +47,18 @@ func SecretRegistrationAppendSidecar() error {
 
 	// Assert the combined value of the appended secrets.
 	if err := assert.WorkloadSecretHasValue(value); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	// Delete the secrets as part of cleanup.
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (append sidecar mode) successful")

@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -78,7 +78,10 @@ func Serve(source *workloadapi.X509Source, serverStarted chan<- bool) error {
 	serverStarted <- true
 
 	if err := server.ListenAndServeTLS("", ""); err != nil {
-		return errors.Wrap(err, "serve: failed to listen and serve")
+		return errors.Join(
+			err,
+			errors.New("serve: failed to listen and serve"),
+		)
 	}
 
 	return nil
