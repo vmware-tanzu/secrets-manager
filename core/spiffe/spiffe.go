@@ -12,9 +12,9 @@ package spiffe
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
-	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"

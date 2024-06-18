@@ -12,10 +12,11 @@ package rpc
 
 import (
 	"context"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	stdlib "log"
 	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
 )

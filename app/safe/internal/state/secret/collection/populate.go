@@ -11,11 +11,10 @@
 package collection
 
 import (
+	"errors"
 	"os"
 	"strings"
 	"sync"
-
-	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"

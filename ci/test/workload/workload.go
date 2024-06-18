@@ -11,9 +11,8 @@
 package workload
 
 import (
-	"strings"
-
 	"errors"
+	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )

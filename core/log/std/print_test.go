@@ -11,11 +11,12 @@
 package std
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 	"log"
 	"os"
 	"strings"
 	"testing"
+
+	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 )
 
 func TestMaxLen(t *testing.T) {

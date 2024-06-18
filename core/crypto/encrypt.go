@@ -17,12 +17,12 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"io"
 	"math"
 	"time"
 
-	"errors"
 	"filippo.io/age"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"

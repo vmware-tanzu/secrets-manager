@@ -11,10 +11,11 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"math"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // infiniteDuration is used to indicate that no synchronization should occur.

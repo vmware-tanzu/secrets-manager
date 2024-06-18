@@ -12,7 +12,6 @@ package rpc
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
 	"net"
 	"os"
 	"strings"
@@ -20,6 +19,8 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+
+	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
 )
 
 var cid = "test-correlation-id"

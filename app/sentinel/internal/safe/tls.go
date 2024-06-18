@@ -12,6 +12,7 @@ package safe
 
 import (
 	"errors"
+
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 

@@ -12,9 +12,8 @@ package sentry
 
 import (
 	"bufio"
-	"os"
-
 	"errors"
+	"os"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )

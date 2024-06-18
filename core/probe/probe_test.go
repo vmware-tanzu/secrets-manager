@@ -11,11 +11,12 @@
 package probe
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"os"
 	"testing"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func TestCreateLiveness(t *testing.T) {

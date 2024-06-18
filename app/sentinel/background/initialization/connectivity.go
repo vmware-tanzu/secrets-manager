@@ -12,8 +12,8 @@ package initialization
 
 import (
 	"context"
-
 	"errors"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"

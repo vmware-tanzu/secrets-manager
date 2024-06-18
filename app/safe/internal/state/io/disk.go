@@ -12,14 +12,13 @@ package io
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"math"
 	"os"
 	"path"
 	"strconv"
 	"sync"
-
-	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"

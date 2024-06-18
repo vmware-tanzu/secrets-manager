@@ -13,10 +13,12 @@ package rpc
 import (
 	"context"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
-	"google.golang.org/grpc"
 	stdlib "log"
 	"net"
+
+	"google.golang.org/grpc"
+
+	"github.com/vmware-tanzu/secrets-manager/core/log/rpc/generated"
 )
 
 // server struct implements the UnimplementedLogServiceServer interface generated

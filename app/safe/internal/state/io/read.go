@@ -12,7 +12,6 @@ package io
 
 import (
 	"encoding/json"
-
 	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"

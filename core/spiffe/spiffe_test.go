@@ -13,11 +13,12 @@ package spiffe
 import (
 	"crypto/tls"
 	"crypto/x509"
-	"github.com/spiffe/go-spiffe/v2/spiffeid"
-	"github.com/stretchr/testify/assert"
 	"net/http/httptest"
 	"net/url"
 	"testing"
+
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
+	"github.com/stretchr/testify/assert"
 )
 
 // Mock certificate generation
