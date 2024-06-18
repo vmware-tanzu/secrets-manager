@@ -13,7 +13,7 @@ package state
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
@@ -27,14 +27,20 @@ func Cleanup() error {
 	// Determine the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
 	if err != nil {
-		return errors.Wrap(err, "cleanup: Failed to determine sentinel")
+		return errors.Join(
+			err,
+			errors.New("cleanup: Failed to determine sentinel"),
+		)
 	}
 
 	// Execute command within the sentinel pod to delete the secret.
 	_, err = io.Exec("kubectl", "exec",
 		sentinel, "-n", "vsecm-system", "--", "safe", "-w", "example", "-d")
 	if err != nil {
-		return errors.Wrap(err, "cleanup: Failed to delete secret")
+		return errors.Join(
+			err,
+			errors.New("cleanup: Failed to delete secret"),
+		)
 	}
 
 	// Check if the deployment exists before attempting to delete.
@@ -44,13 +50,19 @@ func Cleanup() error {
 			"kubectl", "delete", "deployment", "example", "-n", "default",
 		)
 		if err != nil {
-			return errors.Wrap(err, "cleanup: Failed to delete deployment")
+			return errors.Join(
+				err,
+				errors.New("cleanup: Failed to delete deployment"),
+			)
 		}
 	}
 
 	// Wait for the workload to be gone.
 	if err := wait.ForExampleWorkloadDeletion(); err != nil {
-		return errors.Wrap(err, "cleanup: Failed to wait for workload deletion")
+		return errors.Join(
+			err,
+			errors.New("cleanup: Failed to wait for workload deletion"),
+		)
 	}
 
 	fmt.Println("✨ All clean and shiny!")

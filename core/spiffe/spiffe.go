@@ -14,7 +14,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -56,7 +56,10 @@ func IdFromRequest(r *http.Request) (*spiffeid.ID, error) {
 
 	id, err := x509svid.IDFromCert(tlsConnectionState.PeerCertificates[0])
 	if err != nil {
-		return nil, errors.Wrap(err, "problem extracting svid")
+		return nil, errors.Join(
+			err,
+			errors.New("problem extracting svid"),
+		)
 	}
 
 	return &id, nil

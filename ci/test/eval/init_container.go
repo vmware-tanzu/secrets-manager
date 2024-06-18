@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/deploy"
@@ -27,7 +27,10 @@ func InitContainer() error {
 	fmt.Println("🧪     Testing: Init Container...")
 
 	if err := deploy.WorkloadUsingInitContainer(); err != nil {
-		return errors.Wrap(err, "deployWorkloadUsingInitContainer failed")
+		return errors.Join(
+			err,
+			errors.New("deployWorkloadUsingInitContainer failed"),
+		)
 	}
 
 	// Pause for deployment to reconcile.
@@ -35,11 +38,17 @@ func InitContainer() error {
 
 	_, err := workload.Example()
 	if err != nil {
-		return errors.Wrap(err, "workload.Example failed")
+		return errors.Join(
+			err,
+			errors.New("workload.Example failed"),
+		)
 	}
 
 	if err := assert.InitContainerIsRunning(); err != nil {
-		return errors.Wrap(err, "assertInitContainerRunning failed")
+		return errors.Join(
+			err,
+			errors.New("assertInitContainerRunning failed"),
+		)
 	}
 
 	// Additional pause just in case.
@@ -47,12 +56,18 @@ func InitContainer() error {
 
 	// Set a Kubernetes secret via Sentinel.
 	if err := sentinel.SetKubernetesSecretToTriggerInitContainer(); err != nil {
-		return errors.Wrap(err, "setKubernetesSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setKubernetesSecret failed"),
+		)
 	}
 
 	// Assert the workload is running.
 	if err := assert.WorkloadIsRunning(); err != nil {
-		return errors.Wrap(err, "assertWorkloadIsRunning failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadIsRunning failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Init Container test passed.")

@@ -15,7 +15,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
@@ -25,13 +25,19 @@ import (
 func DeleteSecret() error {
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" {
-		return errors.Wrap(err, "DeleteSecret: Failed to define sentinel")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret: Failed to define sentinel"),
+		)
 	}
 
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default", "-d")
 	if err != nil {
-		return errors.Wrap(err, "DeleteSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret: Failed to exec kubectl"),
+		)
 	}
 
 	return nil
@@ -42,10 +48,13 @@ func SetKubernetesSecretToTriggerInitContainer() error {
 	// Define the sentinel pod.
 	sentinel, err := vsecm.Sentinel()
 	if err != nil {
-		return fmt.Errorf("SetKubernetesSecretToTriggerInitContainer: Failed to define sentinel: %w", err)
+		return fmt.Errorf(
+			"SetKubernetesSecretToTriggerInitContainer: "+
+				"Failed to define sentinel: %w", err)
 	}
 	if sentinel == "" {
-		return errors.New("SetKubernetesSecretToTriggerInitContainer: Failed to define sentinel")
+		return errors.New("SetKubernetesSecretToTriggerInitContainer: " +
+			"Failed to define sentinel")
 	}
 
 	// Construct the command to execute within the sentinel pod.
@@ -57,12 +66,17 @@ func SetKubernetesSecretToTriggerInitContainer() error {
 		"-s", secretData, "-t", transformTemplate,
 	)
 	if err != nil {
-		return errors.Wrap(err, "SetKubernetesSecretToTriggerInitContainer: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("setKubernetesSecretToTriggerInitContainer:"+
+				" Failed to exec kubectl"),
+		)
 	}
 
 	// Wait for the workload to be ready.
 	if err := wait.ForExampleWorkload(); err != nil {
-		return fmt.Errorf("set_kubernetes_secret: Failed to wait for workload readiness: %w", err)
+		return fmt.Errorf("set_kubernetes_secret:"+
+			" Failed to wait for workload readiness: %w", err)
 	}
 
 	fmt.Println("done: set_kubernetes_secret()")
@@ -76,14 +90,20 @@ func SetSecret(value string) error {
 
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" {
-		return errors.Wrap(err, "SetSecret: Failed to define sentinel")
+		return errors.Join(
+			err,
+			errors.New("setSecret: Failed to define sentinel"),
+		)
 	}
 
 	// Executing command within the sentinel pod to set the secret.
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default", "-s", value)
 	if err != nil {
-		return errors.Wrap(err, "SetSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("setSecret: Failed to exec kubectl"),
+		)
 	}
 
 	return nil
@@ -96,14 +116,20 @@ func SetEncryptedSecret(value string) error {
 
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" {
-		return errors.Wrap(err, "SetEncryptedSecret: Failed to define sentinel")
+		return errors.Join(
+			err,
+			errors.New("setEncryptedSecret: Failed to define sentinel"),
+		)
 	}
 
 	// Execute the command to encrypt and set the secret.
 	res, err := io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-s", value, "-e")
 	if err != nil {
-		return errors.Wrap(err, "SetEncryptedSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("setEncryptedSecret: Failed to exec kubectl"),
+		)
 	}
 
 	if res == "" {
@@ -124,7 +150,10 @@ func SetEncryptedSecret(value string) error {
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default", "-s", out, "-e")
 	if err != nil {
-		return errors.Wrap(err, "SetEncryptedSecret: Failed to set encrypted secret")
+		return errors.Join(
+			err,
+			errors.New("setEncryptedSecret: Failed to set encrypted secret"),
+		)
 	}
 
 	return nil
@@ -132,12 +161,15 @@ func SetEncryptedSecret(value string) error {
 
 func SetJSONSecret(value, transform string) error {
 	if value == "" || transform == "" {
-		return errors.New("SetJSONSecret: Value or transform is empty")
+		return errors.New("setJSONSecret: Value or transform is empty")
 	}
 
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" {
-		return errors.Wrap(err, "SetJSONSecret: Failed to define sentinel")
+		return errors.Join(
+			err,
+			errors.New("setJSONSecret: Failed to define sentinel"),
+		)
 	}
 
 	// Executing command within the sentinel pod to set the JSON secret with transformation.
@@ -145,7 +177,10 @@ func SetJSONSecret(value, transform string) error {
 		"--", "safe", "-w", "example", "-n", "default",
 		"-s", value, "-t", transform, "-f", "json")
 	if err != nil {
-		return errors.Wrap(err, "SetJSONSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("setJSONSecret: Failed to exec kubectl"),
+		)
 	}
 
 	return nil
@@ -158,14 +193,20 @@ func AppendSecret(value string) error {
 
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" {
-		return errors.Wrap(err, "AppendSecret: Failed to define sentinel")
+		return errors.Join(
+			err,
+			errors.New("appendSecret: Failed to define sentinel"),
+		)
 	}
 
 	// Executing command within the sentinel pod to append the secret.
 	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
 		"--", "safe", "-w", "example", "-n", "default", "-a", "-s", value)
 	if err != nil {
-		return errors.Wrap(err, "AppendSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("appendSecret: Failed to exec kubectl"),
+		)
 	}
 
 	return nil

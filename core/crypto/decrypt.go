@@ -20,8 +20,8 @@ import (
 	"os"
 	"path"
 
+	"errors"
 	"filippo.io/age"
-	"github.com/pkg/errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
@@ -77,13 +77,17 @@ func DecryptBytesAge(data []byte) ([]byte, error) {
 
 	identity, err := age.ParseX25519Identity(privateKey)
 	if err != nil {
-		return []byte{}, errors.Wrap(
-			err, "decryptBytes: failed to parse private key")
+		return []byte{}, errors.Join(
+			err,
+			errors.New("decryptBytes: failed to parse private key"),
+		)
 	}
 
 	if len(data) == 0 {
-		return []byte{}, errors.Wrap(
-			err, "decryptBytes: file on disk appears to be empty")
+		return []byte{}, errors.Join(
+			err,
+			errors.New("decryptBytes: file on disk appears to be empty"),
+		)
 	}
 
 	out := &bytes.Buffer{}
@@ -91,13 +95,17 @@ func DecryptBytesAge(data []byte) ([]byte, error) {
 
 	r, err := age.Decrypt(f, identity)
 	if err != nil {
-		return []byte{}, errors.Wrap(
-			err, "decryptBytes: failed to open encrypted file")
+		return []byte{}, errors.Join(
+			err,
+			errors.New("decryptBytes: failed to open encrypted file"),
+		)
 	}
 
 	if _, err := io.Copy(out, r); err != nil {
-		return []byte{}, errors.Wrap(
-			err, "decryptBytes: failed to read encrypted file")
+		return []byte{}, errors.Join(
+			err,
+			errors.New("decryptBytes: failed to read encrypted file"),
+		)
 	}
 
 	return out.Bytes(), nil
@@ -130,14 +138,18 @@ func DecryptBytesAes(data []byte) ([]byte, error) {
 
 	aesKeyDecoded, err := hex.DecodeString(aesKey)
 	if err != nil {
-		return nil, errors.Wrap(err,
-			"encryptToWriter: failed to decode AES key")
+		return nil, errors.Join(
+			err,
+			errors.New("encryptToWriter: failed to decode AES key"),
+		)
 	}
 
 	block, err := aes.NewCipher(aesKeyDecoded)
 	if err != nil {
-		return nil, errors.Wrap(err,
-			"decryptBytes: failed to create AES cipher block")
+		return nil, errors.Join(
+			err,
+			errors.New("decryptBytes: failed to create AES cipher block"),
+		)
 	}
 
 	// The IV is included in the beginning of the ciphertext.
@@ -222,13 +234,18 @@ func DecryptDataFromDisk(key string) ([]byte, error) {
 	dataPath := path.Join(env.DataPathForSafe(), key+".age")
 
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
-		return nil, errors.Wrap(err,
-			"decryptDataFromDisk: No file at: "+dataPath)
+		return nil, errors.Join(
+			err,
+			errors.New("decryptDataFromDisk: No file at: "+dataPath),
+		)
 	}
 
 	data, err := os.ReadFile(dataPath)
 	if err != nil {
-		return nil, errors.Wrap(err, "decryptDataFromDisk: Error reading file")
+		return nil, errors.Join(
+			err,
+			errors.New("decryptDataFromDisk: Error reading file"),
+		)
 	}
 
 	if env.FipsCompliantModeForSafe() {

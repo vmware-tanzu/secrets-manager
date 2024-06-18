@@ -92,7 +92,7 @@ func Test_generateAesSeed(t *testing.T) {
 			},
 			name:    "failure_case",
 			want:    0,
-			wantErr: errors.New("generateAesSeed: failed to generate random key: failed during rand.Read() call"),
+			wantErr: errors.New("failed during rand.Read() call\ngenerateAesSeed: failed to generate random key"),
 			cleanup: func() {
 				reader = rand.Read
 			},

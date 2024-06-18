@@ -13,7 +13,7 @@ package initialization
 import (
 	"context"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
@@ -52,9 +52,11 @@ func ensureApiConnectivity(ctx context.Context, cid *string) {
 					"RunInitCommands:CheckConnectivity: "+
 						"failed to verify connection to safe:", err.Error())
 
-				return errors.Wrap(err,
-					"RunInitCommands:CheckConnectivity:"+
-						" cannot establish connection to safe 001")
+				return errors.Join(
+					err,
+					errors.New("runInitCommands:CheckConnectivity:"+
+						" cannot establish connection to safe 001"),
+				)
 			}
 
 			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")

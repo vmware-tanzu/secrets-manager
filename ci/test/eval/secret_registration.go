@@ -13,7 +13,7 @@ package eval
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -26,11 +26,17 @@ func SecretRegistration() error {
 	value := "!VSecMRocks!"
 
 	if err := sentinel.SetSecret(value); err != nil {
-		return errors.Wrap(err, "setting secret")
+		return errors.Join(
+			err,
+			errors.New("setting secret"),
+		)
 	}
 
 	if err := assert.WorkloadSecretHasValue(value); err != nil {
-		return errors.Wrap(err, "asserting workload secret value")
+		return errors.Join(
+			err,
+			errors.New("asserting workload secret value"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration successful")

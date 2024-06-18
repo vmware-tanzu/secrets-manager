@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -30,7 +30,10 @@ func SecretRegistrationYAMLFormatSidecar() error {
 
 	// Simulate setting a YAML secret with transformation.
 	if err := setYAMLSecret(value, transform); err != nil {
-		return errors.Wrap(err, "setYAMLSecret failed")
+		return errors.Join(
+			err,
+			errors.New("setYAMLSecret failed"),
+		)
 	}
 
 	// Simulated transformed YAML as a string
@@ -46,12 +49,18 @@ USERNAME: '*root*'
 	if err := assert.WorkloadSecretHasValue(
 		strings.TrimSpace(transformed),
 	); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretValue failed"),
+		)
 	}
 
 	// Delete the secret as part of cleanup.
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret registration (YAML transformation sidecar) successful")

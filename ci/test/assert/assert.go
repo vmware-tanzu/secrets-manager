@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"
@@ -24,8 +24,9 @@ import (
 func SentinelCanEncryptSecret(value string) error {
 	sentinel, err := vsecm.Sentinel()
 	if err != nil || sentinel == "" || value == "" {
-		return errors.Wrap(err,
-			"EncryptedSecret: Failed to define sentinel or value",
+		return errors.Join(
+			err,
+			errors.New("encryptedSecret: Failed to define sentinel or value"),
 		)
 	}
 
@@ -33,7 +34,10 @@ func SentinelCanEncryptSecret(value string) error {
 	res, err := io.Exec("kubectl", "exec", sentinel,
 		"-n", "vsecm-system", "--", "safe", "-s", value, "-e")
 	if err != nil {
-		return errors.Wrap(err, "EncryptedSecret: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("EncryptedSecret: Failed to exec kubectl"),
+		)
 	}
 
 	// Assert that the result exists.
@@ -47,13 +51,19 @@ func SentinelCanEncryptSecret(value string) error {
 func InitContainerIsRunning() error {
 	w, err := workload.Example()
 	if err != nil || w == "" {
-		return errors.Wrap(err, "InitContainerIsRunning: Failed to define workload")
+		return errors.Join(
+			err,
+			errors.New("InitContainerIsRunning: Failed to define workload"),
+		)
 	}
 
 	podStatus, err := io.Exec("kubectl", "get", "pod", "-n", "default", w,
 		"-o", "jsonpath={.status.initContainerStatuses[0].state.running}")
 	if err != nil {
-		return errors.Wrap(err, "InitContainerIsRunning: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("InitContainerIsRunning: Failed to exec kubectl"),
+		)
 	}
 
 	if podStatus == "" {
@@ -69,7 +79,10 @@ func WorkloadIsRunning() error {
 	// Define the workload pod.
 	w, err := workload.Example()
 	if err != nil || w == "" {
-		return errors.Wrap(err, "WorkloadIsRunning: Failed to define workload")
+		return errors.Join(
+			err,
+			errors.New("WorkloadIsRunning: Failed to define workload"),
+		)
 	}
 
 	// Fetch all pods in the 'default' namespace and count how many are in
@@ -77,7 +90,10 @@ func WorkloadIsRunning() error {
 	cmdOutput, err := io.Exec("kubectl", "get", "po", "-n", "default", "-o",
 		"jsonpath={.items[*].status.phase}")
 	if err != nil {
-		return errors.Wrap(err, "WorkloadIsRunning: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("WorkloadIsRunning: Failed to exec kubectl"),
+		)
 	}
 
 	// Count how many times 'Running' appears in the command output.
@@ -98,14 +114,20 @@ func WorkloadIsRunning() error {
 func WorkloadSecretHasNoValue() error {
 	w, err := workload.Example()
 	if err != nil || w == "" {
-		return errors.Wrap(err, "WorkloadSecretHasNoValue: Failed to define workload")
+		return errors.Join(
+			err,
+			errors.New("WorkloadSecretHasNoValue: Failed to define workload"),
+		)
 	}
 
 	// Execute the command within the workload pod to check the environment or secret.
 	res, err := io.Exec("kubectl", "exec", w, "-n", "default",
 		"-c", "main", "--", "./env")
 	if err != nil {
-		return errors.Wrap(err, "WorkloadSecretHasNoValue: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("WorkloadSecretHasNoValue: Failed to exec kubectl"),
+		)
 	}
 
 	res = strings.TrimSpace(res)
@@ -119,27 +141,33 @@ func WorkloadSecretHasNoValue() error {
 		return nil
 	}
 
-	return errors.New("WorkloadSecretHasNoValue: Secret should not have a value")
+	return errors.New("workloadSecretHasNoValue: Secret should not have a value")
 }
 
 func WorkloadSecretHasValue(expectedValue string) error {
 	if expectedValue == "" {
-		return errors.New("WorkloadSecretHasValue: Expected value is empty")
+		return errors.New("workloadSecretHasValue: Expected value is empty")
 	}
 
 	w, err := workload.Example()
 	if err != nil {
-		return errors.Wrap(err, "WorkloadSecretHasValue: Failed to define workload")
+		return errors.Join(
+			err,
+			errors.New("workloadSecretHasValue: Failed to define workload"),
+		)
 	}
 
 	res, err := io.Exec("kubectl", "exec", w, "-n", "default", "-c", "main", "--", "./env")
 	if err != nil {
-		return errors.Wrap(err, "WorkloadSecretHasValue: Failed to exec kubectl")
+		return errors.Join(
+			err,
+			errors.New("WorkloadSecretHasValue: Failed to exec kubectl"),
+		)
 	}
 
 	if strings.Contains(res, expectedValue) {
 		return nil
 	}
 
-	return errors.New("WorkloadSecretHasValue: Secret value does not match expected")
+	return errors.New("workloadSecretHasValue: Secret value does not match expected")
 }

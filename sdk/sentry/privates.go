@@ -14,7 +14,7 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
@@ -24,18 +24,27 @@ func saveData(data string) error {
 
 	f, err := os.Create(path)
 	if err != nil {
-		return errors.Wrap(err, "error saving data")
+		return errors.Join(
+			err,
+			errors.New("error saving data"),
+		)
 	}
 
 	w := bufio.NewWriter(f)
 	_, err = w.WriteString(data)
 	if err != nil {
-		return errors.Wrap(err, "error saving data")
+		return errors.Join(
+			err,
+			errors.New("error saving data"),
+		)
 	}
 
 	err = w.Flush()
 	if err != nil {
-		return errors.Wrap(err, "error flushing writer")
+		return errors.Join(
+			err,
+			errors.New("error flushing writer"),
+		)
 	}
 
 	return nil

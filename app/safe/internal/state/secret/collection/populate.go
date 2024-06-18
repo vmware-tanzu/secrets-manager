@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
@@ -43,8 +43,10 @@ func populateSecretsFromFileStore(cid string) error {
 	root := env.DataPathForSafe()
 	files, err := os.ReadDir(root)
 	if err != nil {
-		return errors.Wrap(err,
-			"populateSecrets: problem reading secrets directory")
+		return errors.Join(
+			err,
+			errors.New("populateSecrets: problem reading secrets directory"),
+		)
 	}
 
 	for _, file := range files {

@@ -10,7 +10,7 @@
 
 package crypto
 
-import "github.com/pkg/errors"
+import "errors"
 
 // GenerateValue creates a string based on a template with embedded generator
 // expressions. The generator expressions specify character ranges and lengths

@@ -13,7 +13,7 @@ package io
 import (
 	"encoding/json"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
@@ -30,7 +30,7 @@ import (
 //     locate the encrypted file on the disk which contains the secret's data.
 //
 // Returns:
-//   - (*entity.SecretStored, error): This function returns a pointer to a
+//   - '(*entity.SecretStored, error)': This function returns a pointer to a
 //     SecretStored entity if the operation is successful. The SecretStored
 //     entity represents the decrypted and deserialized secret. If any error
 //     occurs during the process, a nil pointer and an error object are
@@ -39,13 +39,19 @@ import (
 func ReadFromDisk(key string) (*entity.SecretStored, error) {
 	contents, err := crypto.DecryptDataFromDisk(key)
 	if err != nil {
-		return nil, errors.Wrap(err, "readFromDisk: error decrypting file")
+		return nil, errors.Join(
+			err,
+			errors.New("readFromDisk: error decrypting file"),
+		)
 	}
 
 	var secret entity.SecretStored
 	err = json.Unmarshal(contents, &secret)
 	if err != nil {
-		return nil, errors.Wrap(err, "readFromDisk: Failed to unmarshal secret")
+		return nil, errors.Join(
+			err,
+			errors.New("readFromDisk: Failed to unmarshal secret"),
+		)
 	}
 
 	return &secret, nil

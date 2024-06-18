@@ -19,7 +19,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
@@ -37,12 +37,18 @@ var lastBackupIndexLock = sync.Mutex{}
 func saveSecretToDisk(secret entity.SecretStored, dataPath string) error {
 	data, err := json.Marshal(secret)
 	if err != nil {
-		return errors.Wrap(err, "saveSecretToDisk: failed to marshal secret")
+		return errors.Join(
+			err,
+			errors.New("saveSecretToDisk: failed to marshal secret"),
+		)
 	}
 
 	file, err := os.Create(dataPath)
 	if err != nil {
-		return errors.Wrap(err, "saveSecretToDisk: failed to create file")
+		return errors.Join(
+			err,
+			errors.New("saveSecretToDisk: failed to create file"),
+		)
 	}
 	defer func(f io.ReadCloser) {
 		err := f.Close()

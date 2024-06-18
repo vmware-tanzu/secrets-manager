@@ -21,7 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
@@ -75,13 +75,14 @@ func Post(parentContext context.Context,
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			return errors.Wrap(
+			return errors.Join(
 				ctxWithTimeout.Err(),
-				"Post: I cannot execute command because I cannot talk to SPIRE.",
+				errors.New("post:"+
+					" I cannot execute command because I cannot talk to SPIRE"),
 			)
 		}
 
-		return errors.New("Post: Operation was cancelled due to an unknown reason.")
+		return errors.New("post: Operation was cancelled due to an unknown reason")
 	case source := <-sourceChan:
 		defer func(s *workloadapi.X509Source) {
 			if s == nil {
@@ -89,13 +90,13 @@ func Post(parentContext context.Context,
 			}
 			err := s.Close()
 			if err != nil {
-				log.ErrorLn(cid, "Post: Problem closing the workload source.")
+				log.ErrorLn(cid, "post: Problem closing the workload source")
 			}
 		}(source)
 
 		proceed := <-proceedChan
 		if !proceed {
-			return errors.New("Post: Could not acquire source for Sentinel.")
+			return errors.New("post: Could not acquire source for Sentinel")
 		}
 
 		authorizer := createAuthorizer()
@@ -105,8 +106,8 @@ func Post(parentContext context.Context,
 
 			p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/keys")
 			if err != nil {
-				return errors.New("Post: I am having problem" +
-					" generating VSecM Safe secrets api endpoint URL.")
+				return errors.New("post: I am having problem" +
+					" generating VSecM Safe secrets api endpoint URL")
 			}
 
 			tlsConfig := tlsconfig.MTLSClientConfig(source, source, authorizer)
@@ -124,8 +125,10 @@ func Post(parentContext context.Context,
 			sr := newRootKeyUpdateRequest(parts[0], parts[1], parts[2])
 			md, err := json.Marshal(sr)
 			if err != nil {
-				return errors.Wrap(err,
-					"Post: I am having problem generating the payload.")
+				return errors.Join(
+					err,
+					errors.New("post: I am having problem generating the payload"),
+				)
 			}
 
 			return doPost(cid, client, p, md)
@@ -148,10 +151,10 @@ func Post(parentContext context.Context,
 
 		p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/secrets")
 		if err != nil {
-			return errors.Wrap(
+			return errors.Join(
 				err,
-				"Post: I am having problem "+
-					"generating VSecM Safe secrets api endpoint URL.",
+				errors.New("post: I am having problem "+
+					"generating VSecM Safe secrets api endpoint URL"),
 			)
 		}
 
@@ -168,8 +171,10 @@ func Post(parentContext context.Context,
 
 		md, err := json.Marshal(sr)
 		if err != nil {
-			return errors.Wrap(err,
-				"Post: I am having problem generating the payload.")
+			return errors.Join(
+				err,
+				errors.New("post: I am having problem generating the payload"),
+			)
 		}
 
 		if sc.DeleteSecret {

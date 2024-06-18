@@ -29,6 +29,9 @@ weight = 11
   required `ClusterSPIFFEID`s.
 * Documentation updates.
 * Introduced `helm-docs` for helm chart documentation.
+* Replaced `github.com/pkg/errors` with the native `errors` package 
+  to reduce the number of dependencies and the codebase more
+  secure and maintainable.
 
 ## [0.25.3] - 2024-05-17
 

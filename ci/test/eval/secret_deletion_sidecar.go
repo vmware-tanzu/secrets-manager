@@ -14,7 +14,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/assert"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/sentinel"
@@ -25,14 +25,20 @@ func SecretDeletionSidecar() error {
 	fmt.Println("🧪     Testing: Secret deletion (sidecar)...")
 
 	if err := sentinel.DeleteSecret(); err != nil {
-		return errors.Wrap(err, "deleteSecret failed")
+		return errors.Join(
+			err,
+			errors.New("deleteSecret failed"),
+		)
 	}
 
 	// Pause to simulate waiting for the system to process the secret deletion.
 	time.Sleep(5 * time.Second) // Adjust the duration as needed for your environment.
 
 	if err := assert.WorkloadSecretHasNoValue(); err != nil {
-		return errors.Wrap(err, "assertWorkloadSecretNoValue failed")
+		return errors.Join(
+			err,
+			errors.New("assertWorkloadSecretNoValue failed"),
+		)
 	}
 
 	fmt.Println("🟢   PASS: Secret deletion (sidecar) successful")

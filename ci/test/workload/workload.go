@@ -13,7 +13,7 @@ package workload
 import (
 	"strings"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )
@@ -24,7 +24,10 @@ func Example() (string, error) {
 
 	output, err := io.Exec(cmd, args...)
 	if err != nil {
-		return "", errors.Wrap(err, "Example: Failed to execute command")
+		return "", errors.Join(
+			err,
+			errors.New("example: Failed to execute command"),
+		)
 	}
 
 	lines := strings.Split(output, "\n")
@@ -35,5 +38,5 @@ func Example() (string, error) {
 		}
 	}
 
-	return "", errors.New("Example: No workload matching 'example-' prefix found")
+	return "", errors.New("example: No workload matching 'example-' prefix found")
 }
