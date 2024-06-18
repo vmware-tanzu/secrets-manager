@@ -18,7 +18,7 @@ COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o safe ./app/sentinel/cmd/main.go
 
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/background/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/background/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
