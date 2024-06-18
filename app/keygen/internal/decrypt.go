@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package internal
 
 import (
 	"encoding/json"
@@ -39,7 +39,7 @@ func secrets() entity.SecretEncryptedListResponse {
 	return secrets
 }
 
-func printDecryptedKeys() {
+func PrintDecryptedKeys() {
 	ss := secrets()
 
 	algorithm := ss.Algorithm

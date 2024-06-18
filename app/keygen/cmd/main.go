@@ -11,6 +11,7 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/app/keygen/internal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -28,9 +29,9 @@ func main() {
 	})
 
 	if env.KeyGenDecrypt() {
-		printDecryptedKeys()
+		internal.PrintDecryptedKeys()
 		return
 	}
 
-	printGeneratedKeys()
+	internal.PrintGeneratedKeys()
 }
