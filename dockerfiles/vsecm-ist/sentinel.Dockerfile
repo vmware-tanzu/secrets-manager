@@ -16,8 +16,8 @@ COPY core /build/core
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o safe \
-    ./app/sentinel/cmd/main.go ./app/sentinel/cmd/help.go ./app/sentinel/cmd/parse.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o safe ./app/sentinel/cmd/main.go
+
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth ./app/sentinel/background/cmd/main.go
 
 # generate clean, final image for end users
