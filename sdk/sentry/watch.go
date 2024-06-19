@@ -11,8 +11,6 @@
 package sentry
 
 import (
-	"time"
-
 	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -25,8 +23,6 @@ import (
 // variable (`/opt/vsecm/secrets.json` by default).
 func Watch() {
 	interval := backoff.InitialInterval
-	successCount := int64(0)
-	errorCount := int64(0)
 
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {
@@ -34,22 +30,17 @@ func Watch() {
 	}
 
 	for {
-		ticker := time.NewTicker(interval)
-		select {
-		case <-ticker.C:
+		_ = backoff.Retry("sentry.Watch", func() error {
 			err := fetchSecrets()
-
-			// Update parameters based on success/failure.
-			interval, successCount, errorCount = backoff.ExponentialBackoff(
-				err == nil, interval, successCount, errorCount,
-			)
-
 			if err != nil {
 				log.InfoLn(&cid, "Could not fetch secrets", err.Error(),
 					". Will retry in", interval, ".")
 			}
-
-			ticker.Stop()
-		}
+			return err
+		}, backoff.Strategy{
+			MaxRetries:  10,
+			Delay:       interval,
+			Exponential: false,
+		})
 	}
 }
