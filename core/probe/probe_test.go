@@ -29,7 +29,7 @@ func TestCreateLiveness(t *testing.T) {
 	}()
 
 	t.Logf("Creating liveness probe...")
-	go CreateLiveness()
+	<-CreateLiveness()
 
 	t.Logf("Sending request to mock server...")
 	resp, err := http.Get("http://localhost" + env.ProbeLivenessPort())
@@ -37,6 +37,7 @@ func TestCreateLiveness(t *testing.T) {
 		t.Fatalf("Error sending request: %v", err)
 	}
 	defer func(Body io.ReadCloser) {
+		t.Logf("Closing response body...")
 		err := Body.Close()
 		if err != nil {
 			fmt.Println(err.Error())
@@ -71,7 +72,7 @@ func TestCreateReadiness(t *testing.T) {
 	}()
 
 	t.Logf("Creating readiness probe...")
-	go CreateReadiness()
+	<-CreateReadiness()
 
 	t.Logf("Sending request to mock server...")
 	resp, err := http.Get("http://localhost" + env.ProbeReadinessPort())
@@ -79,6 +80,7 @@ func TestCreateReadiness(t *testing.T) {
 		t.Fatalf("Error sending request: %v", err)
 	}
 	defer func(Body io.ReadCloser) {
+		t.Logf("Closing response body...")
 		err := Body.Close()
 		if err != nil {
 			fmt.Println(err.Error())

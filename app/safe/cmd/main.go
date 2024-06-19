@@ -66,7 +66,7 @@ func main() {
 	go bootstrap.CreateRootKey(&id, updatedSecret)
 
 	// App is alive; however, not yet ready to accept connections.
-	go probe.CreateLiveness()
+	<-probe.CreateLiveness()
 
 	log.InfoLn(&id, "before acquiring source...")
 	source := bootstrap.AcquireSource(ctx, acquiredSvid)

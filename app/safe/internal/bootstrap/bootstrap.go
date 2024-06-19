@@ -73,39 +73,39 @@ func Monitor(
 		}
 
 		select {
-		// Acquired SVID for this workload from the SPIRE Agent via 
+		// Acquired SVID for this workload from the SPIRE Agent via
 		// workload API:
 		case <-channels.AcquiredSvid:
 			log.AuditLn(correlationId, "Acquired identity.")
 			counter--
 			log.InfoLn(
-				correlationId, 
+				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
 				queue.Initialize()
 				log.DebugLn(
-					correlationId, 
+					correlationId,
 					"Creating readiness probe.")
-				go probe.CreateReadiness()
+				<-probe.CreateReadiness()
 				log.AuditLn(
-				  correlationId, 
-				  "VSecM Safe is ready to serve.")
+					correlationId,
+					"VSecM Safe is ready to serve.")
 			}
 		// Updated the root key:
 		case <-channels.UpdatedSecret:
 			log.DebugLn(correlationId, "Updated age key.")
 			counter--
 			log.InfoLn(
-				correlationId, 
+				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
 				queue.Initialize()
 				log.DebugLn(
-					correlationId, 
+					correlationId,
 					"Creating readiness probe.")
-				go probe.CreateReadiness()
+				<-probe.CreateReadiness()
 				log.AuditLn(
-					correlationId, 
+					correlationId,
 					"VSecM Safe is ready to serve.")
 			}
 		// VSecM Safe REST API is ready to serve:
@@ -113,17 +113,17 @@ func Monitor(
 			log.DebugLn(correlationId, "Server ready.")
 			counter--
 			log.InfoLn(
-				correlationId, 
+				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
 				// Start all background jobs.
 				queue.Initialize()
 				log.DebugLn(
-					correlationId, 
+					correlationId,
 					"Creating readiness probe.")
-				go probe.CreateReadiness()
+				<-probe.CreateReadiness()
 				log.AuditLn(
-					correlationId, 
+					correlationId,
 					"VSecM Safe is ready to serve.")
 			}
 		// Things didn't start in a timely manner:
@@ -131,7 +131,7 @@ func Monitor(
 			log.FatalLn(
 				correlationId,
 				"Failed to acquire"+
-				" an identity in a timely manner.")
+					" an identity in a timely manner.")
 		}
 	}
 }
@@ -167,7 +167,7 @@ func AcquireSource(
 	svid, err := source.GetX509SVID()
 	if err != nil {
 		log.FatalLn(cid,
-			"Unable to get X.509 SVID from source bundle", 
+			"Unable to get X.509 SVID from source bundle",
 			err.Error())
 		return nil
 	}
@@ -180,7 +180,7 @@ func AcquireSource(
 	svidId := svid.ID
 	if !validation.IsSafe(svidId.String()) {
 		log.FatalLn(
-			cid, 
+			cid,
 			"SpiffeId check: I don't know you, and it's crazy:",
 			svidId.String(),
 		)
@@ -213,14 +213,14 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 	keyPath := env.RootKeyPathForSafe()
 
 	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
-		log.FatalLn(id, 
+		log.FatalLn(id,
 			"CreateRootKey: Secret key not mounted at", keyPath)
 		return
 	}
 
 	data, err := os.ReadFile(keyPath)
 	if err != nil {
-		log.FatalLn(id, 
+		log.FatalLn(id,
 			"CreateRootKey: Error reading file:", err.Error())
 		return
 	}
@@ -228,14 +228,14 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 	secret := string(data)
 
 	if secret != crypto.BlankRootKeyValue {
-		log.InfoLn(id, 
+		log.InfoLn(id,
 			"Secret has been set in the cluster, will reuse it")
 		crypto.SetRootKeyInMemory(secret)
 		updatedSecret <- true
 		return
 	}
 
-	log.InfoLn(id, 
+	log.InfoLn(id,
 		"Secret has not been set yet. Will compute a secure secret.")
 
 	rkt, err := crypto.NewRootKeyCollection()

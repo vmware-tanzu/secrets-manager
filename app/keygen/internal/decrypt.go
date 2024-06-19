@@ -11,23 +11,17 @@
 package internal
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
-	"os"
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-
-// PrintDecryptedKeys retrieves and prints the decrypted keys along with their 
+// PrintDecryptedKeys retrieves and prints the decrypted keys along with their
 // metadata.
 //
-// The `secrets` function should return a structure with an `Algorithm` field 
+// The `secrets` function should return a structure with an `Algorithm` field
 // and a `Secrets` field.
-// Each element in the `Secrets` slice should have a `Name`, `EncryptedValue`, 
+// Each element in the `Secrets` slice should have a `Name`, `EncryptedValue`,
 // `Created`, and `Updated` field.
 // The `crypto.Decrypt` function is used to decrypt the encrypted values.
 func PrintDecryptedKeys() {

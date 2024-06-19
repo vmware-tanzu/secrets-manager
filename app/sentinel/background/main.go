@@ -33,7 +33,7 @@ func main() {
 		string(constants.VSecMLogLevel),
 	})
 
-	go probe.CreateLiveness()
+	<-probe.CreateLiveness()
 	go rpc.CreateLogServer()
 
 	log.InfoLn(&id, "Executing the initialization commands (if any)")
