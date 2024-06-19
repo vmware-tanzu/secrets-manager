@@ -125,7 +125,9 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 			len(insertion.K8sSecretUpsertQueue),
 			"cap", cap(insertion.K8sSecretUpsertQueue),
 		)
+
 		insertion.K8sSecretUpsertQueue <- secretStored
+
 		log.TraceLn(
 			&cid,
 			"UpsertSecret: pushed Kubernetes secret. len",

@@ -315,7 +315,7 @@ func TestSafeFipsCompliant(t *testing.T) {
 //			want: data.File,
 //		},
 //		{
-//			name: "safe_backing_store_from_env_meomry",
+//			name: "safe_backing_store_from_env_memory",
 //			setup: func() error {
 //				return os.Setenv("VSECM_SAFE_BACKING_STORE", "memory")
 //			},

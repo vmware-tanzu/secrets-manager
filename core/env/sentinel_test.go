@@ -56,7 +56,7 @@ func TestInitCommandPathForSentinel(t *testing.T) {
 				t.Errorf("Expected %s, but got %s", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_PATH")
+			_ = os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_PATH")
 		})
 	}
 }
@@ -106,7 +106,7 @@ func TestInitCommandRunnerWaitBeforeExecIntervalForSentinel(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
+			_ = os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC")
 		})
 	}
 }
@@ -156,7 +156,7 @@ func TestInitCommandRunnerWaitIntervalBeforeInitComplete(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE")
+			_ = os.Unsetenv("VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE")
 		})
 	}
 }
@@ -201,7 +201,7 @@ func TestOIDCProviderBaseUrlForSentinel(t *testing.T) {
 				t.Errorf("Expected %s, but got %s", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL")
+			_ = os.Unsetenv("VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL")
 		})
 	}
 }
@@ -251,7 +251,7 @@ func TestSentinelEnableOIDCResourceServer(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
+			_ = os.Unsetenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
 		})
 	}
 }

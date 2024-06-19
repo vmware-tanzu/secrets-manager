@@ -8,4 +8,12 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package startup
+
+import "github.com/vmware-tanzu/secrets-manager/sdk/sentry"
+
+func initialized() bool {
+	r, _ := sentry.Fetch()
+	v := r.Data
+	return v != ""
+}

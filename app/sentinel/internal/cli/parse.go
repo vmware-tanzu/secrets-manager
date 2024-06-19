@@ -8,24 +8,24 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package cli
 
 import "github.com/akamensky/argparse"
 
-func parseList(parser *argparse.Parser) *bool {
+func ParseList(parser *argparse.Parser) *bool {
 	return parser.Flag("l", "list", &argparse.Options{
 		Required: false, Help: "lists all registered workloads",
 	})
 }
 
-func parseDeleteSecret(parser *argparse.Parser) *bool {
+func ParseDeleteSecret(parser *argparse.Parser) *bool {
 	return parser.Flag("d", "delete", &argparse.Options{
 		Required: false, Default: false,
 		Help: "delete the secret associated with the workload",
 	})
 }
 
-func parseAppendSecret(parser *argparse.Parser) *bool {
+func ParseAppendSecret(parser *argparse.Parser) *bool {
 	return parser.Flag("a", "append", &argparse.Options{
 		Required: false, Default: false,
 		Help: "append the secret to the existing secret collection" +
@@ -33,14 +33,14 @@ func parseAppendSecret(parser *argparse.Parser) *bool {
 	})
 }
 
-func parseNamespaces(parser *argparse.Parser) *[]string {
+func ParseNamespaces(parser *argparse.Parser) *[]string {
 	return parser.StringList("n", "namespace", &argparse.Options{
 		Required: false, Default: []string{"default"},
 		Help: "the namespaces of the workloads or Kubernetes secrets",
 	})
 }
 
-func parseInputKeys(parser *argparse.Parser) *string {
+func ParseInputKeys(parser *argparse.Parser) *string {
 	return parser.String("i", "input-keys", &argparse.Options{
 		Required: false,
 		Help: "A string containing the private and public " +
@@ -48,7 +48,7 @@ func parseInputKeys(parser *argparse.Parser) *string {
 	})
 }
 
-func parseWorkload(parser *argparse.Parser) *[]string {
+func ParseWorkload(parser *argparse.Parser) *[]string {
 	return parser.StringList("w", "workload", &argparse.Options{
 		Required: false,
 		Help: "name of the workload (i.e. the '$name' segment of its " +
@@ -56,21 +56,21 @@ func parseWorkload(parser *argparse.Parser) *[]string {
 	})
 }
 
-func parseSecret(parser *argparse.Parser) *string {
+func ParseSecret(parser *argparse.Parser) *string {
 	return parser.String("s", "secret", &argparse.Options{
 		Required: false,
 		Help:     "the secret to store for the workload",
 	})
 }
 
-func parseTemplate(parser *argparse.Parser) *string {
+func ParseTemplate(parser *argparse.Parser) *string {
 	return parser.String("t", "template", &argparse.Options{
 		Required: false,
 		Help:     "the template used to transform the secret stored",
 	})
 }
 
-func parseFormat(parser *argparse.Parser) *string {
+func ParseFormat(parser *argparse.Parser) *string {
 	return parser.String("f", "format", &argparse.Options{
 		Required: false,
 		Help: "the format to display the secrets in." +
@@ -79,7 +79,7 @@ func parseFormat(parser *argparse.Parser) *string {
 	})
 }
 
-func parseEncrypt(parser *argparse.Parser) *bool {
+func ParseEncrypt(parser *argparse.Parser) *bool {
 	return parser.Flag("e", "encrypt", &argparse.Options{
 		Required: false, Default: false,
 		Help: "returns an encrypted version of the secret if used with " +
@@ -88,14 +88,14 @@ func parseEncrypt(parser *argparse.Parser) *bool {
 	})
 }
 
-func parseExpires(parser *argparse.Parser) *string {
+func ParseExpires(parser *argparse.Parser) *string {
 	return parser.String("E", "exp", &argparse.Options{
 		Required: false, Default: "never",
 		Help: "is the expiration date of the secret",
 	})
 }
 
-func parseNotBefore(parser *argparse.Parser) *string {
+func ParseNotBefore(parser *argparse.Parser) *string {
 	return parser.String("N", "nbf", &argparse.Options{
 		Required: false, Default: "now",
 		Help: "secret is not valid before this time",

@@ -21,7 +21,7 @@ weight = 15
 
 The readability and maintainability of code are critical to the efficient 
 development and long-term viability of our software projects. Historically, 
-keeping line lengths to about 80 characters has been a standard practice in 
+keeping line lengths to **about 80 characters** has been a standard practice in 
 software development. This limit was originally adopted due to the physical 
 constraints of hardware, like monitors and printed code reviews, which handled 
 80 characters per line optimally. 
@@ -86,6 +86,9 @@ technologies allow developers to utilize wider screens effectively.
 
 Chosen option: "option 1", because maintaining the 80-character limit provides
 significant benefits in terms of readability, reviewability, and accessibility.
+
+When calculating the line length, the tab character will be considered as
+**two** characters.
 
 ### Positive Consequences
 

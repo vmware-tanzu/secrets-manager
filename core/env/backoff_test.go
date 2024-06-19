@@ -61,7 +61,7 @@ func TestBackoffMaxRetries(t *testing.T) {
 				t.Errorf("Expected %d, but got %d", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_BACKOFF_MAX_RETRIES")
+			_ = os.Unsetenv("VSECM_BACKOFF_MAX_RETRIES")
 		})
 	}
 }
@@ -110,7 +110,7 @@ func TestBackoffDelay(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_BACKOFF_DELAY")
+			_ = os.Unsetenv("VSECM_BACKOFF_DELAY")
 		})
 	}
 }
@@ -165,7 +165,7 @@ func TestBackoffMode(t *testing.T) {
 				t.Errorf("Expected %s, but got %s", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_BACKOFF_MODE")
+			_ = os.Unsetenv("VSECM_BACKOFF_MODE")
 		})
 	}
 }
@@ -215,7 +215,7 @@ func TestBackoffMaxDuration(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			os.Unsetenv("VSECM_BACKOFF_MAX_WAIT")
+			_ = os.Unsetenv("VSECM_BACKOFF_MAX_WAIT")
 		})
 	}
 }

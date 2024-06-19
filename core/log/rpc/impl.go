@@ -11,7 +11,7 @@
 package rpc
 
 import (
-	level "github.com/vmware-tanzu/secrets-manager/core/log/level"
+	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 )
 
 // FatalLn logs a fatal message with the provided correlationId and message

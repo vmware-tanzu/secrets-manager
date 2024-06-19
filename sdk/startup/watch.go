@@ -17,14 +17,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
-
-func initialized() bool {
-	r, _ := sentry.Fetch()
-	v := r.Data
-	return v != ""
-}
 
 // Watch continuously polls the associated secret of the workload to exist.
 // If the secret exists, and it is not empty, the function exits the init

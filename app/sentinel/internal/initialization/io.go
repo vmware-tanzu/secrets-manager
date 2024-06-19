@@ -120,12 +120,10 @@ dance:
 			continue
 		}
 
-		log.TraceLn(cid, "command found")
-
 		key := parts[0]
 		value := parts[1]
 
-		log.TraceLn(cid, "key", key, "value", value)
+		log.TraceLn(cid, "command found.", "key", key, "value", value)
 
 		switch command(key) {
 		case exit:

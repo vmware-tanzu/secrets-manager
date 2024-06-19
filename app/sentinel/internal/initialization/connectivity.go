@@ -12,8 +12,8 @@ package initialization
 
 import (
 	"context"
-
 	"errors"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
@@ -29,18 +29,15 @@ func ensureApiConnectivity(ctx context.Context, cid *string) {
 		"RunInitCommands:CheckConnectivity",
 		func() error {
 			log.TraceLn(cid,
-				"RunInitCommands:CheckConnectivity"+
-					": checking connectivity to safe")
+				"RunInitCommands:CheckConnectivity: checking connectivity to safe")
 
 			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
 				log.TraceLn(cid,
-					"RunInitCommands:CheckConnectivity"+
-						": failed to acquire source.")
+					"RunInitCommands:CheckConnectivity: failed to acquire source.")
 
 				return errors.New(
-					"RunInitCommands:CheckConnectivity" +
-						": failed to acquire source")
+					"RunInitCommands:CheckConnectivity: failed to acquire source")
 			}
 
 			log.TraceLn(cid,

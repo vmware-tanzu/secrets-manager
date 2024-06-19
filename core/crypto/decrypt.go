@@ -16,11 +16,11 @@ import (
 	"crypto/cipher"
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"io"
 	"os"
 	"path"
 
-	"errors"
 	"filippo.io/age"
 
 	"github.com/vmware-tanzu/secrets-manager/core/env"

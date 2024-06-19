@@ -11,8 +11,9 @@
 package level
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"sync"
+
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 // Level represents log levels.

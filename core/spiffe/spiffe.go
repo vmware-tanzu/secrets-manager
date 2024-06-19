@@ -12,9 +12,9 @@ package spiffe
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
-	"errors"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -65,6 +65,27 @@ func IdFromRequest(r *http.Request) (*spiffeid.ID, error) {
 	return &id, nil
 }
 
+// IdAsString retrieves the SPIFFE ID from an HTTP request and returns it as
+// a string.
+//
+// Parameters:
+// - cid: A string representing the context identifier.
+// - r: A pointer to an http.Request from which the SPIFFE ID will be extracted.
+//
+// Returns:
+//   - A string representing the SPIFFE ID if it can be successfully retrieved;
+//     otherwise, an empty string.
+//
+// If the SPIFFE ID cannot be retrieved from the request, it logs an
+// informational message and returns an empty string.
+//
+// Example usage:
+//
+//	func handler(w http.ResponseWriter, r *http.Request) {
+//	    cid := "exampleContextID"
+//	    spiffeID := IdAsString(cid, r)
+//	    fmt.Fprintf(w, "SPIFFE ID: %s", spiffeID)
+//	}
 func IdAsString(cid string, r *http.Request) string {
 	sr, err := IdFromRequest(r)
 	if err != nil {

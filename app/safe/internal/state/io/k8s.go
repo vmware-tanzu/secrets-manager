@@ -12,9 +12,9 @@ package io
 
 import (
 	"context"
+	"errors"
 	"strings"
 
-	"errors"
 	apiV1 "k8s.io/api/core/v1"
 	kErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -121,6 +121,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 					return err
 				},
 			)
+
 			if err != nil {
 				return errors.Join(
 					err,
@@ -133,7 +134,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 		// Secret is found in the cluster.
 
-		// Update the Secret in the cluster
+		// Update the Secret in the cluster:
 		err = backoff.RetryFixed(
 			ns,
 			func() error {

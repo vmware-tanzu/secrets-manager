@@ -10,6 +10,7 @@
 
 package data
 
+// SecretFormat represents the format of the secret.
 type SecretFormat string
 
 var (

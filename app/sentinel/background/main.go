@@ -13,7 +13,7 @@ package main
 import (
 	"context"
 
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/background/initialization"
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/server"
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
@@ -33,7 +33,7 @@ func main() {
 		string(constants.VSecMLogLevel),
 	})
 
-	go probe.CreateLiveness()
+	<-probe.CreateLiveness()
 	go rpc.CreateLogServer()
 
 	log.InfoLn(&id, "Executing the initialization commands (if any)")

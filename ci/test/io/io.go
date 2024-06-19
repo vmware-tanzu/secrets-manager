@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-// WaitForExampleWorkload is a placeholder for the workload readiness check.
+// Wait is a placeholder for the workload readiness check.
 // Placeholder for the workload readiness check. Replace this with your actual readiness check logic.
 func Wait(seconds time.Duration) error {
 	// This is a simplification. In a real scenario, you would check the workload's readiness more robustly.

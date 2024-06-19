@@ -10,6 +10,8 @@
 
 package data
 
+// VSecMInternalCommand is the command that VSecM uses to perform
+// internal operations.
 type VSecMInternalCommand struct {
 	LogLevel int `json:"logLevel"`
 }

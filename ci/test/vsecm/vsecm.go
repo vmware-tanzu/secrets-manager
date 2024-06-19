@@ -11,11 +11,10 @@
 package vsecm
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 	"time"
-
-	"errors"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 )

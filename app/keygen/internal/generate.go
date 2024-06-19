@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package main
+package internal
 
 import (
 	"fmt"
@@ -16,7 +16,9 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 )
 
-func printGeneratedKeys() {
+// PrintGeneratedKeys generates a new collection of root keys and prints the 
+// combined key.
+func PrintGeneratedKeys() {
 	rkt, err := crypto.NewRootKeyCollection()
 
 	if err != nil {

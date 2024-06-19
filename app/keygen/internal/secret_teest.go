@@ -8,20 +8,4 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-syntax = "proto3";
-
-package log;
-
-option go_package="/generated";
-
-service LogService {
-  rpc SendLog(LogRequest) returns (LogResponse){};
-}
-
-message LogRequest {
-  string message = 1;
-}
-
-message LogResponse {
-  string message = 1;
-}
+package internal

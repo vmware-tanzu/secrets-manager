@@ -29,7 +29,7 @@ func TestRootKeyStoreTypeForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_ROOT_KEY_STORE", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_ROOT_KEY_STORE", test.envValue)
 		if test.shouldPanic {
 			defer func() {
 				if r := recover(); r == nil {
@@ -56,7 +56,7 @@ func TestBackingStoreForSafe(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("VSECM_SAFE_BACKING_STORE", test.envValue)
+		_ = os.Setenv("VSECM_SAFE_BACKING_STORE", test.envValue)
 		if test.shouldPanic {
 			defer func() {
 				if r := recover(); r == nil {

@@ -18,8 +18,6 @@ COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-keygen \
-    ./app/keygen/cmd/decrypt.go \
-    ./app/keygen/cmd/generate.go \
     ./app/keygen/cmd/main.go
 
 # generate clean, final image for end users

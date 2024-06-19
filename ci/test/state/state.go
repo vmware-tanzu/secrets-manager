@@ -11,9 +11,8 @@
 package state
 
 import (
-	"fmt"
-
 	"errors"
+	"fmt"
 
 	"github.com/vmware-tanzu/secrets-manager/ci/test/io"
 	"github.com/vmware-tanzu/secrets-manager/ci/test/vsecm"

@@ -66,11 +66,11 @@ func TestProbeReadinessPort(t *testing.T) {
 		want    string
 	}{
 		{
-			name: "default_reaadiness_port_value",
+			name: "default_readiness_port_value",
 			want: ":8082",
 		},
 		{
-			name: "reaadiness_port_value_from_env",
+			name: "readiness_port_value_from_env",
 			setup: func() error {
 				return os.Setenv("VSECM_PROBE_READINESS_PORT", ":5052")
 			},

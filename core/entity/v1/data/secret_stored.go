@@ -45,7 +45,7 @@ type SecretStored struct {
 
 // ToMapForK8s returns a map that can be used to create a Kubernetes secret.
 //
-//  1. If there is no template, attempt to unmarshal the secret'ss value
+//  1. If there is no template, attempt to unmarshal the secret's value
 //     into a map. If that fails, store the secret's value under the "VALUE" key.
 //  2. If there is a template, attempt to parse it. If parsing is successful,
 //     create a new map with the parsed data. If parsing fails, follow the same

@@ -21,7 +21,9 @@ func main() {
 	if err != nil {
 		msg := err.Error()
 
-		if strings.Contains(msg, "Secret does not exist") {
+		if strings.Contains(strings.ToLower(msg),
+			"secret does not exist",
+		) {
 			fmt.Print("NO_SECRET")
 			return
 		}

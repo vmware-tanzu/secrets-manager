@@ -17,6 +17,21 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/engine"
 )
 
+// Serve initializes and starts an HTTP server for VSecM Sentinel.
+//
+// This function sets up an HTTP server with a multiplexer for handling requests.
+// It specifically registers the "/secrets" endpoint with the HandleSecrets
+// function from the engine package.
+//
+// Example usage:
+//
+//	Serve() // This will start the server and listen for incoming requests.
+//
+// Details:
+//   - mux: An HTTP request multiplexer that routes incoming requests to the
+//     registered handler functions.
+//   - HandleSecrets: A function from the engine package that processes
+//     requests to the "/secrets" endpoint.
 func Serve() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/secrets", engine.HandleSecrets)

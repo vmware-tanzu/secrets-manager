@@ -11,16 +11,16 @@
 package env
 
 import (
-	// "github.com/vmware-tanzu/secrets-manager/core/backoff"
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // Redefine some constants to avoid import cycle.
 
-// Mode.
+// Mode is the type for backoff mode.
 type Mode string
 
 var Exponential Mode = "exponential"
