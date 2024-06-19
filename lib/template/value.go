@@ -8,11 +8,13 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package crypto
+package template
 
-import "errors"
+import (
+	"errors"
+)
 
-// GenerateValue creates a string based on a template with embedded generator
+// Value creates a string based on a template with embedded generator
 // expressions. The generator expressions specify character ranges and lengths
 // for random string parts.
 //
@@ -52,7 +54,7 @@ import "errors"
 //	2024/01/04 06:37:30 result3=passlRxDTdMz
 //	2024/01/04 06:37:30 result4=; err=invalid range specified: z-a
 //	2024/01/04 06:37:30 result5=football73579557bartender
-func GenerateValue(template string) (string, error) {
+func Value(template string) (string, error) {
 	result := template
 
 	matches := generatorsExp.FindAllStringIndex(template, -1)

@@ -17,6 +17,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/lib/template"
 	"net/http"
 	"net/url"
 	"strings"
@@ -25,7 +26,6 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
@@ -181,7 +181,7 @@ func Post(parentContext context.Context,
 			sc.Secret = strings.Replace(
 				sc.Secret, env.SecretGenerationPrefix(), "", 1,
 			)
-			newSecret, err := crypto.GenerateValue(sc.Secret)
+			newSecret, err := template.Value(sc.Secret)
 			if err != nil {
 				sc.Secret = "ParseError:" + sc.Secret
 			} else {

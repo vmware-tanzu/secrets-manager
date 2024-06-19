@@ -8,7 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package crypto
+package template
 
 import "testing"
 
@@ -57,18 +57,18 @@ func TestGenerateValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GenerateValue(tt.args.template)
+			got, err := Value(tt.args.template)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("GenerateValue() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("Value() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if tt.wantErr {
 				if err.Error() != tt.errorOutput {
-					t.Errorf("GenerateValue() error = %v, wantErr %v", err, tt.wantErr)
+					t.Errorf("Value() error = %v, wantErr %v", err, tt.wantErr)
 					return
 				}
 			}
-			t.Logf("GenerateValue() = %v", got)
+			t.Logf("Value() = %v", got)
 		})
 	}
 }

@@ -50,7 +50,7 @@ func Delete(
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(
-				&cid, "Delete: Problem sending response", 
+				&cid, "Delete: Problem sending response",
 				err.Error())
 		}
 
@@ -83,8 +83,8 @@ func Delete(
 
 		if err != nil {
 			log.InfoLn(
-				&cid, 
-				"Delete: Problem sending response", 
+				&cid,
+				"Delete: Problem sending response",
 				err.Error())
 		}
 
@@ -99,7 +99,7 @@ func Delete(
 		err := b.Close()
 		if err != nil {
 			log.InfoLn(
-				&cid, 
+				&cid,
 				"Delete: Problem closing body", err.Error())
 		}
 	}(r.Body)
@@ -110,7 +110,7 @@ func Delete(
 	err = json.Unmarshal(body, &sr)
 	if err != nil {
 		log.DebugLn(&cid,
-			"Delete: Error unmarshalling request body", 
+			"Delete: Error unmarshalling request body",
 			err.Error())
 
 		j.Event = event.RequestTypeMismatch
@@ -120,8 +120,8 @@ func Delete(
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(
-				&cid, 
-				"Delete: Problem sending response", 
+				&cid,
+				"Delete: Problem sending response",
 				err.Error())
 		}
 
@@ -138,7 +138,7 @@ func Delete(
 		journal.Log(j)
 
 		log.TraceLn(
-			&cid, 
+			&cid,
 			"Delete: Exiting from empty workload ids case")
 
 		return
@@ -163,7 +163,7 @@ func Delete(
 	_, err = io.WriteString(w, "OK")
 	if err != nil {
 		log.InfoLn(
-			&cid, 
+			&cid,
 			"Delete: Problem sending response", err.Error())
 	}
 }

@@ -12,6 +12,7 @@ package sentry
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
@@ -22,7 +23,7 @@ import (
 // the location defined in the `VSECM_SIDECAR_SECRETS_PATH` environment
 // variable (`/opt/vsecm/secrets.json` by default).
 func Watch() {
-	interval := backoff.InitialInterval
+	interval := env.PollIntervalForSidecar()
 
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {

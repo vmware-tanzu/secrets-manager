@@ -15,7 +15,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/system"
+	"github.com/vmware-tanzu/secrets-manager/lib/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/startup"
 )
 
