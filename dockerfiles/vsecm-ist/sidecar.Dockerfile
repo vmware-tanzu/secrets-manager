@@ -13,6 +13,7 @@ FROM golang:1.22.3-alpine3.19 as builder
 RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
+COPY lib /build/lib
 COPY sdk /build/sdk
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
