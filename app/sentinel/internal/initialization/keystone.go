@@ -12,8 +12,8 @@ package initialization
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )

@@ -14,13 +14,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	v1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"

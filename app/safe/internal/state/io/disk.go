@@ -11,9 +11,9 @@
 package io
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 	"math"
 	"path"
 	"strconv"

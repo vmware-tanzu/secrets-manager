@@ -13,6 +13,7 @@ package io
 import (
 	"context"
 	"errors"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 	"strings"
 
 	apiV1 "k8s.io/api/core/v1"
@@ -21,7 +22,6 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
