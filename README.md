@@ -190,6 +190,7 @@ Here are the important folders and files in this repository:
     * `./app/sentinel`: Contains the source code for the **VSecM Sentinel**.
     * `./app/sidecar`: Contains the source code for the **VSecM Sidecar**.
 * `./ci`: Automation and CI/CD scripts.
+* `./lib`: Contains independent code that can be used in other projects too.
 * `./helm-charts`: Contains **VSecM** helm charts.
 * `./core`: Contains core modules shared across **VSecM** components.
 * `./dockerfiles`: Contains Dockerfiles for building **VSecM** container images.
