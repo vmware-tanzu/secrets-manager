@@ -21,24 +21,15 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-func secrets() entity.SecretEncryptedListResponse {
-	p := env.ExportedSecretPathForKeyGen()
 
-	content, err := os.ReadFile(p)
-	if err != nil {
-		log.Fatalf("Error reading file: %v", err)
-	}
-
-	var secrets entity.SecretEncryptedListResponse
-
-	err = json.Unmarshal(content, &secrets)
-	if err != nil {
-		log.Fatalf("Error unmarshalling JSON: %v", err)
-	}
-
-	return secrets
-}
-
+// PrintDecryptedKeys retrieves and prints the decrypted keys along with their 
+// metadata.
+//
+// The `secrets` function should return a structure with an `Algorithm` field 
+// and a `Secrets` field.
+// Each element in the `Secrets` slice should have a `Name`, `EncryptedValue`, 
+// `Created`, and `Updated` field.
+// The `crypto.Decrypt` function is used to decrypt the encrypted values.
 func PrintDecryptedKeys() {
 	ss := secrets()
 

@@ -34,6 +34,46 @@ import (
 
 var seed = time.Now().UnixNano()
 
+// Post handles the posting of secrets to the VSecM Safe API using the
+// provided SentinelCommand.
+//
+// This function performs the following steps:
+//  1. Creates a context with a timeout based on the parent context and
+//     environment settings.
+//  2. Computes a hash of the secret for logging purposes if configured to do so.
+//  3. Acquires a workload source and proceeds only if the source acquisition
+//     is successful.
+//  4. Depending on the SentinelCommand, it either posts new secrets or deletes
+//     existing ones.
+//
+// Parameters:
+//   - parentContext: The parent context for the request, used for tracing and
+//     cancellation.
+//   - sc: The SentinelCommand containing details for the secret management
+//     operation.
+//
+// Returns:
+//   - An error if the operation fails, or nil if successful.
+//
+// Example usage:
+//
+//	parentContext := context.Background()
+//	sc := entity.SentinelCommand{
+//	    WorkloadIds:        []string{"workload1"},
+//	    Secret:             "my-secret",
+//	    Namespaces:         []string{"namespace1"},
+//	    SerializedRootKeys: "key1\nkey2\nkey3",
+//	}
+//	err := Post(parentContext, sc)
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//
+// Error Handling:
+//   - If the context times out or is canceled, it logs the error and returns
+//     an appropriate message.
+//   - If there is an error during source acquisition, secret generation, or
+//     payload processing, it returns an error with details.
 func Post(parentContext context.Context,
 	sc entity.SentinelCommand,
 ) error {

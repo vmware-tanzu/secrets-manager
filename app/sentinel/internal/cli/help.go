@@ -16,24 +16,12 @@ import (
 	"github.com/akamensky/argparse"
 )
 
+// PrintUsage prints the usage of the CLI.
 func PrintUsage(parser *argparse.Parser) {
 	fmt.Print(parser.Usage("safe"))
 }
 
-func printWorkloadNameNeeded() {
-	fmt.Println("Please provide a workload name.")
-	fmt.Println("")
-	fmt.Println("type `safe -h` (without backticks) and press return for help.")
-	fmt.Println("")
-}
-
-func printSecretNeeded() {
-	fmt.Println("Please provide a secret.")
-	fmt.Println("")
-	fmt.Println("type `safe -h` (without backticks) and press return for help.")
-	fmt.Println("")
-}
-
+// InputValidationFailure checks if the input provided by the user is valid.
 func InputValidationFailure(
 	workload *[]string, encrypt *bool, inputKeys *string,
 	secret *string, deleteSecret *bool) bool {

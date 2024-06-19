@@ -52,7 +52,9 @@ func Fetch(
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "")
 		if err != nil {
-			log.InfoLn(&cid, "Status: problem sending response", spiffeid)
+			log.InfoLn(
+				&cid, 
+				"Status: problem sending response", spiffeid)
 		}
 
 		return
@@ -94,7 +96,8 @@ func Fetch(
 	secret, err := collection.ReadSecret(cid, workloadId)
 	if err != nil {
 		log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
-		log.TraceLn(&cid, "Likely expected error. No need to panic:", err.Error())
+		log.TraceLn(&cid, 
+			"Likely expected error. No need to panic:", err.Error())
 	}
 
 	log.TraceLn(&cid, "Fetch: workloadId", workloadId)
@@ -113,8 +116,10 @@ func Fetch(
 	// Choosing it to be consistent.
 	sfr := reqres.SecretFetchResponse{
 		Data:    value,
-		Created: fmt.Sprintf("\"%s\"", secret.Created.Format(time.RFC3339)),
-		Updated: fmt.Sprintf("\"%s\"", secret.Updated.Format(time.RFC3339)),
+		Created: fmt.Sprintf("\"%s\"", 
+			secret.Created.Format(time.RFC3339)),
+		Updated: fmt.Sprintf("\"%s\"", 
+			secret.Updated.Format(time.RFC3339)),
 	}
 
 	handle.SuccessResponse(cid, w, j, sfr)

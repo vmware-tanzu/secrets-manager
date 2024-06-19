@@ -21,6 +21,7 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
+// SecretRequest encapsulates a VSecM Safe REST command payload.
 type SecretRequest struct {
 	Workloads          []string `json:"workload"`
 	Secret             string   `json:"secret"`
@@ -36,6 +37,48 @@ type SecretRequest struct {
 	Expires            string   `json:"exp,omitempty"`
 }
 
+// HandleCommandSecrets processes HTTP requests related to secret management.
+//
+// This function handles both listing and modifying secrets based on the
+// provided SecretRequest.
+// It ensures that the request is authorized using JWT and processes
+// the request accordingly.
+//
+// Parameters:
+//   - w: The HTTP response writer to send the response.
+//   - r: The HTTP request being processed.
+//   - req: A pointer to a SecretRequest struct containing the details of the
+//     secret management request.
+//
+// The function performs the following steps:
+//  1. Generates a unique correlation ID for the request.
+//  2. Creates a context with the correlation ID for logging and tracing.
+//  3. Checks if the request is authorized using JWT.
+//  4. If the request is authorized, it processes the request based on the
+//     `req.List` flag.
+//     - If `req.List` is true, it retrieves and sends the list of secrets.
+//     - If `req.List` is false, it validates the input and performs the
+//     requested secret management action (e.g., create, update, delete).
+//
+// The function returns appropriate HTTP status codes and messages in case
+// of errors.
+//
+// Example usage:
+//
+//	req := &SecretRequest{
+//	    List:       true,
+//	    Encrypt:    false,
+//	    Workloads:  []string{"workload1"},
+//	    Secret:     "my-secret",
+//	    Namespaces: []string{"namespace1"},
+//	}
+//	HandleCommandSecrets(w, r, req)
+//
+// Error Handling:
+//   - If the request is not authorized, it returns a 400 Bad Request status
+//     with an appropriate message.
+//   - If there is an error during secret retrieval or modification, it returns
+//     a 500 Internal Server Error status with the error message.
 func HandleCommandSecrets(
 	w http.ResponseWriter, r *http.Request, req *SecretRequest,
 ) {

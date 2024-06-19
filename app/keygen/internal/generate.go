@@ -16,6 +16,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 )
 
+// PrintGeneratedKeys generates a new collection of root keys and prints the 
+// combined key.
 func PrintGeneratedKeys() {
 	rkt, err := crypto.NewRootKeyCollection()
 

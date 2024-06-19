@@ -8,13 +8,4 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package data
-
-// InitStatus is the initialization status of VSecM Sentinel
-// and other VSecM components.
-type InitStatus string
-
-var (
-	Pending InitStatus = "pending"
-	Ready   InitStatus = "ready"
-)
+package internal

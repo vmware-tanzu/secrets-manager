@@ -8,13 +8,12 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package data
+package startup
 
-// InitStatus is the initialization status of VSecM Sentinel
-// and other VSecM components.
-type InitStatus string
+import "github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 
-var (
-	Pending InitStatus = "pending"
-	Ready   InitStatus = "ready"
-)
+func initialized() bool {
+	r, _ := sentry.Fetch()
+	v := r.Data
+	return v != ""
+}

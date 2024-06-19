@@ -29,6 +29,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
+// ErrSecretNotFound is returned when the secret is not found.
 var ErrSecretNotFound = errors.New("secret does not exist")
 
 // Fetch fetches the up-to-date secret that has been registered to the workload.

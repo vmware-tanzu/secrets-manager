@@ -40,7 +40,9 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		id, err := spiffe.IdFromRequest(r)
 
 		if err != nil {
-			log.WarnLn(&cid, "Handler: blocking insecure svid", id, err)
+			log.WarnLn(
+				&cid, 
+				"Handler: blocking insecure svid", id, err)
 			return
 		}
 
@@ -48,7 +50,9 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 
 		p := r.URL.Path
 		m := r.Method
-		log.DebugLn(&cid, "Handler: got svid:", sid, "path", p, "method", m)
+		log.DebugLn(
+			&cid, 
+			"Handler: got svid:", sid, "path", p, "method", m)
 
 		switch {
 		case routeSentinelGetKeystone(cid, r, w):

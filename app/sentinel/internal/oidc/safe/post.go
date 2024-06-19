@@ -28,7 +28,52 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-func Post(parentContext context.Context, r *http.Request, sc data.SentinelCommand) (string, error) {
+// Post handles the HTTP POST request for secret management using the provided
+// SentinelCommand.
+//
+// This function performs the following steps:
+//  1. Creates a context with a timeout based on the parent context and
+//     environment settings.
+//  2. Acquires a workload source and proceeds only if the source acquisition
+//     is successful.
+//  3. Depending on the SentinelCommand, it either posts new secrets or deletes
+//     existing ones.
+//
+// Parameters:
+//   - parentContext: The parent context for the request, used for tracing and
+//     cancellation.
+//   - r: The HTTP request being processed.
+//   - sc: The SentinelCommand containing details for the secret management
+//     operation.
+//
+// Returns:
+//   - A string representing the response body or an error if the operation
+//     fails.
+//
+// Example usage:
+//
+//	parentContext := context.Background()
+//	r, _ := http.NewRequest("POST", "http://example.com", nil)
+//	sc := data.SentinelCommand{
+//	    WorkloadIds:        []string{"workload1"},
+//	    Secret:             "my-secret",
+//	    Namespaces:         []string{"namespace1"},
+//	    SerializedRootKeys: "key1\nkey2\nkey3",
+//	}
+//	response, err := Post(parentContext, r, sc)
+//	if err != nil {
+//	    log.Fatal(err)
+//	}
+//	fmt.Println(response)
+//
+// Error Handling:
+//   - If the context times out or is canceled, it logs the error and returns
+//     an appropriate message.
+//   - If there is an error during source acquisition, secret generation, or
+//     payload processing, it returns an error with details.
+func Post(
+	parentContext context.Context, r *http.Request, sc data.SentinelCommand,
+) (string, error) {
 	ctxWithTimeout, cancel := context.WithTimeout(
 		parentContext,
 		env.SourceAcquisitionTimeoutForSafe(),
@@ -48,8 +93,11 @@ func Post(parentContext context.Context, r *http.Request, sc data.SentinelComman
 	select {
 	case <-ctxWithTimeout.Done():
 		if errors.Is(ctxWithTimeout.Err(), context.DeadlineExceeded) {
-			log.Println(cid, "Post: I cannot execute command because I cannot talk to SPIRE.")
-			return "", fmt.Errorf("post: I cannot execute command because I cannot talk to SPIRE")
+			log.Println(cid,
+				"Post: I cannot execute command because I cannot talk to SPIRE.")
+			return "",
+				fmt.Errorf(
+					"post: I cannot execute command because I cannot talk to SPIRE")
 		}
 
 		log.Println(cid, "Post: Operation was cancelled due to an unknown reason.")
@@ -87,7 +135,8 @@ func Post(parentContext context.Context, r *http.Request, sc data.SentinelComman
 
 			parts := strings.Split(sc.SerializedRootKeys, "\n")
 			if len(parts) != 3 {
-				return "", printPayloadError(cid, errors.New("post: Bad data! Very bad data"))
+				return "", printPayloadError(
+					cid, errors.New("post: Bad data! Very bad data"))
 			}
 
 			sr := newInputKeysRequest(parts[0], parts[1], parts[2])
