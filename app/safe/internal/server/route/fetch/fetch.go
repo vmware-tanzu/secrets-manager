@@ -53,7 +53,7 @@ func Fetch(
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(
-				&cid, 
+				&cid,
 				"Status: problem sending response", spiffeid)
 		}
 
@@ -96,7 +96,7 @@ func Fetch(
 	secret, err := collection.ReadSecret(cid, workloadId)
 	if err != nil {
 		log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
-		log.TraceLn(&cid, 
+		log.TraceLn(&cid,
 			"Likely expected error. No need to panic:", err.Error())
 	}
 
@@ -115,10 +115,10 @@ func Fetch(
 	// RFC3339 is what Go uses internally when marshaling dates.
 	// Choosing it to be consistent.
 	sfr := reqres.SecretFetchResponse{
-		Data:    value,
-		Created: fmt.Sprintf("\"%s\"", 
+		Data: value,
+		Created: fmt.Sprintf("\"%s\"",
 			secret.Created.Format(time.RFC3339)),
-		Updated: fmt.Sprintf("\"%s\"", 
+		Updated: fmt.Sprintf("\"%s\"",
 			secret.Updated.Format(time.RFC3339)),
 	}
 

@@ -12,10 +12,10 @@ package initialization
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	"github.com/vmware-tanzu/secrets-manager/core/backoff"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 

@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/lib/system"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/server"
@@ -21,7 +22,6 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
-	"github.com/vmware-tanzu/secrets-manager/core/system"
 )
 
 func main() {

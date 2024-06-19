@@ -55,6 +55,7 @@ func BadSvidResponse(
 //   - cid (string): Correlation ID for operation tracing and logging.
 //   - w (http.ResponseWriter): The HTTP response writer to send back the
 //     response.
+//
 // - spiffeid (string): The peer's SPIFFE ID that was found to be invalid.
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadPeerSvidResponse(

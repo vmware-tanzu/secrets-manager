@@ -13,7 +13,7 @@ package main
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/system"
+	"github.com/vmware-tanzu/secrets-manager/lib/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
 

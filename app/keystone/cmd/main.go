@@ -12,13 +12,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/lib/system"
 	sys "log"
 	"os"
 
 	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/system"
 )
 
 func main() {
