@@ -22,6 +22,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/cli"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
@@ -36,7 +37,8 @@ func main() {
 	)
 
 	ctx, cancel := context.WithCancel(
-		context.WithValue(context.Background(), "correlationId", &id),
+		context.WithValue(context.Background(),
+			key.CorrelationId, &id),
 	)
 	defer cancel()
 

@@ -23,6 +23,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
@@ -56,7 +57,7 @@ import (
 func Get(
 	ctx context.Context, r *http.Request, showEncryptedSecrets bool,
 ) (string, error) {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 	log.Println(cid, "Get: start")
 
 	source, proceed := acquireSource(ctx)

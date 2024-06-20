@@ -16,6 +16,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/initialization"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/server"
 	e "github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log/rpc"
@@ -38,7 +39,8 @@ func main() {
 
 	log.InfoLn(&id, "Executing the initialization commands (if any)")
 
-	ctx := context.WithValue(context.Background(), "correlationId", &id)
+	ctx := context.WithValue(context.Background(),
+		key.CorrelationId, &id)
 
 	log.TraceLn(&id, "before RunInitCommands")
 
