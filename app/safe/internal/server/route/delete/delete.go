@@ -15,15 +15,15 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 // Delete handles the deletion of a secret identified by a workload ID.
@@ -41,7 +41,7 @@ import (
 func Delete(
 	cid string, w http.ResponseWriter, r *http.Request,
 ) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 
 	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Delete: Root key not set")
@@ -57,12 +57,12 @@ func Delete(
 		return
 	}
 
-	j := journal.Entry{
+	j := entity.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         event.Enter,
+		Event:         audit.Enter,
 	}
 
 	// Only sentinel can execute delete requests.
@@ -75,7 +75,7 @@ func Delete(
 
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		j.Event = event.BrokenBody
+		j.Event = audit.BrokenBody
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -113,7 +113,7 @@ func Delete(
 			"Delete: Error unmarshalling request body",
 			err.Error())
 
-		j.Event = event.RequestTypeMismatch
+		j.Event = audit.RequestTypeMismatch
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -134,7 +134,7 @@ func Delete(
 	if len(workloadIds) == 0 {
 		log.TraceLn(&cid, "Delete: Empty workload ids")
 
-		j.Event = event.NoWorkloadId
+		j.Event = audit.NoWorkloadId
 		journal.Log(j)
 
 		log.TraceLn(
@@ -157,7 +157,7 @@ func Delete(
 
 	log.DebugLn(&cid, "Delete:End: workloadIds:", workloadIds)
 
-	j.Event = event.Ok
+	j.Event = audit.Ok
 	journal.Log(j)
 
 	_, err = io.WriteString(w, "OK")

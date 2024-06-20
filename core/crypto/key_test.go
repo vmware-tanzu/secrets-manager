@@ -11,6 +11,7 @@
 package crypto
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"testing"
 )
 
@@ -51,7 +52,7 @@ func TestRootKeySetInMemory(t *testing.T) {
 }
 
 func TestRootKeyCollection_Combine(t *testing.T) {
-	rkt := RootKeyCollection{
+	rkt := data.RootKeyCollection{
 		PrivateKey: "private-key",
 		PublicKey:  "public-key",
 		AesSeed:    "aes-seed",
@@ -68,7 +69,7 @@ func TestRootKeyCollectionFromMemory(t *testing.T) {
 	SetRootKeyInMemory("private-key\npublic-key\naes-seed")
 	rkt := RootKeyCollectionFromMemory()
 
-	expected := RootKeyCollection{
+	expected := data.RootKeyCollection{
 		PrivateKey: "private-key",
 		PublicKey:  "public-key",
 		AesSeed:    "aes-seed",
@@ -80,7 +81,7 @@ func TestRootKeyCollectionFromMemory(t *testing.T) {
 
 	SetRootKeyInMemory("")
 	rkt = RootKeyCollectionFromMemory()
-	expected = RootKeyCollection{}
+	expected = data.RootKeyCollection{}
 
 	if rkt != expected {
 		t.Errorf("expected empty RootKeyCollection, got %v", rkt)

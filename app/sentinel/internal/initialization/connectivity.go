@@ -13,6 +13,7 @@ package initialization
 import (
 	"context"
 	"errors"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -71,10 +72,12 @@ func ensureApiConnectivity(ctx context.Context, cid *string) {
 }
 
 func ensureSourceAcquisition(
-	ctx context.Context, cid *string,
+	ctx context.Context,
 ) *workloadapi.X509Source {
 	// If `true`, instead of retrying with a backoff, kill the pod, and let the
 	// deployment controller restart it to initiate a new retry.
+
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	log.TraceLn(cid, "RunInitCommands: acquiring source 001")
 

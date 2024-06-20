@@ -14,10 +14,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 func ok(w http.ResponseWriter, _ *http.Request) {
-	_, err := fmt.Fprintf(w, "OK")
+	_, err := fmt.Fprintf(w, val.Ok)
 	if err != nil {
 		log.Printf("probe response failure: %s", err.Error())
 		return

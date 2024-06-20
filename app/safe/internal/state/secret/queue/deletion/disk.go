@@ -14,6 +14,7 @@ import (
 	"os"
 	"path"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/file"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -90,7 +91,7 @@ func ProcessSecretBackingStoreQueue() {
 			"processSecretDeleteQueue: picked a secret", len(SecretDeleteQueue))
 
 		// Remove secret from disk.
-		dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
+		dataPath := path.Join(env.DataPathForSafe(), secret.Name+file.AgeExtension)
 		log.TraceLn(&cid,
 			"processSecretDeleteQueue: removing secret from disk:", dataPath)
 		err := os.Remove(dataPath)

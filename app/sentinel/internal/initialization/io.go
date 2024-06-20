@@ -13,14 +13,16 @@ package initialization
 import (
 	"bufio"
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 	"os"
 	"strconv"
 	"strings"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
@@ -65,13 +67,13 @@ dance:
 			continue
 		}
 
-		parts := strings.SplitN(line, separator, 2)
+		parts := strings.SplitN(line, symbol.Separator, 2)
 
-		if len(parts) != 2 && line != delimiter {
+		if len(parts) != 2 && line != symbol.LineDelimiter {
 			continue
 		}
 
-		if line == delimiter {
+		if line == symbol.LineDelimiter {
 			log.TraceLn(cid, "scanner: delimiter found")
 			if sc.ShouldSleep {
 				doSleep(sc.SleepIntervalMs)
@@ -125,8 +127,8 @@ dance:
 
 		log.TraceLn(cid, "command found.", "key", key, "value", value)
 
-		switch command(key) {
-		case exit:
+		switch sentinel.Command(key) {
+		case sentinel.Exit:
 			// exit.
 			log.InfoLn(
 				cid,
@@ -138,29 +140,29 @@ dance:
 			// Move out of the loop to allow the keystone secret to be
 			// registered.
 			break dance
-		case workload:
-			sc.WorkloadIds = strings.SplitN(value, itemSeparator, -1)
-		case namespace:
-			sc.Namespaces = strings.SplitN(value, itemSeparator, -1)
-		case secret:
+		case sentinel.Workload:
+			sc.WorkloadIds = strings.SplitN(value, symbol.ItemSeparator, -1)
+		case sentinel.Namespace:
+			sc.Namespaces = strings.SplitN(value, symbol.ItemSeparator, -1)
+		case sentinel.Secret:
 			sc.Secret = value
-		case transformation:
+		case sentinel.Transformation:
 			sc.Template = value
-		case encrypt:
+		case sentinel.Encrypt:
 			sc.Encrypt = true
-		case remove:
+		case sentinel.Remove:
 			sc.DeleteSecret = true
-		case join:
+		case sentinel.Join:
 			sc.AppendSecret = true
-		case format:
+		case sentinel.Format:
 			sc.Format = value
-		case keys:
+		case sentinel.Keys:
 			sc.SerializedRootKeys = value
-		case notBefore:
+		case sentinel.NotBefore:
 			sc.NotBefore = value
-		case expires:
+		case sentinel.Expires:
 			sc.Expires = value
-		case sleep:
+		case sentinel.Sleep:
 			sc.ShouldSleep = true
 			intervalMs, err := strconv.Atoi(value)
 			if err != nil {

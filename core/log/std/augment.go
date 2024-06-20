@@ -14,6 +14,10 @@ import (
 	"os"
 	"runtime"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/core/log/level"
 )
 
 func updateInfoWithExpectedEnvVars(
@@ -33,6 +37,9 @@ func updateInfoWithExpectedEnvVars(
 }
 
 func appendAdditionalDetails(info map[string]string) {
-	info["ENVIRONMENT_VARIABLES"] = strings.Join(envVars(), ", ")
-	info["GO_VERSION"] = runtime.Version()
+	if env.LogLevel() >= int(level.Trace) {
+		info[key.EnvVars] = strings.Join(envVars(), ", ")
+	}
+
+	info[key.GoVersion] = runtime.Version()
 }

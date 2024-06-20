@@ -15,16 +15,16 @@ import (
 	"net/http"
 	"time"
 
-	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/http"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/json"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/state"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
+	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/http"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/json"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/state"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 // Secret handles the creation, updating, and management of secrets.
@@ -39,13 +39,14 @@ import (
 //   - spiffeid: A string representing the SPIFFE ID of the client making the
 //     request.
 func Secret(cid string, w http.ResponseWriter, r *http.Request) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 	if spiffeid == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		_, err := io.WriteString(w, "NOK!")
 		if err != nil {
 			log.ErrorLn(&cid, "error writing response", err.Error())
 		}
+
 		return
 	}
 
@@ -56,6 +57,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 			log.ErrorLn(&cid, "error writing response", err.Error())
 		}
 		log.InfoLn(&cid, "Secret: Root key not set")
+
 		return
 	}
 
@@ -65,6 +67,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 	// Only sentinel can do this.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
+
 		return
 	}
 
@@ -72,7 +75,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 
 	body, _ := httq.ReadBody(cid, r)
 	if body == nil {
-		j.Event = event.BadPayload
+		j.Event = audit.BadPayload
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -88,7 +91,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 
 	ur, _ := json.UnmarshalSecretUpsertRequest(body)
 	if ur == nil {
-		j.Event = event.BadPayload
+		j.Event = audit.BadPayload
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -129,7 +132,7 @@ func Secret(cid string, w http.ResponseWriter, r *http.Request) {
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if len(workloadIds) == 0 && !encrypt {
-		j.Event = event.NoWorkloadId
+		j.Event = audit.NoWorkloadId
 		journal.Log(j)
 
 		return

@@ -11,26 +11,18 @@
 package journal
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"net/http"
 
-	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
-
-type Entry struct {
-	CorrelationId string
-	Payload       string
-	Method        string
-	Url           string
-	SpiffeId      string
-	Event         state.Event
-}
 
 // Log prints an audit log entry to the standard output. The log entry includes
 // the correlation ID, event type, request method, request URI, SPIFFE ID, and
 // payload. The function is intended for use in logging and auditing
 // request-related events, providing a standardized format for capturing and
 // recording essential request handling information.
-func Log(e Entry) {
+func Log(e data.JournalEntry) {
 	printAudit(
 		e.CorrelationId, e.Event,
 		e.Method, e.Url, e.SpiffeId, e.Payload,
@@ -60,13 +52,14 @@ func Log(e Entry) {
 // audit trails, providing essential context about the request handling process.
 // It serves as a standardized format for capturing request-related information,
 // facilitating easier analysis and review of logged events.
-func CreateDefaultEntry(cid, spiffeid string,
-	r *http.Request) Entry {
-	return Entry{
+func CreateDefaultEntry(
+	cid, spiffeid string, r *http.Request,
+) data.JournalEntry {
+	return data.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         state.Enter,
+		Event:         audit.Enter,
 	}
 }

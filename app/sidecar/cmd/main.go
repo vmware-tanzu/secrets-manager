@@ -11,6 +11,7 @@
 package main
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/system"
@@ -22,7 +23,10 @@ func main() {
 	log.InfoLn(&id, "Starting VSecM Sidecar")
 
 	//Print the diagnostic information about the environment.
-	envVarsToPrint := []string{"APP_VERSION", "VSECM_LOG_LEVEL"}
+	envVarsToPrint := []string{
+		string(env.AppVersion),
+		string(env.VSecMLogLevel),
+	}
 	log.PrintEnvironmentInfo(&id, envVarsToPrint)
 
 	// Periodically update secret values:

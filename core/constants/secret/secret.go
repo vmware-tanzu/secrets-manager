@@ -8,4 +8,6 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package constants
+package secret
+
+const InitialValue = `{"empty":true}`

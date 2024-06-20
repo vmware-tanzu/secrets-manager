@@ -17,6 +17,7 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
@@ -85,7 +86,8 @@ func HandleCommandSecrets(
 	id := crypto.Id()
 
 	ctx, cancel := context.WithCancel(
-		context.WithValue(context.Background(), "correlationId", &id),
+		context.WithValue(context.Background(),
+			key.CorrelationId, &id),
 	)
 	defer cancel()
 

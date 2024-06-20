@@ -14,7 +14,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 // IvInitializationIntervalForSafe fetches the Initialization Vector (IV) interval
@@ -29,8 +30,8 @@ import (
 // Returns:
 // int: The IV initialization interval in milliseconds.
 func IvInitializationIntervalForSafe() int {
-	envInterval := constants.GetEnv(constants.VSecMSafeIvInitializationInterval)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeIvInitializationIntervalDefault))
+	envInterval := env.Value(env.VSecMSafeIvInitializationInterval)
+	d, _ := strconv.Atoi(string(env.VSecMSafeIvInitializationIntervalDefault))
 
 	if envInterval == "" {
 		return d
@@ -55,8 +56,8 @@ func IvInitializationIntervalForSafe() int {
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
 func SecretBufferSizeForSafe() int {
-	p := constants.GetEnv(constants.VSecMSafeSecretBufferSize)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeSecretBufferSizeDefault))
+	p := env.Value(env.VSecMSafeSecretBufferSize)
+	d, _ := strconv.Atoi(string(env.VSecMSafeSecretBufferSizeDefault))
 
 	if p == "" {
 		return d
@@ -82,8 +83,8 @@ func SecretBufferSizeForSafe() int {
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
 func K8sSecretBufferSizeForSafe() int {
-	p := constants.GetEnv(constants.VSecMSafeK8sSecretBufferSize)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeK8sSecretBufferSizeDefault))
+	p := env.Value(env.VSecMSafeK8sSecretBufferSize)
+	d, _ := strconv.Atoi(string(env.VSecMSafeK8sSecretBufferSizeDefault))
 
 	if p == "" {
 		return d
@@ -109,8 +110,8 @@ func K8sSecretBufferSizeForSafe() int {
 // If the environment variable is set but cannot be parsed as an integer,
 // the default buffer size is used.
 func SecretDeleteBufferSizeForSafe() int {
-	p := constants.GetEnv(constants.VSecMSafeSecretDeleteBufferSize)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeSecretDeleteBufferSizeDefault))
+	p := env.Value(env.VSecMSafeSecretDeleteBufferSize)
+	d, _ := strconv.Atoi(string(env.VSecMSafeSecretDeleteBufferSizeDefault))
 
 	if p == "" {
 		return d
@@ -131,9 +132,9 @@ func SecretDeleteBufferSizeForSafe() int {
 // VMware Secrets Manager Docker images, then it will be FIPS-compliant.
 // Check https://vsecm.com/configuration/ for more details.
 func FipsCompliantModeForSafe() bool {
-	p := constants.GetEnv(constants.VSecMSafeFipsCompliant)
+	p := env.Value(env.VSecMSafeFipsCompliant)
 
-	return constants.True(p)
+	return val.True(p)
 }
 
 // SecretBackupCountForSafe retrieves the number of backups to keep for VSecM
@@ -143,8 +144,8 @@ func FipsCompliantModeForSafe() bool {
 // Note: there are plans to deprecate this feature in the future in favor of
 // a more robust database-driven changelog solution for secrets.
 func SecretBackupCountForSafe() int {
-	p := constants.GetEnv(constants.VSecMSafeSecretBackupCount)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeSecretBackupCountDefault))
+	p := env.Value(env.VSecMSafeSecretBackupCount)
+	d, _ := strconv.Atoi(string(env.VSecMSafeSecretBackupCountDefault))
 
 	if p == "" {
 		return d
@@ -163,9 +164,9 @@ func SecretBackupCountForSafe() int {
 // automatically. If the environment variable is not set or its value is
 // not "true", the function returns false. Otherwise, the function returns true.
 func RootKeyInputModeManual() bool {
-	p := constants.GetEnv(constants.VSecMRootKeyInputModeManual)
+	p := env.Value(env.VSecMRootKeyInputModeManual)
 
-	return constants.True(p)
+	return val.True(p)
 }
 
 // DataPathForSafe returns the path to the safe data directory.
@@ -173,9 +174,9 @@ func RootKeyInputModeManual() bool {
 // If the environment variable is not set, the default path "/var/local/vsecm/data"
 // is returned.
 func DataPathForSafe() string {
-	p := constants.GetEnv(constants.VSecMSafeDataPath)
+	p := env.Value(env.VSecMSafeDataPath)
 	if p == "" {
-		p = string(constants.VSecMSafeDataPathDefault)
+		p = string(env.VSecMSafeDataPathDefault)
 	}
 	return p
 }
@@ -185,9 +186,9 @@ func DataPathForSafe() string {
 // If the environment variable is not set, the default path "/key/key.txt"
 // is returned.
 func RootKeyPathForSafe() string {
-	p := constants.GetEnv(constants.VSecMRootKeyPath)
+	p := env.Value(env.VSecMRootKeyPath)
 	if p == "" {
-		p = string(constants.VSecMRootKeyPathDefault)
+		p = string(env.VSecMRootKeyPathDefault)
 	}
 	return p
 }
@@ -205,10 +206,10 @@ func RootKeyPathForSafe() string {
 //
 //	time.Duration: The time duration in milliseconds for acquiring the source.
 func SourceAcquisitionTimeoutForSafe() time.Duration {
-	p := constants.GetEnv(constants.VSecMSafeSourceAcquisitionTimeout)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeSourceAcquisitionTimeoutDefault))
+	p := env.Value(env.VSecMSafeSourceAcquisitionTimeout)
+	d, _ := strconv.Atoi(string(env.VSecMSafeSourceAcquisitionTimeoutDefault))
 	if p == "" {
-		p = string(constants.VSecMSafeSourceAcquisitionTimeoutDefault)
+		p = string(env.VSecMSafeSourceAcquisitionTimeoutDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -226,10 +227,10 @@ func SourceAcquisitionTimeoutForSafe() time.Duration {
 // variable, with a default value of 300000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
 func BootstrapTimeoutForSafe() time.Duration {
-	p := constants.GetEnv(constants.VSecMSafeBootstrapTimeout)
-	d, _ := strconv.Atoi(string(constants.VSecMSafeBootstrapTimeoutDefault))
+	p := env.Value(env.VSecMSafeBootstrapTimeout)
+	d, _ := strconv.Atoi(string(env.VSecMSafeBootstrapTimeoutDefault))
 	if p == "" {
-		p = string(constants.VSecMSafeBootstrapTimeoutDefault)
+		p = string(env.VSecMSafeBootstrapTimeoutDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -246,9 +247,9 @@ func BootstrapTimeoutForSafe() time.Duration {
 // "VSECM_ROOT_KEY_NAME" environment variable. If this variable is
 // not set or is empty, the default value "vsecm-root-key" is returned.
 func RootKeySecretNameForSafe() string {
-	p := constants.GetEnv(constants.VSecMRootKeyName)
+	p := env.Value(env.VSecMRootKeyName)
 	if p == "" {
-		p = string(constants.VSecMRootKeyNameDefault)
+		p = string(env.VSecMRootKeyNameDefault)
 	}
 	return p
 }

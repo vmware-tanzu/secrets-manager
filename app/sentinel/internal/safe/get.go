@@ -21,8 +21,10 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 
+	u "github.com/vmware-tanzu/secrets-manager/core/constants/url"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -46,7 +48,7 @@ import (
 //     be read. The error includes a descriptive message indicating the nature
 //     of the failure.
 func Check(ctx context.Context, source *workloadapi.X509Source) error {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	if source == nil {
 		return errors.New("check: workload source is nil")
@@ -62,7 +64,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		)
 	})
 
-	safeUrl := "/sentinel/v1/secrets"
+	safeUrl := u.SentinelSecrets
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
@@ -127,7 +129,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 //   - showEncryptedSecrets: A boolean flag indicating whether to retrieve
 //     encrypted secrets. If true, secrets are shown in encrypted form.
 func Get(ctx context.Context, showEncryptedSecrets bool) error {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	log.AuditLn(cid, "Sentinel:Get")
 
@@ -154,9 +156,9 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 			id.String() + "'")
 	})
 
-	safeUrl := "/sentinel/v1/secrets"
+	safeUrl := u.SentinelSecrets
 	if showEncryptedSecrets {
-		safeUrl = "/sentinel/v1/secrets?reveal=true"
+		safeUrl = u.SentinelSecretsWithReveal
 	}
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)

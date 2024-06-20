@@ -11,16 +11,16 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // SecretsPathForSidecar returns the path to the secrets file used by the sidecar.
 // The path is determined by the VSECM_SIDECAR_SECRETS_PATH environment variable,
 // with a default value of "/opt/vsecm/secrets.json" if the variable is not set.
 func SecretsPathForSidecar() string {
-	p := constants.GetEnv(constants.VSecMSidecarSecretsPath)
+	p := env.Value(env.VSecMSidecarSecretsPath)
 	if p == "" {
-		p = string(constants.VSecMSidecarSecretsPathDefault)
+		p = string(env.VSecMSidecarSecretsPathDefault)
 	}
 	return p
 }

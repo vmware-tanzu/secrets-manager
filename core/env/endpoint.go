@@ -11,7 +11,7 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // EndpointUrlForSafe returns the URL for the VSecM Safe endpoint
@@ -19,9 +19,9 @@ import (
 // The URL is obtained from the environment variable VSECM_SAFE_ENDPOINT_URL.
 // If the variable is not set, the default URL is used.
 func EndpointUrlForSafe() string {
-	u := constants.GetEnv(constants.VSecMSafeEndpointUrl)
+	u := env.Value(env.VSecMSafeEndpointUrl)
 	if u == "" {
-		u = string(constants.VSecMSafeEndpointUrlDefault)
+		u = string(env.VSecMSafeEndpointUrlDefault)
 	}
 	return u
 }

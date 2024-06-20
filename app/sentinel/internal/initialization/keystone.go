@@ -12,10 +12,12 @@ package initialization
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/keystone"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 func markKeystone(ctx context.Context, cid *string) bool {
@@ -27,9 +29,9 @@ func markKeystone(ctx context.Context, cid *string) bool {
 
 			// Assign a secret for VSecM Keystone
 			err := processCommandBlock(ctx, entity.SentinelCommand{
-				WorkloadIds: []string{"vsecm-keystone"},
-				Namespaces:  []string{"vsecm-system"},
-				Secret:      "keystone-init",
+				WorkloadIds: []string{keystone.WorkloadId},
+				Namespaces:  []string{env.NamespaceForVSecMSystem()},
+				Secret:      keystone.InitSecretValue,
 			})
 
 			return err

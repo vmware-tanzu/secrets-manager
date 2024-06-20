@@ -11,7 +11,7 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // NamespaceForVSecMSystem returns the namespace for the VSecM apps.
@@ -23,9 +23,9 @@ import (
 //
 //	string: The namespace to be used for the VSecM system.
 func NamespaceForVSecMSystem() string {
-	u := constants.GetEnv(constants.VSecMNamespaceSystem)
+	u := env.Value(env.VSecMNamespaceSystem)
 	if u == "" {
-		u = string(constants.VSecMSystem)
+		u = string(env.VSecMSystem)
 	}
 	return u
 }

@@ -11,9 +11,9 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"os"
 
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
@@ -33,7 +33,7 @@ import (
 //
 //	storeType := config.RootKeyStoreTypeForSafe()
 func RootKeyStoreTypeForSafe() data.BackingStore {
-	s := constants.GetEnv(constants.VSecMSafeRootKeyStore)
+	s := env.Value(env.VSecMSafeRootKeyStore)
 	if s == "" {
 		return data.Kubernetes
 	}
@@ -58,7 +58,7 @@ func RootKeyStoreTypeForSafe() data.BackingStore {
 //
 //	backingStore := config.BackingStoreForSafe()
 func BackingStoreForSafe() data.BackingStore {
-	s := os.Getenv(string(constants.VSecMSafeBackingStore))
+	s := os.Getenv(string(env.VSecMSafeBackingStore))
 	if s == "" {
 		return data.File
 	}

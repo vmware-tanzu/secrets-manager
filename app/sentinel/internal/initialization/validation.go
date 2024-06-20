@@ -12,17 +12,18 @@ package initialization
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 func initCommandsExecutedAlready(
 	ctx context.Context, src *workloadapi.X509Source,
 ) bool {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	log.TraceLn(cid, "check:initCommandsExecutedAlready")
 

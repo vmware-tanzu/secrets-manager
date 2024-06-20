@@ -16,6 +16,7 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
@@ -23,7 +24,7 @@ func acquireSource(ctx context.Context) (*workloadapi.X509Source, bool) {
 	resultChan := make(chan *workloadapi.X509Source)
 	errorChan := make(chan error)
 
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	go func() {
 		source, err := workloadapi.NewX509Source(

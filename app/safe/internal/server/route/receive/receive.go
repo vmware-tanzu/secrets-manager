@@ -16,14 +16,15 @@ import (
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
-	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/http"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/json"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
+	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/http"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/json"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 // Keys processes a request to set root cryptographic keys within the application,
@@ -47,7 +48,7 @@ import (
 //   - spiffeid (string): The SPIFFE ID associated with the requester, used for
 //     authorization validation.
 func Keys(cid string, w http.ResponseWriter, r *http.Request) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
@@ -56,7 +57,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
 
-		j.Event = event.BadSpiffeId
+		j.Event = audit.BadSpiffeId
 		journal.Log(j)
 
 		return
@@ -66,7 +67,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 
 	body, _ := httq.ReadBody(cid, r)
 	if body == nil {
-		j.Event = event.BrokenBody
+		j.Event = audit.BrokenBody
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -80,7 +81,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 
 	ur, _ := json.UnmarshalKeyInputRequest(body)
 	if ur == nil {
-		j.Event = event.BadPayload
+		j.Event = audit.BadPayload
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -99,7 +100,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	agePublicKey := strings.TrimSpace(sr.AgePublicKey)
 
 	if aesCipherKey == "" || agePrivateKey == "" || agePublicKey == "" {
-		j.Event = event.BadPayload
+		j.Event = audit.BadPayload
 		journal.Log(j)
 		return
 	}
@@ -108,7 +109,7 @@ func Keys(cid string, w http.ResponseWriter, r *http.Request) {
 	crypto.SetRootKeyInMemory(keysCombined)
 
 	if err := bootstrap.PersistRootKeysToRootKeyBackingStore(
-		crypto.RootKeyCollection{
+		data.RootKeyCollection{
 			PrivateKey: agePrivateKey,
 			PublicKey:  agePublicKey,
 			AesSeed:    aesCipherKey,

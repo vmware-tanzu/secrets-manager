@@ -17,7 +17,8 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
@@ -28,12 +29,12 @@ func main() {
 
 	//Print the diagnostic information about the environment.
 	log.PrintEnvironmentInfo(&id, []string{
-		string(constants.AppVersion),
-		string(constants.VSecMLogLevel),
+		string(env.AppVersion),
+		string(env.VSecMLogLevel),
 	})
 
 	ctx, cancel := context.WithCancel(
-		context.WithValue(context.Background(), constants.CorrelationId, &id),
+		context.WithValue(context.Background(), key.CorrelationId, &id),
 	)
 	defer cancel()
 

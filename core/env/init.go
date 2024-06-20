@@ -11,7 +11,7 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"time"
 )
@@ -22,10 +22,10 @@ import (
 // variable is not set or is not a valid integer value, the function returns the
 // default interval of 5000 milliseconds.
 func PollIntervalForInitContainer() time.Duration {
-	p := constants.GetEnv(constants.VSecMInitContainerPollInterval)
-	d, _ := strconv.Atoi(string(constants.VSecMInitContainerPollIntervalDefault))
+	p := env.Value(env.VSecMInitContainerPollInterval)
+	d, _ := strconv.Atoi(string(env.VSecMInitContainerPollIntervalDefault))
 	if p == "" {
-		p = string(constants.VSecMInitContainerPollIntervalDefault)
+		p = string(env.VSecMInitContainerPollIntervalDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -50,10 +50,10 @@ func PollIntervalForInitContainer() time.Duration {
 //
 //	time.Duration: The wait time before exit, in milliseconds.
 func WaitBeforeExitForInitContainer() time.Duration {
-	p := constants.GetEnv(constants.VSecMInitContainerWaitBeforeExit)
-	d, _ := strconv.Atoi(string(constants.VSecMInitContainerWaitBeforeExitDefault))
+	p := env.Value(env.VSecMInitContainerWaitBeforeExit)
+	d, _ := strconv.Atoi(string(env.VSecMInitContainerWaitBeforeExitDefault))
 	if p == "" {
-		p = string(constants.VSecMInitContainerWaitBeforeExitDefault)
+		p = string(env.VSecMInitContainerWaitBeforeExitDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)

@@ -11,7 +11,8 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 // RootKeyPathForKeyGen returns the root key path. Root key is used to decrypt
@@ -24,9 +25,9 @@ import (
 //
 //	string: The path to the root key.
 func RootKeyPathForKeyGen() string {
-	p := constants.GetEnv(constants.VSecMKeygenRootKeyPath)
+	p := env.Value(env.VSecMKeygenRootKeyPath)
 	if p == "" {
-		return string(constants.VSecMKeygenRootKeyPathDefault)
+		return string(env.VSecMKeygenRootKeyPathDefault)
 	}
 	return p
 }
@@ -42,9 +43,9 @@ func RootKeyPathForKeyGen() string {
 //
 //	string: The path to the exported secrets.
 func ExportedSecretPathForKeyGen() string {
-	p := constants.GetEnv(constants.VSecMKeygenExportedSecretPath)
+	p := env.Value(env.VSecMKeygenExportedSecretPath)
 	if p == "" {
-		return string(constants.VSecMKeygenExportedSecretPathDefault)
+		return string(env.VSecMKeygenExportedSecretPathDefault)
 	}
 	return p
 }
@@ -64,6 +65,6 @@ func ExportedSecretPathForKeyGen() string {
 //
 //	bool: True if decryption should proceed, false otherwise.
 func KeyGenDecrypt() bool {
-	p := constants.GetEnv(constants.VSecMKeygenDecrypt)
-	return constants.True(p)
+	p := env.Value(env.VSecMKeygenDecrypt)
+	return val.True(p)
 }

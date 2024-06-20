@@ -12,6 +12,7 @@ package initialization
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"os"
 	"time"
 
@@ -47,13 +48,13 @@ import (
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
 func RunInitCommands(ctx context.Context) {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	waitInterval := env.InitCommandRunnerWaitBeforeExecIntervalForSentinel()
 	time.Sleep(waitInterval)
 
 	// Ensure that we can acquire a source before proceeding.
-	source := ensureSourceAcquisition(ctx, cid)
+	source := ensureSourceAcquisition(ctx)
 
 	// Now, we are sure that we can acquire a source.
 	// Try to do a VSecM Safe API request with the source.

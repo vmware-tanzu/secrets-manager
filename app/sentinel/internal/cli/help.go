@@ -14,11 +14,13 @@ import (
 	"fmt"
 
 	"github.com/akamensky/argparse"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
 )
 
 // PrintUsage prints the usage of the CLI.
 func PrintUsage(parser *argparse.Parser) {
-	fmt.Print(parser.Usage("safe"))
+	fmt.Print(parser.Usage(sentinel.CmdName))
 }
 
 // InputValidationFailure checks if the input provided by the user is valid.

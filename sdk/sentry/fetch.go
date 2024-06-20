@@ -22,11 +22,11 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
+	c "github.com/vmware-tanzu/secrets-manager/lib/crypto"
 )
 
 // ErrSecretNotFound is returned when the secret is not found.
@@ -45,7 +45,7 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	cid, _ := crypto.RandomString(8)
+	cid, _ := c.RandomString(8)
 	if cid == "" {
 		panic("Unable to create a secure correlation id.")
 	}

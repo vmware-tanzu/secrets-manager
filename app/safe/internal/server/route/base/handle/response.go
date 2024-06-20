@@ -16,7 +16,8 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -33,9 +34,9 @@ import (
 //   - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadSvidResponse(
 	cid string, w http.ResponseWriter, spiffeid string,
-	j journal.Entry,
+	j data.JournalEntry,
 ) {
-	j.Event = event.BadSpiffeId
+	j.Event = audit.BadSpiffeId
 	journal.Log(j)
 
 	log.DebugLn(&cid, "Fetch: bad spiffeid", spiffeid)
@@ -60,9 +61,9 @@ func BadSvidResponse(
 // - j (audit.JournalEntry): An audit journal entry for recording the event.
 func BadPeerSvidResponse(
 	cid string, w http.ResponseWriter,
-	spiffeid string, j journal.Entry,
+	spiffeid string, j data.JournalEntry,
 ) {
-	j.Event = event.BadPeerSvid
+	j.Event = audit.BadPeerSvid
 	journal.Log(j)
 
 	w.WriteHeader(http.StatusBadRequest)
@@ -83,9 +84,9 @@ func BadPeerSvidResponse(
 //   - j (audit.JournalEntry): An audit journal entry for recording the event.
 func NoSecretResponse(
 	cid string, w http.ResponseWriter,
-	j journal.Entry,
+	j data.JournalEntry,
 ) {
-	j.Event = event.NoSecret
+	j.Event = audit.NoSecret
 	journal.Log(j)
 
 	w.WriteHeader(http.StatusNotFound)
@@ -107,16 +108,16 @@ func NoSecretResponse(
 //   - sfr (reqres.SecretFetchResponse): The secret fetch response payload to be
 //     marshaled and sent.
 func SuccessResponse(cid string, w http.ResponseWriter,
-	j journal.Entry, sfr reqres.SecretFetchResponse) {
-	j.Event = event.Ok
+	j data.JournalEntry, sfr reqres.SecretFetchResponse) {
+	j.Event = audit.Ok
 	journal.Log(j)
 
 	resp, err := json.Marshal(sfr)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		_, err2 := io.WriteString(w, "Problem unmarshalling response")
-		if err2 != nil {
-			log.InfoLn(&cid, "Fetch: Problem sending response", err2.Error())
+		_, err := io.WriteString(w, "Problem unmarshalling response")
+		if err != nil {
+			log.InfoLn(&cid, "Fetch: Problem sending response", err.Error())
 		}
 		return
 	}

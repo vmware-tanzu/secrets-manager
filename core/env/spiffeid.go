@@ -11,7 +11,7 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // SpiffeIdPrefixForSentinel returns the prefix for the Safe SPIFFE ID.
@@ -19,9 +19,9 @@ import (
 // VSECM_SPIFFEID_PREFIX_SENTINEL. If the variable is not set, the default
 // prefix is used.
 func SpiffeIdPrefixForSentinel() string {
-	p := constants.GetEnv(constants.VSecMSpiffeIdPrefixSentinel)
+	p := env.Value(env.VSecMSpiffeIdPrefixSentinel)
 	if p == "" {
-		p = string(constants.VSecMSpiffeIdPrefixSentinelDefault)
+		p = string(env.VSecMSpiffeIdPrefixSentinelDefault)
 	}
 	return p
 }
@@ -31,9 +31,9 @@ func SpiffeIdPrefixForSentinel() string {
 // VSECM_SPIFFEID_PREFIX_SAFE. If the variable is not set, the default prefix is
 // used.
 func SpiffeIdPrefixForSafe() string {
-	p := constants.GetEnv(constants.VSecMSpiffeIdPrefixSafe)
+	p := env.Value(env.VSecMSpiffeIdPrefixSafe)
 	if p == "" {
-		p = string(constants.VSecMSpiffeIdPrefixSafeDefault)
+		p = string(env.VSecMSpiffeIdPrefixSafeDefault)
 	}
 	return p
 }
@@ -43,9 +43,9 @@ func SpiffeIdPrefixForSafe() string {
 // VSECM_SPIFFEID_PREFIX_WORKLOAD.
 // If the variable is not set, the default prefix is used.
 func SpiffeIdPrefixForWorkload() string {
-	p := constants.GetEnv(constants.VSecMSpiffeIdPrefixWorkload)
+	p := env.Value(env.VSecMSpiffeIdPrefixWorkload)
 	if p == "" {
-		p = string(constants.VSecMSpiffeIdPrefixWorkloadDefault)
+		p = string(env.VSecMSpiffeIdPrefixWorkloadDefault)
 	}
 	return p
 }

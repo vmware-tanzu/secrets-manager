@@ -13,7 +13,6 @@ package io
 import (
 	"context"
 	"errors"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 	"strings"
 
 	apiV1 "k8s.io/api/core/v1"
@@ -22,9 +21,12 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
+	ec "github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	s "github.com/vmware-tanzu/secrets-manager/core/constants/secret"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 // saveSecretToKubernetes saves a given SecretStored entity to a Kubernetes
@@ -85,7 +87,7 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 
 	for i, ns := range namespaces {
 		if ns == "" {
-			namespaces[i] = "default"
+			namespaces[i] = string(ec.Default)
 		}
 
 		// First, try to get the existing secret
@@ -172,8 +174,6 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 	return nil
 }
 
-const initialSecretValue = `{"empty":true}`
-
 // PersistToK8s attempts to save a provided secret entity into a Kubernetes
 // cluster. The function is structured to handle potential errors through
 // retries and communicates any persistent issues back to the caller via an
@@ -193,7 +193,7 @@ func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 	log.TraceLn(&cid, "persistK8s: Will persist k8s secret.")
 
 	if len(secret.Values) == 0 {
-		secret.Values = append(secret.Values, initialSecretValue)
+		secret.Values = append(secret.Values, s.InitialValue)
 	}
 
 	// Defensive coding:
@@ -202,7 +202,7 @@ func PersistToK8s(secret entity.SecretStored, errChan chan<- error) {
 	// file system or the cluster. However, it that happens, we would at least
 	// want an indicator that it happened.
 	if secret.Values[0] == "" {
-		secret.Values[0] = initialSecretValue
+		secret.Values[0] = s.InitialValue
 	}
 
 	log.TraceLn(&cid, "persistK8s: Will try saving secret to k8s.")

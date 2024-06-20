@@ -8,8 +8,7 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package initialization
+package file
 
-const delimiter = "--"
-const separator = ":"
-const itemSeparator = ","
+const AgeExtension = ".age"
+const AgeBackupExtension = ".age.backup"

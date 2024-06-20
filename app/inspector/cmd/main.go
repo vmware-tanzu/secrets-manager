@@ -12,8 +12,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/lib/system"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
+	"github.com/vmware-tanzu/secrets-manager/lib/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 )
 
@@ -28,7 +29,7 @@ func main() {
 	}
 
 	if d.Data == "" {
-		fmt.Println("<nil>")
+		fmt.Println(symbol.Null)
 		return
 	}
 

@@ -15,11 +15,14 @@ import (
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 )
 
 // toCustomCase formats a string to a custom case, replacing underscores
 // with spaces and capitalizing words.
 func toCustomCase(input string) string {
 	caser := cases.Title(language.English)
-	return strings.ReplaceAll(caser.String(strings.ToLower(input)), "_", " ")
+	return strings.ReplaceAll(caser.String(strings.ToLower(input)),
+		symbol.CustomCaseChangeDelimiter, " ")
 }

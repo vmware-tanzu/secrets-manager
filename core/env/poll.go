@@ -11,20 +11,19 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"time"
-
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // MaxPollIntervalForSidecar returns the maximum interval for polling by the
 // sidecar process. The value is read from the environment variable
 // `VSECM_SIDECAR_MAX_POLL_INTERVAL` or returns 300000 milliseconds as default.
 func MaxPollIntervalForSidecar() time.Duration {
-	p := constants.GetEnv(constants.VSecMSidecarMaxPollInterval)
-	d, _ := strconv.Atoi(string(constants.VSecMSidecarMaxPollIntervalDefault))
+	p := env.Value(env.VSecMSidecarMaxPollInterval)
+	d, _ := strconv.Atoi(string(env.VSecMSidecarMaxPollIntervalDefault))
 	if p == "" {
-		p = string(constants.VSecMSidecarMaxPollIntervalDefault)
+		p = string(env.VSecMSidecarMaxPollIntervalDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -41,10 +40,10 @@ func MaxPollIntervalForSidecar() time.Duration {
 // The value is read from the environment variable
 // `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER` or returns 2 as default.
 func ExponentialBackoffMultiplierForSidecar() int64 {
-	p := constants.GetEnv(constants.VSecMSidecarExponentialBackoffMultiplier)
-	d, _ := strconv.Atoi(string(constants.VSecMSidecarExponentialBackoffMultiplierDefault))
+	p := env.Value(env.VSecMSidecarExponentialBackoffMultiplier)
+	d, _ := strconv.Atoi(string(env.VSecMSidecarExponentialBackoffMultiplierDefault))
 	if p == "" {
-		p = string(constants.VSecMSidecarExponentialBackoffMultiplierDefault)
+		p = string(env.VSecMSidecarExponentialBackoffMultiplierDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -60,10 +59,10 @@ func ExponentialBackoffMultiplierForSidecar() int64 {
 // polls before reducing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_SUCCESS_THRESHOLD` or returns 3 as default.
 func SuccessThresholdForSidecar() int64 {
-	p := constants.GetEnv(constants.VSecMSidecarSuccessThreshold)
-	d, _ := strconv.Atoi(string(constants.VSecMSidecarSuccessThresholdDefault))
+	p := env.Value(env.VSecMSidecarSuccessThreshold)
+	d, _ := strconv.Atoi(string(env.VSecMSidecarSuccessThresholdDefault))
 	if p == "" {
-		p = string(constants.VSecMSidecarSuccessThresholdDefault)
+		p = string(env.VSecMSidecarSuccessThresholdDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -79,10 +78,10 @@ func SuccessThresholdForSidecar() int64 {
 // before increasing the interval. The value is read from the environment
 // variable `VSECM_SIDECAR_ERROR_THRESHOLD` or returns 2 as default.
 func ErrorThresholdForSidecar() int64 {
-	p := constants.GetEnv(constants.VSecMSidecarErrorThreshold)
-	d, _ := strconv.Atoi(string(constants.VSecMSidecarErrorThresholdDefault))
+	p := env.Value(env.VSecMSidecarErrorThreshold)
+	d, _ := strconv.Atoi(string(env.VSecMSidecarErrorThresholdDefault))
 	if p == "" {
-		p = string(constants.VSecMSidecarErrorThresholdDefault)
+		p = string(env.VSecMSidecarErrorThresholdDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -99,10 +98,10 @@ func ErrorThresholdForSidecar() int64 {
 // variable, with a default value of 20000 milliseconds if the variable is not
 // set or if there is an error in parsing the value.
 func PollIntervalForSidecar() time.Duration {
-	p := constants.GetEnv(constants.VSecMSidecarPollInterval)
-	d, _ := strconv.Atoi(string(constants.VSecMSidecarPollIntervalDefault))
+	p := env.Value(env.VSecMSidecarPollInterval)
+	d, _ := strconv.Atoi(string(env.VSecMSidecarPollIntervalDefault))
 	if p == "" {
-		p = string(constants.VSecMSidecarPollIntervalDefault)
+		p = string(env.VSecMSidecarPollIntervalDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)

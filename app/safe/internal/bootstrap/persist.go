@@ -14,16 +14,17 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	v1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	e "github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 // PersistRootKeysToRootKeyBackingStore persists the root keys to the
@@ -38,7 +39,7 @@ import (
 //
 // Note that changing the root key without backing up the existing one means
 // the secrets backed up with the old key will be impossible to decrypt.
-func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
+func PersistRootKeysToRootKeyBackingStore(rkt data.RootKeyCollection) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return errors.Join(
@@ -55,9 +56,9 @@ func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 		)
 	}
 
-	data := make(map[string][]byte)
+	dd := make(map[string][]byte)
 	keysCombined := rkt.Combine()
-	data[string(constants.RootKeyText)] = ([]byte)(keysCombined)
+	dd[string(e.RootKeyText)] = ([]byte)(keysCombined)
 
 	// Serialize the Secret's configuration to JSON
 	secretConfigJSON, err := json.Marshal(v1.Secret{
@@ -69,7 +70,7 @@ func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 			Name:      env.RootKeySecretNameForSafe(),
 			Namespace: env.NamespaceForVSecMSystem(),
 		},
-		Data: data,
+		Data: dd,
 	})
 	if err != nil {
 		return errors.Join(
@@ -97,7 +98,7 @@ func PersistRootKeysToRootKeyBackingStore(rkt crypto.RootKeyCollection) error {
 							"kubectl.kubernetes.io/last-applied-configuration": string(secretConfigJSON),
 						},
 					},
-					Data: data,
+					Data: dd,
 				},
 				metaV1.UpdateOptions{
 					TypeMeta: metaV1.TypeMeta{

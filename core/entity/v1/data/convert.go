@@ -14,6 +14,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"strings"
 	"text/template"
 
@@ -42,13 +44,13 @@ func convertValueToMap(values []string) map[string][]byte {
 	if len(values) == 1 {
 		val = values[0]
 	} else {
-		val = strings.Join(values, ",")
+		val = strings.Join(values, symbol.CollectionDelimiter)
 	}
 
 	err := json.Unmarshal([]byte(val), &data)
 	if err != nil {
 		data = map[string][]byte{}
-		data["VALUE"] = []byte(val)
+		data[key.SecretDataValue] = []byte(val)
 	}
 
 	return data
@@ -67,13 +69,13 @@ func convertValueNoTemplate(values []string) map[string][]byte {
 	if len(values) == 1 {
 		val = values[0]
 	} else {
-		val = strings.Join(values, ",")
+		val = strings.Join(values, symbol.CollectionDelimiter)
 	}
 
 	err := json.Unmarshal(([]byte)(val), &jsonData)
 	if err != nil {
 		//If error in unmarshalling, add the whole as a part of VALUE
-		data["VALUE"] = ([]byte)(val)
+		data[key.SecretDataValue] = ([]byte)(val)
 	} else {
 		//Use the secret's value as a key-val pair
 		return convertMapToStringBytes(jsonData)

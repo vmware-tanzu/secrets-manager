@@ -11,9 +11,12 @@
 package crypto
 
 import (
+	"crypto/rand"
 	"encoding/hex"
 	"errors"
 )
+
+var reader = rand.Read
 
 // generateAesSeed generates a random 256-bit AES key, and returns it as a
 // hexadecimal encoded string.

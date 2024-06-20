@@ -11,11 +11,11 @@
 package journal
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func printAudit(correlationId string, e state.Event,
+func printAudit(correlationId string, e audit.Event,
 	method, url, spiffeid, payload string) {
 	std.AuditLn(
 		&correlationId,

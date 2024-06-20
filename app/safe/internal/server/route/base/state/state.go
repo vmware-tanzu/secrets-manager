@@ -16,7 +16,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
@@ -39,12 +39,12 @@ import (
 //     operation's outcome.
 func Upsert(secretToStore entity.SecretStored,
 	appendValue bool, workloadId string, cid string,
-	j journal.Entry, w http.ResponseWriter,
+	j entity.JournalEntry, w http.ResponseWriter,
 ) {
 	collection.UpsertSecret(secretToStore, appendValue)
 	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
 
-	j.Event = event.Ok
+	j.Event = audit.Ok
 	journal.Log(j)
 
 	_, err := io.WriteString(w, "OK")
