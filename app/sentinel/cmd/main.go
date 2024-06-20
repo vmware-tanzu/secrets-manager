@@ -21,16 +21,19 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/cli"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
-const defaultNs = "default"
-
 func main() {
 	id := crypto.Id()
 
-	parser := argparse.NewParser("safe", "Assigns secrets to workloads.")
+	parser := argparse.NewParser(
+		sentinel.CmdName,
+		"Assigns secrets to workloads.",
+	)
 
 	ctx, cancel := context.WithCancel(
 		context.WithValue(context.Background(), "correlationId", &id),
@@ -91,7 +94,7 @@ func main() {
 	}
 
 	if *namespaces == nil || len(*namespaces) == 0 {
-		*namespaces = []string{defaultNs}
+		*namespaces = []string{string(env.Default)}
 	}
 
 	if cli.InputValidationFailure(

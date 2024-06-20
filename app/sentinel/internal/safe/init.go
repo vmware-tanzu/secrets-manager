@@ -23,6 +23,8 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	u "github.com/vmware-tanzu/secrets-manager/core/constants/url"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
@@ -52,7 +54,7 @@ import (
 func CheckInitialization(
 	ctx context.Context, source *workloadapi.X509Source,
 ) (bool, error) {
-	cid := ctx.Value("correlationId").(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	if source == nil {
 		return false, errors.New("check: workload source is nil")
@@ -68,7 +70,7 @@ func CheckInitialization(
 		)
 	})
 
-	checkUrl := "/sentinel/v1/keystone"
+	checkUrl := u.SentinelKeystone
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), checkUrl)
 	if err != nil {

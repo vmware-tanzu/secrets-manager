@@ -11,16 +11,16 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // ProbeLivenessPort returns the port for liveness probe.
 // It first checks the environment variable VSECM_PROBE_LIVENESS_PORT.
 // If the variable is not set, it returns the default value ":8081".
 func ProbeLivenessPort() string {
-	u := constants.GetEnv(constants.VSecMProbeLivenessPort)
+	u := env.Value(env.VSecMProbeLivenessPort)
 	if u == "" {
-		u = string(constants.VSecMProbeLivenessPortDefault)
+		u = string(env.VSecMProbeLivenessPortDefault)
 	}
 	return u
 }
@@ -29,9 +29,9 @@ func ProbeLivenessPort() string {
 // It first checks the environment variable VSECM_PROBE_READINESS_PORT.
 // If the variable is not set, it returns the default value ":8082".
 func ProbeReadinessPort() string {
-	u := constants.GetEnv(constants.VSecMProbeReadinessPort)
+	u := env.Value(env.VSecMProbeReadinessPort)
 	if u == "" {
-		u = string(constants.VSecMProbeReadinessPortDefault)
+		u = string(env.VSecMProbeReadinessPortDefault)
 	}
 	return u
 }

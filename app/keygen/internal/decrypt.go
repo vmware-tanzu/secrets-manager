@@ -29,8 +29,10 @@ func PrintDecryptedKeys() {
 
 	algorithm := ss.Algorithm
 
+	const ruler = "---"
+
 	fmt.Println("Algorithm:", algorithm)
-	fmt.Println("---")
+	fmt.Println(ruler)
 	for _, secret := range ss.Secrets {
 		fmt.Println("Name:", secret.Name)
 
@@ -47,6 +49,6 @@ func PrintDecryptedKeys() {
 
 		fmt.Println("Created:", secret.Created.String())
 		fmt.Println("Updated:", secret.Updated.String())
-		fmt.Println("---")
+		fmt.Println(ruler)
 	}
 }

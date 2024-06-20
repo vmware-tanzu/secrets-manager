@@ -11,12 +11,15 @@
 package io
 
 import (
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 	"math"
 	"path"
 	"strconv"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/file"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 // PersistToDisk saves a given secret to disk and also creates a backup copy
@@ -34,7 +37,7 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 	backupCount := env.SecretBackupCountForSafe()
 
 	// Save the secret
-	dataPath := path.Join(env.DataPathForSafe(), secret.Name+".age")
+	dataPath := path.Join(env.DataPathForSafe(), secret.Name+file.AgeExtension)
 
 	err := backoff.RetryExponential("PersistToDisk", func() error {
 		return saveSecretToDisk(secret, dataPath)
@@ -59,7 +62,9 @@ func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
 	// Save a copy
 	dataPath = path.Join(
 		env.DataPathForSafe(),
-		secret.Name+"-"+strconv.Itoa(int(newIndex))+"-"+".age.backup",
+		secret.Name+symbol.FileNameSectionDelimiter+
+			strconv.Itoa(int(newIndex))+
+			symbol.FileNameSectionDelimiter+file.AgeBackupExtension,
 	)
 
 	err = backoff.RetryExponential(

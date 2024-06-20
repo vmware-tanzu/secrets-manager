@@ -15,9 +15,10 @@ import (
 	"sync"
 
 	"filippo.io/age"
-)
 
-const BlankRootKeyValue = "{}"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+)
 
 // RootKey is the key used for encryption, decryption, backup, and restore.
 var RootKey = ""
@@ -45,39 +46,23 @@ func RootKeySetInMemory() bool {
 	return RootKey != ""
 }
 
-type RootKeyCollection struct {
-	PrivateKey string
-	PublicKey  string
-	AesSeed    string
-}
-
-// Combine takes the private key, a public key, and an AES seed,
-// and combines them into a single string, separating each with a newline.
-//
-// Returns:
-//   - A single string containing the private key, public key, and AES seed,
-//     each separated by a newline.
-func (rkt RootKeyCollection) Combine() string {
-	return rkt.PrivateKey + "\n" + rkt.PublicKey + "\n" + rkt.AesSeed
-}
-
 // RootKeyCollectionFromMemory creates a new Rkt struct from the
 // RootKey stored in memory.
-func RootKeyCollectionFromMemory() RootKeyCollection {
+func RootKeyCollectionFromMemory() data.RootKeyCollection {
 	RootKeyLock.RLock()
 	defer RootKeyLock.RUnlock()
 
 	if RootKey == "" {
-		return RootKeyCollection{}
+		return data.RootKeyCollection{}
 	}
 
-	parts := strings.Split(RootKey, "\n")
+	parts := strings.Split(RootKey, symbol.RootKeySeparator)
 
 	if len(parts) != 3 {
-		return RootKeyCollection{}
+		return data.RootKeyCollection{}
 	}
 
-	return RootKeyCollection{
+	return data.RootKeyCollection{
 		PrivateKey: parts[0],
 		PublicKey:  parts[1],
 		AesSeed:    parts[2],
@@ -113,11 +98,11 @@ func RootKeyCollectionFromMemory() RootKeyCollection {
 //	The NewRkt function depends on the 'age' package for generating the
 //	X25519 identity and an implementation of generateAesSeed, which must be
 //	provided in your codebase or through an external library.
-func NewRootKeyCollection() (RootKeyCollection, error) {
+func NewRootKeyCollection() (data.RootKeyCollection, error) {
 	identity, err := age.GenerateX25519Identity()
 
 	if err != nil {
-		return RootKeyCollection{}, err
+		return data.RootKeyCollection{}, err
 	}
 
 	privateKey := identity.String()
@@ -125,10 +110,10 @@ func NewRootKeyCollection() (RootKeyCollection, error) {
 	aesSeed, err := generateAesSeed()
 
 	if err != nil {
-		return RootKeyCollection{}, err
+		return data.RootKeyCollection{}, err
 	}
 
-	return RootKeyCollection{
+	return data.RootKeyCollection{
 		PrivateKey: privateKey,
 		PublicKey:  publicKey,
 		AesSeed:    aesSeed,

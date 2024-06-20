@@ -14,9 +14,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/crypto"
 )
 
 // Watch continuously polls the associated secret of the workload to exist.

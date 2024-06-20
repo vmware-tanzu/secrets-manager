@@ -11,7 +11,7 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // SecretGenerationPrefix returns a prefix that's used by VSecM Sentinel to
@@ -22,9 +22,9 @@ import (
 // "VSECM_SENTINEL_SECRET_GENERATION_PREFIX".
 // If the environment variable is not set or is empty, it defaults to "gen:".
 func SecretGenerationPrefix() string {
-	p := constants.GetEnv(constants.VSecMSentinelSecretGenerationPrefix)
+	p := env.Value(env.VSecMSentinelSecretGenerationPrefix)
 	if p == "" {
-		return string(constants.VSecMSentinelSecretGenerationPrefixDefault)
+		return string(env.VSecMSentinelSecretGenerationPrefixDefault)
 	}
 	return p
 }
@@ -46,9 +46,9 @@ func SecretGenerationPrefix() string {
 //   - A string representing the prefix for Kubernetes secrets.
 //     The default value is "k8s:" if the environment variable is not set or empty.
 func StoreWorkloadAsK8sSecretPrefix() string {
-	p := constants.GetEnv(constants.VSecMSafeStoreWorkloadSecretAsK8sSecretPrefix)
+	p := env.Value(env.VSecMSafeStoreWorkloadSecretAsK8sSecretPrefix)
 	if p == "" {
-		return string(constants.VSecMSafeStoreWorkloadSecretAsK8sSecretPrefixDefault)
+		return string(env.VSecMSafeStoreWorkloadSecretAsK8sSecretPrefixDefault)
 	}
 	return p
 }

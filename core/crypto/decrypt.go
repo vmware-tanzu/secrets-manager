@@ -23,6 +23,7 @@ import (
 
 	"filippo.io/age"
 
+	c "github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
@@ -187,13 +188,13 @@ func DecryptBytesAes(data []byte) ([]byte, error) {
 //	    log.Fatalf("Failed to decrypt: %v", err)
 //	}
 //	fmt.Println("Decrypted text:", decryptedText)
-func Decrypt(value []byte, algorithm Algorithm) (string, error) {
+func Decrypt(value []byte, algorithm c.Algorithm) (string, error) {
 	decodedValue, err := base64.StdEncoding.DecodeString(string(value))
 	if err != nil {
 		return "", err
 	}
 
-	if algorithm == Age {
+	if algorithm == c.Age {
 		res, err := DecryptBytesAge(decodedValue)
 
 		if err != nil {

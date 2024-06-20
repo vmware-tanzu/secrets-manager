@@ -18,6 +18,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
+	f "github.com/vmware-tanzu/secrets-manager/core/constants/file"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -54,11 +55,11 @@ func populateSecretsFromFileStore(cid string) error {
 		}
 
 		fn := file.Name()
-		if strings.HasSuffix(fn, ".backup") {
+		if strings.HasSuffix(fn, f.AgeBackupExtension) {
 			continue
 		}
 
-		key := strings.Replace(fn, ".age", "", 1)
+		key := strings.Replace(fn, f.AgeExtension, "", 1)
 
 		_, exists := Secrets.Load(key)
 		if exists {

@@ -17,7 +17,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/lib/template"
 	"net/http"
 	"net/url"
 	"strings"
@@ -26,10 +25,13 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	u "github.com/vmware-tanzu/secrets-manager/core/constants/url"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	"github.com/vmware-tanzu/secrets-manager/lib/template"
 )
 
 var seed = time.Now().UnixNano()
@@ -83,7 +85,7 @@ func Post(parentContext context.Context,
 	)
 	defer cancel()
 
-	cid := ctxWithTimeout.Value("correlationId").(*string)
+	cid := ctxWithTimeout.Value(key.CorrelationId).(*string)
 
 	ids := ""
 	for _, id := range sc.WorkloadIds {
@@ -189,7 +191,7 @@ func Post(parentContext context.Context,
 			}
 		}
 
-		p, err := url.JoinPath(env.EndpointUrlForSafe(), "/sentinel/v1/secrets")
+		p, err := url.JoinPath(env.EndpointUrlForSafe(), u.SentinelSecrets)
 		if err != nil {
 			return errors.Join(
 				err,

@@ -20,6 +20,7 @@ import (
 	routeList "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
 	routeReceive "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
 	routeSecret "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/secret"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/url"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -31,11 +32,13 @@ func routeSentinelGetKeystone(
 
 	// Return the current state of the Keystone secret.
 	// Either "initialized", or "pending"
-	if m == http.MethodGet && p == "/sentinel/v1/keystone" {
-		log.DebugLn(&cid, "Handler: will keystone")
+	if m == http.MethodGet && p == url.SentinelKeystone {
+		log.DebugLn(&cid, "Handler:routeSentinelGetKeystone")
 		routeKeystone.Status(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -48,11 +51,13 @@ func routeSentinelGetSecrets(
 	// Route to list secrets.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	// Calling it from anywhere else will error out.
-	if m == http.MethodGet && p == "/sentinel/v1/secrets" {
-		log.DebugLn(&cid, "Handler: will list")
+	if m == http.MethodGet && p == url.SentinelSecrets {
+		log.DebugLn(&cid, "Handler:routeSentinelGetSecrets")
 		routeList.Masked(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -62,11 +67,13 @@ func routeSentinelGetSecretsReveal(
 	p := r.URL.Path
 	m := r.Method
 
-	if m == http.MethodGet && p == "/sentinel/v1/secrets?reveal=true" {
-		log.DebugLn(&cid, "Handler: will list encrypted secrets")
+	if m == http.MethodGet && p == url.SentinelSecretsWithReveal {
+		log.DebugLn(&cid, "Handler:routeSentinelGetSecretsReveal")
 		routeList.Encrypted(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -79,11 +86,13 @@ func routeSentinelPostSecrets(
 	// Route to add secrets to VSecM Safe.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	// Calling it from anywhere else will error out.
-	if m == http.MethodPost && p == "/sentinel/v1/secrets" {
-		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will secret")
+	if m == http.MethodPost && p == url.SentinelSecrets {
+		log.DebugLn(&cid, "Handler:routeSentinelPostSecrets")
 		routeSecret.Secret(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -96,11 +105,13 @@ func routeSentinelDeleteSecrets(
 	// Route to delete secrets from VSecM Safe.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	// Calling it from anywhere else will error out.
-	if m == http.MethodDelete && p == "/sentinel/v1/secrets" {
-		log.DebugLn(&cid, "Handler:/sentinel/v1/secrets will delete")
+	if m == http.MethodDelete && p == url.SentinelSecrets {
+		log.DebugLn(&cid, "Handler:routeSentinelDeleteSecrets")
 		routeDelete.Delete(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -112,11 +123,13 @@ func routeSentinelPostKeys(
 
 	// Route to define the root key.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
-	if m == http.MethodPost && p == "/sentinel/v1/keys" {
-		log.DebugLn(&cid, "Handler: will receive keys")
+	if m == http.MethodPost && p == url.SentinelKeys {
+		log.DebugLn(&cid, "Handler:routeSentinelPostKeys")
 		routeReceive.Keys(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -130,11 +143,13 @@ func routeWorkloadGetSecrets(
 	// Only a VSecM-nominated workload is allowed to
 	// call this API endpoint. Calling it from anywhere else will
 	// error out.
-	if m == http.MethodGet && p == "/workload/v1/secrets" {
-		log.DebugLn(&cid, "Handler:/workload/v1/secrets: will fetch")
+	if m == http.MethodGet && p == url.WorkloadSecrets {
+		log.DebugLn(&cid, "Handler:routeWorkloadGetSecrets")
 		routeFetch.Fetch(cid, w, r)
+
 		return true
 	}
+
 	return false
 }
 
@@ -142,7 +157,7 @@ func routeWorkloadPostSecrets(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) bool {
 	log.DebugLn(&cid,
-		"Handler:/workload/v1/secrets: will post", r.Method, r.URL.Path)
+		"Handler:routeWorkloadPostSecrets: will post", r.Method, r.URL.Path)
 
 	panic("routeWorkloadPostSecrets not implemented")
 }

@@ -16,21 +16,24 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
+	algo "github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 func doList(
 	cid string, w http.ResponseWriter, r *http.Request, encrypted bool,
 ) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 
 	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Masked: Root key not set")
@@ -44,12 +47,12 @@ func doList(
 		return
 	}
 
-	j := journal.Entry{
+	j := data.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         event.Enter,
+		Event:         audit.Enter,
 	}
 	journal.Log(j)
 
@@ -71,10 +74,10 @@ func doList(
 	log.TraceLn(&cid, "Masked: after defer")
 
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForSentinel(), "", 1)
-	parts := strings.Split(tmp, "/")
+	parts := strings.Split(tmp, symbol.PathSeparator)
 
 	if len(parts) == 0 {
-		j.Event = event.BadPeerSvid
+		j.Event = audit.BadPeerSvid
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -92,19 +95,19 @@ func doList(
 	log.DebugLn(&cid, "Masked: will send. workload id:", workloadId)
 
 	if encrypted {
-		algo := crypto.Age
+		a := algo.Age
 		if env.FipsCompliantModeForSafe() {
-			algo = crypto.Aes
+			a = algo.Aes
 		}
 
 		secrets := collection.AllSecretsEncrypted(cid)
 
 		sfr := reqres.SecretEncryptedListResponse{
 			Secrets:   secrets,
-			Algorithm: algo,
+			Algorithm: a,
 		}
 
-		j.Event = event.Ok
+		j.Event = audit.Ok
 		journal.Log(j)
 
 		resp, err := json.Marshal(sfr)
@@ -132,7 +135,7 @@ func doList(
 		Secrets: secrets,
 	}
 
-	j.Event = event.Ok
+	j.Event = audit.Ok
 	journal.Log(j)
 
 	resp, err := json.Marshal(sfr)

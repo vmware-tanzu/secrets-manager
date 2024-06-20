@@ -19,7 +19,8 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/queue"
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -86,7 +87,9 @@ func Monitor(
 				log.DebugLn(
 					correlationId,
 					"Creating readiness probe.")
+
 				<-probe.CreateReadiness()
+
 				log.AuditLn(
 					correlationId,
 					"VSecM Safe is ready to serve.")
@@ -103,7 +106,9 @@ func Monitor(
 				log.DebugLn(
 					correlationId,
 					"Creating readiness probe.")
+
 				<-probe.CreateReadiness()
+
 				log.AuditLn(
 					correlationId,
 					"VSecM Safe is ready to serve.")
@@ -121,7 +126,9 @@ func Monitor(
 				log.DebugLn(
 					correlationId,
 					"Creating readiness probe.")
+
 				<-probe.CreateReadiness()
+
 				log.AuditLn(
 					correlationId,
 					"VSecM Safe is ready to serve.")
@@ -143,7 +150,7 @@ func Monitor(
 func AcquireSource(
 	ctx context.Context, acquiredSvid chan<- bool,
 ) *workloadapi.X509Source {
-	cid := ctx.Value(constants.CorrelationId).(*string)
+	cid := ctx.Value(key.CorrelationId).(*string)
 
 	log.InfoLn(cid, "Acquiring source...")
 
@@ -166,9 +173,7 @@ func AcquireSource(
 	//goland:noinspection ALL
 	svid, err := source.GetX509SVID()
 	if err != nil {
-		log.FatalLn(cid,
-			"Unable to get X.509 SVID from source bundle",
-			err.Error())
+		log.FatalLn(cid, "Unable to get X.509 SVID from source bundle", err.Error())
 		return nil
 	}
 
@@ -188,7 +193,9 @@ func AcquireSource(
 	}
 
 	log.TraceLn(cid, "Sending: Acquired SVID", len(acquiredSvid))
+
 	acquiredSvid <- true
+
 	log.TraceLn(cid, "Sent: Acquired SVID", len(acquiredSvid))
 
 	return source
@@ -205,7 +212,9 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 	if env.RootKeyInputModeManual() {
 		log.InfoLn(id,
 			"Manual key input enabled. Skipping automatic key generation.")
+
 		updatedSecret <- true
+
 		return
 	}
 
@@ -227,11 +236,13 @@ func CreateRootKey(id *string, updatedSecret chan<- bool) {
 
 	secret := string(data)
 
-	if secret != crypto.BlankRootKeyValue {
+	if secret != val.BlankRootKey {
 		log.InfoLn(id,
 			"Secret has been set in the cluster, will reuse it")
 		crypto.SetRootKeyInMemory(secret)
+
 		updatedSecret <- true
+
 		return
 	}
 

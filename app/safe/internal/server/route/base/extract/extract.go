@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"strings"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -34,7 +35,7 @@ import (
 //     parts of the SPIFFE ID after the prefix removal.
 func WorkloadIDAndParts(spiffeid string) (string, []string) {
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForWorkload(), "", 1)
-	parts := strings.Split(tmp, "/")
+	parts := strings.Split(tmp, symbol.PathSeparator)
 	if len(parts) > 0 {
 		return parts[0], parts
 	}

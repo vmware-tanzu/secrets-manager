@@ -16,16 +16,17 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/extract"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/handle"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/extract"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/handle"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 // Fetch handles the retrieval of a secret for a given workload, identified by
@@ -44,7 +45,7 @@ import (
 func Fetch(
 	cid string, w http.ResponseWriter, r *http.Request,
 ) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 
 	if !crypto.RootKeySetInMemory() {
 		log.InfoLn(&cid, "Fetch: Root key not set")
@@ -60,12 +61,12 @@ func Fetch(
 		return
 	}
 
-	j := journal.Entry{
+	j := data.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         event.Enter,
+		Event:         audit.Enter,
 	}
 
 	journal.Log(j)

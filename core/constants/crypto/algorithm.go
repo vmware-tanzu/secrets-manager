@@ -8,4 +8,9 @@
 >/'  SPDX-License-Identifier: BSD-2-Clause
 */
 
-package initialization
+package crypto
+
+type Algorithm string
+
+const Age = Algorithm("age")
+const Aes = Algorithm("aes")

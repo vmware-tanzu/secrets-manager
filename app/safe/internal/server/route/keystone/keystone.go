@@ -16,16 +16,16 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/lib/validation"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
+	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
 // Status handles HTTP requests to determine the current status of
@@ -45,14 +45,14 @@ import (
 func Status(
 	cid string, w http.ResponseWriter, r *http.Request,
 ) {
-	spiffeid := spiffe.IdAsString(cid, r)
+	spiffeid := s.IdAsString(r)
 
-	j := journal.Entry{
+	j := data.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,
 		Url:           r.RequestURI,
 		SpiffeId:      spiffeid,
-		Event:         event.Enter,
+		Event:         audit.Enter,
 	}
 
 	journal.Log(j)
@@ -65,7 +65,7 @@ func Status(
 			log.ErrorLn(&cid, "Status: Problem sending response", err.Error())
 		}
 
-		j.Event = event.BadSpiffeId
+		j.Event = audit.BadSpiffeId
 		journal.Log(j)
 
 		return
@@ -79,7 +79,7 @@ func Status(
 			log.ErrorLn(&cid, "Status: Problem sending response", err.Error())
 		}
 
-		j.Event = event.RootKeyNotSet
+		j.Event = audit.RootKeyNotSet
 		journal.Log(j)
 
 		return
@@ -89,7 +89,7 @@ func Status(
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
 
-		j.Event = event.BadSpiffeId
+		j.Event = audit.BadSpiffeId
 		journal.Log(j)
 
 		return
@@ -110,7 +110,7 @@ func Status(
 	parts := strings.Split(tmp, "/")
 
 	if len(parts) == 0 {
-		j.Event = event.BadPeerSvid
+		j.Event = audit.BadPeerSvid
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -129,7 +129,7 @@ func Status(
 			Status: data.Ready,
 		}
 
-		j.Event = event.Ok
+		j.Event = audit.Ok
 		journal.Log(j)
 
 		resp, err := json.Marshal(res)
@@ -159,7 +159,7 @@ func Status(
 		Status: data.Pending,
 	}
 
-	j.Event = event.Ok
+	j.Event = audit.Ok
 	journal.Log(j)
 
 	resp, err := json.Marshal(res)

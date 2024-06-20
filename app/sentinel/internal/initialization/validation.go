@@ -12,11 +12,11 @@ package initialization
 
 import (
 	"context"
-	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 func initCommandsExecutedAlready(

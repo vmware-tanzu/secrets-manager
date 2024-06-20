@@ -15,7 +15,8 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
@@ -44,7 +45,7 @@ import (
 // critical for further processing steps, and appropriate HTTP response behavior
 // needs to be enforced based on the validation results.
 func IsSentinel(
-	j journal.Entry, cid string, spiffeid string,
+	j data.JournalEntry, cid string, spiffeid string,
 ) (bool, func(http.ResponseWriter)) {
 	journal.Log(j)
 
@@ -52,7 +53,7 @@ func IsSentinel(
 		return true, func(writer http.ResponseWriter) {}
 	}
 
-	j.Event = event.BadSpiffeId
+	j.Event = audit.BadSpiffeId
 	journal.Log(j)
 
 	var responder = func(w http.ResponseWriter) {

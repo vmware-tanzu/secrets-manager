@@ -10,7 +10,10 @@
 
 package safe
 
-import reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
+import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
+	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
+)
 
 func newRootKeyUpdateRequest(
 	ageSecretKey, agePublicKey, aesCipherKey string,
@@ -29,11 +32,11 @@ func newSecretUpsertRequest(workloadIds []string, secret string,
 	f := decideSecretFormat(format)
 
 	if notBefore == "" {
-		notBefore = "now"
+		notBefore = val.TimeNow
 	}
 
 	if expires == "" {
-		expires = "never"
+		expires = val.TimeNever
 	}
 
 	return reqres.SecretUpsertRequest{

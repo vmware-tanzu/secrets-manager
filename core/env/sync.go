@@ -11,11 +11,10 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"math"
 	"strconv"
 	"time"
-
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // infiniteDuration is used to indicate that no synchronization should occur.
@@ -28,8 +27,8 @@ const infiniteDuration = time.Duration(math.MaxInt64)
 //   - A time.Duration representing the interval at which root keys should be synchronized.
 //   - Returns an infinite duration if the interval is set to "never" or if there is an error in parsing the interval.
 func RootKeySyncIntervalForSafe() time.Duration {
-	p := constants.GetEnv(constants.VSecMSafeSyncRootKeyInterval)
-	if p == "" || constants.Never(p) {
+	p := env.Value(env.VSecMSafeSyncRootKeyInterval)
+	if p == "" || env.Never(p) {
 		return infiniteDuration
 	}
 
@@ -47,8 +46,8 @@ func RootKeySyncIntervalForSafe() time.Duration {
 // Returns:
 //   - A time.Duration representing the interval at which secrets should be synchronized.
 func SecretsSyncIntervalForSafe() time.Duration {
-	p := constants.GetEnv(constants.VSecMSafeSyncSecretsInterval)
-	if p == "" || constants.Never(p) {
+	p := env.Value(env.VSecMSafeSyncSecretsInterval)
+	if p == "" || env.Never(p) {
 		return infiniteDuration
 	}
 
@@ -67,11 +66,11 @@ func SecretsSyncIntervalForSafe() time.Duration {
 // Returns:
 //   - A bool indicating whether deleted secrets should be synchronized.
 func SyncDeletedSecretsForSafe() bool {
-	p := constants.GetEnv(constants.VSecMSafeSyncDeletedSecrets)
+	p := env.Value(env.VSecMSafeSyncDeletedSecrets)
 	if p == "" {
 		return false
 	}
-	return constants.True(p)
+	return env.True(p)
 }
 
 // SyncInterpolatedKubernetesSecretsForSafe checks if interpolated Kubernetes
@@ -82,11 +81,11 @@ func SyncDeletedSecretsForSafe() bool {
 //   - A bool indicating whether interpolated Kubernetes secrets should be
 //     synchronized.
 func SyncInterpolatedKubernetesSecretsForSafe() bool {
-	p := constants.GetEnv(constants.VSecMSafeSyncInterpolatedK8sSecrets)
+	p := env.Value(env.VSecMSafeSyncInterpolatedK8sSecrets)
 	if p == "" {
 		return false
 	}
-	return constants.True(p)
+	return env.True(p)
 }
 
 // SyncExpiredSecretsSecretsForSafe checks if expired secrets should be
@@ -96,9 +95,9 @@ func SyncInterpolatedKubernetesSecretsForSafe() bool {
 // Returns:
 //   - A bool indicating whether expired secrets should be synchronized.
 func SyncExpiredSecretsSecretsForSafe() bool {
-	p := constants.GetEnv(constants.VSecMSafeSyncExpiredSecrets)
+	p := env.Value(env.VSecMSafeSyncExpiredSecrets)
 	if p == "" {
 		return false
 	}
-	return constants.True(p)
+	return env.True(p)
 }

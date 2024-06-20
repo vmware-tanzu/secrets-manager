@@ -23,6 +23,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 
+	u "github.com/vmware-tanzu/secrets-manager/core/constants/url"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/rpc"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
@@ -62,7 +63,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		)
 	})
 
-	safeUrl := "/sentinel/v1/secrets"
+	safeUrl := u.SentinelSecrets
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
@@ -154,9 +155,9 @@ func Get(ctx context.Context, showEncryptedSecrets bool) error {
 			id.String() + "'")
 	})
 
-	safeUrl := "/sentinel/v1/secrets"
+	safeUrl := u.SentinelSecrets
 	if showEncryptedSecrets {
-		safeUrl = "/sentinel/v1/secrets?reveal=true"
+		safeUrl = u.SentinelSecretsWithReveal
 	}
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)

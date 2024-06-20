@@ -15,8 +15,9 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
-	event "github.com/vmware-tanzu/secrets-manager/core/audit/state"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
@@ -32,10 +33,11 @@ import (
 //   - j (audit.JournalEntry): An audit journal entry for recording the event.
 //   - w (http.ResponseWriter): The HTTP response writer to send back the
 //     encrypted value or errors.
-func SendEncryptedValue(cid string, value string, j journal.Entry,
-	w http.ResponseWriter) {
+func SendEncryptedValue(
+	cid string, value string, j data.JournalEntry, w http.ResponseWriter,
+) {
 	if value == "" {
-		j.Event = event.NoValue
+		j.Event = audit.NoValue
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusBadRequest)
@@ -50,7 +52,7 @@ func SendEncryptedValue(cid string, value string, j journal.Entry,
 
 	encrypted, err := crypto.EncryptValue(value)
 	if err != nil {
-		j.Event = event.EncryptionFailed
+		j.Event = audit.EncryptionFailed
 		journal.Log(j)
 
 		w.WriteHeader(http.StatusInternalServerError)
@@ -66,5 +68,4 @@ func SendEncryptedValue(cid string, value string, j journal.Entry,
 	if err != nil {
 		log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
 	}
-	return
 }

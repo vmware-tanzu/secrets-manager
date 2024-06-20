@@ -15,6 +15,7 @@ import (
 	"crypto/x509"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/stretchr/testify/assert"
+	"github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 	"net/http/httptest"
 	"net/url"
 	"testing"
@@ -68,7 +69,7 @@ func TestIdFromRequest(t *testing.T) {
 			req := httptest.NewRequest("GET", "https://example.com", nil)
 			req.TLS = tt.tlsState
 
-			id, err := IdFromRequest(req)
+			id, err := spiffe.IdFromRequest(req)
 			if tt.expectedErr != "" {
 				assert.Nil(t, id)
 				assert.EqualError(t, err, tt.expectedErr)
@@ -89,8 +90,7 @@ func TestIdAsString(t *testing.T) {
 		},
 	}
 
-	cid := "test-correlation-id"
-	spiffeIDString := IdAsString(cid, req)
+	spiffeIDString := spiffe.IdAsString(req)
 
 	expectedID := "spiffe://example.org/service"
 	assert.Equal(t, expectedID, spiffeIDString)

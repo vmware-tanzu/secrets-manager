@@ -11,11 +11,10 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 // Redefine some constants to avoid import cycle.
@@ -44,13 +43,13 @@ var backoff = struct {
 // Returns:
 // int64 - the maximum number of retries.
 func BackoffMaxRetries() int64 {
-	p := constants.GetEnv(constants.VSecMBackoffMaxRetries)
+	p := env.Value(env.VSecMBackoffMaxRetries)
 	if p == "" {
-		p = string(constants.VSecMBackoffMaxRetriesDefault)
+		p = string(env.VSecMBackoffMaxRetriesDefault)
 	}
 	i, err := strconv.ParseInt(p, 10, 32)
 	if err != nil {
-		i, _ := strconv.Atoi(string(constants.VSecMBackoffMaxRetriesDefault))
+		i, _ := strconv.Atoi(string(env.VSecMBackoffMaxRetriesDefault))
 		return int64(i)
 	}
 
@@ -68,9 +67,9 @@ func BackoffMaxRetries() int64 {
 // Returns:
 // time.Duration - the initial backoff delay duration.
 func BackoffDelay() time.Duration {
-	p := constants.GetEnv(constants.VSecMBackoffDelay)
+	p := env.Value(env.VSecMBackoffDelay)
 	if p == "" {
-		p = string(constants.VSecMBackoffDelayDefault)
+		p = string(env.VSecMBackoffDelayDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)
@@ -92,7 +91,7 @@ func BackoffDelay() time.Duration {
 // Returns:
 // string - the backoff mode, either "exponential" or "linear".
 func BackoffMode() string {
-	p := constants.GetEnv(constants.VSecMBackoffMode)
+	p := env.Value(env.VSecMBackoffMode)
 	p = strings.TrimSpace(p)
 
 	if p == "" {
@@ -117,9 +116,9 @@ func BackoffMode() string {
 // Returns:
 // time.Duration - the maximum backoff duration.
 func BackoffMaxWait() time.Duration {
-	p := constants.GetEnv(constants.VSecMBackoffMaxWait)
+	p := env.Value(env.VSecMBackoffMaxWait)
 	if p == "" {
-		p = string(constants.VSecMBackoffMaxWaitDefault)
+		p = string(env.VSecMBackoffMaxWaitDefault)
 	}
 
 	i, err := strconv.ParseInt(p, 10, 32)

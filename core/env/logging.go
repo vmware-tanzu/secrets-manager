@@ -11,10 +11,9 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"strings"
-
-	"github.com/vmware-tanzu/secrets-manager/core/constants"
 )
 
 type Level int
@@ -57,7 +56,7 @@ var level = struct {
 // VSECM_LOG_LEVEL determines the verbosity of the logs.
 // 0: logs are off, 7: highest verbosity (TRACE).
 func LogLevel() int {
-	p := constants.GetEnv(constants.VSecMLogLevel)
+	p := env.Value(env.VSecMLogLevel)
 	if p == "" {
 		return int(level.Warn)
 	}
@@ -91,10 +90,10 @@ func LogLevel() int {
 // Returns:
 // bool - true if logging of secret fingerprints is enabled, false otherwise.
 func LogSecretFingerprints() bool {
-	p := constants.GetEnv(constants.VSecMLogSecretFingerprints)
+	p := env.Value(env.VSecMLogSecretFingerprints)
 	p = strings.ToLower(strings.TrimSpace(p))
 	if p == "" {
 		return false
 	}
-	return constants.True(p)
+	return env.True(p)
 }
