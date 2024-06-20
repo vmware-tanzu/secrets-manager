@@ -11,10 +11,12 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"math"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 // infiniteDuration is used to indicate that no synchronization should occur.
@@ -28,7 +30,7 @@ const infiniteDuration = time.Duration(math.MaxInt64)
 //   - Returns an infinite duration if the interval is set to "never" or if there is an error in parsing the interval.
 func RootKeySyncIntervalForSafe() time.Duration {
 	p := env.Value(env.VSecMSafeSyncRootKeyInterval)
-	if p == "" || env.Never(p) {
+	if p == "" || val.Never(p) {
 		return infiniteDuration
 	}
 
@@ -47,7 +49,7 @@ func RootKeySyncIntervalForSafe() time.Duration {
 //   - A time.Duration representing the interval at which secrets should be synchronized.
 func SecretsSyncIntervalForSafe() time.Duration {
 	p := env.Value(env.VSecMSafeSyncSecretsInterval)
-	if p == "" || env.Never(p) {
+	if p == "" || val.Never(p) {
 		return infiniteDuration
 	}
 
@@ -70,7 +72,7 @@ func SyncDeletedSecretsForSafe() bool {
 	if p == "" {
 		return false
 	}
-	return env.True(p)
+	return val.True(p)
 }
 
 // SyncInterpolatedKubernetesSecretsForSafe checks if interpolated Kubernetes
@@ -85,7 +87,7 @@ func SyncInterpolatedKubernetesSecretsForSafe() bool {
 	if p == "" {
 		return false
 	}
-	return env.True(p)
+	return val.True(p)
 }
 
 // SyncExpiredSecretsSecretsForSafe checks if expired secrets should be
@@ -99,5 +101,5 @@ func SyncExpiredSecretsSecretsForSafe() bool {
 	if p == "" {
 		return false
 	}
-	return env.True(p)
+	return val.True(p)
 }

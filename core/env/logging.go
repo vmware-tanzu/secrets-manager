@@ -12,6 +12,7 @@ package env
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"strconv"
 	"strings"
 )
@@ -95,5 +96,5 @@ func LogSecretFingerprints() bool {
 	if p == "" {
 		return false
 	}
-	return env.True(p)
+	return val.True(p)
 }

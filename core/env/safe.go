@@ -11,9 +11,11 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 // IvInitializationIntervalForSafe fetches the Initialization Vector (IV) interval
@@ -132,7 +134,7 @@ func SecretDeleteBufferSizeForSafe() int {
 func FipsCompliantModeForSafe() bool {
 	p := env.Value(env.VSecMSafeFipsCompliant)
 
-	return env.True(p)
+	return val.True(p)
 }
 
 // SecretBackupCountForSafe retrieves the number of backups to keep for VSecM
@@ -164,7 +166,7 @@ func SecretBackupCountForSafe() int {
 func RootKeyInputModeManual() bool {
 	p := env.Value(env.VSecMRootKeyInputModeManual)
 
-	return env.True(p)
+	return val.True(p)
 }
 
 // DataPathForSafe returns the path to the safe data directory.

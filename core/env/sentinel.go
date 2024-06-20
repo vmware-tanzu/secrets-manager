@@ -11,9 +11,11 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
 // InitCommandPathForSentinel returns the path to the initialization commands file
@@ -92,5 +94,5 @@ func OIDCProviderBaseUrlForSentinel() string {
 // server functionality in VSecM Sentinel.
 func SentinelEnableOIDCResourceServer() bool {
 	p := env.Value(env.VSecMSentinelEnableOidcResourceServer)
-	return env.True(p)
+	return val.True(p)
 }

@@ -11,7 +11,7 @@
 package safe
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
