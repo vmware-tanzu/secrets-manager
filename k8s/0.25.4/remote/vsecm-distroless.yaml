@@ -13,7 +13,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: vsecm-system
+  name: vsecm-system-custom
 ---
 # Source: vsecm/charts/keystone/templates/ServiceAccount.yaml
 # /*
@@ -30,12 +30,12 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: vsecm-keystone
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: keystone-0.25.4
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
@@ -55,12 +55,12 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: vsecm-safe
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: safe-0.25.4
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -80,12 +80,12 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: vsecm-sentinel
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: sentinel-0.25.4
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
@@ -105,7 +105,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: vsecm-root-key
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
 type: Opaque
 data:
   # '{}' (e30=) is a special placeholder to tell Safe that the Secret
@@ -126,7 +126,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: vsecm-sentinel-init-secret
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
 type: Opaque
 stringData:
   data: "exit:true\n--\n"
@@ -155,7 +155,7 @@ metadata:
 #   kind: Role
 #   metadata:
 #     name: vsecm-secret-readwriter
-#     namespace: vsecm-system
+#     namespace: vsecm-system-custom
 #
 ##
 
@@ -218,7 +218,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: vsecm-safe
-    namespace: vsecm-system
+    namespace: vsecm-system-custom
 roleRef:
   kind: ClusterRole
   name: vsecm-secret-readwriter
@@ -234,11 +234,11 @@ roleRef:
 #   kind: RoleBinding
 #   metadata:
 #     name: vsecm-secret-readwriter-binding
-#     namespace: vsecm-system
+#     namespace: vsecm-system-custom
 #   subjects:
 #     - kind: ServiceAccount
 #       name: vsecm-safe
-#       namespace: vsecm-system
+#       namespace: vsecm-system-custom
 #   roleRef:
 #     kind: Role
 #     name: vsecm-secret-readwriter
@@ -261,12 +261,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: vsecm-safe
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: safe-0.25.4
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -279,7 +279,7 @@ spec:
   selector:
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
 ---
 # Source: vsecm/charts/keystone/templates/Deployment.yaml
 # /*
@@ -296,12 +296,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vsecm-keystone
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: keystone-0.25.4
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -310,13 +310,13 @@ spec:
     matchLabels:
       app.kubernetes.io/name: vsecm-keystone
       app.kubernetes.io/instance: vsecm
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   template:
     metadata:
       labels:
         app.kubernetes.io/name: vsecm-keystone
         app.kubernetes.io/instance: vsecm
-        app.kubernetes.io/part-of: vsecm-system
+        app.kubernetes.io/part-of: vsecm-system-custom
     spec:
       serviceAccountName: vsecm-keystone
       securityContext:
@@ -376,15 +376,15 @@ spec:
             - name: VSECM_LOG_LEVEL
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+              value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
+              value: "spiffe://aegis.ist/ns/"
             - name: VSECM_NAMESPACE_SYSTEM
-              value: "vsecm-system"
+              value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
-              value: "spire-system"
+              value: "spire-system-custom"
       containers:
         - name: main
           image: "vsecm/vsecm-ist-keystone:0.25.4"
@@ -425,15 +425,15 @@ spec:
             - name: VSECM_LOG_LEVEL
               value: "7"
             - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+              value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
+              value: "spiffe://aegis.ist/ns/"
             - name: VSECM_NAMESPACE_SYSTEM
-              value: "vsecm-system"
+              value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
-              value: "spire-system"
+              value: "spire-system-custom"
           resources:
             requests:
               memory: 20Mi
@@ -461,12 +461,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vsecm-sentinel
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: sentinel-0.25.4
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -475,13 +475,13 @@ spec:
     matchLabels:
       app.kubernetes.io/name: vsecm-sentinel
       app.kubernetes.io/instance: vsecm
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   template:
     metadata:
       labels:
         app.kubernetes.io/name: vsecm-sentinel
         app.kubernetes.io/instance: vsecm
-        app.kubernetes.io/part-of: vsecm-system
+        app.kubernetes.io/part-of: vsecm-system-custom
     spec:
       serviceAccountName: vsecm-sentinel
       securityContext:
@@ -572,15 +572,15 @@ spec:
             - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
               value: "gen:"
             - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+              value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel"
             - name: VSECM_NAMESPACE_SYSTEM
-              value: "vsecm-system"
+              value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
-              value: "spire-system"
+              value: "spire-system-custom"
           livenessProbe:
             httpGet:
               path: /
@@ -617,12 +617,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: vsecm-safe
-  namespace: vsecm-system
+  namespace: vsecm-system-custom
   labels:
     helm.sh/chart: safe-0.25.4
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/part-of: vsecm-system-custom
     app.kubernetes.io/version: "0.25.4"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -632,13 +632,13 @@ spec:
     matchLabels:
       app.kubernetes.io/name: vsecm-safe
       app.kubernetes.io/instance: vsecm
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   template:
     metadata:
       labels:
         app.kubernetes.io/name: vsecm-safe
         app.kubernetes.io/instance: vsecm
-        app.kubernetes.io/part-of: vsecm-system
+        app.kubernetes.io/part-of: vsecm-system-custom
     spec:
       serviceAccountName: vsecm-safe
       securityContext:
@@ -775,17 +775,17 @@ spec:
             - name: VSECM_SAFE_TLS_PORT
               value: ":8443"
             - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+              value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
+              value: "spiffe://aegis.ist/ns/"
             - name: VSECM_NAMESPACE_SYSTEM
-              value: "vsecm-system"
+              value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
-              value: "spire-system"
+              value: "spire-system-custom"
           livenessProbe:
             httpGet:
               path: /
@@ -839,13 +839,13 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-keystone
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+  spiffeIDTemplate: spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-keystone
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   workloadSelectorTemplates:
-    - "k8s:ns:vsecm-system"
+    - "k8s:ns:vsecm-system-custom"
     - "k8s:sa:vsecm-keystone"
 ---
 # Source: vsecm/charts/safe/templates/Identity.yaml
@@ -864,13 +864,13 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-safe
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+  spiffeIDTemplate: spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-safe
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   workloadSelectorTemplates:
-    - "k8s:ns:vsecm-system"
+    - "k8s:ns:vsecm-system-custom"
     - "k8s:sa:vsecm-safe"
 ---
 # Source: vsecm/charts/sentinel/templates/Identity.yaml
@@ -889,11 +889,11 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-sentinel
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+  spiffeIDTemplate: spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-sentinel
-      app.kubernetes.io/part-of: vsecm-system
+      app.kubernetes.io/part-of: vsecm-system-custom
   workloadSelectorTemplates:
-    - "k8s:ns:vsecm-system"
+    - "k8s:ns:vsecm-system-custom"
     - "k8s:sa:vsecm-sentinel"
