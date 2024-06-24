@@ -47,7 +47,7 @@ import (
 //   - r (*http.Request): The incoming HTTP request containing the payload.
 //   - spiffeid (string): The SPIFFE ID associated with the requester, used for
 //     authorization validation.
-func Keys(cid string, w http.ResponseWriter, r *http.Request) {
+func Keys(cid string, r *http.Request, w http.ResponseWriter) {
 	spiffeid := s.IdAsString(r)
 
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)

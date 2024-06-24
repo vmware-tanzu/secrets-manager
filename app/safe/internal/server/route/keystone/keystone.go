@@ -43,7 +43,7 @@ import (
 //   - spiffeid: The SPIFFE ID of the entity making the request, used for
 //     authentication and logging.
 func Status(
-	cid string, w http.ResponseWriter, r *http.Request,
+	cid string, r *http.Request, w http.ResponseWriter,
 ) {
 	spiffeid := s.IdAsString(r)
 
