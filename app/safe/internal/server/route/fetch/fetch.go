@@ -43,7 +43,7 @@ import (
 //   - spiffeid: A string representing the SPIFFE ID of the client making the
 //     request.
 func Fetch(
-	cid string, w http.ResponseWriter, r *http.Request,
+	cid string, r *http.Request, w http.ResponseWriter,
 ) {
 	spiffeid := s.IdAsString(r)
 

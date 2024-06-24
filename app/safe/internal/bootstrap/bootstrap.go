@@ -18,13 +18,11 @@ import (
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/queue"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/probe"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"
 )
 
@@ -83,16 +81,7 @@ func Monitor(
 				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
-				queue.Initialize()
-				log.DebugLn(
-					correlationId,
-					"Creating readiness probe.")
-
-				<-probe.CreateReadiness()
-
-				log.AuditLn(
-					correlationId,
-					"VSecM Safe is ready to serve.")
+				completeInitialization(correlationId)
 			}
 		// Updated the root key:
 		case <-channels.UpdatedSecret:
@@ -102,16 +91,7 @@ func Monitor(
 				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
-				queue.Initialize()
-				log.DebugLn(
-					correlationId,
-					"Creating readiness probe.")
-
-				<-probe.CreateReadiness()
-
-				log.AuditLn(
-					correlationId,
-					"VSecM Safe is ready to serve.")
+				completeInitialization(correlationId)
 			}
 		// VSecM Safe REST API is ready to serve:
 		case <-channels.ServerStarted:
@@ -121,17 +101,7 @@ func Monitor(
 				correlationId,
 				"remaining operations before ready:", counter)
 			if counter == 0 {
-				// Start all background jobs.
-				queue.Initialize()
-				log.DebugLn(
-					correlationId,
-					"Creating readiness probe.")
-
-				<-probe.CreateReadiness()
-
-				log.AuditLn(
-					correlationId,
-					"VSecM Safe is ready to serve.")
+				completeInitialization(correlationId)
 			}
 		// Things didn't start in a timely manner:
 		case <-timedOut:

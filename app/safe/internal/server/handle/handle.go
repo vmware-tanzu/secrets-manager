@@ -11,6 +11,7 @@
 package handle
 
 import (
+	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	"net/http"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
@@ -40,9 +41,10 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 		id, err := s.IdFromRequest(r)
 
 		if err != nil {
-			log.WarnLn(
-				&cid,
-				"Handler: blocking insecure svid", id, err)
+			log.WarnLn(&cid, "Handler: blocking insecure svid", id, err)
+
+			routeFallback.Fallback(cid, r, w)
+
 			return
 		}
 
@@ -54,34 +56,6 @@ func InitializeRoutes(source *workloadapi.X509Source) {
 			&cid,
 			"Handler: got svid:", sid, "path", p, "method", m)
 
-		switch {
-		case routeSentinelGetKeystone(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelGetKeystone")
-			return
-		case routeSentinelGetSecrets(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelGetSecrets")
-			return
-		case routeSentinelGetSecretsReveal(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelGetSecretsReveal")
-			return
-		case routeSentinelPostSecrets(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelPostSecrets")
-			return
-		case routeSentinelDeleteSecrets(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelDeleteSecrets")
-			return
-		case routeSentinelPostKeys(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeSentinelPostKeys")
-			return
-		case routeWorkloadGetSecrets(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeWorkloadGetSecrets")
-			return
-		case routeWorkloadPostSecrets(cid, r, w):
-			log.TraceLn(&cid, "InitializeRoutes:Handler:routeWorkloadPostSecrets")
-			return
-		}
-
-		log.TraceLn(&cid, "InitializeRoutes:Handler:routeFallback")
-		routeFallback(cid, r, w)
+		route(cid, r, w)
 	})
 }

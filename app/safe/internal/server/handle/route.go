@@ -11,7 +11,7 @@
 package handle
 
 import (
-	"io"
+	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	"net/http"
 
 	routeDelete "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
@@ -21,155 +21,42 @@ import (
 	routeReceive "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/receive"
 	routeSecret "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/secret"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/url"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-func routeSentinelGetKeystone(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
+type handler func(string, *http.Request, http.ResponseWriter)
 
-	// Return the current state of the Keystone secret.
-	// Either "initialized", or "pending"
-	if m == http.MethodGet && p == url.SentinelKeystone {
-		log.DebugLn(&cid, "Handler:routeSentinelGetKeystone")
-		routeKeystone.Status(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeSentinelGetSecrets(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
-	// Route to list secrets.
-	// Only VSecM Sentinel is allowed to call this API endpoint.
-	// Calling it from anywhere else will error out.
-	if m == http.MethodGet && p == url.SentinelSecrets {
-		log.DebugLn(&cid, "Handler:routeSentinelGetSecrets")
-		routeList.Masked(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeSentinelGetSecretsReveal(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
-	if m == http.MethodGet && p == url.SentinelSecretsWithReveal {
-		log.DebugLn(&cid, "Handler:routeSentinelGetSecretsReveal")
-		routeList.Encrypted(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeSentinelPostSecrets(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
-	// Route to add secrets to VSecM Safe.
-	// Only VSecM Sentinel is allowed to call this API endpoint.
-	// Calling it from anywhere else will error out.
-	if m == http.MethodPost && p == url.SentinelSecrets {
-		log.DebugLn(&cid, "Handler:routeSentinelPostSecrets")
-		routeSecret.Secret(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeSentinelDeleteSecrets(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
+func factory(p, m string) handler {
+	switch {
+	case m == http.MethodGet && p == url.SentinelKeystone:
+		return routeKeystone.Status
+	case m == http.MethodGet && p == url.SentinelSecretsWithReveal:
+		return routeList.Encrypted
+	case m == http.MethodPost && p == url.SentinelSecrets:
+		return routeSecret.Secret
 	// Route to delete secrets from VSecM Safe.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	// Calling it from anywhere else will error out.
-	if m == http.MethodDelete && p == url.SentinelSecrets {
-		log.DebugLn(&cid, "Handler:routeSentinelDeleteSecrets")
-		routeDelete.Delete(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeSentinelPostKeys(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
+	case m == http.MethodDelete && p == url.SentinelSecrets:
+		return routeDelete.Delete
 	// Route to define the root key.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
-	if m == http.MethodPost && p == url.SentinelKeys {
-		log.DebugLn(&cid, "Handler:routeSentinelPostKeys")
-		routeReceive.Keys(cid, w, r)
-
-		return true
-	}
-
-	return false
-}
-
-func routeWorkloadGetSecrets(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	p := r.URL.Path
-	m := r.Method
-
+	case m == http.MethodPost && p == url.SentinelKeys:
+		return routeReceive.Keys
 	// Route to fetch secrets.
 	// Only a VSecM-nominated workload is allowed to
 	// call this API endpoint. Calling it from anywhere else will
 	// error out.
-	if m == http.MethodGet && p == url.WorkloadSecrets {
-		log.DebugLn(&cid, "Handler:routeWorkloadGetSecrets")
-		routeFetch.Fetch(cid, w, r)
-
-		return true
+	case m == http.MethodGet && p == url.WorkloadSecrets:
+		return routeFetch.Fetch
+	case m == http.MethodPost && p == url.WorkloadSecrets:
+		panic("routeWorkloadPostSecrets not implemented")
+	default:
+		return routeFallback.Fallback
 	}
-
-	return false
 }
 
-func routeWorkloadPostSecrets(
-	cid string, r *http.Request, w http.ResponseWriter,
-) bool {
-	log.DebugLn(&cid,
-		"Handler:routeWorkloadPostSecrets: will post", r.Method, r.URL.Path)
-
-	panic("routeWorkloadPostSecrets not implemented")
-}
-
-func routeFallback(
+func route(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
-	log.DebugLn(&cid, "Handler: route mismatch:", r.RequestURI)
-
-	w.WriteHeader(http.StatusBadRequest)
-	_, err := io.WriteString(w, "")
-	if err != nil {
-		log.WarnLn(&cid, "Problem writing response:", err.Error())
-	}
+	factory(r.URL.Path, r.Method)(cid, r, w)
 }

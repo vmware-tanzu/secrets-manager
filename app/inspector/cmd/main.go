@@ -33,6 +33,6 @@ func main() {
 		return
 	}
 
-	// d.Data is a collection of VSecM secrets.
+	// d.Data is a serialized collection of VSecM secrets.
 	fmt.Println(d.Data)
 }

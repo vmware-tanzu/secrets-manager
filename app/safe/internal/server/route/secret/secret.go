@@ -38,7 +38,7 @@ import (
 //   - r: An http.Request object containing the details of the client's request.
 //   - spiffeid: A string representing the SPIFFE ID of the client making the
 //     request.
-func Secret(cid string, w http.ResponseWriter, r *http.Request) {
+func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	spiffeid := s.IdAsString(r)
 	if spiffeid == "" {
 		w.WriteHeader(http.StatusBadRequest)

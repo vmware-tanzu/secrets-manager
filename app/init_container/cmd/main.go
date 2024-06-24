@@ -34,8 +34,7 @@ func main() {
 	// Wait for a specified duration before exiting the init container.
 	// This can be useful when you want things to reconcile before
 	// starting the main container.
-	d := env.WaitBeforeExitForInitContainer()
-	go startup.Watch(d)
+	go startup.Watch(env.WaitBeforeExitForInitContainer())
 
 	// Block the process from exiting, but also be graceful and honor the
 	// termination signals that may come from the orchestrator.
