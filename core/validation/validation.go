@@ -93,6 +93,7 @@ func IsSentinel(spiffeid string) bool {
 //	bool: `true` if the SPIFFE ID belongs to VSecM Safe, `false` otherwise.
 func IsSafe(spiffeid string) bool {
 	if !IsWorkload(spiffeid) {
+		fmt.Println(">!>!>!>!> IsSafe: Not a workload")
 		return false
 	}
 
@@ -101,17 +102,21 @@ func IsSafe(spiffeid string) bool {
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
+			fmt.Println(">!>!>!>!> IsSafe: Invalid regex")
 			return false
 		}
+		fmt.Println(">!>!>!>!> IsSafe: Using regex")
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		fmt.Println(">!>!>!>!> IsSafe: Invalid trust domain")
 		return false
 	}
 
+	fmt.Println(">!>!>!>!> IsSafe: Using prefix")
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
