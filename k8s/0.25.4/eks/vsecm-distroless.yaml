@@ -388,7 +388,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
@@ -396,7 +396,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "vsecm.com"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/([^/]+)$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/([^/]+)$"
       containers:
         - name: main
           image: "public.ecr.aws/h8y1n7y7/vsecm-ist-keystone:0.25.4"
@@ -592,7 +592,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
@@ -601,7 +601,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "vsecm.com"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/([^/]+)$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /
@@ -827,7 +827,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
@@ -835,7 +835,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "vsecm.com"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://vsecm.com/ns/[^/]+/sa/([^/]+)$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /

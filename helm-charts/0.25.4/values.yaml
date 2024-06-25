@@ -117,12 +117,12 @@ global:
     # match this pattern, then VSecM Safe will reject the workload's request.
     # You can also use regular expression # matchers. Check out the official
     # documentation at https://vsecm.com for details.
-    workloadSpiffeIdPrefix: "^spiffe://vsecm.com/ns/[^/]+/sa/[^/]+$"
+    workloadSpiffeIdPrefix: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
     # - The regular expression pattern that VSecM Safe will use to match workloads,
     # VSecM Safe, VSecM Sentinel, and VSecM Keystone. The first capture group
     # must exist and should match the workload's name. The rest of the capture
     # groups will be ignored.
-    workloadNameRegExp: "^spiffe://vsecm.com/ns/[^/]+/sa/([^/]+)$"
+    workloadNameRegExp: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/([^/]+)$"
 
     # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
