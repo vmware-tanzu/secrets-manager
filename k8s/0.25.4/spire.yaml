@@ -91,7 +91,7 @@ data:
     agent {
       data_dir = "/run/spire"
       log_level = "DEBUG"
-      server_address = "spire-server.spire-server-custom.svc.cluster.local"
+      server_address = "spire-server.spire-server.svc.cluster.local"
       server_port = "8081"
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"

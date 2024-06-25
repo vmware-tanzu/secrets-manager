@@ -125,11 +125,11 @@ global:
     workloadNameRegExp: "^spiffe://vsecm.com/ns/[^/]+/sa/([^/]+)$"
 
     # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
-    safeSpiffeIdTemplate: "spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+    safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     # - The SPIFFE ID template that VSecM Sentinel's ClusterSPIFFEID will use.
-    sentinelSpiffeIdTemplate: "spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+    sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     # - The SPIFFE ID template that VSecM Keystone's ClusterSPIFFEID will use.
-    keystoneSpiffeIdTemplate: "spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+    keystoneSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
 
   # -- SPIRE-related global configuration.
   spire:
@@ -161,7 +161,7 @@ global:
     # that the agents will connect to.
     # This address is in the form of <service-name>.<namespace>.svc.cluster.local
     # unless you have a custom setup.
-    serverAddress: "spire-server.spire-server-custom.svc.cluster.local"
+    serverAddress: "spire-server.spire-server.svc.cluster.local"
     # -- The log level of the SPIRE components. This is useful for debugging.
     logLevel: DEBUG
     # -- The SPIRE Server port. This is the port where the SPIRE Server will

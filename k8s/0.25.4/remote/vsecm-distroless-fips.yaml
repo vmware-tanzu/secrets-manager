@@ -889,7 +889,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-keystone
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-keystone
@@ -914,7 +914,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-safe
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-safe
@@ -939,7 +939,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-sentinel
 spec:
-  spiffeIDTemplate: spiffe://vsecm.com/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vsecm-sentinel
