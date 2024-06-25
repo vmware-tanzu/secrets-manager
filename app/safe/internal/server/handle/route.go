@@ -27,29 +27,48 @@ type handler func(string, *http.Request, http.ResponseWriter)
 
 func factory(p, m string) handler {
 	switch {
+	// Route to fetch the Keystone status.
+	// The status can be "pending" or "ready".
 	case m == http.MethodGet && p == url.SentinelKeystone:
 		return routeKeystone.Status
+
+	// Route to return the secrets list. The values of the
+	// secrets are encrypted.
 	case m == http.MethodGet && p == url.SentinelSecretsWithReveal:
 		return routeList.Encrypted
+
+	// Route to return the secrets list. This route only displays names
+	// and metadata of the secrets. The values will not be provided.
+	case m == http.MethodGet && p == url.SentinelSecrets:
+		return routeList.Masked
+
+	// Route to upsert a secret.
 	case m == http.MethodPost && p == url.SentinelSecrets:
 		return routeSecret.Secret
+
 	// Route to delete secrets from VSecM Safe.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	// Calling it from anywhere else will error out.
 	case m == http.MethodDelete && p == url.SentinelSecrets:
 		return routeDelete.Delete
+
 	// Route to define the root key.
 	// Only VSecM Sentinel is allowed to call this API endpoint.
 	case m == http.MethodPost && p == url.SentinelKeys:
 		return routeReceive.Keys
+
 	// Route to fetch secrets.
 	// Only a VSecM-nominated workload is allowed to
 	// call this API endpoint. Calling it from anywhere else will
 	// error out.
 	case m == http.MethodGet && p == url.WorkloadSecrets:
 		return routeFetch.Fetch
+
+	// Route to post secrets from the workload.
 	case m == http.MethodPost && p == url.WorkloadSecrets:
 		panic("routeWorkloadPostSecrets not implemented")
+
+	// Fallback route.
 	default:
 		return routeFallback.Fallback
 	}

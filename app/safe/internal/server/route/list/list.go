@@ -22,7 +22,7 @@ import (
 // - r: A pointer to an http.Request representing the received HTTP request.
 // - spiffeid: spiffe id of the caller.
 func Masked(
-	cid string, w http.ResponseWriter, r *http.Request,
+	cid string, r *http.Request, w http.ResponseWriter,
 ) {
 	doList(cid, w, r, false)
 }
