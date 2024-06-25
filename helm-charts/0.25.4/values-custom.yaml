@@ -88,11 +88,11 @@ global:
     safeEndpointUrl: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
     safeSpiffeIdPrefix: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe$"
     sentinelSpiffeIdPrefix: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel$"
-    workloadSpiffeIdPrefix: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"/"
+    workloadSpiffeIdPrefix: "^spiffe://aegis.ist/ns/[^/]+/sa/[^/]+$"
+    workloadNameRegExp: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
     safeSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
     sentinelSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
     keystoneSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
-    workloadNameRegExp: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
   spire:
     trustDomain: "aegis.ist"
     namespace: spire-system-custom

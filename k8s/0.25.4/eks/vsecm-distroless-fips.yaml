@@ -388,7 +388,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SAFE
               value: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
@@ -592,7 +592,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
@@ -827,7 +827,7 @@ spec:
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]/n/[^/]+$"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
