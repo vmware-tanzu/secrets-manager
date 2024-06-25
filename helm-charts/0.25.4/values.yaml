@@ -122,7 +122,7 @@ global:
     # VSecM Safe, VSecM Sentinel, and VSecM Keystone. The first capture group
     # must exist and should match the workload's name. The rest of the capture
     # groups will be ignored.
-    workloadNameRegExp: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/([^/]+)$"
+    workloadNameRegExp: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 
     # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"

@@ -105,7 +105,7 @@ func IsSafe(spiffeid string) bool {
 			fmt.Println(">!>!>!>!> IsSafe: Invalid regex")
 			return false
 		}
-		fmt.Println(">!>!>!>!> IsSafe: Using regex")
+		fmt.Println(">!>!>!>!> IsSafe: Using regex:", re.MatchString(spiffeid))
 		return re.MatchString(spiffeid)
 	}
 
@@ -150,7 +150,7 @@ func IsWorkload(spiffeid string) bool {
 			return false
 		}
 
-		fmt.Println(">!>>!>!>>!> IsWorkload: Using regex", "prefix", prefix, "spiffeid", spiffeid)
+		fmt.Println(">!>>!>!>>!> IsWorkload: Using regex", "prefix", prefix, "spiffeid", spiffeid, re.MatchString(spiffeid))
 		return re.MatchString(spiffeid)
 	}
 
