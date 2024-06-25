@@ -70,7 +70,7 @@ const VSecMSidecarSuccessThreshold VarName = "VSECM_SIDECAR_SUCCESS_THRESHOLD"
 const VSecMSpiffeIdPrefixSafe VarName = "VSECM_SPIFFEID_PREFIX_SAFE"
 const VSecMSpiffeIdPrefixSentinel VarName = "VSECM_SPIFFEID_PREFIX_SENTINEL"
 const VSecMSpiffeIdPrefixWorkload VarName = "VSECM_SPIFFEID_PREFIX_WORKLOAD"
-const VSecMWorkloadNameRegExp VarName = "VSECM_WORKLOAD_NAME_REG_EXP"
+const VSecMWorkloadNameRegExp VarName = "VSECM_WORKLOAD_NAME_REGEXP"
 
 type VarValue string
 
