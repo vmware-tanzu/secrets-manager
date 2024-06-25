@@ -591,6 +591,8 @@ spec:
               value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
               value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel"
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
+              value: "spiffe://aegis.ist/ns/"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
