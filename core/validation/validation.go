@@ -43,7 +43,10 @@ const spiffeRegexPrefixStart = "^"
 //
 //	bool: `true` if the SPIFFE ID belongs to VSecM Sentinel, `false` otherwise.
 func IsSentinel(spiffeid string) bool {
+	fmt.Println("###### IsSentinel")
+
 	if !IsWorkload(spiffeid) {
+		fmt.Println("###### IsSentinel: NOT WORKLOAD", spiffeid)
 		return false
 	}
 
@@ -52,17 +55,22 @@ func IsSentinel(spiffeid string) bool {
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
+			fmt.Print("###### IsSentinel: REGEX ERROR", err.Error(), prefix, spiffeid)
 			return false
 		}
+
+		fmt.Println("###### IsSentinel: REGEX", re.MatchString(spiffeid), prefix, spiffeid)
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		fmt.Println("###### IsSentinel: NOT TRUST DOMAIN", spiffeid)
 		return false
 	}
 
+	fmt.Println("###### IsSentinel: PREFIX: final exit", strings.HasPrefix(spiffeid, prefix), prefix, spiffeid)
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
