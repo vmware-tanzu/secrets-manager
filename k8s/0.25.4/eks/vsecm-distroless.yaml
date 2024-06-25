@@ -396,7 +396,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
       containers:
         - name: main
           image: "public.ecr.aws/h8y1n7y7/vsecm-ist-keystone:0.25.4"
@@ -599,7 +599,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /
@@ -833,7 +833,7 @@ spec:
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
             - name: VSECM_WORKLOAD_NAME_REGEXP
-              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /
