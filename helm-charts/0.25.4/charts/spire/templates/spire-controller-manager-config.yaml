@@ -26,7 +26,7 @@ data:
       resourceName: 98c9c988.spiffe.io
       resourceNamespace: {{ .Values.global.spire.serverNamespace }}
     clusterName: vsecm-cluster
-    trustDomain: vsecm.com
+    trustDomain: {{ .Values.global.spire.trustDomain }}
     ignoreNamespaces:
       - kube-system
       - kube-public

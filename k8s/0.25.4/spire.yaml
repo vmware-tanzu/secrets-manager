@@ -154,7 +154,7 @@ data:
       resourceName: 98c9c988.spiffe.io
       resourceNamespace: spire-server-custom
     clusterName: vsecm-cluster
-    trustDomain: vsecm.com
+    trustDomain: aegis.ist
     ignoreNamespaces:
       - kube-system
       - kube-public
