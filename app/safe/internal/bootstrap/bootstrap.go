@@ -156,7 +156,7 @@ func AcquireSource(
 	if !validation.IsSafe(svidId.String()) {
 		log.FatalLn(
 			cid,
-			"SpiffeId check: I don't know you, and it's crazy:",
+			"SpiffeId check: Safe:bootstrap: I don't know you, and it's crazy:",
 			svidId.String(),
 		)
 		return nil
