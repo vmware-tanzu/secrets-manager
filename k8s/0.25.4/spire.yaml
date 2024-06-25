@@ -13,7 +13,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: spire-system-custom
+  name: spire-system
 ---
 # Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
 # /*
@@ -29,7 +29,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: spire-server-custom
+  name: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
@@ -47,7 +47,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spire-agent
-  namespace: spire-system-custom
+  namespace: spire-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server-service-account.yaml
 # /*
@@ -65,7 +65,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spire-server
-  namespace: spire-server-custom
+  namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-config-map.yaml
 # /*
@@ -85,7 +85,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-agent
-  namespace: spire-system-custom
+  namespace: spire-system
 data:
   agent.conf: |
     agent {
@@ -95,7 +95,7 @@ data:
       server_port = "8081"
       socket_path = "/run/spire/sockets/agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
-      trust_domain = "aegis.ist"
+      trust_domain = "vsecm.com"
     }
 
     health_checks {
@@ -140,7 +140,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-controller-manager-config
-  namespace: spire-server-custom
+  namespace: spire-server
 data:
   spire-controller-manager-config.yaml: |
     apiVersion: spire.spiffe.io/v1alpha1
@@ -152,17 +152,17 @@ data:
     leaderElection:
       leaderElect: true
       resourceName: 98c9c988.spiffe.io
-      resourceNamespace: spire-server-custom
+      resourceNamespace: spire-server
     clusterName: vsecm-cluster
-    trustDomain: aegis.ist
+    trustDomain: vsecm.com
     ignoreNamespaces:
       - kube-system
       - kube-public
-      - spire-system-custom
-      - spire-server-custom
+      - spire-system
+      - spire-server
       - local-path-storage
-      # - do not ignore vsecm-system-custom!
-      # - vsecm-system-custom
+      # - do not ignore vsecm-system!
+      # - vsecm-system
       - kube-node-lease
       - kube-public
       - kubernetes-dashboard
@@ -209,7 +209,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-bundle
-  namespace: spire-system-custom
+  namespace: spire-system
 ---
 # Source: vsecm/charts/spire/templates/spire-server-config-map.yaml
 # /*
@@ -227,13 +227,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
-  namespace: spire-server-custom
+  namespace: spire-server
 data:
   server.conf: |
     server {
       bind_address = "0.0.0.0"
       bind_port = "8081"
-      trust_domain = "aegis.ist"
+      trust_domain = "vsecm.com"
       data_dir = "/run/spire/server/data"
       log_level = "DEBUG"
       federation {
@@ -265,7 +265,7 @@ data:
         plugin_data {
           clusters = {
             "vsecm-cluster" = {
-              service_account_allow_list = ["spire-system-custom:spire-agent"]
+              service_account_allow_list = ["spire-system:spire-agent"]
             }
           }
         }
@@ -280,7 +280,7 @@ data:
       Notifier "k8sbundle" {
         plugin_data {
           config_map = "spire-bundle"
-          namespace = "spire-system-custom"
+          namespace = "spire-system"
         }
       }
     }
@@ -421,7 +421,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-server-custom
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-cluster-role-binding.yaml
 # /*
@@ -442,7 +442,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: spire-agent
-    namespace: spire-system-custom
+    namespace: spire-system
 roleRef:
   kind: ClusterRole
   name: spire-agent-cluster-role
@@ -464,11 +464,11 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-cluster-role-binding
-  namespace: spire-server-custom
+  namespace: spire-server
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-server-custom
+    namespace: spire-server
 roleRef:
   kind: ClusterRole
   name: spire-server-cluster-role
@@ -490,7 +490,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: leader-election-role
-  namespace: spire-server-custom
+  namespace: spire-server
 rules:
   - apiGroups: [""]
     resources: ["configmaps"]
@@ -518,7 +518,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role
-  namespace: spire-system-custom
+  namespace: spire-system
 rules:
   # allow "get" access to pods (to resolve selectors for PSAT attestation)
   - apiGroups: [""]
@@ -546,7 +546,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: leader-election-rolebinding
-  namespace: spire-server-custom
+  namespace: spire-server
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -554,7 +554,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-server-custom
+    namespace: spire-server
 ---
 # Source: vsecm/charts/spire/templates/spire-server-role-binding.yaml
 # /*
@@ -573,11 +573,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role-binding
-  namespace: spire-system-custom
+  namespace: spire-system
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-server-custom
+    namespace: spire-server
 roleRef:
   kind: Role
   name: spire-server-role
@@ -599,7 +599,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-server-bundle-endpoint
-  namespace: spire-server-custom
+  namespace: spire-server
 spec:
   type: ClusterIP
   ports:
@@ -625,7 +625,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-controller-manager-webhook-service
-  namespace: spire-server-custom
+  namespace: spire-server
 spec:
   ports:
     - port: 443
@@ -650,7 +650,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: spire-server
-  namespace: spire-server-custom
+  namespace: spire-server
 spec:
   type: ClusterIP
   ports:
@@ -676,7 +676,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: spire-server
-  namespace: spire-server-custom
+  namespace: spire-server
   labels:
     app: spire-server
     app.kubernetes.io/component: server
@@ -688,7 +688,7 @@ spec:
       app: spire-server
   template:
     metadata:
-      namespace: spire-server-custom
+      namespace: spire-server
       labels:
         app: spire-server
     spec:
@@ -788,7 +788,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-server-custom
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
     name: vclusterfederatedtrustdomain.kb.io
@@ -802,7 +802,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-server-custom
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
     name: vclusterspiffeid.kb.io
@@ -816,7 +816,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook-service
-        namespace: spire-server-custom
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail
     name: clusterstaticentry.kb.io
@@ -842,7 +842,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: spire-agent
-  namespace: spire-system-custom
+  namespace: spire-system
   labels:
     app: spire-agent
   annotations: 
@@ -856,7 +856,7 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      namespace: spire-system-custom
+      namespace: spire-system
       labels:
         app: spire-agent
     spec:

@@ -28,9 +28,12 @@ VSECM_DOCKERHUB_REGISTRY_URL ?= "vsecm"
 VSECM_LOCAL_REGISTRY_URL ?= "localhost:5000"
 VSECM_EKS_REGISTRY_URL ?= "public.ecr.aws/h8y1n7y7"
 
-VSECM_NAMESPACE_SYSTEM ?= "vsecm-system-custom"
-VSECM_NAMESPACE_SPIRE ?= "spire-system-custom"
-VSECM_NAMESPACE_SPIRE_SERVER ?= "spire-server-custom"
+VSECM_NAMESPACE_SYSTEM ?= "vsecm-system"
+VSECM_NAMESPACE_SPIRE ?= "spire-system"
+VSECM_NAMESPACE_SPIRE_SERVER ?= "spire-server"
+# VSECM_NAMESPACE_SYSTEM ?= "vsecm-system-custom"
+# VSECM_NAMESPACE_SPIRE ?= "spire-system-custom"
+# VSECM_NAMESPACE_SPIRE_SERVER ?= "spire-server-custom"
 
 # Utils
 include ./makefiles/VSecMMacOs.mk
