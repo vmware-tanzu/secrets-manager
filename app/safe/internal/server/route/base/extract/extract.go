@@ -12,14 +12,10 @@ package extract
 
 import (
 	"encoding/json"
-	"fmt"
-	"regexp"
-	"strings"
-
-	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"regexp"
 )
 
 // WorkloadIDAndParts extracts the workload identifier and its constituent parts
@@ -36,27 +32,16 @@ import (
 //     prefix. The second return value is a slice of strings representing all
 //     parts of the SPIFFE ID after the prefix removal.
 func WorkloadIDAndParts(spiffeid string) (string, []string) {
-	// spiffeid: spiffe://
-	// spiffe://aegis.ist/ns/vsecm-sytem-custom/sa/vsecm-keystone
-	//
-	// TODO: we’ll need a way to extract the workload id via a user-defined regexp.
-	//
-	// print the parts we have for debugging purposes first.
-
-	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForWorkload(), "", 1)
-	parts := strings.Split(tmp, symbol.PathSeparator)
-
-	// TODO: do this ONLY if there is a reg exp env var.
-	wre := regexp.MustCompile("sa/([^/]+)")
-
-	for i, part := range parts {
-		fmt.Println("part", i, ":", part)
+	re := env.NameRegExpForWorkload()
+	if re == "" {
+		return "", nil
 	}
+	wre := regexp.MustCompile(env.NameRegExpForWorkload())
 
 	match := wre.FindStringSubmatch(spiffeid)
 
 	if len(match) > 1 {
-		return match[1], []string{match[1]}
+		return match[1], match
 	}
 
 	return "", nil

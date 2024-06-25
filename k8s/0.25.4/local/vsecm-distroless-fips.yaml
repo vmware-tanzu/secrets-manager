@@ -395,6 +395,8 @@ spec:
               value: "spire-system-custom"
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
       containers:
         - name: main
           image: "localhost:5000/vsecm-ist-fips-keystone:0.25.4"
@@ -496,8 +498,10 @@ spec:
             
             
             
+            
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
             
             
             
@@ -506,8 +510,10 @@ spec:
             
             
             
+            
             - name: VSECM_BACKOFF_MAX_RETRIES
               value: "10"
+            
             
             
             
@@ -516,8 +522,10 @@ spec:
             
             
             
+            
             - name: VSECM_BACKOFF_MODE
               value: "exponential"
+            
             
             
             
@@ -526,8 +534,10 @@ spec:
             
             
             
+            
             - name: VSECM_LOG_SECRET_FINGERPRINTS
               value: "false"
+            
             
             
             
@@ -536,8 +546,10 @@ spec:
             
             
             
+            
             - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
               value: "false"
+            
             
             
             
@@ -546,8 +558,10 @@ spec:
             
             
             
+            
             - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
               value: "0"
+            
             
             
             
@@ -556,13 +570,16 @@ spec:
             
             
             
+            
             - name: VSECM_SENTINEL_LOGGER_URL
               value: "localhost:50051"
             
             
             
+            
             - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
               value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
+            
             
             
             
@@ -581,6 +598,8 @@ spec:
           
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /
@@ -813,6 +832,8 @@ spec:
               value: "spire-system-custom"
             - name: SPIFFE_TRUST_DOMAIN
               value: "aegis.ist"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://aegis.ist/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
           livenessProbe:
             httpGet:
               path: /
