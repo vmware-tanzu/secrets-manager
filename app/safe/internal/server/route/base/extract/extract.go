@@ -13,6 +13,7 @@ package extract
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
@@ -36,7 +37,7 @@ import (
 //     parts of the SPIFFE ID after the prefix removal.
 func WorkloadIDAndParts(spiffeid string) (string, []string) {
 	// spiffeid: spiffe://
-	//  spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}
+	// spiffe://aegis.ist/ns/vsecm-sytem-custom/sa/vsecm-keystone
 	//
 	// TODO: we’ll need a way to extract the workload id via a user-defined regexp.
 	//
@@ -45,13 +46,19 @@ func WorkloadIDAndParts(spiffeid string) (string, []string) {
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForWorkload(), "", 1)
 	parts := strings.Split(tmp, symbol.PathSeparator)
 
+	// TODO: do this ONLY if there is a reg exp env var.
+	wre := regexp.MustCompile("sa/([^/]+)")
+
 	for i, part := range parts {
 		fmt.Println("part", i, ":", part)
 	}
 
-	if len(parts) > 0 {
-		return parts[0], parts
+	match := wre.FindStringSubmatch(spiffeid)
+
+	if len(match) > 1 {
+		return match[1], []string{match[1]}
 	}
+
 	return "", nil
 }
 
