@@ -141,23 +141,28 @@ func IsWorkload(spiffeid string) bool {
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
+			fmt.Println(">>>>>>> IS WORKLOAD: REGEX ERROR", err.Error())
 			return false
 		}
+		fmt.Println(">>>>>>> IS WORKLOAD: REGEX", re.MatchString(spiffeid))
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		fmt.Println(">>>>>>> IS WORKLOAD: NOT TRUST DOMAIN", spiffeid)
 		return false
 	}
 
 	wre := regexp.MustCompile(env.NameRegExpForWorkload())
 	match := wre.FindStringSubmatch(spiffeid)
 	if len(match) == 0 {
+		fmt.Println(">>>>>>> IS WORKLOAD: NO MATCH", spiffeid)
 		return false
 	}
 
+	fmt.Println(">>>>>>> IS WORKLOAD: PREFIX: final exit", strings.HasPrefix(spiffeid, prefix))
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
