@@ -11,6 +11,7 @@
 package env
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"os"
 	"testing"
 )
@@ -24,7 +25,7 @@ func TestSentinelSpiffeIdPrefix(t *testing.T) {
 	}{
 		{
 			name: "default_sentinel_spiffeid_prefix",
-			want: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/",
+			want: string(env.VSecMSpiffeIdPrefixSentinelDefault),
 		},
 		{
 			name: "sentinel_spiffeid_prefix_from_env",
@@ -67,7 +68,7 @@ func TestSafeSpiffeIdPrefix(t *testing.T) {
 	}{
 		{
 			name: "default_safe_spiffeid_prefix",
-			want: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/",
+			want: string(env.VSecMSpiffeIdPrefixSafeDefault),
 		},
 		{
 			name: "safe_spiffeid_prefix_from_env",
@@ -110,17 +111,17 @@ func TestWorkloadSpiffeIdPrefix(t *testing.T) {
 	}{
 		{
 			name: "default_safe_spiffeid_prefix",
-			want: "spiffe://vsecm.com/workload/",
+			want: string(env.VSecMSpiffeIdPrefixWorkloadDefault),
 		},
 		{
 			name: "safe_spiffeid_prefix_from_env",
 			setup: func() error {
-				return os.Setenv("VSECM_SPIFFEID_PREFIX_WORKLOAD", "spiffe://vsecm.com/workload/test/")
+				return os.Setenv("VSECM_SPIFFEID_PREFIX_WORKLOAD", "spiffe://vsecm.com/workload/test/ns/test/sa/test/n/test")
 			},
 			cleanup: func() error {
 				return os.Unsetenv("VSECM_SPIFFEID_PREFIX_WORKLOAD")
 			},
-			want: "spiffe://vsecm.com/workload/test/",
+			want: "spiffe://vsecm.com/workload/test/ns/test/sa/test/n/test",
 		},
 	}
 	for _, tt := range tests {

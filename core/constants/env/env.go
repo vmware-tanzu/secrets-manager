@@ -108,10 +108,10 @@ const VSecMSidecarMaxPollIntervalDefault VarValue = "300000"
 const VSecMSidecarPollIntervalDefault VarValue = "20000"
 const VSecMSidecarSecretsPathDefault VarValue = "/opt/vsecm/secrets.json"
 const VSecMSidecarSuccessThresholdDefault VarValue = "3"
-const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
-const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/"
-const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/([^/]+)/sa/([^/]+)/n/([^/]+)$"
+const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
+const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
+const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 
 type Namespace string
 
