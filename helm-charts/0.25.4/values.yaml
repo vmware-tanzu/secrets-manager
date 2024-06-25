@@ -61,7 +61,7 @@ global:
       distrolessFipsRepository: vsecm-ist-fips-sentinel
       tag: 0.25.4
       pullPolicy: IfNotPresent
-    # - Container registry details fro VSecM Init Container.
+    # - Container registry details of VSecM Init Container.
     initContainer:
       repository: vsecm-ist-init-container
       tag: 0.25.4
@@ -98,24 +98,31 @@ global:
     namespace: vsecm-system
 
     # - The endpoint URL of the VSecM Safe Service
+    # should match https://<service-name>.<namespace>.svc.cluster.local:<port>
+    # unless you have a custom setup.
     safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
 
     # - The SPIFFE ID prefix that is used to verify the authenticity of a
     # request coming from VSecM Safe. You can also use regular expression
     # matchers. Check out the official documentation at https://vsecm.com
     # for details.
-    safeSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+    safeSpiffeIdPrefix: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
     # - The SPIFFE ID prefix that is used to verify the authenticity of a
     # request coming from VSecM Sentinel. You can also use regular expression
     # matchers. Check out the official documentation at https://vsecm.com
     # for details.
-    sentinelSpiffeIdPrefix: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+    sentinelSpiffeIdPrefix: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
     # - The SPIFFE ID prefix that is used to verify the authenticity of a
     # request coming from a Workload. If the SPIFFE ID of the workload does not
     # match this pattern, then VSecM Safe will reject the workload's request.
     # You can also use regular expression # matchers. Check out the official
     # documentation at https://vsecm.com for details.
-    workloadSpiffeIdPrefix: "spiffe://vsecm.com/workload/"
+    workloadSpiffeIdPrefix: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+    # - The regular expression pattern that VSecM Safe will use to match workloads,
+    # VSecM Safe, VSecM Sentinel, and VSecM Keystone. The first capture group
+    # must exist and should match the workload's name. The rest of the capture
+    # groups will be ignored.
+    workloadNameRegExp: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 
     # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
@@ -123,7 +130,7 @@ global:
     sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     # - The SPIFFE ID template that VSecM Keystone's ClusterSPIFFEID will use.
     keystoneSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
-  
+
   # -- SPIRE-related global configuration.
   spire:
     # -- The trust domain is the root of the SPIFFE ID hierarchy. It is used to
@@ -141,6 +148,9 @@ global:
     # not produce a collision. When trust domain names are automatically generated
     # without operator input, randomly generating a unique name (such as a UUID)
     # is strongly advised.
+    #
+    # All SPIFFE IDs shall be prefixed with `spiffe://<trustDomain>` unless
+    # you have an advanced custom setup.
     trustDomain: "vsecm.com"
     # -- This is the namespace where the SPIRE components will be deployed.
     namespace: spire-system
@@ -149,6 +159,8 @@ global:
     serverNamespace: spire-server
     # -- The SPIRE Server address. This is the address where the SPIRE Server
     # that the agents will connect to.
+    # This address is in the form of <service-name>.<namespace>.svc.cluster.local
+    # unless you have a custom setup.
     serverAddress: "spire-server.spire-server.svc.cluster.local"
     # -- The log level of the SPIRE components. This is useful for debugging.
     logLevel: DEBUG

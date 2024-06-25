@@ -65,6 +65,8 @@ spec:
           {{- $workloadInitSpiffeIdPrefixSet := false }}
           {{- $vsecmInitNamespaceSet := false }}
           {{- $spireInitNamespaceSet := false }}
+          {{- $spiffeTrustDomainSet := false }}
+          {{- $workloadNameRegExpSet := false }}
           {{- range .Values.initEnvironments }}
             {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
               {{- $safeInitEndpointUrlSet = true }}
@@ -80,6 +82,12 @@ spec:
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
               {{- $spireInitNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "SPIFFE_TRUST_DOMAIN" }}
+              {{- $spiffeTrustDomainSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_WORKLOAD_NAME_REGEXP" }}
+              {{- $workloadNameRegExpSet = true }}
             {{- end }}
             - name: {{ .name }}
               value: {{ .value | quote }}
@@ -104,6 +112,14 @@ spec:
             - name: VSECM_NAMESPACE_SPIRE
               value: {{ .Values.global.spire.namespace | quote }}
           {{- end }}
+          {{- if not $spiffeTrustDomainSet }}
+            - name: SPIFFE_TRUST_DOMAIN
+              value: {{ .Values.global.spire.trustDomain | quote }}
+          {{- end }}
+          {{- if not $workloadNameRegExpSet }}
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: {{ .Values.global.vsecm.workloadNameRegExp | quote }}
+          {{- end }}
       containers:
         - name: main
           image: "{{ .Values.global.registry }}/{{- include "keystone.repository" .}}:{{ .Values.global.images.keystone.tag }}"
@@ -123,49 +139,9 @@ spec:
           # Sentinel will assume the default values outlined in the given link above.
           #
           env:
-          {{- $safeEndpointUrlSet := false }}
-          {{- $safeSpiffeIdPrefixSet := false }}
-          {{- $workloadSpiffeIdPrefixSet := false }}
-          {{- $vsecmNamespaceSet := false }}
-          {{- $spireNamespaceSet := false }}
           {{- range .Values.environments }}
-            {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
-              {{- $safeEndpointUrlSet = true }}
-            {{- end }}
-            {{- if eq .name "VSECM_SPIFFEID_PREFIX_SAFE" }}
-              {{- $safeSpiffeIdPrefixSet = true }}
-            {{- end }}
-            {{- if eq .name "VSECM_SPIFFEID_PREFIX_WORKLOAD" }}
-              {{- $workloadSpiffeIdPrefixSet = true }}
-            {{- end }}
-            {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
-              {{- $vsecmNamespaceSet = true }}
-            {{- end }}
-            {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
-              {{- $spireNamespaceSet = true }}
-            {{- end }}
             - name: {{ .name }}
               value: {{ .value | quote }}
-          {{- end }}
-          {{- if not $safeEndpointUrlSet }}
-            - name: VSECM_SAFE_ENDPOINT_URL
-              value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
-          {{- end }}
-          {{- if not $safeSpiffeIdPrefixSet }}
-            - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
-          {{- end }}
-          {{- if not $workloadSpiffeIdPrefixSet }}
-            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: {{ .Values.global.vsecm.workloadSpiffeIdPrefix | quote }}
-          {{- end }}
-          {{- if not $vsecmNamespaceSet }}
-            - name: VSECM_NAMESPACE_SYSTEM
-              value: {{ .Values.global.vsecm.namespace | quote }}
-          {{- end }}
-          {{- if not $spireNamespaceSet }}
-            - name: VSECM_NAMESPACE_SPIRE
-              value: {{ .Values.global.spire.namespace | quote }}
           {{- end }}
           resources:
             requests:

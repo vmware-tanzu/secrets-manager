@@ -345,32 +345,40 @@ spec:
             #
             
             
+            
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
             
             
             - name: VSECM_BACKOFF_DELAY
               value: "1000"
             
             
+            
             - name: VSECM_BACKOFF_MAX_RETRIES
               value: "10"
+            
             
             
             - name: VSECM_BACKOFF_MAX_WAIT
               value: "10000"
             
             
+            
             - name: VSECM_BACKOFF_MODE
               value: "exponential"
+            
             
             
             - name: VSECM_INIT_CONTAINER_POLL_INTERVAL
               value: "5000"
             
             
+            
             - name: VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT
               value: "0"
+            
             
             
             - name: VSECM_LOG_LEVEL
@@ -378,13 +386,17 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
               value: "spire-system"
+            - name: SPIFFE_TRUST_DOMAIN
+              value: "vsecm.com"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
       containers:
         - name: main
           image: "localhost:5000/vsecm-ist-fips-keystone:0.25.4"
@@ -404,36 +416,8 @@ spec:
           # Sentinel will assume the default values outlined in the given link above.
           #
           env:
-            
-            
-            - name: VSECM_BACKOFF_DELAY
-              value: "1000"
-            
-            
-            - name: VSECM_BACKOFF_MAX_RETRIES
-              value: "10"
-            
-            
-            - name: VSECM_BACKOFF_MAX_WAIT
-              value: "10000"
-            
-            
-            - name: VSECM_BACKOFF_MODE
-              value: "exponential"
-            
-            
             - name: VSECM_LOG_LEVEL
               value: "7"
-            - name: VSECM_SAFE_ENDPOINT_URL
-              value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
-            - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
-            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
-            - name: VSECM_NAMESPACE_SYSTEM
-              value: "vsecm-system"
-            - name: VSECM_NAMESPACE_SPIRE
-              value: "spire-system"
           resources:
             requests:
               memory: 20Mi
@@ -513,60 +497,90 @@ spec:
           env:
             
             
+            
+            
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
+            
             
             
             - name: VSECM_BACKOFF_DELAY
               value: "1000"
             
             
+            
+            
             - name: VSECM_BACKOFF_MAX_RETRIES
               value: "10"
+            
+            
             
             
             - name: VSECM_BACKOFF_MAX_WAIT
               value: "10000"
             
             
+            
+            
             - name: VSECM_BACKOFF_MODE
               value: "exponential"
+            
+            
             
             
             - name: VSECM_LOG_LEVEL
               value: "7"
             
             
+            
+            
             - name: VSECM_LOG_SECRET_FINGERPRINTS
               value: "false"
+            
+            
             
             
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             
             
+            
+            
             - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
               value: "false"
+            
+            
             
             
             - name: VSECM_SENTINEL_INIT_COMMAND_PATH
               value: "/opt/vsecm-sentinel/init/data"
             
             
+            
+            
             - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE
               value: "0"
+            
+            
             
             
             - name: VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC
               value: "0"
             
             
+            
+            
             - name: VSECM_SENTINEL_LOGGER_URL
               value: "localhost:50051"
             
             
+            
+            
             - name: VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
               value: "http://0.0.0.0:8080/auth/realms/XXXXX/protocol/openid-connect/token/introspect"
+            
+            
             
             
             - name: VSECM_SENTINEL_SECRET_GENERATION_PREFIX
@@ -574,13 +588,20 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+              value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
               value: "spire-system"
+          
+            - name: SPIFFE_TRUST_DOMAIN
+              value: "vsecm.com"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
           livenessProbe:
             httpGet:
               path: /
@@ -676,100 +697,125 @@ spec:
           env:
             
             
+            
             - name: SPIFFE_ENDPOINT_SOCKET
               value: "unix:///spire-agent-socket/agent.sock"
+            
             
             
             - name: VSECM_BACKOFF_DELAY
               value: "1000"
             
             
+            
             - name: VSECM_BACKOFF_MAX_RETRIES
               value: "10"
+            
             
             
             - name: VSECM_BACKOFF_MAX_WAIT
               value: "10000"
             
             
+            
             - name: VSECM_BACKOFF_MODE
               value: "exponential"
+            
             
             
             - name: VSECM_LOG_LEVEL
               value: "7"
             
             
+            
             - name: VSECM_LOG_SECRET_FINGERPRINTS
               value: "false"
+            
             
             
             - name: VSECM_PROBE_LIVENESS_PORT
               value: ":8081"
             
             
+            
             - name: VSECM_PROBE_READINESS_PORT
               value: ":8082"
+            
             
             
             - name: VSECM_SAFE_BACKING_STORE
               value: "file"
             
             
+            
             - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
               value: "300000"
+            
             
             
             - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
               value: "false"
             
             
+            
             - name: VSECM_ROOT_KEY_NAME
               value: "vsecm-root-key"
+            
             
             
             - name: VSECM_ROOT_KEY_PATH
               value: "/key/key.txt"
             
             
+            
             - name: VSECM_SAFE_DATA_PATH
               value: "/var/local/vsecm/data"
+            
             
             
             - name: VSECM_SAFE_FIPS_COMPLIANT
               value: "false"
             
             
+            
             - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
               value: "50"
+            
             
             
             - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
               value: "10"
             
             
+            
             - name: VSECM_SAFE_SECRET_BACKUP_COUNT
               value: "3"
+            
             
             
             - name: VSECM_SAFE_SECRET_BUFFER_SIZE
               value: "10"
             
             
+            
             - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
               value: "10"
+            
             
             
             - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
               value: "10000"
             
             
+            
             - name: VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
               value: "k8s:"
             
             
+            
             - name: VSECM_SAFE_ROOT_KEY_STORE
               value: "k8s"
+            
             
             
             - name: VSECM_SAFE_TLS_PORT
@@ -777,15 +823,19 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+              value: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"
+              value: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://vsecm.com/workload/"
+              value: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system"
             - name: VSECM_NAMESPACE_SPIRE
               value: "spire-system"
+            - name: SPIFFE_TRUST_DOMAIN
+              value: "vsecm.com"
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
           livenessProbe:
             httpGet:
               path: /

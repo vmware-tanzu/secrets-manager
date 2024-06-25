@@ -76,6 +76,8 @@ spec:
           {{- $safeSpiffeIdPrefixSet := false }}
           {{- $sentinelSpiffeIdPrefixSet := false }}
           {{- $workloadSpiffeIdPrefixSet := false }}
+          {{- $spiffeTrustDomainSet := false }}
+          {{- $workloadNameRegExpSet := false }}
           {{- range .Values.environments }}
             {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
               {{- $safeEndpointUrlSet = true }}
@@ -94,6 +96,12 @@ spec:
             {{- end }}
             {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
               {{- $spireNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "SPIFFE_TRUST_DOMAIN" }}
+              {{- $spiffeTrustDomainSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_WORKLOAD_NAME_REGEXP" }}
+              {{- $workloadNameRegExpSet = true }}
             {{- end }}
             - name: {{ .name }}
               value: {{ .value | quote }}
@@ -122,6 +130,14 @@ spec:
           {{- if not $spireNamespaceSet }}
             - name: VSECM_NAMESPACE_SPIRE
               value: {{ .Values.global.spire.namespace | quote }}
+          {{- end }}
+          {{- if not $spiffeTrustDomainSet }}
+            - name: SPIFFE_TRUST_DOMAIN
+              value: {{ .Values.global.spire.trustDomain | quote }}
+          {{- end }}
+          {{- if not $workloadNameRegExpSet }}
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: {{ .Values.global.vsecm.workloadNameRegExp | quote }}
           {{- end }}
           livenessProbe:
             httpGet:

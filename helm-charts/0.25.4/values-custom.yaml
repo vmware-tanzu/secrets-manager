@@ -1,0 +1,102 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# This is a custom values  file for VMware Secrets Manager to work with
+# Istio-style SPIFFE IDs
+# (i.e., `spiffe://<trust-domain>/ns/<namespace>/sa/<service-account>`).
+#
+# In addition to that, this values file also deploys SPIRE components to
+# `spire-system-custom` and `spire-server-custom namespaces` (the defaults for
+# those namespaces are `spire-system` and `spire-server` respectively).
+# You can replace them with your own preferred namespaces.
+#
+# The chart also deploys VSecM components to `vsecm-system-custom` namespace
+# (the default for that namespace is `vsecm-system`). You can replace it
+# with your own preferred namespace.
+#
+# Finally, we replace the trust domain from the default `vsecm.com` to
+# `aegis.ist`. You can replace this with your own trust domain too.
+#
+# To generate manifests based on this values file:
+#
+# 1. Define the following environment variables:
+#    VSECM_NAMESPACE_SYSTEM ?= "vsecm-system-custom"
+#    VSECM_NAMESPACE_SPIRE ?= "spire-system-custom"
+#    VSECM_NAMESPACE_SPIRE_SERVER ?= "spire-server-custom"
+#
+# 2. $un the following command at the root of the project:
+#    ./hack/create-custom-manifest.sh
+#       Note that this action will override the existing values.yaml at the root
+#      of the ./helm-charts/$version/ directory.
+
+global:
+  deploySpire: true
+  deploySpireControllerManager: true
+  useClusterSpiffeIds: true
+  deployKeystone: true
+  deploySentinel: true
+  baseImage: distroless
+  registry: vsecm
+  images:
+    keystone:
+      distrolessRepository: vsecm-ist-keystone
+      distrolessFipsRepository: vsecm-ist-fips-keystone
+      tag: 0.25.4
+      pullPolicy: IfNotPresent
+    safe:
+      distrolessRepository: vsecm-ist-safe
+      distrolessFipsRepository: vsecm-ist-fips-safe
+      tag: 0.25.4
+      pullPolicy: IfNotPresent
+    sentinel:
+      distrolessRepository: vsecm-ist-sentinel
+      distrolessFipsRepository: vsecm-ist-fips-sentinel
+      tag: 0.25.4
+      pullPolicy: IfNotPresent
+    initContainer:
+      repository: vsecm-ist-init-container
+      tag: 0.25.4
+    spireAgent:
+      repository: ghcr.io/spiffe/spire-agent
+      tag: 1.9.4
+      pullPolicy: IfNotPresent
+    spiffeCsiDriver:
+      repository: ghcr.io/spiffe/spiffe-csi-driver
+      tag: 0.2.6
+      pullPolicy: IfNotPresent
+    nodeDriverRegistrar:
+      repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+      tag: v2.10.0
+      pullPolicy: IfNotPresent
+    spireServer:
+      repository: ghcr.io/spiffe/spire-server
+      tag: 1.9.4
+      pullPolicy: IfNotPresent
+    spireControllerManager:
+      repository: ghcr.io/spiffe/spire-controller-manager
+      tag: 0.5.0
+      pullPolicy: IfNotPresent
+  vsecm:
+    namespace: vsecm-system-custom
+    safeEndpointUrl: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
+    safeSpiffeIdPrefix: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe$"
+    sentinelSpiffeIdPrefix: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel$"
+    workloadSpiffeIdPrefix: "^spiffe://aegis.ist/ns/[^/]+/sa/[^/]+$"
+    workloadNameRegExp: "^spiffe://aegis.ist/ns/[^/]+/sa/([^/]+)$"
+    safeSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+    sentinelSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+    keystoneSpiffeIdTemplate: "spiffe://aegis.ist/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  spire:
+    trustDomain: "aegis.ist"
+    namespace: spire-system-custom
+    serverNamespace: spire-server-custom
+    serverAddress: "spire-server.spire-server-custom.svc.cluster.local"
+    logLevel: DEBUG
+    serverPort: 8081

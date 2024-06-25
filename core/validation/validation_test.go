@@ -92,7 +92,7 @@ func TestIsWorkload(t *testing.T) {
 		{
 			name: "has_prefix",
 			args: args{
-				spiffeid: "spiffe://vsecm.com/workload/test",
+				spiffeid: "spiffe://vsecm.com/workload/test/ns/test/sa/test/n/test",
 			},
 			want: true,
 		},

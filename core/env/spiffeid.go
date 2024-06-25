@@ -49,3 +49,16 @@ func SpiffeIdPrefixForWorkload() string {
 	}
 	return p
 }
+
+// NameRegExpForWorkload returns the regular expression pattern for extracting
+// the workload name from the SPIFFE ID.
+// The prefix is obtained from the environment variable
+// VSECM_NAME_REGEXP_FOR_WORKLOAD.
+// If the variable is not set, the default pattern is used.
+func NameRegExpForWorkload() string {
+	p := env.Value(env.VSecMWorkloadNameRegExp)
+	if p == "" {
+		p = string(env.VSecMNameRegExpForWorkloadDefault)
+	}
+	return p
+}

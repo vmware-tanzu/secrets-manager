@@ -20,7 +20,11 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
-const spiffeRegexPrefixStart = "^"
+// Any SPIFFE ID regular expression matcher shall start with the
+// `^spiffe://$trustDomain` prefix for extra security.
+//
+// This variable shall be treated as constant and should not be modified.
+var spiffeRegexPrefixStart = "^spiffe://" + env.SpiffeTrustDomain() + "/"
 
 // IsSentinel checks if a given SPIFFE ID belongs to VSecM Sentinel.
 //
@@ -43,6 +47,10 @@ const spiffeRegexPrefixStart = "^"
 //
 //	bool: `true` if the SPIFFE ID belongs to VSecM Sentinel, `false` otherwise.
 func IsSentinel(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
 	prefix := env.SpiffeIdPrefixForSentinel()
 
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
@@ -50,6 +58,7 @@ func IsSentinel(spiffeid string) bool {
 		if err != nil {
 			return false
 		}
+
 		return re.MatchString(spiffeid)
 	}
 
@@ -83,6 +92,10 @@ func IsSentinel(spiffeid string) bool {
 //
 //	bool: `true` if the SPIFFE ID belongs to VSecM Safe, `false` otherwise.
 func IsSafe(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
 	prefix := env.SpiffeIdPrefixForSafe()
 
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
@@ -130,12 +143,19 @@ func IsWorkload(spiffeid string) bool {
 		if err != nil {
 			return false
 		}
+
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
+		return false
+	}
+
+	wre := regexp.MustCompile(env.NameRegExpForWorkload())
+	match := wre.FindStringSubmatch(spiffeid)
+	if len(match) == 0 {
 		return false
 	}
 

@@ -1,4 +1,4 @@
-/usr/bin/env bash
+#!/usr/bin/env bash
 
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -10,9 +10,5 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-SPIRE_SERVER=$(kubectl get po -n spire-server-custom \
-  | grep "spire-server-custom-" | awk '{print $1}')
-export SPIRE_SERVER=SPIRE_SERVER
-
-kubectl exec -n spire-system-custom $SPIRE_SERVER -- \
-  /opt/spire/bin/spire-server bundle show
+cp ./helm-charts/0.25.4/values-custom.yaml ./helm-charts/0.25.4/values.yaml
+make k8s-manifests-update VERSION=0.25.4
