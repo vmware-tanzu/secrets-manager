@@ -158,7 +158,7 @@ func IsWorkload(spiffeid string) bool {
 	wre := regexp.MustCompile(env.NameRegExpForWorkload())
 	match := wre.FindStringSubmatch(spiffeid)
 	if len(match) == 0 {
-		fmt.Println(">>>>>>> IS WORKLOAD: NO MATCH", spiffeid)
+		fmt.Println(">>>>>>> IS WORKLOAD: NO MATCH", spiffeid, "regexp", env.NameRegExpForWorkload())
 		return false
 	}
 
