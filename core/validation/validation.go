@@ -93,7 +93,6 @@ func IsSentinel(spiffeid string) bool {
 //	bool: `true` if the SPIFFE ID belongs to VSecM Safe, `false` otherwise.
 func IsSafe(spiffeid string) bool {
 	if !IsWorkload(spiffeid) {
-		fmt.Println(">!>!>!>!> IsSafe: Not a workload")
 		return false
 	}
 
@@ -102,21 +101,17 @@ func IsSafe(spiffeid string) bool {
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
-			fmt.Println(">!>!>!>!> IsSafe: Invalid regex")
 			return false
 		}
-		fmt.Println(">!>!>!>!> IsSafe: Using regex:", re.MatchString(spiffeid))
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
-		fmt.Println(">!>!>!>!> IsSafe: Invalid trust domain")
 		return false
 	}
 
-	fmt.Println(">!>!>!>!> IsSafe: Using prefix")
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
@@ -146,29 +141,24 @@ func IsWorkload(spiffeid string) bool {
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
-			fmt.Println(">!>>!>!>>!> IsWorkload: Invalid regex", err.Error(), "prefix", prefix, "spiffeid", spiffeid)
 			return false
 		}
 
-		fmt.Println(">!>>!>!>>!> IsWorkload: Using regex", "prefix", prefix, "spiffeid", spiffeid, re.MatchString(spiffeid))
 		return re.MatchString(spiffeid)
 	}
 
 	if !strings.HasPrefix(
 		spiffeid,
 		"spiffe://"+env.SpiffeTrustDomain()+"/") {
-		fmt.Println(">!>>!>!>>!> IsWorkload: Invalid trust domain", "prefix", prefix, "spiffeid", spiffeid)
 		return false
 	}
 
 	wre := regexp.MustCompile(env.NameRegExpForWorkload())
 	match := wre.FindStringSubmatch(spiffeid)
 	if len(match) == 0 {
-		fmt.Println(">!>>!>!>>!> IsWorkload: Invalid workload name", "prefix", prefix, "spiffeid", spiffeid)
 		return false
 	}
 
-	fmt.Println(">!>>!>!>>!> IsWorkload: Using prefix", "prefix", prefix, "spiffeid", spiffeid)
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
