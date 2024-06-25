@@ -386,9 +386,9 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
+              value: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://aegis.ist/ns/"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
@@ -588,11 +588,11 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
+              value: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe$"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel"
+              value: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://aegis.ist/ns/"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
@@ -823,11 +823,11 @@ spec:
             - name: VSECM_SAFE_ENDPOINT_URL
               value: "https://vsecm-safe.vsecm-system-custom.svc.cluster.local:8443/"
             - name: VSECM_SPIFFEID_PREFIX_SAFE
-              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe"
+              value: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-safe$"
             - name: VSECM_SPIFFEID_PREFIX_SENTINEL
-              value: "spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel"
+              value: "^spiffe://aegis.ist/ns/vsecm-system-custom/sa/vsecm-sentinel$"
             - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
-              value: "spiffe://aegis.ist/ns/"
+              value: "^spiffe://aegis.ist/ns/[^/]+/sa/[^/]+$"
             - name: VSECM_NAMESPACE_SYSTEM
               value: "vsecm-system-custom"
             - name: VSECM_NAMESPACE_SPIRE
