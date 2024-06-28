@@ -12,6 +12,7 @@ package validation
 
 import (
 	"fmt"
+	env2 "github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"regexp"
 	"strings"
 
@@ -148,8 +149,10 @@ func IsWorkload(spiffeid string) bool {
 			panic(
 				"Invalid regular expression pattern for SPIFFE ID." +
 					" Expected: ^spiffe://<trust_domain>/..." +
-					" Check the " + env.SpiffeIdPrefixForWorkload() +
-					" environment variable.",
+					" Check the " + string(env2.VSecMSpiffeIdPrefixWorkload) +
+					" environment variable. " +
+					" val: " + env.SpiffeIdPrefixForWorkload() +
+					" trust: " + env.SpiffeTrustDomain(),
 			)
 			return false
 		}
@@ -159,8 +162,10 @@ func IsWorkload(spiffeid string) bool {
 			panic(
 				"Failed to compile the regular expression pattern " +
 					"for SPIFFE ID." +
-					" Check the " + env.SpiffeIdPrefixForWorkload() +
-					" environment variable.",
+					" Check the " + string(env2.VSecMSpiffeIdPrefixWorkload) +
+					" environment variable. " +
+					" val: " + env.SpiffeIdPrefixForWorkload() +
+					" trust: " + env.SpiffeTrustDomain(),
 			)
 			return false
 		}
