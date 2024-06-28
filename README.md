@@ -124,7 +124,7 @@ If you are a security enthusiast, join these communities
 and let us change the world together 🤘:
 
 * [Join **VMware Secrets Manager**'s Slack Workspace][slack-invite]
-* [Join the **VMware Mecrets Manager** channel on Kampus' Discord Server][kampus]
+* [Join the **VMware Secrets Manager** channel on Kampus' Discord Server][kampus]
 
 ## Links
 
@@ -133,8 +133,8 @@ and let us change the world together 🤘:
 * **Homepage and Docs**: <https://vsecm.com/>
 * **Changelog**: <https://vsecm.com/docs/changelog/>
 * **Community**:
-  * [Join **VMware Mecrets Manage**'s Slack Workspace][slack-invite]
-  * [Join the **VMware Mecrets Manager** channel on Kampus' Discord Server][kampus]
+  * [Join **VMware Secrets Manage**'s Slack Workspace][slack-invite]
+  * [Join the **VMware Secrets Manager** channel on Kampus' Discord Server][kampus]
 * **Contact**: <https://vsecm.com/docs/community/>
 
 ### Guides and Tutorials

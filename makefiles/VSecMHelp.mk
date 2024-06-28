@@ -49,9 +49,10 @@ help:
 	@echo "          ˃ make k8s-delete;make k8s-start;"
 	@echo "          ˃ make clean;"
 	@echo "   ⦿ Optional Minikube Settings:"
-	@echo "          > make k8s-start CPU=4 MEMORY=4096"
+	@echo "          > make k8s-start CPU=4 MEMORY=4096 NODES=1"
 	@echo "          or"
-	@echo "          > make k8s-start VSECM_MINIKUBE_CPU_COUNT=4 VSECM_MINIKUBE_MEMORY=4096"
+	@echo "          > make k8s-start VSECM_MINIKUBE_CPU_COUNT=4 "
+	@echo "              VSECM_MINIKUBE_MEMORY=4096 VSECM_MINIKUBE_CPU_COUNT=1"
 	@echo "   ⦿ Generate Proto files:"
 	@if [ $$(command -v protoc-gen-go >/dev/null 2>&1; echo $$?) -eq 0 ] && [ $$(command -v protoc-gen-go-grpc >/dev/null 2>&1; echo $$?) -eq 0 ]; then \
 		echo "          ˃ make generate-proto-files"; \

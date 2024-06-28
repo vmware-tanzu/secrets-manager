@@ -10,6 +10,8 @@
 
 package data
 
+import "github.com/vmware-tanzu/secrets-manager/lib/entity"
+
 // SecretFormat represents the format of the secret.
 type SecretFormat string
 
@@ -21,22 +23,22 @@ var (
 
 // Secret represents the secret that is safe to view.
 type Secret struct {
-	Name         string   `json:"name"`
-	Created      JsonTime `json:"created"`
-	Updated      JsonTime `json:"updated"`
-	NotBefore    JsonTime `json:"notBefore"`
-	ExpiresAfter JsonTime `json:"expiresAfter"`
+	Name         string          `json:"name"`
+	Created      entity.JsonTime `json:"created"`
+	Updated      entity.JsonTime `json:"updated"`
+	NotBefore    entity.JsonTime `json:"notBefore"`
+	ExpiresAfter entity.JsonTime `json:"expiresAfter"`
 }
 
 // SecretEncrypted represents the secret with an encrypted value.
 // It is still safe to view since the value of it is encrypted.
 type SecretEncrypted struct {
-	Name           string   `json:"name"`
-	EncryptedValue []string `json:"value"`
-	Created        JsonTime `json:"created"`
-	Updated        JsonTime `json:"updated"`
-	NotBefore      JsonTime `json:"notBefore"`
-	ExpiresAfter   JsonTime `json:"expiresAfter"`
+	Name           string          `json:"name"`
+	EncryptedValue []string        `json:"value"`
+	Created        entity.JsonTime `json:"created"`
+	Updated        entity.JsonTime `json:"updated"`
+	NotBefore      entity.JsonTime `json:"notBefore"`
+	ExpiresAfter   entity.JsonTime `json:"expiresAfter"`
 }
 
 // SecretMeta represents the metadata of the secret that is not

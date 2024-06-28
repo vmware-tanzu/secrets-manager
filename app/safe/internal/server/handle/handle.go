@@ -11,11 +11,11 @@
 package handle
 
 import (
-	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	"net/http"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
+	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/validation"

@@ -404,8 +404,8 @@ kubectl get secret example-kubernetes-secret -o yaml
 
 **VSecM Safe** uses a **root key** to encrypt the secrets that are stored.
 Typically, this **root key** is stored as a Kubernetes `Secret` for your
-convenience. However, if you want you can set `VSECM_MANUAL_KEY_INPUT` to
-`"true"` and provide the *root key* manually.
+convenience. However, if you want you can set `VSECM_ROOT_KEY_INPUT_MODE_MANUAL` 
+to `"true"` and provide the *root key* manually.
 
 ```bash
 kubectl exec "$SENTINEL" -n vsecm-system -- safe \

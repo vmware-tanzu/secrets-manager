@@ -46,12 +46,11 @@ environment to be able to locally develop **VMware Secrets Manager**:
 > easier to set up; and when you stumble upon, it is easy to find supporting
 > documentation about these to help you out.
 >
-> For **Mac OS**, for example, you can check the
-> [alternate setup](#alternate-non-minikube-setup-on-mac-os)
-> section below
+> For **macOS**, for example, you can check the
+> [alternate setup](#alternate-non-minikube-setup-on-macos)
+> section below.
 
-
-## Alternate Non-Minikube Setup on Mac OS
+## Alternate Non-Minikube Setup on macOS
 
 The rest of this document assumes that you are using **Minikube** and **Docker**;
 however, if you are on a Mac, want to use **Docker for Mac's Kubernetes Distribution**,
@@ -194,6 +193,51 @@ If you run these commands in the above order, you'll be able to **build**,
 **deploy**, and **test** your work locally.
 
 [docker]: https://www.docker.com/
+
+## Kubernetes-Related Troubleshooting
+
+If you delete the `spire-system` and `spire-server` namespaces before deleting
+the `vsecm-system` namespace, then you might have issues deleting the 
+`vsecm-system` namespace because the Pods in the `vsecm-system` namespace
+will remain hanging waiting on the SPIFFE CSI Driver’s volume to mount.
+
+This can also happen if you install **VSecM** using `helm` and then execute
+`helm delete` to remove the **VSecM** installation. To uninstall **VSecM**
+helm deployment, we recommend using the `make helm-delete` target, which takes
+care of the order of deletion. 
+
+Or, alternatively, you can first delete the `vsecm-system` namespace, and then
+execute `helm delete` to remove the **VSecM** installation.
+
+```bash
+kubectl delete namespace vsecm-system
+helm delete vsecm
+```
+
+If you still see resources hanging, you can use the following command to
+detect the resources that are still hanging and force delete them:
+
+```bash
+kubectl api-resources --verbs=list --namespaced -o name \
+  | xargs -n 1 kubectl get -n vsecm-system
+```
+
+For example if `vsecm-keystone-59fc9568b6-zx7zl` pod is `Pending` or is in 
+a `FailedMount` state, you can first delete its owner deployment, and then
+force delete the pod with the following command:
+
+```bash
+kubectl delete deployment vsecm-keystone -n vsecm-system
+kubectl delete pod vsecm-keystone-59fc9568b6-zx7zl \
+  -n vsecm-system --grace-period=0 --force
+```
+
+When you do this for all the hanging resources, you can then delete the 
+`vsecm-system` namespace.
+
+```bash
+kubectl delete namespace vsecm-system
+```
 
 ## Minikube Quirks
 
@@ -439,6 +483,24 @@ kubectl exec -n spire-system $SPIRE_SERVER -- \
 #    validate       Validates a SPIRE server configuration file
 #    x509
 ```
+
+You can also check registration entries:
+
+```bash 
+kubectl exec spire-server-0 -n spire-server \
+  -- /opt/spire/bin/spire-server entry show \
+  -spiffeID spiffe://vsecm.com/ns/vsecm-system/sa/vsecm-safe
+
+# Found 1 entry
+# Entry ID     : ric.4746eca9-0853-468e-9b4e-6283a46912df
+# SPIFFE ID    : spiffe://vsecm.com/ns/vsecm-system/sa/vsecm-safe
+# Parent ID    : spiffe://vsecm.com/spire/agent/k8s_psat/o-ric/fe
+# Revision     : 0
+# X509-SVID TTL: default
+# JWT-SVID TTL : default
+# Selector     : k8s:pod-uid:c5e3728c-35a6-482c-8208-543fb2e6630e
+```
+
 
 ## Enjoy 🎉
 

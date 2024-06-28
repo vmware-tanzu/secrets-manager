@@ -73,32 +73,26 @@ That's it. You are all set 🤘.
 
 ## Verifying the Installation
 
-To verify installation, check out the `vsecm-system` and `spire-system namespaces:
+To verify installation, check out the `vsecm-system`, `spire-system`, and 
+`spire-server` namespaces:
 
 ```bash
 kubectl get po -n vsecm-system
-```
+# Example Output:
+# NAME                              READY   STATUS    RESTARTS   AGE
+# vsecm-keystone-59fc9568b6-hhnsj   1/1     Running   0          27s
+# vsecm-safe-0                      1/1     Running   0          27s
+# vsecm-sentinel-6998c5c5d7-lmdfh   1/1     Running   0          27s
 
-You should see something similar to the following output:
-
-```txt
-NAME                             READY   STATUS
-vsecm-safe-85dd95949c-f4mhj      1/1     Running
-vsecm-sentinel-6dc9b476f-djnq7   1/1     Running
-```
-
-Then, do the same for `spire-system` namespace:
-
-```bash
 kubectl get po -n spire-system
-```
+# Example Output:
+# NAME                READY   STATUS    RESTARTS      AGE
+# spire-agent-ts84q   3/3     Running   2 (56s ago)   58s
 
-You should see something similar to the following output:
-
-```txt
-NAME                           READY   STATUS
-spire-agent-p9m27              3/3     Running
-spire-server-6fb4f57c8-6s7ns   2/2     Running
+kubectl get po -n spire-server
+# Example Output:
+# NAME             READY   STATUS    RESTARTS   AGE
+# spire-server-0   2/2     Running   0          62s
 ```
 
 > **SPIRE Agent and Server Might Restart**

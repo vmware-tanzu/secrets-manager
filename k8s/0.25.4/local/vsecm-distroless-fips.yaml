@@ -547,7 +547,7 @@ spec:
             
             
             
-            - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
+            - name: VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER
               value: "false"
             
             

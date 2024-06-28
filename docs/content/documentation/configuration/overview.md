@@ -18,6 +18,11 @@ weight = 10
 > The environment variables mentioned in this document are listed in alphabetic
 > order.
 
+> **Looking for VMware Secrets Manager Production Tips**?
+>
+> For **production setup**, check out [**VMware Secrets Manager Production
+> Deployment**][prod].
+
 ## Introduction
 
 **VMware Secrets Manager** system components can be configured using environment
@@ -33,11 +38,6 @@ The following section contain a breakdown of all of these environment variables.
 >
 > For detailed guidance on secure configurations, please refer to 
 > the [**Production Deployment Instructions**][prod].
-
-> **Looking for VMware Secrets Manager Production Tips**?
->
-> For **production setup**, check out [**VMware Secrets Manager Production
-> Deployment**][prod].
 
 [prod]: @/documentation/production/overview.md
 
@@ -69,7 +69,7 @@ will be used.
 **Used By**: *VSecM Safe*, *VSecM Sentinel*, *VSecM Sidecar*, *Workloads*.
 
 `SPIFFE_TRUST_DOMAIN` specifies which trust domain that the Kubernetes cluster
-**VSecM** deployed on is configued with.
+**VSecM** deployed on is configured with.
 
 By default, it is `"vsecm.com"`.
 
@@ -574,15 +574,6 @@ than one manifest, and restart or redeploy **VMware Secrets Manager** and
 
 Defaults to `":8443"`.
 
-### VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
-
-**Used By**: *VSecM Sentinel*.
-
-`VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER` is a flag that enables the OIDC
-resource server functionality in **VSecM Sentinel**.
-
-Defaults to "false".
-
 ### VSECM_SENTINEL_INIT_COMMAND_PATH
 
 **Used By**: *VSecM Sentinel*.
@@ -633,13 +624,34 @@ standard output.
 
 ### VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL
 
+> **Experimental**
+> 
+> **VSecM Sentinel** can provide an OIDC resource server so that you can
+> link **VSecM** to your OIDC provider. This feature is experimental,
+> have not been thoroughly tested, and is subject to change.
+
 **Used By**: *VSecM Sentinel*.
 
 `VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL` is the base URL for the OIDC provider
 server that **VSecM Sentinel** uses. This url is used when
-`VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER` is set to `"true"`.
+`VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER` is set to `"true"`.
 
 Defaults to `""`.
+
+### VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER
+
+> **Experimental**
+>
+> **VSecM Sentinel** can provide an OIDC resource server so that you can
+> link **VSecM** to your OIDC provider. This feature is experimental,
+> have not been thoroughly tested, and is subject to change.
+
+**Used By**: *VSecM Sentinel*.
+
+`VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER` is a flag that enables the OIDC
+resource server functionality in **VSecM Sentinel**.
+
+Defaults to "false".
 
 ### VSECM_SENTINEL_SECRET_GENERATION_PREFIX
 
@@ -652,19 +664,6 @@ If a secret is prefixed with this value, then **VSecM Sentinel** will consider
 it as a "*template*" rather than a literal value.
 
 If the environment variable is not set or is empty, it defaults to `"gen:"`.
-
-### VSECM_SPIFFEID_PREFIX_SENTINEL
-
-**Used By**: *VSecM Safe*, *VSecM Sentinel*.
-
-Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
-
-`VSECM_SPIFFEID_PREFIX_SENTINEL` is required for validation.
-
-If the prefix starts with `"^"`, it will be treated as a regular expression.
-
-If not provided, it will default to:
-`"spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/"`
 
 ### VSECM_SIDECAR_ERROR_THRESHOLD
 
@@ -729,9 +728,43 @@ results before reducing the poll interval. Defaults to `3`.
 The next interval is calculated by dividing the current interval with
 `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER`.
 
+### VSECM_SPIFFEID_PREFIX_SAFE
+
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
+
+`VSECM_SPIFFEID_PREFIX_SAFE` is the prefix for the Safe SPIFFE ID.
+
+`VSECM_SPIFFEID_PREFIX_SAFE` is required for validation.
+
+If the prefix starts with `"^"`, it will be treated as a regular expression.
+
+If the prefix is a regular expression, it MUST start with 
+`"^spiffe://<trust-domain>/"` where `<trust-domain>` is the trust domain
+(`vsecm.com` by default).
+
+If not provided, it will default to:
+`"^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"`
+
+### VSECM_SPIFFEID_PREFIX_SENTINEL
+
+**Used By**: *VSecM Safe*, *VSecM Sentinel*.
+
+Both **VSecM Safe** and **VSecM Sentinel** use this environment variable.
+
+`VSECM_SPIFFEID_PREFIX_SENTINEL` is required for validation.
+
+If the prefix starts with `"^"`, it will be treated as a regular expression.
+
+If the prefix is a regular expression, it MUST start with
+`"^spiffe://<trust-domain>/"` where `<trust-domain>` is the trust domain
+(`vsecm.com` by default).
+
+If not provided, it will default to:
+`"^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"`
+
 ### VSECM_SPIFFEID_PREFIX_WORKLOAD
 
-**Used By**: *VSecM Safe*, *Workloads*.
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
 
 Both **VSecM Safe** and **workloads** use this environment variable.
 
@@ -739,5 +772,27 @@ Both **VSecM Safe** and **workloads** use this environment variable.
 it will default to: `"spiffe://vsecm.com/workload/"`
 
 If the prefix starts with `"^"`, it will be treated as a regular expression.
+
+If the prefix is a regular expression, it MUST start with
+`"^spiffe://<trust-domain>/"` where `<trust-domain>` is the trust domain
+(`vsecm.com` by default).
+
+If not provided, it will default to:
+`"^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"`
+
+### VSECM_WORKLOAD_NAME_REGEXP
+
+**Used By**: *VSecM Safe*, *VSecM Sentinel*, *Workloads*.
+
+`VSECM_WORKLOAD_NAME_REGEXP` is the regular expression pattern for extracting
+the workload name from the SPIFFE ID.
+
+The first capture group of the regular expression is used as the workload name.
+
+If not provided, it will default to:
+`"^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"`
+
+The regular expression MUST start with `"^spiffe://<trust-domain>/"` where 
+`<trust-domain>` is the trust domain (`vsecm.com` by default).
 
 {{ edit() }}

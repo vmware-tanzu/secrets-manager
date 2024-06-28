@@ -32,6 +32,21 @@ to report a bug, request a feature, or ask a question.
 Also, please discuss your idea and findings with the community on
 [**VSecM's Slack workspace**][slack] whenever possible.
 
+We also have a [Discord Server][kampus] mainly for Turkish-speaking folks.
+
+> **Türkçe Konuşanlar İçin:**
+> 
+> Özgür yazılım birlikte olunca güzel 🤗.
+> 
+> Eğer **VMware Secrets Manager** ile ilgili bir sorun varsa, projeye 
+> katkıda bulunmak istiyorsan veya başka bir konuda yardıma ihtiyacın varsa,
+> dil engeli olmadan bize ulaşabilirsin.
+> 
+> [Kampus Discord Sunucusu'nda **VMware Secrets Manager** kanalında][kampus]
+> buluşalım ve birlikte dünyayı daha güvenli hale getirelim 🤘.
+
+[kampus]: https://discord.gg/kampus "Join Kampus Discord Server"
+
 ## Report a Security Vulnerability
 
 If you have found a security vulnerability, please [**follow this guideline**][vuln]

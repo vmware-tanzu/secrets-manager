@@ -232,13 +232,13 @@ func TestSentinelEnableOIDCResourceServer(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.envValue != "" {
-				err := os.Setenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER", tt.envValue)
+				err := os.Setenv("VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER", tt.envValue)
 				if err != nil {
 					t.Errorf("Error setting environment variable: %v", err)
 					return
 				}
 			} else {
-				err := os.Unsetenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
+				err := os.Unsetenv("VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER")
 				if err != nil {
 					t.Errorf("Error unsetting environment variable: %v", err)
 					return
@@ -251,7 +251,7 @@ func TestSentinelEnableOIDCResourceServer(t *testing.T) {
 				t.Errorf("Expected %v, but got %v", tt.expected, result)
 			}
 
-			_ = os.Unsetenv("VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER")
+			_ = os.Unsetenv("VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER")
 		})
 	}
 }

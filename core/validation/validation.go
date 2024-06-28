@@ -139,8 +139,29 @@ func IsWorkload(spiffeid string) bool {
 	prefix := env.SpiffeIdPrefixForWorkload()
 
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		if !strings.HasPrefix(
+			spiffeid,
+			"^spiffe://"+env.SpiffeTrustDomain()+"/") {
+
+			// Insecure configuration detected.
+			// Panic to prevent further issues:
+			panic(
+				"Invalid regular expression pattern for SPIFFE ID." +
+					" Expected: ^spiffe://<trust_domain>/..." +
+					" Check the " + env.SpiffeIdPrefixForWorkload() +
+					" environment variable.",
+			)
+			return false
+		}
+
 		re, err := regexp.Compile(prefix)
 		if err != nil {
+			panic(
+				"Failed to compile the regular expression pattern " +
+					"for SPIFFE ID." +
+					" Check the " + env.SpiffeIdPrefixForWorkload() +
+					" environment variable.",
+			)
 			return false
 		}
 
@@ -153,7 +174,33 @@ func IsWorkload(spiffeid string) bool {
 		return false
 	}
 
-	wre := regexp.MustCompile(env.NameRegExpForWorkload())
+	nrw := env.NameRegExpForWorkload()
+	if !strings.HasPrefix(
+		spiffeid,
+		"^spiffe://"+env.SpiffeTrustDomain()+"/") {
+
+		// Insecure configuration detected.
+		// Panic to prevent further issues:
+		panic(
+			"Invalid regular expression pattern for SPIFFE ID." +
+				" Expected: ^spiffe://<trust_domain>/..." +
+				" Check the " + env.NameRegExpForWorkload() +
+				" environment variable.",
+		)
+		return false
+	}
+
+	wre, err := regexp.Compile(nrw)
+	if err != nil {
+		panic(
+			"Failed to compile the regular expression pattern " +
+				"for SPIFFE ID." +
+				" Check the " + env.NameRegExpForWorkload() +
+				" environment variable.",
+		)
+		return false
+	}
+
 	match := wre.FindStringSubmatch(spiffeid)
 	if len(match) == 0 {
 		return false

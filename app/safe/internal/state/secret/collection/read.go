@@ -16,6 +16,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	data "github.com/vmware-tanzu/secrets-manager/lib/entity"
 )
 
 // SecretByName retrieves a secret by its name.
@@ -63,10 +64,10 @@ func SecretByName(cid string, name string) *entity.Secret {
 
 	return &entity.Secret{
 		Name:         v.Name,
-		Created:      entity.JsonTime(v.Created),
-		Updated:      entity.JsonTime(v.Updated),
-		NotBefore:    entity.JsonTime(v.NotBefore),
-		ExpiresAfter: entity.JsonTime(v.ExpiresAfter),
+		Created:      data.JsonTime(v.Created),
+		Updated:      data.JsonTime(v.Updated),
+		NotBefore:    data.JsonTime(v.NotBefore),
+		ExpiresAfter: data.JsonTime(v.ExpiresAfter),
 	}
 }
 
@@ -112,10 +113,10 @@ func AllSecrets(cid string) []entity.Secret {
 
 		result = append(result, entity.Secret{
 			Name:         v.Name,
-			Created:      entity.JsonTime(v.Created),
-			Updated:      entity.JsonTime(v.Updated),
-			NotBefore:    entity.JsonTime(v.NotBefore),
-			ExpiresAfter: entity.JsonTime(v.ExpiresAfter),
+			Created:      data.JsonTime(v.Created),
+			Updated:      data.JsonTime(v.Updated),
+			NotBefore:    data.JsonTime(v.NotBefore),
+			ExpiresAfter: data.JsonTime(v.ExpiresAfter),
 		})
 
 		return true
@@ -158,10 +159,10 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 		result = append(result, entity.SecretEncrypted{
 			Name:           v.Name,
 			EncryptedValue: vals,
-			Created:        entity.JsonTime(v.Created),
-			Updated:        entity.JsonTime(v.Updated),
-			NotBefore:      entity.JsonTime(v.NotBefore),
-			ExpiresAfter:   entity.JsonTime(v.ExpiresAfter),
+			Created:        data.JsonTime(v.Created),
+			Updated:        data.JsonTime(v.Updated),
+			NotBefore:      data.JsonTime(v.NotBefore),
+			ExpiresAfter:   data.JsonTime(v.ExpiresAfter),
 		})
 
 		return true

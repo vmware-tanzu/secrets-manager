@@ -55,11 +55,16 @@ const VSecMSafeSyncInterpolatedK8sSecrets VarName = "VSECM_SAFE_SYNC_INTERPOLATE
 const VSecMSafeSyncRootKeyInterval VarName = "VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL"
 const VSecMSafeSyncSecretsInterval VarName = "VSECM_SAFE_SYNC_SECRETS_INTERVAL"
 const VSecMSafeTlsPort VarName = "VSECM_SAFE_TLS_PORT"
-const VSecMSentinelEnableOidcResourceServer VarName = "VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER"
 const VSecMSentinelInitCommandPath VarName = "VSECM_SENTINEL_INIT_COMMAND_PATH"
 const VSecMSentinelInitCommandWaitAfterInitComplete VarName = "VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE"
 const VSecMSentinelInitCommandWaitBeforeExec VarName = "VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC"
+
+// See ADR-0017 for a discussion about important security considerations when
+// using OIDC.
+
+const VSecMSentinelOidcEnableResourceServer VarName = "VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER"
 const VSecMSentinelOidcProviderBaseUrl VarName = "VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL"
+
 const VSecMSentinelSecretGenerationPrefix VarName = "VSECM_SENTINEL_SECRET_GENERATION_PREFIX"
 const VSecMSidecarErrorThreshold VarName = "VSECM_SIDECAR_ERROR_THRESHOLD"
 const VSecMSidecarExponentialBackoffMultiplier VarName = "VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER"

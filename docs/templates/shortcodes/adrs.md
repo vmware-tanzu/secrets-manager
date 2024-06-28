@@ -25,4 +25,5 @@
 * [ADR-0013: Scan the Codebase for Vulnerabilities and Code Smells Regularly](@/documentation/architecture/adrs/20240510-adr-0013-scan-codebase-for-vulnerabilities-and-code-smells-regularly.md)
 * [ADR-0014: Get OpenSSF Best Practices Compliance](@/documentation/architecture/adrs/20240510-adr-0014-get-openssf-best-practices-compliance.md)
 * [ADR-0015: Keep Source Code Line Length Around 80 Characters](@/documentation/architecture/adrs/20240510-adr-0015-keep-source-code-line-length-around-80-characters.md)
-* [ADR-0016: Centralize Magic Words, Numbers, and Configuration Constants in Common Modules](@/documentation/architecture/adrs/20240511-adr-0016-centralized-constants-and-magic-words.md) 
+* [ADR-0016: Centralize Magic Words, Numbers, and Configuration Constants in Common Modules](@/documentation/architecture/adrs/20240511-adr-0016-centralized-constants-and-magic-words.md)
+* [ADR-0017: VSecM OIDC Resource Server Shall Be Secure by Default"](@/documentation/architecture/adrs/20240627-adr-0017-vsecm-oidc-resource-server-shall-be-secure-by-default.md)

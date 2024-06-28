@@ -17,6 +17,8 @@ MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
 MANIFESTS_EKS_PATH="${MANIFESTS_BASE_PATH}/eks"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
 CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
+# If using the Docker drive, you can emulate a multi-node cluster by setting
+# NODES to a value greater than 1.
 NODES ?= $(or $(VSECM_MINIKUBE_NODE_COUNT),1)
 MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 

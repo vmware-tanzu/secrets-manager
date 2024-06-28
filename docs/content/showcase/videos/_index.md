@@ -9,10 +9,10 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-title = "Showcase"
+title = "Videos"
 weight = 2
 sort_by = "weight"
-redirect_to = "showcase/vsecm"
+redirect_to = "showcase/videos/quickstart"
 insert_anchor_links = "left"
 +++
 

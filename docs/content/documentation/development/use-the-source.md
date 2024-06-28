@@ -44,6 +44,35 @@ Make sure you have a running local Docker daemon and execute the following:
 make build-local
 ```
 
+## Generating Protocol Buffers
+
+You might need to generate the protocol buffers if you are working on the 
+**VSecM** API. To do so, execute the following:
+
+```bash
+make generate-proto-files
+```
+
+If this command fails, you might need to install the `protoc` compiler:
+
+```bash
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
+
+## Updating Vendor Dependencies
+
+If the project fails to build, you might need to update the vendor dependencies. 
+To do so, execute the following on the project root:
+
+```bash
+cd $WORKSPACE/secrets-manager
+go mod tidy
+go mod vendor
+```
+
+## That's All
+
 That's it 🎉. You now have images of **VMware Secrets Manager** and other
 related components built locally on your Docker registry.
 
