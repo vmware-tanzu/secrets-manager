@@ -164,8 +164,9 @@ inspect
 
 **VSecM Sentinel** CLI accepts a format flag (`-f`), the possible values are
 
-* `"json"`
-* and `"yaml"`
+* `"json"`,
+* `"yaml"`,
+* and `"raw"`.
 
 If it is not given, it defaults to `"json"`; however, in the upcoming examples
 we'll be explicit and provide this argument at all times.

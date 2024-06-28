@@ -84,7 +84,7 @@ func InitCommandRunnerWaitIntervalBeforeInitComplete() time.Duration {
 
 // OIDCProviderBaseUrlForSentinel returns the url to be used for the
 // OIDC provider base URL for VSecM	Sentinel. This url is used when
-// VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER is set to "true".
+// VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER is set to "true".
 func OIDCProviderBaseUrlForSentinel() string {
 	p := env.Value(env.VSecMSentinelOidcProviderBaseUrl)
 	return p
@@ -93,6 +93,6 @@ func OIDCProviderBaseUrlForSentinel() string {
 // SentinelEnableOIDCResourceServer is a flag that enables the OIDC resource
 // server functionality in VSecM Sentinel.
 func SentinelEnableOIDCResourceServer() bool {
-	p := env.Value(env.VSecMSentinelEnableOidcResourceServer)
+	p := env.Value(env.VSecMSentinelOidcEnableResourceServer)
 	return val.True(p)
 }

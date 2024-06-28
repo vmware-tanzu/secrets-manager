@@ -32,6 +32,11 @@ weight = 11
 * Replaced `github.com/pkg/errors` with the native `errors` package 
   to reduce the number of dependencies and the codebase more
   secure and maintainable.
+* Lots of documentation updates to reflect the recent changes in the project.
+* Ability to match workload names from their SPIFFEIDs using regex.
+* Ability to use regexes for SPIFFEID prefix matching.
+* Workload validation now panics if the SPIFFEID does not have the proper
+  trust domain or is badly formatted.
 
 ## [0.25.3] - 2024-05-17
 

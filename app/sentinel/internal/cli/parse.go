@@ -67,8 +67,7 @@ func ParseWorkload(parser *argparse.Parser) *[]string {
 		string(sentinel.Workload),
 		string(sentinel.WorkloadExp), &argparse.Options{
 			Required: false,
-			Help: "name of the workload (i.e. the '$name' segment of its " +
-				"ClusterSPIFFEID ('spiffe://trustDomain/workload/$name/...'))",
+			Help:     "names of the workloads",
 		})
 }
 

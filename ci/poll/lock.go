@@ -19,7 +19,8 @@ import (
 
 var lockFilePath = "/opt/vsecm/git_poller.lock"
 
-// createLockFile tries to create a lock file and returns an error if it already exists
+// createLockFile tries to create a lock file and returns an error if it
+// already exists
 func createLockFile() error {
 	lockFile, err := os.OpenFile(lockFilePath, os.O_CREATE|os.O_EXCL, 0666)
 	if err == nil {

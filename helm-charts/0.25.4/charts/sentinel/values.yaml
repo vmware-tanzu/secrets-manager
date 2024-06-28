@@ -53,7 +53,7 @@ environments:
  # Sentinel. Since VSecM Sentinel is the main entry point to the system, the
  # server's security is important. Ideally, do not expose this server to the
  # public Internet and protect it with tight security controls.
- - name: VSECM_SENTINEL_ENABLE_OIDC_RESOURCE_SERVER
+ - name: VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER
    value: "false"
  # -- The path where the initialization commands are mounted.
  - name: VSECM_SENTINEL_INIT_COMMAND_PATH

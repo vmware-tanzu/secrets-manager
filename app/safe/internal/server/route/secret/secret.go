@@ -24,6 +24,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	data "github.com/vmware-tanzu/secrets-manager/lib/entity"
 	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
 )
 
@@ -165,17 +166,17 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 		log.TraceLn(&cid, "Secret: Value is not encrypted")
 	}
 
-	nb := entity.JsonTime{}
-	exp := entity.JsonTime{}
+	nb := data.JsonTime{}
+	exp := data.JsonTime{}
 
 	if notBefore == "now" {
-		nb = entity.JsonTime(time.Now())
+		nb = data.JsonTime(time.Now())
 	} else {
 		nbTime, err := time.Parse(time.RFC3339, notBefore)
 		if err != nil {
-			nb = entity.JsonTime(time.Now())
+			nb = data.JsonTime(time.Now())
 		} else {
-			nb = entity.JsonTime(nbTime)
+			nb = data.JsonTime(nbTime)
 		}
 	}
 
@@ -183,19 +184,19 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 		// This is the largest time go stdlib can represent.
 		// It is far enough into the future that the author does not care
 		// what happens after.
-		exp = entity.JsonTime(
+		exp = data.JsonTime(
 			time.Date(9999, time.December,
 				31, 23, 59, 59, 999999999, time.UTC),
 		)
 	} else {
 		expTime, err := time.Parse(time.RFC3339, expiresAfter)
 		if err != nil {
-			exp = entity.JsonTime(
+			exp = data.JsonTime(
 				time.Date(9999, time.December,
 					31, 23, 59, 59, 999999999, time.UTC),
 			)
 		} else {
-			exp = entity.JsonTime(expTime)
+			exp = data.JsonTime(expTime)
 		}
 	}
 

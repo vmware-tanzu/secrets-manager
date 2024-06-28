@@ -141,6 +141,12 @@ kubectl exec $SENTINEL -n vsecm-system -- safe \
   -s 'init'
 ```
 
+Aside from the regular flags such as `w:` for `-w`, `n:` for `-n`, and `s:` for `-s`,
+the `initCommand` accepts two special commands:
+
+* `wait:$timInMilliseconds` to wait for a specified time before executing the next command.
+* `exit:true` break execution without processing any further commands.
+
 [vsecm-cli]: @/documentation/usage/cli.md
 
 ### Don't Forget to Create a `ClusterSPIFFEID`

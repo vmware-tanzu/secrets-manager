@@ -107,7 +107,6 @@ create commit messages.
 > If you have [better-commits][better-commits] installed, then you can execute
 > `make commit` to create a commit message.
 
-
 [better-commits]: https://github.com/Everduin94/better-commits "Better Commits"
 
 ## Signing Off Commits
@@ -126,7 +125,7 @@ automatically. This will use your default value on your git configure in
 `user.name`, `user.email`.
 
 If you miss your sign-off on the last commit, you can amend the commit and then
-push to Github:
+push to GitHub:
 
 ```bash
 git commit --amend --signoff

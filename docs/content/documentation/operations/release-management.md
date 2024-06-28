@@ -137,9 +137,8 @@ Before every release cut, follow the steps outlined below.
 
 ### 0. Are you on a release branch?
 
-Make sure you are on a release branch, forked off of the most recent `main` branch.
-
-Also ensure that all changes have been merged to `main`.
+Make sure you are on a release branch, forked off of the most recent `main` 
+branch where all the changes to be included in the release are merged.
 
 ### 1. Check Docker and Minikube
 
@@ -272,7 +271,7 @@ For example `make k8s-manifests-update VERSION=0.22.4`
 > **Pull Recent `gh-pages` Changes**
 >
 > Before you proceed, make sure that you have your `gh-pages` local branc
-> is up to date:
+> is up-to-date:
 >
 > ```bash
 > cd $WORKSPACE/secrets-manager

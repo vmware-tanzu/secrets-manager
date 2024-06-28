@@ -99,19 +99,24 @@ type SecretEncryptedListResponse struct {
 	Err       string                 `json:"err,omitempty"`
 }
 
+// KeystoneStatusRequest is the request to check the status of
+// VSecM Keystone.
 type KeystoneStatusRequest struct {
 	Err string `json:"err,omitempty"`
 }
 
+// KeystoneStatusResponse is the response to a KeystoneStatusRequest.
 type KeystoneStatusResponse struct {
 	Status data.InitStatus `json:"status"`
 	Err    string          `json:"err,omitempty"`
 }
 
+// GenericRequest is the request for generic operations.
 type GenericRequest struct {
 	Err string `json:"err,omitempty"`
 }
 
+// GenericResponse is the response for generic operations.
 type GenericResponse struct {
 	Err string `json:"err,omitempty"`
 }

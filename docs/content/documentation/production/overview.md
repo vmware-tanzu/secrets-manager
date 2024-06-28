@@ -470,6 +470,9 @@ To secure these configuration files, you can:
   proposed [in the Kubernetes guides][kms]*).
 * **Audit Logs**: Enable and monitor audit logs to track access and changes to `ConfigMaps`.
   This helps in identifying unauthorized access or modifications.
+  * Audit logs are also useful to track who executed commands like `kubectl exec $SENTINEL ...`
+    to ensure that only authorized personnel are accessing the **VSecM Sentinel** to 
+    manage secrets.
 * **Regular Reviews and Updates**: Periodically review and update the access policies
   and configurations to ensure they remain secure and relevant.
 * **Minimize Configuration**: Only include necessary configuration settings in
@@ -650,8 +653,49 @@ It is a best practice to avoid `HostPath` volumes for production deployments.
 You are strongly encouraged to [choose a `PersistentVolume` that suits your
 needs][k8s-pv] for production setups.
 
+If you are using Helm Charts, you can modify the `values.yaml` file to use
+a `PersistentVolume` instead of `HostPath` for **VSecm Safe**:
+
+```yaml
+# ./charts/safe/values.yaml
+
+# -- How persistence is handled.
+data:
+  # -- If `persistent` is true, a PersistentVolumeClaim is used.
+  # Otherwise, a hostPath is used.
+  persistent: false
+  # -- PVC settings (if `persistent` is true).
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+```
+
 [vsecm-safe-deployment-yaml]: https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/charts/safe/templates/Deployment.yaml
 [k8s-pv]: https://kubernetes.io/docs/concepts/storage/volumes/
+
+## Volume Selection for SPIRE Server Data
+
+Similar to **VSecM Safe**, it is also recommended for **SPIRE Server** to use
+a `PersistentVolume` for storing its data for production deployments.
+
+With Helm charts, you can modify the `values.yaml` file to use a `PersistentVolume`
+instead of in-memory storage for **SPIRE Server**:
+
+```yaml
+# ./charts/spire/values.yaml
+
+# -- Persistence settings for the SPIRE Server.
+data:
+  # -- Persistence is disabled by default. You are recommended to provide a
+  # persistent volume.
+  persistent: false
+  # -- Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+```
 
 ## High Availability of VSecM Safe
 

@@ -13,6 +13,7 @@ package data
 import (
 	"errors"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/lib/entity"
 	"reflect"
 	"testing"
 	"time"
@@ -26,12 +27,12 @@ var (
 func TestJsonTime_MarshalJSON(t *testing.T) {
 	tests := []struct {
 		name string
-		tr   JsonTime
+		tr   entity.JsonTime
 		want []byte
 	}{
 		{
 			name: "success_case",
-			tr:   JsonTime(timeNow),
+			tr:   entity.JsonTime(timeNow),
 			want: []byte(fmt.Sprintf("\"%s\"", timeNow.Format(time.RFC3339))),
 		},
 	}
@@ -63,7 +64,7 @@ func TestJsonTimeUnmarshalJSON(t *testing.T) {
 	}
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			var jsonTime JsonTime
+			var jsonTime entity.JsonTime
 			err := jsonTime.UnmarshalJSON(tt.jsonData)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
@@ -73,7 +74,7 @@ func TestJsonTimeUnmarshalJSON(t *testing.T) {
 }
 
 func TestJsonTimeString(t *testing.T) {
-	jsonTime := JsonTime(time.Now())
+	jsonTime := entity.JsonTime(time.Now())
 
 	expectedTimeStr := time.Now().Format(time.RFC3339)
 
