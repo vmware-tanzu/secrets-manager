@@ -78,14 +78,14 @@ func DecryptBytesAge(data []byte) ([]byte, error) {
 
 	identity, err := age.ParseX25519Identity(privateKey)
 	if err != nil {
-		return []byte{}, errors.Join(
+		return nil, errors.Join(
 			err,
 			errors.New("decryptBytes: failed to parse private key"),
 		)
 	}
 
 	if len(data) == 0 {
-		return []byte{}, errors.Join(
+		return nil, errors.Join(
 			err,
 			errors.New("decryptBytes: file on disk appears to be empty"),
 		)
@@ -96,14 +96,14 @@ func DecryptBytesAge(data []byte) ([]byte, error) {
 
 	r, err := age.Decrypt(f, identity)
 	if err != nil {
-		return []byte{}, errors.Join(
+		return nil, errors.Join(
 			err,
 			errors.New("decryptBytes: failed to open encrypted file"),
 		)
 	}
 
 	if _, err := io.Copy(out, r); err != nil {
-		return []byte{}, errors.Join(
+		return nil, errors.Join(
 			err,
 			errors.New("decryptBytes: failed to read encrypted file"),
 		)
