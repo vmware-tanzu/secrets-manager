@@ -1,0 +1,56 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# ConfigMap for the SPIRE agent featuring:
+# 1) PSAT node attestation
+# 2) K8S Workload Attestation over the secure kubelet port
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-agent
+  namespace: {{ .Values.global.spire.namespace }}
+data:
+  agent.conf: |
+    agent {
+      data_dir = "/run/spire"
+      log_level = {{ .Values.global.spire.logLevel | quote }}
+      server_address = {{ .Values.global.spire.serverAddress | quote }}
+      server_port = {{ .Values.global.spire.serverPort | quote }}
+      socket_path = "/run/spire/sockets/agent.sock"
+      trust_bundle_path = "/run/spire/bundle/bundle.crt"
+      trust_domain = {{ .Values.global.spire.trustDomain | quote }}
+    }
+
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "9982"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
+    plugins {
+      NodeAttestor "k8s_psat" {
+        plugin_data {
+          cluster = "vsecm-cluster"
+        }
+      }
+
+      KeyManager "memory" {
+        plugin_data {
+        }
+      }
+
+      WorkloadAttestor "k8s" {
+        plugin_data {
+          skip_kubelet_verification = true
+        }
+      }
+    }
