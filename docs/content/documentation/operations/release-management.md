@@ -266,7 +266,12 @@ first.
 
 For example `make k8s-manifests-update VERSION=0.22.4`
 
-### 10. Release Helm Charts
+### 10. Update Helm Documentation
+
+If you have updated inline documentation in helm charts, make sure to reflect
+the changes by running `./hack/helm-docs.sh`.
+
+### 11. Release Helm Charts
 
 > **Pull Recent `gh-pages` Changes**
 >
@@ -299,11 +304,6 @@ the `gh-pages` branch.
 > Make sure you keep only the most recent version of the Helm Charts in the
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
-
-### 11. Update Helm Documentation
-
-If you have updated inline documentation in helm charts, make sure to reflect
-the changes by running `./hack/helm-docs.sh`.
 
 ### 12. Add a Snapshot of the Current Documentation
 
