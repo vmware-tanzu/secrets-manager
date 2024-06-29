@@ -10,9 +10,10 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-VERSION="0.25.0"
+VERSION="0.26.0"
 DOCS_FOLDER="./$VERSION"
 
 cd "$DOCS_FOLDER" || exit
 
-bundle exec jekyll serve
+# bundle exec jekyll serve
+zola serve

@@ -10,17 +10,18 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-VERSION="0.25.0"
-DOCS_FOLDER="$VERSION"
+VERSION="0.26.0"
+DOCS_FOLDER="./$VERSION"
 
 cd "$DOCS_FOLDER" || exit
 
-JEKYLL_ENV=production bundle exec jekyll build
+# JEKYLL_ENV=production bundle exec jekyll build
+zola build
 
 if [[ -z "$VSECM_S3_BUCKET" || -z "$VSECM_DISTRIBUTION_ID" ]]; then
   echo "Error: VSECM_S3_BUCKET and VSECM_DISTRIBUTION_ID must be set."
   exit 1
 fi
 
-aws s3 sync "_site/" "$VSECM_S3_BUCKET"v"$VERSION"
+aws s3 sync "./public/" "$VSECM_S3_BUCKET"v"$VERSION"
 aws cloudfront create-invalidation --distribution-id "$VSECM_DISTRIBUTION_ID" --paths "/*"
