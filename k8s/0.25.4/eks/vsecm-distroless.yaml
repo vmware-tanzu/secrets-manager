@@ -32,11 +32,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.25.4
+    helm.sh/chart: keystone-0.26.0
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -57,11 +57,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.25.4
+    helm.sh/chart: safe-0.26.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
@@ -82,11 +82,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.25.4
+    helm.sh/chart: sentinel-0.26.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -106,6 +106,14 @@ kind: Secret
 metadata:
   name: vsecm-root-key
   namespace: vsecm-system
+  labels:
+    helm.sh/chart: safe-0.26.0
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/operated-by: vsecm
 type: Opaque
 data:
   # '{}' (e30=) is a special placeholder to tell Safe that the Secret
@@ -127,6 +135,14 @@ kind: Secret
 metadata:
   name: vsecm-sentinel-init-secret
   namespace: vsecm-system
+  labels:
+    helm.sh/chart: sentinel-0.26.0
+    app.kubernetes.io/name: vsecm-sentinel
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/operated-by: vsecm
 type: Opaque
 stringData:
   data: "exit:true\n--\n"
@@ -263,11 +279,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.25.4
+    helm.sh/chart: safe-0.26.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -298,11 +314,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.25.4
+    helm.sh/chart: keystone-0.26.0
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -326,7 +342,7 @@ spec:
 
       initContainers:
         - name: init-container
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-init-container:0.25.4"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-init-container:0.26.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /spire-agent-socket
@@ -399,7 +415,7 @@ spec:
               value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-keystone:0.25.4"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-keystone:0.26.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -447,11 +463,11 @@ metadata:
   name: vsecm-sentinel
   namespace: vsecm-system
   labels:
-    helm.sh/chart: sentinel-0.25.4
+    helm.sh/chart: sentinel-0.26.0
     app.kubernetes.io/name: vsecm-sentinel
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -475,7 +491,7 @@ spec:
 
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-sentinel:0.25.4"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-sentinel:0.26.0"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -640,11 +656,11 @@ metadata:
   name: vsecm-safe
   namespace: vsecm-system
   labels:
-    helm.sh/chart: safe-0.25.4
+    helm.sh/chart: safe-0.26.0
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.25.4"
+    app.kubernetes.io/version: "0.26.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   serviceName: vsecm-safe
@@ -669,7 +685,7 @@ spec:
 
       containers:
         - name: main
-          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-safe:0.25.4"
+          image: "public.ecr.aws/h8y1n7y7/vsecm-ist-safe:0.26.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -888,6 +904,13 @@ apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
   name: vsecm-keystone
+  labels:
+    helm.sh/chart: keystone-0.26.0
+    app.kubernetes.io/name: vsecm-keystone
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/managed-by: Helm
 spec:
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
@@ -913,6 +936,13 @@ apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
   name: vsecm-safe
+  labels:
+    helm.sh/chart: safe-0.26.0
+    app.kubernetes.io/name: vsecm-safe
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/managed-by: Helm
 spec:
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
@@ -938,6 +968,13 @@ apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
   name: vsecm-sentinel
+  labels:
+    helm.sh/chart: sentinel-0.26.0
+    app.kubernetes.io/name: vsecm-sentinel
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/managed-by: Helm
 spec:
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:

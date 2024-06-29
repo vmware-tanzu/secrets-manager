@@ -14,6 +14,8 @@ apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
   name: {{ include "keystone.fullname" . }}
+  labels:
+    {{- include "keystone.labels" . | nindent 4 }}
 spec:
   spiffeIDTemplate: {{ .Values.global.vsecm.keystoneSpiffeIdTemplate }}
   podSelector:
