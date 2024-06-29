@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="keep your secrets... secret">
+        <meta name="author" content="VMware Secrets Manager Contributors">
+        <title>Production Setup | VMWare Secrets Manager </title>
+        <link rel="stylesheet" href="https://vsecm.com/v0.26.0/site.css"/>
+        <link rel="icon" href="https://vsecm.com/v0.26.0/vsecm-32.png">
+    </head>
+    <body>
+
+        <header style="background:#00151D;">
+            <nav class="">
+                <a class="header__logo white" href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;" style="font-weight:100;color:#95e3fc;">
+                    <img src="https://vsecm.com/v0.26.0/vsecm-64.png" alt="VSecM" style="vertical-align:middle">
+                    VMware Secrets Manager
+                    <em style="font-size:0.62em;color:#ffffff">v0.26.0</em>
+                </a>
+                <a class="white" href="https://vsecm.com/v0.26.0/documentation/" class="nav-link">
+                <svg
+                    style="position:relative;top:4px;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Programming-Book--Streamline-Ultimate" height="24" width="24"><desc>Programming Book</desc><path fill="#e3e3e3" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Z" stroke-width="0.75"></path><path fill="#ffef5e" d="M3.390625 2.421875a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M18.890625 4.359375h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v2.90625a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 2.421875h10.65625a0.96875 0.96875 0 0 1 0.96875 0.96875v0.96875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Zm0 0a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m7.265625 10.175749999999999 2.421875 2.421875 -2.421875 2.421875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M12.109375 14.050749999999999h3.875" stroke-width="0.75"></path></svg>
+                Docs
+
+                </a>
+                <a class="white" href=" https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" id="Slack-Logo--Streamline-Flex-Gradient" height="24" width="24" stroke-width="1"><desc>Slack Logo</desc><g id="slack"><path id="Union" fill="url(#paint0_linear_7718_2952)" fill-rule="evenodd" d="M5.75879.25c.41421 0 .75.335786.75.75v.24995c0 .41421-.33579.75-.75.75s-.75-.33579-.75-.75V1c0-.414214.33579-.75.75-.75ZM13 4.34033c.4142 0 .75.33579.75.75v.24995c0 .41422-.3358.75-.75.75s-.75-.33578-.75-.75v-.24995c0-.41421.3358-.75.75-.75ZM1.75 8.03479c0-.41421-.33579-.75-.75-.75-.414214 0-.75.33579-.75.75v.24995c0 .41421.335786.75.75.75.41421 0 .75-.33579.75-.75v-.24995Zm4.54094-4.46403c.23744.28178.38454.65583.38454 1.04404 0 .38821-.1471.76227-.38454 1.04404-.23628.2804-.58938.4986-1.01303.50949-1.1742.06477-2.45614.06477-3.63034 0-.42365-.01089-.776743-.22909-1.013025-.50949C.397098 5.37707.25 5.00301.25 4.6148c0-.38821.147099-.76226.384545-1.04404.236282-.28039.589375-.49859 1.013025-.50948 1.1742-.06478 2.45614-.06478 3.63034 0 .42365.01089.77675.22909 1.01303.50948ZM9.34332.25c-.38821 0-.76226.147099-1.04404.384545-.2804.236281-.4986.589375-.50949 1.013025-.06477 1.1742-.06477 2.45614 0 3.63034.01089.42365.22909.77675.50949 1.01303.28178.23744.65583.38454 1.04404.38454.38821 0 .76228-.1471 1.04408-.38454.2804-.23628.4986-.58938.5094-1.01303.0648-1.1742.0648-2.45614 0-3.63034-.0108-.42365-.229-.776743-.5094-1.013025C10.1056.397099 9.73153.25 9.34332.25ZM5.70084 13.3671c-.28178.2375-.65584.3846-1.04405.3846-.3882 0-.76226-.1471-1.04404-.3846-.28039-.2363-.49859-.5894-.50948-1.013-.06478-1.1742-.06478-2.45615 0-3.63036.01089-.42364.22909-.77674.50948-1.01302.28178-.23745.65584-.38455 1.04405-.38455.38821 0 .76226.1471 1.04404.38455.28039.23628.49859.58938.50948 1.01302.06478 1.17421.06478 2.45616 0 3.63036-.01089.4236-.22909.7767-.50948 1.013Zm1.62338-3.9802c0 .38821.1471.7623.38454 1.044.23628.2804.58938.4986 1.01303.5095 1.1742.0648 2.45611.0648 3.63031 0 .4237-.0109.7768-.2291 1.0131-.5095.2374-.2817.3845-.65579.3845-1.044 0-.38821-.1471-.76227-.3845-1.04404-.2363-.2804-.5894-.4986-1.0131-.50949-1.1742-.06477-2.45611-.06477-3.63031 0-.42365.01089-.77674.22909-1.01303.50949-.23744.28177-.38454.65583-.38454 1.04404Zm.85644 2.6148c.41422 0 .75.3358.75.75v.25c0 .4142-.33578.75-.75.75-.41421 0-.75-.3358-.75-.75v-.25c0-.4142.33579-.75.75-.75Z" clip-rule="evenodd"></path></g><defs><linearGradient id="paint0_linear_7718_2952" x1="14.92" x2="-3.291" y1="16.611" y2="3.677" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd600"></stop><stop offset="1" stop-color="#FF007A"></stop></linearGradient></defs></svg>
+                    Slack</a>
+                <a class="white" href="https://github.com/vmware-tanzu/secrets-manager" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Github-Logo--Streamline-Ultimate" height="24" width="24"><desc>Github Logo</desc><path fill="#808080" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#b2b2b2" d="M1.09294375 11.432315625C4.235665625 9.4212875 7.895021874999999 8.366803124999999 11.62596875 8.397028125C15.356915625 8.36554375 19.016659375 9.4189625 22.159865625000002 11.4293125C21.926784375 10.603065625 21.566215625 9.81828125 21.0912375 9.103246875L21.1230125 9.126109375S23.7510375 4.5850937499999995 20.5270375 1.938275C18.540615625 1.938275 15.503390625 5.215846875 15.503390625 5.215846875L15.525284375 5.230765625C12.999656250000001 4.50449375 10.3210625 4.500425 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.68581875 9.8239 1.3259281250000001 10.60800625 1.09294375 11.433284375Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#ffdda1" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M19.074978125 15.846134374999998C19.074978125 9.917675000000001 14.976971875 12.338096875 11.62596875 12.338096875C8.27486875 12.338096875 4.1768625 9.9792875 4.1768625 15.846134374999998C4.1768625 17.766003124999997 5.733256249999999 19.322396875 7.653125 19.322396875H15.598812500000001C17.51868125 19.322396875 19.074978125 17.766003124999997 19.074978125 15.846134374999998H19.074978125Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.123059375 17.335974999999998C15.671275 17.335974999999998 16.116221875 16.66850625 16.116221875 15.846134374999998S15.671275 14.35629375 15.123059375 14.35629375S14.1298 15.0237625 14.1298 15.846134374999998S14.574746875 17.335974999999998 15.123059375 17.335974999999998Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M8.170534375 17.335974999999998C8.718846875 17.335974999999998 9.16379375 16.66850625 9.16379375 15.846134374999998S8.718846875 14.35629375 8.170534375 14.35629375S7.177371875 15.0237625 7.177371875 15.846134374999998S7.62231875 17.335974999999998 8.170534375 17.335974999999998Z" stroke-width="0.75"></path></svg>
+                    GitHub</a>
+
+                <div class="search-container">
+                    <input id="search" type="search" placeholder="Search...">
+
+                    <div class="search-results">
+                        <div class="search-results__items"></div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div style="background: #cc0000; color: #ffffff; padding: 1em;">
+            This is a snapshot of the VMware Secrets Manager documentation
+            at version <strong>v0.26.0</strong>.<br>
+            For the latest information, please visit the
+            <a href="/" style="color:#ffff00;text-decoration:underline;border:0"
+            >VMware Secrets Manager documentation root</a>.
+        </div>
+            <div style="font-size:1em;background:#FFED90;
+            color: #000000;
+padding: 1em;
+">
+                <svg
+                    style="display:inline-block;top: 7px;position:relative;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Calendar-Favorite-1--Streamline-Ultimate" height="24" width="24"><desc>Calendar Favorite 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ff808c" d="M19.859375 7.273375V3.390625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v3.88275h19.375Z" stroke-width="0.75"></path><path fill="#ffbfc5" d="M19.859375 4.359375v-0.96875a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v0.96875h19.375Z" stroke-width="0.75"></path><path fill="#ffffff" d="M0.484375 7.273375V16.953125a0.96875 0.96875 0 0 0 0.96875 0.96875h17.4375a0.96875 0.96875 0 0 0 0.96875 -0.96875v-9.6875l-19.375 0.00775Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M9.203125 17.921875h-7.75a0.96875 0.96875 0 0 1 -0.96875 -0.96875v-13.5625a0.96875 0.96875 0 0 1 0.96875 -0.96875h17.4375a0.96875 0.96875 0 0 1 0.96875 0.96875V9.6875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.015625 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M0.484375 7.26659375h19.375" stroke-width="0.75"></path><path fill="#ffef5e" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M19.127 15.015625 17.631249999999998 11.554281249999999a0.775 0.775 0 0 0 -1.36496875 0L14.778281250000001 15.015625h-2.90625a0.71203125 0.71203125 0 0 0 -0.49793750000000003 1.2429062499999999l2.5187500000000003 2.24265625 -1.3920937500000001 3.2085a0.755625 0.755625 0 0 0 -0.0096875 0.5366875000000001l7.2365625 -7.2307500000000005h-0.600625Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path></svg>
+                &nbsp;<a style="color: #00151D" href="/documentation/community/contributor-hours/"><strong>Mark Your Calendars</strong></a>:
+                The next
+                <strong
+                ><a
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;font-weight:400;margin:0.4em;position:relative;display:inline-block;transform: rotate(-2deg)"
+                    href="/docs/contributor-sync/"
+                >VSecM Contributor Sync</a
+                ></strong
+                >
+                will be on...
+                <a
+                    href="/documentation/community/contributor-hours/"
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;margin:0.4em;font-weight:400;position:relative;display:inline-block;transform: rotate(-2deg)"
+
+                >Thursday, 2024-07-25
+                at 8:00am Pacific time</a>.
+
+
+            </div>
+        <div
+        style="padding:1em;background:#DDC755;color:#000000"
+        >
+            <svg
+                style="position:relative;top:6px;"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Rating-Star-1--Streamline-Ultimate" height="24" width="24"><desc>Rating Star 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ffef5e" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.932246875 1.9808031250000002C10.995215625 1.84915 11.09431875 1.73813125 11.217834375 1.660534375C11.341446875 1.582840625 11.484434375000001 1.5418625 11.630424999999999 1.542153125V18.63158125Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path></svg>
+
+            &nbsp;<a href="https://github.com/vmware-tanzu/secrets-manager" style="color:#000000;text-decoration:underline;">Star <strong>VMware Secrets Manager</strong> to show your support</a>.
+            <span class="secondary-slogan">Help us reach out to even more people with this amazing tech.</span></div>
+
+        <div class="content content--reversed">
+            
+
+
+
+<div class="documentation">
+    <aside class="documentation__sidebar">
+        <ul>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title"></span>
+                <ul>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Community</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;hello&#x2F;">VSecM Community</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;contributor-hours&#x2F;">VSecM Contributor Hour</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;contact&#x2F;">Get in Touch</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;maintainers&#x2F;">Maintainers</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;endorsements&#x2F;">What People Say</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Showcase</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;showcase&#x2F;vsecm&#x2F;">VSecM Showcase</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Timeline</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;timeline&#x2F;roadmap&#x2F;">VSecM Roadmap</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;timeline&#x2F;changelog&#x2F;">VSecM Changelog</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Quickstart</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;overview&#x2F;">Prerequisites</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;verify&#x2F;">Verify Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;deploy&#x2F;">Deploy an Example Workload</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;register&#x2F;">Register a Secret</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Welcome</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;welcome&#x2F;overview&#x2F;">Introducing VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;welcome&#x2F;about&#x2F;">What is VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Architecture</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;philosophy&#x2F;">VSecM Design Philosophy</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;overview&#x2F;">VSecM Architecture</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;adr-intro&#x2F;">Architectural Decision Records</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Configuration</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;configuration&#x2F;overview&#x2F;">Configuring VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Development</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;use-the-source&#x2F;">Use the Source</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;contributing&#x2F;">Contribute to VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;dev-env&#x2F;">Development Environment</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Using VSecM</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;cli&#x2F;">VSecM CLI</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;sdk&#x2F;">VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;releases&#x2F;">VSecM Releases</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Use Cases</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;about&#x2F;">About Use Cases</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;overview&#x2F;">Overview</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;registering-secrets&#x2F;">Registering Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;retrieving-secrets&#x2F;">Retrieving Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;sidecar&#x2F;">Using VSecM Sidecar</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;init-container&#x2F;">Using VSecM Init Container</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;encrypt&#x2F;">Encrypting Secrets Using VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;transform&#x2F;">Transforming Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;mounting-secrets&#x2F;">Mounting Secrets as Volumes</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;template-files&#x2F;">Mutating a Template File</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;vsecm-sdk&#x2F;">Retrieving Secrets Via VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;kubernetes-secrets&#x2F;">Mounting Kubernetes Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;large-files&#x2F;">Encrypting Large Files</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;root-key&#x2F;">Setting VSecM Root Key</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;randomized-secrets&#x2F;">Generating Randomized Secrets</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Production</span>
+                <ul>
+                    
+                        <li class="active">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;production&#x2F;overview&#x2F;">Production Setup</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Operations</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;security&#x2F;">Security</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;documentation-snapshots&#x2F;">Documentation Snapshots</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;release-management&#x2F;">Release Management</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;governance&#x2F;">Governance</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+        </ul>
+    </aside>
+    <div class="documentation__content">
+        
+    <h1>Production Setup</h1>
+    <h2 id="introduction"><a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Introduction</h2>
+<p>You need to pay attention to certain aspects and parts of the system that
+you’d need to harden for a <strong>production</strong> <em>VMware Secrets Manager</em> setup.
+This article will overview them.</p>
+<h2 id="version-compatibility"><a class="zola-anchor" href="#version-compatibility" aria-label="Anchor link for: version-compatibility" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Version Compatibility</h2>
+<p>We test <strong>VMware Secrets Manager</strong> with the recent stable version of Kubernetes 
+and Minikube.</p>
+<p>As long as there isn’t a change in the <strong>major</strong> version number your
+Kubernetes client and server you use, things will likely work just fine.</p>
+<h2 id="resource-requirements"><a class="zola-anchor" href="#resource-requirements" aria-label="Anchor link for: resource-requirements" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Resource Requirements</h2>
+<p><strong>VMware Secrets Manager</strong> is designed from the ground up to work in 
+environments with limited resources, such as edge computing and IoT.</p>
+<p>That being said, <strong>VMware Secrets Manager</strong>, by design, is a memory-intensive 
+application. However, even when you throw all your secrets at it, 
+<strong>VSecM Safe</strong>’s peak memory consumption will be in the order or 10-20 megabytes 
+of RAM. The CPU consumption will be within reasonable limits too.</p>
+<p>However, it’s crucial to understand that every system and user profile is unique.
+Factors such as the number and size of secrets, concurrent processes, and system
+specifications can influence these averages. Therefore, it is always advisable to
+benchmark <strong>VMware Secrets Manager</strong> and <strong>SPIRE</strong> on your own system under your 
+specific usage conditions to accurately gauge the resource requirements to 
+ensure optimal performance.</p>
+<p>Benchmark your system usage and set <strong>CPU</strong> and <strong>Memory</strong> limits to the
+<strong>VSecM Safe</strong> pod.</p>
+<p>We recommend you to:</p>
+<ul>
+<li>Set a memory <strong>request</strong> and <strong>limit</strong> for <strong>VSecM Safe</strong>,</li>
+<li>Set a CPU <strong>request</strong>; but <strong>not</strong> set a CPU limit for <strong>VSecM Safe</strong>
+(<em>i.e., the <strong>VSecM Safe</strong> pod will ask for a baseline CPU;
+yet burst for more upon need</em>).</li>
+</ul>
+<p>As in any secrets management solution, your compute and memory requirements
+will depend on several factors, such as:</p>
+<ul>
+<li>The number of workloads in the cluster</li>
+<li>The number of secrets <strong>Safe</strong> (<em>VMware Secrets Manager’s Secrets Store</em>) has to manage
+(<em>see <a href="https://vsecm.com/v0.26.0/documentation/architecture/overview/">architecture details</a> for more context</em>)</li>
+<li>The number of workloads interacting with <strong>Safe</strong>
+(<em>see <a href="https://vsecm.com/v0.26.0/documentation/architecture/overview/">architecture details</a> for more context</em>)</li>
+<li><strong>Sidecar</strong> poll frequency (<em>see <a href="https://vsecm.com/v0.26.0/documentation/architecture/overview/">architecture details</a> for
+more context</em>)</li>
+<li>etc.</li>
+</ul>
+<p>We recommend you benchmark with a realistic production-like
+cluster and allocate your resources accordingly.</p>
+<p>That being said, here are the resource allocation reported by <code>kubectl top</code>
+for a demo setup on a single-node minikube cluster to give an idea:</p>
+<pre data-lang="txt" style="background-color:#2e3440;color:#d8dee9;" class="language-txt "><code class="language-txt" data-lang="txt"><span>NAMESPACE     WORKLOAD            CPU(cores) MEMORY(bytes)
+</span><span>vsecm-system  vsecm-safe          1m         9Mi
+</span><span>vsecm-system  vsecm-sentinel      1m         3Mi
+</span><span>default       example 2m         7Mi
+</span><span>spire-system  spire-agent         4m         35Mi
+</span><span>spire-system  spire-server        6m         41Mi
+</span></code></pre>
+<p>Note that 1000m is 1 full CPU core.</p>
+<p>Based on these findings, the following resource and limit allocations can be
+a starting point for <strong>VMware Secrets Manager</strong>-managed containers:</p>
+<pre data-lang="yaml" style="background-color:#2e3440;color:#d8dee9;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span>  </span><span style="color:#616e88;"># Resource allocation will highly depend on the system.
+</span><span>  </span><span style="color:#616e88;"># Benchmark your deployment, monitor your resource utilization,
+</span><span>  </span><span style="color:#616e88;"># and adjust these values accordingly.
+</span><span>  </span><span style="color:#8fbcbb;">resources</span><span style="color:#eceff4;">:
+</span><span>    </span><span style="color:#8fbcbb;">requests</span><span style="color:#eceff4;">:
+</span><span>      </span><span style="color:#8fbcbb;">memory</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">&quot;128Mi&quot;
+</span><span>      </span><span style="color:#8fbcbb;">cpu</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">&quot;250m&quot;
+</span><span>    </span><span style="color:#8fbcbb;">limits</span><span style="color:#eceff4;">:
+</span><span>      </span><span style="color:#8fbcbb;">memory</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">&quot;128Mi&quot;
+</span><span>      </span><span style="color:#616e88;"># We recommend &quot;NOT&quot; setting a CPU limit.
+</span><span>      </span><span style="color:#616e88;"># As long as you have configured your CPU &quot;requests&quot;
+</span><span>      </span><span style="color:#616e88;"># correctly, everything would work fine.
+</span></code></pre>
+<h2 id="ensure-your-clusters-up-to-date"><a class="zola-anchor" href="#ensure-your-clusters-up-to-date" aria-label="Anchor link for: ensure-your-clusters-up-to-date" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Ensure Your Clusters Up-to-Date</h2>
+<p>Although not directly related to VSecM, keeping your clusters updated is a
+fundamental aspect of maintaining a secure and robust production environment.
+By implementing a proactive update strategy, you not only protect your infrastructure
+from known threats but also maintain compliance with industry standards and regulations.</p>
+<p>Timely updates ensure that the cluster is safeguarded against known vulnerabilities,
+which can prevent potential security leaks.</p>
+<p>Regularly updating your cluster components ensures that you benefit from the latest
+security patches and performance improvements. These updates often include fixes
+for security flaws that, if exploited, could lead to unauthorized access, data
+breaches, or loss of service. Failing to apply updates can leave your cluster
+vulnerable to attacks that exploit outdated software vulnerabilities.</p>
+<h2 id="back-up-your-cluster-regularly"><a class="zola-anchor" href="#back-up-your-cluster-regularly" aria-label="Anchor link for: back-up-your-cluster-regularly" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Back Up Your Cluster Regularly</h2>
+<p><strong>VMware Secrets Manager</strong> is designed to be resilient; however, losing access
+to your sensitive data is possible by inadvertently deleting a Kubernetes
+<code>Secret</code> that you are not supposed to delete. Or, your backing store that
+contains the secrets can get corrupted for any reason.</p>
+<p>Cloud Native or not, you rely on hardware which–intrinsically–is unreliable.</p>
+<p>Things happen. Make sure you back up your cluster <a href="https://velero.io/" title="Velero">using a tool like
+<strong>Velero</strong></a>, so that when things do happen, you can revert your
+cluster’s last known good state.</p>
+<blockquote>
+<p><strong>Make Sure You Back Up <code>vsecm-root-key</code></strong></p>
+<p>The Kubernetes <code>Secret</code> names <code>vsecm-root-key</code> that resides in the
+<code>vsecm-system</code> namespace is especially important, and needs to be
+securely backed up.</p>
+<p>The reason is; if you lose this secret, you will lose access to all the
+encrypted secret backups, and you will not be able to restore your secrets.
+{: .block-warning }</p>
+</blockquote>
+<p><strong>Set up your backups from day zero</strong>.</p>
+<h2 id="double-check-your-vsecm-configuration"><a class="zola-anchor" href="#double-check-your-vsecm-configuration" aria-label="Anchor link for: double-check-your-vsecm-configuration" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Double Check Your VSecM Configuration</h2>
+<p><strong>VMware Secrets Manager</strong> uses <em>environment variables</em> to configure various
+aspects of its compoments. Although, using environment variables to configure
+<strong>VSecM</strong> provides flexibility, it requires additional care and
+attention—especially when your configuration deviates from the defaults
+provided.</p>
+<p>For example, if you have a permissive environment variable for 
+<code>VSECM_SPIFFEID_PREFIX_WORKLOAD</code>, then certain apps can incorrectly identify
+as workloads. Similarly, a misconfiguration of an environmnet variable or a
+<code>ClusterSPIFFEID</code> may result in an unauthorized workload gaining access to 
+another workload’s secrets.</p>
+<p>Treat SPIFFE IDs, and <code>ClusterSPIFFEID</code>s similar to how you treat any identitiy:
+Make sure they are assigned to the apps and workloads that they ought to have
+been assigned. Make sure that you are matching the correct selectors and labels
+when defining <code>ClusterSPIFFEID</code>s for your workloads. And make sure that
+your <code>*_SPIFFEID_PREFIX</code> environment variables are restrictive enough: This is
+especially important if you use regular expression matchers in those 
+environment variables.</p>
+<p>For mor information <a href="https://vsecm.com/v0.26.0/documentation/configuration/overview/">check out the <strong>VSecM</strong> configuration reference</a>.</p>
+<h2 id="restrict-access-to-vsecm-root-key"><a class="zola-anchor" href="#restrict-access-to-vsecm-root-key" aria-label="Anchor link for: restrict-access-to-vsecm-root-key" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Restrict Access To <code>vsecm-root-key</code></h2>
+<p>The <code>vsecm-root-key</code> secret that <strong>VSecM Safe</strong> stores in the <code>vsecm-system</code>
+namespace contains the keys to encrypt and decrypt secret data on the data
+volume of <strong>VSecM Safe</strong>.</p>
+<p>While reading the secret alone is not enough to plant an attack on the secrets
+(<em>because the attacker also needs to access the VSecM Safe Pod or the <code>/data</code>
+volume in that Pod</em>), it is still <strong>crucial</strong> to follow the <strong>principle of least
+privilege</strong> guideline and do not allow anyone on the cluster read or write
+to the <code>vsecm-root-key</code> secret.</p>
+<p>The only entity allowed to have read/write (<em>but not delete</em>) access to
+<code>vsecm-root-key</code> should be the <strong>VSecM Safe</strong> Pod inside the <code>vsecm-system</code>
+namespace with an <code>vsecm-safe</code> service account.</p>
+<blockquote>
+<p><strong>With Great Power Comes Great Responsibility</strong></p>
+<p>It is worth noting that a <strong>Cluster Administrator</strong> due to their elevated
+privileges can read/write to any Kubernetes <code>Secret</code> in the cluster.</p>
+<p>This includes access to the <code>vsecm-root-key</code> secret. Therefore, it is
+highly recommended that you grant the <code>cluster-admin</code> role to a <strong>very</strong>
+small group of trusted individuals only.</p>
+<p>Although, access to <code>vsecm-root-key</code> does not give the attacker direct
+access to the secrets, due to their sheer power, a determined Cluster
+Administrator can still read the secrets by accessing the <code>/data</code> volume.</p>
+<p>Their actions will be recorded in the audit logs, so they can, and will be
+held responsible; however, it is still a bad idea to have more than an
+absolute minimum number of Cluster Administrators in your cluster.</p>
+</blockquote>
+<p>Kubernetes Secrets are, by default, stored <strong>unencrypted</strong> in the API server’s
+underlying data store (<code>etcd</code>). Anyone with API access and sufficient RBAC
+credentials can retrieve or modify a <code>Secret</code>, as can anyone with access
+to <code>etcd</code>.</p>
+<blockquote>
+<p><strong><code>Secret</code>less VSecM</strong></p>
+<p>For an additional layer of security, you can opt out of using Kubernetes
+<code>Secret</code>s altogether and use <strong>VMware Secrets Manager</strong> without any
+Kubernetes secrets to protect the *root keys. In this mode, you’ll have to
+manually provide the root keys to <strong>VSecM Safe</strong>; and you’ll need to
+re-provide the root keys every time you restart the <strong>VSecM Safe</strong> Pod or
+the pod is evicted, crashed, or rescheduled.</p>
+<p>This added layer of security comes with a cost of added complexity and
+operational overhead. You will need to manually intervene when <strong>VSemM Safe</strong>
+crashes or restarts.</p>
+<p>That said, <strong>VSecM Safe</strong> is designed to be resilient, and it rarely crashes.</p>
+<p>If you let <strong>VMware Secrets Manager</strong> generate the root token for you, you
+will not have to worry about this, and when the system crashes, it will
+automatically unlock itself, so you can <code>#sleepmore</code>.</p>
+<p>Our honest recommendation is to let <strong>VMware Secrets Manager</strong> manage your
+keys unless you have special conformance or compliance requirements that
+necessitate you to do otherwise.</p>
+<p>Check ou the <a href="https://vsecm.com/v0.26.0/documentation/configuration/overview/" title="Configuration Reference">Configuration Reference</a> for more information.</p>
+</blockquote>
+<p>If you are <strong>only</strong> using <strong>VMware Secrets Manager</strong> for your configuration and
+secret storage needs, and your workloads do <strong>not</strong> bind any Kubernetes <code>Secret</code>
+(<em>i.e., instead of using Kubernetes <code>Secret</code> objects, you use tools like <strong>VSecM SDK</strong>
+or <strong>VSecM Sidecar</strong> to securely dispatch secrets to your workloads</em>) then
+as long as you secure access to the secret <code>vsecm-root-key</code> inside the
+<code>vsecm-system</code> namespace, you should be good to go.</p>
+<p>With the help of <strong>VSecM SDK</strong>, <strong>VSecM Sidecar</strong>, and <strong>VSecM Init Container</strong>,
+and with some custom coding/shaping
+of your data, you should be able to use it.</p>
+<p>However, <strong>VMware Secrets Manager</strong> also has the option to<a href="/documentation/cli/#creating-kubernetes-secrets" title="VSecM Sentinel: Creating Kubernetes Secrets">persist the secrets stored in
+<strong>VSecM Safe</strong> as Kubernetes <code>Secret</code> objects</a>. This approach can
+help support <strong>legacy</strong> systems where you want to start using
+<strong>VMware Secrets Manager</strong> without introducing much code and infrastructure change to the
+existing cluster–at least initially.</p>
+<p>If you are using <strong>VMware Secrets Manager</strong> to generate Kubernetes <code>Secrets</code> for the workloads
+to consume, then take regular precautions around those secrets,
+such as <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"><em>implementing restrictive RBACs</em></a>, and even <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">considering using
+a KMS to encrypt <code>etcd</code> at rest</a> if your security posture requires it.</p>
+<h3 id="do-i-really-need-to-encrypt-etcd"><a class="zola-anchor" href="#do-i-really-need-to-encrypt-etcd" aria-label="Anchor link for: do-i-really-need-to-encrypt-etcd" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a><strong>Do I Really Need to Encrypt <code>etcd</code>?</strong></h3>
+<h4 id="tl-dr"><a class="zola-anchor" href="#tl-dr" aria-label="Anchor link for: tl-dr" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>tl;dr:</h4>
+<p>Using plain Kubernetes <code>Secret</code>s is good enough, and it is not the
+end of the world if you keep your <code>etcd</code> unencrypted.</p>
+<blockquote>
+<p><strong>VMware Secrets Manager Keeps Your Secrets Safe</strong></p>
+<p>If you use <strong>VMware Secrets Manager</strong> to store your sensitive data, your secrets
+will be securely stored in <strong>VSecM Safe</strong> (<em>instead of <code>etcd</code></em>),
+so you will have even fewer reasons to encrypt <code>etcd</code> 😉.</p>
+</blockquote>
+<h4 id="details"><a class="zola-anchor" href="#details" aria-label="Anchor link for: details" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Details</h4>
+<p>This is an excellent question. And as in any profound answer to
+good questions, the answer is: “<em>it depends</em>” 🙂.</p>
+<p><code>Secret</code>s are, by default, stored unencrypted in <code>etcd</code>. So if an adversary
+can read <code>etcd</code> in any way, it’s game over.</p>
+<h5 id="threat-analysis"><a class="zola-anchor" href="#threat-analysis" aria-label="Anchor link for: threat-analysis" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Threat Analysis</h5>
+<p>Here are some ways this could happen:</p>
+<ol>
+<li>Root access to a control plane node.</li>
+<li>Root access to a worker node.</li>
+<li>Access to the actual physical server (<em>i.e., physically removing the disk</em>).</li>
+<li>Possible zero day attacks.</li>
+</ol>
+<p>For <code>1</code>, and <code>2</code>, server hardening, running secure Linux instances, patching,
+and preventing privileged pods from running in the cluster are the usual ways
+to mitigate the threat. Unfortunately, it is a relatively complex attack vector
+to guard against. Yet, once your node is compromised, you have <strong>a lot</strong>
+of things to worry about. In that case, <code>etcd</code> exposure will be just one of
+many, <em>many</em>, <strong>many</strong> concerns that you’ll have to worry about.</p>
+<p>For <code>3</code>, assuming your servers are in a data center, there should already be
+physical security to secure your servers. So the attack is <strong>unlikely</strong>
+to happen. In addition, your disks are likely encrypted, so unless the attacker
+can shell into the operating system, your data is already safe: Encrypting
+<code>etcd</code> once more will not provide any additional advantage in this particular
+case, given the disk is encrypted, and root login is improbable.</p>
+<p>For <code>4.</code>, the simpler your setup is, the lesser moving parts you have, and the
+lesser the likelihood of bumping into a zero-day. And Kubernetes <code>Secret</code>s
+are as simple as it gets.</p>
+<p>Even when you encrypt <code>etcd</code> at rest using a <strong>KMS</strong> (<em>which is the most robust
+method proposed <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">in the Kubernetes guides</a></em>), an attacker can still
+impersonate <code>etcd</code> and decrypt the secrets: As long as you provide the correct
+encrypted DEK to KMS, the KMS will be more than happy to decrypt that DEK with
+its KEK and provide a plain text secret to the attacker.</p>
+<h5 id="secure-your-house-before-securing-your-jewelry"><a class="zola-anchor" href="#secure-your-house-before-securing-your-jewelry" aria-label="Anchor link for: secure-your-house-before-securing-your-jewelry" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Secure Your House Before Securing Your Jewelry</h5>
+<p>secured your virtual infrastructure <strong>and</strong> physical data center. And
+if you haven’t secured your virtual and physical assets, then you are in big
+trouble at day zero, even before you set up your cluster, so encrypting
+<code>etcd</code> will not save you the slightest from losing other valuable data
+elsewhere anyway.</p>
+<h5 id="security-is-a-layered-cake"><a class="zola-anchor" href="#security-is-a-layered-cake" aria-label="Anchor link for: security-is-a-layered-cake" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Security Is a Layered Cake</h5>
+<p>That being said, we are humans, and $#!% does happen: If a node is compromised
+due to a misconfiguration, it would be nice to make the job harder for the
+attacker.</p>
+<h2 id="restrict-access-to-vsecm-system-and-spire-system-namespaces"><a class="zola-anchor" href="#restrict-access-to-vsecm-system-and-spire-system-namespaces" aria-label="Anchor link for: restrict-access-to-vsecm-system-and-spire-system-namespaces" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Restrict Access to <code>vsecm-system</code> and <code>spire-system</code> Namespaces</h2>
+<p>Rigorously define and enforce access policies for the <code>vsecm-system</code> and
+<code>spire-system</code> namespaces. These namespaces contain the <strong>VSecM Safe</strong> and
+<strong>SPIRE</strong> components, respectively, and are critical to the security of
+<strong>VMware Secrets Manager</strong>. Only a <strong>Cluster Administrator</strong> should have
+access to these namespaces.</p>
+<p>In addition, make sure you implement continuous monitoring and auditing
+mechanisms to ensure that the access policies are not violated.</p>
+<h2 id="restrict-access-to-vsecm-sentinel"><a class="zola-anchor" href="#restrict-access-to-vsecm-sentinel" aria-label="Anchor link for: restrict-access-to-vsecm-sentinel" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Restrict Access to VSecM Sentinel</h2>
+<p>All <strong>VMware Secrets Manager</strong> images are based on <a href="https://github.com/GoogleContainerTools/distroless">distroless</a> containers
+for an additional layer of security. Thus, an operator cannot execute a shell on the
+Pod to try a privilege escalation or container escape attack. However, this does
+not mean you can leave the <code>vsecm-system</code> namespace like an open buffet.</p>
+<p>Always take a <strong>principle of least privilege</strong> stance. For example, do not let
+anyone who does not need to fiddle with the <code>vsecm-system</code> namespace see and use
+the resources there.</p>
+<p>This stance is especially important for the <strong>VSecM Sentinel</strong> Pod since an
+attacker with access to that pod can override (<em>but not read</em>) secrets on
+workloads.</p>
+<p><strong>VMware Secrets Manager</strong> leverages Kubernetes security primitives and modern
+cryptography to secure access to secrets. And <strong>VSecM Sentinel</strong> is the <strong>only</strong>
+system part that has direct write access to the <strong>VSecM Safe</strong> secrets store.
+Therefore, once you secure access to <strong>VSecM Sentinel</strong> with <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">proper RBAC and
+policies</a>, you secure access to your secrets.</p>
+<blockquote>
+<p><strong>You Can Delete <code>vsecm-sentinel</code> When You No Longer Need It</strong></p>
+<p>For an added layer of security and to reduce the attack surface, you can
+delete the <code>vsecm-sentinel</code> Pod after registering your secrets to <strong>VSecM Safe</strong>.</p>
+</blockquote>
+<h2 id="scaling-spire"><a class="zola-anchor" href="#scaling-spire" aria-label="Anchor link for: scaling-spire" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Scaling SPIRE</h2>
+<p><strong>SPIRE</strong> is designed to scale horizontally. This means that you can add more
+<strong>SPIRE Server</strong> and <strong>SPIRE Agent</strong> instances to your cluster to increase
+the capacity of your <strong>SPIRE</strong> deployment.</p>
+<p>Although <strong>VMware Secrets Manager</strong> comes with a default SPIRE configuration,
+depending on your deployment needs, you may need to scale SPIRE to meet your
+specific requirements.</p>
+<p>SPIRE supports:</p>
+<ul>
+<li>Horizontal scaling with multiple SPIRE server,</li>
+<li>Nested topologies to have separate failure domains,</li>
+<li>Federated deployments with multiple trust roots,</li>
+<li>And more.</li>
+</ul>
+<p>Check out <a href="https://spiffe.io/docs/latest/planning/scaling_spire/" title="Scaling SPIRE">Scaling SPIRE</a> and <a href="https://spiffe.io/docs/latest/planning/extending/" title="Extending SPIRE">Extending SPIRE</a>
+sections in the official SPIRE documentation for more information.</p>
+<h2 id="use-of-attestation"><a class="zola-anchor" href="#use-of-attestation" aria-label="Anchor link for: use-of-attestation" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Use of Attestation</h2>
+<p>In <strong>VSecM</strong>, the security of your secrets depends on the <code>ClusterSPIFFEID</code>s
+that you assign to your workloads. Therefore, it is crucial to ensure that
+you specify proper attestors in your <code>ClusterSPIFFEID</code>s.</p>
+<p>You can check the <a href="https://spiffe.io/docs/latest/">SPIRE Documentation</a> and
+also <a href="https://github.com/vmware-tanzu/secrets-manager/tree/main/examples" title="VSecM Usage Examples">VSecM Usage Examples</a> for examples on how to create
+<code>ClusterSPIFFEID</code>s with proper attestors.</p>
+<h2 id="spire-configuration"><a class="zola-anchor" href="#spire-configuration" aria-label="Anchor link for: spire-configuration" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>SPIRE Configuration</h2>
+<p><strong>VMware Secrets Manager</strong> uses <a href="https://spiffe.io/spire/">SPIRE</a> as its underlying identity control
+plane. The default SPIRE configuration bundled with <strong>VMware Secrets Manager</strong>
+is secure enough for most use cases.</p>
+<p>While <strong>VSecM</strong> uses sane defaults for SPIRE installation, it can be further
+hardened according to specific deployment needs, providing a more robust and
+secure environment.</p>
+<p>Here are some suggestions to consider; as always, you should consult
+the <a href="https://spiffe.io/docs/latest/">SPIRE documentation</a> for more details.</p>
+<h3 id="enabling-kubelet-verification"><a class="zola-anchor" href="#enabling-kubelet-verification" aria-label="Anchor link for: enabling-kubelet-verification" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Enabling Kubelet Verification</h3>
+<p>For ease of installation the <strong>SPIRE Agent</strong> is configured to trust all kubelets
+by setting <code>skip_kubelet_verification</code> to <code>true</code> in the <code>agent.conf</code> file.</p>
+<p>The <code>skip_kubelet_verification</code> flag is used when <strong>SPIRE</strong> is validating the
+identity of workloads running in Kubernetes.</p>
+<p>Normally, <strong>SPIRE</strong> interacts with the kubelet API to verify the identity of a workload.
+This includes validating the serving certificate of the kubelet.
+When <code>skip_kubelet_verification</code> is set to <code>true</code>, <strong>SPIRE</strong> does not validate
+the kubelet’s serving certificate. This can be useful in environments where the
+kubelet’s serving certificate is not properly configured or cannot be trusted for
+some reason.</p>
+<p>That being said, skipping kubelet verification reduces security. It should be used
+cautiously and only in environments where the risks are understood and deemed
+acceptable.</p>
+<p>To ensure kubelet verification is enabled:</p>
+<ul>
+<li><strong>Flag Setup</strong>: Ensure the <code>skip_kubelet_verification</code> flag is either set to
+<code>false</code> or omitted.
+By default, if the flag is not specified, kubelet verification is enabled.</li>
+<li><strong>Kubelet Certificate</strong>: Make sure the kubelet’s serving certificate is properly
+configured and trusted within your Kubernetes cluster. This may involve configuring
+the Kubernetes cluster to issue valid serving certificates for kubelets.</li>
+<li><strong>Restart SPIRE Agent</strong>: After making changes to the configuration, restart
+the <strong>SPIRE Agent</strong> to apply the new settings.</li>
+</ul>
+<blockquote>
+<p><strong>Plan Carefully</strong></p>
+<p>Remember, enabling kubelet verification might require updates to your cluster’s
+configuration and careful planning to avoid disruption to existing workloads.</p>
+</blockquote>
+<h3 id="configuration-files"><a class="zola-anchor" href="#configuration-files" aria-label="Anchor link for: configuration-files" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Configuration Files</h3>
+<p><strong>SPIRE Server</strong> and <strong>SPIRE Agent</strong> are configured using <code>server.conf</code> and
+<code>agent.conf</code> files, respectively. For Kubernetes deployments, these can be stored
+in <code>ConfigMaps</code> and mounted into containers. This ensures configuration consistency
+and ease of updating.</p>
+<p>To secure these configuration files, you can:</p>
+<ul>
+<li>Use a <code>Secret</code> instead of a <code>ConfigMap</code> to store the configuration files.</li>
+<li>Encrypt <code>etcd</code> at rest using a <strong>KMS</strong> (<em>which is the most robust method
+proposed <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">in the Kubernetes guides</a></em>).</li>
+<li><strong>Audit Logs</strong>: Enable and monitor audit logs to track access and changes to <code>ConfigMaps</code>.
+This helps in identifying unauthorized access or modifications.
+<ul>
+<li>Audit logs are also useful to track who executed commands like <code>kubectl exec $SENTINEL ...</code>
+to ensure that only authorized personnel are accessing the <strong>VSecM Sentinel</strong> to 
+manage secrets.</li>
+</ul>
+</li>
+<li><strong>Regular Reviews and Updates</strong>: Periodically review and update the access policies
+and configurations to ensure they remain secure and relevant.</li>
+<li><strong>Minimize Configuration</strong>: Only include necessary configuration settings in
+<code>server.conf</code> and <code>agent.conf</code>. Avoid any sensitive data unless absolutely
+necessary.</li>
+</ul>
+<h3 id="trust-domain-configuration"><a class="zola-anchor" href="#trust-domain-configuration" aria-label="Anchor link for: trust-domain-configuration" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Trust Domain Configuration</h3>
+<p>Set the <code>trust_domain</code> parameter in both server and agent <code>ConfigMaps</code>. This parameter
+is crucial for ensuring that all workloads in the trust domain are issued identity
+documents that can be verified against the trust domain’s root keys.</p>
+<h3 id="port-configuration"><a class="zola-anchor" href="#port-configuration" aria-label="Anchor link for: port-configuration" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Port Configuration</h3>
+<p>The <code>bind_port</code> parameter in the server <code>ConfigMap</code> sets the port on which the
+<strong>SPIRE Server</strong> listens for <strong>SPIRE Agent</strong> connections. Ensure this port is
+securely configured and matches the setting on the agents.</p>
+<h3 id="node-attestation"><a class="zola-anchor" href="#node-attestation" aria-label="Anchor link for: node-attestation" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Node Attestation</h3>
+<p>Choose and configure appropriate Node Attestor plugins for both <strong>SPIRE Server</strong> and
+<strong>SPIRE Agent</strong>. This is critical for securely identifying and attesting agents.</p>
+<h3 id="data-storage"><a class="zola-anchor" href="#data-storage" aria-label="Anchor link for: data-storage" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Data Storage</h3>
+<p>For SPIRE runtime data, set the <code>data_dir</code> in both server and agent <code>ConfigMap</code>s.
+Use <strong>absolute paths</strong> in production for stability and security.</p>
+<p>Consider the choice of database for storing SPIRE Server data, especially in
+high-availability configurations.</p>
+<p>By default, SPIRE uses SQLite, but for production, an alternative SQL-compatible
+storage like MySQL can be a better fit.</p>
+<h3 id="key-management"><a class="zola-anchor" href="#key-management" aria-label="Anchor link for: key-management" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Key Management</h3>
+<p><strong>SPIRE</strong> supports <em>in-memory</em> and <em>on-disk</em> storage strategies for keys and certificates.</p>
+<p>For production, the <strong>on-disk</strong> strategy may offer advantages in terms of persistence
+across restarts but requires additional security measures to protect the stored keys.</p>
+<h3 id="trust-root-upstream-authority-configuration"><a class="zola-anchor" href="#trust-root-upstream-authority-configuration" aria-label="Anchor link for: trust-root-upstream-authority-configuration" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Trust Root/Upstream Authority Configuration</h3>
+<p>Configure the <code>UpstreamAuthority</code> section in the server <code>ConfigMap</code>.</p>
+<p>This is pivotal for maintaining the integrity of the SPIRE Server’s root signing
+key, which is central to establishing trust and generating identities.</p>
+<h3 id="spire-needs-hostpath-access-for-spire-agent-daemonsets"><a class="zola-anchor" href="#spire-needs-hostpath-access-for-spire-agent-daemonsets" aria-label="Anchor link for: spire-needs-hostpath-access-for-spire-agent-daemonsets" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>SPIRE Needs hostPath Access for SPIRE Agent DaemonSets</h3>
+<p><strong>SPIRE Agent</strong> primarily uses <code>hostPath</code> for managing <a href="https://en.wikipedia.org/wiki/Unix_domain_socket">Unix domain
+socket</a>s on Linux systems. This specific usage is focused
+on facilitating communication between the <strong>SPIRE Agent</strong> and <strong>workloads</strong>
+running on the same host.</p>
+<p>The <strong>Unix domain socket</strong> used by the <strong>SPIRE Agent</strong> is typically configured
+to be read-only for workloads. This read-only configuration is an important
+security feature for several reasons:</p>
+<ul>
+<li><strong>Principle of Least Privilege</strong>: Setting the Unix domain socket to read-only
+for workloads adheres to the principle of least privilege. Workloads generally
+only need to read data from the socket (<em>such as fetching SVIDs</em>) and do not
+require write permissions. Limiting these permissions reduces the risk of
+unauthorized actions.</li>
+<li><strong>Mitigating Risks of Tampering</strong>: By making the socket <strong>read-only</strong> for
+workloads, the risk of these workloads tampering with the socket’s data or
+behavior is minimized. This is crucial as SPIRE Agents deal with sensitive
+identity credentials.</li>
+<li><strong>Reducing Attack Surface</strong>: A <strong>read-only</strong> configuration limits the potential
+actions an attacker can perform if they compromise a workload.</li>
+<li><strong>Ensuring Data Integrity</strong>: <strong>Read-only</strong> access helps ensure the integrity of
+the data being transmitted through the socket. Workloads receive the data as
+intended by the SPIRE Agent without the risk of accidental or malicious alteration.</li>
+<li><strong>Compliance with Security Best Practices</strong>: This configuration aligns with
+broader security best practices in systems design, where components are given only
+the permissions necessary for their function, reducing potential vulnerabilities.</li>
+</ul>
+<blockquote>
+<p><strong>OpenShift Support</strong></p>
+<p>For Kubernetes deployments such as <a href="https://www.openshift.com/" title="OpenShift">OpenShift</a> where enabling <code>hostPath</code>
+requires additional permissions 
+<a href="https://spiffe.io/docs/latest/deploying/spire_agent/#openshift-support">you can follow SPIRE’s official documentation</a>.</p>
+</blockquote>
+<p>To make the <code>hostPath</code> binding extra secure, you can:</p>
+<ul>
+<li>Use <strong>Pod Security Admission</strong> and custom <strong>Admission Controllers</strong> to restrict
+the use of <code>hostPath</code> to certain paths and ensure that only authorized pods have
+access to those paths.</li>
+<li><strong>Node-Level Security</strong>: Ensure that the nodes themselves are secure. This includes
+regular updates, patch management, and following best practices for host security.
+Secure nodes reduce the risk of compromising the directories accessed through <code>hostPath</code>.</li>
+<li><strong>Network Policies</strong>: Configure network policies to control the traffic to and from
+the SPIRE Agent pods. This can limit the potential for network-based attacks
+against the agents.</li>
+<li><strong>Regular Security Reviews</strong>: Regularly review and update your security configurations.
+This includes checking for updates in Kubernetes security recommendations and ensuring
+your configurations align with the latest best practices.</li>
+</ul>
+<h3 id="further-security-and-configuration-considerations"><a class="zola-anchor" href="#further-security-and-configuration-considerations" aria-label="Anchor link for: further-security-and-configuration-considerations" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Further Security and Configuration Considerations</h3>
+<p>As in any distributed system, regularly monitor and audit <strong>SPIRE</strong> and <strong>VSecM</strong>
+operations to detect any unusual or suspicious activity. This includes monitoring
+the issuance and use of <code>SVID</code>s, as well as the performance and status of the
+<strong>SPIRE Server</strong> and *<em>SPIRE Agent</em>(s.</p>
+<p>Regularly conduct security audits of your <strong>SPIRE</strong> deployment to identify and
+address any vulnerabilities.</p>
+<p>To reduce the blast radius in unlikely breaches, if needed, use a <strong>nested
+topology</strong> and <strong>federated deployments</strong> to segment failure domains and provide
+multiple roots of trust.</p>
+<h2 id="keep-the-spire-server-alive"><a class="zola-anchor" href="#keep-the-spire-server-alive" aria-label="Anchor link for: keep-the-spire-server-alive" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Keep the SPIRE Server Alive</h2>
+<p>This is more of a <strong>stability</strong> than a <strong>security</strong> concern; however, it is
+important.</p>
+<p>If <strong>SPIRE Server</strong> if offline for a long time then its root certificate will
+expire. The expiry time of the root certificate is configurable, but by default
+it’s CA TTL is <em>24 hours</em>.</p>
+<blockquote>
+<p><strong>SPIRE Is Designed to Be Resilient</strong></p>
+<p>Occasional disruptions, evictions, and restarts of SPIRE Server are not
+a problem. <strong>SPIRE Server</strong> is designed to be resilient and it will
+automatically recover from such disruptions.</p>
+<p>However, if the <strong>SPIRE Server</strong> is offline for more than its TTL, then
+it will not be able to renew its root certificate, and this will disrupt
+the trust mechanism within the <strong>SPIRE</strong> environment.
+{: .block-info }</p>
+</blockquote>
+<p>Regarding the implications of the <strong>SPIRE Server</strong> being offline for more than
+its TTL, it’s important to understand the role of the server’s CA certificate in
+the SPIRE architecture:</p>
+<p>The CA certificate is central to the trust establishment in the <strong>SPIRE</strong>
+infrastructure. If the server is offline and unable to renew its CA certificate
+before expiration, this will disrupt the trust mechanism within the SPIRE
+environment. Agents and workloads will not be able to validate the authenticity
+of new SVIDs issued after the CA certificate has expired, leading to trust and
+authentication issues across the system.</p>
+<blockquote>
+<p><strong>Know Your TTLs</strong></p>
+<p>Although <strong>SPIRE</strong> has sane defaults, it is still important to know your
+tolerance and set TTLs (<em>both CA TTLs, and agent SVID TTLs</em>) accordingly.
+{: .block-warning }</p>
+</blockquote>
+<p>From the <strong>VMware Secrets Manager</strong> perspective, this will result in workloads
+not being able to receive secrets from the <strong>VSecM Safe</strong>, and the <strong>VSecM Safe</strong>
+failing to respond to the requests made by the <strong>VSecM Sentinel</strong>.</p>
+<p>Therefore, it’s important to ensure that the <strong>SPIRE Server</strong> is online and able
+to renew its CA certificate before it expires. Otherwise, manual intervention
+will be required to fix the trust issue.</p>
+<h2 id="volume-selection-for-vsecm-safe-backing-store"><a class="zola-anchor" href="#volume-selection-for-vsecm-safe-backing-store" aria-label="Anchor link for: volume-selection-for-vsecm-safe-backing-store" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Volume Selection for VSecM Safe Backing Store</h2>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/helm-charts/charts/safe/templates/Deployment.yaml"><strong>VSecM Safe</strong> default deployment descriptor</a>
+uses <a href="https://kubernetes.io/docs/concepts/storage/volumes/"><code>HostPath</code></a> to store encrypted backups for secrets.</p>
+<p>It is highly recommended to ensure that the backing store <strong>VSecM Safe</strong>
+uses is <strong>durable</strong>, <strong>performant</strong>, and <strong>reliable</strong>.</p>
+<p>It is a best practice to avoid <code>HostPath</code> volumes for production deployments.
+You are strongly encouraged to <a href="https://kubernetes.io/docs/concepts/storage/volumes/">choose a <code>PersistentVolume</code> that suits your
+needs</a> for production setups.</p>
+<p>If you are using Helm Charts, you can modify the <code>values.yaml</code> file to use
+a <code>PersistentVolume</code> instead of <code>HostPath</code> for <strong>VSecm Safe</strong>:</p>
+<pre data-lang="yaml" style="background-color:#2e3440;color:#d8dee9;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#616e88;"># ./charts/safe/values.yaml
+</span><span>
+</span><span style="color:#616e88;"># -- How persistence is handled.
+</span><span style="color:#8fbcbb;">data</span><span style="color:#eceff4;">:
+</span><span>  </span><span style="color:#616e88;"># -- If `persistent` is true, a PersistentVolumeClaim is used.
+</span><span>  </span><span style="color:#616e88;"># Otherwise, a hostPath is used.
+</span><span>  </span><span style="color:#8fbcbb;">persistent</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">false
+</span><span>  </span><span style="color:#616e88;"># -- PVC settings (if `persistent` is true).
+</span><span>  </span><span style="color:#8fbcbb;">persistentVolumeClaim</span><span style="color:#eceff4;">:
+</span><span>    </span><span style="color:#8fbcbb;">storageClass</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">&quot;&quot;
+</span><span>    </span><span style="color:#8fbcbb;">accessMode</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">ReadWriteOnce
+</span><span>    </span><span style="color:#8fbcbb;">size</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">1Gi
+</span></code></pre>
+<h2 id="volume-selection-for-spire-server-data"><a class="zola-anchor" href="#volume-selection-for-spire-server-data" aria-label="Anchor link for: volume-selection-for-spire-server-data" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Volume Selection for SPIRE Server Data</h2>
+<p>Similar to <strong>VSecM Safe</strong>, it is also recommended for <strong>SPIRE Server</strong> to use
+a <code>PersistentVolume</code> for storing its data for production deployments.</p>
+<p>With Helm charts, you can modify the <code>values.yaml</code> file to use a <code>PersistentVolume</code>
+instead of in-memory storage for <strong>SPIRE Server</strong>:</p>
+<pre data-lang="yaml" style="background-color:#2e3440;color:#d8dee9;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#616e88;"># ./charts/spire/values.yaml
+</span><span>
+</span><span style="color:#616e88;"># -- Persistence settings for the SPIRE Server.
+</span><span style="color:#8fbcbb;">data</span><span style="color:#eceff4;">:
+</span><span>  </span><span style="color:#616e88;"># -- Persistence is disabled by default. You are recommended to provide a
+</span><span>  </span><span style="color:#616e88;"># persistent volume.
+</span><span>  </span><span style="color:#8fbcbb;">persistent</span><span style="color:#eceff4;">: </span><span style="color:#81a1c1;">false
+</span><span>  </span><span style="color:#616e88;"># -- Define the PVC if `persistent` is true.
+</span><span>  </span><span style="color:#8fbcbb;">persistentVolumeClaim</span><span style="color:#eceff4;">:
+</span><span>    </span><span style="color:#8fbcbb;">storageClass</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">&quot;&quot;
+</span><span>    </span><span style="color:#8fbcbb;">accessMode</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">ReadWriteOnce
+</span><span>    </span><span style="color:#8fbcbb;">size</span><span style="color:#eceff4;">: </span><span style="color:#a3be8c;">1Gi
+</span></code></pre>
+<h2 id="high-availability-of-vsecm-safe"><a class="zola-anchor" href="#high-availability-of-vsecm-safe" aria-label="Anchor link for: high-availability-of-vsecm-safe" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>High Availability of VSecM Safe</h2>
+<blockquote>
+<p><strong>tl;dr:</strong></p>
+<p><strong>VSecM Safe</strong> may not emphasize high-availability, but its robustness is
+so outstanding that the need for high-availability becomes almost negligible.</p>
+</blockquote>
+<p>Since <strong>VSecM Safe</strong> keeps all of it state in memory, using a pod with enough
+memory and compute resources is the most effective way to leverage it. Although,
+with some effort, it might be possible to make it highly available, the effort
+will likely bring unnecessary complexity without much added benefit.</p>
+<p><strong>VSecM Safe</strong> is, by design, a single pod; so technically-speaking, it is
+not highly-available. So in the rare case when <strong>VSecM Safe</strong> crashes, or
+gets evicted due to a resource contention, there will be minimal disruption
+until it restarts. However, <strong>VSecM Safe</strong> restarts fairly quickly, so the
+time window where it is unreachable will hardly be an issue.</p>
+<p>Moreover <strong>VSecM Safe</strong> employs “<em>lazy learning</em>” and does not load everything
+into memory all at once, allowing <strong>very</strong> fast restarts. In addition, its
+lightweight and focused code ensures that crashes are infrequent, making
+<strong>VSecM Safe</strong> <em>practically</em> highly available.</p>
+<p>While it is possible to modify the current architecture to include more than one
+<strong>VSecM Safe</strong> pod and place it behind a service to ensure high-availability,
+this would be a significant undertaking, with not much benefit to merit it:</p>
+<p>First of all, for that case to happen, the state would need to be moved away
+from the memory, and centralized into a common in-memory store (<em>such as Redis,
+or etcd</em>). This will introduce another moving part to manage. Or alternatively
+all <strong>VSecM Safe</strong> pods could be set up to broadcast their operations and reach
+a quorum. A quorum-based solution would be more complex than using a share store,
+besides reaching a quorum means a performance it (<em>both in terms of decision time
+and also compute required</em>).</p>
+<p>On top of all these bootstrapping coordination would be necessary to prevent
+two pods from creating different bootstrap secrets simultaneously.</p>
+<p>Also, for a backing store like Redis, the data would need to be encrypted
+(<em>and Redis, for example, does not support encryption at rest by default</em>).</p>
+<p>When considering all these, <strong>VSecM Safe</strong> has not been created highly-available
+<strong>by design</strong>; however, it is so robust, and it restarts from crashes so fast that
+it’s “<em>as good as</em>” highly-available.</p>
+<h2 id="do-not-limit-cpu-on-vsecm-pods"><a class="zola-anchor" href="#do-not-limit-cpu-on-vsecm-pods" aria-label="Anchor link for: do-not-limit-cpu-on-vsecm-pods" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>DO NOT LIMIT CPU on VSecM Pods</h2>
+<p><strong>VSecM Safe</strong> uses CPU resources only when it needs it. It is designed to be
+lightweight and it does not consume CPU resources unless it needs to. So
+unless you have a very specific reason to limit CPU on <strong>VSecM Safe</strong> pods,
+it is recommended to let it burst when it needs.</p>
+<p>Moreover, <strong>VSecM Safe</strong> is a go-based application. Limiting CPU on Go-based
+workloads can be problematic due to the nature of <a href="https://tip.golang.org/doc/gc-guide.html">Go’s garbage collector
+(<em>GC</em>) and concurrency management</a>.</p>
+<p>In Go, a significant portion of CPU usage can be attributed to the garbage collector
+(<em>GC</em>). It’s designed to be fast and optimized, so altering its behavior is generally
+<strong>not</strong> recommended.</p>
+<p>Limiting CPU directly for Go-based workloads might not be the best approach due
+to the intricacies of Go’s garbage collection and concurrency model. And
+<strong>VSecM Safe</strong> is no exception to this.</p>
+<p>Instead, profiling it to understand its specific needs in your cluster and
+adjusting the relevant environment variables (like <code>GOGC</code> and <code>GOMAXPROCS</code>) can
+lead to better overall performance.</p>
+<p>Having said that, please note that each cluster has its own characteristics
+and this is not a one-size-fits-all recommendation. Kubernetes is a complex
+machine and there are many factors that can influence the performance of
+<strong>VSecM Safe</strong> including, but not limited to Node Capacity, Node Utilization,
+CPU Throttling and Overcommitment, QoS Classes, and so on.</p>
+<h2 id="update-vmware-secrets-manager-s-log-levels"><a class="zola-anchor" href="#update-vmware-secrets-manager-s-log-levels" aria-label="Anchor link for: update-vmware-secrets-manager-s-log-levels" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Update VMware Secrets Manager’s Log Levels</h2>
+<p><strong>VSecM Safe</strong> and <strong>VSecM Sidecar</strong> are configured to log at <code>TRACE</code> level by
+default. This is to help you debug issues with <strong>VMware Secrets Manager</strong>. However, this can
+cause a lot of noise in your logs. Once you are confident that <strong>VMware Secrets Manager</strong>
+works as expected, you can reduce the log level to <code>INFO</code> or <code>WARN</code>.</p>
+<p>For this, you will need to modify the <code>VSECM_LOG_LEVEL</code> environment variable
+in the <strong>VSecM Safe</strong> and <strong>VSecM Sidecar</strong> Deployment manifests.</p>
+<p>See <a href="https://vsecm.com/v0.26.0/documentation/configuration/overview/"><strong>Configuring VMware Secrets Manager</strong></a> for details.</p>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Conclusion</h2>
+<p>Since <strong>VMware Secrets Manager</strong> is a <em>Kubernetes-native</em> framework, its security is strongly
+related to how you secure your cluster. You should be safe if you keep your
+cluster and the <code>vsecm-system</code> namespace secure and follow
+“<em>the principle of least privilege</em>” as a guideline.</p>
+<p><strong>VMware Secrets Manager</strong> is a lightweight secrets manager; however, that does not mean it
+runs on water: It needs CPU and Memory resources. The amount of resources you
+need will depend on the criteria outlined in the former sections. You can either
+benchmark your system and set your resources accordingly. Or set generous-enough
+limits and adjust your settings as time goes by.</p>
+<p>Also, you are strongly encouraged <strong>not</strong> to set a limit on <strong>VMware Secrets Manager</strong> Pods’ CPU
+usage. Instead, it is recommended to let <strong>VSecM Safe</strong> burst the CPU when
+it needs.</p>
+<p>On the same topic, you are encouraged to set a <strong>request</strong> for <strong>VSecM Safe</strong>
+to guarantee a baseline compute allocation.</p>
+<!--
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+-->
+<p class="github-button" style="text-align: right;margin-top:2em;border-top:1px #ccc dashed;padding-top:2em;">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/">
+    edit this page ✏️ 
+  </a>
+</p>
+
+
+    </div>
+</div>
+
+        </div>
+        <footer style="background:#00151D;">
+            Copyright © 2023-present <a style="color:#95e2fc" href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors">VMware Secrets Manager contributors</a>.<br><br>
+            <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+            code is distributed under <a style="color:#95e2fc"  href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+            <br>
+            The documentation on this website<br>
+            is distributed under <a style="color:#95e2fc"  href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+            <br><br>
+            <a style="color:#95e2fc" href="/community/contact/">contact</a> |
+            <a style="color:#95e2fc" href="/privacy/">privacy policy</a> |
+            <a style="color:#95e2fc" href="/code-of-conduct">code of conduct</a>
+            <br><br>
+        </footer>
+
+        <script type="text/javascript" src="https://vsecm.com/v0.26.0/elasticlunr.min.js"></script>
+        <script type="text/javascript" src="https://vsecm.com/v0.26.0/search.js"></script>
+    </body>
+</html>

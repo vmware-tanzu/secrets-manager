@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="keep your secrets... secret">
+        <meta name="author" content="VMware Secrets Manager Contributors">
+        <title>VSecM Roadmap | VMWare Secrets Manager </title>
+        <link rel="stylesheet" href="https://vsecm.com/v0.26.0/site.css"/>
+        <link rel="icon" href="https://vsecm.com/v0.26.0/vsecm-32.png">
+    </head>
+    <body>
+
+        <header style="background:#00151D;">
+            <nav class="">
+                <a class="header__logo white" href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;" style="font-weight:100;color:#95e3fc;">
+                    <img src="https://vsecm.com/v0.26.0/vsecm-64.png" alt="VSecM" style="vertical-align:middle">
+                    VMware Secrets Manager
+                    <em style="font-size:0.62em;color:#ffffff">v0.26.0</em>
+                </a>
+                <a class="white" href="https://vsecm.com/v0.26.0/documentation/" class="nav-link">
+                <svg
+                    style="position:relative;top:4px;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Programming-Book--Streamline-Ultimate" height="24" width="24"><desc>Programming Book</desc><path fill="#e3e3e3" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Z" stroke-width="0.75"></path><path fill="#ffef5e" d="M3.390625 2.421875a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M18.890625 4.359375h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v2.90625a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 2.421875h10.65625a0.96875 0.96875 0 0 1 0.96875 0.96875v0.96875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Zm0 0a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m7.265625 10.175749999999999 2.421875 2.421875 -2.421875 2.421875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M12.109375 14.050749999999999h3.875" stroke-width="0.75"></path></svg>
+                Docs
+
+                </a>
+                <a class="white" href=" https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" id="Slack-Logo--Streamline-Flex-Gradient" height="24" width="24" stroke-width="1"><desc>Slack Logo</desc><g id="slack"><path id="Union" fill="url(#paint0_linear_7718_2952)" fill-rule="evenodd" d="M5.75879.25c.41421 0 .75.335786.75.75v.24995c0 .41421-.33579.75-.75.75s-.75-.33579-.75-.75V1c0-.414214.33579-.75.75-.75ZM13 4.34033c.4142 0 .75.33579.75.75v.24995c0 .41422-.3358.75-.75.75s-.75-.33578-.75-.75v-.24995c0-.41421.3358-.75.75-.75ZM1.75 8.03479c0-.41421-.33579-.75-.75-.75-.414214 0-.75.33579-.75.75v.24995c0 .41421.335786.75.75.75.41421 0 .75-.33579.75-.75v-.24995Zm4.54094-4.46403c.23744.28178.38454.65583.38454 1.04404 0 .38821-.1471.76227-.38454 1.04404-.23628.2804-.58938.4986-1.01303.50949-1.1742.06477-2.45614.06477-3.63034 0-.42365-.01089-.776743-.22909-1.013025-.50949C.397098 5.37707.25 5.00301.25 4.6148c0-.38821.147099-.76226.384545-1.04404.236282-.28039.589375-.49859 1.013025-.50948 1.1742-.06478 2.45614-.06478 3.63034 0 .42365.01089.77675.22909 1.01303.50948ZM9.34332.25c-.38821 0-.76226.147099-1.04404.384545-.2804.236281-.4986.589375-.50949 1.013025-.06477 1.1742-.06477 2.45614 0 3.63034.01089.42365.22909.77675.50949 1.01303.28178.23744.65583.38454 1.04404.38454.38821 0 .76228-.1471 1.04408-.38454.2804-.23628.4986-.58938.5094-1.01303.0648-1.1742.0648-2.45614 0-3.63034-.0108-.42365-.229-.776743-.5094-1.013025C10.1056.397099 9.73153.25 9.34332.25ZM5.70084 13.3671c-.28178.2375-.65584.3846-1.04405.3846-.3882 0-.76226-.1471-1.04404-.3846-.28039-.2363-.49859-.5894-.50948-1.013-.06478-1.1742-.06478-2.45615 0-3.63036.01089-.42364.22909-.77674.50948-1.01302.28178-.23745.65584-.38455 1.04405-.38455.38821 0 .76226.1471 1.04404.38455.28039.23628.49859.58938.50948 1.01302.06478 1.17421.06478 2.45616 0 3.63036-.01089.4236-.22909.7767-.50948 1.013Zm1.62338-3.9802c0 .38821.1471.7623.38454 1.044.23628.2804.58938.4986 1.01303.5095 1.1742.0648 2.45611.0648 3.63031 0 .4237-.0109.7768-.2291 1.0131-.5095.2374-.2817.3845-.65579.3845-1.044 0-.38821-.1471-.76227-.3845-1.04404-.2363-.2804-.5894-.4986-1.0131-.50949-1.1742-.06477-2.45611-.06477-3.63031 0-.42365.01089-.77674.22909-1.01303.50949-.23744.28177-.38454.65583-.38454 1.04404Zm.85644 2.6148c.41422 0 .75.3358.75.75v.25c0 .4142-.33578.75-.75.75-.41421 0-.75-.3358-.75-.75v-.25c0-.4142.33579-.75.75-.75Z" clip-rule="evenodd"></path></g><defs><linearGradient id="paint0_linear_7718_2952" x1="14.92" x2="-3.291" y1="16.611" y2="3.677" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd600"></stop><stop offset="1" stop-color="#FF007A"></stop></linearGradient></defs></svg>
+                    Slack</a>
+                <a class="white" href="https://github.com/vmware-tanzu/secrets-manager" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Github-Logo--Streamline-Ultimate" height="24" width="24"><desc>Github Logo</desc><path fill="#808080" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#b2b2b2" d="M1.09294375 11.432315625C4.235665625 9.4212875 7.895021874999999 8.366803124999999 11.62596875 8.397028125C15.356915625 8.36554375 19.016659375 9.4189625 22.159865625000002 11.4293125C21.926784375 10.603065625 21.566215625 9.81828125 21.0912375 9.103246875L21.1230125 9.126109375S23.7510375 4.5850937499999995 20.5270375 1.938275C18.540615625 1.938275 15.503390625 5.215846875 15.503390625 5.215846875L15.525284375 5.230765625C12.999656250000001 4.50449375 10.3210625 4.500425 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.68581875 9.8239 1.3259281250000001 10.60800625 1.09294375 11.433284375Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#ffdda1" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M19.074978125 15.846134374999998C19.074978125 9.917675000000001 14.976971875 12.338096875 11.62596875 12.338096875C8.27486875 12.338096875 4.1768625 9.9792875 4.1768625 15.846134374999998C4.1768625 17.766003124999997 5.733256249999999 19.322396875 7.653125 19.322396875H15.598812500000001C17.51868125 19.322396875 19.074978125 17.766003124999997 19.074978125 15.846134374999998H19.074978125Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.123059375 17.335974999999998C15.671275 17.335974999999998 16.116221875 16.66850625 16.116221875 15.846134374999998S15.671275 14.35629375 15.123059375 14.35629375S14.1298 15.0237625 14.1298 15.846134374999998S14.574746875 17.335974999999998 15.123059375 17.335974999999998Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M8.170534375 17.335974999999998C8.718846875 17.335974999999998 9.16379375 16.66850625 9.16379375 15.846134374999998S8.718846875 14.35629375 8.170534375 14.35629375S7.177371875 15.0237625 7.177371875 15.846134374999998S7.62231875 17.335974999999998 8.170534375 17.335974999999998Z" stroke-width="0.75"></path></svg>
+                    GitHub</a>
+
+                <div class="search-container">
+                    <input id="search" type="search" placeholder="Search...">
+
+                    <div class="search-results">
+                        <div class="search-results__items"></div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div style="background: #cc0000; color: #ffffff; padding: 1em;">
+            This is a snapshot of the VMware Secrets Manager documentation
+            at version <strong>v0.26.0</strong>.<br>
+            For the latest information, please visit the
+            <a href="/" style="color:#ffff00;text-decoration:underline;border:0"
+            >VMware Secrets Manager documentation root</a>.
+        </div>
+            <div style="font-size:1em;background:#FFED90;
+            color: #000000;
+padding: 1em;
+">
+                <svg
+                    style="display:inline-block;top: 7px;position:relative;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Calendar-Favorite-1--Streamline-Ultimate" height="24" width="24"><desc>Calendar Favorite 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ff808c" d="M19.859375 7.273375V3.390625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v3.88275h19.375Z" stroke-width="0.75"></path><path fill="#ffbfc5" d="M19.859375 4.359375v-0.96875a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v0.96875h19.375Z" stroke-width="0.75"></path><path fill="#ffffff" d="M0.484375 7.273375V16.953125a0.96875 0.96875 0 0 0 0.96875 0.96875h17.4375a0.96875 0.96875 0 0 0 0.96875 -0.96875v-9.6875l-19.375 0.00775Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M9.203125 17.921875h-7.75a0.96875 0.96875 0 0 1 -0.96875 -0.96875v-13.5625a0.96875 0.96875 0 0 1 0.96875 -0.96875h17.4375a0.96875 0.96875 0 0 1 0.96875 0.96875V9.6875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.015625 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M0.484375 7.26659375h19.375" stroke-width="0.75"></path><path fill="#ffef5e" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M19.127 15.015625 17.631249999999998 11.554281249999999a0.775 0.775 0 0 0 -1.36496875 0L14.778281250000001 15.015625h-2.90625a0.71203125 0.71203125 0 0 0 -0.49793750000000003 1.2429062499999999l2.5187500000000003 2.24265625 -1.3920937500000001 3.2085a0.755625 0.755625 0 0 0 -0.0096875 0.5366875000000001l7.2365625 -7.2307500000000005h-0.600625Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path></svg>
+                &nbsp;<a style="color: #00151D" href="/documentation/community/contributor-hours/"><strong>Mark Your Calendars</strong></a>:
+                The next
+                <strong
+                ><a
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;font-weight:400;margin:0.4em;position:relative;display:inline-block;transform: rotate(-2deg)"
+                    href="/docs/contributor-sync/"
+                >VSecM Contributor Sync</a
+                ></strong
+                >
+                will be on...
+                <a
+                    href="/documentation/community/contributor-hours/"
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;margin:0.4em;font-weight:400;position:relative;display:inline-block;transform: rotate(-2deg)"
+
+                >Thursday, 2024-07-25
+                at 8:00am Pacific time</a>.
+
+
+            </div>
+        <div
+        style="padding:1em;background:#DDC755;color:#000000"
+        >
+            <svg
+                style="position:relative;top:6px;"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Rating-Star-1--Streamline-Ultimate" height="24" width="24"><desc>Rating Star 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ffef5e" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.932246875 1.9808031250000002C10.995215625 1.84915 11.09431875 1.73813125 11.217834375 1.660534375C11.341446875 1.582840625 11.484434375000001 1.5418625 11.630424999999999 1.542153125V18.63158125Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path></svg>
+
+            &nbsp;<a href="https://github.com/vmware-tanzu/secrets-manager" style="color:#000000;text-decoration:underline;">Star <strong>VMware Secrets Manager</strong> to show your support</a>.
+            <span class="secondary-slogan">Help us reach out to even more people with this amazing tech.</span></div>
+
+        <div class="content content--reversed">
+            
+
+
+
+<div class="documentation">
+    <aside class="documentation__sidebar">
+        <ul>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title"></span>
+                <ul>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Community</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;hello&#x2F;">VSecM Community</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;contributor-hours&#x2F;">VSecM Contributor Hour</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;contact&#x2F;">Get in Touch</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;maintainers&#x2F;">Maintainers</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;community&#x2F;endorsements&#x2F;">What People Say</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Showcase</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;showcase&#x2F;vsecm&#x2F;">VSecM Showcase</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Timeline</span>
+                <ul>
+                    
+                    <li class="active">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;timeline&#x2F;roadmap&#x2F;">VSecM Roadmap</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;timeline&#x2F;changelog&#x2F;">VSecM Changelog</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Quickstart</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;overview&#x2F;">Prerequisites</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;verify&#x2F;">Verify Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;deploy&#x2F;">Deploy an Example Workload</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;getting-started&#x2F;register&#x2F;">Register a Secret</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Welcome</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;welcome&#x2F;overview&#x2F;">Introducing VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;welcome&#x2F;about&#x2F;">What is VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Architecture</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;philosophy&#x2F;">VSecM Design Philosophy</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;overview&#x2F;">VSecM Architecture</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;architecture&#x2F;adr-intro&#x2F;">Architectural Decision Records</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Configuration</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;configuration&#x2F;overview&#x2F;">Configuring VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Development</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;use-the-source&#x2F;">Use the Source</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;contributing&#x2F;">Contribute to VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;development&#x2F;dev-env&#x2F;">Development Environment</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Using VSecM</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;cli&#x2F;">VSecM CLI</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;sdk&#x2F;">VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;usage&#x2F;releases&#x2F;">VSecM Releases</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Use Cases</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;about&#x2F;">About Use Cases</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;overview&#x2F;">Overview</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;registering-secrets&#x2F;">Registering Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;retrieving-secrets&#x2F;">Retrieving Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;sidecar&#x2F;">Using VSecM Sidecar</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;init-container&#x2F;">Using VSecM Init Container</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;encrypt&#x2F;">Encrypting Secrets Using VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;transform&#x2F;">Transforming Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;mounting-secrets&#x2F;">Mounting Secrets as Volumes</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;template-files&#x2F;">Mutating a Template File</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;vsecm-sdk&#x2F;">Retrieving Secrets Via VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;kubernetes-secrets&#x2F;">Mounting Kubernetes Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;large-files&#x2F;">Encrypting Large Files</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;root-key&#x2F;">Setting VSecM Root Key</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;use-cases&#x2F;randomized-secrets&#x2F;">Generating Randomized Secrets</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Production</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;production&#x2F;overview&#x2F;">Production Setup</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Operations</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;security&#x2F;">Security</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;documentation-snapshots&#x2F;">Documentation Snapshots</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;release-management&#x2F;">Release Management</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.26.0&#x2F;documentation&#x2F;operations&#x2F;governance&#x2F;">Governance</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+        </ul>
+    </aside>
+    <div class="documentation__content">
+        
+    <h1>VSecM Roadmap</h1>
+    <h2 id="introduction"><a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Introduction</h2>
+<p>This is a page where we publish our approximate roadmap for <strong>VMware Secrets
+Manager</strong> for Cloud-Native Apps. Note that this is not a commitment to deliver
+any of the features listed here, and that the roadmap is subject to change at
+any time without notice.</p>
+<p>Whenever we release a new version of <strong>VMware Secrets Manager</strong>, we will update
+this page, and also <a href="https://vsecm.com/v0.26.0/timeline/changelog/">the changelog</a> to reflect the changes.</p>
+<blockquote>
+<p><strong>One-Year Window</strong></p>
+<p>This page will only contain information about the next 12 months of the
+project. We will update the roadmap every release, and remove the completed
+items from the list, and add a new iteration at the end of the list.</p>
+</blockquote>
+<h2 id="active-iterations"><a class="zola-anchor" href="#active-iterations" aria-label="Anchor link for: active-iterations" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Active Iterations</h2>
+<h3 id="vsecm-v0-26-0-codename-fornax"><a class="zola-anchor" href="#vsecm-v0-26-0-codename-fornax" aria-label="Anchor link for: vsecm-v0-26-0-codename-fornax" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.26.0 (<em>codename: Fornax</em>)</h3>
+<p><strong>Apr 25, 2024 - May 22, 2024</strong></p>
+<p>This iteration will be mainly about stability and documentation updates.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.0-candidate+">Here is a list of issues that are candidate for VSecM vFornax
+</a>.</p>
+<h3 id="vsecm-v0-27-0-codename-gemini"><a class="zola-anchor" href="#vsecm-v0-27-0-codename-gemini" aria-label="Anchor link for: vsecm-v0-27-0-codename-gemini" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.27.0 (<em>codename: Gemini</em>)</h3>
+<p><strong>May 23, 2024 - Jun 19, 2024</strong></p>
+<p>The sole focus of this iteration is increasing test coverage product-wide,
+as best as we can. We’ll start with integration tests; and focus on unit
+tests on the next iteration.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.27.0-candidate+">Here is a list of issues that are candidate for VSecM vGemini
+</a>.</p>
+<h3 id="vsecm-v0-28-0-codename-hydra"><a class="zola-anchor" href="#vsecm-v0-28-0-codename-hydra" aria-label="Anchor link for: vsecm-v0-28-0-codename-hydra" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.28.0 (<em>codename: Hydra</em>)</h3>
+<p><strong>Jun 20, 2024 - Jul 17, 2024</strong></p>
+<p>This iteration is again about increasing coverage. We will focus on
+unit tests.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.28.0-candidate+">Here is a list of issues that are candidate for VSecM vHydra</a>.</p>
+<h3 id="vsecm-v0-29-0-codename-indus"><a class="zola-anchor" href="#vsecm-v0-29-0-codename-indus" aria-label="Anchor link for: vsecm-v0-29-0-codename-indus" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.29.0 (<em>codename: Indus</em>)</h3>
+<p><strong>Jul 18, 2024 - Aug 14, 2024</strong></p>
+<p>In this iteration, we will focus on adding use cases and tutorials, along with
+any stability and security improvement that may come our way.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.29.0-candidate+">Here is a list of issues that are candidate for VSecM vIndus</a>.</p>
+<h3 id="vsecm-v0-30-0-codename-lupus"><a class="zola-anchor" href="#vsecm-v0-30-0-codename-lupus" aria-label="Anchor link for: vsecm-v0-30-0-codename-lupus" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.30.0 (<em>codename: Lupus</em>)</h3>
+<p><strong>Aug 15, 2024 - Sep 11, 2024</strong></p>
+<p>This iteration will be about adding more features that may be immediately
+useful around <strong>VSecM Sentinel</strong> CLI.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.30.0-candidate+">Here is a list of issues that are candidate for VSecM vLupus</a>.</p>
+<h3 id="vsecm-v0-31-0-codename-mensa"><a class="zola-anchor" href="#vsecm-v0-31-0-codename-mensa" aria-label="Anchor link for: vsecm-v0-31-0-codename-mensa" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.31.0 (<em>codename: Mensa</em>)</h3>
+<p><strong>Sep 12, 2024 - Oct 09, 2024</strong></p>
+<p>This iteration is about SDKs and KMS integration.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.31.0-candidate+">Here is a list of issues that are candidate for VSecM vMensa</a>.</p>
+<h3 id="vsecm-v0-32-0-codename-norma"><a class="zola-anchor" href="#vsecm-v0-32-0-codename-norma" aria-label="Anchor link for: vsecm-v0-32-0-codename-norma" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.32.0 (<em>codename: Norma</em>)</h3>
+<p><strong>Oct 10, 2024 - Nov 06, 2024</strong></p>
+<p>This iteration is about visibility and metrics. We’ll create a <code>/stats</code> and a
+<code>/health</code> endpoint for <strong>VSecM Safe</strong> among other observability improvements.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.32.0-candidate+">Here is a list of issues that are candidate for VSecM vNorma</a>.</p>
+<h3 id="vsecm-v0-33-0-codename-orion"><a class="zola-anchor" href="#vsecm-v0-33-0-codename-orion" aria-label="Anchor link for: vsecm-v0-33-0-codename-orion" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.33.0 (<em>codename: Orion</em>)</h3>
+<p><strong>Nov 07, 2024 - Dec 04, 2024</strong></p>
+<p>This iteration we’ll focus on helm charts and code coverage.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.33.0-candidate+">Here is a list of issues that are candidate for VSecM vOrion</a>.</p>
+<h3 id="vsecm-v0-34-0-codename-perseus"><a class="zola-anchor" href="#vsecm-v0-34-0-codename-perseus" aria-label="Anchor link for: vsecm-v0-34-0-codename-perseus" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.34.0 (<em>codename: Perseus</em>)</h3>
+<p><strong>Dec 05, 2024 - Jan 01, 2025</strong></p>
+<p>We will continue with the helm charts work that we have started in the
+previous iteration.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.34.0-candidate+">Here is a list of issues that are candidate for VSecM vPerseus</a>.</p>
+<h3 id="vsecm-v0-35-0-codename-reticulum"><a class="zola-anchor" href="#vsecm-v0-35-0-codename-reticulum" aria-label="Anchor link for: vsecm-v0-35-0-codename-reticulum" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.35.0 (<em>codename: Reticulum</em>)</h3>
+<p><strong>Jan 02, 2025 - Jan 29, 2025</strong></p>
+<p>We’ll focus on more advanced use cases, such as OIDC authentication and
+storing the root keys in an external KMS.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+">Here is a list of issues that are candidate for VSecM vReticulum</a>.</p>
+<h3 id="vsecm-v0-36-0-codename-sagittarius"><a class="zola-anchor" href="#vsecm-v0-36-0-codename-sagittarius" aria-label="Anchor link for: vsecm-v0-36-0-codename-sagittarius" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.36.0 (<em>codename: Sagittarius</em>)</h3>
+<p><strong>Jan 30, 2025 - Feb 26, 2025</strong></p>
+<p>This iteration, we’ll continue with KMS integration and OIDC authentication.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.36.0-candidate+">Here is a list of issues that are candidate for VSecM vSagittarius</a>.</p>
+<h3 id="vsecm-v0-37-0-codename-telescopium"><a class="zola-anchor" href="#vsecm-v0-37-0-codename-telescopium" aria-label="Anchor link for: vsecm-v0-37-0-codename-telescopium" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.37.0 (<em>codename: Telescopium</em>)</h3>
+<p><strong>Feb 27, 2025 – Mar 26 2025</strong></p>
+<p>The main focus of this iteration is integrating with upstream cloud providers
+such as AWS, Azure and GCP.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+">Here is a list of issues that are candidate for VSecM vTelescopium</a>.</p>
+<h3 id="vsecm-v0-38-0-codename-ursa"><a class="zola-anchor" href="#vsecm-v0-38-0-codename-ursa" aria-label="Anchor link for: vsecm-v0-38-0-codename-ursa" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.38.0 (<em>codename: Ursa</em>)</h3>
+<p>This is a “<em>catch all</em>” that contains all remaining documented future plans.
+We will create new iterations from it as the time gets closer.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+">Here is a list of issues that are candidate for VSecM vUrsa</a>.</p>
+<h2 id="closed-iterations"><a class="zola-anchor" href="#closed-iterations" aria-label="Anchor link for: closed-iterations" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Closed Iterations</h2>
+<h3 id="vsecm-v0-25-0-codename-eridanus"><a class="zola-anchor" href="#vsecm-v0-25-0-codename-eridanus" aria-label="Anchor link for: vsecm-v0-25-0-codename-eridanus" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.25.0 (<em>codename: Eridanus</em>)</h3>
+<p><strong>Mar 28, 2023 - Apr 24, 2024</strong></p>
+<p>This iteration was mostly about security and stability.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.25.0-candidate+">Here is a list of issues that were closed in vEridanus</a>.</p>
+<h3 id="vsecm-v0-24-0-codename-draco"><a class="zola-anchor" href="#vsecm-v0-24-0-codename-draco" aria-label="Anchor link for: vsecm-v0-24-0-codename-draco" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.24.0 (<em>codename: Draco</em>)</h3>
+<p><strong>Feb 29, 2023 - Mar 27, 2023</strong></p>
+<p>To automate things and be able to dynamically follow issues better, from
+this point on we started labeling them and share the GitHub filter here.</p>
+<p>This iteration was mainly focused on demos and documentation.</p>
+<p><a href="https://github.com/vmware-tanzu/secrets-manager/issues?q=is%3Aissue+label%3Av0.24.0-candidate+">Here is a list of issues that were closed in  vDraco</a>.</p>
+<h3 id="vsecm-v0-23-0-codename-cassiopeia"><a class="zola-anchor" href="#vsecm-v0-23-0-codename-cassiopeia" aria-label="Anchor link for: vsecm-v0-23-0-codename-cassiopeia" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.23.0 (<em>codename: Cassiopeia</em>)</h3>
+<p><strong>Feb 01, 2024 - Feb 28, 2024</strong></p>
+<p>This iteration was focused on improving how <strong>VMware Secrets Manager</strong>
+logs and reports errors. We will also focus on improving the performance of the
+<strong>VMware Secrets Manager</strong> website.</p>
+<ul>
+<li><code>Secret</code>less VSecM: Ability to use VMware Secrets Manager <strong>without</strong> relying
+on Kubernetes <code>Secret</code>s. This will allow users to use <strong>VMware Secrets Manager</strong>
+without having to create Kubernetes <code>Secret</code>s at all–even for the root keys.</li>
+<li>Ability to use VSecM across clusters (<em>multi-cluster federation support</em>).</li>
+<li>More automation, and stability improvements.</li>
+<li>Ability to use an “<em>init command</em>” for <strong>VSecM Sentinel</strong> to run before the
+world starts.</li>
+<li>Ability to generate pattern-based random secrets.</li>
+<li>The operator shall be able to export secrets in an encrypted format, and
+can decrypt them, if they have the right permissions.</li>
+<li>A public ECR registry to share the untested “<em>edge</em>” versions of <strong>VMware
+Secrets Manager</strong>, for those who like living dangerously.</li>
+<li>Focus on increasing test coverage.</li>
+<li>Ability to create Kubernetes <code>Secret</code>s without necessarily associating them
+with a workload.</li>
+<li>Adding “invalid before” and “expires after” timestamps to secrets, to
+help with secret rotation.</li>
+<li>Progress towards Open SSF Best Practices compliance; reaching 97% of the<br />
+requirements.</li>
+</ul>
+<h3 id="vsecm-v0-22-0-codename-bootes"><a class="zola-anchor" href="#vsecm-v0-22-0-codename-bootes" aria-label="Anchor link for: vsecm-v0-22-0-codename-bootes" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.22.0 (<em>codename: Boötes</em>)</h3>
+<p><strong>Sep 12, 2023 - Jan 31, 2024</strong></p>
+<p>This was a relatively longer release because due to the “<em>time-stop</em>” effect of
+the holiday season, the majority of the core contributors will be spending quality
+time with their loved ones and recharging their batteries for the upcoming year.</p>
+<p>This release will be more about enhancing deployment workflows, testing automation
+and CI/CD pipelines. We will also focus on improving the overall user experience.</p>
+<ul>
+<li>Ability for an operator to export secrets (<em>by providing a public key</em>),
+to use in other workflows.</li>
+<li>More documentation updates.</li>
+<li>More flexibility in SPIFFEID validation.</li>
+<li>Increased stability.</li>
+<li>Lots of documentation updates, especially around security and production
+setup.</li>
+<li>Static code analysis.</li>
+<li>Website enhancement: Versioned snapshots of the documentation.</li>
+<li>Option for <strong>VSecM</strong> to run in-memory; without having to rely on any backing
+store.</li>
+<li>Security: Ability to lock VSecM Safe.</li>
+</ul>
+<h3 id="vsecm-v0-21-0-codename-andromeda"><a class="zola-anchor" href="#vsecm-v0-21-0-codename-andromeda" aria-label="Anchor link for: vsecm-v0-21-0-codename-andromeda" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.26.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSecM v0.21.0 (<em>codename: Andromeda</em>)</h3>
+<p><strong>Aug 15, 2023 - Sep, 11, 2023</strong></p>
+<p>This was a stability-focused release. We focused on fixing bugs, improving
+stability, and improving workflows and CI/CD pipelines. We also created
+missing documentation and generated new video tutorials that feature the current
+version of <strong>VMware Secrets Manager</strong>.</p>
+<p><a href="/docs/changelog/">Check out the release notes</a> to learn more about what has
+been added, changed, and fixed in this release.</p>
+<!--
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+-->
+<p class="github-button" style="text-align: right;margin-top:2em;border-top:1px #ccc dashed;padding-top:2em;">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/">
+    edit this page ✏️ 
+  </a>
+</p>
+
+
+    </div>
+</div>
+
+        </div>
+        <footer style="background:#00151D;">
+            Copyright © 2023-present <a style="color:#95e2fc" href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors">VMware Secrets Manager contributors</a>.<br><br>
+            <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+            code is distributed under <a style="color:#95e2fc"  href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+            <br>
+            The documentation on this website<br>
+            is distributed under <a style="color:#95e2fc"  href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+            <br><br>
+            <a style="color:#95e2fc" href="/community/contact/">contact</a> |
+            <a style="color:#95e2fc" href="/privacy/">privacy policy</a> |
+            <a style="color:#95e2fc" href="/code-of-conduct">code of conduct</a>
+            <br><br>
+        </footer>
+
+        <script type="text/javascript" src="https://vsecm.com/v0.26.0/elasticlunr.min.js"></script>
+        <script type="text/javascript" src="https://vsecm.com/v0.26.0/search.js"></script>
+    </body>
+</html>
