@@ -1,0 +1,86 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# ConfigMap containing the SPIRE server configuration.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
+data:
+  server.conf: |
+    server {
+      bind_address = "0.0.0.0"
+      bind_port = "8081"
+      trust_domain = {{ .Values.global.spire.trustDomain | quote }}
+      data_dir = "/run/spire/server/data"
+      log_level = "DEBUG"
+      federation {
+        bundle_endpoint {
+          address = "0.0.0.0"
+          port = 8443
+        }
+      }
+
+{{- if .Values.experimental.eventsBasedCache }}
+      experimental {
+        events_based_cache = true
+      }
+{{- end }}
+
+    }
+
+    health_checks {
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      listener_enabled = true
+      live_path = "/live"
+      ready_path = "/ready"
+    }
+
+    plugins {
+      DataStore "sql" {
+        plugin_data {
+          database_type = "sqlite3"
+          connection_string = "/run/spire/server/data/datastore.sqlite3"
+        }
+      }
+
+      NodeAttestor "k8s_psat" {
+        plugin_data {
+          clusters = {
+            "vsecm-cluster" = {
+              service_account_allow_list = ["{{ .Values.global.spire.namespace }}:spire-agent"]
+            }
+          }
+        }
+      }
+
+      KeyManager "disk" {
+        plugin_data {
+          keys_path = "/run/spire/server/data/keys.json"
+        }
+      }
+
+      Notifier "k8sbundle" {
+        plugin_data {
+          config_map = "spire-bundle"
+          namespace = "{{ .Values.global.spire.namespace }}"
+        }
+      }
+    }
+
+    health_checks {
+      listener_enabled = true
+      bind_address = "0.0.0.0"
+      bind_port = "8080"
+      live_path = "/live"
+      ready_path = "/ready"
+    }

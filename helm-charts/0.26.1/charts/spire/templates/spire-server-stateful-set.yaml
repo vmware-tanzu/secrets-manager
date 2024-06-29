@@ -1,0 +1,132 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    app: spire-server
+    app.kubernetes.io/component: server
+spec:
+  serviceName: spire-server
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: spire-server
+  template:
+    metadata:
+      namespace: {{ .Values.global.spire.serverNamespace }}
+      labels:
+        app: spire-server
+    spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+      serviceAccountName: spire-server
+      shareProcessNamespace: true
+
+      priorityClassName: system-cluster-critical
+
+      containers:
+        - name: spire-server
+          image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}
+          imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
+          args: ["-config", "/run/spire/server/config/server.conf"]
+          resources:
+            requests:
+              memory: {{ .Values.resources.agent.requests.memory }}
+              cpu: {{ .Values.resources.agent.requests.cpu }}
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+            - containerPort: 8080
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          volumeMounts:
+{{- if .Values.data.persistent }}
+            - name: spire-data
+              mountPath: /run/spire/server/data
+              readOnly: false
+{{- end }}
+            - name: spire-config
+              mountPath: /run/spire/server/config
+              readOnly: true
+            - name: spire-server-socket
+              mountPath: /tmp/spire-server/private
+
+{{- if .Values.global.deploySpireControllerManager }}
+        - name: spire-controller-manager
+          image: {{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}
+          imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
+          ports:
+            - containerPort: 9443
+            - containerPort: 8083
+              name: healthz
+{{- end }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+
+          args:
+            - "--config=spire-controller-manager-config.yaml"
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: /spire-server
+              readOnly: true
+            - name: spire-controller-manager-config
+              mountPath: /spire-controller-manager-config.yaml
+              subPath: spire-controller-manager-config.yaml
+      volumes:
+        - name: spire-config
+          configMap:
+            name: spire-server
+        - name: spire-server-socket
+          emptyDir: {}
+        - name: spire-controller-manager-config
+          configMap:
+            name: spire-controller-manager-config
+  {{- if .Values.data.persistent }}
+  # noinspection KubernetesUnknownKeys
+  volumeClaimTemplates:
+    - metadata:
+        name: spire-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
+        {{- end }}
+  {{- end }}
