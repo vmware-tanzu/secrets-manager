@@ -110,6 +110,9 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 							ObjectMeta: metaV1.ObjectMeta{
 								Name:      k8sSecretName,
 								Namespace: ns,
+								Labels: map[string]string{
+									"app.kubernetes.io/operated-by": "vsecm",
+								},
 							},
 							Data: data,
 						},
@@ -150,6 +153,9 @@ func saveSecretToKubernetes(secret entity.SecretStored) error {
 						ObjectMeta: metaV1.ObjectMeta{
 							Name:      k8sSecretName,
 							Namespace: ns,
+							Labels: map[string]string{
+								"app.kubernetes.io/operated-by": "vsecm",
+							},
 						},
 						Data: data,
 					},

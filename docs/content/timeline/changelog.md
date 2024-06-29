@@ -66,6 +66,8 @@ weight = 11
   how best you can use it.
 * Refactorings and improvements across the entire codebase.
 * Introduced [Architectural Decision Records](https://vsecm.com/documentation/architecture/adr-intro/)
+* Added `app.kubernetes.io/operated-by` labels to the VSecM-managed Kubernetes
+  Secrets to make it easier to identify the components that are managed by VSecM.
 
 ## [0.25.2] - 2024-05-06
 
