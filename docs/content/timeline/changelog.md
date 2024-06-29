@@ -15,6 +15,12 @@ weight = 11
 
 ## Recent Updates
 
+TBD
+
+## [0.26.0] - 2024-06-28
+
+### Added
+
 * Added the ability to have regex-based SPIFFE ID matchers.
 * Enabled stricter validation on SPIFFE IDs to reduce configuration errors.
 * Added ability to optionally use multiple worker nodes for the development
@@ -27,18 +33,43 @@ weight = 11
 * Added the ability to not create `ClusterSPIFFEID`s for the VSecM components
   automatically. In this mode, the operator will need to manually create those
   required `ClusterSPIFFEID`s.
-* Documentation updates.
-* Introduced `helm-docs` for helm chart documentation.
-* Replaced `github.com/pkg/errors` with the native `errors` package 
+* Ability to use regexes for SPIFFEID prefix matching.
+* Ability to use a custom trust domain.
+* Ability to Use Regex-Based Validation for Sentinel, Safe, and Workload 
+  SPIFFE IDs.
+* Code cleanup and refactoring.
+* Random secret generator can now generate symbols too, along with numbers and
+  letters.
+* Created a `./lib` folder to hold common code that can be shared across
+  different components, or even be imported by external applications.
+* Stability: Enhancements in liveness and readiness probes for VSecM components.
+  This change ensures that the components are more resilient and reliable.
+* Enable Istio-style SPIFFE IDs; custom namespaces, and custom trust domains.
+
+### Changed
+
+* Lots of documentation updates to reflect the recent changes in the project.
+* Replaced `github.com/pkg/errors` with the native `errors` package
   to reduce the number of dependencies and the codebase more
   secure and maintainable.
-* Lots of documentation updates to reflect the recent changes in the project.
-* Ability to match workload names from their SPIFFEIDs using regex.
-* Ability to use regexes for SPIFFEID prefix matching.
-* Workload validation now panics if the SPIFFEID does not have the proper
-  trust domain or is badly formatted.
+* Updates to the exponential backoff algorithm.
+* Enhancements to speed up build time.
+* Rephrased the "Problem reading secret" error message to be more informative.
+  The message ought to have been a notification, not an error because it
+  regularly happens during cache misses. Fixed the wording to indicate
+  there is no need to panic.
+* We started using [zola](https://www.getzola.org/) for the documentation
+  website. This change makes the documentation website faster, more accessible,
+  and easier to navigate and follow.
+
+### Security
+
+* Stricter workload validation: Workload validation now panics if the SPIFFE ID 
+  does not have the proper trust domain or is badly formatted.
 
 ## [0.25.3] - 2024-05-17
+
+### Changed
 
 * Removed some configuration options including
   `VSECM_MANUAL_ROOT_KEY_UPDATES_K8S_SECRET` because how the root key will
@@ -60,11 +91,14 @@ weight = 11
   even after a fair amount exponentially-backed-off of retries (*10 by default*).
 * An entire overhaul of the documentation website: It is now faster, more 
   accessible, more usable, easier to navigate and follow.
+* Refactorings and improvements across the entire codebase.
+
+### Added
+
 * Added an experimental Java SDK. The keyword here is: **experimental**; we
   do know that it does not work out-of-the box, so we are not providing any
   documentation yet: Feel free to join our Slack channel to learn more about
   how best you can use it.
-* Refactorings and improvements across the entire codebase.
 * Introduced [Architectural Decision Records](https://vsecm.com/documentation/architecture/adr-intro/)
 * Added `app.kubernetes.io/operated-by` labels to the VSecM-managed Kubernetes
   Secrets to make it easier to identify the components that are managed by VSecM.
