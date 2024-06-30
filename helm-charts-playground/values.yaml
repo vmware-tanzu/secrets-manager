@@ -1,0 +1,15 @@
+global:
+  openshift: true
+  spire:
+    recommendations:
+      enabled: true
+    namespaces:
+      create: true
+    ingressControllerType: ""
+    # Update these
+    clusterName: vsecm-cluster
+    trustDomain: aegis.ist
+    caSubject:
+      country: US
+      organization: aegis.ist
+      commonName: aegist.ist
