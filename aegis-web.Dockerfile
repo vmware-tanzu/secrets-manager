@@ -8,7 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-FROM ghcr.io/getzola/zola:v0.17.1 as zola
+FROM ghcr.io/getzola/zola:v0.17.1 AS zola
 
 COPY ./docs/content /project/content
 COPY ./docs/sass /project/sass
