@@ -23,3 +23,11 @@ Also make sure you read, understand and accept
 [The Developer Certificate of Origin Contribution Guide](CONTRIBUTING_DCO.md) 
 as it is a requirement to contribute to this project and contains more details
 about the contribution process.
+
+## How To Run Tests
+
+Before merging your changes, make sure all tests pass. You can run the tests
+locally by following the instructions in the [Development Environment
+Setup][testing] document.
+
+[testing]: https://vsecm.com/documentation/development/dev-env/

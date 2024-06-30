@@ -31,22 +31,15 @@ this page, and also [the changelog](@/timeline/changelog.md) to reflect the chan
 
 ## Active Iterations
 
-### VSecM v0.26.0 (*codename: Fornax*)
-
-**Apr 25, 2024 - May 22, 2024**
-
-This iteration will be mainly about stability and documentation updates.
-
-[Here is a list of issues that are candidate for VSecM vFornax
-](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.0-candidate+).
-
 ### VSecM v0.27.0 (*codename: Gemini*)
 
 **May 23, 2024 - Jun 19, 2024**
 
-The sole focus of this iteration is increasing test coverage product-wide,
-as best as we can. We’ll start with integration tests; and focus on unit
-tests on the next iteration.
+The sole focus of this iteration is increasing unit test coverage and adding
+more integration tests. We will also catch up with documentation.
+
+We will likely introduce improvements too; however, stability will be our main
+focus.
 
 [Here is a list of issues that are candidate for VSecM vGemini
 ](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.27.0-candidate+).
@@ -90,6 +83,16 @@ This iteration is about SDKs and KMS integration.
 
 **Oct 10, 2024 - Nov 06, 2024**
 
+The overall theme of this iteration is issues labeled as enhancing the system's 
+scalability, high availability (HA), and integration capabilities. Key areas of 
+focus include improving HA modes for various components, enabling state 
+federation and synchronization with external storage systems, enhancing 
+documentation, and expanding the flexibility of key management through integration 
+with cloud Key Management Services (KMS) and databases. 
+
+These efforts aim to make VMware Secrets Manager more robust, reliable, 
+and easier to integrate with other systems and environments.
+
 This iteration is about visibility and metrics. We'll create a `/stats` and a
 `/health` endpoint for **VSecM Safe** among other observability improvements.
 
@@ -99,7 +102,19 @@ This iteration is about visibility and metrics. We'll create a `/stats` and a
 
 **Nov 07, 2024 - Dec 04, 2024**
 
-This iteration we’ll focus on helm charts and code coverage.
+This iteration is centered around enhancing the system's capabilities in high 
+availability, scalability, and integration. Key areas include:
+
+* **High Availability (HA)**: Demonstrating and improving HA modes for various 
+  components like SPIRE and VSecM.
+* **Federation and State Management**: Implementing federation of the identity
+  control plane and considering state federation for VSecM.
+* **Storage and Synchronization**: Enhancing the flexibility of key management 
+  by enabling the use of external storage solutions, such as separate VSecM Safe 
+  instances, cloud Key Management Services (KMS), databases, and persistent 
+  volumes, with a focus on two-way synchronization.
+* **Documentation and Usability**: Improving documentation for various features 
+  and providing better configuration options in Helm charts.
 
 [Here is a list of issues that are candidate for VSecM vOrion](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.33.0-candidate+).
 
@@ -107,8 +122,23 @@ This iteration we’ll focus on helm charts and code coverage.
 
 **Dec 05, 2024 - Jan 01, 2025**
 
-We will continue with the helm charts work that we have started in the
-previous iteration.
+This iteration centers on enhancing the system's scalability, high availability, 
+and integration capabilities. Key areas include:
+
+* **High Availability (HA)**: Enhancing HA modes for components like SPIRE and 
+  VSecM to ensure system reliability.
+* **Federation and State Management**: Implementing federation for identity 
+  control and state management to improve scalability and integration with other 
+  systems.
+* **Storage and Synchronization**: Increasing flexibility in key management by 
+  enabling external storage solutions such as cloud KMS, databases, and 
+  persistent volumes, along with ensuring two-way synchronization.
+* **Helm Charts Customization**: Providing extensive customization options in 
+  Helm charts for SPIRE server and agents, including the ability to use 
+  different data stores, key managers, and telemetry configurations.
+* **Documentation and User Requests**: Improving documentation for better 
+  usability and addressing user requests for new features such as stats and 
+  health endpoints, and key rotation capabilities.
 
 [Here is a list of issues that are candidate for VSecM vPerseus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.34.0-candidate+).
 
@@ -116,8 +146,20 @@ previous iteration.
 
 **Jan 02, 2025 - Jan 29, 2025**
 
-We'll focus on more advanced use cases, such as OIDC authentication and
-storing the root keys in an external KMS.
+This iteration aims at enhancing security, workflow, and documentation. 
+The open issues include:
+
+* **Security Enhancements**: Use a separate VSecM Safe to store root keys instead of  
+  a Kubernetes secret, improving security by isolating critical keys from the 
+  main application infrastructure.
+
+* **Workflow Improvements**: Ensuring the project includes an automated test 
+  suite that provides at least 90% statement coverage, which aims to improve the 
+  reliability and maintainability of the codebase.
+
+* **Documentation Updates:**: Documenting the VSecM Sentinel OIDC authentication 
+  feature, which will help users understand and implement this feature more 
+  effectively.
 
 [Here is a list of issues that are candidate for VSecM vReticulum](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+).
 
@@ -125,7 +167,21 @@ storing the root keys in an external KMS.
 
 **Jan 30, 2025 - Feb 26, 2025**
 
-This iteration, we’ll continue with KMS integration and OIDC authentication.
+This iteration revolves around enhancing functionality, improving integration 
+capabilities, and expanding test coverage. The key areas include:
+
+* **Enhanced Integration and Configuration**: Ability to configure SPIRE's key 
+  manager in Helm charts. 
+  * Configure **VSecM Sidecar** for dynamic secret updates.
+  * Use AWS KMS as an alternate backup store. 
+  * Demo and integrate OPA and VSecM.
+
+* **Workflow and Automation Improvements**:
+  * Integration of Sentinel OIDC Resource Server functionality into tests.
+    
+* **Use Cases and Examples**:
+  * Demonstration of GitOps use cases.
+  * Sample configurations and documentation for various use cases.
 
 [Here is a list of issues that are candidate for VSecM vSagittarius](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.36.0-candidate+).
 
@@ -133,19 +189,70 @@ This iteration, we’ll continue with KMS integration and OIDC authentication.
 
 **Feb 27, 2025 -- Mar 26 2025**
 
-The main focus of this iteration is integrating with upstream cloud providers
-such as AWS, Azure and GCP.
+This iteration focuses on enhancing security, improving integration and workflow, 
+and providing new features for better user experience. Here are the main points:
+
+* **Security Enhancements**:
+  * Conducting security reviews and independent security audits.
+  * Introducing dynamic code analysis using fuzzing to enhance security measures.
+* **Integration and Workflow**:
+  * Facilitating integration with AWS and GCP through placeholders.
+  * Creating a dedicated user for EKS provisioning with just-enough privileges.
+  * Supporting the separation of audit logs from other logs for better security 
+    management.
+* New Features and Usability Improvements:
+  * Allowing the VSecM Init container to decrypt mounted files using AES or age 
+    decryption keys.
+  * Enabling the creation and registration of AES keys or age key pairs for 
+    workloads to decrypt shared encrypted files.
+  * Demonstrating autoscaling use cases.
+  * Adding new endpoints for statistics and health monitoring.
 
 [Here is a list of issues that are candidate for VSecM vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
 
 ### VSecM v0.38.0 (*codename: Ursa*)
 
-This is a "*catch all*" that contains all remaining documented future plans.
-We will create new iterations from it as the time gets closer.
+This iteration is focused on enhancing the system's security, improving 
+integration capabilities, and refining user experience. Key points include:
+
+* **Security Enhancements**:
+  * Introduction of high-trust modes, such as using a `PKCS#11` interface to 
+    secure root keys.
+  * Customizable kubelet verification for enhanced security.
+* **Integration and Configuration**:
+  * Ability to use Kubernetes as a backing store.
+  * Configurable audit targets and customizable Helm charts.
+* **User Experience Improvements**:
+  * Creating Kubernetes Operators to inject Init Containers and Sidecars based 
+    on annotations.
+  * Adding optional policies for secrets and considering methods for seamless 
+    secret rotation.
+* **Documentation and Workflow**:
+  * Documenting self-security assessments and OIDC authentication features.
+  * Release workflow management for new versions.
 
 [Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+).
 
+## VSecM v0.39.0 (*codename: Virgo*)
+
+This is a "*catch all*" that contains all remaining documented future plans.
+We will create new iterations from it as the time gets closer.
+
+[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
+
 ## Closed Iterations
+
+### VSecM v0.26.0 (*codename: Fornax*)
+
+**Apr 25, 2024 - May 22, 2024**
+
+This iteration will was about stability and documentation updates.
+
+We also introduced a lot of flexibility such as ability to use custom 
+namespaces, trust domains, and regex-based SPIFFEID validation.
+
+[Here is a list of issues that are candidate for VSecM vFornax
+](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.0-candidate+).
 
 ### VSecM v0.25.0 (*codename: Eridanus*)
 

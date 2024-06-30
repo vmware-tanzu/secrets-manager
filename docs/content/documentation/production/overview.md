@@ -789,6 +789,131 @@ See [**Configuring VMware Secrets Manager**][config] for details.
 
 [config]: @/documentation/configuration/overview.md
 
+## Update SPIRE's Log Levels
+
+The default VSeCM **SPIRE** installation is configured to log at `DEBUG` level.
+This might be too verbose for a production environment. You can reduce the log
+level to `INFO` or `WARN` to reduce the noise in your logs.
+
+For this, you will need to modify the update the `log_level` parameter in the
+`server.conf` and `agent.conf` ConfigMaps.
+
+Here is a relevant agent.conf snippet from **VSecM** helm charts:
+
+```yaml
+# ./charts/spire/templates/spire-agent-configmap.yaml
+
+data:
+  agent.conf: |
+    agent {
+      data_dir = "/run/spire"
+      log_level = {{ .Values.global.spire.logLevel | quote }}
+      server_address = {{ .Values.global.spire.serverAddress | quote }}
+      server_port = {{ .Values.global.spire.serverPort | quote }}
+      socket_path = "/run/spire/sockets/agent.sock"
+      trust_bundle_path = "/run/spire/bundle/bundle.crt"
+      trust_domain = {{ .Values.global.spire.trustDomain | quote }}
+    }
+```
+
+If you are using Helm charts to install **VSecM**, you can also provide 
+`global.spire.logLevel` in your `values.yaml` file to override the default 
+SPIRE log level.
+
+
+## A Note on FIPS Compliance with VSecM
+
+VMware Secrets Manager (VSecM) is designed with security and compliance in mind,
+providing a robust platform for managing secrets and sensitive information in
+a FIPS-compliant manner. Here are key features and practices already implemented
+in VSecM that contribute to its FIPS compliance:
+
+### FIPS-Compliant Cryptographic Modules 
+
+VSecM utilizes cryptographic modules that are either FIPS-certified or comply 
+with FIPS standards for encryption algorithms and key management practices. 
+
+This ensures that cryptographic operations within **VSecM** adhere to the 
+rigorous requirements set forth by FIPS standards.
+
+### Encryption at Rest and In Transit
+
+**VSecM** ensures that all secrets and sensitive data are encrypted both at 
+rest and in transit using FIPS-approved algorithms. This safeguards the data 
+against unauthorized access and exposure during storage and transmission.
+
+### Secure Key Management
+
+VSecM implements secure key management practices, including the secure 
+generation, storage, and handling of cryptographic keys. This minimizes the risk 
+of key compromise and ensures the integrity of cryptographic operations.
+
+### Role-Based Access Control (RBAC)
+
+**VSecM** employs strict Kubernetes RBAC policies to control access to secrets 
+and cryptographic keys. This allows for fine-grained access control, ensuring 
+that only authorized personnel can access sensitive information based on their 
+roles.
+
+### Ongoing Enhancements for Improved Compliance
+
+To further enhance its compliance and security capabilities, 
+we are actively working on the following initiatives:
+
+#### Hardware Security Module (HSM) Integration
+
+Integration with HSMs is underway to provide an additional layer of security 
+for cryptographic key management. HSMs offer hardware-based key storage and 
+cryptographic operations, providing superior protection against key compromise 
+and enhancing the overall security of cryptographic practices within VSecM.
+
+#### Cloud Key Management Service (KMS) Integration
+
+We are also working on integrating with cloud-based KMS solutions. This allows 
+for the centralized management of cryptographic keys in the cloud, offering 
+scalability, high availability, and the convenience of cloud-based key 
+management, while still adhering to FIPS standards.
+
+### Recommendations for End-Users to Enhance Practical Compliance
+
+End-users of **VSecM** can take additional steps to improve their practical 
+compliance with FIPS standards, including:
+
+* *Encrypt Kubernetes Secrets*: For applications deployed in Kubernetes environments, 
+  ensure that Kubernetes Secrets used for storing root keys and other sensitive 
+  information are encrypted at rest using a KMS provider that is FIPS-compliant.
+* *Implement Audit Logging and Monitoring*: Establish comprehensive audit 
+  logging and monitoring for access to secrets and cryptographic operations. 
+  This helps in identifying unauthorized access attempts and ensuring compliance 
+  with security policies.
+* *Regular Security Assessments*: Conduct regular security assessments of your 
+  applications and infrastructure to identify and address potential vulnerabilities. 
+  This includes penetration testing and vulnerability scanning.
+* *Disaster Recovery and Key Rotation*: Develop and maintain disaster recovery 
+  plans and implement key rotation policies to minimize risks associated with 
+  key compromise. Regular key rotation and having a robust disaster recovery 
+  plan in place are critical for maintaining a secure and resilient cryptographic 
+  infrastructure.
+* *Document Compliance Efforts*: Maintain detailed documentation of your security 
+  controls, policies, and procedures, including how you use VSecM and other tools 
+  in a manner that aligns with FIPS standards. This documentation is invaluable 
+  for internal review and compliance audits.
+
+By leveraging the FIPS-compliant features of VSecM and adopting these recommended 
+practices, you can significantly enhance the security and compliance of their 
+secret and key management practices, ensuring the protection of sensitive 
+information and adherence to FIPS standards.
+
+Please note that FIPS compliance is a shared responsibility between VSecM and
+the end-user. While VSecM provides a secure platform for managing secrets and
+sensitive data, you are responsible for configuring and using VSecM in a
+manner that aligns with FIPS standards and best practices.
+
+In addition, **VSecM** helm charts do **not** enable FIPS mode by default. If
+you need to enable FIPS mode, you can do so by setting the 
+`VSECM_SAFE_FIPS_COMPLIANT` environment variable to `true` in the `environments`
+section of the **VSecM Safe** helm chart.
+
 ## Conclusion
 
 Since **VMware Secrets Manager** is a *Kubernetes-native* framework, its security is strongly
