@@ -1,0 +1,12 @@
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-system
+---
+# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-server

@@ -242,7 +242,7 @@ We will create new iterations from it as the time gets closer.
 
 ## Closed Iterations
 
-### VSecM v0.26.0 (*codename: Fornax*)
+### VSecM v0.26.1 (*codename: Fornax*)
 
 **Apr 25, 2024 - May 22, 2024**
 
@@ -252,7 +252,7 @@ We also introduced a lot of flexibility such as ability to use custom
 namespaces, trust domains, and regex-based SPIFFEID validation.
 
 [Here is a list of issues that are candidate for VSecM vFornax
-](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.0-candidate+).
+](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.26.1-candidate+).
 
 ### VSecM v0.25.0 (*codename: Eridanus*)
 
