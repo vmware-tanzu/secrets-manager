@@ -19,8 +19,8 @@ metadata:
 data:
   agent.conf: |
     {
-      agent: {
-        "data_dir: "/run/spire",
+      "agent": {
+        "data_dir": "/run/spire",
         "log_level": {{ .Values.global.spire.logLevel | quote }},
         "server_address": {{ .Values.global.spire.serverAddress | quote }},
         "server_port": {{ .Values.global.spire.serverPort | quote }},
@@ -32,31 +32,37 @@ data:
         "bind_address": "0.0.0.0",
         "bind_port": "9982",
         "listener_enabled": true,
-        "live_path: "/live",
+        "live_path": "/live",
         "ready_path": "/ready"
       },
-      "plugins": [
-        "NodeAttestor": {
-          "k8s_psat": {
-            "plugin_data": {
-              "cluster": "vsecm-cluster",
+      "plugins": {
+        "NodeAttestor": [
+          {
+            "k8s_psat": {
+              "plugin_data": {
+                "cluster": "vsecm-cluster"
+              }
             }
           }
-        },
-        "KeyManager": {
-          "memory": {
-            "plugin_data": null
-          }
-        }
-        "WorkloadAttestor": {
-          "k8s": {
-            "plugin_data": {
-                "disable_container_selectors": false,
-                "skip_kubelet_verification": true,
-                "use_new_container_locator": false,
-                "verbose_container_locator_logs": false
+        ],
+        "KeyManager": [
+          {
+            "memory": {
+              "plugin_data": null
             }
           }
-        }
-      ]
+        ],
+        "WorkloadAttestor": [
+          {
+            "k8s": {
+              "plugin_data": {
+                  "disable_container_selectors": false,
+                  "skip_kubelet_verification": true,
+                  "use_new_container_locator": false,
+                  "verbose_container_locator_logs": false
+              }
+            }
+          }
+        ]
+      }
     }

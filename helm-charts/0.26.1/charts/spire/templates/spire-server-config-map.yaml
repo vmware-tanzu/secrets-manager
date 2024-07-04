@@ -33,13 +33,15 @@ data:
             }
           }
         },
-        "KeyManager": {
-          "disk": {
-            "plugin_data": {
-              "keys_path": "/run/spire/data/keys.json"
+        "KeyManager": [
+          {
+            "disk": {
+              "plugin_data": {
+                "keys_path": "/run/spire/data/keys.json"
+              }
             }
           }
-        },
+        ],
         "NodeAttestor": [
           {
             "k8s_psat": {
@@ -73,7 +75,6 @@ data:
           }
         ]
       },
-
       "server": {
 {{- if .Values.experimental.eventsBasedCache }}
         "experimental": {
@@ -93,6 +94,6 @@ data:
         "default_jwt_svid_ttl": "1h",
         "default_x509_svid_ttl": "4h",
         "log_level": {{ .Values.global.spire.logLevel | quote }},
-        "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
+        "trust_domain": {{ .Values.global.spire.trustDomain | quote }}
       }
     }
