@@ -12,3 +12,4 @@ subjects:
   - kind: ServiceAccount
     name: spire-server
     namespace: spire-server
+ 
