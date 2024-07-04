@@ -8,6 +8,6 @@ roleRef:
   name: spire-server-spire-controller-manager
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
