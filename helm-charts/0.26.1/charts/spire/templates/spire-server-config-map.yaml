@@ -18,21 +18,23 @@ data:
   server.conf: |
     {
       "health_checks": {
-        "listener_enabled": true,
         "bind_address": "0.0.0.0",
         "bind_port": "8080",
+        "listener_enabled": true,
         "live_path": "/live",
         "ready_path": "/ready"
       },
       "plugins": {
-        "DataStore": {
-          "sql": {
-            "plugin_data": {
-              "connection_string": "/run/spire/data/datastore.sqlite3",
-              "database_type": "sqlite3"
+        "DataStore": [
+          {
+            "sql": {
+              "plugin_data": {
+                "connection_string": "/run/spire/data/datastore.sqlite3",
+                "database_type": "sqlite3"
+              }
             }
           }
-        },
+        ],
         "KeyManager": [
           {
             "disk": {
@@ -55,7 +57,7 @@ data:
                         "spire-server"
                       ],
                       "service_account_allow_list": [
-                        "{{ .Values.global.spire.namespace }}:spire-agent"
+                        "spire-system:spire-agent"
                       ]
                     }
                   }
@@ -69,31 +71,33 @@ data:
             "k8sbundle": {
               "plugin_data": {
                 "config_map": "spire-bundle",
-                "namespace": "{{ .Values.global.spire.namespace }}"
+                "namespace": "spire-system"
               }
             }
           }
         ]
       },
       "server": {
-{{- if .Values.experimental.eventsBasedCache }}
-        "experimental": {
-          "events_based_cache": true
-        },
-{{- end }}
-        "federation": {
-          "bundle_endpoint": {
-            "address": "0.0.0.0",
-            "port": "8443"
-          }
-        },
-        "audit_log_enabled": true,
+        "audit_log_enabled": false,
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
+        "ca_key_type": "rsa-2048",
+        "ca_subject": [
+          {
+            "common_name": "vsecm.com",
+            "country": [
+              "US"
+            ],
+            "organization": [
+              "vsecm.com"
+            ]
+          }
+        ],
+        "ca_ttl": "24h",
         "data_dir": "/run/spire/data",
         "default_jwt_svid_ttl": "1h",
         "default_x509_svid_ttl": "4h",
-        "log_level": {{ .Values.global.spire.logLevel | quote }},
-        "trust_domain": {{ .Values.global.spire.trustDomain | quote }}
+        "log_level": "DEBUG",
+        "trust_domain": "vsecm.com"
       }
     }
