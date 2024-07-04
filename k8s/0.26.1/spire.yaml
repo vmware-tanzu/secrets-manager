@@ -315,7 +315,7 @@ data:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: manager-role
+  name: spire-server-spire-controller-manager
 rules:
   - apiGroups: [ "" ]
     resources: [ "endpoints" ]
@@ -375,10 +375,13 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-agent-cluster-role
+  name: spire-agent
 rules:
   - apiGroups: [""]
-    resources: ["pods","nodes","nodes/proxy"]
+    resources:
+      - pods
+      - nodes
+      - nodes/proxy
     verbs: ["get"]
 ---
 # Source: vsecm/charts/spire/templates/spire-server-cluster-role.yaml
@@ -396,13 +399,11 @@ rules:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-cluster-role
+  name: spire-server-spire-server
 rules:
   - apiGroups: [""]
     resources: ["nodes"]
     verbs: ["get"]
-    # allow TokenReview requests (to verify service account tokens for PSAT
-    # attestation)
   - apiGroups: ["authentication.k8s.io"]
     resources: ["tokenreviews"]
     verbs: ["get", "create"]
@@ -421,11 +422,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: manager-rolebinding
+  name: spire-server-spire-controller-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: manager-role
+  name: spire-server-spire-controller-manager
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -446,14 +447,14 @@ subjects:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-agent-cluster-role-binding
+  name: spire-agent
 subjects:
   - kind: ServiceAccount
     name: spire-agent
     namespace: spire-system
 roleRef:
   kind: ClusterRole
-  name: spire-agent-cluster-role
+  name: spire-agent
   apiGroup: rbac.authorization.k8s.io
 ---
 # Source: vsecm/charts/spire/templates/spire-server-cluster-role-binding.yaml
@@ -471,15 +472,14 @@ roleRef:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-cluster-role-binding
-  namespace: spire-server
+  name: spire-server-spire-server
 subjects:
   - kind: ServiceAccount
     name: spire-server
     namespace: spire-server
 roleRef:
   kind: ClusterRole
-  name: spire-server-cluster-role
+  name: spire-server-spire-server
   apiGroup: rbac.authorization.k8s.io
 ---
 # Source: vsecm/charts/spire/templates/crd-rbac/hook-preinstall_leader_election_role.yaml

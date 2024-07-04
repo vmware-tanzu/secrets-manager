@@ -78,7 +78,6 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: vsecm-safe
-    namespace: vsecm-system
 roleRef:
   kind: ClusterRole
   name: vsecm-secret-readwriter

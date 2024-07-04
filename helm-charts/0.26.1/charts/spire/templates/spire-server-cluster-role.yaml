@@ -12,13 +12,11 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-cluster-role
+  name: spire-server-spire-server
 rules:
   - apiGroups: [""]
     resources: ["nodes"]
     verbs: ["get"]
-    # allow TokenReview requests (to verify service account tokens for PSAT
-    # attestation)
   - apiGroups: ["authentication.k8s.io"]
     resources: ["tokenreviews"]
     verbs: ["get", "create"]

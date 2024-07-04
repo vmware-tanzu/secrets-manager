@@ -9,6 +9,7 @@ roleRef:
   name: spire-controller-manager-leader-election
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
+ 

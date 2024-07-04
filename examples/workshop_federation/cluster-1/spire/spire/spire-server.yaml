@@ -11,7 +11,7 @@ metadata:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-cluster-role
+  name: spire-server-spire-server
 rules:
   - apiGroups: [""]
     resources: ["nodes"]
@@ -28,15 +28,14 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-cluster-role-binding
-  namespace: spire-system
+  name: spire-server-spire-server
 subjects:
   - kind: ServiceAccount
     name: spire-server
-    namespace: spire-system
+    namespace: spire-server
 roleRef:
   kind: ClusterRole
-  name: spire-server-cluster-role
+  name: spire-server-spire-server
   apiGroup: rbac.authorization.k8s.io
 
 ---

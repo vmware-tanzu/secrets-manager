@@ -429,18 +429,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
 rules:
-  - apiGroups: [authentication.k8s.io]
-    resources: [tokenreviews]
-    verbs:
-      - get
-      - watch
-      - list
-      - create
   - apiGroups: [""]
-    resources: [nodes, pods]
-    verbs:
-      - get
-      - list
+    resources: ["nodes"]
+    verbs: ["get"]
+  - apiGroups: ["authentication.k8s.io"]
+    resources: ["tokenreviews"]
+    verbs: ["get", "create"]
 ---
 # Source: spire/charts/spire-agent/templates/roles.yaml
 # Binds above cluster role to spire-agent service account
@@ -468,9 +462,9 @@ roleRef:
   name: spire-server-spire-controller-manager
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
 ---
 # Source: spire/charts/spire-server/templates/roles.yaml
 # Binds above cluster role to spire-server service account
@@ -480,9 +474,9 @@ metadata:
   name: spire-server-spire-server
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
 roleRef:
   kind: ClusterRole
   name: spire-server-spire-server
@@ -532,9 +526,9 @@ roleRef:
   name: spire-controller-manager-leader-election
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
 ---
 # Source: spire/charts/spire-server/templates/roles.yaml
 kind: RoleBinding
@@ -544,9 +538,9 @@ metadata:
   namespace: spire-system
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
 roleRef:
   kind: Role
   name: spire-bundle

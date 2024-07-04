@@ -5,9 +5,9 @@ metadata:
   namespace: spire-system
 
 subjects:
-- kind: ServiceAccount
-  name: spire-server
-  namespace: spire-server
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
 roleRef:
   kind: Role
   name: spire-bundle
