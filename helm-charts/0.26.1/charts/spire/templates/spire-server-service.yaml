@@ -17,9 +17,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: api
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - name: grpc
+      port: 443
+      targetPort: grpc
       protocol: TCP
   selector:
     app: spire-server
