@@ -3,6 +3,9 @@ kind: ClusterRole
 metadata:
   name: spire-server-spire-controller-manager
 rules:
+  - apiGroups: [ "" ]
+    resources: [ "endpoints" ]
+    verbs: [ "get", "list", "watch" ]
   - apiGroups: [""]
     resources: ["namespaces"]
     verbs: ["get", "list", "watch"]
@@ -11,9 +14,6 @@ rules:
     verbs: ["get", "list", "patch", "watch"]
   - apiGroups: [""]
     resources: ["nodes"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["endpoints"]
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["pods"]
@@ -38,7 +38,7 @@ rules:
     verbs: ["get", "patch", "update"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries"]
-    verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries/finalizers"]
     verbs: ["update"]

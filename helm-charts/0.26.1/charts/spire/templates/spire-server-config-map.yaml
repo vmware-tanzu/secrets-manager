@@ -16,71 +16,83 @@ metadata:
   namespace: {{ .Values.global.spire.serverNamespace }}
 data:
   server.conf: |
-    server {
-      bind_address = "0.0.0.0"
-      bind_port = "8081"
-      trust_domain = {{ .Values.global.spire.trustDomain | quote }}
-      data_dir = "/run/spire/server/data"
-      log_level = "DEBUG"
-      federation {
-        bundle_endpoint {
-          address = "0.0.0.0"
-          port = 8443
-        }
-      }
-
-{{- if .Values.experimental.eventsBasedCache }}
-      experimental {
-        events_based_cache = true
-      }
-{{- end }}
-
-    }
-
-    health_checks {
-      bind_address = "0.0.0.0"
-      bind_port = "8080"
-      listener_enabled = true
-      live_path = "/live"
-      ready_path = "/ready"
-    }
-
-    plugins {
-      DataStore "sql" {
-        plugin_data {
-          database_type = "sqlite3"
-          connection_string = "/run/spire/server/data/datastore.sqlite3"
-        }
-      }
-
-      NodeAttestor "k8s_psat" {
-        plugin_data {
-          clusters = {
-            "vsecm-cluster" = {
-              service_account_allow_list = ["{{ .Values.global.spire.namespace }}:spire-agent"]
+    {
+      "health_checks": {
+        "listener_enabled": true,
+        "bind_address": "0.0.0.0",
+        "bind_port": "8080",
+        "live_path": "/live",
+        "ready_path": "/ready"
+      },
+      "plugins": {
+        "DataStore": {
+          "sql": {
+            "plugin_data": {
+              "connection_string": "/run/spire/data/datastore.sqlite3",
+              "database_type": "sqlite3"
             }
           }
-        }
-      }
+        },
+        "KeyManager": {
+          "disk": {
+            "plugin_data": {
+              "keys_path": "/run/spire/data/keys.json"
+            }
+          }
+        },
+        "NodeAttestor": [
+          {
+            "k8s_psat": {
+              "plugin_data": {
+                "clusters": [
+                  {
+                    "vsecm-cluster": {
+                      "allowed_node_label_keys": [],
+                      "allowed_pod_label_keys": [],
+                      "audience": [
+                        "spire-server"
+                      ],
+                      "service_account_allow_list": [
+                        "{{ .Values.global.spire.namespace }}:spire-agent"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "Notifier": [
+          {
+            "k8sbundle": {
+              "plugin_data": {
+                "config_map": "spire-bundle",
+                "namespace": "{{ .Values.global.spire.namespace }}"
+              }
+            }
+          }
+        ]
+      },
 
-      KeyManager "disk" {
-        plugin_data {
-          keys_path = "/run/spire/server/data/keys.json"
-        }
+      "server": {
+{{- if .Values.experimental.eventsBasedCache }}
+        "experimental": {
+          "events_based_cache": true
+        },
+{{- end }}
+        "federation": {
+          "bundle_endpoint": {
+            "address": "0.0.0.0",
+            "port": "8443"
+          }
+        },
+        "audit_log_enabled": true,
+        "bind_address": "0.0.0.0",
+        "bind_port": "8081",
+        "data_dir": "/run/spire/data",
+        "default_jwt_svid_ttl": "1h",
+        "default_x509_svid_ttl": "4h",
+        "log_level": {{ .Values.global.spire.logLevel | quote }},
+        "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
       }
-
-      Notifier "k8sbundle" {
-        plugin_data {
-          config_map = "spire-bundle"
-          namespace = "{{ .Values.global.spire.namespace }}"
-        }
-      }
-    }
-
-    health_checks {
-      listener_enabled = true
-      bind_address = "0.0.0.0"
-      bind_port = "8080"
-      live_path = "/live"
-      ready_path = "/ready"
     }

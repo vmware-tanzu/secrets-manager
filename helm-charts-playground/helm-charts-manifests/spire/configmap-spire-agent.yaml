@@ -10,7 +10,7 @@ data:
         "data_dir": "/run/spire",
         "log_level": "info",
         "retry_bootstrap": true,
-        "server_address": "spire-server.spire-server",
+        "server_address": "spire-server.spire-server.svc.cluster.local",
         "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
