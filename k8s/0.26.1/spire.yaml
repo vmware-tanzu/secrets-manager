@@ -102,7 +102,7 @@ data:
         "log_level": "DEBUG",
         "server_address": "spire-server.spire-server.svc.cluster.local",
         "server_port": "443",
-        "socket_path": "/tmp/spire-agent/public/spire-agent.sock"",
+        "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
         "trust_domain": "vsecm.com"
       },
