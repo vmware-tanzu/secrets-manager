@@ -102,7 +102,7 @@ data:
         "log_level": "DEBUG",
         "server_address": "spire-server.spire-server.svc.cluster.local",
         "server_port": "8081",
-        "socket_path": "/run/spire/sockets/agent.sock",
+        "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
         "trust_domain": "vsecm.com"
       },
@@ -922,7 +922,7 @@ spec:
             - name: spire-token
               mountPath: /var/run/secrets/tokens
             - name: spire-agent-socket-dir
-              mountPath: /run/spire/sockets
+              mountPath: /tmp/spire-agent/public
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
           image: ghcr.io/spiffe/spiffe-csi-driver:0.2.6
@@ -1000,7 +1000,7 @@ spec:
         # valid).
         - name: spire-agent-socket-dir
           hostPath:
-            path: /run/spire/sockets
+            path: /var/run/spire/sockets
             type: DirectoryOrCreate
 
         # This volume is where the socket for kubelet->driver communication lives
