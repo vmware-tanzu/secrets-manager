@@ -134,7 +134,10 @@ data:
           {
             "k8s": {
               "plugin_data": {
-                "skip_kubelet_verification": true
+                "disable_container_selectors": false,
+                "skip_kubelet_verification": true,
+                "use_new_container_locator": false,
+                "verbose_container_locator_logs": false
               }
             }
           }
@@ -252,7 +255,7 @@ data:
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
         "trust_domain": "vsecm.com",
-        "data_dir": "/run/spire/server/data",
+        "data_dir": "/run/spire/data",
         "log_level": "DEBUG",
         "federation": {
           "bundle_endpoint": {
@@ -274,7 +277,7 @@ data:
             "sql": {
               "plugin_data": {
                 "database_type": "sqlite3",
-                "connection_string": "/run/spire/server/data/datastore.sqlite3"
+                "connection_string": "/run/spire/data/datastore.sqlite3"
               }
             }
           }
@@ -296,7 +299,7 @@ data:
           {
             "disk": {
               "plugin_data": {
-                "keys_path": "/run/spire/server/data/keys.json"
+                "keys_path": "/run/spire/data/keys.json"
               }
             }
           }

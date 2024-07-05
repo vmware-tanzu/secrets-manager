@@ -70,9 +70,21 @@ spireAgent:
     # -- Define the policy to delete the hook after it has succeeded.
     "helm.sh/hook-delete-policy": hook-succeeded
 
+  # -- The SPIRE Agent socket directory.
   agentSocketDir: "/tmp/spire-agent/public"
+  # -- The corresponding SPIRE Agent socket directory on the host.
   hostSocketDir: "/var/run/spire/sockets"
+  # -- The SPIRE Agent socket name.
   socketName: "spire-agent.sock"
+
+# -- SPIRE Server settings.
+spireServer:
+  # -- The data directory for the SPIRE Server.
+  dataDir: "/run/spire/data"
+  # -- The configuration directory for the SPIRE Server.
+  configDir: "/run/spire/server/config"
+  # -- The private socket directory for the SPIRE Server.
+  privateSocketDir: "/tmp/spire-server/private"
 
 # -- These are the default resources suitable for a moderate SPIRE usage.
 # Of course, it's best to do your own benchmarks and update these

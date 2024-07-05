@@ -56,7 +56,10 @@ data:
           {
             "k8s": {
               "plugin_data": {
-                "skip_kubelet_verification": true
+                "disable_container_selectors": false,
+                "skip_kubelet_verification": true,
+                "use_new_container_locator": false,
+                "verbose_container_locator_logs": false
               }
             }
           }

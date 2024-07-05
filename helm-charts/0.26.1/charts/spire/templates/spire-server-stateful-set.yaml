@@ -41,7 +41,7 @@ spec:
         - name: spire-server
           image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}
           imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
-          args: ["-config", "/run/spire/server/config/server.conf"]
+          args: ["-config", "{{ .Values.spireServer.configDir }}/server.conf"]
           resources:
             requests:
               memory: {{ .Values.resources.agent.requests.memory }}
@@ -70,14 +70,14 @@ spec:
           volumeMounts:
 {{- if .Values.data.persistent }}
             - name: spire-data
-              mountPath: /run/spire/server/data
+              mountPath: {{ .Values.spireServer.dataDir }}
               readOnly: false
 {{- end }}
             - name: spire-config
-              mountPath: /run/spire/server/config
+              mountPath: {{ .Values.spireServer.configDir }}
               readOnly: true
             - name: spire-server-socket
-              mountPath: /tmp/spire-server/private
+              mountPath: {{ .Values.spireServer.privateSocketDir}}
 
 {{- if .Values.global.deploySpireControllerManager }}
         - name: spire-controller-manager
