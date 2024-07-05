@@ -123,7 +123,7 @@ data:
       DataStore "sql" {
         plugin_data {
           database_type = "sqlite3"
-          connection_string = "/run/spire/server/data/datastore.sqlite3"
+          connection_string = "/run/spire/data/datastore.sqlite3"
         }
       }
 
@@ -139,7 +139,7 @@ data:
 
       KeyManager "disk" {
         plugin_data {
-          keys_path = "/run/spire/server/data/keys.json"
+          keys_path = "/run/spire/data/keys.json"
         }
       }
 
