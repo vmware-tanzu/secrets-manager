@@ -34,7 +34,7 @@ Helm chart for spire
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template. |
-| spireAgent | object | `{"annotations":{"helm.sh/hook":"post-install","helm.sh/hook-delete-policy":"hook-succeeded"}}` | SPIRE Agent settings. |
+| spireAgent | object | `{"agentSocketDir":"/tmp/spire-agent/public","annotations":{"helm.sh/hook":"post-install","helm.sh/hook-delete-policy":"hook-succeeded"},"hostSocketDir":"/var/run/spire/sockets","socketName":"spire-agent.sock"}` | SPIRE Agent settings. |
 | spireAgent.annotations | object | `{"helm.sh/hook":"post-install","helm.sh/hook-delete-policy":"hook-succeeded"}` | Annotations to add to the SPIRE Agent pod. |
 | spireAgent.annotations."helm.sh/hook" | string | `"post-install"` | Define a helm hook to make spire-agent daemonSet deploy after spire-server statefulSet. |
 | spireAgent.annotations."helm.sh/hook-delete-policy" | string | `"hook-succeeded"` | Define the policy to delete the hook after it has succeeded. |

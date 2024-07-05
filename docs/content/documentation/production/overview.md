@@ -810,7 +810,7 @@ data:
       log_level = {{ .Values.global.spire.logLevel | quote }}
       server_address = {{ .Values.global.spire.serverAddress | quote }}
       server_port = {{ .Values.global.spire.serverPort | quote }}
-      socket_path = "/run/spire/sockets/agent.sock"
+      socket_path = "/run/spire/sockets/spire-agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
       trust_domain = {{ .Values.global.spire.trustDomain | quote }}
     }

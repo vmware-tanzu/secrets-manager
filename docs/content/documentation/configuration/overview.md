@@ -61,7 +61,7 @@ The following section contain a breakdown of all of these environment variables.
 `SPIFFE_ENDPOINT_SOCKET` is required for **VSecM Sentinel** to talk to
 **SPIRE**.
 
-If not provided, a default value of `"unix:///spire-agent-socket/agent.sock"`
+If not provided, a default value of `"unix:///spire-agent-socket/spire-agent.sock"`
 will be used.
 
 ### SPIFFE_TRUST_DOMAIN
