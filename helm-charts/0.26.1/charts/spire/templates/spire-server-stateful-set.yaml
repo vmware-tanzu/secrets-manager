@@ -70,7 +70,7 @@ spec:
           volumeMounts:
 {{- if .Values.data.persistent }}
             - name: spire-data
-              mountPath: /run/spire/server/data
+              mountPath: {{ .Values.spireServer.dataDir }}
               readOnly: false
 {{- end }}
             - name: spire-config

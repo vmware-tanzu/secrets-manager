@@ -102,7 +102,7 @@ data:
       bind_address = "0.0.0.0"
       bind_port = "8081"
       trust_domain = "cluster1.demo"
-      data_dir = "/run/spire/server/data"
+      data_dir = "/run/spire/data"
       log_level = "DEBUG"
       federation {
         bundle_endpoint {

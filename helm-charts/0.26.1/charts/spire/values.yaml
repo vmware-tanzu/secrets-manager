@@ -74,6 +74,9 @@ spireAgent:
   hostSocketDir: "/var/run/spire/sockets"
   socketName: "spire-agent.sock"
 
+spireServer:
+  dataDir: "/run/spire/data"
+
 # -- These are the default resources suitable for a moderate SPIRE usage.
 # Of course, it's best to do your own benchmarks and update these
 # requests and limits to your production needs accordingly.

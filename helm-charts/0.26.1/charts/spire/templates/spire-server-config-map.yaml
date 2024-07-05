@@ -21,7 +21,7 @@ data:
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
         "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
-        "data_dir": "/run/spire/server/data",
+        "data_dir": {{ .Values.spireServer.dataDir | quote }},
         "log_level": "DEBUG",
         "federation": {
           "bundle_endpoint": {
@@ -50,7 +50,7 @@ data:
             "sql": {
               "plugin_data": {
                 "database_type": "sqlite3",
-                "connection_string": "/run/spire/data/datastore.sqlite3"
+                "connection_string": "{{ .Values.spireServer.dataDir }}/datastore.sqlite3"
               }
             }
           }
@@ -72,7 +72,7 @@ data:
           {
             "disk": {
               "plugin_data": {
-                "keys_path": "/run/spire/data/keys.json"
+                "keys_path": "{{ .Values.spireServer.dataDir }}/keys.json"
               }
             }
           }
