@@ -24,17 +24,17 @@ func TestSpiffeSocketUrl(t *testing.T) {
 	}{
 		{
 			name: "default_spiffe_endpoint_socket",
-			want: "unix:///spire-agent-socket/agent.sock",
+			want: "unix:///spire-agent-socket/spire-agent.sock",
 		},
 		{
 			name: "spiffe_endpoint_socket_from_env",
 			setup: func() error {
-				return os.Setenv("SPIFFE_ENDPOINT_SOCKET", "unix:///spire-agent-custom-socket/agent.sock")
+				return os.Setenv("SPIFFE_ENDPOINT_SOCKET", "unix:///spire-agent-custom-socket/spire-agent.sock")
 			},
 			cleanup: func() error {
 				return os.Unsetenv("SPIFFE_ENDPOINT_SOCKET")
 			},
-			want: "unix:///spire-agent-custom-socket/agent.sock",
+			want: "unix:///spire-agent-custom-socket/spire-agent.sock",
 		},
 	}
 	for _, tt := range tests {

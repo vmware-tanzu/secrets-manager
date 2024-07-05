@@ -79,7 +79,7 @@ const VSecMWorkloadNameRegExp VarName = "VSECM_WORKLOAD_NAME_REGEXP"
 
 type VarValue string
 
-const SpiffeEndpointSocketDefault VarValue = "unix:///spire-agent-socket/agent.sock"
+const SpiffeEndpointSocketDefault VarValue = "unix:///spire-agent-socket/spire-agent.sock"
 const SpiffeTrustDomainDefault VarValue = "vsecm.com"
 const VSecMBackoffDelayDefault VarValue = "1000"
 const VSecMBackoffMaxRetriesDefault VarValue = "10"
