@@ -35,7 +35,7 @@ service:
   # Defaults to `ClusterIP`.
   type: ClusterIP
   # -- Service port.
-  port: 8081
+  port: 443
   # -- Additional Service annotations.
   annotations: {}
 

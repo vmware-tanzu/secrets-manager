@@ -57,7 +57,7 @@ data:
                         "spire-server"
                       ],
                       "service_account_allow_list": [
-                        "spire-system:spire-agent"
+                        "{{ .Values.global.spire.namespace }}:spire-agent"
                       ]
                     }
                   }
@@ -71,14 +71,14 @@ data:
             "k8sbundle": {
               "plugin_data": {
                 "config_map": "spire-bundle",
-                "namespace": "spire-system"
+                "namespace": "{{ .Values.global.spire.namespace }}"
               }
             }
           }
         ]
       },
       "server": {
-        "audit_log_enabled": false,
+        "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
         "ca_key_type": "rsa-2048",

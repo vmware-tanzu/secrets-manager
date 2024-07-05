@@ -312,7 +312,7 @@ data:
         ]
       },
       "server": {
-        "audit_log_enabled": false,
+        "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
         "ca_key_type": "rsa-2048",

@@ -18,7 +18,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - name: grpc
-      port: 443
+      port: {{ .Values.service.port }}
       targetPort: grpc
       protocol: TCP
   selector:
