@@ -22,7 +22,7 @@ data:
       "server": {
         "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
-        "bind_port": "8081",
+        "bind_port": {{ .Values.global.spire.serverPort}},
         "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
         "data_dir": {{ .Values.spireServer.dataDir | quote }},
         "log_level": {{ .Values.global.spire.logLevel | quote }},

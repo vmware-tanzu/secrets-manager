@@ -34,8 +34,6 @@ service:
   # Possible values are: ClusterIP, NodePort, LoadBalancer.
   # Defaults to `ClusterIP`.
   type: ClusterIP
-  # -- Service port.
-  port: 443
   # -- Additional Service annotations.
   annotations: {}
 

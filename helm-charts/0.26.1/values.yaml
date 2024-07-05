@@ -176,4 +176,5 @@ global:
     logLevel: DEBUG
     # -- The SPIRE Server port. This is the port where the SPIRE Server will
     # listen for incoming connections.
-    serverPort: 8081
+    # This is the port of the SPIRE server k8s Service.
+    serverPort: 443

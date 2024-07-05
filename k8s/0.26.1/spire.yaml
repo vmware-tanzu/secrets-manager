@@ -129,7 +129,7 @@ data:
         "data_dir": "/run/spire",
         "log_level": "DEBUG",
         "server_address": "spire-server.spire-server.svc.cluster.local",
-        "server_port": "8081",
+        "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
         "trust_domain": "vsecm.com"
@@ -300,7 +300,7 @@ data:
       "server": {
         "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
-        "bind_port": "8081",
+        "bind_port": 443,
         "trust_domain": "vsecm.com",
         "data_dir": "/run/spire/data",
         "log_level": "DEBUG",

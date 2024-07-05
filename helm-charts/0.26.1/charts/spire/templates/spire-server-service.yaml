@@ -20,7 +20,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - name: grpc
-      port: {{ .Values.service.port }}
+      port: {{ .Values.global.spire.serverPort }}
       targetPort: grpc
       protocol: TCP
   selector:
