@@ -16,6 +16,7 @@ metadata:
   labels:
     app: spire-server
     app.kubernetes.io/component: server
+    {{- include "spire.labels" . | nindent 4 }}
 spec:
   serviceName: spire-server
   replicas: {{ .Values.replicaCount }}
@@ -49,6 +50,7 @@ spec:
           ports:
             - containerPort: 8081
               protocol: TCP
+              name: grpc
             - containerPort: 8080
               name: healthz
 

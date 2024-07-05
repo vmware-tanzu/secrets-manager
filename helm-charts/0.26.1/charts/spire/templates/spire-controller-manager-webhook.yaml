@@ -12,6 +12,8 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: spire-controller-manager-webhook
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:

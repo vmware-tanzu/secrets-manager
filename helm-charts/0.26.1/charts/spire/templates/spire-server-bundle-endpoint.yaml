@@ -14,6 +14,8 @@ kind: Service
 metadata:
   name: spire-server-bundle-endpoint
   namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.bundleEndpoint.type }}
   ports:

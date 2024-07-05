@@ -18,6 +18,11 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
 # /*
@@ -38,6 +43,11 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
 # /*
@@ -56,6 +66,12 @@ kind: ServiceAccount
 metadata:
   name: spire-agent
   namespace: spire-system
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: vsecm/charts/spire/templates/spire-server-service-account.yaml
 # /*
@@ -74,6 +90,12 @@ kind: ServiceAccount
 metadata:
   name: spire-server
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: vsecm/charts/spire/templates/spire-agent-config-map.yaml
 # /*
@@ -94,6 +116,12 @@ kind: ConfigMap
 metadata:
   name: spire-agent
   namespace: spire-system
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 data:
   agent.conf: |
     {
@@ -161,6 +189,12 @@ kind: ConfigMap
 metadata:
   name: spire-controller-manager-config
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 data:
   spire-controller-manager-config.yaml: |
     apiVersion: spire.spiffe.io/v1alpha1
@@ -230,6 +264,12 @@ kind: ConfigMap
 metadata:
   name: spire-bundle
   namespace: spire-system
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 ---
 # Source: vsecm/charts/spire/templates/spire-server-config-map.yaml
 # /*
@@ -248,6 +288,12 @@ kind: ConfigMap
 metadata:
   name: spire-server
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 data:
   server.conf: |
     {
@@ -408,6 +454,12 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-agent
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: [""]
     resources:
@@ -432,6 +484,12 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: [""]
     resources: ["nodes"]
@@ -480,6 +538,12 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-agent
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
     name: spire-agent
@@ -505,6 +569,12 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -559,6 +629,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role
   namespace: spire-system
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 rules:
   # allow "get" access to pods (to resolve selectors for PSAT attestation)
   - apiGroups: [""]
@@ -614,6 +690,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-role-binding
   namespace: spire-system
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -640,6 +722,12 @@ kind: Service
 metadata:
   name: spire-server-bundle-endpoint
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
@@ -666,6 +754,12 @@ kind: Service
 metadata:
   name: spire-controller-manager-webhook-service
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   ports:
     - port: 443
@@ -691,12 +785,18 @@ kind: Service
 metadata:
   name: spire-server
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
-    - name: api
-      port: 8081
-      targetPort: 8081
+    - name: grpc
+      port: 443
+      targetPort: grpc
       protocol: TCP
   selector:
     app: spire-server
@@ -720,6 +820,11 @@ metadata:
   labels:
     app: spire-server
     app.kubernetes.io/component: server
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   serviceName: spire-server
   replicas: 1
@@ -749,6 +854,7 @@ spec:
           ports:
             - containerPort: 8081
               protocol: TCP
+              name: grpc
             - containerPort: 8080
               name: healthz
 
@@ -823,6 +929,12 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: spire-controller-manager-webhook
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
@@ -885,6 +997,11 @@ metadata:
   namespace: spire-system
   labels:
     app: spire-agent
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
   annotations: 
     helm.sh/hook: post-install
     helm.sh/hook-delete-policy: hook-succeeded
@@ -1056,6 +1173,12 @@ metadata:
   name: "csi.spiffe.io"
   annotations:
     "helm.sh/hook": pre-install
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   # We only support ephemeral, inline volumes. We don't need a controller to
   # provision and attach volumes.

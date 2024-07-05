@@ -16,6 +16,8 @@ kind: ConfigMap
 metadata:
   name: spire-agent
   namespace: {{ .Values.global.spire.namespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 data:
   agent.conf: |
     {
