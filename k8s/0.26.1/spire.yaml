@@ -300,7 +300,7 @@ data:
       "server": {
         "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
-        "bind_port": 443,
+        "bind_port": 8081,
         "trust_domain": "vsecm.com",
         "data_dir": "/run/spire/data",
         "log_level": "DEBUG",

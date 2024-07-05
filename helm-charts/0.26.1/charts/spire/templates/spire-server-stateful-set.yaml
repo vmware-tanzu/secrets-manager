@@ -48,7 +48,7 @@ spec:
               memory: {{ .Values.resources.agent.requests.memory }}
               cpu: {{ .Values.resources.agent.requests.cpu }}
           ports:
-            - containerPort: 8081
+            - containerPort: {{ .Values.spireServer.containerPort }}
               protocol: TCP
               name: grpc
             - containerPort: 8080

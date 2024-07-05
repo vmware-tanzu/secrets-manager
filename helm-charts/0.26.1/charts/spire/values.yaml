@@ -83,6 +83,8 @@ spireServer:
   configDir: "/run/spire/server/config"
   # -- The private socket directory for the SPIRE Server.
   privateSocketDir: "/tmp/spire-server/private"
+  # -- The internal port that the server serves.
+  containerPort: "8081"
 
 # -- These are the default resources suitable for a moderate SPIRE usage.
 # Of course, it's best to do your own benchmarks and update these
