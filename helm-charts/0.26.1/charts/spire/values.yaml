@@ -76,6 +76,8 @@ spireAgent:
 
 spireServer:
   dataDir: "/run/spire/data"
+  configDir: "/run/spire/server/config"
+  privateSocketDir: "/tmp/spire-server/private"
 
 # -- These are the default resources suitable for a moderate SPIRE usage.
 # Of course, it's best to do your own benchmarks and update these
