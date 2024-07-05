@@ -47,7 +47,8 @@ spec:
               memory: {{ .Values.resources.agent.requests.memory }}
               cpu: {{ .Values.resources.agent.requests.cpu }}
           ports:
-            - containerPort: 8081
+            - name: grpc
+              containerPort: 8081
               protocol: TCP
             - containerPort: 8080
               name: healthz
