@@ -18,24 +18,37 @@ data:
   server.conf: |
     {
       "server": {
+        "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
         "bind_port": "8081",
         "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
         "data_dir": {{ .Values.spireServer.dataDir | quote }},
-        "log_level": "DEBUG",
+        "log_level": {{ .Values.global.spire.logLevel | quote }},
+{{- if .Values.global.spire.federationEnabled }}
         "federation": {
           "bundle_endpoint": {
             "address": "0.0.0.0",
             "port": 8443
           }
-{{- if .Values.experimental.eventsBasedCache }}
         },
+{{- end }}
+{{- if .Values.experimental.eventsBasedCache }}
         "experimental": {
           "events_based_cache": true
-        }
-{{- else }}
-        }
+        },
 {{- end }}
+        "ca_key_type": "rsa-2048",
+        "ca_subject": [
+          {
+            "common_name": {{ .Values.global.spire.caCommonName | quote }},
+            "country": [
+                {{ .Values.global.spire.caCountry | quote }}
+            ],
+            "organization": [
+              {{ .Values.global.spire.caOrganization | quote }}
+            ]
+          }
+        ]
       },
       "health_checks": {
         "bind_address": "0.0.0.0",
@@ -59,11 +72,20 @@ data:
           {
             "k8s_psat": {
               "plugin_data": {
-                "clusters": {
-                  "vsecm-cluster": {
-                    "service_account_allow_list": ["{{ .Values.global.spire.namespace }}:spire-agent"]
+                "clusters": [
+                  {
+                    "vsecm-cluster": {
+                      "allowed_node_label_keys": [],
+                      "allowed_pod_label_keys": [],
+                      "audience": [
+                        "spire-server"
+                      ],
+                      "service_account_allow_list": [
+                        "{{ .Values.global.spire.namespace }}:spire-agent"
+                      ]
+                    }
                   }
-                }
+                ]
               }
             }
           }
