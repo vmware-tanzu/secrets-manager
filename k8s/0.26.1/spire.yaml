@@ -332,14 +332,7 @@ data:
         "default_jwt_svid_ttl": "1h",
         "default_x509_svid_ttl": "4h",
         "log_level": "DEBUG",
-        "trust_domain": "vsecm.com",
-
-        "federation": {
-          "bundle_endpoint": {
-            "address": "0.0.0.0",
-            "port": "8443"
-          }
-        }
+       "trust_domain": "vsecm.com"
       }
     }
 ---
