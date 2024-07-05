@@ -133,6 +133,10 @@ global:
 
   # -- SPIRE-related global configuration.
   spire:
+    # -- Enable federation. If set to true, SPIRE Server will be configured
+    # to federate with other SPIRE Servers. This is useful when you have
+    # multiple clusters, and you want to establish trust between them.
+    federationEnabled: false
     # -- The trust domain is the root of the SPIFFE ID hierarchy. It is used to
     # identify the trust domain of a workload. If you use anything other than
     # the default `vsecm.com`, you must also update the relevant environment
@@ -152,6 +156,12 @@ global:
     # All SPIFFE IDs shall be prefixed with `spiffe://<trustDomain>` unless
     # you have an advanced custom setup.
     trustDomain: "vsecm.com"
+    # -- The SPIRE CA common name.
+    caCommonName: "vsecm.com"
+    # -- The SPIRE CA country.
+    caCountry: "US"
+    # -- The SPIRE CA organization.
+    caOrganization: "vsecm.com"
     # -- This is the namespace where the SPIRE components will be deployed.
     namespace: spire-system
     # -- It is best to keep the SPIRE server namespace separate from other
