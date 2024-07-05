@@ -16,6 +16,8 @@ kind: Service
 metadata:
   name: spire-controller-manager-webhook-service
   namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 spec:
   ports:
     - port: 443

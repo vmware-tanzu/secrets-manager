@@ -14,12 +14,14 @@ kind: Service
 metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: api
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - name: grpc
+      port: {{ .Values.global.spire.serverPort }}
+      targetPort: grpc
       protocol: TCP
   selector:
     app: spire-server

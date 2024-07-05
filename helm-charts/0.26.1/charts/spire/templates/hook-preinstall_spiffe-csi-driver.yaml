@@ -14,6 +14,8 @@ metadata:
   name: "csi.spiffe.io"
   annotations:
     "helm.sh/hook": pre-install
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 spec:
   # We only support ephemeral, inline volumes. We don't need a controller to
   # provision and attach volumes.

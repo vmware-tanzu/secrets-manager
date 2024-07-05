@@ -17,3 +17,5 @@ kind: ConfigMap
 metadata:
   name: spire-bundle
   namespace: {{ .Values.global.spire.namespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}

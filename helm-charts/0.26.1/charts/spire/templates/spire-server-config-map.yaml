@@ -14,13 +14,15 @@ kind: ConfigMap
 metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 data:
   server.conf: |
     {
       "server": {
         "audit_log_enabled": true,
         "bind_address": "0.0.0.0",
-        "bind_port": "8081",
+        "bind_port": {{ .Values.spireServer.containerPort}},
         "trust_domain": {{ .Values.global.spire.trustDomain | quote }},
         "data_dir": {{ .Values.spireServer.dataDir | quote }},
         "log_level": {{ .Values.global.spire.logLevel | quote }},

@@ -13,6 +13,8 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-agent
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: spire-agent

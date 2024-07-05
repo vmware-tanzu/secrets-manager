@@ -13,6 +13,8 @@ kind: ConfigMap
 metadata:
   name: spire-controller-manager-config
   namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    {{- include "spire.labels" . | nindent 4 }}
 data:
   spire-controller-manager-config.yaml: |
     apiVersion: spire.spiffe.io/v1alpha1
