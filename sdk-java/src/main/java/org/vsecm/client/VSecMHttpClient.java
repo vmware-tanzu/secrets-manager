@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class VSecMHttpClient {
     private static final Logger LOGGER = Logger.getLogger(VSecMHttpClient.class.getName());
-    private static final String SPIFFE_SOCKET_PATH = "unix:///spire-agent-socket/agent.sock";
+    private static final String SPIFFE_SOCKET_PATH = "unix:///spire-agent-socket/spire-agent.sock";
 
     /**
      * Creates an instance of {@link HttpClient} with SPIFFE-based SSL context.

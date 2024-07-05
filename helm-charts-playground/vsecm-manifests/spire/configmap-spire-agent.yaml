@@ -11,7 +11,7 @@ data:
       log_level = "DEBUG"
       server_address = "spire-server.spire-server.svc.cluster.local"
       server_port = "8081"
-      socket_path = "/run/spire/sockets/agent.sock"
+      socket_path = "/run/spire/sockets/spire-agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
       trust_domain = "vsecm.com"
     }

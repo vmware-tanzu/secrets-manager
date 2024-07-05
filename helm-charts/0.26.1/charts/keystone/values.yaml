@@ -30,8 +30,10 @@ initEnvironments:
   # -- The SPIFFE endpoint socket. This is used to communicate with the SPIRE 
   # agent. If you change this, you will need to change the associated 
   # volumeMount in the Deployment.yaml too.
+  # The name of the socket should match spireAgent.socketName in values.yaml
+  # of the SPIRE chart.
   - name: SPIFFE_ENDPOINT_SOCKET
-    value: "unix:///spire-agent-socket/agent.sock"
+    value: "unix:///spire-agent-socket/spire-agent.sock"
   # -- The interval between retries (in milliseconds) for the default backoff strategy.
   - name: VSECM_BACKOFF_DELAY
     value: "1000"

@@ -51,7 +51,7 @@ data:
       log_level = "DEBUG"
       server_address = "spire-server"
       server_port = "8081"
-      socket_path = "/run/spire/sockets/agent.sock"
+      socket_path = "/run/spire/sockets/spire-agent.sock"
       trust_bundle_path = "/run/spire/bundle/bundle.crt"
       trust_domain = "cluster1.demo"
     }

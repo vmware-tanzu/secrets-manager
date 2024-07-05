@@ -73,7 +73,7 @@ spec:
             - name: spire-token
               mountPath: /var/run/secrets/tokens
             - name: spire-agent-socket-dir
-              mountPath: /run/spire/sockets
+              mountPath: {{ .Values.spireAgent.agentSocketDir }}
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
           image: {{ .Values.global.images.spiffeCsiDriver.repository }}:{{ .Values.global.images.spiffeCsiDriver.tag }}
@@ -151,7 +151,7 @@ spec:
         # valid).
         - name: spire-agent-socket-dir
           hostPath:
-            path: /run/spire/sockets
+            path: {{ .Values.spireAgent.hostSocketDir }}
             type: DirectoryOrCreate
 
         # This volume is where the socket for kubelet->driver communication lives

@@ -746,7 +746,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: agent
       app.kubernetes.io/instance: spire
-      app.kubernetes.io/component: default
+      app.kubernetes.io/component: spire-default
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
