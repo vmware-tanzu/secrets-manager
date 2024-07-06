@@ -1,0 +1,102 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: spire-server
+  labels:
+    app: spire-server
+    app.kubernetes.io/component: server
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  serviceName: spire-server
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spire-server
+  template:
+    metadata:
+      namespace: spire-server
+      labels:
+        app: spire-server
+    spec:
+      serviceAccountName: spire-server
+      shareProcessNamespace: true
+
+      priorityClassName: system-cluster-critical
+
+      containers:
+        - name: spire-server
+          image: ghcr.io/spiffe/spire-server:1.9.4
+          imagePullPolicy: IfNotPresent
+          args: ["-config", "/run/spire/server/config/server.conf"]
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 50m
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+              name: grpc
+            - containerPort: 8080
+              name: healthz
+
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          volumeMounts:
+            - name: spire-config
+              mountPath: /run/spire/server/config
+              readOnly: true
+            - name: spire-server-socket
+              mountPath: /tmp/spire-server/private
+        - name: spire-controller-manager
+          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9443
+            - containerPort: 8083
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+
+          args:
+            - "--config=spire-controller-manager-config.yaml"
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: /spire-server
+              readOnly: true
+            - name: spire-controller-manager-config
+              mountPath: /spire-controller-manager-config.yaml
+              subPath: spire-controller-manager-config.yaml
+      volumes:
+        - name: spire-config
+          configMap:
+            name: spire-server
+        - name: spire-server-socket
+          emptyDir: {}
+        - name: spire-controller-manager-config
+          configMap:
+            name: spire-controller-manager-config

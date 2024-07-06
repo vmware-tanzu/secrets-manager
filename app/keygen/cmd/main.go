@@ -21,7 +21,7 @@ import (
 func main() {
 	id := crypto.Id()
 
-	//Print the diagnostic information about the environment.
+	// Print the diagnostic information about the environment.
 	log.PrintEnvironmentInfo(&id, []string{
 		string(e.AppVersion),
 		string(e.VSecMLogLevel),

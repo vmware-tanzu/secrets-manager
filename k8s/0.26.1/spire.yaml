@@ -187,7 +187,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: spire-controller-manager-config
+  name: spire-controller-manager
   namespace: spire-server
   labels:
     helm.sh/chart: spire-0.26.1
@@ -611,7 +611,7 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: leader-election-role
+  name: spire-controller-manager-leader-election
   namespace: spire-server
   labels:
     helm.sh/chart: spire-0.26.1
@@ -645,7 +645,7 @@ rules:
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-role
+  name: spire-bundle
   namespace: spire-system
   labels:
     helm.sh/chart: spire-0.26.1
@@ -679,7 +679,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: leader-election-rolebinding
+  name: spire-controller-manager-leader-election
   namespace: spire-server
   labels:
     helm.sh/chart: spire-0.26.1
@@ -690,7 +690,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: leader-election-role
+  name: spire-controller-manager-leader-election
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -707,12 +707,12 @@ subjects:
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-# RoleBinding granting the spire-server-role to the SPIRE server
+# RoleBinding granting the spire-bundle role to the SPIRE server
 # service account.
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-role-binding
+  name: spire-bundle
   namespace: spire-system
   labels:
     helm.sh/chart: spire-0.26.1
@@ -726,7 +726,7 @@ subjects:
     namespace: spire-server
 roleRef:
   kind: Role
-  name: spire-server-role
+  name: spire-bundle
   apiGroup: rbac.authorization.k8s.io
 ---
 # Source: vsecm/charts/spire/templates/spire-server-bundle-endpoint.yaml
@@ -776,7 +776,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spire-controller-manager-webhook-service
+  name: spire-controller-manager-webhook
   namespace: spire-server
   labels:
     helm.sh/chart: spire-0.26.1
@@ -963,7 +963,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
@@ -977,7 +977,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
@@ -991,7 +991,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail
