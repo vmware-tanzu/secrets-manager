@@ -116,7 +116,7 @@ spec:
           emptyDir: {}
         - name: spire-controller-manager-config
           configMap:
-            name: spire-controller-manager-config
+            name: spire-controller-manager
   {{- if .Values.data.persistent }}
   # noinspection KubernetesUnknownKeys
   volumeClaimTemplates:

@@ -936,7 +936,7 @@ spec:
           emptyDir: {}
         - name: spire-controller-manager-config
           configMap:
-            name: spire-controller-manager-config
+            name: spire-controller-manager
 ---
 # Source: vsecm/charts/spire/templates/spire-controller-manager-webhook.yaml
 # /*
