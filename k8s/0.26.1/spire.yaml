@@ -1,15 +1,5 @@
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spire-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/templates/namespaces.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -18,118 +8,121 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spire-server-namespace.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/templates/namespaces.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
   name: spire-server
   labels:
-    pod-security.kubernetes.io/audit: privileged
-    pod-security.kubernetes.io/enforce: privileged
-    pod-security.kubernetes.io/warn: privileged
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/warn: restricted
+---
+# Source: spire/charts/spiffe-csi-driver/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-spiffe-csi-driver
+  namespace: spire-system
+  labels:
+    helm.sh/chart: spiffe-csi-driver-0.1.0
+    app.kubernetes.io/name: spiffe-csi-driver
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "0.2.3"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: vsecm/charts/spire/templates/spire-agent-service-account.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ServiceAccount for the SPIRE agent
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-spiffe-oidc-discovery-provider
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: spire/charts/spire-agent/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spire-agent
   namespace: spire-system
   labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    helm.sh/chart: spire-agent-0.1.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: vsecm/charts/spire/templates/spire-server-service-account.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ServiceAccount used by the SPIRE server.
+# Source: spire/charts/spire-server/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: vsecm/charts/spire/templates/spire-agent-config-map.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ConfigMap for the SPIRE agent featuring:
-# 1) PSAT node attestation
-# 2) K8S Workload Attestation over the secure kubelet port
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-spiffe-oidc-discovery-provider
+  namespace: spire-server
+data:
+  oidc-discovery-provider.conf: |
+    {
+      "domains": [
+        "spire-spiffe-oidc-discovery-provider",
+        "spire-spiffe-oidc-discovery-provider.spire-server",
+        "spire-spiffe-oidc-discovery-provider.spire-server.svc.cluster.local",
+        "oidc-discovery.vsecm.com"
+      ],
+      "health_checks": {
+        "bind_port": "8008",
+        "live_path": "/live",
+        "ready_path": "/ready"
+      },
+      "log_level": "info",
+      "serving_cert_file": {
+        "addr": ":8443",
+        "cert_file_path": "/certs/tls.crt",
+        "key_file_path": "/certs/tls.key"
+      },
+      "workload_api": {
+        "socket_path": "/spiffe-workload-api/spire-agent.sock",
+        "trust_domain": "vsecm.com"
+      }
+    }
+  spiffe-helper.conf: |
+    agent_address = "/spiffe-workload-api/spire-agent.sock"
+    cert_dir = "/certs"
+    svid_file_name = "tls.crt"
+    svid_key_file_name = "tls.key"
+    svid_bundle_file_name = "ca.pem"
+---
+# Source: spire/charts/spire-agent/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-agent
   namespace: spire-system
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 data:
   agent.conf: |
     {
       "agent": {
         "data_dir": "/run/spire",
-        "log_level": "DEBUG",
+        "log_level": "info",
         "retry_bootstrap": true,
-        "server_address": "spire-server.spire-server.svc.cluster.local",
+        "server_address": "spire-server.spire-server",
         "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
@@ -171,153 +164,35 @@ data:
             }
           }
         ]
-      }
+      },
+      "telemetry": [
+        {
+          "Prometheus": [
+            {
+              "host": "0.0.0.0",
+              "port": 9988
+            }
+          ]
+        }
+      ]
     }
 ---
-# Source: vsecm/charts/spire/templates/spire-controller-manager-config.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: spire-controller-manager
-  namespace: spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
-data:
-  spire-controller-manager-config.yaml: |
-    apiVersion: spire.spiffe.io/v1alpha1
-    kind: ControllerManagerConfig
-    metrics:
-      bindAddress: 127.0.0.1:8082
-    health:
-      healthProbeBindAddress: 0.0.0.0:8083
-    leaderElection:
-      leaderElect: true
-      resourceName: 98c9c988.spiffe.io
-      resourceNamespace: spire-server
-    clusterName: vsecm-cluster
-    trustDomain: vsecm.com
-    ignoreNamespaces:
-      - kube-system
-      - kube-public
-      - spire-system
-      - spire-server
-      - local-path-storage
-      # - do not ignore vsecm-system!
-      # - vsecm-system
-      - kube-node-lease
-      - kube-public
-      - kubernetes-dashboard
-      - openshift-cluster-node-tuning-operator
-      - openshift-cluster-samples-operator
-      - openshift-cluster-storage-operator
-      - openshift-console-operator
-      - openshift-console
-      - openshift-dns
-      - openshift-dns-operator
-      - openshift-image-registry
-      - openshift-ingress
-      - openshift-kube-storage-version-migrator
-      - openshift-kube-storage-version-migrator-operator
-      - openshift-kube-proxy
-      - openshift-marketplace
-      - openshift-monitoring
-      - openshift-multus
-      - openshift-network-diagnostics
-      - openshift-network-operator
-      - openshift-operator-lifecycle-manager
-      - openshift-roks-metrics
-      - openshift-service-ca-operator
-      - openshift-service-ca
-      - ibm-odf-validation-webhook
-      - ibm-system
----
-# Source: vsecm/charts/spire/templates/spire-server-bundle-config-map.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ConfigMap containing the latest trust bundle for the trust domain. It is
-# updated by SPIRE using the k8sbundle notifier plugin. SPIRE agents mount
-# this config map and use the certificate to bootstrap trust with the SPIRE
-# server during attestation.
+# Source: spire/charts/spire-server/templates/bundle-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-bundle
   namespace: spire-system
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 ---
-# Source: vsecm/charts/spire/templates/spire-server-config-map.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ConfigMap containing the SPIRE server configuration.
+# Source: spire/charts/spire-server/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
   namespace: spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 data:
   server.conf: |
     {
-      "server": {
-        "audit_log_enabled": true,
-        "bind_address": "0.0.0.0",
-        "bind_port": 8081,
-        "trust_domain": "vsecm.com",
-        "data_dir": "/run/spire/data",
-        "log_level": "DEBUG",
-        "ca_key_type": "rsa-2048",
-        "ca_subject": [
-          {
-            "common_name": "vsecm.com",
-            "country": [
-                "US"
-            ],
-            "organization": [
-              "vsecm.com"
-            ]
-          }
-        ]
-      },
       "health_checks": {
         "bind_address": "0.0.0.0",
         "bind_port": "8080",
@@ -330,8 +205,17 @@ data:
           {
             "sql": {
               "plugin_data": {
-                "database_type": "sqlite3",
-                "connection_string": "/run/spire/data/datastore.sqlite3"
+                "connection_string": "/run/spire/data/datastore.sqlite3",
+                "database_type": "sqlite3"
+              }
+            }
+          }
+        ],
+        "KeyManager": [
+          {
+            "disk": {
+              "plugin_data": {
+                "keys_path": "/run/spire/data/keys.json"
               }
             }
           }
@@ -358,15 +242,6 @@ data:
             }
           }
         ],
-        "KeyManager": [
-          {
-            "disk": {
-              "plugin_data": {
-                "keys_path": "/run/spire/data/keys.json"
-              }
-            }
-          }
-        ],
         "Notifier": [
           {
             "k8sbundle": {
@@ -377,34 +252,131 @@ data:
             }
           }
         ]
-      }
+      },
+      "server": {
+        "audit_log_enabled": false,
+        "bind_address": "0.0.0.0",
+        "bind_port": "8081",
+        "ca_key_type": "rsa-2048",
+        "ca_subject": [
+          {
+            "common_name": "aegist.ist",
+            "country": [
+              "US"
+            ],
+            "organization": [
+              "vsecm.com"
+            ]
+          }
+        ],
+        "ca_ttl": "24h",
+        "data_dir": "/run/spire/data",
+        "default_jwt_svid_ttl": "1h",
+        "default_x509_svid_ttl": "4h",
+        "jwt_issuer": "https://oidc-discovery.vsecm.com",
+        "log_level": "info",
+        "trust_domain": "vsecm.com"
+      },
+      "telemetry": [
+        {
+          "Prometheus": [
+            {
+              "host": "0.0.0.0",
+              "port": 9988
+            }
+          ]
+        }
+      ]
     }
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/hook-preinstall_role.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/charts/spire-server/templates/controller-manager-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-controller-manager
+  namespace: spire-server
+data:
+  controller-manager-config.yaml: |
+    
+    apiVersion: spire.spiffe.io/v1alpha1
+    kind: ControllerManagerConfig
+    metadata:
+      name: spire-controller-manager
+      namespace: spire-server
+      labels:
+        helm.sh/chart: spire-server-0.1.0
+        app.kubernetes.io/name: server
+        app.kubernetes.io/instance: spire
+        app.kubernetes.io/version: "1.9.6"
+        app.kubernetes.io/managed-by: Helm
+    metrics:
+      bindAddress: 0.0.0.0:8082
+    health:
+      healthProbeBindAddress: 0.0.0.0:8083
+    leaderElection:
+      leaderElect: true
+      resourceName: 6f304bd2.spiffe.io
+      resourceNamespace: spire-server
+    validatingWebhookConfigurationName: spire-server-spire-controller-manager-webhook
+    entryIDPrefix: vsecm-cluster
+    clusterName: vsecm-cluster
+    trustDomain: vsecm.com
+    ignoreNamespaces:
+      - kube-system
+      - kube-public
+      - local-path-storage
+      - openshift-cluster-node-tuning-operator
+      - openshift-cluster-samples-operator
+      - openshift-cluster-storage-operator
+      - openshift-console-operator
+      - openshift-console
+      - openshift-dns
+      - openshift-dns-operator
+      - openshift-image-registry
+      - openshift-ingress
+      - openshift-kube-storage-version-migrator
+      - openshift-kube-storage-version-migrator-operator
+      - openshift-kube-proxy
+      - openshift-marketplace
+      - openshift-monitoring
+      - openshift-multus
+      - openshift-network-diagnostics
+      - openshift-network-operator
+      - openshift-operator-lifecycle-manager
+      - openshift-roks-metrics
+      - openshift-service-ca-operator
+      - openshift-service-ca
+      - ibm-odf-validation-webhook
+      - ibm-system
+    spireServerSocketPath: "/tmp/spire-server/private/api.sock"
+    className: "spire-server-spire"
+    watchClassless: false
+    parentIDTemplate: "spiffe://{{ .TrustDomain }}/spire/agent/k8s_psat/{{ .ClusterName }}/{{ .NodeMeta.UID }}"
+    reconcile:
+      clusterSPIFFEIDs: true
+      clusterStaticEntries: true
+      clusterFederatedTrustDomains: true
+---
+# Source: spire/charts/spire-agent/templates/roles.yaml
+# Required cluster role to allow spire-agent to query k8s API server
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-agent
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - nodes
+      - nodes/proxy
+    verbs: ["get"]
+---
+# Source: spire/charts/spire-server/templates/controller-manager-roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: spire-server-spire-controller-manager
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 rules:
-  - apiGroups: [ "" ]
-    resources: [ "endpoints" ]
-    verbs: [ "get", "list", "watch" ]
   - apiGroups: [""]
     resources: ["namespaces"]
     verbs: ["get", "list", "watch"]
@@ -413,6 +385,9 @@ rules:
     verbs: ["get", "list", "patch", "watch"]
   - apiGroups: [""]
     resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["endpoints"]
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["pods"]
@@ -437,7 +412,7 @@ rules:
     verbs: ["get", "patch", "update"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries/finalizers"]
     verbs: ["update"]
@@ -445,118 +420,32 @@ rules:
     resources: ["clusterstaticentries/status"]
     verbs: ["get", "patch", "update"]
 ---
-# Source: vsecm/charts/spire/templates/spire-agent-cluster-role.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# Required cluster role to allow spire-agent to query k8s API server
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: spire-agent
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
-rules:
-  - apiGroups: [""]
-    resources:
-      - pods
-      - nodes
-      - nodes/proxy
-    verbs: ["get"]
----
-# Source: vsecm/charts/spire/templates/spire-server-cluster-role.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# Required cluster role to allow spire-server to query k8s API server
+# Source: spire/charts/spire-server/templates/roles.yaml
+# ClusterRole to allow spire-server node attestor to query Token Review API
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 rules:
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs:
+      - get
+      - watch
+      - list
+      - create
   - apiGroups: [""]
-    resources: ["nodes"]
-    verbs: ["get"]
-  - apiGroups: ["authentication.k8s.io"]
-    resources: ["tokenreviews"]
-    verbs: ["get", "create"]
+    resources: [nodes, pods]
+    verbs:
+      - get
+      - list
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/role_binding.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: spire-server-spire-controller-manager
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: spire-server-spire-controller-manager
-subjects:
-  - kind: ServiceAccount
-    name: spire-server
-    namespace: spire-server
----
-# Source: vsecm/charts/spire/templates/spire-agent-cluster-role-binding.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/charts/spire-agent/templates/roles.yaml
 # Binds above cluster role to spire-agent service account
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-agent
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
     name: spire-agent
@@ -566,28 +455,28 @@ roleRef:
   name: spire-agent
   apiGroup: rbac.authorization.k8s.io
 ---
-# Source: vsecm/charts/spire/templates/spire-server-cluster-role-binding.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
+# Source: spire/charts/spire-server/templates/controller-manager-roles.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: spire-server-spire-controller-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: spire-server-spire-controller-manager
 
+subjects:
+  - kind: ServiceAccount
+    name: spire-server
+    namespace: spire-server
+---
+# Source: spire/charts/spire-server/templates/roles.yaml
 # Binds above cluster role to spire-server service account
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
+
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -597,29 +486,12 @@ roleRef:
   name: spire-server-spire-server
   apiGroup: rbac.authorization.k8s.io
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/hook-preinstall_leader_election_role.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# permissions to do leader election.
+# Source: spire/charts/spire-server/templates/controller-manager-roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: spire-controller-manager-leader-election
   namespace: spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups: [""]
     resources: ["configmaps"]
@@ -631,96 +503,44 @@ rules:
     resources: ["events"]
     verbs: ["create", "patch"]
 ---
-# Source: vsecm/charts/spire/templates/spire-server-role.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# Role for the SPIRE server
+# Source: spire/charts/spire-server/templates/roles.yaml
+# Role to be able to push certificate bundles to a configmap
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-bundle
   namespace: spire-system
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 rules:
-  # allow "get" access to pods (to resolve selectors for PSAT attestation)
   - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get"]
-    # allow access to "get" and "patch" the spire-bundle ConfigMap (for SPIRE
-    # agent bootstrapping, see the spire-bundle ConfigMap below)
-  - apiGroups: [""]
-    resources: ["configmaps"]
-    resourceNames: ["spire-bundle"]
-    verbs: ["get", "patch"]
+    resources: [configmaps]
+    resourceNames: [spire-bundle]
+    verbs:
+      - get
+      - patch
 ---
-# Source: vsecm/charts/spire/templates/crd-rbac/leader_election_role_binding.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/charts/spire-server/templates/controller-manager-roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: spire-controller-manager-leader-election
   namespace: spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: spire-controller-manager-leader-election
+
 subjects:
   - kind: ServiceAccount
     name: spire-server
     namespace: spire-server
 ---
-# Source: vsecm/charts/spire/templates/spire-server-role-binding.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# RoleBinding granting the spire-bundle role to the SPIRE server
-# service account.
+# Source: spire/charts/spire-server/templates/roles.yaml
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-bundle
   namespace: spire-system
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
+
 subjects:
   - kind: ServiceAccount
     name: spire-server
@@ -730,91 +550,57 @@ roleRef:
   name: spire-bundle
   apiGroup: rbac.authorization.k8s.io
 ---
-# Source: vsecm/charts/spire/templates/spire-server-bundle-endpoint.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# Service definition for SPIRE server bundle endpoint
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: spire-server-bundle-endpoint
+  name: spire-spiffe-oidc-discovery-provider
   namespace: spire-server
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
-    - name: api
-      port: 8443
+    - name: https
+      port: 443
+      targetPort: https
       protocol: TCP
   selector:
-    app: spire-server
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
 ---
-# Source: vsecm/charts/spire/templates/spire-server-controller-manager-webhook-service.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# Service definition for SPIRE controller manager webhook
+# Source: spire/charts/spire-server/templates/controller-manager-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: spire-controller-manager-webhook
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
 spec:
+  type: ClusterIP
   ports:
-    - port: 443
+    - name: https
+      port: 443
+      targetPort: https
       protocol: TCP
-      targetPort: 9443
   selector:
-    app: spire-server
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
 ---
-# Source: vsecm/charts/spire/templates/spire-server-service.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-# ServiceAccount used by the SPIRE server.
+# Source: spire/charts/spire-server/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -824,301 +610,49 @@ spec:
       targetPort: grpc
       protocol: TCP
   selector:
-    app: spire-server
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
 ---
-# Source: vsecm/charts/spire/templates/spire-server-stateful-set.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: spire-server
-  namespace: spire-server
-  labels:
-    app: spire-server
-    app.kubernetes.io/component: server
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  serviceName: spire-server
-  replicas: 1
-  selector:
-    matchLabels:
-      app: spire-server
-  template:
-    metadata:
-      namespace: spire-server
-      labels:
-        app: spire-server
-    spec:
-      securityContext:
-        # fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-        # runAsGroup: 1000
-        # runAsUser: 1000
-      serviceAccountName: spire-server
-      shareProcessNamespace: true
-
-      priorityClassName: system-cluster-critical
-
-      containers:
-        - name: spire-server
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
-            seccompProfile:
-              type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-server:1.9.4
-          imagePullPolicy: IfNotPresent
-          args: ["-config", "/run/spire/server/config/server.conf"]
-          resources:
-            requests:
-              memory: 512Mi
-              cpu: 50m
-          ports:
-            - containerPort: 8081
-              protocol: TCP
-              name: grpc
-            - containerPort: 8080
-              name: healthz
-
-          livenessProbe:
-            httpGet:
-              path: /live
-              port: healthz
-            failureThreshold: 2
-            initialDelaySeconds: 15
-            periodSeconds: 60
-            timeoutSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: healthz
-            initialDelaySeconds: 5
-            periodSeconds: 5
-
-          volumeMounts:
-            - name: spire-config
-              mountPath: /run/spire/server/config
-              readOnly: true
-            - name: spire-server-socket
-              mountPath: /tmp/spire-server/private
-        - name: spire-controller-manager
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
-            seccompProfile:
-              type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 9443
-            - containerPort: 8083
-              name: healthz
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: healthz
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: healthz
-
-          args:
-            - "--config=spire-controller-manager-config.yaml"
-          volumeMounts:
-            - name: spire-server-socket
-              mountPath: /spire-server
-              readOnly: true
-            - name: spire-controller-manager-config
-              mountPath: /spire-controller-manager-config.yaml
-              subPath: spire-controller-manager-config.yaml
-      volumes:
-        - name: spire-config
-          configMap:
-            name: spire-server
-        - name: spire-server-socket
-          emptyDir: {}
-        - name: spire-controller-manager-config
-          configMap:
-            name: spire-controller-manager
----
-# Source: vsecm/charts/spire/templates/spire-controller-manager-webhook.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
-apiVersion: admissionregistration.k8s.io/v1
-kind: ValidatingWebhookConfiguration
-metadata:
-  name: spire-controller-manager-webhook
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
-webhooks:
-  - admissionReviewVersions: ["v1"]
-    clientConfig:
-      service:
-        name: spire-controller-manager-webhook
-        namespace: spire-server
-        path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
-    failurePolicy: Fail
-    name: vclusterfederatedtrustdomain.kb.io
-    rules:
-      - apiGroups: ["spire.spiffe.io"]
-        apiVersions: ["v1alpha1"]
-        operations: ["CREATE", "UPDATE"]
-        resources: ["clusterfederatedtrustdomains"]
-    sideEffects: None
-  - admissionReviewVersions: ["v1"]
-    clientConfig:
-      service:
-        name: spire-controller-manager-webhook
-        namespace: spire-server
-        path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
-    failurePolicy: Fail
-    name: vclusterspiffeid.kb.io
-    rules:
-      - apiGroups: ["spire.spiffe.io"]
-        apiVersions: ["v1alpha1"]
-        operations: ["CREATE", "UPDATE"]
-        resources: ["clusterspiffeids"]
-    sideEffects: None
-  - admissionReviewVersions: ["v1"]
-    clientConfig:
-      service:
-        name: spire-controller-manager-webhook
-        namespace: spire-server
-        path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
-    failurePolicy: Fail
-    name: clusterstaticentry.kb.io
-    rules:
-      - apiGroups: ["spire.spiffe.io"]
-        apiVersions: ["v1alpha1"]
-        operations: ["CREATE", "UPDATE"]
-        resources: ["clusterstaticentries"]
-    sideEffects: None
----
-# Source: vsecm/charts/spire/templates/spire-agent-daemonset.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# Source: spire/charts/spiffe-csi-driver/templates/daemonset.yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: spire-agent
+  name: spire-spiffe-csi-driver
   namespace: spire-system
   labels:
-    app: spire-agent
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
+    helm.sh/chart: spiffe-csi-driver-0.1.0
+    app.kubernetes.io/name: spiffe-csi-driver
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "0.2.3"
     app.kubernetes.io/managed-by: Helm
-  annotations: 
-    helm.sh/hook: post-install
-    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   selector:
     matchLabels:
-      app: spire-agent
+      app.kubernetes.io/name: spiffe-csi-driver
+      app.kubernetes.io/instance: spire
   updateStrategy:
     type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
-      namespace: spire-system
       labels:
-        app: spire-agent
+        app.kubernetes.io/name: spiffe-csi-driver
+        app.kubernetes.io/instance: spire
     spec:
-      hostPID: true
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
-      serviceAccountName: spire-agent
+      serviceAccountName: spire-spiffe-csi-driver
+
       priorityClassName: system-node-critical
       containers:
-        - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.9.4
-          imagePullPolicy: IfNotPresent
-          args: ["-config", "/run/spire/config/agent.conf"]
-          resources:
-            requests:
-              memory: 512Mi
-              cpu: 50m
-
-          ports:
-            - containerPort: 9982
-              name: healthz
-          livenessProbe:
-            httpGet:
-              path: /live
-              port: healthz
-            initialDelaySeconds: 15
-            periodSeconds: 60
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: healthz
-            initialDelaySeconds: 10
-            periodSeconds: 30
-
-          volumeMounts:
-            - name: spire-config
-              mountPath: /run/spire/config
-              readOnly: true
-            - name: spire-bundle
-              mountPath: /run/spire/bundle
-              readOnly: true
-            - name: spire-token
-              mountPath: /var/run/secrets/tokens
-            - name: spire-agent-socket-dir
-              mountPath: /tmp/spire-agent/public
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
-          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.6
+          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.3
           imagePullPolicy: IfNotPresent
           args: [
             "-workload-api-socket-dir", "/spire-agent-socket",
+            "-plugin-name", "csi.spiffe.io",
             "-csi-socket-path", "/spiffe-csi/csi.sock",
           ]
-          resources:
-            requests:
-              memory: 128Mi
-              cpu: 50m
           env:
             # The CSI driver needs a unique node ID. The node name can be
             # used for this purpose.
@@ -1141,16 +675,23 @@ spec:
               mountPropagation: Bidirectional
               name: mountpoint-dir
           securityContext:
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - all
             privileged: true
+          resources:
+            {}
         # This container runs the CSI Node Driver Registrar which takes care
         # of all the little details required to register a CSI driver with
         # the kubelet.
         - name: node-driver-registrar
-          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.10.0
+          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.4
           imagePullPolicy: IfNotPresent
           args: [
             "-csi-address", "/spiffe-csi/csi.sock",
             "-kubelet-registration-path", "/var/lib/kubelet/plugins/csi.spiffe.io/csi.sock",
+            "-health-port", "9809"
           ]
           volumeMounts:
             # The registrar needs access to the SPIFFE CSI driver socket
@@ -1160,33 +701,22 @@ spec:
             # directory
             - name: kubelet-plugin-registration-dir
               mountPath: /registration
+          ports:
+            - containerPort: 9809
+              name: healthz
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            {}
       volumes:
-        - name: spire-config
-          configMap:
-            name: spire-agent
-        - name: spire-bundle
-          configMap:
-            name: spire-bundle
-        - name: spire-token
-          projected:
-            sources:
-              - serviceAccountToken:
-                  path: spire-agent
-                  expirationSeconds: 7200
-                  audience: spire-server
-
-        # This volume is used to share the Workload API socket between the CSI
-        # driver and SPIRE agent. Note, an emptyDir volume could also be used,
-        # however, this can lead to broken bind mounts in the workload
-        # containers if the agent pod is restarted (since the emptyDir
-        # directory on the node that was mounted into workload containers by
-        # the CSI driver belongs to the old pod instance and is no longer
-        # valid).
         - name: spire-agent-socket-dir
           hostPath:
-            path: /var/run/spire/sockets
+            path: /run/spire/agent-sockets
             type: DirectoryOrCreate
-
         # This volume is where the socket for kubelet->driver communication lives
         - name: spiffe-csi-socket-dir
           hostPath:
@@ -1204,44 +734,1255 @@ spec:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
 ---
-# Source: vsecm/charts/spire/templates/hook-preinstall_spiffe-csi-driver.yaml
-# /*
-# |    Protect your secrets, protect your sensitive data.
-# :    Explore VMware Secrets Manager docs at https://vsecm.com/
-# </
-# <>/  keep your secrets... secret
-# >/
-# <>/' Copyright 2023-present VMware Secrets Manager contributors.
-# >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
+# Source: spire/charts/spire-agent/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: spire-agent
+  namespace: spire-system
+  labels:
+    helm.sh/chart: spire-agent-0.1.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: agent
+      app.kubernetes.io/instance: spire
+      app.kubernetes.io/component: default
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: spire-agent
+        checksum/config: 2ad907b85aad20064f4cbf04be0f3bf500bbe6a43f76c82c48eda97306352008
+      labels:
+        app.kubernetes.io/name: agent
+        app.kubernetes.io/instance: spire
+        app.kubernetes.io/component: default
+    spec:
+      hostPID: true
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccountName: spire-agent
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
 
+      priorityClassName: system-node-critical
+      initContainers:
+        - name: ensure-alternate-names
+          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+          imagePullPolicy: Always
+          command: ["bash", "-xc"]
+          args:
+            - |
+              cd /run/spire/agent-sockets
+              L=`readlink socket`
+              [ "x$L" != "xspire-agent.sock" ] && rm -f socket
+              [ ! -L socket ] && ln -s spire-agent.sock socket
+              L=`readlink api.sock`
+              [ "x$L" != "xspire-agent.sock" ] && rm -f api.sock
+              [ ! -L api.sock ] && ln -s spire-agent.sock api.sock
+              [ -L spire-agent.sock ] && rm -f spire-agent.sock
+              exit 0
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-agent-socket-dir
+              mountPath: /run/spire/agent-sockets
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+        - name: fsgroupfix
+          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+          imagePullPolicy: Always
+          command: ["bash", "-c"]
+          args:
+            - "chown -R 1000:1000 /run/spire/agent-sockets /tmp/spire-agent/private"
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-agent-socket-dir
+              mountPath: /run/spire/agent-sockets
+            - name: spire-agent-admin-socket-dir
+              mountPath: /tmp/spire-agent/private
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+      containers:
+        - name: spire-agent
+          image: ghcr.io/spiffe/spire-agent:1.9.6
+          imagePullPolicy: IfNotPresent
+          args: ["-config", "/opt/spire/conf/agent/agent.conf"]
+          securityContext:
+            {}
+          env:
+            - name: PATH
+              value: "/opt/spire/bin:/bin"
+          ports:
+            - containerPort: 9982
+              name: healthz
+            - containerPort: 9988
+              name: prom
+          volumeMounts:
+            - name: spire-config
+              mountPath: /opt/spire/conf/agent
+              readOnly: true
+            - name: spire-bundle
+              mountPath: /run/spire/bundle
+              readOnly: true
+            - name: spire-agent-socket-dir
+              mountPath: /tmp/spire-agent/public
+              readOnly: false
+            - name: spire-token
+              mountPath: /var/run/secrets/tokens
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            {}
+      volumes:
+        - name: spire-config
+          configMap:
+            name: spire-agent
+        - name: spire-agent-admin-socket-dir
+          emptyDir: {}
+        - name: spire-bundle
+          configMap:
+            name: spire-bundle
+        - name: spire-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: spire-agent
+                  expirationSeconds: 7200
+                  audience: spire-server
+        - name: spire-agent-socket-dir
+          hostPath:
+            path: /run/spire/agent-sockets
+            type: DirectoryOrCreate
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spire-spiffe-oidc-discovery-provider
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: spiffe-oidc-discovery-provider
+      app.kubernetes.io/instance: spire
+  template:
+    metadata:
+      annotations:
+        checksum/config: 856b450a332226fc0b9ea4c2145d8234ebce9220ad5239134629ac0c1cbb63ba
+      labels:
+        app.kubernetes.io/name: spiffe-oidc-discovery-provider
+        app.kubernetes.io/instance: spire
+        release: spire
+        release-namespace: spire-server
+        component: oidc-discovery-provider
+    spec:
+      serviceAccountName: spire-spiffe-oidc-discovery-provider
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+      initContainers:
+        - name: init
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            {}
+          image: ghcr.io/spiffe/spiffe-helper:nightly@sha256:8cee346ffdcee5c996d394f1c3bb761c2c06834a0e779a78db6dc6a46fd13ae6
+          imagePullPolicy: IfNotPresent
+          args:
+            - -config
+            - /etc/spiffe-helper.conf
+            - -exitWhenReady
+          volumeMounts:
+            - name: spiffe-workload-api
+              mountPath: /spiffe-workload-api
+              readOnly: true
+            - name: spire-oidc-config
+              mountPath: /etc/spiffe-helper.conf
+              subPath: spiffe-helper.conf
+              readOnly: true
+            - name: certdir
+              mountPath: /certs
+      containers:
+        - name: spiffe-oidc-discovery-provider
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: ghcr.io/spiffe/oidc-discovery-provider:1.9.6
+          imagePullPolicy: IfNotPresent
+          args:
+            - -config
+            - /run/spire/oidc/config/oidc-discovery-provider.conf
+          ports:
+            - containerPort: 8008
+              name: healthz
+            - containerPort: 8443
+              name: https
+          volumeMounts:
+            - name: spiffe-workload-api
+              mountPath: /spiffe-workload-api
+              readOnly: true
+            - name: spire-oidc-sockets
+              mountPath: /run/spire/oidc-sockets
+              readOnly: false
+            - name: spire-oidc-config
+              mountPath: /run/spire/oidc/config/oidc-discovery-provider.conf
+              subPath: oidc-discovery-provider.conf
+              readOnly: true
+            - name: certdir
+              mountPath: /certs
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+        - name: spiffe-helper
+          resources:
+            {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: ghcr.io/spiffe/spiffe-helper:nightly@sha256:8cee346ffdcee5c996d394f1c3bb761c2c06834a0e779a78db6dc6a46fd13ae6
+          imagePullPolicy: IfNotPresent
+          args:
+            - -config
+            - /etc/spiffe-helper.conf
+          volumeMounts:
+            - name: spiffe-workload-api
+              mountPath: /spiffe-workload-api
+              readOnly: true
+            - name: spire-oidc-config
+              mountPath: /etc/spiffe-helper.conf
+              subPath: spiffe-helper.conf
+              readOnly: true
+            - name: certdir
+              mountPath: /certs
+      volumes:
+        - name: spiffe-workload-api
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+        - name: spire-oidc-sockets
+          emptyDir: {}
+        - name: spire-oidc-config
+          configMap:
+            name: spire-spiffe-oidc-discovery-provider
+        - name: nginx-tmp
+          emptyDir: {}
+        - name: certdir
+          emptyDir: {}
+---
+# Source: spire/charts/spire-server/templates/server-resource.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  serviceName: spire-server
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: server
+      app.kubernetes.io/instance: spire
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: spire-server
+        checksum/config: 83dddc7bb9f54b5059533228971826c0585045b7c4afb17635ede1e7ef6c1e35
+        checksum/config2: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/config3: 9742ccbbd63b5da94e50bc34b73c946f254110b1f94fbc4ac437b3bba15cefe8
+        checksum/configTornjak: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+      labels:
+        app.kubernetes.io/name: server
+        app.kubernetes.io/instance: spire
+        app.kubernetes.io/component: server
+        component: server
+        release: spire
+        release-namespace: spire-server
+    spec:
+      serviceAccountName: spire-server
+      shareProcessNamespace: true
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+
+      priorityClassName: system-cluster-critical
+      containers:
+        - name: spire-server
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: ghcr.io/spiffe/spire-server:1.9.6
+          imagePullPolicy: IfNotPresent
+          args:
+            - -expandEnv
+            - -config
+            - /run/spire/config/server.conf
+          env:
+            - name: PATH
+              value: "/opt/spire/bin:/bin"
+          ports:
+            - name: grpc
+              containerPort: 8081
+              protocol: TCP
+            - containerPort: 8080
+              name: healthz
+            - containerPort: 9988
+              name: prom
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: /tmp/spire-server/private
+              readOnly: false
+            - name: spire-config
+              mountPath: /run/spire/config
+              readOnly: true
+            - name: spire-data
+              mountPath: /run/spire/data
+              readOnly: false
+            - name: server-tmp
+              mountPath: /tmp
+              readOnly: false
+
+        - name: spire-controller-manager
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config=controller-manager-config.yaml
+          env:
+            - name: ENABLE_WEBHOOKS
+              value: "true"
+          ports:
+            - name: https
+              containerPort: 9443
+              protocol: TCP
+            - containerPort: 8083
+              name: healthz
+            - containerPort: 8082
+              name: prom-cm
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: /tmp/spire-server/private
+              readOnly: true
+            - name: controller-manager-config
+              mountPath: /controller-manager-config.yaml
+              subPath: controller-manager-config.yaml
+              readOnly: true
+            - name: spire-controller-manager-tmp
+              mountPath: /tmp
+              subPath: spire-controller-manager
+              readOnly: false
+      volumes:
+        - name: server-tmp
+          emptyDir: {}
+        - name: spire-config
+          configMap:
+            name: spire-server
+        - name: spire-server-socket
+          emptyDir: {}
+        - name: spire-controller-manager-tmp
+          emptyDir: {}
+        - name: controller-manager-config
+          configMap:
+            name: spire-controller-manager
+  volumeClaimTemplates:
+    - metadata:
+        name: spire-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+---
+# Source: spire/charts/spiffe-csi-driver/templates/spiffe-csi-driver.yaml
 apiVersion: storage.k8s.io/v1
 kind: CSIDriver
 metadata:
   name: "csi.spiffe.io"
-  annotations:
-    "helm.sh/hook": pre-install
-  labels:
-    helm.sh/chart: spire-0.26.1
-    app.kubernetes.io/name: spire
-    app.kubernetes.io/instance: vsecm
-    app.kubernetes.io/version: "0.26.1"
-    app.kubernetes.io/managed-by: Helm
+
 spec:
-  # We only support ephemeral, inline volumes. We don't need a controller to
-  # provision and attach volumes.
+  # Only ephemeral, inline volumes are supported. There is no need for a
+  # controller to provision and attach volumes.
   attachRequired: false
 
-  # We want the pod information so that the CSI driver can verify that an
+  # Request the pod information which the CSI driver uses to verify that an
   # ephemeral mount was requested.
   podInfoOnMount: true
 
-  # We don't want (or need) K8s to change ownership on the contents of the mount
-  # when it is mounted into the pod, since the Workload API is completely open
-  # (i.e. 0777).
-  # Note, this was added in Kubernetes 1.19, so omit
+  # Don't change ownership on the contents of the mount since the Workload API
+  # Unix Domain Socket is typically open to all (i.e. 0777).
   fsGroupPolicy: None
 
-  # We only support ephemeral volumes. Note that this requires Kubernetes 1.16
-  volumeLifecycleModes: # added in Kubernetes 1.16, this field is beta
+  # Declare support for ephemeral volumes only.
+  volumeLifecycleModes:
     - Ephemeral
+---
+# Source: spire/charts/spire-server/templates/controller-manager-cluster-ids.yaml
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: spire-server-spire-default
+spec:
+  className: "spire-server-spire"
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: NotIn
+        values:
+          - spire-server
+          - spire-system
+---
+# Source: spire/charts/spire-server/templates/controller-manager-cluster-ids.yaml
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: spire-server-spire-oidc-discovery-provider
+spec:
+  className: "spire-server-spire"
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  podSelector:
+    matchLabels:
+      component: oidc-discovery-provider
+      release: spire
+      release-namespace: spire-server
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+          - spire-server
+          - spire-system
+  dnsNameTemplates:
+    - oidc-discovery.{{ .TrustDomain }}
+  autoPopulateDNSNames: true
+---
+# Source: spire/charts/spire-server/templates/controller-manager-cluster-ids.yaml
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: spire-server-spire-test-keys
+spec:
+  className: "spire-server-spire"
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  podSelector:
+    matchLabels:
+      component: test-keys
+      release: spire
+      release-namespace: spire-server
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+          - spire-server
+          - spire-system
+---
+# Source: spire/charts/spire-server/templates/controller-manager-webhook.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: spire-server-spire-controller-manager-webhook
+webhooks:
+  - admissionReviewVersions: ["v1"]
+    clientConfig:
+      service:
+        name: spire-controller-manager-webhook
+        namespace: spire-server
+        path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
+    failurePolicy: Ignore # Actual value to be set by post install/upgrade hooks
+    name: vclusterfederatedtrustdomain.kb.io
+    rules:
+      - apiGroups: ["spire.spiffe.io"]
+        apiVersions: ["v1alpha1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["clusterfederatedtrustdomains"]
+    sideEffects: None
+  - admissionReviewVersions: ["v1"]
+    clientConfig:
+      service:
+        name: spire-controller-manager-webhook
+        namespace: spire-server
+        path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
+    failurePolicy: Ignore # Actual value to be set by post install/upgrade hooks
+    name: vclusterspiffeid.kb.io
+    rules:
+      - apiGroups: ["spire.spiffe.io"]
+        apiVersions: ["v1alpha1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["clusterspiffeids"]
+    sideEffects: None
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/pre-delete-hook.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-spiffe-oidc-discovery-provider-pre-delete
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+---
+# Source: spire/charts/spire-server/templates/post-install-hook.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-server-post-install
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+---
+# Source: spire/charts/spire-server/templates/post-upgrade-hook.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-server-post-upgrade
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+---
+# Source: spire/charts/spire-server/templates/pre-upgrade-hook.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spire-server-pre-upgrade
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+---
+# Source: spire/charts/spire-server/templates/post-install-hook.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: spire-server-post-install
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+rules:
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations"]
+    resourceNames: ["spire-server-spire-controller-manager-webhook"]
+    verbs: ["get", "patch"]
+---
+# Source: spire/charts/spire-server/templates/post-upgrade-hook.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: spire-server-post-upgrade
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+rules:
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations"]
+    resourceNames: ["spire-server-spire-controller-manager-webhook"]
+    verbs: ["get", "patch"]
+---
+# Source: spire/charts/spire-server/templates/pre-upgrade-hook.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: spire-server-pre-upgrade
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+rules:
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations"]
+    resourceNames: ["spire-server-spire-controller-manager-webhook"]
+    verbs: ["get", "patch"]
+---
+# Source: spire/charts/spire-server/templates/post-install-hook.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-server-post-install
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: spire-server-post-install
+    namespace: spire-server
+roleRef:
+  kind: ClusterRole
+  name: spire-server-post-install
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: spire/charts/spire-server/templates/post-upgrade-hook.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-server-post-upgrade
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: spire-server-post-upgrade
+    namespace: spire-server
+roleRef:
+  kind: ClusterRole
+  name: spire-server-post-upgrade
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: spire/charts/spire-server/templates/pre-upgrade-hook.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-server-pre-upgrade
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: spire-server-pre-upgrade
+    namespace: spire-server
+roleRef:
+  kind: ClusterRole
+  name: spire-server-pre-upgrade
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/pre-delete-hook.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: spire-spiffe-oidc-discovery-provider-pre-delete
+  namespace: spire-server
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    resourceNames: ["spire-spiffe-oidc-discovery-provider"]
+    verbs: ["get", "delete"]
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/pre-delete-hook.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-spiffe-oidc-discovery-provider-pre-delete
+  namespace: spire-server
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: spire-spiffe-oidc-discovery-provider-pre-delete
+    namespace: spire-server
+roleRef:
+  kind: Role
+  name: spire-spiffe-oidc-discovery-provider-pre-delete
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "spire-spiffe-oidc-discovery-provider-test-connection"
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  securityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 1000
+    runAsUser: 1000
+  containers:
+    - name: curl-service-name
+      image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      command: ['curl']
+      args: ['-s', '-f', '-k', 'https://spire-spiffe-oidc-discovery-provider:443/.well-known/openid-configuration']
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+    - name: curl-service-name-namespace
+      image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      command: ['curl']
+      args: ['-s', '-f', '-k', 'https://spire-spiffe-oidc-discovery-provider.spire-server:443/.well-known/openid-configuration']
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+    - name: curl-service-name-namespace-svc-cluster-local
+      image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      command: ['curl']
+      args: ['-s', '-f', '-k', 'https://spire-spiffe-oidc-discovery-provider.spire-server.svc.cluster.local:443/.well-known/openid-configuration']
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+  restartPolicy: Never
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/tests/test-keys.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "spire-spiffe-oidc-discovery-provider-test-keys"
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    release: spire
+    release-namespace: spire-server
+    component: test-keys
+  annotations:
+    "helm.sh/hook": test
+spec:
+  securityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 1000
+    runAsUser: 1000
+  serviceAccountName: spire-spiffe-oidc-discovery-provider
+  initContainers:
+    - name: static-busybox
+      image: busybox:1.36.1-uclibc
+      command:
+        - sh
+        - -c
+        - |
+          cp /bin/busybox /data/busybox
+          chmod +x /data/busybox
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumeMounts:
+        - name: data-volume
+          mountPath: /data
+    - name: install-step
+      image: docker.io/smallstep/step-cli:0.26.1
+      workingDir: /data
+      command:
+        - sh
+        - -c
+        - |
+          cp /usr/local/bin/step /data/step
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumeMounts:
+        - name: data-volume
+          mountPath: /data
+    - name: gettoken
+      image: ghcr.io/spiffe/spire-agent:1.9.6
+      command:
+        - /data/busybox
+        - sh
+        - -c
+        - |
+          while true; do
+            /opt/spire/bin/spire-agent api fetch jwt -audience foo -format json -socketPath /spire-agent/spire-agent.sock -timeout 5s > /data/token.svid
+            [ $? -eq 0 ] && break
+            sleep 1
+          done
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumeMounts:
+        - name: data-volume
+          mountPath: /data
+        - name: spire-api
+          mountPath: /spire-agent
+          readOnly: true
+  containers:
+    - name: verify-keys
+      image: cgr.dev/chainguard/min-toolkit-debug:latest@sha256:d94454739d8be0239cfe93453df79c88d25d38b7a97084d81a49e9403a90d07c
+      command:
+        - bash
+      workingDir: /data
+      env:
+        - name: TMPDIR
+          value: /data
+      args:
+        - -cx
+        - |
+          URL=https://spire-spiffe-oidc-discovery-provider.spire-server.svc.cluster.local:443
+
+          cat /data/token.svid
+          JWT=$(cat /data/token.svid | jq -r '.[] | select(.svids) | .svids[0].svid' | xargs)
+          KID=$(echo $JWT | base64 -d 2>/dev/null | jq -r '.kid')
+          # Retrieve public key from JWK set, match kid from JWT to locate the correct one
+          curl -k -s --fail-with-body "${URL}"/keys | jq '.keys[] | select(.kid == "'${KID}'")' > public.pem
+          # Verify JWT with public pem
+          echo $JWT | /data/step crypto jwt verify --key=public.pem --alg=RS256 --subtle
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      volumeMounts:
+        - mountPath: /data
+          name: data-volume
+  restartPolicy: Never
+  volumes:
+    - csi:
+        driver: csi.spiffe.io
+        readOnly: true
+      name: spire-api
+    - name: data-volume
+      emptyDir: {}
+---
+# Source: spire/charts/spire-server/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "spire-server-test-connection"
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: test
+  annotations:
+    "helm.sh/hook": test
+spec:
+  securityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 1000
+    runAsUser: 1000
+  containers:
+    - name: curl
+      image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      command: ['bash']
+      args:
+        - -c
+        - |
+          curl -f -s 'https://spire-server:443'
+          NOCA=$?
+          curl -k -f -s 'https://spire-server:443'
+          IGNORECA=$?
+          echo $NOCA $IGNORECA
+          if [ $NOCA -eq 60 -a $IGNORECA -eq 22 ]; then
+            # We were able to connect to the server but didn't recognize the ca (60) and the page not found (22) because we're not using grpc
+            exit 0
+          fi
+          exit 1
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+  restartPolicy: Never
+---
+# Source: spire/charts/spiffe-oidc-discovery-provider/templates/pre-delete-hook.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spire-spiffe-oidc-discovery-provider-pre-delete
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spiffe-oidc-discovery-provider-0.1.0
+    app.kubernetes.io/name: spiffe-oidc-discovery-provider
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    metadata:
+      name: spire-spiffe-oidc-discovery-provider-pre-delete
+    spec:
+      restartPolicy: Never
+      serviceAccountName: spire-spiffe-oidc-discovery-provider-pre-delete
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: pre-delete-job
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: docker.io/rancher/kubectl:v1.28.0
+          args:
+            - delete
+            - -n
+            - spire-server
+            - deployment
+            - spire-spiffe-oidc-discovery-provider
+            - --wait
+---
+# Source: spire/charts/spire-server/templates/post-install-hook.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spire-server-post-install
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    metadata:
+      name: spire-server-post-install
+    spec:
+      restartPolicy: Never
+      serviceAccountName: spire-server-post-install
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: post-install-job
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: docker.io/rancher/kubectl:v1.28.0
+          args:
+            - patch
+            - validatingwebhookconfiguration
+            - spire-server-spire-controller-manager-webhook
+            - --type=strategic
+            - -p
+            - |
+              {
+                "webhooks":[
+                  {
+                    "name":"vclusterspiffeid.kb.io",
+                    "failurePolicy":"Fail"
+                  },
+                  {
+                    "name":"vclusterfederatedtrustdomain.kb.io",
+                    "failurePolicy":"Fail"
+                  }
+                ]
+              }
+---
+# Source: spire/charts/spire-server/templates/post-upgrade-hook.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spire-server-post-upgrade
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    metadata:
+      name: spire-server-post-upgrade
+    spec:
+      restartPolicy: Never
+      serviceAccountName: spire-server-post-upgrade
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: post-upgrade-job
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: docker.io/rancher/kubectl:v1.28.0
+          args:
+            - patch
+            - validatingwebhookconfiguration
+            - spire-server-spire-controller-manager-webhook
+            - --type=strategic
+            - -p
+            - |
+              {
+                "webhooks":[
+                  {
+                    "name":"vclusterspiffeid.kb.io",
+                    "failurePolicy":"Fail"
+                  },
+                  {
+                    "name":"vclusterfederatedtrustdomain.kb.io",
+                    "failurePolicy":"Fail"
+                  }
+                ]
+              }
+---
+# Source: spire/charts/spire-server/templates/pre-upgrade-hook.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spire-server-pre-upgrade
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    metadata:
+      name: spire-server-pre-upgrade
+    spec:
+      restartPolicy: Never
+      serviceAccountName: spire-server-pre-upgrade
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: post-install-job
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: docker.io/rancher/kubectl:v1.28.0
+          args:
+            - patch
+            - validatingwebhookconfiguration
+            - spire-server-spire-controller-manager-webhook
+            - --type=strategic
+            - -p
+            - |
+              {
+                "webhooks":[
+                  {
+                    "name":"vclusterspiffeid.kb.io",
+                    "failurePolicy":"Ignore"
+                  },
+                  {
+                    "name":"vclusterfederatedtrustdomain.kb.io",
+                    "failurePolicy":"Ignore"
+                  }
+                ]
+              }
