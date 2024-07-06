@@ -1247,6 +1247,7 @@ spec:
         values:
           - spire-server
           - spire-system
+          - vsecm-system
 ---
 # Source: spire/charts/spire-server/templates/controller-manager-cluster-ids.yaml
 apiVersion: spire.spiffe.io/v1alpha1
@@ -1268,6 +1269,7 @@ spec:
         values:
           - spire-server
           - spire-system
+          - vsecm-system
   dnsNameTemplates:
     - oidc-discovery.{{ .TrustDomain }}
   autoPopulateDNSNames: true
@@ -1292,6 +1294,7 @@ spec:
         values:
           - spire-server
           - spire-system
+          - vsecm-system
 ---
 # Source: spire/charts/spire-server/templates/controller-manager-webhook.yaml
 apiVersion: admissionregistration.k8s.io/v1
