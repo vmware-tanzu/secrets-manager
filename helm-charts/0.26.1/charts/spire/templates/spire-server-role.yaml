@@ -12,7 +12,7 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: spire-server-role
+  name: spire-bundle
   namespace: {{ .Values.global.spire.namespace }}
   labels:
     {{- include "spire.labels" . | nindent 4 }}

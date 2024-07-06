@@ -3,11 +3,17 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: spire-controller-manager-webhook
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
@@ -21,7 +27,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
@@ -35,7 +41,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail

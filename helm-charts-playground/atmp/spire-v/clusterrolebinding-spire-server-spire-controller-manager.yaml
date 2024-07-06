@@ -1,13 +1,12 @@
-
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: leader-election-rolebinding
-  namespace: spire-server
+  name: spire-server-spire-controller-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: leader-election-role
+  kind: ClusterRole
+  name: spire-server-spire-controller-manager
+
 subjects:
   - kind: ServiceAccount
     name: spire-server

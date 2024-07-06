@@ -118,17 +118,17 @@ func copyVSecMCrds(inputDir, outputDir string) {
 
 func main() {
 	inputFile := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.26.1/spire.yaml"
-	outputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests/spire"
+	outputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests"
 
 	createManifests(inputFile, outputDir)
 
-	inputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.26.1/crds"
-	outputDir = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests/crds"
-
-	copyVSecMCrds(inputDir, outputDir)
+	//inputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.26.1/crds"
+	//outputDir = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests/crds"
+	//
+	//copyVSecMCrds(inputDir, outputDir)
 
 	inputFile = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/spire-manifest-no-openshift.yaml"
-	outputDir = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/helm-charts-manifests/spire"
+	outputDir = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/helm-charts-manifests"
 
 	createManifests(inputFile, outputDir)
 }

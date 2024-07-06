@@ -14,7 +14,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: spire-controller-manager-webhook-service
+  name: spire-controller-manager-webhook
   namespace: {{ .Values.global.spire.serverNamespace }}
   labels:
     {{- include "spire.labels" . | nindent 4 }}

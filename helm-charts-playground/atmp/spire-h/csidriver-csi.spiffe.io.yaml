@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: "csi.spiffe.io"
+
+spec:
+  attachRequired: false
+
+  podInfoOnMount: true
+
+  fsGroupPolicy: None
+
+  volumeLifecycleModes:
+    - Ephemeral

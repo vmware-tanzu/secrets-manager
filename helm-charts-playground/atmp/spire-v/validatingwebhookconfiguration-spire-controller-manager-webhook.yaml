@@ -1,3 +1,4 @@
+
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -7,7 +8,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
     name: vclusterfederatedtrustdomain.kb.io
@@ -21,7 +22,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
     name: vclusterspiffeid.kb.io
@@ -35,7 +36,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook
-        namespace: spire-system
+        namespace: spire-server
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail
     name: clusterstaticentry.kb.io

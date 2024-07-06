@@ -18,7 +18,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: {{ .Values.global.spire.serverNamespace }}
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Fail
@@ -32,7 +32,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: {{ .Values.global.spire.serverNamespace }}
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Fail
@@ -46,7 +46,7 @@ webhooks:
   - admissionReviewVersions: ["v1"]
     clientConfig:
       service:
-        name: spire-controller-manager-webhook-service
+        name: spire-controller-manager-webhook
         namespace: {{ .Values.global.spire.serverNamespace }}
         path: /validate-spire-spiffe-io-v1alpha1-clusterstaticentry
     failurePolicy: Fail

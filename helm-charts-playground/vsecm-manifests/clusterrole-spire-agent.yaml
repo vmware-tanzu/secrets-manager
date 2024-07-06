@@ -1,0 +1,18 @@
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-agent
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - nodes
+      - nodes/proxy
+    verbs: ["get"]
