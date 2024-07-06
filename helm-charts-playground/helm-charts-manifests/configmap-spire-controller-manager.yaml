@@ -28,11 +28,16 @@ data:
     validatingWebhookConfigurationName: spire-server-spire-controller-manager-webhook
     entryIDPrefix: vsecm-cluster
     clusterName: vsecm-cluster
-    trustDomain: aegis.ist
+    trustDomain: vsecm.com
     ignoreNamespaces:
       - kube-system
       - kube-public
+      - spire-system
+      - spire-server
       - local-path-storage
+      - kube-node-lease
+      - kube-public
+      - kubernetes-dashboard
       - openshift-cluster-node-tuning-operator
       - openshift-cluster-samples-operator
       - openshift-cluster-storage-operator

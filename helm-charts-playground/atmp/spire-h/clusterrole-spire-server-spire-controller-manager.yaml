@@ -38,7 +38,7 @@ rules:
     verbs: ["get", "patch", "update"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries"]
-    verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["spire.spiffe.io"]
     resources: ["clusterstaticentries/finalizers"]
     verbs: ["update"]

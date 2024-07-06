@@ -16,6 +16,7 @@ data:
       "agent": {
         "data_dir": "/run/spire",
         "log_level": "DEBUG",
+        "retry_bootstrap": true,
         "server_address": "spire-server.spire-server.svc.cluster.local",
         "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",

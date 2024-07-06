@@ -1,12 +1,18 @@
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: spire-server-spire-controller-manager
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: spire-server-spire-controller-manager
-
 subjects:
   - kind: ServiceAccount
     name: spire-server

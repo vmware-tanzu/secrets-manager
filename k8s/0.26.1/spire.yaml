@@ -40,9 +40,9 @@ kind: Namespace
 metadata:
   name: spire-server
   labels:
-    pod-security.kubernetes.io/audit: privileged
-    pod-security.kubernetes.io/enforce: privileged
-    pod-security.kubernetes.io/warn: privileged
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/warn: restricted
     helm.sh/chart: spire-0.26.1
     app.kubernetes.io/name: spire
     app.kubernetes.io/instance: vsecm
@@ -128,6 +128,7 @@ data:
       "agent": {
         "data_dir": "/run/spire",
         "log_level": "DEBUG",
+        "retry_bootstrap": true,
         "server_address": "spire-server.spire-server.svc.cluster.local",
         "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
@@ -142,19 +143,19 @@ data:
         "ready_path": "/ready"
       },
       "plugins": {
+        "KeyManager": [
+          {
+            "memory": {
+              "plugin_data": null
+            }
+          }
+        ],
         "NodeAttestor": [
           {
             "k8s_psat": {
               "plugin_data": {
                 "cluster": "vsecm-cluster"
               }
-            }
-          }
-        ],
-        "KeyManager": [
-          {
-            "memory": {
-              "plugin_data": null
             }
           }
         ],

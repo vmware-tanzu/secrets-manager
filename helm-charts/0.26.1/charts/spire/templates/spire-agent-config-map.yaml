@@ -24,6 +24,7 @@ data:
       "agent": {
         "data_dir": "/run/spire",
         "log_level": {{ .Values.global.spire.logLevel | quote }},
+        "retry_bootstrap": true,
         "server_address": {{ .Values.global.spire.serverAddress | quote }},
         "server_port": {{ .Values.global.spire.serverPort | quote }},
         "socket_path": "{{ .Values.spireAgent.agentSocketDir }}/{{ .Values.spireAgent.socketName }}",
@@ -38,19 +39,19 @@ data:
         "ready_path": "/ready"
       },
       "plugins": {
+        "KeyManager": [
+          {
+            "memory": {
+              "plugin_data": null
+            }
+          }
+        ],
         "NodeAttestor": [
           {
             "k8s_psat": {
               "plugin_data": {
                 "cluster": "vsecm-cluster"
               }
-            }
-          }
-        ],
-        "KeyManager": [
-          {
-            "memory": {
-              "plugin_data": null
             }
           }
         ],

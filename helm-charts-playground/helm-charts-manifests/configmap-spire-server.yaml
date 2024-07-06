@@ -1,11 +1,38 @@
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
   namespace: spire-server
+  labels:
+    helm.sh/chart: spire-0.26.1
+    app.kubernetes.io/name: spire
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/managed-by: Helm
 data:
   server.conf: |
     {
+      "server": {
+        "audit_log_enabled": true,
+        "bind_address": "0.0.0.0",
+        "bind_port": 8081,
+        "trust_domain": "vsecm.com",
+        "data_dir": "/run/spire/data",
+        "log_level": "DEBUG",
+        "ca_key_type": "rsa-2048",
+        "ca_subject": [
+          {
+            "common_name": "vsecm.com",
+            "country": [
+                "US"
+            ],
+            "organization": [
+              "vsecm.com"
+            ]
+          }
+        ]
+      },
       "health_checks": {
         "bind_address": "0.0.0.0",
         "bind_port": "8080",
@@ -18,17 +45,8 @@ data:
           {
             "sql": {
               "plugin_data": {
-                "connection_string": "/run/spire/data/datastore.sqlite3",
-                "database_type": "sqlite3"
-              }
-            }
-          }
-        ],
-        "KeyManager": [
-          {
-            "disk": {
-              "plugin_data": {
-                "keys_path": "/run/spire/data/keys.json"
+                "database_type": "sqlite3",
+                "connection_string": "/run/spire/data/datastore.sqlite3"
               }
             }
           }
@@ -55,6 +73,15 @@ data:
             }
           }
         ],
+        "KeyManager": [
+          {
+            "disk": {
+              "plugin_data": {
+                "keys_path": "/run/spire/data/keys.json"
+              }
+            }
+          }
+        ],
         "Notifier": [
           {
             "k8sbundle": {
@@ -65,39 +92,5 @@ data:
             }
           }
         ]
-      },
-      "server": {
-        "audit_log_enabled": false,
-        "bind_address": "0.0.0.0",
-        "bind_port": "8081",
-        "ca_key_type": "rsa-2048",
-        "ca_subject": [
-          {
-            "common_name": "aegist.ist",
-            "country": [
-              "US"
-            ],
-            "organization": [
-              "aegis.ist"
-            ]
-          }
-        ],
-        "ca_ttl": "24h",
-        "data_dir": "/run/spire/data",
-        "default_jwt_svid_ttl": "1h",
-        "default_x509_svid_ttl": "4h",
-        "jwt_issuer": "https://oidc-discovery.aegis.ist",
-        "log_level": "info",
-        "trust_domain": "aegis.ist"
-      },
-      "telemetry": [
-        {
-          "Prometheus": [
-            {
-              "host": "0.0.0.0",
-              "port": 9988
-            }
-          ]
-        }
-      ]
+      }
     }
