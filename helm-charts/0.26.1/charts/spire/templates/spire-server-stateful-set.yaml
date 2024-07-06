@@ -40,6 +40,15 @@ spec:
 
       containers:
         - name: spire-server
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
           image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}
           imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
           args: ["-config", "{{ .Values.spireServer.configDir }}/server.conf"]
@@ -83,6 +92,15 @@ spec:
 
 {{- if .Values.global.deploySpireControllerManager }}
         - name: spire-controller-manager
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
           image: {{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}
           imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
           ports:
