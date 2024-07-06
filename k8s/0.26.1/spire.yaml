@@ -40,9 +40,9 @@ kind: Namespace
 metadata:
   name: spire-server
   labels:
-    pod-security.kubernetes.io/audit: restricted
-    pod-security.kubernetes.io/enforce: restricted
-    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: privileged
     helm.sh/chart: spire-0.26.1
     app.kubernetes.io/name: spire
     app.kubernetes.io/instance: vsecm
@@ -874,15 +874,15 @@ spec:
 
       containers:
         - name: spire-server
-#          securityContext:
-#            allowPrivilegeEscalation: false
-#            capabilities:
-#              drop:
-#                - ALL
-#            readOnlyRootFilesystem: false
-#            runAsNonRoot: true
-#            seccompProfile:
-#              type: RuntimeDefault
+          securityContext:
+            allowPrivilegeEscalation: false
+            # capabilities:
+            #  drop:
+            #    - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+            # seccompProfile:
+            #  type: RuntimeDefault
           image: ghcr.io/spiffe/spire-server:1.9.4
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
