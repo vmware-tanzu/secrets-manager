@@ -881,8 +881,8 @@ spec:
             #    - ALL
             readOnlyRootFilesystem: false
             runAsNonRoot: false
-            # seccompProfile:
-            #  type: RuntimeDefault
+            seccompProfile:
+              type: RuntimeDefault
           image: ghcr.io/spiffe/spire-server:1.9.4
           imagePullPolicy: IfNotPresent
           args: ["-config", "/run/spire/server/config/server.conf"]
