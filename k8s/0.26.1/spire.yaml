@@ -919,15 +919,15 @@ spec:
             - name: spire-server-socket
               mountPath: /tmp/spire-server/private
         - name: spire-controller-manager
-#          securityContext:
-#            allowPrivilegeEscalation: false
-#            capabilities:
-#              drop:
-#                - ALL
-#            readOnlyRootFilesystem: true
-#            runAsNonRoot: true
-#            seccompProfile:
-#              type: RuntimeDefault
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+            seccompProfile:
+              type: RuntimeDefault
           image: ghcr.io/spiffe/spire-controller-manager:0.5.0
           imagePullPolicy: IfNotPresent
           ports:
