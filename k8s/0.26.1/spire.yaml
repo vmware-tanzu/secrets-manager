@@ -921,10 +921,10 @@ spec:
         - name: spire-controller-manager
           securityContext:
             allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
+#            capabilities:
+#              drop:
+#                - ALL
+            readOnlyRootFilesystem: false
             runAsNonRoot: false
             seccompProfile:
               type: RuntimeDefault
