@@ -876,9 +876,9 @@ spec:
         - name: spire-server
           securityContext:
             allowPrivilegeEscalation: false
-            # capabilities:
-            #  drop:
-            #    - ALL
+            capabilities:
+              drop:
+                - ALL
             readOnlyRootFilesystem: false
             runAsNonRoot: false
             seccompProfile:
