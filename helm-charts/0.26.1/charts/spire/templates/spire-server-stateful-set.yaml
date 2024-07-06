@@ -30,10 +30,10 @@ spec:
         app: spire-server
     spec:
       securityContext:
-        fsGroup: 1000
+        # fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        runAsGroup: 1000
-        runAsUser: 1000
+        # runAsGroup: 1000
+        # runAsUser: 1000
 
 {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -52,7 +52,7 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: false
-            runAsNonRoot: true
+            runAsNonRoot: false
             seccompProfile:
               type: RuntimeDefault
           image: {{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}
@@ -103,8 +103,8 @@ spec:
             capabilities:
               drop:
                 - ALL
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
             seccompProfile:
               type: RuntimeDefault
           image: {{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}

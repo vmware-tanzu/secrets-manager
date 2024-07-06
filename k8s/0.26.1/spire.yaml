@@ -875,14 +875,12 @@ spec:
       containers:
         - name: spire-server
           securityContext:
-            runAsGroup: 1000
-            runAsUser: 1000
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
             readOnlyRootFilesystem: false
-            runAsNonRoot: true
+            runAsNonRoot: false
             seccompProfile:
               type: RuntimeDefault
           image: ghcr.io/spiffe/spire-server:1.9.4
