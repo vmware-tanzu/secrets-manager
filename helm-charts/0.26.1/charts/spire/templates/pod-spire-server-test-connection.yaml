@@ -1,0 +1,57 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "spire-server-test-connection"
+  namespace: spire-server
+  labels:
+    helm.sh/chart: spire-server-0.1.0
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: test
+  annotations:
+    "helm.sh/hook": test
+spec:
+  securityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 1000
+    runAsUser: 1000
+  containers:
+    - name: curl
+      image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      command: ['bash']
+      args:
+        - -c
+        - |
+          curl -f -s 'https://spire-server:443'
+          NOCA=$?
+          curl -k -f -s 'https://spire-server:443'
+          IGNORECA=$?
+          echo $NOCA $IGNORECA
+          if [ $NOCA -eq 60 -a $IGNORECA -eq 22 ]; then
+            # We were able to connect to the server but didn't recognize the ca (60) and the page not found (22) because we're not using grpc
+            exit 0
+          fi
+          exit 1
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+  restartPolicy: Never
