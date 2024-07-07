@@ -50,7 +50,7 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: "{{ .Values.global.images.spireHelperKubectl}}:{{ .Values.global.images.spireHelperKubectl.tag }}"
+          image: "{{ .Values.global.images.spireHelperKubectl.repository }}:{{ .Values.global.images.spireHelperKubectl.tag }}"
           imagePullPolicy: {{ .Values.global.images.spireHelperKubectl.pullPolicy }}
           args:
             - patch
