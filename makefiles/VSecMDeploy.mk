@@ -38,9 +38,9 @@ deploy-spire-crds:
 	kubectl apply -f ${MANIFESTS_BASE_PATH}/crds
 
 create-namespaces:
-	kubectl create namespace $(VSECM_NAMESPACE_SYSTEM) || true
-	kubectl create namespace $(VSECM_NAMESPACE_SPIRE) || true
-	kubectl create namespace $(VSECM_NAMESPACE_SPIRE_SERVER) || true
+	kubectl create namespace $(VSECM_NAMESPACE_SYSTEM) --save-config || true
+	kubectl create namespace $(VSECM_NAMESPACE_SPIRE)  --save-config || true
+	kubectl create namespace $(VSECM_NAMESPACE_SPIRE_SERVER) --save-config || true
 
 deploy-spire: create-namespaces
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
