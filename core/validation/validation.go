@@ -50,8 +50,6 @@ var spiffeIdPrefixStart = "spiffe://" + env.SpiffeTrustDomain() + "/"
 func IsWorkload(spiffeid string) bool {
 	prefix := env.SpiffeIdPrefixForWorkload()
 
-	// fmt.Println("XXXXXXXXXXX IsWorkload: prefix: ", prefix)
-
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
 		re, err := regexp.Compile(prefix)
 		if err != nil {
@@ -89,7 +87,6 @@ func IsWorkload(spiffeid string) bool {
 	}
 
 	if !strings.HasPrefix(spiffeid, spiffeIdPrefixStart) {
-		// fmt.Println("XXXXXXXXXXX exit 0000000")
 		return false
 	}
 
@@ -124,16 +121,8 @@ func IsWorkload(spiffeid string) bool {
 
 	match := wre.FindStringSubmatch(spiffeid)
 	if len(match) == 0 {
-		fmt.Println("XXXXXXXXXXX exit 1111111")
 		return false
 	}
-
-	//fmt.Println("XXXXXXXXXXX exit 2222222")
-	//fmt.Println("XXXXXXXXXXX spiffeid: '" + spiffeid + "'")
-	//fmt.Println("XXXXXXXXXXX prefix: '" + prefix + "'")
-	//
-	//XXXXXXXXXXX spiffeid: 'spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/vsecm-safe-0'
-	//XXXXXXXXXXX prefix:   'spiffe://vsecm.com/workload/'
 
 	return strings.HasPrefix(spiffeid, prefix)
 }
