@@ -1296,8 +1296,6 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
-  annotations:
-    "helm.sh/hook": pre-install
 ---
 # Source: vsecm/charts/spire/templates/hook-preinstall-namespace-spire-system.yaml
 # /*
@@ -1318,8 +1316,7 @@ metadata:
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/warn: restricted
-  annotations:
-    "helm.sh/hook": pre-install
+
 ---
 # Source: vsecm/charts/spire/templates/hook-serviceaccount-spire-server-post-install.yaml
 # /*
