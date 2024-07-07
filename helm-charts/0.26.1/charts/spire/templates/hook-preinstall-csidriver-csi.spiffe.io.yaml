@@ -14,6 +14,11 @@ metadata:
   name: "csi.spiffe.io"
   annotations:
     "helm.sh/hook": pre-install
+{{- if .Values.global.enableOpenShit }}
+  labels:
+    security.openshift.io/csi-ephemeral-volume-profile: restricted
+{{- end }}
+
 spec:
   # Only ephemeral, inline volumes are supported. There is no need for a
   # controller to provision and attach volumes.

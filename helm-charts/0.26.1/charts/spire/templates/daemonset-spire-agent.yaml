@@ -50,11 +50,14 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: spire-agent
       securityContext:
+{{- if .Values.global.enableOpenShit }}
+        fsGroupChangePolicy: OnRootMismatch
+{{- else }}
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 1000
         runAsUser: 1000
-
+  {{- end }}
       priorityClassName: system-node-critical
       initContainers:
         - name: ensure-alternate-names
@@ -80,6 +83,7 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
+{{- if not .Values.global.enableOpenShit }}
         - name: fsgroupfix
           image: "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
           imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
@@ -96,6 +100,7 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
+{{- end }}
       containers:
         - name: spire-agent
           image: "{{ .Values.global.images.spireAgent.repository }}:{{ .Values.global.images.spireAgent.tag }}"
@@ -106,6 +111,12 @@ spec:
           env:
             - name: PATH
               value: "/opt/spire/bin:/bin"
+{{- if .Values.global.enableOpenShit }}
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+{{- end}}
           ports:
             - containerPort: 9982
               name: healthz

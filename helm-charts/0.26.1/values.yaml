@@ -9,6 +9,10 @@
 # */
 
 global:
+  # -- Set it to true for OpenShift deployments. This will add necessary
+  # annotations to the SPIRE components to make them work on OpenShift.
+  enableOpenShit: false
+
   # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
   # deployed. This is useful when SPIRE is already deployed in the cluster.
   deploySpire: true
@@ -100,6 +104,11 @@ global:
     spireHelperKubectl:
       repository: docker.io/rancher/kubectl
       tag: v1.28.0
+      pullPolicy: IfNotPresent
+
+    openShiftHelperUbi9:
+      repository: registry.access.redhat.com/ubi9
+      tag: latest
       pullPolicy: IfNotPresent
 
   # - VSecM-related global configuration.

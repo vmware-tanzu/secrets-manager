@@ -16,5 +16,8 @@ metadata:
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/warn: restricted
+{{- if .Values.global.enableOpenShit }}
+    security.openshift.io/scc.podSecurityLabelSync: "false"
+{{- end }}
   annotations:
     "helm.sh/hook": pre-install

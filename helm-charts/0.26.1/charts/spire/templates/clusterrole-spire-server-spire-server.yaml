@@ -14,15 +14,18 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
 rules:
-  - apiGroups: [authentication.k8s.io]
-    resources: [tokenreviews]
-    verbs:
-      - get
-      - watch
-      - list
-      - create
+{{- if .Values.global.enableOpenShit }}
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get"]
+  - apiGroups: ["authentication.k8s.io"]
+    resources: ["tokenreviews"]
+    verbs: ["get", "create"]
+{{- else }}
   - apiGroups: [""]
     resources: [nodes, pods]
-    verbs:
-      - get
-      - list
+    verbs: ["get", "list"]
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs: ["get", "watch", "list", "create"]
+{{- end }}

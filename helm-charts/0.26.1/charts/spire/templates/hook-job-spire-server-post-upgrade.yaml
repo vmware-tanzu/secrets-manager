@@ -35,10 +35,14 @@ spec:
       restartPolicy: Never
       serviceAccountName: spire-server-post-upgrade
       securityContext:
+{{- if .Values.global.enableOpenShit }}
+        fsGroupChangePolicy: OnRootMismatch
+{{- else }}
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 1000
         runAsUser: 1000
+{{- end }}
       containers:
         - name: post-upgrade-job
           securityContext:

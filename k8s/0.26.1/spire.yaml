@@ -456,18 +456,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
 rules:
-  - apiGroups: [authentication.k8s.io]
-    resources: [tokenreviews]
-    verbs:
-      - get
-      - watch
-      - list
-      - create
   - apiGroups: [""]
     resources: [nodes, pods]
-    verbs:
-      - get
-      - list
+    verbs: ["get", "list"]
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs: ["get", "watch", "list", "create"]
 ---
 # Source: vsecm/charts/spire/templates/clusterrolebinding-spire-agent.yaml
 # /*
@@ -765,7 +759,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 1000
         runAsUser: 1000
-
       priorityClassName: system-node-critical
       initContainers:
         - name: ensure-alternate-names
@@ -1187,6 +1180,17 @@ spec:
           requests:
             storage: 1Gi
 ---
+# Source: vsecm/charts/spire/templates/openshift-security-context-constraints.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+---
 # Source: vsecm/charts/spire/templates/clusterspiffeid-spire-server-spire-default.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -1604,6 +1608,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 1000
         runAsUser: 1000
+
       containers:
         - name: post-install-job
           securityContext:
@@ -1796,6 +1801,7 @@ metadata:
   name: "csi.spiffe.io"
   annotations:
     "helm.sh/hook": pre-install
+
 spec:
   # Only ephemeral, inline volumes are supported. There is no need for a
   # controller to provision and attach volumes.

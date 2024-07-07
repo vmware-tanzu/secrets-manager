@@ -37,6 +37,27 @@ spec:
       serviceAccountName: spire-spiffe-csi-driver
 
       priorityClassName: system-node-critical
+{{- if .Values.global.enableOpenShit }}
+      initContainers:
+        - name: set-context
+          command:
+            - chcon
+            - '-Rvt'
+            - container_file_t
+            - spire-agent-socket/
+          image: "{{ .Values.global.images.openShiftHelperUbi9.repository }}/{{ .Values.global.images.openShiftHelperUbi9.tag }}"
+          imagePullPolicy: {{ .Values.global.images.openShiftHelperUbi9.pullPolicy }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
+            privileged: true
+          volumeMounts:
+            - name: spire-agent-socket-dir
+              mountPath: /spire-agent-socket
+          terminationMessagePolicy: File
+          terminationMessagePath: /dev/termination-log
+{{- end }}
       containers:
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
