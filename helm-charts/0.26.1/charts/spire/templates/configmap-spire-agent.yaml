@@ -22,7 +22,7 @@ data:
         "retry_bootstrap": true,
         "server_address": "spire-server.spire-server",
         "server_port": "443",
-        "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
+        "socket_path": "{{ .Values.spireAgent.internalPublicSocketDir }}/{{ .Values.spireAgent.socketName }}",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
         "trust_domain": "vsecm.com"
       },

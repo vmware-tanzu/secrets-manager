@@ -29,108 +29,84 @@
 #  - name: my-registry-secret
 imagePullSecrets: []
 
-#
-## -- The name override of the chart.
-#nameOverride: ""
-## -- The fullname override of the chart.
-#fullnameOverride: ""
-#
-## -- Experimental settings.
-#experimental:
-#  # -- eventsBasedCache is known to significantly improve SPIRE Server
-#  # performance. It is set to `false` by default, just in case.
-#  eventsBasedCache: false
-#
-## -- Service details for the SPIRE Server.
-#service:
-#  # -- Service type.
-#  # Possible values are: ClusterIP, NodePort, LoadBalancer.
-#  # Defaults to `ClusterIP`.
-#  type: ClusterIP
-#  # -- Additional Service annotations.
-#  annotations: {}
-#
-## -- Service details for the SPIRE Server Bundle Endpoint.
-## The bundle endpoint is typically used for federating
-#bundleEndpoint:
-#  # -- Valid values are: ClusterIP, NodePort, LoadBalancer
-#  type: ClusterIP
-#  # -- The port that the bundle endpoint serves.
-#  port: 8443
-#  # -- Additional Service annotations.
-#  annotations: {}
-#
-## -- Service Account details for the SPIRE Server.
-#serviceAccount:
-#  # -- Specifies whether a service account should be created
-#  create: true
-#  # -- Annotations to add to the service account
-#  annotations: {}
-#  # -- The name of the service account to use.
-#  # If not set and create is true, a name is generated using
-#  # the fullname template.
-#  name: ""
-#
-## -- SPIRE Agent settings.
-#spireAgent:
-#  # -- Annotations to add to the SPIRE Agent pod.
-#  annotations:
-#    # -- Define a helm hook to make spire-agent daemonSet deploy after
-#    # spire-server statefulSet.
-#    "helm.sh/hook": post-install
-#    # -- Define the policy to delete the hook after it has succeeded.
-#    "helm.sh/hook-delete-policy": hook-succeeded
-#
-#  # -- The SPIRE Agent socket directory.
-#  agentSocketDir: "/tmp/spire-agent/public"
-#  # -- The corresponding SPIRE Agent socket directory on the host.
-#  hostSocketDir: "/var/run/spire/sockets"
-#  # -- The SPIRE Agent socket name.
-#  socketName: "spire-agent.sock"
-#
-## -- SPIRE Server settings.
-#spireServer:
-#  # -- The data directory for the SPIRE Server.
-#  dataDir: "/run/spire/data"
-#  # -- The configuration directory for the SPIRE Server.
-#  configDir: "/run/spire/server/config"
-#  # -- The private socket directory for the SPIRE Server.
-#  privateSocketDir: "/tmp/spire-server/private"
-#  # -- The internal port that the server serves.
-#  containerPort: "8081"
-#
-## -- These are the default resources suitable for a moderate SPIRE usage.
-## Of course, it's best to do your own benchmarks and update these
-## requests and limits to your production needs accordingly.
-## That being said, as a rule of thumb, do not limit the CPU request
-## on SPIRE Agent and SPIRE server. It's best to let them leverage
-## the available excess CPU, if available.
-#resources:
-#  # -- SPIRE Server resource requests and limits.
-#  server:
-#    requests:
-#      memory: "1Gi"
-#      cpu: "100m"
-#  # -- SPIRE Agent resource requests and limits.
-#  agent:
-#    requests:
-#      memory: "512Mi"
-#      cpu: "50m"
-#  # -- SPIFFE CSI Driver resource requests and limits.
-#  spiffeCsiDriver:
-#    requests:
-#      memory: "128Mi"
-#      cpu: "50m"
-#
+# -- The name override of the chart.
+nameOverride: ""
+# -- The fullname override of the chart.
+fullnameOverride: ""
 
-#
-## -- Persistence settings for the SPIRE Server.
-#data:
-#  # -- Persistence is disabled by default. You are recommended to provide a
-#  # persistent volume.
-#  persistent: false
-#  # -- Define the PVC if `persistent` is true.
-#  persistentVolumeClaim:
-#    storageClass: ""
-#    accessMode: ReadWriteOnce
-#    size: 1Gi
+# -- Experimental settings.
+experimental:
+  # -- eventsBasedCache is known to significantly improve SPIRE Server
+  # performance. It is set to `false` by default, just in case.
+  eventsBasedCache: false
+
+# -- SPIRE Agent settings.
+spireAgent:
+  # -- The corresponding SPIRE Agent socket directory on the host.
+  # SPIRE Agents and SPIFFE CSI Driver shares this directory.
+  hostSocketDir: "/run/spire/agent-sockets"
+  # -- The SPIRE Agent socket name.
+  socketName: "spire-agent.sock"
+
+  # -- The corresponding SPIRE Agent internal socket directory in the
+  # container. The configuration should match the SPIRE Agent configuration
+  # and SPIRE Agent DaemonSet.
+  internalPublicSocketDir: "/tmp/spire-agent/public"
+
+  # -- The corresponding SPIRE Agent internal admin directory in the
+  # container. The configuration should match the SPIRE Agent configuration
+  # and SPIRE Agent DaemonSet. You are advised not to change this value.
+  internalAdminSocketDir: "/tmp/spire-agent/private"
+
+# -- SPIRE Server settings.
+spireServer:
+  # -- The data directory for the SPIRE Server.
+  # SPIRE Server’s ConfigMap and StatefulSet should agree on this directory.
+  dataDir: "/run/spire/data"
+  # -- The private socket directory for the SPIRE Server.
+  # SPIRE Server’s ConfigMap and StatefulSet should agree on this directory.
+  privateSocketDir: "/tmp/spire-server/private"
+
+  configDir: "/run/spire/config"
+
+  # -- Service details for the SPIRE Server.
+  service:
+    # -- Service type.
+    # Possible values are: ClusterIP, NodePort, LoadBalancer.
+    # Defaults to `ClusterIP`.
+    type: ClusterIP
+
+# -- These are the default resources suitable for a moderate SPIRE usage.
+# Of course, it's best to do your own benchmarks and update these
+# requests and limits to your production needs accordingly.
+# That being said, as a rule of thumb, do not limit the CPU request
+# on SPIRE Agent and SPIRE server. It's best to let them leverage
+# the available excess CPU, if available.
+resources:
+  # -- SPIRE Server resource requests and limits.
+  server:
+    requests:
+      memory: "1Gi"
+      cpu: "100m"
+  # -- SPIRE Agent resource requests and limits.
+  agent:
+    requests:
+      memory: "512Mi"
+      cpu: "50m"
+  # -- SPIFFE CSI Driver resource requests and limits.
+  spiffeCsiDriver:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+
+# -- Persistence settings for the SPIRE Server.
+data:
+  # -- Persistence is enabled by default. However, you are recommended to
+  # provide your own storage class if you are using a cloud provider or
+  # a storage solution that supports dynamic provisioning.
+  persistent: true
+  # -- Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi

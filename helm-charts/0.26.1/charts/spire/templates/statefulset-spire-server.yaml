@@ -14,7 +14,7 @@ metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-server-0.1.0
+    helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -74,7 +74,7 @@ spec:
           args:
             - -expandEnv
             - -config
-            - /run/spire/config/server.conf
+            - {{ .Values.spireServer.configDir }}/server.conf
           env:
             - name: PATH
               value: "/opt/spire/bin:/bin"
@@ -104,14 +104,18 @@ spec:
             {}
           volumeMounts:
             - name: spire-server-socket
-              mountPath: /tmp/spire-server/private
+              mountPath: {{ .Values.spireServer.privateSocketDir}}
               readOnly: false
             - name: spire-config
-              mountPath: /run/spire/config
+              mountPath: {{ .Values.spireServer.configDir }}
               readOnly: true
+
+{{- if .Values.data.persistent }}
             - name: spire-data
-              mountPath: /run/spire/data
+              mountPath: {{ .Values.spireServer.dataDir }}
               readOnly: false
+{{- end }}
+
             - name: server-tmp
               mountPath: /tmp
               readOnly: false
@@ -153,7 +157,7 @@ spec:
             {}
           volumeMounts:
             - name: spire-server-socket
-              mountPath: /tmp/spire-server/private
+              mountPath: {{ .Values.spireServer.privateSocketDir }}
               readOnly: true
             - name: controller-manager-config
               mountPath: /controller-manager-config.yaml
@@ -176,12 +180,18 @@ spec:
         - name: controller-manager-config
           configMap:
             name: spire-controller-manager
+  {{- if .Values.data.persistent }}
+  # noinspection KubernetesUnknownKeys
   volumeClaimTemplates:
     - metadata:
         name: spire-data
       spec:
         accessModes:
-          - ReadWriteOnce
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
         resources:
           requests:
-            storage: 1Gi
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
+        {{- end }}
+  {{- end }}

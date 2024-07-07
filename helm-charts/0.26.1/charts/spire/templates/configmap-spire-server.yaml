@@ -77,6 +77,11 @@ data:
         ]
       },
       "server": {
+{{- if .Values.experimental.eventsBasedCache }}
+        "experimental": {
+          "events_based_cache": true
+        },
+{{- end }}
         "audit_log_enabled": false,
         "bind_address": "0.0.0.0",
         "bind_port": "8081",

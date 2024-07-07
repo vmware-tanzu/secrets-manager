@@ -14,7 +14,7 @@ metadata:
   name: spire-agent
   namespace: spire-system
   labels:
-    helm.sh/chart: spire-agent-0.1.0
+    helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: agent
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -63,20 +63,20 @@ spec:
           command: ["bash", "-xc"]
           args:
             - |
-              cd /run/spire/agent-sockets
+              cd {{ .Values.spireAgent.hostSocketDir }}
               L=`readlink socket`
-              [ "x$L" != "xspire-agent.sock" ] && rm -f socket
-              [ ! -L socket ] && ln -s spire-agent.sock socket
+              [ "x$L" != "x{{ .Values.spireAgent.socketName }}" ] && rm -f socket
+              [ ! -L socket ] && ln -s {{ .Values.spireAgent.socketName }} socket
               L=`readlink api.sock`
-              [ "x$L" != "xspire-agent.sock" ] && rm -f api.sock
-              [ ! -L api.sock ] && ln -s spire-agent.sock api.sock
-              [ -L spire-agent.sock ] && rm -f spire-agent.sock
+              [ "x$L" != "x{{ .Values.spireAgent.socketName }}" ] && rm -f api.sock
+              [ ! -L api.sock ] && ln -s {{ .Values.spireAgent.socketName }} api.sock
+              [ -L {{ .Values.spireAgent.socketName }} ] && rm -f {{ .Values.spireAgent.socketName }}
               exit 0
           resources:
             {}
           volumeMounts:
             - name: spire-agent-socket-dir
-              mountPath: /run/spire/agent-sockets
+              mountPath: {{ .Values.spireAgent.hostSocketDir }}
           securityContext:
             runAsUser: 0
             runAsGroup: 0
@@ -85,14 +85,14 @@ spec:
           imagePullPolicy: Always
           command: ["bash", "-c"]
           args:
-            - "chown -R 1000:1000 /run/spire/agent-sockets /tmp/spire-agent/private"
+            - "chown -R 1000:1000 {{ .Values.spireAgent.hostSocketDir }} {{ .Values.spireAgent.internalAdminSocketDir }}"
           resources:
             {}
           volumeMounts:
             - name: spire-agent-socket-dir
-              mountPath: /run/spire/agent-sockets
+              mountPath: {{ .Values.spireAgent.hostSocketDir }}
             - name: spire-agent-admin-socket-dir
-              mountPath: /tmp/spire-agent/private
+              mountPath: {{ .Values.spireAgent.internalAdminSocketDir }}
           securityContext:
             runAsUser: 0
             runAsGroup: 0
@@ -119,7 +119,7 @@ spec:
               mountPath: /run/spire/bundle
               readOnly: true
             - name: spire-agent-socket-dir
-              mountPath: /tmp/spire-agent/public
+              mountPath: {{ .Values.spireAgent.internalPublicSocketDir }}
               readOnly: false
             - name: spire-token
               mountPath: /var/run/secrets/tokens
@@ -155,5 +155,5 @@ spec:
                   audience: spire-server
         - name: spire-agent-socket-dir
           hostPath:
-            path: /run/spire/agent-sockets
+            path: {{ .Values.spireAgent.hostSocketDir }}
             type: DirectoryOrCreate

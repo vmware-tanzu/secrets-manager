@@ -22,7 +22,7 @@ data:
       name: spire-controller-manager
       namespace: spire-server
       labels:
-        helm.sh/chart: spire-server-0.1.0
+        helm.sh/chart: {{ include "spire.chart" . }}
         app.kubernetes.io/name: server
         app.kubernetes.io/instance: spire
         app.kubernetes.io/version: "1.9.6"
@@ -66,7 +66,7 @@ data:
       - openshift-service-ca
       - ibm-odf-validation-webhook
       - ibm-system
-    spireServerSocketPath: "/tmp/spire-server/private/api.sock"
+    spireServerSocketPath: "{{ .Values.spireServer.privateSocketDir }}/api.sock"
     className: "spire-server-spire"
     watchClassless: false
     parentIDTemplate: "spiffe://{{"{{"}} .TrustDomain {{"}}"}}/spire/agent/k8s_psat/{{"{{"}} .ClusterName {{"}}"}}/{{"{{"}} .NodeMeta.UID {{"}}"}}"

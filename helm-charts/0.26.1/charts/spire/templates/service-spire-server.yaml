@@ -14,13 +14,13 @@ metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-server-0.1.0
+    helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
 spec:
-  type: ClusterIP
+  type: {{ .Values.spireServer.service.type }}
   ports:
     - name: grpc
       port: 443
