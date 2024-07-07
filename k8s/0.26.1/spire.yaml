@@ -769,8 +769,8 @@ spec:
       priorityClassName: system-node-critical
       initContainers:
         - name: ensure-alternate-names
-          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
-          imagePullPolicy: Always
+          image:  "cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d"
+          imagePullPolicy: IfNotPresent
           command: ["bash", "-xc"]
           args:
             - |
@@ -792,8 +792,8 @@ spec:
             runAsUser: 0
             runAsGroup: 0
         - name: fsgroupfix
-          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
-          imagePullPolicy: Always
+          image: "cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d"
+          imagePullPolicy: IfNotPresent
           command: ["bash", "-c"]
           args:
             - "chown -R 1000:1000 /run/spire/agent-sockets /tmp/spire-agent/private"
@@ -809,7 +809,7 @@ spec:
             runAsGroup: 0
       containers:
         - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.9.6
+          image: "ghcr.io/spiffe/spire-agent:1.9.6"
           imagePullPolicy: IfNotPresent
           args: ["-config", "/opt/spire/conf/agent/agent.conf"]
           securityContext:
@@ -912,7 +912,7 @@ spec:
       containers:
         # This is the container which runs the SPIFFE CSI driver.
         - name: spiffe-csi-driver
-          image: ghcr.io/spiffe/spiffe-csi-driver:0.2.3
+          image: "ghcr.io/spiffe/spiffe-csi-driver:0.2.6"
           imagePullPolicy: IfNotPresent
           args: [
             "-workload-api-socket-dir", "/spire-agent-socket",
@@ -952,7 +952,7 @@ spec:
         # of all the little details required to register a CSI driver with
         # the kubelet.
         - name: node-driver-registrar
-          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.4
+          image: "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.10.0"
           imagePullPolicy: IfNotPresent
           args: [
             "-csi-address", "/spiffe-csi/csi.sock",
@@ -1068,7 +1068,7 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-server:1.9.6
+          image: "ghcr.io/spiffe/spire-server:1.9.6"
           imagePullPolicy: IfNotPresent
           args:
             - -expandEnv
@@ -1126,7 +1126,7 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
+          image: "ghcr.io/spiffe/spire-controller-manager:0.5.0"
           imagePullPolicy: IfNotPresent
           args:
             - --config=controller-manager-config.yaml
@@ -1615,7 +1615,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: docker.io/rancher/kubectl:v1.28.0
+          image: "docker.io/rancher/kubectl:v1.28.0"
+          imagePullPolicy: IfNotPresent
           args:
             - patch
             - validatingwebhookconfiguration
@@ -1685,7 +1686,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: docker.io/rancher/kubectl:v1.28.0
+          image: "docker.io/rancher/kubectl:v1.28.0"
+          imagePullPolicy: IfNotPresent
           args:
             - patch
             - validatingwebhookconfiguration
@@ -1755,7 +1757,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: docker.io/rancher/kubectl:v1.28.0
+          image: "docker.io/rancher/kubectl:v1.28.0"
+          imagePullPolicy: IfNotPresent
           args:
             - patch
             - validatingwebhookconfiguration

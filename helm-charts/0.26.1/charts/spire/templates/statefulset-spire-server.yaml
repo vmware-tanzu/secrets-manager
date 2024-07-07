@@ -69,8 +69,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-server:1.9.6
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
           args:
             - -expandEnv
             - -config
@@ -130,8 +130,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: ghcr.io/spiffe/spire-controller-manager:0.5.0
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
           args:
             - --config=controller-manager-config.yaml
           env:

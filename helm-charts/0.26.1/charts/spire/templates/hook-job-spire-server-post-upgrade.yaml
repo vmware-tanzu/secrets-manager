@@ -50,7 +50,8 @@ spec:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          image: docker.io/rancher/kubectl:v1.28.0
+          image: "{{ .Values.global.images.spireHelperKubectl}}:{{ .Values.global.images.spireHelperKubectl.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperKubectl.pullPolicy }}
           args:
             - patch
             - validatingwebhookconfiguration

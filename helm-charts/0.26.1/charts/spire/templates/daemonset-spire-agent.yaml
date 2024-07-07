@@ -58,8 +58,8 @@ spec:
       priorityClassName: system-node-critical
       initContainers:
         - name: ensure-alternate-names
-          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
-          imagePullPolicy: Always
+          image:  "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
           command: ["bash", "-xc"]
           args:
             - |
@@ -81,8 +81,8 @@ spec:
             runAsUser: 0
             runAsGroup: 0
         - name: fsgroupfix
-          image: cgr.dev/chainguard/bash:latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
-          imagePullPolicy: Always
+          image: "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
           command: ["bash", "-c"]
           args:
             - "chown -R 1000:1000 {{ .Values.spireAgent.hostSocketDir }} {{ .Values.spireAgent.internalAdminSocketDir }}"
@@ -98,8 +98,8 @@ spec:
             runAsGroup: 0
       containers:
         - name: spire-agent
-          image: ghcr.io/spiffe/spire-agent:1.9.6
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.global.images.spireAgent.repository }}:{{ .Values.global.images.spireAgent.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireAgent.pullPolicy }}
           args: ["-config", "/opt/spire/conf/agent/agent.conf"]
           securityContext:
             {}
