@@ -4,6 +4,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: keycloak
 spec:
+  className: "vsecm"
   spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/keycloak\
     /ns/{{ .PodMeta.Namespace }}\

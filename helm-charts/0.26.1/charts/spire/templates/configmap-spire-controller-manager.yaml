@@ -67,7 +67,7 @@ data:
       - ibm-odf-validation-webhook
       - ibm-system
     spireServerSocketPath: "{{ .Values.spireServer.privateSocketDir }}/api.sock"
-    className: "spire-server-spire"
+    className: {{ .Values.global.spire.controllerManagerClassName | quote }}
     watchClassless: false
     parentIDTemplate: "spiffe://{{"{{"}} .TrustDomain {{"}}"}}/spire/agent/k8s_psat/{{"{{"}} .ClusterName {{"}}"}}/{{"{{"}} .NodeMeta.UID {{"}}"}}"
     reconcile:

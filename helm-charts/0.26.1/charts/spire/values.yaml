@@ -67,6 +67,7 @@ spireServer:
   # SPIRE Server’s ConfigMap and StatefulSet should agree on this directory.
   privateSocketDir: "/tmp/spire-server/private"
 
+  # -- The configuration directory for the SPIRE Server.
   configDir: "/run/spire/config"
 
   # -- Service details for the SPIRE Server.

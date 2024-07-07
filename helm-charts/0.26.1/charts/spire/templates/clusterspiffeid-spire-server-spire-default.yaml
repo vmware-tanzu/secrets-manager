@@ -13,7 +13,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: spire-server-spire-default
 spec:
-  className: "spire-server-spire"
+  className: {{ .Values.global.spire.controllerManagerClassName | quote }}
   spiffeIDTemplate: "spiffe://{{"{{"}} .TrustDomain {{"}}"}}/ns/{{"{{"}} .PodMeta.Namespace {{"}}"}}/sa/{{"{{"}} .PodSpec.ServiceAccountName {{"}}"}}"
   namespaceSelector:
     matchExpressions:

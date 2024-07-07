@@ -17,7 +17,7 @@ metadata:
   labels:
     {{- include "safe.labels" . | nindent 4 }}
 spec:
-  className: "spire-server-spire"
+  className: {{ .Values.global.spire.controllerManagerClassName | quote }}
   spiffeIDTemplate: {{ .Values.global.vsecm.safeSpiffeIdTemplate }}
   podSelector:
     matchLabels:

@@ -912,7 +912,7 @@ metadata:
     app.kubernetes.io/version: "0.26.1"
     app.kubernetes.io/managed-by: Helm
 spec:
-  className: "spire-server-spire"
+  className: "vsecm"
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:
@@ -945,7 +945,7 @@ metadata:
     app.kubernetes.io/version: "0.26.1"
     app.kubernetes.io/managed-by: Helm
 spec:
-  className: "spire-server-spire"
+  className: "vsecm"
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:
@@ -978,7 +978,7 @@ metadata:
     app.kubernetes.io/version: "0.26.1"
     app.kubernetes.io/managed-by: Helm
 spec:
-  className: "spire-server-spire"
+  className: "vsecm"
   spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
   podSelector:
     matchLabels:

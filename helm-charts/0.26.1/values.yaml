@@ -133,6 +133,11 @@ global:
 
   # -- SPIRE-related global configuration.
   spire:
+
+    # -- This is the className that ClusterSPIFFEIDs will use to
+    # be able to register their SPIFFE IDs with the SPIRE Server.
+    controllerManagerClassName: "vsecm"
+
     # -- Enable federation. If set to true, SPIRE Server will be configured
     # to federate with other SPIRE Servers. This is useful when you have
     # multiple clusters, and you want to establish trust between them.

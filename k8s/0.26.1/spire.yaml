@@ -233,7 +233,7 @@ data:
       - ibm-odf-validation-webhook
       - ibm-system
     spireServerSocketPath: "/tmp/spire-server/private/api.sock"
-    className: "spire-server-spire"
+    className: "vsecm"
     watchClassless: false
     parentIDTemplate: "spiffe://{{ .TrustDomain }}/spire/agent/k8s_psat/{{ .ClusterName }}/{{ .NodeMeta.UID }}"
     reconcile:
@@ -1203,7 +1203,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: spire-server-spire-default
 spec:
-  className: "spire-server-spire"
+  className: "vsecm"
   spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
   namespaceSelector:
     matchExpressions:
@@ -1230,7 +1230,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: spire-server-spire-test-keys
 spec:
-  className: "spire-server-spire"
+  className: "vsecm"
   spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
   podSelector:
     matchLabels:
