@@ -129,6 +129,8 @@ func IsWorkload(spiffeid string) bool {
 	}
 
 	fmt.Println("XXXXXXXXXXX exit 2222222")
+	fmt.Println("XXXXXXXXXXX spiffeid: '" + spiffeid + "'")
+	fmt.Println("XXXXXXXXXXX prefix: '" + prefix + "'")
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
