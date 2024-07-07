@@ -40,6 +40,11 @@ spec:
         app.kubernetes.io/instance: spire
         app.kubernetes.io/component: default
     spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+
       hostPID: true
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet

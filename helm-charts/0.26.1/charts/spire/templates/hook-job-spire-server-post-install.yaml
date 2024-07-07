@@ -27,6 +27,11 @@ spec:
     metadata:
       name: spire-server-post-install
     spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+
       restartPolicy: Never
       serviceAccountName: spire-server-post-install
       securityContext:

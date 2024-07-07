@@ -755,6 +755,7 @@ spec:
         app.kubernetes.io/instance: spire
         app.kubernetes.io/component: default
     spec:
+
       hostPID: true
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
@@ -1046,6 +1047,7 @@ spec:
         release: spire
         release-namespace: spire-server
     spec:
+
       serviceAccountName: spire-server
       shareProcessNamespace: true
       securityContext:
@@ -1582,6 +1584,7 @@ spec:
     metadata:
       name: spire-server-post-install
     spec:
+
       restartPolicy: Never
       serviceAccountName: spire-server-post-install
       securityContext:
@@ -1651,6 +1654,7 @@ spec:
     metadata:
       name: spire-server-post-upgrade
     spec:
+
       restartPolicy: Never
       serviceAccountName: spire-server-post-upgrade
       securityContext:
@@ -1720,6 +1724,7 @@ spec:
     metadata:
       name: spire-server-pre-upgrade
     spec:
+
       restartPolicy: Never
       serviceAccountName: spire-server-pre-upgrade
       securityContext:
