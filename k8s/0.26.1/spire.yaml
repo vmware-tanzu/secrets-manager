@@ -1217,6 +1217,7 @@ spec:
           - spire-server
           - spire-system
           - vsecm-system
+          - default
 ---
 # Source: vsecm/charts/spire/templates/clusterspiffeid-spire-server-spire-test-keys.yaml
 # /*

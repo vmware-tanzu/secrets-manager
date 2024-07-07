@@ -23,3 +23,4 @@ spec:
           - spire-server
           - spire-system
           - vsecm-system
+          - default
