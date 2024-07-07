@@ -88,7 +88,8 @@ func Fetch() (reqres.SecretFetchResponse, error) {
 
 	// Make sure that we are calling Safe from a workload that VSecM knows about.
 	if !validation.IsWorkload(svid.ID.String()) {
-		return reqres.SecretFetchResponse{}, errors.New("fetch: untrusted workload")
+		return reqres.SecretFetchResponse{},
+			errors.New("fetch: untrusted workload: '" + svid.ID.String() + "'")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
