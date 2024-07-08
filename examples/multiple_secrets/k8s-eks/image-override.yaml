@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: public.ecr.aws/h8y1n7y7/example-multiple-secrets:0.26.1
+        image: public.ecr.aws/h8y1n7y7/example-multiple-secrets:0.26.2
         env:
           - name: VSECM_LOG_LEVEL
             value: "7"

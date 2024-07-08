@@ -51,24 +51,24 @@ global:
     keystone:
       distrolessRepository: vsecm-ist-keystone
       distrolessFipsRepository: vsecm-ist-fips-keystone
-      tag: 0.26.1
+      tag: 0.26.2
       pullPolicy: IfNotPresent
     # - Container registry details for VSecM Safe.
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe
-      tag: 0.26.1
+      tag: 0.26.2
       pullPolicy: IfNotPresent
     # - Container registry details for VSecM Sentinel.    
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
-      tag: 0.26.1
+      tag: 0.26.2
       pullPolicy: IfNotPresent
     # - Container registry details of VSecM Init Container.
     initContainer:
       repository: vsecm-ist-init-container
-      tag: 0.26.1
+      tag: 0.26.2
 
     # -- Container registry details of SPIRE Agent.
     spireAgent:

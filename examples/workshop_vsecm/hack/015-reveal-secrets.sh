@@ -10,7 +10,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-VERSION="0.26.1"
+VERSION="0.26.2"
 
 eval "$(minikube docker-env -u)"
 

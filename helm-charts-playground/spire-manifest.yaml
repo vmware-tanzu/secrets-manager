@@ -1713,7 +1713,7 @@ spec:
         - name: data-volume
           mountPath: /data
     - name: install-step
-      image: docker.io/smallstep/step-cli:0.26.1
+      image: docker.io/smallstep/step-cli:0.26.2
       workingDir: /data
       command:
         - sh

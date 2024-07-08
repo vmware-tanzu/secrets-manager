@@ -32,11 +32,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.26.1
+    helm.sh/chart: keystone-0.26.2
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
@@ -314,11 +314,11 @@ metadata:
   name: vsecm-keystone
   namespace: vsecm-system
   labels:
-    helm.sh/chart: keystone-0.26.1
+    helm.sh/chart: keystone-0.26.2
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -342,7 +342,7 @@ spec:
 
       initContainers:
         - name: init-container
-          image: "vsecm/vsecm-ist-init-container:0.26.1"
+          image: "vsecm/vsecm-ist-init-container:0.26.2"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /spire-agent-socket
@@ -415,7 +415,7 @@ spec:
               value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-keystone:0.26.1"
+          image: "vsecm/vsecm-ist-fips-keystone:0.26.2"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -491,7 +491,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-sentinel:0.26.1"
+          image: "vsecm/vsecm-ist-fips-sentinel:0.26.2"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -685,7 +685,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-fips-safe:0.26.1"
+          image: "vsecm/vsecm-ist-fips-safe:0.26.2"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
@@ -905,11 +905,11 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-keystone
   labels:
-    helm.sh/chart: keystone-0.26.1
+    helm.sh/chart: keystone-0.26.2
     app.kubernetes.io/name: vsecm-keystone
     app.kubernetes.io/instance: vsecm
     app.kubernetes.io/part-of: vsecm-system
-    app.kubernetes.io/version: "0.26.1"
+    app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   className: "vsecm"
