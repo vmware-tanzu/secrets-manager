@@ -17,7 +17,7 @@ weight = 11
 
 TBD
 
-## [0.26.2] - 2024-07-07
+## [0.26.1] - 2024-07-07
 
 ### Added
 
@@ -68,7 +68,7 @@ TBD
 
 * Several minor bugfixes and regressions.
 
-## [0.26.1] - 2024-06-28
+## [0.26.0] - 2024-06-28
 
 ### Added
 
