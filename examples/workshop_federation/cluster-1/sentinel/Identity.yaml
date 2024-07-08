@@ -13,6 +13,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-sentinel
 spec:
+  className: "vsecm"
   federatesWith: ["cluster2.demo"]
   spiffeIDTemplate: "spiffe://cluster1.demo\
     /workload/vsecm-sentinel\

@@ -13,6 +13,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: example
 spec:
+  className: "vsecm"
   # SPIFFE ID `MUST` start with "spiffe://vsecm.com/workload/$workloadName/ns/"
   # for `vsecm-safe` to recognize the workload and dispatch secrets to it.
   spiffeIDTemplate: "spiffe://vsecm.com\

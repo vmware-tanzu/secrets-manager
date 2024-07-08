@@ -84,7 +84,7 @@ data:
         "spire-spiffe-oidc-discovery-provider",
         "spire-spiffe-oidc-discovery-provider.spire-server",
         "spire-spiffe-oidc-discovery-provider.spire-server.svc.cluster.local",
-        "oidc-discovery.aegis.ist"
+        "oidc-discovery.vsecm.com"
       ],
       "health_checks": {
         "bind_port": "8008",
@@ -99,7 +99,7 @@ data:
       },
       "workload_api": {
         "socket_path": "/spiffe-workload-api/spire-agent.sock",
-        "trust_domain": "aegis.ist"
+        "trust_domain": "vsecm.com"
       }
     }
   spiffe-helper.conf: |
@@ -126,7 +126,7 @@ data:
         "server_port": "443",
         "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
         "trust_bundle_path": "/run/spire/bundle/bundle.crt",
-        "trust_domain": "aegis.ist"
+        "trust_domain": "vsecm.com"
       },
       "health_checks": {
         "bind_address": "0.0.0.0",
@@ -265,7 +265,7 @@ data:
               "US"
             ],
             "organization": [
-              "aegis.ist"
+              "vsecm.com"
             ]
           }
         ],
@@ -273,9 +273,9 @@ data:
         "data_dir": "/run/spire/data",
         "default_jwt_svid_ttl": "1h",
         "default_x509_svid_ttl": "4h",
-        "jwt_issuer": "https://oidc-discovery.aegis.ist",
+        "jwt_issuer": "https://oidc-discovery.vsecm.com",
         "log_level": "info",
-        "trust_domain": "aegis.ist"
+        "trust_domain": "vsecm.com"
       },
       "telemetry": [
         {
@@ -320,7 +320,7 @@ data:
     validatingWebhookConfigurationName: spire-server-spire-controller-manager-webhook
     entryIDPrefix: vsecm-cluster
     clusterName: vsecm-cluster
-    trustDomain: aegis.ist
+    trustDomain: vsecm.com
     ignoreNamespaces:
       - kube-system
       - kube-public
@@ -427,12 +427,18 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-server-spire-server
 rules:
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs:
+      - get
+      - watch
+      - list
+      - create
   - apiGroups: [""]
-    resources: ["nodes"]
-    verbs: ["get"]
-  - apiGroups: ["authentication.k8s.io"]
-    resources: ["tokenreviews"]
-    verbs: ["get", "create"]
+    resources: [nodes, pods]
+    verbs:
+      - get
+      - list
 ---
 # Source: spire/charts/spire-agent/templates/roles.yaml
 # Binds above cluster role to spire-agent service account
@@ -460,9 +466,9 @@ roleRef:
   name: spire-server-spire-controller-manager
 
 subjects:
-  - kind: ServiceAccount
-    name: spire-server
-    namespace: spire-server
+- kind: ServiceAccount
+  name: spire-server
+  namespace: spire-server
 ---
 # Source: spire/charts/spire-server/templates/roles.yaml
 # Binds above cluster role to spire-server service account
@@ -472,9 +478,9 @@ metadata:
   name: spire-server-spire-server
 
 subjects:
-  - kind: ServiceAccount
-    name: spire-server
-    namespace: spire-server
+- kind: ServiceAccount
+  name: spire-server
+  namespace: spire-server
 roleRef:
   kind: ClusterRole
   name: spire-server-spire-server
@@ -524,9 +530,9 @@ roleRef:
   name: spire-controller-manager-leader-election
 
 subjects:
-  - kind: ServiceAccount
-    name: spire-server
-    namespace: spire-server
+- kind: ServiceAccount
+  name: spire-server
+  namespace: spire-server
 ---
 # Source: spire/charts/spire-server/templates/roles.yaml
 kind: RoleBinding
@@ -536,9 +542,9 @@ metadata:
   namespace: spire-system
 
 subjects:
-  - kind: ServiceAccount
-    name: spire-server
-    namespace: spire-server
+- kind: ServiceAccount
+  name: spire-server
+  namespace: spire-server
 roleRef:
   kind: Role
   name: spire-bundle
@@ -746,7 +752,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: agent
       app.kubernetes.io/instance: spire
-      app.kubernetes.io/component: spire-default
+      app.kubernetes.io/component: default
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:

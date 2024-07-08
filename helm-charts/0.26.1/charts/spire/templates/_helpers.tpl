@@ -59,14 +59,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "spire.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "spire.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "spire.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}

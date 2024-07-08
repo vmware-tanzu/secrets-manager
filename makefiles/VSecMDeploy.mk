@@ -37,7 +37,12 @@ k8s-start:
 deploy-spire-crds:
 	kubectl apply -f ${MANIFESTS_BASE_PATH}/crds
 
-deploy-spire:
+create-namespaces:
+	kubectl create namespace $(VSECM_NAMESPACE_SYSTEM) --save-config || true
+	kubectl create namespace $(VSECM_NAMESPACE_SPIRE)  --save-config || true
+	kubectl create namespace $(VSECM_NAMESPACE_SPIRE_SERVER) --save-config || true
+
+deploy-spire: create-namespaces
 	@if [ "${DEPLOY_SPIRE}" = "true" ]; then \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/crds; \
 		kubectl apply -f ${MANIFESTS_BASE_PATH}/spire.yaml; \

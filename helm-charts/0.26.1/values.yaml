@@ -9,6 +9,10 @@
 # */
 
 global:
+  # -- Set it to true for OpenShift deployments. This will add necessary
+  # annotations to the SPIRE components to make them work on OpenShift.
+  enableOpenShit: false
+
   # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
   # deployed. This is useful when SPIRE is already deployed in the cluster.
   deploySpire: true
@@ -69,7 +73,7 @@ global:
     # -- Container registry details of SPIRE Agent.
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
-      tag: 1.9.4
+      tag: 1.9.6
       pullPolicy: IfNotPresent
     # -- Container registry details of SPIFFE CSI Driver.
     spiffeCsiDriver:
@@ -84,12 +88,27 @@ global:
     # -- Container registry details of SPIRE Server.
     spireServer:
       repository: ghcr.io/spiffe/spire-server
-      tag: 1.9.4
+      tag: 1.9.6
       pullPolicy: IfNotPresent
     # -- Container registry details of SPIRE Controller Manager.
     spireControllerManager:
       repository: ghcr.io/spiffe/spire-controller-manager
       tag: 0.5.0
+      pullPolicy: IfNotPresent
+
+    spireHelperBash:
+      repository: cgr.dev/chainguard/bash
+      tag: latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      pullPolicy: IfNotPresent
+
+    spireHelperKubectl:
+      repository: docker.io/rancher/kubectl
+      tag: v1.28.0
+      pullPolicy: IfNotPresent
+
+    openShiftHelperUbi9:
+      repository: registry.access.redhat.com/ubi9
+      tag: latest
       pullPolicy: IfNotPresent
 
   # - VSecM-related global configuration.
@@ -133,6 +152,11 @@ global:
 
   # -- SPIRE-related global configuration.
   spire:
+
+    # -- This is the className that ClusterSPIFFEIDs will use to
+    # be able to register their SPIFFE IDs with the SPIRE Server.
+    controllerManagerClassName: "vsecm"
+
     # -- Enable federation. If set to true, SPIRE Server will be configured
     # to federate with other SPIRE Servers. This is useful when you have
     # multiple clusters, and you want to establish trust between them.

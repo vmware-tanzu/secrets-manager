@@ -17,6 +17,7 @@ metadata:
   labels:
     {{- include "sentinel.labels" . | nindent 4 }}
 spec:
+  className: {{ .Values.global.spire.controllerManagerClassName | quote }}
   spiffeIDTemplate: {{ .Values.global.vsecm.sentinelSpiffeIdTemplate }}
   podSelector:
     matchLabels:

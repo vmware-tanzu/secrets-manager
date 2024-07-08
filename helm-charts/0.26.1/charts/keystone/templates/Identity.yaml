@@ -17,6 +17,7 @@ metadata:
   labels:
     {{- include "keystone.labels" . | nindent 4 }}
 spec:
+  className: {{ .Values.global.spire.controllerManagerClassName | quote }}
   spiffeIDTemplate: {{ .Values.global.vsecm.keystoneSpiffeIdTemplate }}
   podSelector:
     matchLabels:
