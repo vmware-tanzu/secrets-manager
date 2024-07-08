@@ -28,7 +28,7 @@ spec:
       serviceAccountName: example
       containers:
       - name: main
-        image: vsecm/example-using-init-container:0.26.1
+        image: vsecm/example-using-init-container:0.26.2
         env:
         - name: SECRET
           valueFrom:
@@ -50,7 +50,7 @@ spec:
       # See `./register.sh` to register the workload and finalize
       # this init container.
       - name: init-container
-        image: vsecm/vsecm-ist-init-container:0.26.1
+        image: vsecm/vsecm-ist-init-container:0.26.2
         volumeMounts:
         # Volume mount for SPIRE unix domain socket.
         - name: spire-agent-socket
