@@ -17,6 +17,57 @@ weight = 11
 
 TBD
 
+## [0.26.2] - 2024-07-07
+
+### Added
+
+* VMware Secrets Manager Helm charts now have the ability to generate 
+  RedHat OpenShift compatible manifests. You’ll need to set `global.enableOpenshit`
+  to `true` to use this feature. It is `false` by default because it introduced
+  OpenShift-specific security rules that other clusters will not interpret
+  properly.
+* Introduced new images `spireHelperBash`, `spireHelperKubectl`, 
+  `openShiftHelperUbi9` to help and streamline SPIRE deployment and harden
+  its security by mutating webhook configurations and other security attributes
+  post-install. 
+* Increased unit tests coverage. Our first target is 50%, and we are aiming to
+  reach there one unit test at a time.
+* Documentation updates.
+
+### Changed
+
+* **BREAKING**: We have made significant updates in the VSecM SPIRE helm charts
+  to align them with the official upstream SPIFFE `helm-charts-hardened`
+  project. This means, VSecM users will need to add `className: "vsecm"` to
+  their workload SPIFFEID for the workloads to get their SVIDs.
+* **BREAKING**: The default SPIRE Agent socket is renamed to `spire-agent.sock`
+  instead of `agent.sock`. If you are using **VSecM SDK** or **VSecM Sidecar**
+  this change is transparent; however if you are manually consuming the SPIRE
+  Agent socket, you’d need to change your code to listen to the new socket.
+* SPIRE Server and SPIRE Agent configuration values in the ConfigMaps are now
+  in JSON form to align with `helm-charts-hardened`.
+* SPIRE Server Service is now serving from the standard TLS port 443.
+* Updated SPIRE-related dependencies to their recent stable versions.
+* Updates in the exponential backoff algorithm to make it more robust.
+* Certain environment variables changed, the changes have not reflected to the
+  documentation by the time of this release note. We will update the documentation
+  shortly. In the meantime, when in doubt, take source code as the authoritative
+  reference for variable naming. Helm charts will also contain the correct
+  environment variable names and default values.
+* Other refactorings in the codebase to improve performance. The changes do
+  not change the behavior or introduce any new behavior.
+
+### Security
+
+* SPIRE Server is now in its own namespace (*to benefit from the security of
+  namespace isolation*) and also has a `restricted` pod security audit with
+  a read-only file system and an unprivileged non-root account.
+* Other security enhancements especially focused around SPIRE.
+
+### Fixed
+
+* Several minor bugfixes and regressions.
+
 ## [0.26.1] - 2024-06-28
 
 ### Added
