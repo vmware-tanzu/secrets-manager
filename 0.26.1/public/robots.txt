@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://vsecm.com/v0.26.1/sitemap.xml
