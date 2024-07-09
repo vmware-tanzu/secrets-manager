@@ -8,7 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
 apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:

@@ -14,7 +14,7 @@ metadata:
   name: "csi.spiffe.io"
   annotations:
     "helm.sh/hook": pre-install
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
   labels:
     security.openshift.io/csi-ephemeral-volume-profile: restricted
 {{- end }}

@@ -50,7 +50,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: spire-agent
       securityContext:
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
         fsGroupChangePolicy: OnRootMismatch
 {{- else }}
         fsGroup: 1000
@@ -83,7 +83,7 @@ spec:
           securityContext:
             runAsUser: 0
             runAsGroup: 0
-{{- if not .Values.global.enableOpenShit }}
+{{- if not .Values.global.enableOpenShift }}
         - name: fsgroupfix
           image: "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
           imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
@@ -111,7 +111,7 @@ spec:
           env:
             - name: PATH
               value: "/opt/spire/bin:/bin"
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
             - name: MY_NODE_NAME
               valueFrom:
                 fieldRef:

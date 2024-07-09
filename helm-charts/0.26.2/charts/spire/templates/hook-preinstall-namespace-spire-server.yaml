@@ -16,7 +16,7 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
     security.openshift.io/scc.podSecurityLabelSync: "false"
 {{- end }}
   annotations:
