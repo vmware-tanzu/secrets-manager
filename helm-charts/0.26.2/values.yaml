@@ -16,16 +16,6 @@ global:
   # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
   # deployed. This is useful when SPIRE is already deployed in the cluster.
   deploySpire: true
-  # -- Deploy SPIRE Controller Manager. SPIRE Controller Manager is required
-  # for ClusterSPIFFEIDs to function. If something else on your system assigns
-  # ClusterSPIFFEIDs to your workloads, or if you want to manually manage your
-  # SPIRE Server registration entries, you can set this flag to `false`.
-  deploySpireControllerManager: true
-  # -- Setting this `false` will skip ClusterSPIFFEID creation for VSecM 
-  # components. All ClusterSPIFFEID templates will merely be ignored during
-  # helm installation. Keeping this `true`, while `deploySpireControllerManager`
-  # is `false` will cause the helm installation to fail.
-  useClusterSpiffeIds: true
 
   # -- Deploy the Keystone VSecM component. VSecM Keystone is a lightweight
   # Pod that is initialized only after VSecM Sentinel completes it

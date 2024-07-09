@@ -38,8 +38,6 @@
 
 global:
   deploySpire: true
-  deploySpireControllerManager: true
-  useClusterSpiffeIds: true
   deployKeystone: true
   deploySentinel: true
   baseImage: distroless
