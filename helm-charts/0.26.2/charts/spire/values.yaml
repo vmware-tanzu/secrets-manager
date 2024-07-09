@@ -40,6 +40,20 @@ experimental:
   # performance. It is set to `false` by default, just in case.
   eventsBasedCache: false
 
+# -- SPIRE assigns a default Cluster SPIFFE ID to all workloads in the
+# cluster. The SPIFFEID SPIRE assigns by default is not aligned with the
+# SPIFFE ID format that VSecM Safe expects. Also, you might not want
+# SPIRE to assign SPIFFE IDs to every single workload you have in your
+# cluster if you are not using SPIRE to attest those workloads. Therefore,
+# this option is set to false by default.
+#
+# If you set this to true, make sure you update `safeSpiffeIdTemplate`
+# `sentinelSpiffeIdTemplate`, `keystoneSpiffeIdTemplate`,
+# `workloadNameRegExp`, `workloadSpiffeIdPrefix`, `safeSpiffeIdPrefix`,
+# `sentinelSpiffeIdPrefix` and other relevant configurations to match
+# with what SPIRE assigns.
+enableSpireMintedDefaultClusterSpiffeIds: false
+
 # -- SPIRE Agent settings.
 spireAgent:
   # -- The corresponding SPIRE Agent socket directory on the host.
