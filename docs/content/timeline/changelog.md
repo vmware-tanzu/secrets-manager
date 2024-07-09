@@ -15,7 +15,13 @@ weight = 11
 
 ## Recent Updates
 
-TBD
+* Removed `useClusterSpiffeIds` and `useSpireControllerManager` from helm charts
+  options. SPIRE helm charts use SPIRE Controller Manager, and disabling it
+  is nontrivial. Also, ClusterSPIFFEIDs are the best way to manage SPIFFEIDs
+  in a Kubernetes cluster. — If we find a use case where these options are
+  necessary, or if there is a need from the community, we can modify the
+  code to let SPIRE install without SPIRE Controller Manager and bring those
+  flags back.
 
 ## [0.26.1] - 2024-07-07
 
