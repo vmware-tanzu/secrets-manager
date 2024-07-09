@@ -11,7 +11,7 @@
 global:
   # -- Set it to true for OpenShift deployments. This will add necessary
   # annotations to the SPIRE components to make them work on OpenShift.
-  enableOpenShit: false
+  enableOpenShift: false
 
   # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
   # deployed. This is useful when SPIRE is already deployed in the cluster.

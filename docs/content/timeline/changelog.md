@@ -22,7 +22,7 @@ TBD
 ### Added
 
 * VMware Secrets Manager Helm charts now have the ability to generate 
-  RedHat OpenShift compatible manifests. You’ll need to set `global.enableOpenshit`
+  RedHat OpenShift compatible manifests. You’ll need to set `global.enableOpenShift`
   to `true` to use this feature. It is `false` by default because it introduced
   OpenShift-specific security rules that other clusters will not interpret
   properly.

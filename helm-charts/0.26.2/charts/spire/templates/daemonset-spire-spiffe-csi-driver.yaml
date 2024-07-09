@@ -37,7 +37,7 @@ spec:
       serviceAccountName: spire-spiffe-csi-driver
 
       priorityClassName: system-node-critical
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
       initContainers:
         - name: set-context
           command:

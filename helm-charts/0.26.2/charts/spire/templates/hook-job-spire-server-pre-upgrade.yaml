@@ -35,7 +35,7 @@ spec:
       restartPolicy: Never
       serviceAccountName: spire-server-pre-upgrade
       securityContext:
-{{- if .Values.global.enableOpenShit }}
+{{- if .Values.global.enableOpenShift }}
         fsGroupChangePolicy: OnRootMismatch
 {{- else }}
         fsGroup: 1000
