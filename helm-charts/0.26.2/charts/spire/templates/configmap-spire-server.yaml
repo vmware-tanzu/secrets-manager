@@ -12,7 +12,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-server
-  namespace: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
 data:
   server.conf: |
     {

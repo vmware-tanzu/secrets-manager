@@ -12,7 +12,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: spire-controller-manager
-  namespace: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
 data:
   controller-manager-config.yaml: |
     
@@ -20,7 +20,7 @@ data:
     kind: ControllerManagerConfig
     metadata:
       name: spire-controller-manager
-      namespace: spire-server
+      namespace: {{ .Values.global.spire.serverNamespace }}
       labels:
         helm.sh/chart: {{ include "spire.chart" . }}
         app.kubernetes.io/name: server
@@ -34,7 +34,7 @@ data:
     leaderElection:
       leaderElect: true
       resourceName: 6f304bd2.spiffe.io
-      resourceNamespace: spire-server
+      resourceNamespace: {{ .Values.global.spire.serverNamespace }}
     validatingWebhookConfigurationName: spire-server-spire-controller-manager-webhook
     entryIDPrefix: vsecm-cluster
     clusterName: vsecm-cluster

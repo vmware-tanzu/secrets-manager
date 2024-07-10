@@ -12,7 +12,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: spire-spiffe-csi-driver
-  namespace: spire-system
+  namespace: {{ .Values.global.spire.namespace }}
   labels:
     hhelm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: spiffe-csi-driver
