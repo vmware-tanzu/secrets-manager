@@ -19,7 +19,7 @@ spec:
     matchLabels:
       component: test-keys
       release: spire
-      release-namespace: spire-server
+      release-namespace: {{ .Values.global.spire.serverNamespace }}
   namespaceSelector:
     matchExpressions:
       - key: kubernetes.io/metadata.name

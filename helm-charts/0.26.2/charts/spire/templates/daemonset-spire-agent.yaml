@@ -12,7 +12,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: spire-agent
-  namespace: spire-system
+  namespace: {{ .Values.global.spire.namespace }}
   labels:
     helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: agent

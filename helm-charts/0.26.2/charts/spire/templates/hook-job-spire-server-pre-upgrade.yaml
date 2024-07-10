@@ -12,7 +12,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: spire-server-pre-upgrade
-  namespace: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
   labels:
     helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: server

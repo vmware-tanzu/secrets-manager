@@ -17,7 +17,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook
-        namespace: spire-server
+        namespace: {{ .Values.global.spire.serverNamespace }}
         path: /validate-spire-spiffe-io-v1alpha1-clusterfederatedtrustdomain
     failurePolicy: Ignore # Actual value to be set by post install/upgrade hooks
     name: vclusterfederatedtrustdomain.kb.io
@@ -31,7 +31,7 @@ webhooks:
     clientConfig:
       service:
         name: spire-controller-manager-webhook
-        namespace: spire-server
+        namespace: {{ .Values.global.spire.serverNamespace }}
         path: /validate-spire-spiffe-io-v1alpha1-clusterspiffeid
     failurePolicy: Ignore # Actual value to be set by post install/upgrade hooks
     name: vclusterspiffeid.kb.io

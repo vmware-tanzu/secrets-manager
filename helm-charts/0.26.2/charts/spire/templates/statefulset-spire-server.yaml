@@ -12,7 +12,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: spire-server
-  namespace: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
   labels:
     helm.sh/chart: {{ include "spire.chart" . }}
     app.kubernetes.io/name: server
@@ -42,7 +42,7 @@ spec:
         app.kubernetes.io/component: server
         component: server
         release: spire
-        release-namespace: spire-server
+        release-namespace: {{ .Values.global.spire.serverNamespace }}
     spec:
 {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

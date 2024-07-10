@@ -13,7 +13,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: spire-bundle
-  namespace: spire-system
+  namespace: {{ .Values.global.spire.namespace }}
 rules:
   - apiGroups: [""]
     resources: [configmaps]
