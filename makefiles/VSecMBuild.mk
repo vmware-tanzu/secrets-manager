@@ -22,9 +22,9 @@ bundle-all: \
 	keystone-bundle-ist-fips \
 	safe-bundle-ist \
 	safe-bundle-ist-fips \
+	sidecar-bundle-ist \
 	sidecar-bundle-ist-fips \
 	sentinel-bundle-ist \
-	sidecar-bundle-ist \
 	sentinel-bundle-ist-fips \
 	init-container-bundle-ist \
 	init-container-bundle-ist-fips
