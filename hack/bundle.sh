@@ -47,7 +47,7 @@ protoc --proto_path=. \
 cd "$gitRoot" || exit 1
 
 # Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
-go mod vendor
+# go mod vendor
 
 docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
 
