@@ -49,7 +49,7 @@ push-all: \
 
 # Builds everything and pushes to public DockerHub registries.
 build:
-	go mod vendor
+	./hack/generate-proto-files.sh
 	@$(MAKE) -j$(CPU) bundle-all
 	@$(MAKE) -j$(CPU) push-all
 
@@ -118,7 +118,7 @@ push-all-local: \
 
 # Builds everything and pushes to the local registry.
 build-local:
-	go mod vendor
+	./hack/generate-proto-files.sh
 	@$(MAKE) -j$(CPU) bundle-all
 	@$(MAKE) -j$(CPU) push-all-local
 

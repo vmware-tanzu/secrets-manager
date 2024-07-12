@@ -22,26 +22,26 @@ then
     exit 1
 fi
 
-# Install or update the Google protocol buffers compiler plugin for Go.
-go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-
-# Change directory to the logger package within the Sentinel application.
-cd "$(dirname "$0")/../core/log/rpc/" || exit
-
-# Set the environment variable GO_PATH to the Go workspace directory.
-export GO_PATH=~/go
-
-# Add the Go bin directory to the system PATH.
-export PATH=$PATH:/$GO_PATH/bin
-
-# Compile the log.proto file into Go source code using protocol buffers.
-# Generate both standard Go code and gRPC service code.
-protoc --proto_path=. \
-       --go_out=./generated \
-       --go-grpc_out=./generated \
-       --go_opt=paths=source_relative \
-       --go-grpc_opt=paths=source_relative \
-       log.proto
+## Install or update the Google protocol buffers compiler plugin for Go.
+#go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+#
+## Change directory to the logger package within the Sentinel application.
+#cd "$(dirname "$0")/../core/log/rpc/" || exit
+#
+## Set the environment variable GO_PATH to the Go workspace directory.
+#export GO_PATH=~/go
+#
+## Add the Go bin directory to the system PATH.
+#export PATH=$PATH:/$GO_PATH/bin
+#
+## Compile the log.proto file into Go source code using protocol buffers.
+## Generate both standard Go code and gRPC service code.
+#protoc --proto_path=. \
+#       --go_out=./generated \
+#       --go-grpc_out=./generated \
+#       --go_opt=paths=source_relative \
+#       --go-grpc_opt=paths=source_relative \
+#       log.proto
 
 # Change directory to the root of the git repository.
 cd "$gitRoot" || exit 1
@@ -51,4 +51,4 @@ cd "$gitRoot" || exit 1
 
 docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
 
-sleep 10
+# sleep 10
