@@ -11,40 +11,46 @@
 serve-docs:
 	./hack/serve-docs.sh
 
-# Builds everything and pushes to public DockerHub registries.
-build: \
+bundle-all:
 	inspector-bundle \
-	inspector-push \
 	keygen-bundle \
-	keygen-push \
-	example-sidecar-bundle \
-	example-sidecar-push \
 	example-sdk-bundle \
-	example-sdk-push \
+	example-sidecar-bundle \
 	example-multiple-secrets-bundle \
-	example-multiple-secrets-push \
 	example-init-container-bundle \
-	example-init-container-push \
 	keystone-bundle-ist \
-	keystone-push-ist \
 	keystone-bundle-ist-fips \
-	keystone-push-ist-fips \
 	safe-bundle-ist \
-	safe-push-ist \
 	safe-bundle-ist-fips \
-	safe-push-ist-fips \
-	sidecar-bundle-ist \
-	sidecar-push-ist \
 	sidecar-bundle-ist-fips \
-	sidecar-push-ist-fips \
 	sentinel-bundle-ist \
-	sentinel-push-ist \
+	sidecar-bundle-ist \
 	sentinel-bundle-ist-fips \
-	sentinel-push-ist-fips \
 	init-container-bundle-ist \
+	init-container-bundle-ist-fips
+
+push-all:
+	inspector-push \
+	keygen-push \
+	example-sidecar-push \
+	example-sdk-push \
+	example-multiple-secrets-push \
+	example-init-container-push \
+	keystone-push-ist \
+	keystone-push-ist-fips \
+	safe-push-ist \
+	safe-push-ist-fips \
+	sidecar-push-ist \
+	sidecar-push-ist-fips \
+	sentinel-push-ist \
+	sentinel-push-ist-fips \
 	init-container-push-ist \
-	init-container-bundle-ist-fips \
 	init-container-push-ist-fips
+
+# Builds everything and pushes to public DockerHub registries.
+build:
+	@$(MAKE) -j$(CPU) bundle-all
+	@$(MAKE) -j$(CPU) push-all
 
 # Login to the public EKS registry.
 login-eks:
@@ -60,7 +66,7 @@ login-eks:
 		docker login --username AWS --password-stdin public.ecr.aws/h8y1n7y7
 
 # Builds everything and pushes to the public EKS registry.
-build-eks: \
+build-eks:
 	login-eks \
 	inspector-bundle \
 	inspector-push-eks \
@@ -95,33 +101,26 @@ build-eks: \
 	init-container-bundle-ist-fips \
 	init-container-push-ist-fips-eks
 
-
-# Builds everything and pushes to the local registry.
-build-local: \
-	inspector-bundle \
+push-all-local:
 	inspector-push-local \
-	keygen-bundle \
 	keygen-push-local \
-	example-sidecar-bundle \
 	example-sidecar-push-local \
-	example-sdk-bundle \
 	example-sdk-push-local \
-	example-multiple-secrets-bundle \
 	example-multiple-secrets-push-local \
-	example-init-container-bundle \
 	example-init-container-push-local \
-	keystone-bundle-ist \
 	keystone-push-ist-local \
-	safe-bundle-ist \
 	safe-push-ist-local \
-	sidecar-bundle-ist \
 	sidecar-push-ist-local \
-	sentinel-bundle-ist \
 	sentinel-push-ist-local \
-	init-container-bundle-ist \
 	init-container-push-ist-local
 
-build-essentials-local: \
+
+# Builds everything and pushes to the local registry.
+build-local:
+	@$(MAKE) -j$(CPU) bundle-all
+	@$(MAKE) -j$(CPU) push-all-local
+
+build-essentials-local:
 	keygen-bundle \
 	inspector-bundle \
 	keystone-bundle-ist \
