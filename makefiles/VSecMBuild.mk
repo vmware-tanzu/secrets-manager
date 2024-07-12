@@ -11,6 +11,19 @@
 serve-docs:
 	./hack/serve-docs.sh
 
+bundle-local: \
+	inspector-bundle \
+	keygen-bundle \
+	example-sdk-bundle \
+	example-sidecar-bundle \
+	example-multiple-secrets-bundle \
+	example-init-container-bundle \
+	keystone-bundle-ist \
+	safe-bundle-ist \
+	sidecar-bundle-ist \
+	sentinel-bundle-ist \
+	init-container-bundle-ist
+
 bundle-all: \
 	inspector-bundle \
 	keygen-bundle \
@@ -119,7 +132,7 @@ push-all-local: \
 # Builds everything and pushes to the local registry.
 build-local:
 	./hack/generate-proto-files.sh
-	@$(MAKE) -j$(CPU) bundle-all
+	@$(MAKE) -j$(CPU) bundle-all-local
 	@$(MAKE) -j$(CPU) push-all-local
 
 build-essentials-local: \
