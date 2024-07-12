@@ -11,7 +11,7 @@
 serve-docs:
 	./hack/serve-docs.sh
 
-bundle-all:
+bundle-all: \
 	inspector-bundle \
 	keygen-bundle \
 	example-sdk-bundle \
@@ -29,7 +29,7 @@ bundle-all:
 	init-container-bundle-ist \
 	init-container-bundle-ist-fips
 
-push-all:
+push-all: \
 	inspector-push \
 	keygen-push \
 	example-sidecar-push \
@@ -66,7 +66,7 @@ login-eks:
 		docker login --username AWS --password-stdin public.ecr.aws/h8y1n7y7
 
 # Builds everything and pushes to the public EKS registry.
-build-eks:
+build-eks: \
 	login-eks \
 	inspector-bundle \
 	inspector-push-eks \
@@ -101,7 +101,7 @@ build-eks:
 	init-container-bundle-ist-fips \
 	init-container-push-ist-fips-eks
 
-push-all-local:
+push-all-local: \
 	inspector-push-local \
 	keygen-push-local \
 	example-sidecar-push-local \
@@ -120,7 +120,7 @@ build-local:
 	@$(MAKE) -j$(CPU) bundle-all
 	@$(MAKE) -j$(CPU) push-all-local
 
-build-essentials-local:
+build-essentials-local: \
 	keygen-bundle \
 	inspector-bundle \
 	keystone-bundle-ist \
