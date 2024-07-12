@@ -11,7 +11,7 @@
 serve-docs:
 	./hack/serve-docs.sh
 
-bundle-local: \
+bundle-all-local: \
 	inspector-bundle \
 	keygen-bundle \
 	example-sdk-bundle \
