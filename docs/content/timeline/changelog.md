@@ -22,6 +22,7 @@ weight = 11
   necessary, or if there is a need from the community, we can modify the
   code to let SPIRE install without SPIRE Controller Manager and bring those
   flags back.
+* Optimized the build pipeline, reducing the build time by 60%.
 
 ## [0.26.1] - 2024-07-07
 

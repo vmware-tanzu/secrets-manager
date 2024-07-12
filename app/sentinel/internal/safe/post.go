@@ -159,7 +159,7 @@ func Post(parentContext context.Context,
 				},
 			}
 
-			parts := strings.Split(sc.SerializedRootKeys, "\n")
+			parts := sc.SplitRootKeys()
 			if len(parts) != 3 {
 				return errors.New("post: Bad data! Very bad data")
 			}

@@ -15,40 +15,20 @@ VERSION="$2"
 DOCKERFILE="$3"
 gitRoot=$(git rev-parse --show-toplevel)
 
-# Check if go binary is present
-if ! command -v go &> /dev/null
+# Check if docker binary is present
+if ! command -v docker &> /dev/null
 then
-    echo "Go binary could not be found. Please install go first."
+    echo "Docker binary could not be found. Please install Docker first."
     exit 1
 fi
-
-# Install or update the Google protocol buffers compiler plugin for Go.
-go get -u google.golang.org/protobuf/cmd/protoc-gen-go
-
-# Change directory to the logger package within the Sentinel application.
-cd "$(dirname "$0")/../core/log/rpc/" || exit
-
-# Set the environment variable GO_PATH to the Go workspace directory.
-export GO_PATH=~/go
-
-# Add the Go bin directory to the system PATH.
-export PATH=$PATH:/$GO_PATH/bin
-
-# Compile the log.proto file into Go source code using protocol buffers.
-# Generate both standard Go code and gRPC service code.
-protoc --proto_path=. \
-       --go_out=./generated \
-       --go-grpc_out=./generated \
-       --go_opt=paths=source_relative \
-       --go-grpc_opt=paths=source_relative \
-       log.proto
 
 # Change directory to the root of the git repository.
 cd "$gitRoot" || exit 1
 
-# Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
-go mod vendor
+if [ ! -d "./vendor" ]; then
+    # vendor directory doesn't exist.
+    echo "vendor directory doesn't exist. Please run 'go mod vendor' to create vendor directory."
+    exit 1
+fi
 
 docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"
-
-sleep 10

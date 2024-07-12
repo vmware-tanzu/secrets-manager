@@ -20,23 +20,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/sentinel"
 )
-
-// SecretRequest encapsulates a VSecM Safe REST command payload.
-type SecretRequest struct {
-	Workloads          []string `json:"workload"`
-	Secret             string   `json:"secret"`
-	Namespaces         []string `json:"namespaces,omitempty"`
-	Encrypt            bool     `json:"encrypt,omitempty"`
-	Delete             bool     `json:"delete,omitempty"`
-	Append             bool     `json:"append,omitempty"`
-	List               bool     `json:"list,omitempty"`
-	Template           string   `json:"template,omitempty"`
-	Format             string   `json:"format,omitempty"`
-	SerializedRootKeys string   `json:"root-keys,omitempty"`
-	NotBefore          string   `json:"nbf,omitempty"`
-	Expires            string   `json:"exp,omitempty"`
-}
 
 // HandleCommandSecrets processes HTTP requests related to secret management.
 //
@@ -81,7 +66,7 @@ type SecretRequest struct {
 //   - If there is an error during secret retrieval or modification, it returns
 //     a 500 Internal Server Error status with the error message.
 func HandleCommandSecrets(
-	w http.ResponseWriter, r *http.Request, req *SecretRequest,
+	w http.ResponseWriter, r *http.Request, req *sentinel.SecretRequest,
 ) {
 	id := crypto.Id()
 

@@ -13,6 +13,8 @@ package engine
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/sentinel"
 )
 
 // HandleSecrets processes incoming HTTP requests related to secrets management.
@@ -39,7 +41,7 @@ func HandleSecrets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req SecretRequest
+	var req sentinel.SecretRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

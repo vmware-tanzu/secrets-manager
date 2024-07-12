@@ -1,3 +1,14 @@
+{#
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+#}
 <!DOCTYPE html>
 <html lang="en-gb">
     <head>
@@ -91,70 +102,6 @@ padding: 1em;
 
         <div class="content {% block extra_content_class %}{% endblock extra_content_class %}">
             {% block content %}
-                <div class="hero">
-                    <h1>Your one-stop static site engine</h1>
-                    <p class="hero__tagline">
-                        Forget dependencies. Everything you need in one binary.
-                    </p>
-                    <a href="{{ get_url(path="@/documentation/_index.md") }}" class="button">Get started</a>
-                </div>
-
-                <div class="inverted-colours selling-points">
-                    <div class="selling-points__content container">
-                        <div class="selling-point">
-                            <h2>No dependencies</h2>
-                            <p>
-                                Zola comes as a single executable with Sass compilation, syntax highlighting, table of contents
-                                and many other features that traditionally require setting up a dev environment
-                                or adding some JavaScript libraries to your site.
-                            </p>
-                        </div>
-
-                        <div class="selling-point">
-                            <h2>Blazing fast</h2>
-                            <p>
-                                The average site will be generated in less than a second,
-                                including Sass compilation and syntax highlighting.
-                            </p>
-                        </div>
-
-                        <div class="selling-point">
-                            <h2>Scalable</h2>
-                            <p>
-                                Zola renders your whole site as static files, making it trivial to handle
-                                any kind of traffic you will throw at it at no cost without having
-                                to worry about managing a server or a database.
-                            </p>
-                        </div>
-
-                        <div class="selling-point">
-                            <h2>Easy to use</h2>
-                            <p>
-                                From the CLI to the template engine, everything is designed to be intuitive.
-                                Don't take my word for it though, look at the
-                                <a href="{{ get_url(path="@/documentation/_index.md") }}">documentation</a> and see for yourself.
-                            </p>
-                        </div>
-
-                        <div class="selling-point">
-                            <h2>Flexible</h2>
-                            <p>
-                                Zola gets out of your way so you can focus on your content, be it a blog,
-                                a knowledge base, a landing page or a combination of them.
-                            </p>
-                        </div>
-
-                        <div class="selling-point">
-                            <h2>Augmented Markdown</h2>
-                            <p>
-                                Zola comes with <a href="{{ get_url(path="@/documentation/content/shortcodes.md") }}">shortcodes</a> and
-                                <a href="{{ get_url(path="@/documentation/content/linking.md") }}">internal links</a>
-                                to make it easier to write your content.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
             {% endblock content %}
         </div>
         <footer style="background:#00151D;">
