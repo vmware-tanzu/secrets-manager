@@ -10,6 +10,8 @@
 
 package data
 
+import "strings"
+
 // VSecMInternalCommand is the command that VSecM uses to perform
 // internal operations.
 type VSecMInternalCommand struct {
@@ -32,4 +34,19 @@ type SentinelCommand struct {
 	SerializedRootKeys string
 	ShouldSleep        bool
 	SleepIntervalMs    int
+}
+
+// SplitRootKeys splits the SerializedRootKeys of the SentinelCommand
+// into a slice of strings based on newline characters.
+//
+// It returns a slice of strings, where each string represents a root key.
+// If there are no newline characters in SerializedRootKeys, the returned
+// slice will contain a single element.
+//
+// Example:
+//
+//	sc := SentinelCommand{SerializedRootKeys: "key1\nkey2\nkey3"}
+//	keys := sc.SplitRootKeys() // returns []string{"key1", "key2", "key3"}
+func (sc SentinelCommand) SplitRootKeys() []string {
+	return strings.Split(sc.SerializedRootKeys, "\n")
 }

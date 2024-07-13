@@ -25,4 +25,10 @@ fi
 # Change directory to the root of the git repository.
 cd "$gitRoot" || exit 1
 
+if [ ! -d "./vendor" ]; then
+    # vendor directory doesn't exist.
+    echo "vendor directory doesn't exist. Please run 'go mod vendor' to create vendor directory."
+    exit 1
+fi
+
 docker build -f "${DOCKERFILE}" . -t "${PACKAGE}":"${VERSION}"

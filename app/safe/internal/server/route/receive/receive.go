@@ -56,10 +56,8 @@ func Keys(cid string, r *http.Request, w http.ResponseWriter) {
 	// Only sentinel can set keys.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		respond(w)
-
-		j.Event = audit.BadSpiffeId
+		j.Event = audit.NotSentinel
 		journal.Log(j)
-
 		return
 	}
 
@@ -105,8 +103,12 @@ func Keys(cid string, r *http.Request, w http.ResponseWriter) {
 		return
 	}
 
-	keysCombined := agePrivateKey + "\n" + agePublicKey + "\n" + aesCipherKey
-	crypto.SetRootKeyInMemory(keysCombined)
+	rkt := data.RootKeyCollection{
+		PrivateKey: agePrivateKey,
+		PublicKey:  agePublicKey,
+		AesSeed:    aesCipherKey,
+	}
+	crypto.SetRootKeyInMemory(rkt.Combine())
 
 	if err := bootstrap.PersistRootKeysToRootKeyBackingStore(
 		data.RootKeyCollection{

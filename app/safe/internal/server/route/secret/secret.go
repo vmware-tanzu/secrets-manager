@@ -21,6 +21,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -43,7 +44,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	spiffeid := s.IdAsString(r)
 	if spiffeid == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "NOK!")
+		_, err := io.WriteString(w, val.NotOk)
 		if err != nil {
 			log.ErrorLn(&cid, "error writing response", err.Error())
 		}
@@ -53,7 +54,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 
 	if !crypto.RootKeySetInMemory() {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "NOK!")
+		_, err := io.WriteString(w, val.NotOk)
 		if err != nil {
 			log.ErrorLn(&cid, "error writing response", err.Error())
 		}
@@ -67,8 +68,9 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 
 	// Only sentinel can do this.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		j.Event = audit.NotSentinel
+		journal.Log(j)
 		respond(w)
-
 		return
 	}
 

@@ -58,6 +58,8 @@ func doList(
 
 	// Only sentinel can list.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
+		j.Event = audit.NotSentinel
+		journal.Log(j)
 		respond(w)
 		return
 	}

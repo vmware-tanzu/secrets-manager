@@ -135,7 +135,8 @@ func Post(
 				},
 			}
 
-			parts := strings.Split(sc.SerializedRootKeys, "\n")
+			parts := sc.SplitRootKeys()
+
 			if len(parts) != 3 {
 				return "", printPayloadError(
 					cid, errors.New("post: Bad data! Very bad data"))

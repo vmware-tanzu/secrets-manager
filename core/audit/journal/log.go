@@ -11,9 +11,9 @@
 package journal
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"net/http"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 

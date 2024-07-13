@@ -87,11 +87,9 @@ func Status(
 
 	// Only sentinel can get the status.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
-		respond(w)
-
-		j.Event = audit.BadSpiffeId
+		j.Event = audit.NotSentinel
 		journal.Log(j)
-
+		respond(w)
 		return
 	}
 

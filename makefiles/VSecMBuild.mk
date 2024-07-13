@@ -9,7 +9,10 @@
 # */
 
 serve-docs:
-	./hack/serve-docs.sh
+	./hack/web-serve.sh
+
+sync-docs:
+	./hack/web-sync.sh
 
 bundle-all-local: \
 	inspector-bundle \
