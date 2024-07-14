@@ -29,11 +29,11 @@ func TestSetRootKeyInMemory(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			SetRootKeyInMemory(tt.key)
 
-			RootKeyLock.RLock()
-			defer RootKeyLock.RUnlock()
+			rootKeyLock.RLock()
+			defer rootKeyLock.RUnlock()
 
-			if RootKey != tt.expected {
-				t.Errorf("expected %v, got %v", tt.expected, RootKey)
+			if rootKey != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, rootKey)
 			}
 		})
 	}

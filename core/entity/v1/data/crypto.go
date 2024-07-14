@@ -12,6 +12,7 @@ package data
 
 import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
+	"strings"
 )
 
 type RootKeyCollection struct {
@@ -26,8 +27,24 @@ type RootKeyCollection struct {
 // Returns:
 //   - A single string containing the private key, public key, and AES seed,
 //     each separated by a newline.
-func (rkt RootKeyCollection) Combine() string {
+func (rkt *RootKeyCollection) Combine() string {
 	return rkt.PrivateKey +
 		symbol.RootKeySeparator + rkt.PublicKey +
 		symbol.RootKeySeparator + rkt.AesSeed
+}
+
+func (rkt *RootKeyCollection) Empty() bool {
+	return rkt.PrivateKey == "" && rkt.PublicKey == "" && rkt.AesSeed == ""
+}
+
+func (rkt *RootKeyCollection) UpdateFromSerialized(serialized string) {
+	parts := strings.Split(serialized, symbol.RootKeySeparator)
+
+	if len(parts) < 3 {
+		return
+	}
+
+	rkt.PrivateKey = parts[0]
+	rkt.PublicKey = parts[1]
+	rkt.AesSeed = parts[2]
 }
