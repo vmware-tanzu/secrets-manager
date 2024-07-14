@@ -28,16 +28,41 @@ type RootKeyCollection struct {
 //   - A single string containing the private key, public key, and AES seed,
 //     each separated by a newline.
 func (rkt *RootKeyCollection) Combine() string {
+	if rkt.PrivateKey == "" || rkt.PublicKey == "" || rkt.AesSeed == "" {
+		return ""
+	}
+
 	return rkt.PrivateKey +
 		symbol.RootKeySeparator + rkt.PublicKey +
 		symbol.RootKeySeparator + rkt.AesSeed
 }
 
+// Empty checks if the RootKeyCollection contains any key data.
+// It returns true if the PrivateKey, PublicKey, and AesSeed fields are all
+// empty.
 func (rkt *RootKeyCollection) Empty() bool {
 	return rkt.PrivateKey == "" && rkt.PublicKey == "" && rkt.AesSeed == ""
 }
 
+// UpdateFromSerialized updates the RootKeyCollection from a serialized string.
+//
+// The serialized string is expected to be a concatenation of the private key,
+// public key, and AES seed separated by the RootKeySeparator symbol. If the
+// serialized string is empty, the PrivateKey, PublicKey, and AesSeed fields
+// will be set to empty strings. If the serialized string is improperly
+// formatted, the function will not update the fields.
+//
+// Parameters:
+//   - serialized: A string containing the serialized key data.
 func (rkt *RootKeyCollection) UpdateFromSerialized(serialized string) {
+	serialized = strings.TrimSpace(serialized)
+
+	if serialized == "" {
+		rkt.PrivateKey = ""
+		rkt.PublicKey = ""
+		rkt.AesSeed = ""
+	}
+
 	parts := strings.Split(serialized, symbol.RootKeySeparator)
 
 	if len(parts) < 3 {

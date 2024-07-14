@@ -96,3 +96,13 @@ func SentinelEnableOIDCResourceServer() bool {
 	p := env.Value(env.VSecMSentinelOidcEnableResourceServer)
 	return val.True(p)
 }
+
+// SentinelOIDCResourceServerPort returns the port on which the OIDC resource
+// server should listen for requests.
+func SentinelOIDCResourceServerPort() string {
+	p := env.Value(env.VSecMSentinelOidcResourceServerPort)
+	if p == "" {
+		p = string(env.VSecMSentinelOidcResourceServerPortDefault)
+	}
+	return p
+}
