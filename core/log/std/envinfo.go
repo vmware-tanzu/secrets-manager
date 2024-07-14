@@ -20,7 +20,5 @@ func PrintEnvironmentInfo(id *string, envVarsToExpect []string) {
 		WarnLn(id, "Environment variable '"+v+"' not found")
 	}
 
-	appendAdditionalDetails(info)
-
 	printFormattedInfo(id, info)
 }
