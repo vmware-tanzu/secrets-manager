@@ -15,6 +15,7 @@ import (
 	"net/http"
 
 	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/oidc/engine"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 // Serve initializes and starts an HTTP server for VSecM Sentinel.
@@ -36,6 +37,7 @@ func Serve() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/secrets", engine.HandleSecrets)
 
-	log.Println("VSecM Server started at :8085")
-	log.Fatal(http.ListenAndServe(":8085", mux))
+	port := env.SentinelOIDCResourceServerPort()
+	log.Println("VSecM Server started at " + port)
+	log.Fatal(http.ListenAndServe(port, mux))
 }

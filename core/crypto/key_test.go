@@ -29,18 +29,18 @@ func TestSetRootKeyInMemory(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			SetRootKeyInMemory(tt.key)
 
-			RootKeyLock.RLock()
-			defer RootKeyLock.RUnlock()
+			rootKeyLock.RLock()
+			defer rootKeyLock.RUnlock()
 
-			if RootKey != tt.expected {
-				t.Errorf("expected %v, got %v", tt.expected, RootKey)
+			if rootKey.Combine() != tt.expected {
+				t.Errorf("expected '%v', got '%v'", tt.expected, rootKey.Combine())
 			}
 		})
 	}
 }
 
 func TestRootKeySetInMemory(t *testing.T) {
-	SetRootKeyInMemory("test-key")
+	SetRootKeyInMemory("test-key\npublic-key\naes-seed")
 	if !RootKeySetInMemory() {
 		t.Errorf("expected true, got false")
 	}

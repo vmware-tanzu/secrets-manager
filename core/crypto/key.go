@@ -11,18 +11,20 @@
 package crypto
 
 import (
-	"strings"
 	"sync"
 
 	"filippo.io/age"
 
-	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
-// RootKey is the key used for encryption, decryption, backup, and restore.
-var RootKey = ""
-var RootKeyLock sync.RWMutex
+// rootKey is the key used for encryption, decryption, backup, and restore.
+var rootKey = data.RootKeyCollection{
+	PrivateKey: "",
+	PublicKey:  "",
+	AesSeed:    "",
+}
+var rootKeyLock sync.RWMutex
 
 // SetRootKeyInMemory sets the age key to be used for encryption and decryption.
 // This function is called in several instances:
@@ -32,40 +34,34 @@ var RootKeyLock sync.RWMutex
 // 2. When an operator sets a new root key through VSecM Sentinel or other
 // similar means.
 func SetRootKeyInMemory(k string) {
-	RootKeyLock.Lock()
-	defer RootKeyLock.Unlock()
+	rootKeyLock.Lock()
+	defer rootKeyLock.Unlock()
 
-	RootKey = k
+	rootKey.UpdateFromSerialized(k)
 }
 
 // RootKeySetInMemory returns true if the root key has been set.
 func RootKeySetInMemory() bool {
-	RootKeyLock.RLock()
-	defer RootKeyLock.RUnlock()
+	rootKeyLock.RLock()
+	defer rootKeyLock.RUnlock()
 
-	return RootKey != ""
+	return !rootKey.Empty()
 }
 
 // RootKeyCollectionFromMemory creates a new Rkt struct from the
-// RootKey stored in memory.
+// rootKey stored in memory.
 func RootKeyCollectionFromMemory() data.RootKeyCollection {
-	RootKeyLock.RLock()
-	defer RootKeyLock.RUnlock()
+	rootKeyLock.RLock()
+	defer rootKeyLock.RUnlock()
 
-	if RootKey == "" {
-		return data.RootKeyCollection{}
-	}
-
-	parts := strings.Split(RootKey, symbol.RootKeySeparator)
-
-	if len(parts) != 3 {
+	if rootKey.Empty() {
 		return data.RootKeyCollection{}
 	}
 
 	return data.RootKeyCollection{
-		PrivateKey: parts[0],
-		PublicKey:  parts[1],
-		AesSeed:    parts[2],
+		PrivateKey: rootKey.PrivateKey,
+		PublicKey:  rootKey.PublicKey,
+		AesSeed:    rootKey.AesSeed,
 	}
 }
 

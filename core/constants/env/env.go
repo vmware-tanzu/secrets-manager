@@ -64,6 +64,7 @@ const VSecMSentinelInitCommandWaitBeforeExec VarName = "VSECM_SENTINEL_INIT_COMM
 
 const VSecMSentinelOidcEnableResourceServer VarName = "VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER"
 const VSecMSentinelOidcProviderBaseUrl VarName = "VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL"
+const VSecMSentinelOidcResourceServerPort VarName = "VSECM_SENTINEL_OIDC_RESOURCE_SERVER_PORT"
 
 const VSecMSentinelSecretGenerationPrefix VarName = "VSECM_SENTINEL_SECRET_GENERATION_PREFIX"
 const VSecMSidecarErrorThreshold VarName = "VSECM_SIDECAR_ERROR_THRESHOLD"
@@ -107,6 +108,7 @@ const VSecMSentinelInitCommandPathDefault VarValue = "/opt/vsecm-sentinel/init/d
 const VSecMSentinelInitCommandWaitAfterInitCompleteDefault VarValue = "0"
 const VSecMSentinelInitCommandWaitBeforeExecDefault VarValue = "0"
 const VSecMSentinelSecretGenerationPrefixDefault VarValue = "gen:"
+const VSecMSentinelOidcResourceServerPortDefault VarValue = ":8085"
 const VSecMSidecarErrorThresholdDefault VarValue = "3"
 const VSecMSidecarExponentialBackoffMultiplierDefault VarValue = "2"
 const VSecMSidecarMaxPollIntervalDefault VarValue = "300000"
