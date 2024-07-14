@@ -28,6 +28,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	_ = os.Setenv("ORIGIN", *origin)
+
 	fmt.Println("---- VSecM Integration Tests ----")
 	fmt.Printf("Running tests for %s origin\n", *origin)
 
