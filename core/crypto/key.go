@@ -45,7 +45,7 @@ func RootKeySetInMemory() bool {
 	rootKeyLock.RLock()
 	defer rootKeyLock.RUnlock()
 
-	return rootKey.Empty()
+	return !rootKey.Empty()
 }
 
 // RootKeyCollectionFromMemory creates a new Rkt struct from the
