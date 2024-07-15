@@ -19,6 +19,25 @@ You need to pay attention to certain aspects and parts of the system that
 you'd need to harden for a **production** *VMware Secrets Manager* setup.
 This article will overview them.
 
+## OpenShift and VMware Secrets Manager
+
+Before we dive into the rest of the production setup, let's talk about
+**OpenShift**. 
+
+**OpenShift** has its own security model and its own way of doing things.
+To enable **VMware Secrets Manager** to work with **OpenShift**, you need to
+make sure that you have the necessary permissions and configurations in place.
+
+The best way to do this is to use [**VSecM Helm Charts**][helm-charts] to 
+deploy **VMware Secrets Manager** on **OpenShift**. The **Helm Charts** will 
+take care of most of the configurations and permissions for you.
+
+Just make sure you set up `global.enableOpenShift` to `true` in your 
+`values.yaml` file. Keep in mind that this value is **false** by default, and
+you need to explicitly set it to `true`.
+
+[helm-charts]: https://artifacthub.io/packages/helm/vsecm/vsecm
+
 ## Version Compatibility
 
 We test **VMware Secrets Manager** with the recent stable version of Kubernetes 
@@ -107,17 +126,19 @@ a starting point for **VMware Secrets Manager**-managed containers:
 
 Although not directly related to VSecM, keeping your clusters updated is a
 fundamental aspect of maintaining a secure and robust production environment.
-By implementing a proactive update strategy, you not only protect your infrastructure
-from known threats but also maintain compliance with industry standards and regulations.
+By implementing a proactive update strategy, you not only protect your 
+infrastructure from known threats but also maintain compliance with industry 
+standards and regulations.
 
-Timely updates ensure that the cluster is safeguarded against known vulnerabilities,
-which can prevent potential security leaks.
+Timely updates ensure that the cluster is safeguarded against known 
+vulnerabilities, which can prevent potential security leaks.
 
-Regularly updating your cluster components ensures that you benefit from the latest
-security patches and performance improvements. These updates often include fixes
-for security flaws that, if exploited, could lead to unauthorized access, data
-breaches, or loss of service. Failing to apply updates can leave your cluster
-vulnerable to attacks that exploit outdated software vulnerabilities.
+Regularly updating your cluster components ensures that you benefit from the 
+latest security patches and performance improvements. These updates often 
+include fixes for security flaws that, if exploited, could lead to unauthorized 
+access, data breaches, or loss of service. Failing to apply updates can leave 
+your cluster vulnerable to attacks that exploit outdated software 
+vulnerabilities.
 
 ## Back Up Your Cluster Regularly
 
@@ -146,10 +167,10 @@ cluster's last known good state.
 
 [velero]: https://velero.io/ "Velero"
 
-## Double Check Your VSecM Configuration
+## Double-Check Your VSecM Configuration
 
 **VMware Secrets Manager** uses *environment variables* to configure various
-aspects of its compoments. Although, using environment variables to configure
+aspects of its components. Although, using environment variables to configure
 **VSecM** provides flexibility, it requires additional care and
 attention---especially when your configuration deviates from the defaults
 provided.
@@ -205,7 +226,6 @@ namespace with an `vsecm-safe` service account.
 > held responsible; however, it is still a bad idea to have more than an
 > absolute minimum number of Cluster Administrators in your cluster.
 
-
 Kubernetes Secrets are, by default, stored **unencrypted** in the API server's
 underlying data store (`etcd`). Anyone with API access and sufficient RBAC
 credentials can retrieve or modify a `Secret`, as can anyone with access
@@ -236,15 +256,14 @@ to `etcd`.
 >
 > Check ou the [Configuration Reference][config-ref] for more information.
 
-
 [config-ref]: @/documentation/configuration/overview.md "Configuration Reference"
 
 If you are **only** using **VMware Secrets Manager** for your configuration and
 secret storage needs, and your workloads do **not** bind any Kubernetes `Secret`
-(*i.e., instead of using Kubernetes `Secret` objects, you use tools like **VSecM SDK**
-or **VSecM Sidecar** to securely dispatch secrets to your workloads*) then
-as long as you secure access to the secret `vsecm-root-key` inside the
-`vsecm-system` namespace, you should be good to go.
+(*i.e., instead of using Kubernetes `Secret` objects, you use tools like 
+**VSecM SDK**or **VSecM Sidecar** to securely dispatch secrets to your 
+workloads*) then as long as you secure access to the secret `vsecm-root-key` 
+inside the `vsecm-system` namespace, you should be good to go.
 
 With the help of **VSecM SDK**, **VSecM Sidecar**, and **VSecM Init Container**,
 and with some custom coding/shaping
@@ -258,8 +277,8 @@ existing cluster--at least initially.
 
 [VSecM-k]: /documentation/cli/#creating-kubernetes-secrets "VSecM Sentinel: Creating Kubernetes Secrets"
 
-If you are using **VMware Secrets Manager** to generate Kubernetes `Secrets` for the workloads
-to consume, then take regular precautions around those secrets,
+If you are using **VMware Secrets Manager** to generate Kubernetes `Secrets` for 
+the workloads to consume, then take regular precautions around those secrets,
 such as [*implementing restrictive RBACs*][rbac], and even [considering using
 a KMS to encrypt `etcd` at rest][kms] if your security posture requires it.
 
@@ -272,8 +291,8 @@ end of the world if you keep your `etcd` unencrypted.
 
 > **VMware Secrets Manager Keeps Your Secrets Safe**
 >
-> If you use **VMware Secrets Manager** to store your sensitive data, your secrets
-> will be securely stored in **VSecM Safe** (*instead of `etcd`*),
+> If you use **VMware Secrets Manager** to store your sensitive data, your 
+> secrets will be securely stored in **VSecM Safe** (*instead of `etcd`*),
 > so you will have even fewer reasons to encrypt `etcd` 😉.
 
 #### Details
@@ -347,10 +366,11 @@ mechanisms to ensure that the access policies are not violated.
 
 ## Restrict Access to VSecM Sentinel
 
-All **VMware Secrets Manager** images are based on [distroless][distroless] containers
-for an additional layer of security. Thus, an operator cannot execute a shell on the
-Pod to try a privilege escalation or container escape attack. However, this does
-not mean you can leave the `vsecm-system` namespace like an open buffet.
+All **VMware Secrets Manager** images are based on [distroless][distroless] 
+containers for an additional layer of security. Thus, an operator cannot execute 
+a shell on the Pod to try a privilege escalation or container escape attack. 
+However, this does not mean you can leave the `vsecm-system` namespace like an 
+open buffet.
 
 Always take a **principle of least privilege** stance. For example, do not let
 anyone who does not need to fiddle with the `vsecm-system` namespace see and use
@@ -366,11 +386,70 @@ system part that has direct write access to the **VSecM Safe** secrets store.
 Therefore, once you secure access to **VSecM Sentinel** with [proper RBAC and
 policies][rbac], you secure access to your secrets.
 
-
 > **You Can Delete `vsecm-sentinel` When You No Longer Need It**
 >
 > For an added layer of security and to reduce the attack surface, you can
-> delete the `vsecm-sentinel` Pod after registering your secrets to **VSecM Safe**.
+> delete the `vsecm-sentinel` Pod after registering your secrets to 
+> **VSecM Safe**.
+
+## The Importance of Securing Access to VSecM Sentinel
+
+Securing access to the **VSecM Sentinel** is crucial for maintaining the security
+of your **VMware Secrets Manager** deployment. **VSecM Sentinel** is the primary
+interface for managing secrets and interacting with the **VSecM Safe**.
+
+The architecture of **VMware Secrets Manager** includes several key components: 
+
+* **SPIRE** for identity control, 
+* **VSecM Safe** for storing and dispatching secrets, 
+* **VSecM Sidecar** for delivering secrets to workloads, 
+* **VSecM Sentinel** for administrative tasks and registering secrets. 
+* The **SPIFFE ID** format is used for workload identification. 
+
+The secrets stored in **VSecM Safe** are encrypted using `age` or `AES-256-GCM`
+(*in FIPS-compliant environments*) and stored in memory for performance
+and security, necessitating sufficient memory allocation for all secrets.
+
+In this architecture any pod in the `vsecm-system` namespace that has the
+`vsecm-sentinel` service account can access **VSecM Safe**.
+
+Securing access to the `vsecm-system` namespace is important because if an 
+attacker gains access to this namespace, they could potentially introduce a fake 
+*VSecM Safe*. 
+
+Although the default configuration of **VMware Secrets Manager** is secure,
+and mitigates many common attack vectors, it is essential to follow best 
+practices to further enhance security.
+
+To secure your system even further, follow these best practices:
+
+* **Restrict Namespace Access**: Tighten the security around the 
+  **vsecm-system** namespace to prevent unauthorized access. This could involve 
+  network policies, stricter RBAC rules, and audit logging to monitor for 
+  unusual activities.
+* **Least Privilege Principle**: Ensuring that only the minimal necessary 
+  permissions are granted to users and service accounts, reducing the attack 
+  surface.
+* **Regular Audits and Anomaly Detection**: Conduct regular audits of your 
+  Kubernetes environment and implement anomaly detection mechanisms to identify 
+  and respond to unauthorized access or changes in the **vsecm-system** 
+  namespace.
+* **Security Scanning and Compliance Tools**: Integrate security scanning and 
+  compliance tools to continuously monitor for vulnerabilities and enforce 
+  security best practices.
+* **Immutable Infrastructure**: Use immutable infrastructure principles for 
+  critical components, where any change to the running configuration would be 
+  a red flag indicating potential tampering.
+* **Open Policy Agent (OPA)/Gatekeeper**: Implement policies using 
+  OPA/Gatekeeper to enforce custom rules, like restricting which registries 
+  pods can pull images from or enforcing labeling standards.
+
+By combining these measures, enhance the security of you **VSecM** installation
+even further.
+
+Also, note that, these practices are Kubernetes security best practices.
+They are not only applicable to **VSecM Sentinel**, but also to any other 
+critical components in your system.
 
 ## Scaling SPIRE
 
@@ -428,8 +507,8 @@ by setting `skip_kubelet_verification` to `true` in the `agent.conf` file.
 The `skip_kubelet_verification` flag is used when **SPIRE** is validating the
 identity of workloads running in Kubernetes.
 
-Normally, **SPIRE** interacts with the kubelet API to verify the identity of a workload.
-This includes validating the serving certificate of the kubelet.
+Normally, **SPIRE** interacts with the kubelet API to verify the identity of a 
+workload. This includes validating the serving certificate of the kubelet.
 When `skip_kubelet_verification` is set to `true`, **SPIRE** does not validate
 the kubelet's serving certificate. This can be useful in environments where the
 kubelet's serving certificate is not properly configured or cannot be trusted for
@@ -445,8 +524,9 @@ To ensure kubelet verification is enabled:
   `false` or omitted.
   By default, if the flag is not specified, kubelet verification is enabled.
 * **Kubelet Certificate**: Make sure the kubelet's serving certificate is properly
-  configured and trusted within your Kubernetes cluster. This may involve configuring
-  the Kubernetes cluster to issue valid serving certificates for kubelets.
+  configured and trusted within your Kubernetes cluster. This may involve 
+  configuring the Kubernetes cluster to issue valid serving certificates for 
+  kubelets.
 * **Restart SPIRE Agent**: After making changes to the configuration, restart
   the **SPIRE Agent** to apply the new settings.
 
@@ -454,7 +534,6 @@ To ensure kubelet verification is enabled:
 >
 > Remember, enabling kubelet verification might require updates to your cluster's
 > configuration and careful planning to avoid disruption to existing workloads.
-
 
 ### Configuration Files
 
@@ -484,9 +563,10 @@ To secure these configuration files, you can:
 
 ### Trust Domain Configuration
 
-Set the `trust_domain` parameter in both server and agent `ConfigMaps`. This parameter
-is crucial for ensuring that all workloads in the trust domain are issued identity
-documents that can be verified against the trust domain's root keys.
+Set the `trust_domain` parameter in both server and agent `ConfigMaps`. This 
+parameter is crucial for ensuring that all workloads in the trust domain are 
+issued identity documents that can be verified against the trust domain's root 
+keys.
 
 ### Port Configuration
 
@@ -496,8 +576,9 @@ securely configured and matches the setting on the agents.
 
 ### Node Attestation
 
-Choose and configure appropriate Node Attestor plugins for both **SPIRE Server** and
-**SPIRE Agent**. This is critical for securely identifying and attesting agents.
+Choose and configure appropriate Node Attestor plugins for both **SPIRE Server** 
+and**SPIRE Agent**. This is critical for securely identifying and attesting 
+agents.
 
 ### Data Storage
 
@@ -512,10 +593,12 @@ storage like MySQL can be a better fit.
 
 ### Key Management
 
-**SPIRE** supports *in-memory* and *on-disk* storage strategies for keys and certificates.
+**SPIRE** supports *in-memory* and *on-disk* storage strategies for keys and 
+certificates.
 
-For production, the **on-disk** strategy may offer advantages in terms of persistence
-across restarts but requires additional security measures to protect the stored keys.
+For production, the **on-disk** strategy may offer advantages in terms of 
+persistence across restarts but requires additional security measures to 
+protect the stored keys.
 
 ### Trust Root/Upstream Authority Configuration
 
@@ -778,9 +861,10 @@ CPU Throttling and Overcommitment, QoS Classes, and so on.
 ## Update VMware Secrets Manager's Log Levels
 
 **VSecM Safe** and **VSecM Sidecar** are configured to log at `TRACE` level by
-default. This is to help you debug issues with **VMware Secrets Manager**. However, this can
-cause a lot of noise in your logs. Once you are confident that **VMware Secrets Manager**
-works as expected, you can reduce the log level to `INFO` or `WARN`.
+default. This is to help you debug issues with **VMware Secrets Manager**. 
+However, this can cause a lot of noise in your logs. Once you are confident 
+that **VMware Secrets Manager** works as expected, you can reduce the log level 
+to `INFO` or `WARN`.
 
 For this, you will need to modify the `VSECM_LOG_LEVEL` environment variable
 in the **VSecM Safe** and **VSecM Sidecar** Deployment manifests.
@@ -798,7 +882,7 @@ level to `INFO` or `WARN` to reduce the noise in your logs.
 For this, you will need to modify the update the `log_level` parameter in the
 `server.conf` and `agent.conf` ConfigMaps.
 
-Here is a relevant agent.conf snippet from **VSecM** helm charts:
+Here is a relevant agent.conf snippet from **VSecM** Helm charts:
 
 ```yaml
 # ./charts/spire/templates/spire-agent-configmap.yaml
@@ -819,7 +903,6 @@ data:
 If you are using Helm charts to install **VSecM**, you can also provide 
 `global.spire.logLevel` in your `values.yaml` file to override the default 
 SPIRE log level.
-
 
 ## A Note on FIPS Compliance with VSecM
 
@@ -879,16 +962,17 @@ management, while still adhering to FIPS standards.
 End-users of **VSecM** can take additional steps to improve their practical 
 compliance with FIPS standards, including:
 
-* *Encrypt Kubernetes Secrets*: For applications deployed in Kubernetes environments, 
-  ensure that Kubernetes Secrets used for storing root keys and other sensitive 
-  information are encrypted at rest using a KMS provider that is FIPS-compliant.
+* *Encrypt Kubernetes Secrets*: For applications deployed in Kubernetes 
+  environments, ensure that Kubernetes Secrets used for storing root keys and 
+  other sensitive information are encrypted at rest using a KMS provider that is 
+  FIPS-compliant.
 * *Implement Audit Logging and Monitoring*: Establish comprehensive audit 
   logging and monitoring for access to secrets and cryptographic operations. 
   This helps in identifying unauthorized access attempts and ensuring compliance 
   with security policies.
 * *Regular Security Assessments*: Conduct regular security assessments of your 
-  applications and infrastructure to identify and address potential vulnerabilities. 
-  This includes penetration testing and vulnerability scanning.
+  applications and infrastructure to identify and address potential 
+  vulnerabilities. This includes penetration testing and vulnerability scanning.
 * *Disaster Recovery and Key Rotation*: Develop and maintain disaster recovery 
   plans and implement key rotation policies to minimize risks associated with 
   key compromise. Regular key rotation and having a robust disaster recovery 
@@ -916,20 +1000,20 @@ section of the **VSecM Safe** helm chart.
 
 ## Conclusion
 
-Since **VMware Secrets Manager** is a *Kubernetes-native* framework, its security is strongly
-related to how you secure your cluster. You should be safe if you keep your
-cluster and the `vsecm-system` namespace secure and follow
+Since **VMware Secrets Manager** is a *Kubernetes-native* framework, its 
+security is strongly related to how you secure your cluster. You should be safe 
+if you keep your cluster and the `vsecm-system` namespace secure and follow
 "*the principle of least privilege*" as a guideline.
 
-**VMware Secrets Manager** is a lightweight secrets manager; however, that does not mean it
-runs on water: It needs CPU and Memory resources. The amount of resources you
-need will depend on the criteria outlined in the former sections. You can either
-benchmark your system and set your resources accordingly. Or set generous-enough
-limits and adjust your settings as time goes by.
+**VMware Secrets Manager** is a lightweight secrets manager; however, that does 
+not mean it runs on water: It needs CPU and Memory resources. The amount of 
+resources you need will depend on the criteria outlined in the former sections. 
+You can either benchmark your system and set your resources accordingly. Or set 
+generous-enough limits and adjust your settings as time goes by.
 
-Also, you are strongly encouraged **not** to set a limit on **VMware Secrets Manager** Pods' CPU
-usage. Instead, it is recommended to let **VSecM Safe** burst the CPU when
-it needs.
+Also, you are strongly encouraged **not** to set a limit on **VMware Secrets 
+Manager** Pods' CPU usage. Instead, it is recommended to let **VSecM Safe** 
+burst the CPU when it needs.
 
 On the same topic, you are encouraged to set a **request** for **VSecM Safe**
 to guarantee a baseline compute allocation.

@@ -1,4 +1,18 @@
-# VMware Secrets Manager for Cloud-Native Apps
+## **VMware Secrets Manager** *for cloud-native apps*
+
+![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
+
+
+**VMware Secrets Manager** (*VSecM*) redefines secrets management with intuitive 
+security for cloud native apps.
+
+By using **VSecM** you can `#sleepmore` while keeping your secrets… secret.
+
+Want to get started quickly? [Check out our quickstart tutorial][quickstart].
+
+🐢⚡️
+
+---
 
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/7793/badge)](https://www.bestpractices.dev/projects/7793)
 [![Version](https://img.shields.io/github/v/release/vmware-tanzu/secrets-manager?color=blueviolet)](https://github.com/vmware-tanzu/secrets-manager/releases)
@@ -10,13 +24,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/vmware-tanzu/secrets-manager)](https://goreportcard.com/report/github.com/vmware-tanzu/secrets-manager)
 [![Go Coverage](https://github.com/vmware-tanzu/secrets-manager/wiki/coverage.svg)](https://raw.githack.com/wiki/vmware-tanzu/secrets-manager/coverage.html)
 [![Using Better Commits](https://img.shields.io/badge/better--commits-enabled?style=for-the-badge&logo=git&color=a6e3a1&logoColor=D9E0EE&labelColor=302D41)](https://github.com/Everduin94/better-commits)
-
-```text
-|   Protect your secrets, protect your sensitive data.
-:   Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/ keep your secrets... secret
-```
 
 ## The Elevator Pitch
 
@@ -278,3 +285,5 @@ We'd love to have them.
 [design]: https://vsecm.com/docs/philosophy/ "VMware Secrets Manager Design Philosophy"
 [quickstart]: https://vsecm.com/docs/quickstart/ "Quickstart"
 [spire]: https://spiffe.io/ "SPIFFE: Secure Production Identity Framework for Everyone"
+[docs]: https://vsecm.com/
+[quickstart]: https://vsecm.com/documentation/getting-started/overview/ "VSecM Quickstart"
