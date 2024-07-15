@@ -23,6 +23,14 @@ weight = 11
   code to let SPIRE install without SPIRE Controller Manager and bring those
   flags back.
 * Optimized the build pipeline, reducing the build time by 60%.
+* Removed bundle endpoints from SPIRE manifests. We don't use them anywhere.
+  If there is a need, we can bring them back. Note that this also impacts
+  the experimental "federation" feature. Federation can still be enabled
+  by manually editing the SPIRE Server and SPIRE Agent configmaps. Later, we'll
+  have a cross-cluster replication feature where we will introduce these
+  bundle endpoints using a hub-spoke topology in a more controlled manner.
+* Introduced new Architecture Decision Records (ADRs) as drafts. These ADRs
+  will be reviewed and finalized in the upcoming releases. 
 
 ## [0.26.1] - 2024-07-07
 

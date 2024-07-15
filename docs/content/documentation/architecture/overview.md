@@ -130,8 +130,10 @@ This is useful for debugging and testing purposes.
 
 ### Dispatching Identities
 
-**SPIRE** delivers short-lived X.509 SVIDs to **VMware Secrets Manager**
+**SPIRE** delivers short-lived [X.509 SVIDs][svid] to **VMware Secrets Manager**
 components and consumer workloads.
+
+[svid]: https://spiffe.io/docs/latest/deploying/svids/
 
 **VSecM Sidecar** periodically talks to **VSecM Safe** to check if there is
 a new secret to be updated.
@@ -154,7 +156,7 @@ to **VSecM Safe**.
 
 ### Component and Workload SPIFFE ID Schemas
 
-SPIFFE ID format wor workloads is as follows:
+SPIFFE ID format for workloads is as follows:
 
 ```txt
 spiffe://vsecm.com/workload/$workloadName
@@ -184,6 +186,85 @@ spiffe://vsecm.com/workload/vsecm-sentinel
   /n/{{ .PodMeta.Name }}
 ```
 
+> **You Can Have Custom SPIFFE ID Formats**
+> 
+> You can configure your **VSecM** installation to use custom SPIFFE ID
+> formats and RegExp-based validation rules. Check out the 
+> [**Configuration**](@/documentation/configuration/overview.md) section
+> for more details.
+
+## A Note on SPIRE Controller Manager and ClusterSPIFFEIDs
+
+**VSecM** uses **SPIRE** to establish an Identity Control Plane.
+And **SPIRE** uses [**SPIRE Controller Manager**][scm] to manage the 
+**SPIRE Server** and **SPIRE Agent**. [**SPIRE Controller Manager**][scm] 
+uses [**ClusterSPIFFEIDs**][clusterspiffeid] to assign and determine SVIDs 
+for workloads.
+
+[scm]: https://github.com/spiffe/spire-controller-manager
+[clusterspiffeid]: https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md
+
+What this means for **VSecM** is that to assign identities to your workloads,
+you need to create **ClusterSPIFFEIDs** for them.
+
+Here is an example:
+
+```yaml
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: example-workload
+spec:
+  className: "vsecm"
+  spiffeIDTemplate: "spiffe://vsecm.com\
+    /workload/example\
+    /ns/default\
+    /sa/example\
+    /n/{{ .PodMeta.Name }}"
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: example-workload
+  workloadSelectorTemplates:
+  - "k8s:ns:default"
+  - "k8s:sa:example-workload-sa"
+```
+
+This **ClusterSPIFFEID** will assign the following SPIFFE ID to the workloads
+that are in the `default` namespace, have the 
+`app.kubernetes.io/name: example-workload`label, and use 
+the `example-workload-sa` service account.
+
+Unless you are using a custom configuration for **VSecM** ClusterSPIFFEIDs,
+the `className` field should be set to `vsecm` and the `spiifeIDTemplate`
+should start wih `spiffe://vsecm.com/workload/` followed by the name you give
+to the workload.
+
+You can check out the [**VSecM** quick start guide][quickstart] for more 
+information on how to create **ClusterSPIFFEIDs** for your workloads.
+
+[quickstart]: @/documentation/getting-started/overview.md
+
+One additional thing to note about **SPIRE Controller Manager** is that it
+takes ownership of all **SPIRE** entries by default. This means that if you
+manually create an entry using **SPIRE Server**’s CLI, 
+**SPIRE Controller Manager** will override it and reflect its own state that
+are defined in the **ClusterSPIFFEIDs**. 
+
+This essentially means that the **ClusterSPIFFEIDs** are the source of truth 
+for identities in **SPIRE** and therefore in **VSecM**.
+
+> **Can I Have My Own SPIRE Server Entries**?
+> 
+> If you want to register your own **SPIRE Server** entries, you will need 
+> a custom SPIRE deployment that does not use SPIRE Controller Manager.
+> 
+> **VMware Secrets Manager** can work with any SPIFFE-compatible Identity
+> Control Plane, so you can use your own SPIRE deployment if you want to.
+> 
+> However, using `ClusterSPIFFEID`s is the recommended way to assign identities 
+> to your workloads in **VSecM**. They are easier to manage and maintain because
+> they are Kubernetes CRDs and use the declarative nature of Kubernetes.
+
 ## Persisting Secrets
 
 **VSecM Safe** uses [`age`][age] encryption by default to securely persist the
@@ -197,8 +278,8 @@ persistent storage.
 > FIPS-compliant container images that use **AES-256-GCM** encryption instead
 > of **Age**.
 >
-> Check out the [**Configuration**](@/documentation/configuration/overview.md) section for more
-> details.
+> Check out the [**Configuration**](@/documentation/configuration/overview.md) 
+> section for more details.
 >
 > Also, you can opt out from auto-generating the private and public keys
 > and provide your own keys. However, when you do this, you will have to
@@ -208,7 +289,6 @@ persistent storage.
 >
 > Again, check out the [**Configuration**](@/documentation/configuration/overview.md)
 > section for more details.
-
 
 Since decryption is relatively expensive, once a secret is retrieved,
 it is kept in memory and served from memory for better performance.
@@ -260,7 +340,7 @@ generate a brand new key pair and then store it in the `vsecm-root-key` secret.
 
 [csi-driver]: https://github.com/spiffe/spiffe-csi
 
-## Template Transformation and K8S Secret Generation
+## Template Transformation and Kubernetes Secret Generation
 
 **VSecM** enables you to transform the secrets you register with **VSecM Safe**
 using Go template transformations before storing them. This is useful when

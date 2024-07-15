@@ -63,6 +63,9 @@ metadata:
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/enforce-mountable-secrets: "true"
+    kubernetes.io/mountable-secrets: vsecm-root-key
 automountServiceAccountToken: true
 ---
 # Source: vsecm/charts/sentinel/templates/ServiceAccount.yaml
@@ -88,6 +91,9 @@ metadata:
     app.kubernetes.io/part-of: vsecm-system
     app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/enforce-mountable-secrets: "true"
+    kubernetes.io/mountable-secrets: vsecm-sentinel-init-secret
 automountServiceAccountToken: false
 ---
 # Source: vsecm/charts/safe/templates/Secret.yaml

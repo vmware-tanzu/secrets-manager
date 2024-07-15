@@ -86,9 +86,24 @@ no admin token for operation--a clear advantage that lets your Ops team
 `#sleepmore` due to automation and eliminates manual unlocking after system
 crashes.
 
-However, there's no free lunch, and as the operator of a production system,
-your homework is to secure access to your cluster. [Check out the **Production
-Deployment Guidelines**][production] for further instructions about hardening
+Besides, even if you somehow get a hold on the **VSecM** root key (*which is
+tightly guarded by Kubernetes RBAC*), you still need to use **VSecM Sentinel** 
+to access the secrets. If you try to access to the **VSecM Safe** (*where 
+the secrets are stored*) directly, it will reject your access.
+
+So, the root key is protected with tight Kubernetes RBAC, and even an attacker 
+acquiring the root key alone cannot get secrets from **VSecM Safe**, they will
+need access to **VSecM Safe**, which, too is guarded by tight Kubernetes RBAC.
+
+As an extra security measure, you can delete **VSecM Sentinel** when you no 
+longer need it. The system will still be operational, and no one can access the 
+secrets. Deleting **VSecM Sentinel** is equivalent to locking or sealing the
+system from any and all external access.
+
+Not needing a root key to operate the system is a relief; however, there's no 
+free lunch, and as the operator of a production system, your homework is to 
+secure access to your cluster. [Check out the **Production Deployment 
+Guidelines**][production] for further instructions about hardening
 your cluster to securely use **VMware Secrets Manager**.
 
 > **Still Want Your Root Tokens?**

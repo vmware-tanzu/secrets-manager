@@ -1,9 +1,6 @@
-```text
-|   Protect your secrets, protect your sensitive data.
-:   Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/ keep your secrets... secret
-```
+# Security
+
+![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
 ## About
 

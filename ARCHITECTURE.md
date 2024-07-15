@@ -1,17 +1,16 @@
-```text
-|   Protect your secrets, protect your sensitive data.
-:   Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/ keep your secrets... secret
-```
+# VSecM Architecture
 
-The VMware Secrets Manager (VSecM) architecture consists of the following
+![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
+
+The VMware Secrets Manager (*VSecM*) architecture consists of the following
 main system components:
 
 * [SPIRE][spire]: Acting as the identity control plane.
 * **VSecM Safe**: The secure secrets store.
 * **VSecM Sentinel**: Entry point to the system where secrets can be registered
   to the workloads.
+* **VSecM Keystone**: A pod that is enabled only when the entire **VSecM**
+  system reconciles.
 
 ![actors.jpg](assets/actors.jpg)
 
