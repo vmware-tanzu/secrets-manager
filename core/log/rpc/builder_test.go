@@ -59,13 +59,13 @@ func TestBuild(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := build(tc.logHeader, tc.correlationId, tc.messageParts[:]...)
-			matched, err := regexp.MatchString(tc.wantRegex, actual)
+			got := build(tc.logHeader, tc.correlationId, tc.messageParts[:]...)
+			matched, err := regexp.MatchString(tc.wantRegex, got)
 			if err != nil {
 				t.Fatalf("Regex match failed: %v", err)
 			}
 			if !matched {
-				t.Errorf("Regex match failed: expected %v, actual %v", tc.wantRegex, actual)
+				t.Errorf("build() = %q, want match regex %q", got, tc.wantRegex)
 			}
 		})
 	}
