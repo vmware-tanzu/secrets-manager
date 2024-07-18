@@ -35,7 +35,7 @@ func TestBuild(t *testing.T) {
 			wantRegex:     `^LOG\[` + dateTimeRegex + `\] 23B3BB0E-DB5D-4F90-B980-F0215232A017 Test message\n$`,
 		},
 		{
-			name:          "Empty log header / mixed type message messageParts",
+			name:          "Empty log header / mixed type message parts",
 			logHeader:     "",
 			correlationId: &testCorrelationID,
 			messageParts:  []any{"Test", nil, "message", 3},
