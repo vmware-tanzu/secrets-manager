@@ -3,8 +3,8 @@
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
 
-**VMware Secrets Manager** (*VSecM*) redefines secrets management with intuitive 
-security for cloud native apps.
+**VMware Secrets Manager** (*VSecM*) redefines secrets management 
+for cloud native apps.
 
 By using **VSecM** you can `#sleepmore` while keeping your secrets… secret.
 

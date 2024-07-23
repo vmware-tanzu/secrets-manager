@@ -17,8 +17,8 @@ weight = 10
 
 ## Keep Your Secrets... Secret
 
-**VSecM** redefines secrets management
-with intuitive security for cloud native apps.
+**VMware Secrets Manager** (*VSecM*) redefines secrets management for 
+cloud native apps.
 
 If you want to get started quickly, check out the [**quickstart tutorial**](@/documentation/getting-started/overview.md).
 
