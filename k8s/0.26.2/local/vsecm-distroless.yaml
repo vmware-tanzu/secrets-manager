@@ -67,6 +67,8 @@ metadata:
     kubernetes.io/enforce-mountable-secrets: "true"
     kubernetes.io/mountable-secrets: vsecm-root-key
 automountServiceAccountToken: true
+secrets:
+  - name: vsecm-root-key
 ---
 # Source: vsecm/charts/sentinel/templates/ServiceAccount.yaml
 # /*
@@ -95,6 +97,8 @@ metadata:
     kubernetes.io/enforce-mountable-secrets: "true"
     kubernetes.io/mountable-secrets: vsecm-sentinel-init-secret
 automountServiceAccountToken: false
+secrets:
+  - name: vsecm-sentinel-init-secret
 ---
 # Source: vsecm/charts/safe/templates/Secret.yaml
 # /*
@@ -120,6 +124,8 @@ metadata:
     app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/operated-by: vsecm
+  annotations:
+    kubernetes.io/service-account.name: vsecm-safe
 type: Opaque
 data:
   # '{}' (e30=) is a special placeholder to tell Safe that the Secret
@@ -149,6 +155,8 @@ metadata:
     app.kubernetes.io/version: "0.26.2"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/operated-by: vsecm
+  annotations:
+    kubernetes.io/service-account.name: vsecm-sentinel
 type: Opaque
 stringData:
   data: "exit:true\n--\n"
@@ -267,6 +275,53 @@ roleRef:
 #     apiGroup: rbac.authorization.k8s.io
 #
 ##
+---
+# Source: vsecm/charts/sentinel/templates/Role.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vsecm-sentinel-secret-reader
+  namespace: vsecm-system
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+    resourceNames: ["vsecm-sentinel-init-secret"]
+---
+# Source: vsecm/charts/sentinel/templates/RoleBinding.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  namespace: vsecm-system
+subjects:
+  - kind: ServiceAccount
+    name: vsecm-sentinel
+    namespace: vsecm-system
+roleRef:
+  kind: Role
+  name: vsecm-sentinel-secret-reader
+  apiGroup: rbac.authorization.k8s.io
 ---
 # Source: vsecm/charts/safe/templates/Service.yaml
 # /*

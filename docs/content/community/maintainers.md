@@ -49,10 +49,10 @@ assisting in feature development.
 
 **Qi Hu** (*Patrick*) [@BulldromeQ](https://github.com/BulldromeQ)
 
-Patrick has played a crucial role in integrating VSecM to work seamlessly with
-the [Carvel](https://carvel.dev) suite of tools. He has helped enhance the
-stability and reliability of both the VSecM and SPIRE. And he is actively
-involved in making VSecM even more robust.
+Patrick has played a crucial role in integrating **VSecM** to work seamlessly 
+with the [Carvel](https://carvel.dev) suite of tools. He has helped enhance the
+stability and reliability of both the **VSecM** and **SPIRE**. And he is 
+actively involved in making **VSecM** even more robust.
 
 [codeowners]: https://github.com/vmware-tanzu/secrets-manager/blob/main/CODEOWNERS "VMware Secrets Manager CODEOWNERS"
 

@@ -8,16 +8,15 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: example
-  namespace: default
-spec:
-  template:
-    spec:
-      containers:
-      - name: main
-        image: public.ecr.aws/h8y1n7y7/example-using-sidecar:0.26.2
-      - name: sidecar
-        image: public.ecr.aws/h8y1n7y7/vsecm-ist-sidecar:0.26.2
+  name: vsecm-sentinel-secret-reader
+  namespace: {{ .Values.global.vsecm.namespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+    resourceNames: ["vsecm-sentinel-init-secret"]
+
+

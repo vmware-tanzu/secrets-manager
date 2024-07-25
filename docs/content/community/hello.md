@@ -49,6 +49,19 @@ As a small, dedicated team of security enthusiasts, we value focused, effective
 communication. Thus, we prefer to consolidate our interactions into a single
 channel, rather than dispersing them across multiple platforms.
 
+> **Türkçe Konuşanlar İçin:**
+>
+> Özgür yazılım birlikte olunca güzel 🤗.
+>
+> Eğer **VMware Secrets Manager** ile ilgili bir sorun varsa, projeye
+> katkıda bulunmak istiyorsan veya başka bir konuda yardıma ihtiyacın varsa,
+> dil engeli olmadan bize ulaşabilirsin.
+>
+> [Kampus Discord Sunucusu'nda **VMware Secrets Manager** kanalında][kampus]
+> buluşalım ve birlikte dünyayı daha güvenli hale getirelim 🤘.
+
+[kampus]: https://discord.gg/kampus "Join Kampus Discord Server"
+
 ## Join Our Public Meetings
 
 > **We Are Stronger Together**
