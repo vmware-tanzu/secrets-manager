@@ -18,7 +18,9 @@ spec:
     spec:
       containers:
       - name: main
+        # Change this, if you want to use a different image:
         image: localhost:5000/example-using-init-container:0.26.2
       initContainers:
       - name: init-container
+        # Change this, if you want to use a different image:
         image: localhost:5000/vsecm-ist-init-container:0.26.2
