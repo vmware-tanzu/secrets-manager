@@ -67,6 +67,8 @@ metadata:
     kubernetes.io/enforce-mountable-secrets: "true"
     kubernetes.io/mountable-secrets: vsecm-root-key
 automountServiceAccountToken: true
+secrets:
+  - name: vsecm-root-key
 ---
 # Source: vsecm/charts/sentinel/templates/ServiceAccount.yaml
 # /*
@@ -95,6 +97,8 @@ metadata:
     kubernetes.io/enforce-mountable-secrets: "true"
     kubernetes.io/mountable-secrets: vsecm-sentinel-init-secret
 automountServiceAccountToken: false
+secrets:
+  - name: vsecm-sentinel-init-secret
 ---
 # Source: vsecm/charts/safe/templates/Secret.yaml
 # /*
