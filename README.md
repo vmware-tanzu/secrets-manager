@@ -121,8 +121,6 @@ to responsibly disclose it.
 [Check out this quickstart guide][quickstart] for an overview of
 **VMware Secrets Manager**.
 
-[quickstart]: https://vsecm.com/docs/quickstart
-
 ## Community
 
 Open Source is better together.
@@ -146,21 +144,18 @@ and let us change the world together 🤘:
 
 ### Guides and Tutorials
 
-* **Installation and Quickstart**: <https://vsecm.com/docs/quickstart/>
-* **Local Development Instructions**: <https://vsecm.com/docs/use-the-source/>
-* **Developer SDK**: <https://vsecm.com/docs/sdk/>
-* **CLI**: <https://vsecm.com/docs/cli/>
-* **Architecture**: <https://vsecm.com/docs/architecture/>
-* **Configuration**: <https://vsecm.com/docs/configuration/>
-* **Design Philosophy**: <https://vsecm.com/docs/philosophy/>
-* **Production Deployment Tips**: <https://vsecm.com/docs/production/>
+* **Installation and Quickstart**: <https://vsecm.com/documentation/getting-started/overview/>
+* **Local Development Instructions**: <https://vsecm.com/documentation/development/use-the-source/>
+* **Developer SDK**: <https://vsecm.com/documentation/usage/sdk/>
+* **CLI**: <https://vsecm.com/documentation/usage/cli/
+* **Architecture**: <https://vsecm.com/documentation/architecture/philosophy/>
+* **Configuration**: <https://vsecm.com/documentation/configuration/overview/>
+* **Production Deployment Tips**: <https://vsecm.com/documentation/production/overview/>
 
 ## Installation
 
 [Check out this quickstart guide][quickstart] for an overview of **VMware Secrets Manager**,
 which also covers **installation** and **uninstallation** instructions.
-
-[quickstart]: https://vsecm.com/docs/quickstart/
 
 You need a **Kubernetes** cluster and sufficient admin rights on that cluster to
 install **VMware Secrets Manager**.
@@ -278,12 +273,11 @@ We'd love to have them.
 
 [kampus]: https://discord.gg/kampus
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
-[roadmap]: https://vsecm.com/docs/roadmap/  "The Roadmap"
-[installation]: https://vsecm.com/docs/installation/ "Install VMware Secrets Manager"
-[build]: https://vsecm.com/docs/use-the-source/ "Building, Deploying, and Testing"
-[architecture]: https://vsecm.com/docs/architecture/ "VMware Secrets Manager Architecture"
-[design]: https://vsecm.com/docs/philosophy/ "VMware Secrets Manager Design Philosophy"
-[quickstart]: https://vsecm.com/docs/quickstart/ "Quickstart"
+[roadmap]: https://vsecm.com/timeline/roadmap/  "The Roadmap"
+[installation]: https://vsecm.com/documentation/getting-started/installation/ "Install VMware Secrets Manager"
+[build]: https://vsecm.com/documentation/development/use-the-source/ "Building, Deploying, and Testing"
+[architecture]: https://vsecm.com/documentation/architecture/philosophy/ "VMware Secrets Manager Architecture"
+[design]: https://vsecm.com/documentation/architecture/philosophy/ "VMware Secrets Manager Design Philosophy"
 [spire]: https://spiffe.io/ "SPIFFE: Secure Production Identity Framework for Everyone"
 [docs]: https://vsecm.com/
 [quickstart]: https://vsecm.com/documentation/getting-started/overview/ "VSecM Quickstart"
