@@ -13,7 +13,7 @@ title = "VSecM Changelog"
 weight = 11
 +++
 
-## Recent Updates
+## [0.26.1] - 2024-07-07
 
 * Removed `useClusterSpiffeIds` and `useSpireControllerManager` from helm charts
   options. SPIRE helm charts use SPIRE Controller Manager, and disabling it

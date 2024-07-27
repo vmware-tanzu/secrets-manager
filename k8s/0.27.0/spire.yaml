@@ -16,7 +16,7 @@ metadata:
   name: spire-agent
   namespace: spire-system
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: agent
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -39,7 +39,7 @@ metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -62,7 +62,7 @@ metadata:
   name: spire-spiffe-csi-driver
   namespace: spire-system
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: spiffe-csi-driver
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "0.2.3"
@@ -188,7 +188,7 @@ data:
       name: spire-controller-manager
       namespace: spire-server
       labels:
-        helm.sh/chart: spire-0.26.2
+        helm.sh/chart: spire-0.27.0
         app.kubernetes.io/name: server
         app.kubernetes.io/instance: spire
         app.kubernetes.io/version: "1.9.6"
@@ -657,7 +657,7 @@ metadata:
   name: spire-controller-manager-webhook
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -690,7 +690,7 @@ metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -723,7 +723,7 @@ metadata:
   name: spire-agent
   namespace: spire-system
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: agent
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -879,7 +879,7 @@ metadata:
   name: spire-spiffe-csi-driver
   namespace: spire-system
   labels:
-    hhelm.sh/chart: spire-0.26.2
+    hhelm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: spiffe-csi-driver
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "0.2.3"
@@ -1010,7 +1010,7 @@ metadata:
   name: spire-server
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1340,7 +1340,7 @@ metadata:
   name: spire-server-post-install
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1366,7 +1366,7 @@ metadata:
   name: spire-server-post-upgrade
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1392,7 +1392,7 @@ metadata:
   name: spire-server-pre-upgrade
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1571,7 +1571,7 @@ metadata:
   name: spire-server-post-install
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1643,7 +1643,7 @@ metadata:
   name: spire-server-post-upgrade
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"
@@ -1714,7 +1714,7 @@ metadata:
   name: spire-server-pre-upgrade
   namespace: spire-server
   labels:
-    helm.sh/chart: spire-0.26.2
+    helm.sh/chart: spire-0.27.0
     app.kubernetes.io/name: server
     app.kubernetes.io/instance: spire
     app.kubernetes.io/version: "1.9.6"

@@ -10,5 +10,5 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-cp ./helm-charts/0.26.2/values-custom.yaml ./helm-charts/0.26.2/values.yaml
-make k8s-manifests-update VERSION=0.26.2
+cp ./helm-charts/0.27.0/values-custom.yaml ./helm-charts/0.27.0/values.yaml
+make k8s-manifests-update VERSION=0.27.0
