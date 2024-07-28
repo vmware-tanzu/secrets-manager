@@ -56,3 +56,4 @@ vendor
 
 /core/log/rpc/generated/log_grpc.pb.go
 /core/log/rpc/generated/log.pb.go
+/public

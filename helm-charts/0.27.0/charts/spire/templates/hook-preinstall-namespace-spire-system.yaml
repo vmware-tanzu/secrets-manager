@@ -1,0 +1,23 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spire-server
+  labels:
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/warn: restricted
+{{- if .Values.global.enableOpenShift }}
+    security.openshift.io/scc.podSecurityLabelSync: "false"
+{{- end }}
+  annotations:
+    "helm.sh/hook": pre-install
