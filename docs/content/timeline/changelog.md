@@ -13,7 +13,9 @@ title = "VSecM Changelog"
 weight = 11
 +++
 
-## [0.26.1] - 2024-07-07
+## [0.26.1] - 2024-07-28
+
+### Changed
 
 * Removed `useClusterSpiffeIds` and `useSpireControllerManager` from helm charts
   options. SPIRE helm charts use SPIRE Controller Manager, and disabling it
@@ -29,6 +31,9 @@ weight = 11
   by manually editing the SPIRE Server and SPIRE Agent configmaps. Later, we'll
   have a cross-cluster replication feature where we will introduce these
   bundle endpoints using a hub-spoke topology in a more controlled manner.
+
+### Added
+
 * Introduced new Architecture Decision Records (ADRs) as drafts. These ADRs
   will be reviewed and finalized in the upcoming releases. 
 
