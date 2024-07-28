@@ -117,12 +117,12 @@ func copyVSecMCrds(inputDir, outputDir string) {
 }
 
 func main() {
-	inputFile := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.27.0/spire.yaml"
+	inputFile := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.27.1/spire.yaml"
 	outputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests"
 
 	createManifests(inputFile, outputDir)
 
-	//inputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.27.0/crds"
+	//inputDir := "/Users/volkan/Desktop/WORKSPACE/secrets-manager/k8s/0.27.1/crds"
 	//outputDir = "/Users/volkan/Desktop/WORKSPACE/secrets-manager/helm-charts-playground/vsecm-manifests/crds"
 	//
 	//copyVSecMCrds(inputDir, outputDir)

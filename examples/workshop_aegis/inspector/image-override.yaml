@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: localhost:5000/example-multiple-secrets:0.27.0
+        image: localhost:5000/example-multiple-secrets:0.27.1
         env:
           - name: VSECM_LOG_LEVEL
             value: "7"
