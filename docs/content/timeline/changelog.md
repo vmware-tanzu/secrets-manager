@@ -13,6 +13,11 @@ title = "VSecM Changelog"
 weight = 11
 +++
 
+## Recent Changes
+
+TBD
+
+
 ## [0.27.0] - 2024-07-28
 
 ### Changed
@@ -36,6 +41,9 @@ weight = 11
 
 * Introduced new Architecture Decision Records (ADRs) as drafts. These ADRs
   will be reviewed and finalized in the upcoming releases. 
+* Namespaces of `vsecm-system`, `spire-server`, and `spire-system` can now
+  be dynamically configurable via Helm charts.
+* Various documentation and README updates.
 
 ## [0.26.1] - 2024-07-07
 

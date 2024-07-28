@@ -31,19 +31,6 @@ this page, and also [the changelog](@/timeline/changelog.md) to reflect the chan
 
 ## Active Iterations
 
-### VSecM v0.27.0 (*codename: Gemini*)
-
-**May 23, 2024 - Jun 19, 2024**
-
-The sole focus of this iteration is increasing unit test coverage and adding
-more integration tests. We will also catch up with documentation.
-
-We will likely introduce improvements too; however, stability will be our main
-focus.
-
-[Here is a list of issues that are candidate for VSecM vGemini
-](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.27.0-candidate+).
-
 ### VSecM v0.28.0 (*codename: Hydra*)
 
 **Jun 20, 2024 - Jul 17, 2024**
@@ -233,7 +220,7 @@ integration capabilities, and refining user experience. Key points include:
 
 [Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+).
 
-## VSecM v0.39.0 (*codename: Virgo*)
+### VSecM v0.39.0 (*codename: Virgo*)
 
 This is a "*catch all*" that contains all remaining documented future plans.
 We will create new iterations from it as the time gets closer.
@@ -241,6 +228,19 @@ We will create new iterations from it as the time gets closer.
 [Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
 
 ## Closed Iterations
+
+### VSecM v0.27.0 (*codename: Gemini*)
+
+**May 23, 2024 - Jun 19, 2024**
+
+The sole focus of this iteration was increasing unit test coverage and adding
+more integration tests. 
+
+We also introduced improvements too; however, stability will be our main
+focus.
+
+[Here is a list of issues that are candidate for VSecM vGemini
+](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.27.0-candidate+).
 
 ### VSecM v0.26.1 (*codename: Fornax*)
 
