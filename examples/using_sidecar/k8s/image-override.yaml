@@ -19,7 +19,7 @@ spec:
       containers:
       - name: main
         # Change this, if you want to use a different image
-        image: localhost:5000/example-using-sidecar:0.27.0
+        image: localhost:5000/example-using-sidecar:0.27.1
       - name: sidecar
         # Change this, if you want to use a different image
-        image: localhost:5000/vsecm-ist-sidecar:0.27.0
+        image: localhost:5000/vsecm-ist-sidecar:0.27.1

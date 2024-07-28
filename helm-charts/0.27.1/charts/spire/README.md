@@ -1,6 +1,6 @@
 # spire
 
-![Version: 0.27.0](https://img.shields.io/badge/Version-0.27.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.0](https://img.shields.io/badge/AppVersion-0.27.0-informational?style=flat-square)
+![Version: 0.27.1](https://img.shields.io/badge/Version-0.27.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.1](https://img.shields.io/badge/AppVersion-0.27.1-informational?style=flat-square)
 
 Helm chart for spire
 
@@ -11,6 +11,7 @@ Helm chart for spire
 | data | object | `{"persistent":true,"persistentVolumeClaim":{"accessMode":"ReadWriteOnce","size":"1Gi","storageClass":""}}` | Persistence settings for the SPIRE Server. |
 | data.persistent | bool | `true` | Persistence is enabled by default. However, you are recommended to provide your own storage class if you are using a cloud provider or a storage solution that supports dynamic provisioning. |
 | data.persistentVolumeClaim | object | `{"accessMode":"ReadWriteOnce","size":"1Gi","storageClass":""}` | Define the PVC if `persistent` is true. |
+| enableSpireMintedDefaultClusterSpiffeIds | bool | `false` | SPIRE assigns a default Cluster SPIFFE ID to all workloads in the cluster. The SPIFFEID SPIRE assigns by default is not aligned with the SPIFFE ID format that VSecM Safe expects. Also, you might not want SPIRE to assign SPIFFE IDs to every single workload you have in your cluster if you are not using SPIRE to attest those workloads. Therefore, this option is set to false by default.  If you set this to true, make sure you update `safeSpiffeIdTemplate` `sentinelSpiffeIdTemplate`, `keystoneSpiffeIdTemplate`, `workloadNameRegExp`, `workloadSpiffeIdPrefix`, `safeSpiffeIdPrefix`, `sentinelSpiffeIdPrefix` and other relevant configurations to match with what SPIRE assigns. |
 | experimental | object | `{"eventsBasedCache":false}` | Experimental settings. |
 | experimental.eventsBasedCache | bool | `false` | eventsBasedCache is known to significantly improve SPIRE Server performance. It is set to `false` by default, just in case. |
 | fullnameOverride | string | `""` | The fullname override of the chart. |
