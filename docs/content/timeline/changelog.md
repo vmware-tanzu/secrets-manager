@@ -13,7 +13,7 @@ title = "VSecM Changelog"
 weight = 11
 +++
 
-## [0.26.1] - 2024-07-28
+## [0.27.0] - 2024-07-28
 
 ### Changed
 
