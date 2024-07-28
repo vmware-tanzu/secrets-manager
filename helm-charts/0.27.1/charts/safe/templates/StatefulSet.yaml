@@ -1,0 +1,195 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "safe.fullname" . }}
+  namespace: {{ .Values.global.vsecm.namespace }}
+  labels:
+    {{- include "safe.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "safe.fullname" . }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "safe.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "safe.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "safe.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      priorityClassName: system-cluster-critical
+
+      containers:
+        - name: main
+          image: "{{ .Values.global.registry }}/{{- include "safe.repository" .}}:{{ .Values.global.images.safe.tag }}"
+          imagePullPolicy: {{ .Values.global.images.safe.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: vsecm-data
+              mountPath: {{ .Values.data.hostPath.path }}
+              readOnly: false
+            - name: spire-agent-socket
+              mountPath: /spire-agent-socket
+              readOnly: true
+            - name: vsecm-root-key
+              mountPath: /key
+              readOnly: true
+          #
+          # You can configure VSecM Safe by providing environment variables.
+          #
+          # See https://vsecm.com/configuration for more information about
+          # these environment variables.
+          #
+          # When you don't explicitly provide env vars here, VSecM Safe
+          # will assume the default values outlined in the given link above.
+          #
+          env:
+          {{- $vsecmNamespaceSet := false }}
+          {{- $spireNamespaceSet := false }}
+          {{- $safeEndpointUrlSet := false }}
+          {{- $safeSpiffeIdPrefixSet := false }}
+          {{- $sentinelSpiffeIdPrefixSet := false }}
+          {{- $workloadSpiffeIdPrefixSet := false }}
+          {{- $spiffeTrustDomainSet := false }}
+          {{- $workloadNameRegExpSet := false }}
+          {{- range .Values.environments }}
+            {{- if eq .name "VSECM_SAFE_ENDPOINT_URL" }}
+              {{- $safeEndpointUrlSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SPIFFEID_PREFIX_SAFE" }}
+              {{- $safeSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SPIFFEID_PREFIX_SENTINEL" }}
+              {{- $sentinelSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_SPIFFEID_PREFIX_WORKLOAD" }}
+              {{- $workloadSpiffeIdPrefixSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SYSTEM" }}
+              {{- $vsecmNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "VSECM_NAMESPACE_SPIRE" }}
+              {{- $spireNamespaceSet = true }}
+            {{- end }}
+            {{ if eq .name "SPIFFE_TRUST_DOMAIN" }}
+              {{- $spiffeTrustDomainSet = true }}
+            {{- end }}
+            {{- if eq .name "VSECM_WORKLOAD_NAME_REGEXP" }}
+              {{- $workloadNameRegExpSet = true }}
+            {{- end }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+          {{- end }}
+
+          {{- if not $safeEndpointUrlSet }}
+            - name: VSECM_SAFE_ENDPOINT_URL
+              value: {{ .Values.global.vsecm.safeEndpointUrl | quote }}
+          {{- end }}
+          {{- if not $safeSpiffeIdPrefixSet }}
+            - name: VSECM_SPIFFEID_PREFIX_SAFE
+              value: {{ .Values.global.vsecm.safeSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $sentinelSpiffeIdPrefixSet }}
+            - name: VSECM_SPIFFEID_PREFIX_SENTINEL
+              value: {{ .Values.global.vsecm.sentinelSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $workloadSpiffeIdPrefixSet }}
+            - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
+              value: {{ .Values.global.vsecm.workloadSpiffeIdPrefix | quote }}
+          {{- end }}
+          {{- if not $vsecmNamespaceSet }}
+            - name: VSECM_NAMESPACE_SYSTEM
+              value: {{ .Values.global.vsecm.namespace | quote }}
+          {{- end }}
+          {{- if not $spireNamespaceSet }}
+            - name: VSECM_NAMESPACE_SPIRE
+              value: {{ .Values.global.spire.namespace | quote }}
+          {{- end }}
+          {{- if not $spiffeTrustDomainSet }}
+            - name: SPIFFE_TRUST_DOMAIN
+              value: {{ .Values.global.spire.trustDomain | quote }}
+          {{- end }}
+          {{- if not $workloadNameRegExpSet }}
+            - name: VSECM_WORKLOAD_NAME_REGEXP
+              value: {{ .Values.global.vsecm.workloadNameRegExp | quote }}
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.livenessPort }}
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.readinessPort }}
+            initialDelaySeconds: 1
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+      volumes:
+        # Using SPIFFE CSI Driver to bind to the SPIRE Agent Socket
+        # ref: https://github.com/spiffe/spiffe-csi
+        - name: spire-agent-socket
+          csi:
+            driver: "csi.spiffe.io"
+            readOnly: true
+
+{{- if not .Values.data.persistent }}
+        # `vsecm-data` is used to persist the encrypted backups of the secrets.
+        - name: vsecm-data
+          hostPath:
+            path: {{ .Values.data.hostPath.path }}
+            type: DirectoryOrCreate
+{{- end}}
+
+        # `vsecm-root-key` stores the encryption keys to restore secrets from vsecm-data.
+        - name: vsecm-root-key
+          secret:
+            secretName: {{ .Values.rootKeySecretName }}
+            items:
+              - key: KEY_TXT
+                path: key.txt
+
+{{- if .Values.data.persistent }}
+  volumeClaimTemplates:
+    - metadata:
+        name: vsecm-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
+        {{- end }}
+{{- end }}
