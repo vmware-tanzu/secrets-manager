@@ -13,6 +13,9 @@ kind: ConfigMap
 metadata:
   name: spire-server
   namespace: {{ .Values.global.spire.serverNamespace }}
+  annotations:
+    kapp.k14s.io/versioned: ""
+    kapp.k14s.io/versioned-keep-original: ""
 data:
   server.conf: |
     {

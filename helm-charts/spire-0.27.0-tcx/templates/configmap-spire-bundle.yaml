@@ -13,3 +13,5 @@ kind: ConfigMap
 metadata:
   name: spire-bundle
   namespace: {{ .Values.global.spire.namespace }}
+  annotations:
+    kapp.k14s.io/update-strategy: skip

@@ -13,6 +13,9 @@ kind: ConfigMap
 metadata:
   name: spire-agent
   namespace: {{ .Values.global.spire.namespace }}
+  annotations:
+    kapp.k14s.io/versioned: ""
+    kapp.k14s.io/versioned-keep-original: ""
 data:
   agent.conf: |
     {

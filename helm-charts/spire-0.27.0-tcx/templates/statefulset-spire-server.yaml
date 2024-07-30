@@ -20,6 +20,8 @@ metadata:
     app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: server
+  annotations:
+    kapp.k14s.io/change-group: "apps.spire.spire-server/statefulset"
 spec:
   replicas: 1
   serviceName: spire-server

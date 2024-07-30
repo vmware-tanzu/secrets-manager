@@ -20,6 +20,9 @@ metadata:
     app.kubernetes.io/version: "1.9.6"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: default
+  annotations:
+    kapp.k14s.io/change-group: "apps.spire.spire-agent/daemonset"
+    kapp.k14s.io/change-rule: "upsert after upserting apps.spire.spire-server/statefulset"
 spec:
   selector:
     matchLabels:

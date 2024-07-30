@@ -13,6 +13,9 @@ kind: ConfigMap
 metadata:
   name: spire-controller-manager
   namespace: {{ .Values.global.spire.serverNamespace }}
+  annotations:
+    kapp.k14s.io/versioned: ""
+    kapp.k14s.io/versioned-keep-original: ""
 data:
   controller-manager-config.yaml: |
     
