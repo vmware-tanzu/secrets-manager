@@ -29,28 +29,28 @@ func main() {
 		string(e.VSecMKeygenDecrypt),
 	})
 
-	// This is a Kubernetes Secret, mounted as a file.
-	keyPath := env.RootKeyPathForKeyGen()
-
-	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
-		log.FatalLn(&id,
-			"CreateRootKey: Secret key not mounted at", keyPath)
-		return
-	}
-
-	data, err := os.ReadFile(keyPath)
-	if err != nil {
-		log.FatalLn(&id,
-			"CreateRootKey: Error reading file:", err.Error())
-		return
-	}
-
-	// Root key needs to be committed to memory for VSecM Keygen to be able
-	// to decrypt the secrets.
-	secret := string(data)
-	crypto.SetRootKeyInMemory(secret)
-
 	if env.KeyGenDecrypt() {
+		// This is a Kubernetes Secret, mounted as a file.
+		keyPath := env.RootKeyPathForKeyGen()
+
+		if _, err := os.Stat(keyPath); os.IsNotExist(err) {
+			log.FatalLn(&id,
+				"CreateRootKey: Secret key not mounted at", keyPath)
+			return
+		}
+
+		data, err := os.ReadFile(keyPath)
+		if err != nil {
+			log.FatalLn(&id,
+				"CreateRootKey: Error reading file:", err.Error())
+			return
+		}
+
+		// Root key needs to be committed to memory for VSecM Keygen to be able
+		// to decrypt the secrets.
+		secret := string(data)
+		crypto.SetRootKeyInMemory(secret)
+
 		internal.PrintDecryptedKeys()
 		return
 	}
