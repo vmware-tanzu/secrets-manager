@@ -19,4 +19,4 @@ spec:
       containers:
       - name: main
         # Change this, if you want to use a different image
-        image: localhost:5000/example-using-sdk-go:0.27.1
+        image: vsecm/example-using-sdk-go:latest
