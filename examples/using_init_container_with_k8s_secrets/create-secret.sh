@@ -16,4 +16,4 @@ SENTINEL=$(kubectl get po -n vsecm-system \
 kubectl exec "$SENTINEL" -n vsecm-system -- safe \
   -w "k8s:vsecm-secret-example" \
   -n "default" \
-  -s '{"username": "root", "password": "KeepUrS8crts", "value": "VSecMRocks"}'
+  -s '{"username": "root", "password": "KeepUrS8crts", "secret": "VSecMRocks"}'
