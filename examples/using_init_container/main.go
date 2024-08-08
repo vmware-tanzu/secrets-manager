@@ -36,6 +36,15 @@ func main() {
 		fmt.Printf("My creds: username:'%s' password:'%s'.\n",
 			os.Getenv("USERNAME"), os.Getenv("PASSWORD"),
 		)
+
+		fmt.Println("")
+
+		path := "/opt/vsecm/secrets.json"
+		data, err := os.ReadFile(path)
+		if err != nil {
+			fmt.Println("File content: ", string(data))
+		}
+
 		fmt.Println("")
 
 		time.Sleep(5 * time.Second)
