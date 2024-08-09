@@ -39,9 +39,11 @@ func main() {
 
 		fmt.Println("")
 
+		// Print the contents of the mounted file, if you
+		// can read it.
 		path := "/opt/vsecm/secrets.json"
 		data, err := os.ReadFile(path)
-		if err != nil {
+		if err == nil {
 			fmt.Println("File content: ", string(data))
 		}
 
