@@ -29,6 +29,14 @@ spec:
       containers:
       - name: main
         image: vsecm/example-using-init-container:latest
+
+        volumeMounts:
+        # Share with Sidecar. When the `main` container is ready,
+        # this volume will be populated with the secret that the
+        # `main` container needs.
+        - mountPath: /opt/vsecm
+          name: vsecm-secrets-volume
+
         env:
         - name: USERNAME
           valueFrom:
@@ -45,6 +53,49 @@ spec:
             secretKeyRef:
               name: vsecm-secret-example
               key: secret
+
+      # `main` shares this volume with `sidecar`.
+      - name: sidecar
+        image: vsecm/vsecm-ist-sidecar:latest
+        volumeMounts:
+          # /opt/vsecm/secrets.json is the place the secrets will be at.
+          # The main application can read the secrets from this location too.
+          - mountPath: /opt/vsecm
+            name: vsecm-secrets-volume
+          # Volume mount for SPIRE unix domain socket.
+          - name: spire-agent-socket
+            mountPath: /spire-agent-socket
+            readOnly: true
+
+        #
+        # You can configure this workload by providing environment variables.
+        #
+        # See https://vsecm.com/configuration for more information about
+        # these environment variables.
+        #
+        # When you don't explicitly provide env vars here, VMware Secrets Manager
+        # Safe will assume the default values outlined in the given link above.
+        #
+        env:
+          - name: SPIFFE_ENDPOINT_SOCKET
+            value: "unix:///spire-agent-socket/spire-agent.sock"
+          - name: VSECM_LOG_LEVEL
+            value: "7"
+          - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
+            value: "spiffe://vsecm.com/workload/"
+          - name: VSECM_SPIFFEID_PREFIX_SAFE
+            value: "spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/"
+          - name: VSECM_SIDECAR_POLL_INTERVAL
+            value: "5000"
+          - name: VSECM_SIDECAR_MAX_POLL_INTERVAL
+            value: "300000"
+          - name: VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER
+            value: "2"
+          - name: VSECM_SIDECAR_SUCCESS_THRESHOLD
+            value: "3"
+          - name: VSECM_SIDECAR_ERROR_THRESHOLD
+            value: "2"
+
       initContainers:
       # See `./register.sh` to register the workload and finalize
       # this init container.
