@@ -1,0 +1,191 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# -- Number of replicas to deploy. Note that values greater than 1 are not
+# supported yet.
+replicaCount: 1
+
+# -- The port that the liveness probe listens on.
+# `environments.VSECM_PROBE_LIVENESS_PORT` should match this value.
+livenessPort: 8081
+# -- The port that the readiness probe listens on.
+# `environments.VSECM_PROBE_READINESS_PORT` should match this value.
+readinessPort: 8082
+
+# -- The name of the root key secret.
+rootKeySecretName: &rootKeyName vsecm-root-key
+
+# -- How persistence is handled.
+data:
+  # -- If `persistent` is true, a PersistentVolumeClaim is used.
+  # Otherwise, a hostPath is used.
+  persistent: false
+  # -- PVC settings (if `persistent` is true).
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+
+  # -- hostPath if `persistent` is false.
+  hostPath:
+    path: "/var/local/vsecm/data"
+
+# -- See https://vsecm.com/configuration for more information
+# about these environment variables.
+environments:
+  # -- The SPIFFE endpoint socket. This is used to communicate with the SPIRE
+  # agent. If you change this, you will need to change the associated
+  # volumeMount in the Deployment.yaml too.
+  # The name of the socket should match spireAgent.socketName in values.yaml
+  # of the SPIRE chart.
+  - name: SPIFFE_ENDPOINT_SOCKET
+    value: "unix:///spire-agent-socket/spire-agent.sock"
+  # -- The interval between retries (in milliseconds) for the default backoff strategy.
+  - name: VSECM_BACKOFF_DELAY
+    value: "1000"
+  # -- The maximum number of retries for the default backoff strategy before it gives up.
+  - name: VSECM_BACKOFF_MAX_RETRIES
+    value: "10"
+  # -- The maximum wait time (in milliseconds) for the default backoff strategy.
+  - name: VSECM_BACKOFF_MAX_WAIT
+    value: "10000"
+  # -- The backoff mode. The default is "exponential".
+  # Allowed values: "exponential", "linear"
+  - name: VSECM_BACKOFF_MODE
+    value: "exponential"
+  # -- The log level. 0: Logs are off (only audit events will be logged)
+  # 7: TRACE level logging (maximum verbosity).
+  - name: VSECM_LOG_LEVEL
+    value: "7"
+  # -- Useful for debugging. This will log cryptographic fingerprints of
+  # secrets without revealing the secret itself. It is recommended to keep
+  # this "false" in production.
+  - name: VSECM_LOG_SECRET_FINGERPRINTS
+    value: "false"
+  # -- The port that the liveness probe listens on.
+  - name: VSECM_PROBE_LIVENESS_PORT
+    value: ":8081"
+  # -- The port that the readiness probe listens on.
+  - name: VSECM_PROBE_READINESS_PORT
+    value: ":8082"
+  # -- The backing store for VSecM Safe.
+  # Possible values are: "memory", "file", "aws-secret", "azure-secret",
+  # "gcp-secret", "k8s". Currently, only "memory" and "file" are supported.
+  - name: VSECM_SAFE_BACKING_STORE
+    value: "file"
+  # -- The interval (in milliseconds) that the VSecM Safe will wait during
+  # bootstrapping before it bails out.
+  - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
+    value: "300000"
+  # -- Whether to automatically generate root cryptographic material or
+  # expect it to be provided through VSecM Sentinel CLI by the operator.
+  # If set to "false", VSecM Safe will automatically generate the root keys,
+  # which will make the operator's life easier.
+  - name: VSECM_ROOT_KEY_INPUT_MODE_MANUAL
+    value: "false"
+  # -- The name of the VSecM Root Key Secret.
+  - name: VSECM_ROOT_KEY_NAME
+    value: *rootKeyName
+  # -- The path where the VSecM Root Key will be mounted.
+  - name: VSECM_ROOT_KEY_PATH
+    value: "/key/key.txt"
+  # -- The path where the VSecM Safe will store its data (if the backing store
+  # is "file").
+  - name: VSECM_SAFE_DATA_PATH
+    value: "/var/local/vsecm/data"
+  # -- Should VSecM Safe use FIPS-compliant encryption?
+  - name: VSECM_SAFE_FIPS_COMPLIANT
+    value: "false"
+  # -- The IV initialization interval (in milliseconds) for the VSecM Safe.
+  - name: VSECM_SAFE_IV_INITIALIZATION_INTERVAL
+    value: "50"
+  # -- The number of secrets VSecM Safe can buffer before blocking further
+  # operations until the buffer has space.
+  - name: VSECM_SAFE_K8S_SECRET_BUFFER_SIZE
+    value: "10"
+  # -- How many versions of older secrets should be kept.
+  - name: VSECM_SAFE_SECRET_BACKUP_COUNT
+    value: "3"
+  # -- The number of secrets VSecM Safe can buffer before blocking further
+  # operations until the buffer has space.
+  - name: VSECM_SAFE_SECRET_BUFFER_SIZE
+    value: "10"
+  # -- The number of secrets VSecM Safe can buffer before blocking further
+  # operations until the buffer has space.
+  - name: VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE
+    value: "10"
+  # -- The timeout (in milliseconds) for the VSecM Safe to acquire a source.
+  # After this timeout, the VSecM Safe will bail out.
+  - name: VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT
+    value: "10000"
+  # -- The prefix to use for the workload names, when storing workload
+  # secrets as Kubernetes secrets.
+  - name: VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX
+    value: "k8s:"
+  # -- The place where the VSecM Safe will store its root key.
+  # The only possible value is "k8s" at the moment.
+  - name: VSECM_SAFE_ROOT_KEY_STORE
+    value: "k8s"
+  # -- The port that the VSecM Safe will listen on.
+  - name: VSECM_SAFE_TLS_PORT
+    value: ":8443"
+
+# -- Override it with an image pull secret that you need as follows:
+# imagePullSecrets:
+#  - name: my-registry-secret
+imagePullSecrets: []
+
+# -- The name override of the chart.
+nameOverride: ""
+# -- The fullname override of the chart.
+fullnameOverride: ""
+
+# -- The service account to use.
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "vsecm-safe"
+
+# -- Additional pod annotations.
+podAnnotations: {}
+
+# -- Pod security context overrides.
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+# -- Service settings.
+service:
+  type: ClusterIP
+  port: 8443
+  targetPort: 8443
+
+# -- Resource limits and requests.
+resources:
+  # These are default requests that can be used as a starting point.
+  # Of course, benchmark your production system to determine the actual
+  # requests you need.
+  requests:
+    memory: "20Mi"
+    cpu: "5m"
+
+# -- Autoscaling settings. Note that autoscaling is not supported for VSecM
+# Safe yet. For proper operation there should always be a single VSecM Safe
+# pod at all times.
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
