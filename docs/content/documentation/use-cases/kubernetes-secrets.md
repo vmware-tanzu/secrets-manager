@@ -32,6 +32,15 @@ to create secrets as Kubernetes secrets, approaches like
 Luckily, **VMware Secrets Manager** can create and manage native Kubernetes 
 Secrets in any namespace.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/671644.js" 
+  id="asciicast-671644" 
+  async="true"></script>
+
 ## High-Level Diagram
 
 Open the image in a new tab to see the full-size version:

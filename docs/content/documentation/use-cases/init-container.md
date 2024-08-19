@@ -13,18 +13,6 @@ title = "Using VSecM Init Container"
 weight = 220
 +++
 
-{{
-/*
-|    Protect your secrets, protect your sensitive data.
-:    Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/  keep your secrets... secret
->/
-<>/' Copyright 2023-present VMware Secrets Manager contributors.
->/'  SPDX-License-Identifier: BSD-2-Clause
-*/
-}}
-
 ## Situation Analysis
 
 In certain cases you might not have full control over the source code
@@ -37,6 +25,14 @@ Luckily, with **VSecM Init Container** you can let the workload
 wait until you register secrets to it. In addition, you can create
 Kubernetes `Secret`s for the workload and let it consume them as environment
 variables or file mounts similar to how it did before.
+
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
 
 ## Strategy
 

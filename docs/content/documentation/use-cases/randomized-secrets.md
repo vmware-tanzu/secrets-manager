@@ -27,6 +27,14 @@ from the trust boundary, enhancing security.
 Luckily, **VMware Secrets Manager** allows you to generate pattern-based
 randomized secrets.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## High-Level Diagram
 
 Open the image in a new tab to see the full-size version:

@@ -28,6 +28,15 @@ source control systems. When you're ready to submit a secret to the workload,
 rather than providing the secret in plain text, you can deliver its encrypted 
 version to **VSecM Safe**.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/671542" 
+  id="asciicast-671542" 
+  async="true"></script>
+
 ## Strategy
 
 Use **VSecM Sentinel** to encrypt your secrets. Safely store the secrets in

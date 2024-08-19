@@ -26,6 +26,14 @@ Fetching secrets using VSecM SDK will also enable you to…
 * Rotate the app's secrets without needing to restart or evict the app.
 * Get meta-information about the secrets that are otherwise inaccessible.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## High-Level Diagram
 
 Open the images in a new tab to see the full-size versions:

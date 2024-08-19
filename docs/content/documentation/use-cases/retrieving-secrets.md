@@ -27,6 +27,15 @@ troubleshooting purposes. If you have the necessary permissions, it is possible
 to export secrets in encrypted form, and then decrypt them using 
 **VSecM Keygen**.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/671689.js" 
+  id="asciicast-671689" 
+  async="true"></script>
+
 ## High-Level Diagram
 
 Open the image in a new tab to see the full-size version:

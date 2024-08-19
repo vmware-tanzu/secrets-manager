@@ -36,6 +36,14 @@ When sealed, almost all API calls to **VSecM Safe** will fail. The only API
 calls that will succeed are the ones that allow you to unseal **VSecM Safe**
 by providing the root cryptographic material.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## High-Level Diagram
 
 Open the image in a new tab to see the full-size version:
