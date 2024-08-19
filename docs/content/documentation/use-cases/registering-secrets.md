@@ -20,6 +20,15 @@ so that your applications can securely access them.
 
 This use case is about how to register secrets in VMware Secrets Manager.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/670510.js" 
+  id="asciicast-670510" 
+  async="true"></script>
+
 ## High-Level Diagram
 
 Open the image in a new tab to see the full-size version:

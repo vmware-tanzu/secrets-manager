@@ -19,6 +19,14 @@ Certain apps may require initialization scripts, which may include secrets.
 Storing these scripts with hard-coded secrets is a security gap. Storing
 these scripts in source control is a security incident waiting to happen.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## Solution
 
 A solution would be to create a template file with a placeholder to interpolate 

@@ -23,6 +23,15 @@ to integrate **VMware Secrets Manager** SDK. In such cases, you can use
 and injects secrets into a shared in-memory volume. Your application can then
 read the secrets from that volume.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/671695.js" 
+  id="asciicast-671695" 
+  async="true"></script>
+
 ## Strategy
 
 Use **VSecM Sidecar** to inject secrets into your application container.

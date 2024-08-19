@@ -23,6 +23,14 @@ When this is the only way to configure the app, especially when we don't have
 access to the application's configuration and source code, there won't be any 
 other feasible way to pass secrets to the app.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## Strategy
 
 Use **VSecM Sidecar** and **VSecM Init Container** to provide the secrets the 

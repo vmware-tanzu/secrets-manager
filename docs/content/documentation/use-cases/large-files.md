@@ -29,6 +29,14 @@ encrypted form wherever we want to store it.
 Then, when a workload needs a decrypted file, a sidecar can fetch the symmetric 
 key, decrypt the file, and provide the file to the workload.
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+```text
+WORK IN PROGRESS
+```
+
 ## High-Level Diagram
 
 Here's one of several ways the interaction mentioned in the former section can happen. 

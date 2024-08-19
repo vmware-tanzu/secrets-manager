@@ -22,6 +22,15 @@ For this reason, **VMware Secrets Manager** provides a way to interpolate and
 transform secrets. You can provide a template to transform the secret into the
 desired format (e.g., `JSON`, `YAML`, or free-form text).
 
+## Screencast
+
+Here is a screencast that demonstrates this use case:
+
+<script 
+  src="https://asciinema.org/a/671700.js"
+  id="asciicast-671700" 
+  async="true"></script>
+
 ## Strategy
 
 Use **VSecM Sentinel** to register a secret; use the `-t` flag to provide a
