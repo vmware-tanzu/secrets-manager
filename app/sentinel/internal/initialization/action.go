@@ -11,17 +11,9 @@
 package initialization
 
 import (
-	"context"
 	"time"
-
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
-func processCommandBlock(ctx context.Context, sc entity.SentinelCommand) error {
-	return safe.Post(ctx, sc)
-}
-
-func doSleep(seconds int) {
+func (i *Initializer) doSleep(seconds int) {
 	time.Sleep(time.Duration(seconds) * time.Millisecond)
 }
