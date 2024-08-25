@@ -73,6 +73,9 @@ dance:
 				"skipping the rest of the commands.",
 				"skipping post initialization.",
 			)
+
+			// Move out of the loop to allow the keystone secret to be
+			// registered.
 			break dance
 		}
 		if len(parts) != 2 && line != symbol.LineDelimiter {
@@ -115,6 +118,10 @@ dance:
 					err.Error(),
 				)
 
+				// If command failed, then the initialization is not totally
+				// successful.
+				// Thus, it is best to crash the container to restart the
+				// initialization.
 				panic("RunInitCommands:ProcessCommandBlock failed")
 			}
 
@@ -174,6 +181,9 @@ dance:
 			err.Error(),
 		)
 
+		// If command failed, then the initialization is not totally successful.
+		// Thus, it is best to crash the container to restart the
+		// initialization.
 		panic("RunInitCommands: Error in scanning the file")
 	}
 }
