@@ -14,32 +14,25 @@ import (
 	"context"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
-func initCommandsExecutedAlready(
+func (i *Initializer) initCommandsExecutedAlready(
 	ctx context.Context, src *workloadapi.X509Source,
 ) bool {
 	cid := ctx.Value(key.CorrelationId).(*string)
 
-	log.TraceLn(cid, "check:initCommandsExecutedAlready")
+	i.Logger.TraceLn(cid, "check:initCommandsExecutedAlready")
 
 	initialized := false
 
 	err := backoff.RetryExponential(
 		"RunInitCommands:CheckConnectivity",
 		func() error {
-			i, err := safe.CheckInitialization(ctx, src)
-			if err != nil {
-				return err
-			}
-
-			initialized = i
-
-			return nil
+			var err error
+			initialized, err = i.Safe.CheckInitialization(ctx, src)
+			return err
 		})
 
 	if err == nil {

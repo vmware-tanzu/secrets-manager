@@ -20,17 +20,15 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
-func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
-	filePath := env.InitCommandPathForSentinel()
-	file, err := os.Open(filePath)
+func (i *Initializer) commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
+	filePath := i.EnvReader.InitCommandPathForSentinel()
+	file, err := i.FileOpener.Open(filePath)
 
 	if err != nil {
-		log.InfoLn(
+		i.Logger.InfoLn(
 			cid,
 			"RunInitCommands: no initialization file found... "+
 				"skipping custom initialization.",
@@ -38,16 +36,15 @@ func commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
 		return nil, nil
 	}
 
-	log.TraceLn(cid, "Before parsing commands 001")
+	i.Logger.TraceLn(cid, "Before parsing commands 001")
 
-	// Parse the commands file and execute the commands in it.
 	return file, bufio.NewScanner(file)
 }
 
-func parseCommandsFile(
+func (i *Initializer) parseCommandsFile(
 	ctx context.Context, cid *string, scanner *bufio.Scanner,
 ) {
-	log.TraceLn(cid, "Before parsing commands 002")
+	i.Logger.TraceLn(cid, "Before parsing commands 002")
 
 	sc := entity.SentinelCommand{}
 
@@ -55,13 +52,13 @@ func parseCommandsFile(
 		panic("RunInitCommands: error scanning commands file")
 	}
 
-	log.TraceLn(cid, "beginning scan")
+	i.Logger.TraceLn(cid, "beginning scan")
 dance:
 	for scanner.Scan() {
-		log.TraceLn(cid, "scan:for")
+		i.Logger.TraceLn(cid, "scan:for")
 
 		line := strings.TrimSpace(scanner.Text())
-		log.TraceLn(cid, "line:", line)
+		i.Logger.TraceLn(cid, "line:", line)
 
 		if line == "" {
 			continue
@@ -69,14 +66,26 @@ dance:
 
 		parts := strings.SplitN(line, symbol.Separator, 2)
 
+		if len(parts) == 1 && sentinel.Command(parts[0]) == sentinel.Exit {
+			i.Logger.InfoLn(
+				cid,
+				"exit found during initialization.",
+				"skipping the rest of the commands.",
+				"skipping post initialization.",
+			)
+
+			// Move out of the loop to allow the keystone secret to be
+			// registered.
+			break dance
+		}
 		if len(parts) != 2 && line != symbol.LineDelimiter {
 			continue
 		}
 
 		if line == symbol.LineDelimiter {
-			log.TraceLn(cid, "scanner: delimiter found")
+			i.Logger.TraceLn(cid, "scanner: delimiter found")
 			if sc.ShouldSleep {
-				doSleep(sc.SleepIntervalMs)
+				i.doSleep(sc.SleepIntervalMs)
 				sc = entity.SentinelCommand{}
 				continue
 			}
@@ -84,15 +93,15 @@ dance:
 			err := backoff.RetryExponential(
 				"RunInitCommands:ProcessCommandBlock",
 				func() error {
-					log.TraceLn(
+					i.Logger.TraceLn(
 						cid,
 						"RunInitCommands:ProcessCommandBlock"+
 							": retrying with exponential backoff",
 					)
 
-					err := processCommandBlock(ctx, sc)
+					err := i.Safe.Post(ctx, sc)
 					if err != nil {
-						log.ErrorLn(
+						i.Logger.ErrorLn(
 							cid,
 							"RunInitCommands:ProcessCommandBlock:error:",
 							err.Error(),
@@ -103,7 +112,7 @@ dance:
 				})
 
 			if err != nil {
-				log.ErrorLn(
+				i.Logger.ErrorLn(
 					cid,
 					"RunInitCommands: error processing command block: ",
 					err.Error(),
@@ -116,7 +125,7 @@ dance:
 				panic("RunInitCommands:ProcessCommandBlock failed")
 			}
 
-			log.TraceLn(cid, "scanner: after delimiter")
+			i.Logger.TraceLn(cid, "scanner: after delimiter")
 
 			sc = entity.SentinelCommand{}
 			continue
@@ -125,21 +134,9 @@ dance:
 		key := parts[0]
 		value := parts[1]
 
-		log.TraceLn(cid, "command found.", "key", key, "value", value)
+		i.Logger.TraceLn(cid, "command found.", "key", key, "value", value)
 
 		switch sentinel.Command(key) {
-		case sentinel.Exit:
-			// exit.
-			log.InfoLn(
-				cid,
-				"exit found during initialization.",
-				"skipping the rest of the commands.",
-				"skipping post initialization.",
-			)
-
-			// Move out of the loop to allow the keystone secret to be
-			// registered.
-			break dance
 		case sentinel.Workload:
 			sc.WorkloadIds = strings.SplitN(value, symbol.ItemSeparator, -1)
 		case sentinel.Namespace:
@@ -166,19 +163,19 @@ dance:
 			sc.ShouldSleep = true
 			intervalMs, err := strconv.Atoi(value)
 			if err != nil {
-				log.ErrorLn(cid, "RunInitCommands"+
+				i.Logger.ErrorLn(cid, "RunInitCommands"+
 					": Error parsing sleep interval: ", err.Error())
 			}
 			sc.SleepIntervalMs = intervalMs
 		default:
-			log.InfoLn(cid, "RunInitCommands: unknown command: ", key)
+			i.Logger.InfoLn(cid, "RunInitCommands: unknown command: ", key)
 		}
 	}
 
-	log.TraceLn(cid, "scan finished")
+	i.Logger.TraceLn(cid, "scan finished")
 
 	if err := scanner.Err(); err != nil {
-		log.ErrorLn(
+		i.Logger.ErrorLn(
 			cid,
 			"RunInitCommands: Error reading initialization file: ",
 			err.Error(),

@@ -17,82 +17,69 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
-func ensureApiConnectivity(ctx context.Context, cid *string) {
-	log.TraceLn(cid, "Before checking api connectivity")
+func (i *Initializer) ensureApiConnectivity(ctx context.Context, cid *string) {
+	i.Logger.TraceLn(cid, "Before checking api connectivity")
 
 	err := backoff.RetryExponential(
 		"RunInitCommands:CheckConnectivity",
 		func() error {
-			log.TraceLn(cid,
+			i.Logger.TraceLn(cid,
 				"RunInitCommands:CheckConnectivity: checking connectivity to safe")
 
-			src, acquired := spiffe.AcquireSourceForSentinel(ctx)
+			src, acquired := i.Spiffe.AcquireSourceForSentinel(ctx)
 			if !acquired {
-				log.TraceLn(cid,
+				i.Logger.TraceLn(cid,
 					"RunInitCommands:CheckConnectivity: failed to acquire source.")
 
 				return errors.New(
 					"RunInitCommands:CheckConnectivity: failed to acquire source")
 			}
 
-			log.TraceLn(cid,
+			i.Logger.TraceLn(cid,
 				"RunInitCommands:CheckConnectivity"+
 					": acquired source successfully")
 
-			if err := safe.Check(ctx, src); err != nil {
-				log.TraceLn(cid,
+			if err := i.Safe.Check(ctx, src); err != nil {
+				i.Logger.TraceLn(cid,
 					"RunInitCommands:CheckConnectivity: "+
 						"failed to verify connection to safe:", err.Error())
 
-				return errors.Join(
-					err,
-					errors.New("runInitCommands:CheckConnectivity:"+
-						" cannot establish connection to safe 001"),
-				)
+				return errors.New("runInitCommands:CheckConnectivity:" +
+					" cannot establish connection to safe 001")
 			}
 
-			log.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")
+			i.Logger.TraceLn(cid, "RunInitCommands:CheckConnectivity: success")
 			return nil
 		})
 
 	if err == nil {
-		log.TraceLn(cid, "exiting backoffs")
+		i.Logger.TraceLn(cid, "exiting backoffs")
 		return
 	}
 
-	// I shouldn't be here.
 	panic("RunInitCommands:CheckConnectivity:" +
 		" failed to verify connection to safe")
 }
 
-func ensureSourceAcquisition(
-	ctx context.Context,
-) *workloadapi.X509Source {
-	// If `true`, instead of retrying with a backoff, kill the pod, and let the
-	// deployment controller restart it to initiate a new retry.
-
+func (i *Initializer) ensureSourceAcquisition(ctx context.Context) *workloadapi.X509Source {
 	cid := ctx.Value(key.CorrelationId).(*string)
 
-	log.TraceLn(cid, "RunInitCommands: acquiring source 001")
+	i.Logger.TraceLn(cid, "RunInitCommands: acquiring source 001")
 
 	var src *workloadapi.X509Source
 
 	err := backoff.RetryExponential("RunInitCommands:AcquireSource",
 		func() error {
-			log.TraceLn(cid, "RunInitCommands:AcquireSource"+
+			i.Logger.TraceLn(cid, "RunInitCommands:AcquireSource"+
 				": acquireSourceForSentinel: 000")
 
-			acq, acquired := spiffe.AcquireSourceForSentinel(ctx)
+			acq, acquired := i.Spiffe.AcquireSourceForSentinel(ctx)
 			src = acq
 
 			if !acquired {
-				log.TraceLn(cid, "RunInitCommands:AcquireSource"+
+				i.Logger.TraceLn(cid, "RunInitCommands:AcquireSource"+
 					": failed to acquire source.")
 
 				return errors.New("RunInitCommands:AcquireSource" +
@@ -103,11 +90,10 @@ func ensureSourceAcquisition(
 		})
 
 	if err == nil {
-		log.TraceLn(cid, "RunInitCommands:AcquireSource"+
+		i.Logger.TraceLn(cid, "RunInitCommands:AcquireSource"+
 			": got source. breaking.")
 		return src
 	}
 
-	// I shouldn't be here.
 	panic("RunInitCommands:AcquireSource: failed to acquire source")
 }

@@ -44,12 +44,17 @@ func main() {
 
 	log.TraceLn(&id, "before RunInitCommands")
 
+	// Create the Initializer with all dependencies
+	initializer := initialization.NewInitializer(
+		&initialization.OSFileOpener{},
+		&initialization.EnvConfigReader{},
+		&initialization.StandardLogger{},
+		&initialization.SafeClient{},
+		&initialization.SpiffeClient{},
+	)
+
 	// Execute the initialization commands (if any)
-	// This overloads the functionality of this process.
-	// If we end up adding more functionality to this process,
-	// we should refactor this and create a new process for the
-	// new functionality.
-	initialization.RunInitCommands(ctx)
+	initializer.RunInitCommands(ctx)
 
 	log.InfoLn(&id, "Initialization commands executed successfully")
 

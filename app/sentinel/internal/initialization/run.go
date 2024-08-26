@@ -15,9 +15,6 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"os"
 	"time"
-
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // RunInitCommands reads and processes initialization commands from a file.
@@ -47,73 +44,72 @@ import (
 // If the file cannot be opened, the function logs an informational message and
 // returns early. Errors encountered while reading the file or closing it are
 // logged as errors.
-func RunInitCommands(ctx context.Context) {
+func (i *Initializer) RunInitCommands(ctx context.Context) {
 	cid := ctx.Value(key.CorrelationId).(*string)
 
-	waitInterval := env.InitCommandRunnerWaitBeforeExecIntervalForSentinel()
+	waitInterval := i.EnvReader.InitCommandRunnerWaitBeforeExecIntervalForSentinel()
 	time.Sleep(waitInterval)
 
 	// Ensure that we can acquire a source before proceeding.
-	source := ensureSourceAcquisition(ctx)
+	source := i.ensureSourceAcquisition(ctx)
 
 	// Now, we are sure that we can acquire a source.
 	// Try to do a VSecM Safe API request with the source.
-	ensureApiConnectivity(ctx, cid)
+	i.ensureApiConnectivity(ctx, cid)
 
 	// No need to proceed if initialization has been completed already.
-	if initCommandsExecutedAlready(ctx, source) {
-		log.TraceLn(cid, "RunInitCommands: executed already. exiting")
+	if i.initCommandsExecutedAlready(ctx, source) {
+		i.Logger.TraceLn(cid, "RunInitCommands: executed already. exiting")
 		return
 	}
 
-	log.TraceLn(cid, "RunInitCommands: starting the init flow")
+	i.Logger.TraceLn(cid, "RunInitCommands: starting the init flow")
 
 	// Now we know that we can establish a connection to VSecM Safe
 	// and execute API requests. So, we can safely run init commands.
 
-	log.TraceLn(cid, "RunInitCommands: before getting the scanner")
+	i.Logger.TraceLn(cid, "RunInitCommands: before getting the scanner")
 
 	// Parse the commands file and execute the commands in it.
-	file, scanner := commandFileScanner(cid)
+	file, scanner := i.commandFileScanner(cid)
 	if file == nil {
-		log.ErrorLn(cid, "file is nil, exiting")
+		i.Logger.ErrorLn(cid, "file is nil, exiting")
 		return
 	}
 	if scanner == nil {
-		log.ErrorLn(cid, "scanner is nil, exiting")
+		i.Logger.ErrorLn(cid, "scanner is nil, exiting")
 		return
 	}
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			log.ErrorLn(cid,
+			i.Logger.ErrorLn(cid,
 				"RunInitCommands: Error closing initialization file: ",
 				err.Error(),
 			)
 		}
 	}(file)
 
-	log.TraceLn(cid, "RunInitCommands: before parsing commands file")
+	i.Logger.TraceLn(cid, "RunInitCommands: before parsing commands file")
 
-	parseCommandsFile(ctx, cid, scanner)
+	i.parseCommandsFile(ctx, cid, scanner)
 
-	log.TraceLn(cid, "RunInitCommands: before marking keystone")
+	i.Logger.TraceLn(cid, "RunInitCommands: before marking keystone")
 
 	// Mark the keystone secret.
-	success := markKeystone(ctx, cid)
+	success := i.markKeystone(ctx, cid)
 	if !success {
-		log.TraceLn(cid, "RunInitCommands: failed to mark keystone. exiting")
+		i.Logger.TraceLn(cid, "RunInitCommands: failed to mark keystone. exiting")
 
 		// If we cannot set the keystone secret, better to retry everything.
 		panic("RunInitCommands: failed to set keystone secret")
-		return
 	}
 
 	// Wait before notifying Keystone. This way, if there are things that
 	// take time to reconcile, they have a chance to do so.
-	waitInterval = env.InitCommandRunnerWaitIntervalBeforeInitComplete()
+	waitInterval = i.EnvReader.InitCommandRunnerWaitIntervalBeforeInitComplete()
 	time.Sleep(waitInterval)
 
 	// Everything is set up.
-	log.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
+	i.Logger.InfoLn(cid, "RunInitCommands: keystone secret set successfully.")
 }
