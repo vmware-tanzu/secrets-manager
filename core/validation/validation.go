@@ -61,6 +61,7 @@ func IsWorkload(spiffeid string) bool {
 					" val: " + env.SpiffeIdPrefixForWorkload() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
+			return false
 		}
 
 		nrw := env.NameRegExpForWorkload()
@@ -74,6 +75,7 @@ func IsWorkload(spiffeid string) bool {
 					" val: " + env.NameRegExpForWorkload() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
+			return false
 		}
 
 		match := wre.FindStringSubmatch(spiffeid)
@@ -101,6 +103,7 @@ func IsWorkload(spiffeid string) bool {
 				" val: " + env.NameRegExpForWorkload() +
 				" trust: " + env.SpiffeTrustDomain(),
 		)
+		return false
 	}
 
 	wre, err := regexp.Compile(nrw)
@@ -113,6 +116,7 @@ func IsWorkload(spiffeid string) bool {
 				" val: " + env.NameRegExpForWorkload() +
 				" trust: " + env.SpiffeTrustDomain(),
 		)
+		return false
 	}
 
 	match := wre.FindStringSubmatch(spiffeid)
@@ -161,6 +165,7 @@ func IsSentinel(spiffeid string) bool {
 					" val: " + env.SpiffeIdPrefixForSentinel() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
+			return false
 		}
 
 		return re.MatchString(spiffeid)
@@ -207,6 +212,7 @@ func IsSafe(spiffeid string) bool {
 					" val: " + env.SpiffeIdPrefixForSafe() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
+			return false
 		}
 
 		return re.MatchString(spiffeid)
