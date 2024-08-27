@@ -11,12 +11,13 @@
 package main
 
 import (
+	"os"
+
 	"github.com/vmware-tanzu/secrets-manager/app/keygen/internal"
 	e "github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"os"
 )
 
 func main() {

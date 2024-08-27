@@ -2,9 +2,10 @@ package spiffe
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
-	"net/http"
 )
 
 // IdFromRequest extracts the SPIFFE ID from the TLS peer certificate of

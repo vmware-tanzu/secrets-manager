@@ -11,10 +11,10 @@
 package handle
 
 import (
-	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	"net/http"
 
 	routeDelete "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/delete"
+	routeFallback "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fallback"
 	routeFetch "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/fetch"
 	routeKeystone "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/keystone"
 	routeList "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/list"
