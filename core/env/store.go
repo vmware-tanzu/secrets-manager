@@ -11,9 +11,9 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"os"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 

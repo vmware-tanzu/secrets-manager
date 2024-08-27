@@ -12,9 +12,8 @@ package safe
 
 import (
 	"bytes"
-	"net/http"
-
 	"errors"
+	"net/http"
 )
 
 func doDelete(cid *string, client *http.Client, p string, md []byte) error {

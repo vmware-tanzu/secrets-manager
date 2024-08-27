@@ -12,15 +12,16 @@ package initialization
 
 import (
 	"context"
-	"github.com/spiffe/go-spiffe/v2/workloadapi"
-	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
-	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 	"os"
 	"time"
 
+	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
+	"github.com/vmware-tanzu/secrets-manager/app/sentinel/internal/safe"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/core/spiffe"
 )
 
 type OSFileOpener struct{}

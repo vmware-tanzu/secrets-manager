@@ -15,7 +15,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	"github.com/vmware-tanzu/secrets-manager/sdk/core/env"
 )
 
 func saveData(data string) error {

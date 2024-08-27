@@ -11,10 +11,11 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // Redefine some constants to avoid import cycle.

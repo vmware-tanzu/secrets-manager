@@ -11,8 +11,9 @@
 package data
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"strings"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 )
 
 type RootKeyCollection struct {

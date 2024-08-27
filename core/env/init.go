@@ -11,9 +11,10 @@
 package env
 
 import (
-	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"strconv"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
 // PollIntervalForInitContainer returns the time interval between each poll in the

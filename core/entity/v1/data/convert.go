@@ -14,11 +14,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"strings"
 	"text/template"
 
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	tpl "github.com/vmware-tanzu/secrets-manager/core/template"
 )
 
