@@ -72,7 +72,7 @@ func Get(
 		}
 	}(source)
 	if !proceed {
-		return "", fmt.Errorf("could not proceed")
+		return "", errors.New("could not proceed")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {

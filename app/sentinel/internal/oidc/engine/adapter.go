@@ -102,7 +102,7 @@ func HandleCommandSecrets(
 		return
 	}
 
-	if req.Namespaces == nil || len(req.Namespaces) == 0 {
+	if len(req.Namespaces) == 0 {
 		req.Namespaces = []string{"default"}
 	}
 
