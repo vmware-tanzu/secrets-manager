@@ -62,7 +62,7 @@ func convertValueToMap(values []string) map[string][]byte {
 // otherwise, it returns a map with a single entry, "VALUE", containing the
 // original 'value' as []byte.
 func convertValueNoTemplate(values []string) map[string][]byte {
-	var data map[string][]byte
+	var data = make(map[string][]byte)
 	var jsonData map[string]string
 
 	val := ""
