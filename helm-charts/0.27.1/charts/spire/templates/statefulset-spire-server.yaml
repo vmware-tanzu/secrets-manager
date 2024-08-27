@@ -113,13 +113,9 @@ spec:
             - name: spire-config
               mountPath: {{ .Values.spireServer.configDir }}
               readOnly: true
-
-{{- if .Values.data.persistent }}
             - name: spire-data
               mountPath: {{ .Values.spireServer.dataDir }}
               readOnly: false
-{{- end }}
-
             - name: server-tmp
               mountPath: /tmp
               readOnly: false
