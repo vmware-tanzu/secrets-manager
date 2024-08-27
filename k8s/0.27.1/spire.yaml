@@ -1104,7 +1104,6 @@ spec:
             - name: spire-data
               mountPath: /run/spire/data
               readOnly: false
-
             - name: server-tmp
               mountPath: /tmp
               readOnly: false
