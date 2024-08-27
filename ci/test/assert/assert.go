@@ -102,9 +102,7 @@ func WorkloadIsRunning() error {
 	}
 
 	if podCount != 1 {
-		return errors.New(
-			fmt.Sprintf("Expected 1 running pod for workload, found %d", podCount),
-		)
+		return fmt.Errorf("Expected 1 running pod for workload, found %d", podCount)
 	}
 
 	return nil

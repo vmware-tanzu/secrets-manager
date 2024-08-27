@@ -87,7 +87,7 @@ func newSecretUpsertRequest(
 
 func respond(cid *string, r *http.Response) (string, error) {
 	if r == nil {
-		return "", fmt.Errorf("post: Response is null")
+		return "", errors.New("post: Response is null")
 	}
 
 	defer func(b io.ReadCloser) {
