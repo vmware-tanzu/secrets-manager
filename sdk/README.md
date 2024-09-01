@@ -2,7 +2,7 @@
 
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
-## VMWare Secrets Manager Go SDK
+## VMware Secrets Manager Go SDK
 
 VMware Secrets Manager Go SDK is a Go client library for accessing the 
 VMware Secrets Manager API. It is a part of the VMware Secrets Manager project.
