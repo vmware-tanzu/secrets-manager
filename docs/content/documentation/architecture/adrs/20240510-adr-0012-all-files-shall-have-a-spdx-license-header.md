@@ -83,4 +83,3 @@ You can view the ADRs by browsing this following list:
 {{ adrs() }}
 
 {{ edit() }}
-

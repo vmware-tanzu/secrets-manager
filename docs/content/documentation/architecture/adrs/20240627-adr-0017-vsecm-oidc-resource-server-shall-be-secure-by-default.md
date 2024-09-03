@@ -13,8 +13,8 @@ title = "ADR-0017: VSecM OIDC Resource Server Shall Be Secure by Default"
 weight = 17
 +++
 
-- Status: draft
-- Date: 2024-06-27
+- Status: accepted
+- Date: 2024-09-02
 - Tags: security, threat model, oidc, resource-server
 
 ## Context and Problem Statement
@@ -30,14 +30,11 @@ For starters, the OIDC Resource Server shall be disabled by default.
 This is both to ensure that the system is secure by default, and also
 preserve resources by not running unnecessary services.
 
-Also, we may decide to move some of these decisions to the production setup
-documentation (keeping it here, as an inline comment for now because this feature
-is experimental and discussing implementation details in the public documentation
-at this point might be premature — Once we make this feature public, we can
-move some of these comments here to the production setup documentation).
-
-The OIDC Resource Server functionality is experimental and is disabled by
-default. It needs to be thoroughly tested before enabling it in production.
+The OIDC Resource Server functionality may be considered experimental at the time
+of writing this ADR. It is disabled by default and requires thorough testing and
+security review before being enabled in production environments. The status and
+stability of this feature may evolve over time, so it's important to refer to the
+most current documentation for its current state and best practices for usage.
 
 It is worth reiterating that the OIDC Resource Server creates a RESTful API
 and exposes the functionality of VSecM Sentinel to the outside world. Yes,
@@ -100,28 +97,74 @@ recommended setup guide for the users before making this feature public.
 
 ### Exceptions
 
-TBD
+There are no exceptions to this decision. 
+
+The OIDC Resource Server functionality must always be secure by default and 
+disabled by default. This applies to all deployment methods, including 
+Helm Charts and generated manifests. 
+
+Users must explicitly enable and configure the OIDC Resource Server if they 
+choose to use this feature, ensuring they are aware of the security implications 
+and follow the provided guidelines for secure implementation.
 
 ## Decision Drivers
 
-TBD
+- VSecM shall always be secure by default ([**ADR-0006**][ADR-0006])
+- Protect sensitive data from unauthorized access
+- Comply with security best practices for OIDC implementations
+- Maintain the integrity and confidentiality of secrets managed by VSecM
+
+[ADR-0006]: @/documentation/architecture/adrs/20240510-adr-0006-be-secure-by-default.md
 
 ## Considered Options
 
-TBD
+1. Enable OIDC Resource Server by default with basic security measures
+2. Disable OIDC Resource Server by default and provide comprehensive security guidelines
+3. Implement OIDC Resource Server with advanced security features enabled by default
 
 ## Decision Outcome
 
-TBD
+Chosen option: "Disable OIDC Resource Server by default and provide 
+comprehensive security guidelines"
 
+This decision ensures that VSecM remains secure by default while allowing users 
+to opt-in to the OIDC Resource Server functionality with proper guidance. It 
+aligns with the principle of secure-by-default and gives users control over 
+enabling additional access points to their secrets.
 
 ### Positive Consequences
 
-TBD
+- VSecM remains secure out-of-the-box without additional configuration
+- Users are forced to make a conscious decision to enable the OIDC Resource Server
+- Comprehensive security guidelines help users implement the feature safely
+- Reduced attack surface for default installations
+- Aligns with the principle of least privilege
 
 ### Negative Consequences
 
-TBD
+- Additional setup required for users who want to use the OIDC Resource Server
+- Potential for misconfiguration if users don't follow the provided guidelines carefully
+- May limit immediate usability for some users expecting OIDC functionality by default
+
+## Implementation Details
+
+1. The OIDC Resource Server will be disabled by default in the VSecM configuration.
+2. Detailed documentation will be provided on how to securely enable and configure 
+   the OIDC Resource Server.
+3. A recommended setup guide using a provider like Keycloak will be created and 
+   included in the documentation.
+4. Security considerations and best practices will be clearly outlined in the 
+   public documentation.
+5. Warning messages will be displayed when enabling the OIDC Resource Server, 
+   reminding users of the security implications.
+6. Regular security audits of the OIDC Resource Server implementation will 
+   be conducted.
+
+## References
+
+- [OAuth 2.0 Threat Model and Security Considerations](https://datatracker.ietf.org/doc/html/rfc6819)
+- [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)
+- [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
@@ -133,4 +176,3 @@ You can view the ADRs by browsing this following list:
 {{ adrs() }}
 
 {{ edit() }}
-

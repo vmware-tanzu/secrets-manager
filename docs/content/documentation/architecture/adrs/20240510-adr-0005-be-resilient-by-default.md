@@ -13,18 +13,6 @@ title = "ADR-0005: Be Resilient by Default"
 weight = 5
 +++
 
-{{
-/*
-|    Protect your secrets, protect your sensitive data.
-:    Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/  keep your secrets... secret
->/
-<>/' Copyright 2023-present VMware Secrets Manager contributors.
->/'  SPDX-License-Identifier: BSD-2-Clause
-*/
-}}
-
 - Status: accepted 
 - Date: 2024-05-11
 - Tags: quality, stability
