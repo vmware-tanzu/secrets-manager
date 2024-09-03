@@ -33,16 +33,21 @@ this page, and also [the changelog](@/timeline/changelog.md) to reflect the chan
 
 ### VSecM v0.28.0 (*codename: Hydra*)
 
-**Jun 20, 2024 - Jul 17, 2024**
+**Jun 29, 2024 - Sep 30, 2024**
 
-This iteration is again about increasing coverage. We will focus on
+This iteration is about increasing coverage. We will focus on
 unit tests.
+
+Our goal is to reach at least 50% coverage.
+
+In addition, we are targeting to fix certain low-hanging bugs and improve 
+stability. 
 
 [Here is a list of issues that are candidate for VSecM vHydra](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.28.0-candidate+).
 
 ### VSecM v0.29.0 (*codename: Indus*)
 
-**Jul 18, 2024 - Aug 14, 2024**
+**Oct 01, 2024 - Oct 28, 2024**
 
 In this iteration, we will focus on adding use cases and tutorials, along with
 any stability and security improvement that may come our way.
@@ -51,7 +56,7 @@ any stability and security improvement that may come our way.
 
 ### VSecM v0.30.0 (*codename: Lupus*)
 
-**Aug 15, 2024 - Sep 11, 2024**
+**Oc 29, 2024 - Nov 25, 2024**
 
 This iteration will be about adding more features that may be immediately
 useful around **VSecM Sentinel** CLI.
@@ -60,7 +65,7 @@ useful around **VSecM Sentinel** CLI.
 
 ### VSecM v0.31.0 (*codename: Mensa*)
 
-**Sep 12, 2024 - Oct 09, 2024**
+**Nov 26, 2024 - Jan 6, 2025**
 
 This iteration is about SDKs and KMS integration.
 
@@ -68,7 +73,7 @@ This iteration is about SDKs and KMS integration.
 
 ### VSecM v0.32.0 (*codename: Norma*)
 
-**Oct 10, 2024 - Nov 06, 2024**
+**Jan 07, 2024 - Feb 03, 2024**
 
 The overall theme of this iteration is issues labeled as enhancing the system's 
 scalability, high availability (HA), and integration capabilities. Key areas of 
@@ -87,7 +92,7 @@ This iteration is about visibility and metrics. We'll create a `/stats` and a
 
 ### VSecM v0.33.0 (*codename: Orion*)
 
-**Nov 07, 2024 - Dec 04, 2024**
+**Feb 04, 2024 - Mar 03, 2024**
 
 This iteration is centered around enhancing the system's capabilities in high 
 availability, scalability, and integration. Key areas include:
@@ -107,7 +112,7 @@ availability, scalability, and integration. Key areas include:
 
 ### VSecM v0.34.0 (*codename: Perseus*)
 
-**Dec 05, 2024 - Jan 01, 2025**
+**Mar 04, 2024 - Mar 31, 2025**
 
 This iteration centers on enhancing the system's scalability, high availability, 
 and integration capabilities. Key areas include:
@@ -131,7 +136,7 @@ and integration capabilities. Key areas include:
 
 ### VSecM v0.35.0 (*codename: Reticulum*)
 
-**Jan 02, 2025 - Jan 29, 2025**
+**Apr 01, 2024 - Apr 28, 2025**
 
 This iteration aims at enhancing security, workflow, and documentation. 
 The open issues include:
@@ -152,7 +157,7 @@ The open issues include:
 
 ### VSecM v0.36.0 (*codename: Sagittarius*)
 
-**Jan 30, 2025 - Feb 26, 2025**
+**Apr 31, 2025 - May 26, 2025**
 
 This iteration revolves around enhancing functionality, improving integration 
 capabilities, and expanding test coverage. The key areas include:
@@ -174,7 +179,7 @@ capabilities, and expanding test coverage. The key areas include:
 
 ### VSecM v0.37.0 (*codename: Telescopium*)
 
-**Feb 27, 2025 -- Mar 26 2025**
+**May 27, 2025 -- Jul 31 2025**
 
 This iteration focuses on enhancing security, improving integration and workflow, 
 and providing new features for better user experience. Here are the main points:
@@ -199,6 +204,8 @@ and providing new features for better user experience. Here are the main points:
 
 ### VSecM v0.38.0 (*codename: Ursa*)
 
+**Aug 01, 2025 -- Aug 28 2025**
+
 This iteration is focused on enhancing the system's security, improving 
 integration capabilities, and refining user experience. Key points include:
 
@@ -222,10 +229,32 @@ integration capabilities, and refining user experience. Key points include:
 
 ### VSecM v0.39.0 (*codename: Virgo*)
 
+**Aug 29, 2025 -- Sep 25 2025**
+
+This is mainly a security-focused iteration. Here are the main points:
+
+* There is a plan to create a UI for VSecM Sentinel, leveraging the existing 
+  OIDC Server functionality.
+* Integration tests will include Sentinel OIDC Resource Server functionality.
+* Implementation of a `ValidatingAdmissionWebhook` to ensure `clusterspiffeid`s 
+  and `clusterspiffeid` templates have the correct format.
+* Development of a self-security assessment documentation.
+* Exploration of secure methods for sharing root key material across VSecM 
+  instances in different clusters.
+* Support for replication across multiple VSecM Safe instances.
+* Creation of Kubernetes Operator to inject VSecM Init Container and 
+  VSecM Sidecar-based on annotations.
+
+[Here is a list of issues that are candidate for VSecM vVirgo](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
+
+### VSecM v0.40.0 (*codename: Antlia*)
+
+**Sep 26, 2025 -- Oct 32 2025**
+
 This is a "*catch all*" that contains all remaining documented future plans.
 We will create new iterations from it as the time gets closer.
 
-[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
+[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.40.0-candidate+).
 
 ## Closed Iterations
 
