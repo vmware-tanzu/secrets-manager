@@ -25,14 +25,15 @@ var CurrentState = data.Status{
 	K8sQueueLen:    0,
 	K8sQueueCap:    0,
 	NumSecrets:     0,
-	Lock:           sync.RWMutex{},
 }
+
+var currentStateLock sync.RWMutex // Protects access to the CurrentState object.
 
 // Stats returns a copy of the CurrentState Status object, providing a snapshot
 // of the current status of VSecM.
 func Stats() data.Status {
-	CurrentState.Lock.RLock()
-	defer CurrentState.Lock.RUnlock()
+	currentStateLock.RLock()
+	defer currentStateLock.RUnlock()
 
 	// Note that this is a side effect.
 	// Another alternative would be to update these values in a

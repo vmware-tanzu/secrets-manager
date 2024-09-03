@@ -30,14 +30,15 @@ type Status struct {
 	K8sQueueLen    int
 	K8sQueueCap    int
 	NumSecrets     int
-	Lock           sync.RWMutex
 }
+
+var statusLock sync.RWMutex // Protects access to the Status struct.
 
 // Increment is a method for the Status struct that increments the NumSecrets
 // field by 1 if the provided secret name is not found in the in-memory store.
 func (s *Status) Increment(name string, loader func(name any) (any, bool)) {
-	s.Lock.Lock()
-	defer s.Lock.Unlock()
+	statusLock.Lock()
+	defer statusLock.Unlock()
 	_, ok := loader(name)
 	if !ok {
 		s.NumSecrets++
@@ -47,8 +48,8 @@ func (s *Status) Increment(name string, loader func(name any) (any, bool)) {
 // Decrement is a method for the Status struct that decrements the NumSecrets
 // field by 1 if the provided secret name is found in the in-memory store.
 func (s *Status) Decrement(name string, loader func(name any) (any, bool)) {
-	s.Lock.Lock()
-	defer s.Lock.Unlock()
+	statusLock.Lock()
+	defer statusLock.Unlock()
 	_, ok := loader(name)
 	if ok {
 		s.NumSecrets--

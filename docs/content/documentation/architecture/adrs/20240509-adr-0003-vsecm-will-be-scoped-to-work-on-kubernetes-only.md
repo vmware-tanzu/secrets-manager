@@ -13,18 +13,6 @@ title = "ADR-0003: VSecM Will Be Scoped to Work on Kubernetes Only"
 weight = 3
 +++
 
-{{
-/*
-|    Protect your secrets, protect your sensitive data.
-:    Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/  keep your secrets... secret
->/
-<>/' Copyright 2023-present VMware Secrets Manager contributors.
->/'  SPDX-License-Identifier: BSD-2-Clause
-*/
-}}
-
 - Status: accepted
 - Date: 2024-05-09
 - Tags: integration
@@ -63,8 +51,7 @@ and there are not many major features to implement.
 ## Decision Outcome
 
 Chosen option: Option 1, because of increased scope not matching our limited time 
-and resources; and also because we’d rather keep the project secure and 
-well-tested.
+and resources; and also because we’d rather keep the project secure and well-tested.
 
 ### Positive Consequences
 

@@ -13,25 +13,13 @@ title = "ADR-0004: Be Practically Secure"
 weight = 4
 +++
 
-{{
-/*
-|    Protect your secrets, protect your sensitive data.
-:    Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/  keep your secrets... secret
->/
-<>/' Copyright 2023-present VMware Secrets Manager contributors.
->/'  SPDX-License-Identifier: BSD-2-Clause
-*/
-}}
-
 - Status: accepted 
 - Date: 2024-05-11
 - Tags: guidelines, principles
 
 ## Context and Problem Statement
 
-Corollary: Do not be annoyingly secure.
+**Corollary**: Do not be annoyingly secure.
 
 Provide a delightful user experience while taking security seriously.
 
