@@ -35,6 +35,7 @@ public/
 # IDE-specific
 .idea
 .code
+.vscode
 .history
 
 vendor
