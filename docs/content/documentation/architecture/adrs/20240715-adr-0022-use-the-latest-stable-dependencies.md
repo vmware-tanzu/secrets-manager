@@ -13,8 +13,8 @@ title = "ADR-0022: VSecM Shall Use the Latest Stable Dependencies"
 weight = 22
 +++
 
-- Status: draft
-- Date: 2024-07-14
+- Status: accepted
+- Date: 2024-09-02
 - Tags: security, dependencies
 
 ## Context and Problem Statement
