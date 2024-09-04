@@ -7,9 +7,9 @@ import (
 )
 
 func TestNewEngine(t *testing.T) {
-	safeOps := new(MockSafeOperations)
-	authorizer := new(MockAuthorizer)
-	logger := new(MockLogger)
+	safeOps := &MockSafeOperations{}
+	authorizer := &MockAuthorizer{}
+	logger := &MockLogger{}
 
 	engine := newEngine(safeOps, authorizer, logger)
 

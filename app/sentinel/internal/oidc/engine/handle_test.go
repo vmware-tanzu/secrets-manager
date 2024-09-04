@@ -105,9 +105,9 @@ func TestEngine_HandleSecrets(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockSafeOps := new(MockSafeOperations)
-			mockAuthorizer := new(MockAuthorizer)
-			mockLogger := new(MockLogger)
+			mockSafeOps := &MockSafeOperations{}
+			mockAuthorizer := &MockAuthorizer{}
+			mockLogger := &MockLogger{}
 			tt.setupMocks(mockSafeOps, mockAuthorizer, mockLogger)
 			engine := newEngine(mockSafeOps, mockAuthorizer, mockLogger)
 
