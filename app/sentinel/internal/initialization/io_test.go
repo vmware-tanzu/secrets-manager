@@ -53,9 +53,9 @@ func TestInitializer_commandFileScanner(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockFileOpener := new(MockFileOpener)
-			mockEnvReader := new(MockEnvReader)
-			mockLogger := new(MockLogger)
+			mockFileOpener := &MockFileOpener{}
+			mockEnvReader := &MockEnvReader{}
+			mockLogger := &MockLogger{}
 
 			tt.setupMocks(mockFileOpener, mockEnvReader, mockLogger)
 
@@ -193,8 +193,8 @@ func TestInitializer_parseCommandsFile(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockLogger := new(MockLogger)
-			mockSafe := new(MockSafeOps)
+			mockLogger := &MockLogger{}
+			mockSafe := &MockSafeOps{}
 
 			tt.setupMocks(mockLogger, mockSafe)
 
