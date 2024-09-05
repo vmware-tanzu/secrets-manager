@@ -147,7 +147,8 @@ func TestInitializer_ensureSourceAcquisition(t *testing.T) {
 				Spiffe: mockSpiffe,
 			}
 
-			ctx := context.WithValue(context.Background(), key.CorrelationId, "test-cid")
+			cid := "test-cid"
+			ctx := context.WithValue(context.Background(), key.CorrelationId, &cid)
 
 			if tt.expectPanic {
 				assert.Panics(t, func() {
