@@ -13,17 +13,18 @@ package initialization
 import (
 	"context"
 	"errors"
+	"testing"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
-	"testing"
 )
 
 func TestInitializer_ensureApiConnectivity(t *testing.T) {
 	// helper function to create default mocks for testing purpose
 	defaultMocks := func() (*MockLogger, *MockSpiffeOps, *MockSafeOps) {
-		return new(MockLogger), new(MockSpiffeOps), new(MockSafeOps)
+		return &MockLogger{}, &MockSpiffeOps{}, &MockSafeOps{}
 	}
 
 	mp := NewMonkeyPatch(t)
@@ -100,7 +101,7 @@ func TestInitializer_ensureApiConnectivity(t *testing.T) {
 func TestInitializer_ensureSourceAcquisition(t *testing.T) {
 	// helper function to create default mocks for testing purpose
 	defaultMocks := func() (*MockLogger, *MockSpiffeOps) {
-		return new(MockLogger), new(MockSpiffeOps)
+		return &MockLogger{}, &MockSpiffeOps{}
 	}
 
 	mp := NewMonkeyPatch(t)
@@ -146,7 +147,8 @@ func TestInitializer_ensureSourceAcquisition(t *testing.T) {
 				Spiffe: mockSpiffe,
 			}
 
-			ctx := context.WithValue(context.Background(), key.CorrelationId, new(string))
+			cid := "test-cid"
+			ctx := context.WithValue(context.Background(), key.CorrelationId, &cid)
 
 			if tt.expectPanic {
 				assert.Panics(t, func() {

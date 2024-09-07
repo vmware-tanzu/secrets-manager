@@ -10,20 +10,26 @@
 
 package engine
 
-func invalidInput(workloads []string, encrypt bool,
-	inputKeys string, secret string, deleteSecret bool) bool {
-
+// isValidSecretModification validates the secret modification request.
+// It returns true if the request is valid, false otherwise.
+func isValidSecretModification(
+	workloads []string,
+	encrypt bool,
+	serializedRootKeys string,
+	secret string,
+	delete bool,
+) bool {
 	// You need to provide a workload collection if you are not encrypting
 	// a secret, or if you are not providing input keys.
-	if workloads != nil && len(workloads) == 0 && !encrypt && inputKeys == "" {
-		return true
+	if len(workloads) == 0 && !encrypt && serializedRootKeys == "" {
+		return false
 	}
 
 	// You need to provide a secret value if you are not deleting a secret,
 	// or if you are not providing input keys.
-	if secret == "" && !deleteSecret && inputKeys == "" {
-		return true
+	if secret == "" && !delete && serializedRootKeys == "" {
+		return false
 	}
 
-	return false
+	return true
 }

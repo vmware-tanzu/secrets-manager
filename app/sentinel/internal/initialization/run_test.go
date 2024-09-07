@@ -13,10 +13,11 @@ package initialization
 import (
 	"context"
 	"errors"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/stretchr/testify/assert"
@@ -74,11 +75,11 @@ func TestInitializer_RunInitCommands(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockFileOpener := new(MockFileOpener)
-			mockEnvReader := new(MockEnvReader)
-			mockLogger := new(MockLogger)
-			mockSafe := new(MockSafeOps)
-			mockSpiffe := new(MockSpiffeOps)
+			mockFileOpener := &MockFileOpener{}
+			mockEnvReader := &MockEnvReader{}
+			mockLogger := &MockLogger{}
+			mockSafe := &MockSafeOps{}
+			mockSpiffe := &MockSpiffeOps{}
 
 			tt.setupMocks(mockFileOpener, mockEnvReader, mockLogger, mockSafe, mockSpiffe)
 

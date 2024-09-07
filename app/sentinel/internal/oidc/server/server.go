@@ -35,6 +35,8 @@ import (
 //     requests to the "/secrets" endpoint.
 func Serve() {
 	mux := http.NewServeMux()
+
+	engine := engine.New(&SafeClient{}, &RpcLogger{})
 	mux.HandleFunc("/secrets", engine.HandleSecrets)
 
 	port := env.SentinelOIDCResourceServerPort()
