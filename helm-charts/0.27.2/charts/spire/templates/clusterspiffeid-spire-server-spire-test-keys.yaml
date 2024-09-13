@@ -1,0 +1,30 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: spire-server-spire-test-keys
+spec:
+  className: {{ .Values.global.spire.controllerManagerClassName | quote }}
+  spiffeIDTemplate: "spiffe://{{"{{"}} .TrustDomain {{"}}"}}/ns/{{"{{"}} .PodMeta.Namespace {{"}}"}}/sa/{{"{{"}} .PodSpec.ServiceAccountName {{"}}"}}"
+  podSelector:
+    matchLabels:
+      component: test-keys
+      release: spire
+      release-namespace: {{ .Values.global.spire.serverNamespace }}
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+          - spire-server
+          - spire-system
+          - vsecm-system
