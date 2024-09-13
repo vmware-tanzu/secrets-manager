@@ -17,6 +17,31 @@ weight = 11
 
 TBD
 
+## [0.27.1] - 2024-09-13
+
+This is a security and stability release. We have fixed several vulnerabilities
+and made the components more robust.
+
+### Added
+
+* Increased test coverage.
+* Minor bug fixes and performance improvements.
+* Documentation updates.
+
+### Changed
+
+* Updated Go to version 1.23.1 on major components. vSecM SDK remains at Go 
+  version 1.21.0 to offer compatibility with older systems. This is the smallest
+  version that we can support with the SDK without exposing vulnerabilities.
+
+### Fixed
+
+* Fixed a bug where SPIRE Server was crashing when using Helm charts and not
+  enabling persistent volumes.
+
+### Security 
+
+* Fixed GHSA-xr7q-jx4m-x55m [Private tokens could appear in logs if context containing gRPC metadata is logged in ](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/21)
 
 ## [0.27.0] - 2024-07-28
 
