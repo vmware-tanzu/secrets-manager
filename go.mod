@@ -1,6 +1,6 @@
 module github.com/vmware-tanzu/secrets-manager
 
-go 1.22.3
+go 1.23.1
 
 require (
 	filippo.io/age v1.1.1
