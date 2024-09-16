@@ -39,10 +39,10 @@ LABEL "changelog"="https://vsecm.com/docs/changelog"
 COPY --from=builder /build/safe /bin/safe
 COPY --from=builder /build/sloth /bin/sloth
 
-ENV HOSTNAME sentinel
+ENV HOSTNAME="sentinel"
 
 # Prevent root access.
-ENV USER nobody
+ENV USER="nobody"
 USER nobody
 
 # Keep the container alive.

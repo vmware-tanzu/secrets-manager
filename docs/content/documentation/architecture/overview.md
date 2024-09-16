@@ -116,6 +116,15 @@ does not initialize without the required secrets.
 
 [You can check out the use cases section for more information][use-cases].
 
+> **VSecM Init Container and VSecM Sidecar Coordination**
+> 
+> **VSecM Init Container** and **VSecM Sidecar** can be used in coordination
+> with each other, each serving its own purpose.
+> 
+> In that case, **VSecM Sidecar** will pre-populate the secret data
+> inside an in-memory volume, while **VSecM Init Container** will wait
+> until the secret is available before starting the application.
+
 [use-cases]: @/documentation/use-cases/overview.md
 
 ### VSecM Inspector
