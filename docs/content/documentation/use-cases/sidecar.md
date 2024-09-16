@@ -28,8 +28,8 @@ read the secrets from that volume.
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/671695.js" 
-  id="asciicast-671695" 
+  src="https://asciinema.org/a/676196.js" 
+  id="asciicast-676196" 
   async="true"></script>
 
 ## Strategy

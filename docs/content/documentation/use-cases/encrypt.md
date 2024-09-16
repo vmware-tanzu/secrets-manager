@@ -33,8 +33,8 @@ version to **VSecM Safe**.
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/671542" 
-  id="asciicast-671542" 
+  src="https://asciinema.org/a/676193" 
+  id="asciicast-676193" 
   async="true"></script>
 
 ## Strategy

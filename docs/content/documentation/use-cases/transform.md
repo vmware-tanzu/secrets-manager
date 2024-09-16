@@ -27,8 +27,8 @@ desired format (e.g., `JSON`, `YAML`, or free-form text).
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/671700.js"
-  id="asciicast-671700" 
+  src="https://asciinema.org/a/676197.js"
+  id="asciicast-676197" 
   async="true"></script>
 
 ## Strategy

@@ -32,8 +32,8 @@ to export secrets in encrypted form, and then decrypt them using
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/671689.js" 
-  id="asciicast-671689" 
+  src="https://asciinema.org/a/676195.js" 
+  id="asciicast-676195" 
   async="true"></script>
 
 ## High-Level Diagram

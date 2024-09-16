@@ -37,8 +37,8 @@ Secrets in any namespace.
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/671644.js" 
-  id="asciicast-671644" 
+  src="https://asciinema.org/a/676194.js" 
+  id="asciicast-676194" 
   async="true"></script>
 
 ## High-Level Diagram

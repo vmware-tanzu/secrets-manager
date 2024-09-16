@@ -25,8 +25,8 @@ This use case is about how to register secrets in VMware Secrets Manager.
 Here is a screencast that demonstrates this use case:
 
 <script 
-  src="https://asciinema.org/a/670510.js" 
-  id="asciicast-670510" 
+  src="https://asciinema.org/a/676192.js" 
+  id="asciicast-676192" 
   async="true"></script>
 
 ## High-Level Diagram
