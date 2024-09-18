@@ -24,8 +24,8 @@ Here is a brief recording of the steps that you need to take to build and test
 **VMware Secrets Manager** locally:
 
 <script 
-  src="https://asciinema.org/a/666023.js" 
-  id="asciicast-666023" 
+  src="https://asciinema.org/a/676190.js"
+  id="asciicast-676190" 
   async="true"></script>
 
 ## Prerequisites

@@ -42,7 +42,8 @@ func MaxPollIntervalForSidecar() time.Duration {
 // `VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER` or returns 2 as default.
 func ExponentialBackoffMultiplierForSidecar() int64 {
 	p := env.Value(env.VSecMSidecarExponentialBackoffMultiplier)
-	d, _ := strconv.Atoi(string(env.VSecMSidecarExponentialBackoffMultiplierDefault))
+	d, _ := strconv.Atoi(string(
+		env.VSecMSidecarExponentialBackoffMultiplierDefault))
 	if p == "" {
 		p = string(env.VSecMSidecarExponentialBackoffMultiplierDefault)
 	}

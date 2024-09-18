@@ -27,6 +27,7 @@ Make you have the following installed on your system:
 * [`make`](https://www.gnu.org/software/make/)
 * [`git`](https://git-scm.com/)
 * [`docker`](https://www.docker.com/)
+* [`protoc`](https://grpc.io/docs/protoc-installation/)
 
 ## Clone the Project
 

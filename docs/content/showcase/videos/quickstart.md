@@ -19,8 +19,8 @@ This is a recording that demonstrates how to register secrets to
 **VSecM** using the VSecM CLI.
 
 <script 
-  src="https://asciinema.org/a/669727.js" 
-  id="asciicast-669727" 
+  src="https://asciinema.org/a/676191.js" 
+  id="asciicast-676191"
   async="true"></script>
 
 The following sections outline various highlights of the recording.

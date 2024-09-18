@@ -22,12 +22,16 @@ import (
 // infiniteDuration is used to indicate that no synchronization should occur.
 const infiniteDuration = time.Duration(math.MaxInt64)
 
-// RootKeySyncIntervalForSafe retrieves the synchronization interval for root keys from an environment variable.
-// If the variable is unset or set to "never", it returns an infinite duration, effectively disabling the synchronization.
+// RootKeySyncIntervalForSafe retrieves the synchronization interval for root
+// keys from an environment variable.
+// If the variable is unset or set to "never", it returns an infinite duration,
+// effectively disabling the synchronization.
 //
 // Returns:
-//   - A time.Duration representing the interval at which root keys should be synchronized.
-//   - Returns an infinite duration if the interval is set to "never" or if there is an error in parsing the interval.
+//   - A time.Duration representing the interval at which root keys should be
+//     synchronized.
+//   - Returns an infinite duration if the interval is set to "never" or if
+//     there is an error in parsing the interval.
 func RootKeySyncIntervalForSafe() time.Duration {
 	p := env.Value(env.VSecMSafeSyncRootKeyInterval)
 	if p == "" || val.Never(p) {
@@ -42,11 +46,14 @@ func RootKeySyncIntervalForSafe() time.Duration {
 	return time.Duration(i) * time.Millisecond
 }
 
-// SecretsSyncIntervalForSafe retrieves the synchronization interval for secrets from an environment variable.
-// Similar to RootKeySyncIntervalForSafe, it returns an infinite duration if the interval is set to "never" or on error.
+// SecretsSyncIntervalForSafe retrieves the synchronization interval for secrets
+// from an environment variable.
+// Similar to RootKeySyncIntervalForSafe, it returns an infinite duration if
+// the interval is set to "never" or on error.
 //
 // Returns:
-//   - A time.Duration representing the interval at which secrets should be synchronized.
+//   - A time.Duration representing the interval at which secrets should be
+//     synchronized.
 func SecretsSyncIntervalForSafe() time.Duration {
 	p := env.Value(env.VSecMSafeSyncSecretsInterval)
 	if p == "" || val.Never(p) {

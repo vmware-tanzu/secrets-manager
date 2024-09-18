@@ -17,8 +17,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 )
 
-// PollIntervalForInitContainer returns the time interval between each poll in the
-// Watch function. The interval is specified in milliseconds as the
+// PollIntervalForInitContainer returns the time interval between each poll in
+// the Watch function. The interval is specified in milliseconds as the
 // VSECM_INIT_CONTAINER_POLL_INTERVAL environment variable.  If the environment
 // variable is not set or is not a valid integer value, the function returns the
 // default interval of 5000 milliseconds.

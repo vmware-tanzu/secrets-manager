@@ -100,6 +100,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: example
 spec:
+  className: vsecm
   spiffeIDTemplate: "spiffe://vsecm.com/workload/example"
   podSelector:
     matchLabels:

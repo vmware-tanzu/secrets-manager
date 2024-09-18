@@ -53,7 +53,8 @@ func withLogger(logger logger) authOption {
 	}
 }
 
-// IsAuthorized checks if the JWT (access token) is authorized based on the OAuth 2.0 Token Introspection standard.
+// IsAuthorized checks if the JWT (access token) is authorized based on the
+// OAuth 2.0 Token Introspection standard.
 func (a *auth) IsAuthorized(id string, r *http.Request) bool {
 	return a.isAuthorizedJWT(id, r)
 }
@@ -112,7 +113,8 @@ func (a *auth) isAuthorizedJWT(cid string, r *http.Request) bool {
 
 	// Create a new HTTP request to the introspection endpoint with the required
 	// data.
-	req, err := http.NewRequest("POST", env.OIDCProviderBaseUrlForSentinel(), strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST",
+		env.OIDCProviderBaseUrlForSentinel(), strings.NewReader(data.Encode()))
 	if err != nil {
 		a.log.ErrorLn(&cid, "isAuthorizedJWT: error creating request:", err)
 		return false
@@ -126,7 +128,8 @@ func (a *auth) isAuthorizedJWT(cid string, r *http.Request) bool {
 	}
 	defer func() {
 		if err := resp.Body.Close(); err != nil {
-			a.log.ErrorLn(&cid, "isAuthorizedJWT: error closing response body:", err)
+			a.log.ErrorLn(&cid,
+				"isAuthorizedJWT: error closing response body:", err)
 		}
 	}()
 
@@ -142,6 +145,7 @@ func (a *auth) isAuthorizedJWT(cid string, r *http.Request) bool {
 		return false
 	}
 
-	a.log.InfoLn(&cid, "isAuthorizedJWT: token is active:", tokenResponse.Active)
+	a.log.InfoLn(&cid,
+		"isAuthorizedJWT: token is active:", tokenResponse.Active)
 	return tokenResponse.Active
 }

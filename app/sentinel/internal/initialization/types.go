@@ -20,12 +20,14 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
-// FileOpener is an interface for the file operations that the Sentinel needs to perform.
+// FileOpener is an interface for the file operations that the Sentinel
+// needs to perform.
 type FileOpener interface {
 	Open(name string) (*os.File, error)
 }
 
-// EnvReader is an interface for the environment variables that the Sentinel needs to read.
+// EnvReader is an interface for the environment variables that the Sentinel
+// needs to read.
 type EnvReader interface {
 	InitCommandPathForSentinel() string
 	InitCommandRunnerWaitBeforeExecIntervalForSentinel() time.Duration
@@ -33,7 +35,8 @@ type EnvReader interface {
 	NamespaceForVSecMSystem() string
 }
 
-// Logger is an interface for the logging operations that the Sentinel needs to perform.
+// Logger is an interface for the logging operations that the Sentinel
+// needs to perform.
 type Logger interface {
 	InfoLn(correlationID *string, v ...any)
 	ErrorLn(correlationID *string, v ...any)
@@ -42,16 +45,20 @@ type Logger interface {
 	FatalLn(correlationID *string, v ...any)
 }
 
-// SafeOps is an interface for the Safe operations that the Sentinel needs to perform.
+// SafeOps is an interface for the Safe operations that the Sentinel needs
+// to perform.
 type SafeOps interface {
 	Check(ctx context.Context, src *workloadapi.X509Source) error
-	CheckInitialization(ctx context.Context, src *workloadapi.X509Source) (bool, error)
+	CheckInitialization(ctx context.Context,
+		src *workloadapi.X509Source) (bool, error)
 	Post(ctx context.Context, sc entity.SentinelCommand) error
 }
 
-// SpiffeOps is an interface for the Spiffe operations that the Sentinel needs to perform.
+// SpiffeOps is an interface for the Spiffe operations that the Sentinel needs
+// to perform.
 type SpiffeOps interface {
-	AcquireSourceForSentinel(ctx context.Context) (*workloadapi.X509Source, bool)
+	AcquireSourceForSentinel(
+		ctx context.Context) (*workloadapi.X509Source, bool)
 }
 
 type Initializer struct {

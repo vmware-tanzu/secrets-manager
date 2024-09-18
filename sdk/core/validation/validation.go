@@ -163,7 +163,6 @@ func IsSafe(spiffeid string) bool {
 					" val: " + env.SpiffeIdPrefixForSafe() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
-			return false
 		}
 
 		return re.MatchString(spiffeid)

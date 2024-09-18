@@ -16,6 +16,9 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/sentinel"
 )
 
+// ParseList adds a flag to the parser for listing all registered workloads.
+// It returns a pointer to a boolean that will be set to true if the flag is
+// used.
 func ParseList(parser *argparse.Parser) *bool {
 	return parser.Flag(
 		string(sentinel.List),
@@ -24,6 +27,10 @@ func ParseList(parser *argparse.Parser) *bool {
 		})
 }
 
+// ParseDeleteSecret adds a flag to the parser for deleting a secret associated
+// with a workload.
+// It returns a pointer to a boolean that will be set to true if the flag is
+// used.
 func ParseDeleteSecret(parser *argparse.Parser) *bool {
 	return parser.Flag(
 		string(sentinel.Remove),
@@ -33,6 +40,10 @@ func ParseDeleteSecret(parser *argparse.Parser) *bool {
 		})
 }
 
+// ParseAppendSecret adds a flag to the parser for appending a secret to an
+// existing secret collection.
+// It returns a pointer to a boolean that will be set to true if the flag is
+// used.
 func ParseAppendSecret(parser *argparse.Parser) *bool {
 	return parser.Flag(
 		string(sentinel.Join),
@@ -43,6 +54,10 @@ func ParseAppendSecret(parser *argparse.Parser) *bool {
 		})
 }
 
+// ParseNamespaces adds a string list argument to the parser for specifying
+// namespaces.
+// It returns a pointer to a slice of strings containing the specified
+// namespaces.
 func ParseNamespaces(parser *argparse.Parser) *[]string {
 	return parser.StringList(
 		string(sentinel.Namespace),
@@ -52,6 +67,8 @@ func ParseNamespaces(parser *argparse.Parser) *[]string {
 		})
 }
 
+// ParseInputKeys adds a string argument to the parser for inputting keys.
+// It returns a pointer to a string containing the input keys.
 func ParseInputKeys(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.Keys),
@@ -62,6 +79,9 @@ func ParseInputKeys(parser *argparse.Parser) *string {
 		})
 }
 
+// ParseWorkload adds a string list argument to the parser for specifying
+// workload names.
+// It returns a pointer to a slice of strings containing the workload names.
 func ParseWorkload(parser *argparse.Parser) *[]string {
 	return parser.StringList(
 		string(sentinel.Workload),
@@ -71,6 +91,8 @@ func ParseWorkload(parser *argparse.Parser) *[]string {
 		})
 }
 
+// ParseSecret adds a string argument to the parser for specifying a secret.
+// It returns a pointer to a string containing the secret.
 func ParseSecret(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.Secret),
@@ -80,6 +102,9 @@ func ParseSecret(parser *argparse.Parser) *string {
 		})
 }
 
+// ParseTemplate adds a string argument to the parser for specifying a
+// transformation template.
+// It returns a pointer to a string containing the template.
 func ParseTemplate(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.Transformation),
@@ -89,6 +114,9 @@ func ParseTemplate(parser *argparse.Parser) *string {
 		})
 }
 
+// ParseFormat adds a string argument to the parser for specifying the output
+// format.
+// It returns a pointer to a string containing the format.
 func ParseFormat(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.Format),
@@ -100,6 +128,9 @@ func ParseFormat(parser *argparse.Parser) *string {
 		})
 }
 
+// ParseEncrypt adds a flag to the parser for encrypting or decrypting secrets.
+// It returns a pointer to a boolean that will be set to true if the flag is
+// used.
 func ParseEncrypt(parser *argparse.Parser) *bool {
 	return parser.Flag(
 		string(sentinel.Encrypt),
@@ -111,6 +142,9 @@ func ParseEncrypt(parser *argparse.Parser) *bool {
 		})
 }
 
+// ParseExpires adds a string argument to the parser for specifying the
+// expiration date of a secret.
+// It returns a pointer to a string containing the expiration date.
 func ParseExpires(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.Expires),
@@ -120,6 +154,9 @@ func ParseExpires(parser *argparse.Parser) *string {
 		})
 }
 
+// ParseNotBefore adds a string argument to the parser for specifying the
+// start date of a secret's validity.
+// It returns a pointer to a string containing the start date.
 func ParseNotBefore(parser *argparse.Parser) *string {
 	return parser.String(
 		string(sentinel.NotBefore),

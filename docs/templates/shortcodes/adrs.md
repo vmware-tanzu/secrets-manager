@@ -28,3 +28,7 @@
 * [ADR-0016: Centralize Magic Words, Numbers, and Configuration Constants in Common Modules](@/documentation/architecture/adrs/20240511-adr-0016-centralized-constants-and-magic-words.md)
 * [ADR-0017: VSecM OIDC Resource Server Shall Be Secure by Default"](@/documentation/architecture/adrs/20240627-adr-0017-vsecm-oidc-resource-server-shall-be-secure-by-default.md)
 * [ADR-0018: Use Asciinema for Use Case Examples in the Documentation"](@/documentation/architecture/adrs/20240714-adr-0018-use-asciinema-for-examples.md)
+* [ADR-0019: Use RESTful APIs for Communication Between Components](@/documentation/architecture/adrs/20240714-adr-0019-use-restful-apis.md)
+* [ADR-0020: VSecM will not enforce expiration and invalid before time for secrets](@/documentation/architecture/adrs/20240714-adr-0020-vsecm-does-not-control-expiration-of-secrets.md)
+* [ADR-0021: VSecM Shall Use Environment Variables for Configuration](@/documentation/architecture/adrs/20240715-adr-0021-use-environment-variables-for-configuration.md)
+* [ADR-0022: VSecM Shall Use the Latest Stable Dependencies](@/documentation/architecture/adrs/20240715-adr-0022-use-latest-stable-dependencies.md)

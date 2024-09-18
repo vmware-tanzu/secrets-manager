@@ -18,8 +18,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 )
 
-// IvInitializationIntervalForSafe fetches the Initialization Vector (IV) interval
-// from an environment variable. IV is used in AES encryption.
+// IvInitializationIntervalForSafe fetches the Initialization Vector (IV)
+// interval from an environment variable. IV is used in AES encryption.
 //
 // The environment variable used is VSECM_SAFE_IV_INITIALIZATION_INTERVAL.
 // If the environment variable is not set or contains an invalid integer, the
@@ -45,7 +45,8 @@ func IvInitializationIntervalForSafe() int {
 	return parsedInterval
 }
 
-// SecretBufferSizeForSafe returns the buffer size for the VSecM Safe secret queue.
+// SecretBufferSizeForSafe returns the buffer size for the VSecM Safe secret
+// queue.
 //
 // The buffer size is determined by the environment variable
 // VSECM_SAFE_SECRET_BUFFER_SIZE.
@@ -71,8 +72,8 @@ func SecretBufferSizeForSafe() int {
 	return l
 }
 
-// K8sSecretBufferSizeForSafe returns the buffer size for the VSecM Safe Kubernetes
-// secret queue.
+// K8sSecretBufferSizeForSafe returns the buffer size for the VSecM Safe
+// Kubernetes secret queue.
 //
 // The buffer size is determined by the environment variable
 // VSECM_SAFE_K8S_SECRET_BUFFER_SIZE.
@@ -98,8 +99,8 @@ func K8sSecretBufferSizeForSafe() int {
 	return l
 }
 
-// SecretDeleteBufferSizeForSafe returns the buffer size for the VSecM Safe secret
-// deletion queue.
+// SecretDeleteBufferSizeForSafe returns the buffer size for the VSecM Safe
+// secret deletion queue.
 //
 // The buffer size is determined by the environment variable
 // VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE.
