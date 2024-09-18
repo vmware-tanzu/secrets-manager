@@ -31,4 +31,4 @@
 * [ADR-0019: Use RESTful APIs for Communication Between Components](@/documentation/architecture/adrs/20240714-adr-0019-use-restful-apis.md)
 * [ADR-0020: VSecM will not enforce expiration and invalid before time for secrets](@/documentation/architecture/adrs/20240714-adr-0020-vsecm-does-not-control-expiration-of-secrets.md)
 * [ADR-0021: VSecM Shall Use Environment Variables for Configuration](@/documentation/architecture/adrs/20240715-adr-0021-use-environment-variables-for-configuration.md)
-* [ADR-0022: VSecM Shall Use the Latest Stable Dependencies](@/documentation/architecture/adrs/20240715-adr-0022-use-latest-stable-dependencies.md)
+* [ADR-0022: VSecM Shall Use the Latest Stable Dependencies](@/documentation/architecture/adrs/20240715-adr-0022-use-the-latest-stable-dependencies.md)
