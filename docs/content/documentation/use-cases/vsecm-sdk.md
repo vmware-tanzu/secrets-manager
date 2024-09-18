@@ -30,7 +30,7 @@ Fetching secrets using VSecM SDK will also enable you to…
 
 Here is a screencast that demonstrates this use case:
 
-```text
+```txt
 WORK IN PROGRESS
 ```
 

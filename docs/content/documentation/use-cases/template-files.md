@@ -23,7 +23,7 @@ these scripts in source control is a security incident waiting to happen.
 
 Here is a screencast that demonstrates this use case:
 
-```text
+```txt
 WORK IN PROGRESS
 ```
 

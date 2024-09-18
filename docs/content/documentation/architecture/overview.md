@@ -386,7 +386,7 @@ Here is a different look at how **VSecM** and **SPIRE** components are deployed
 in a Kubernetes cluster, focusing on the Services exposed by the components and
 volumes mounted to the Pods.
 
-Click on the image to see it in full size:
+Open the image in a new tab to see it in full size:
 
 ![VSecM and SPIRE Deployment](/assets/vsecm-infra.png "VSecM and SPIRE Deployment Diagram")
 

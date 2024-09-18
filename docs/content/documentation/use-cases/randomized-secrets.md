@@ -31,7 +31,7 @@ randomized secrets.
 
 Here is a screencast that demonstrates this use case:
 
-```text
+```txt
 WORK IN PROGRESS
 ```
 

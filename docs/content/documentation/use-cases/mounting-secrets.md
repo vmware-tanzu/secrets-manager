@@ -27,7 +27,7 @@ other feasible way to pass secrets to the app.
 
 Here is a screencast that demonstrates this use case:
 
-```text
+```txt
 WORK IN PROGRESS
 ```
 
