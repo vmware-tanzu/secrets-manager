@@ -23,7 +23,8 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
-func (i *Initializer) commandFileScanner(cid *string) (*os.File, *bufio.Scanner) {
+func (i *Initializer) commandFileScanner(
+	cid *string) (*os.File, *bufio.Scanner) {
 	filePath := i.EnvReader.InitCommandPathForSentinel()
 	file, err := i.FileOpener.Open(filePath)
 

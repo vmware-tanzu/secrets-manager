@@ -66,7 +66,7 @@ GoLang version.
 ## Special Considerations for VSecM SDK
 
 While the core VSecM components should use the latest stable dependencies, the 
-VSecM SDK may maintain compatibility with older versions:
+**VSecM SDK** may maintain compatibility with older versions:
 
 1. The VSecM SDK can support older dependencies, including older GoLang runtimes, 
    as long as there are no known vulnerabilities that impact the code.

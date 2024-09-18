@@ -96,7 +96,8 @@ func respond(cid *string, r *http.Response) (string, error) {
 		}
 		err := b.Close()
 		if err != nil {
-			log.Println(cid, "Post: Problem closing request body : %v", err.Error())
+			log.Println(cid, "Post: Problem closing request body : %v",
+				err.Error())
 		}
 	}(r.Body)
 

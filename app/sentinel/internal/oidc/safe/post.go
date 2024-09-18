@@ -117,7 +117,8 @@ func Post(
 		proceed := <-proceedChan
 
 		if !proceed {
-			return "", printPayloadError(cid, errors.New("post: Could not proceed"))
+			return "", printPayloadError(cid,
+				errors.New("post: Could not proceed"))
 		}
 
 		authorizer := createAuthorizer()

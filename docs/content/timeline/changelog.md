@@ -15,7 +15,10 @@ weight = 11
 
 ## Recent Changes
 
-TBD
+* Documented all undocumented public methods in the source code.
+* Updated some of the Asciinema screen recordings of the use cases.
+* Other documentation updates.
+* Minor code fixes and enhancements.
 
 ## [0.27.1] - 2024-09-13
 

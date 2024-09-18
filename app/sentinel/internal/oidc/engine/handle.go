@@ -107,7 +107,8 @@ func (e *Engine) HandleSecrets(w http.ResponseWriter, r *http.Request) {
 
 // handleListSecrets handles the listing of secrets.
 // It retrieves the secrets from the safe and sends them to the client.
-func (e *Engine) handleListSecrets(ctx context.Context, w http.ResponseWriter, r *http.Request, req *sentinel.SecretRequest) {
+func (e *Engine) handleListSecrets(ctx context.Context,
+	w http.ResponseWriter, r *http.Request, req *sentinel.SecretRequest) {
 	secrets, err := e.safeOperations.GetSecrets(ctx, r, req.Encrypt)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -139,14 +140,16 @@ func (e *Engine) validateModifyRequest(req *sentinel.SecretRequest) error {
 		req.Namespaces = []string{defaultNamespace}
 	}
 
-	if !isValidSecretModification(req.Workloads, req.Encrypt, req.SerializedRootKeys, req.Secret, req.Delete) {
+	if !isValidSecretModification(req.Workloads, req.Encrypt,
+		req.SerializedRootKeys, req.Secret, req.Delete) {
 		return ErrInvalidInput
 	}
 	return nil
 }
 
 // createSentinelCommand creates a SentinelCommand from a SecretRequest.
-func (e *Engine) createSentinelCommand(req *sentinel.SecretRequest) data.SentinelCommand {
+func (e *Engine) createSentinelCommand(
+	req *sentinel.SecretRequest) data.SentinelCommand {
 	return data.SentinelCommand{
 		WorkloadIds:        req.Workloads,
 		Secret:             req.Secret,

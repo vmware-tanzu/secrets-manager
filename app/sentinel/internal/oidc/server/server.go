@@ -36,8 +36,8 @@ import (
 func Serve() {
 	mux := http.NewServeMux()
 
-	engine := engine.New(&SafeClient{}, &RpcLogger{})
-	mux.HandleFunc("/secrets", engine.HandleSecrets)
+	srv := engine.New(&SafeClient{}, &RpcLogger{})
+	mux.HandleFunc("/secrets", srv.HandleSecrets)
 
 	port := env.SentinelOIDCResourceServerPort()
 	log.Println("VSecM Server started at " + port)

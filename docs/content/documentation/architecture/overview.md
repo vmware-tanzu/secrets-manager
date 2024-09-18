@@ -380,6 +380,16 @@ When the service is healthy, the liveness probe will return an `HTTP 200` succes
 response. When the service is ready to receive traffic, the readiness
 probe will return an `HTTP 200` success response.
 
+## **VSecM** and SPIRE Deployment Diagram
+
+Here is a different look at how **VSecM** and **SPIRE** components are deployed
+in a Kubernetes cluster, focusing on the Services exposed by the components and
+volumes mounted to the Pods.
+
+Click on the image to see it in full size:
+
+![VSecM and SPIRE Deployment](/assets/vsecm-infra.png "VSecM and SPIRE Deployment Diagram")
+
 ## Conclusion
 
 This was a deeper overview of **VMware Secrets Manager** architecture. If you
