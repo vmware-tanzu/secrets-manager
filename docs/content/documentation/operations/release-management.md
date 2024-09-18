@@ -140,20 +140,53 @@ Before every release cut, follow the steps outlined below.
 Make sure you are on a release branch, forked off of the most recent `main` 
 branch where all the changes to be included in the release are merged.
 
-### 1. Check Docker and Minikube
+### 1. Pre-Release Checks
+
+Before cutting a new release, perform the following security and code quality 
+checks:
+
+#### `go vet`
+
+* Run `go vet ./...` and review results.
+
+#### `govulncheck`
+
+* Install: `go install golang.org/x/vuln/cmd/govulncheck@latest`
+* Run: `govulncheck ./...` and review results.
+
+#### Snyk:
+    
+* Install Snyk CLI: `npm install -g snyk`
+* Navigate to the project directory: `cd $WORKSPACE/secrets-manager`
+* Authenticate (if not already done): `snyk auth`
+* Run: `snyk test` and review results.
+* Monitor projects on https://app.snyk.io/org/$username/projects
+  (*replace $username with your actual username*)
+
+#### `golangci-lint`:
+
+* Run: `golangci-lint run` and review results.
+
+#### Manual review:
+
+* Address any new vulnerabilities or issues found before proceeding with the 
+  release.
+* Document the results of these checks in the release notes.
+
+### 2. Check Docker and Minikube
 
 Also make sure your `docker` and `Minikube` are up and running.
 
 Additionally, execute `eval $(minikube -p minikube docker-env)` once more to
 update your environment.
 
-### 2. `make help`
+### 3. `make help`
 
 Check the `make help` command first, as it includes important information.
 
 You can also check `make h` command that included release-related commands.
 
-### 3. Test VSecM Distroless Images
+### 4. Test VSecM Distroless Images
 
 **VMware Secrets Manager** Distroless series use lightweight and secure
 distroless images.
@@ -176,44 +209,11 @@ make test-local
 
 If the tests pass, go to the next step.
 
-### 4. Test VSecM Distroless FIPS Images
-
-```bash
-make k8s-delete
-make k8s-start
-eval $(minikube -p minikube docker-env)
-
-# For macOS, you might need to run `make mac-tunnel`
-# on a separate terminal.
-# For other Linuxes, you might not need it.
-#
-# make mac-tunnel
-
-make build-local
-make deploy-fips-local
-make test-local
-```
-
-### 5. Test the `main` Branch on EKS
-
-First build and publish images to ECR, then test them on EKS.
-
-```bash 
-# You don't need to build the images if they already exist.
-make build-eks 
-# Clean up previous deployments.
-make clean
-# Deploy the images to EKS.
-make deploy-eks 
-# Test the deployment.
-make test-eks;
-```
-
-### 6. Merge the Release Branch to `main`
+### 5. Merge the Release Branch to `main`
 
 If all tests pass, merge the release branch to `main`.
 
-### 7. Tagging
+### 6. Tagging
 
 Tagging needs to be done **on the build server**.
 
@@ -234,7 +234,7 @@ make build
 make tag
 ```
 
-### 8. Initializing Helm Charts
+### 7. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm charts are continuously developed and updated
@@ -255,7 +255,7 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 9. Update Kubernetes Manifests
+### 8. Update Kubernetes Manifests
 
 Based on the generated helm charts run `make k8s-manifests-update VERSION=<version>` target
 to update the Kubernetes manifests for the new release.
@@ -266,12 +266,12 @@ first.
 
 For example `make k8s-manifests-update VERSION=0.22.4`
 
-### 10. Update Helm Documentation
+### 9. Update Helm Documentation
 
 If you have updated inline documentation in helm charts, make sure to reflect
 the changes by running `./hack/helm-docs.sh`.
 
-### 11. Release Helm Charts
+### 10. Release Helm Charts
 
 > **Pull Recent `gh-pages` Changes**
 >
@@ -305,7 +305,7 @@ the `gh-pages` branch.
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
 
-### 12. Add a Snapshot of the Current Documentation
+### 11. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned
 folders.
@@ -331,7 +331,7 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 13. All Set 🎉
+### 12. All Set 🎉
 
 You're all set.
 

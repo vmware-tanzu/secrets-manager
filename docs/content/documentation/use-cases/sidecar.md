@@ -118,6 +118,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: example
 spec:
+  className: vsecm
   # SPIFFE ID `MUST` start with 
   # "spiffe://vsecm.com/workload/$workloadName/ns/"
   # for `safe` to recognize the workload and 

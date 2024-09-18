@@ -112,6 +112,7 @@ kind: ClusterSPIFFEID
 metadata:
   name: vsecm-inspector
 spec:
+  className: vsecm
   spiffeIDTemplate: "spiffe://vsecm.com\
     /workload/example\
     /ns/default\
