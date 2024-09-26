@@ -1,0 +1,21 @@
+{
+  "mephisto": {
+    "name": "mephisto",
+    "bundleEndpointUrl": "https://10.211.55.121:8443/",
+    "trustDomain": "mephisto.vsecm.com",
+    "endpointSPIFFEID": "spiffe://mephisto.vsecm.com/spire/server"
+  },
+  "baal": {
+    "name": "baal",
+    "bundleEndpointUrl": "https://10.211.55.131:8443/",
+    "trustDomain": "baal.vsecm.com",
+    "endpointSPIFFEID": "spiffe://baal.vsecm.com/spire/server"
+  },
+  "azmodan": {
+    "name": "azmodan",
+    "bundleEndpointUrl": "https://10.211.55.141:8443/",
+    "trustDomain": "azmodan.vsecm.com",
+    "endpointSPIFFEID": "spiffe://azmodan.vsecm.com/spire/server"
+  },
+  "federateWith": ["mephisto","baal","azmodan"]
+}

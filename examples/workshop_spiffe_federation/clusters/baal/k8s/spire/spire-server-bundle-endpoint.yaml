@@ -1,0 +1,25 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-server-bundle-endpoint
+  namespace: spire-server
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.211.55.131
+spec:
+  type: LoadBalancer
+  ports:
+    - name: api
+      port: 8443
+      protocol: TCP
+  selector:
+    app: spire-server
