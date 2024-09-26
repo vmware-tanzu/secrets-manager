@@ -1,0 +1,136 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-server
+  namespace: spire-server
+data:
+  server.conf: |
+    {
+      "health_checks": {
+        "bind_address": "0.0.0.0",
+        "bind_port": "8080",
+        "listener_enabled": true,
+        "live_path": "/live",
+        "ready_path": "/ready"
+      },
+      "plugins": {
+        "DataStore": [
+          {
+            "sql": {
+              "plugin_data": {
+                "connection_string": "/run/spire/data/datastore.sqlite3",
+                "database_type": "sqlite3"
+              }
+            }
+          }
+        ],
+        "KeyManager": [
+          {
+            "disk": {
+              "plugin_data": {
+                "keys_path": "/run/spire/data/keys.json"
+              }
+            }
+          }
+        ],
+        "NodeAttestor": [
+          {
+            "k8s_psat": {
+              "plugin_data": {
+                "clusters": [
+                  {
+                    "diablo": {
+                      "allowed_node_label_keys": [],
+                      "allowed_pod_label_keys": [],
+                      "audience": [
+                        "spire-server"
+                      ],
+                      "service_account_allow_list": [
+                        "spire-system:spire-agent"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "Notifier": [
+          {
+            "k8sbundle": {
+              "plugin_data": {
+                "config_map": "spire-bundle",
+                "namespace": "spire-system"
+              }
+            }
+          }
+        ]
+      },
+      "server": {
+        "audit_log_enabled": false,
+        "bind_address": "0.0.0.0",
+        "bind_port": "8081",
+        "ca_key_type": "rsa-2048",
+        "ca_subject": [
+          {
+            "common_name": "diablo.vsecm.com",
+            "country": [
+              "US"
+            ],
+            "organization": [
+              "diablo.vsecm.com"
+            ]
+          }
+        ],
+        "ca_ttl": "24h",
+        "data_dir": "/run/spire/data",
+        "default_jwt_svid_ttl": "1h",
+        "default_x509_svid_ttl": "4h",
+        "jwt_issuer": "https://oidc-discovery.vsecm.com",
+        "log_level": "info",
+        "trust_domain": "diablo.vsecm.com",
+
+        "federation": {
+          "bundle_endpoint": {
+            "address": "0.0.0.0",
+            "port": 8443
+          },
+          "federates_with": {
+            "mephisto.vsecm.com": {
+              "bundle_endpoint_url": "https://10.211.55.121:8443",
+              "bundle_endpoint_profile": {
+                "https_spiffe": {
+                  "endpoint_spiffe_id": "spiffe://mephisto.vsecm.com/spire/server"
+                }
+              }
+            },
+            "baal.vsecm.com": {
+              "bundle_endpoint_url": "https://10.211.55.131:8443",
+              "bundle_endpoint_profile": {
+                "https_spiffe": {
+                  "endpoint_spiffe_id": "spiffe://baal.vsecm.com/spire/server"
+                }
+              }
+            },  
+            "azmodan.vsecm.com": {
+              "bundle_endpoint_url": "https://10.211.55.141:8443",
+              "bundle_endpoint_profile": {
+                "https_spiffe": {
+                  "endpoint_spiffe_id": "spiffe://azmodan.vsecm.com/spire/server"
+                }
+              }
+            }    
+          }
+        }
+      }
+    }

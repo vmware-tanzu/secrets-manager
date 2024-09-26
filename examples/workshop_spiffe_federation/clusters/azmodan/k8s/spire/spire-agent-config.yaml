@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-agent
+  namespace: spire-system
+data:
+  agent.conf: |
+    {
+      "agent": {
+        "data_dir": "/run/spire",
+        "log_level": "info",
+        "retry_bootstrap": true,
+        "server_address": "spire-server.spire-server",
+        "server_port": "443",
+        "socket_path": "/tmp/spire-agent/public/spire-agent.sock",
+        "trust_bundle_path": "/run/spire/bundle/bundle.crt",
+        "trust_domain": "azmodan.vsecm.com"
+      },
+      "health_checks": {
+        "bind_address": "0.0.0.0",
+        "bind_port": "9982",
+        "listener_enabled": true,
+        "live_path": "/live",
+        "ready_path": "/ready"
+      },
+      "plugins": {
+        "KeyManager": [
+          {
+            "memory": {
+              "plugin_data": null
+            }
+          }
+        ],
+        "NodeAttestor": [
+          {
+            "k8s_psat": {
+              "plugin_data": {
+                "cluster": "azmodan"
+              }
+            }
+          }
+        ],
+        "WorkloadAttestor": [
+          {
+            "k8s": {
+              "plugin_data": {
+                "disable_container_selectors": false,
+                "skip_kubelet_verification": true,
+                "use_new_container_locator": false,
+                "verbose_container_locator_logs": false
+              }
+            }
+          }
+        ]
+      }
+    }
+

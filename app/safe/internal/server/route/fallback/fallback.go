@@ -17,6 +17,16 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
+// Fallback handles requests that don't match any defined routes.
+//
+// It logs the mismatched route, sets the HTTP status to BadRequest,
+// and writes an empty response. If there's an error writing the response,
+// it logs a warning.
+//
+// Parameters:
+//   - cid: A string representing the correlation ID for logging.
+//   - r: The HTTP request that didn't match any routes.
+//   - w: The HTTP response writer to send the response.
 func Fallback(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {

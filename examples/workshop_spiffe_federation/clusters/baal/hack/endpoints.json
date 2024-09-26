@@ -1,0 +1,9 @@
+{
+  "diablo": {
+    "name": "diablo",
+    "bundleEndpointUrl": "https://10.211.55.111:8443/",
+    "trustDomain": "diablo.vsecm.com",
+    "endpointSPIFFEID": "spiffe://diablo.vsecm.com/spire/server"
+  },
+  "federateWith": ["diablo"]
+}

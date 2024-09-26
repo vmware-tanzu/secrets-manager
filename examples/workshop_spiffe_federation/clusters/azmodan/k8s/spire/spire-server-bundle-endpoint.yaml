@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-server-bundle-endpoint
+  namespace: spire-server
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.211.55.141
+spec:
+  type: LoadBalancer
+  ports:
+    - name: api
+      port: 8443
+      protocol: TCP
+  selector:
+    app: spire-server
