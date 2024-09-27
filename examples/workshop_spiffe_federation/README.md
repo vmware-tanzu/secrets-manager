@@ -42,8 +42,8 @@ After ensuring that SPIRE is up and running in all the clusters, execute
 the following in each cluster.
 
 ```bash
-go run ./hack/federate.go
-./hack/set-initial-bundle.sh
+cd ./hack 
+./federate.sh
 ```
 
 ## Deploy the Workloads
