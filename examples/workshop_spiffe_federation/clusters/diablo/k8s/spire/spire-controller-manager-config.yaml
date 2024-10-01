@@ -22,7 +22,7 @@ data:
       name: spire-controller-manager
       namespace: spire-server
       labels:
-        helm.sh/chart: spire-0.27.2
+        helm.sh/chart: spire-0.27.3
         app.kubernetes.io/name: server
         app.kubernetes.io/instance: spire
         app.kubernetes.io/version: "1.9.6"
