@@ -9,6 +9,10 @@
 # */
 
 global:
+  # -- Set it to true to enable kapp annotations. This is useful when you are
+  # using kapp to deploy the VSecM components. (ref: https://carvel.dev/kapp/)
+  enableKAppAnnotations: false
+
   # -- Set it to true for OpenShift deployments. This will add necessary
   # annotations to the SPIRE components to make them work on OpenShift.
   enableOpenShift: false
