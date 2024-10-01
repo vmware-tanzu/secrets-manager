@@ -1,0 +1,194 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+global:
+  # -- Set it to true for OpenShift deployments. This will add necessary
+  # annotations to the SPIRE components to make them work on OpenShift.
+  enableOpenShift: false
+
+  # -- Deploy SPIRE components. If set to false, SPIRE components will not be 
+  # deployed. This is useful when SPIRE is already deployed in the cluster.
+  deploySpire: true
+
+  # -- Deploy the Keystone VSecM component. VSecM Keystone is a lightweight
+  # Pod that is initialized only after VSecM Sentinel completes it
+  # `initCommand` initialization sequence.
+  deployKeystone: true
+  # -- Deploy VSecM Sentinel. VSecM Sentinel is the only admin interface where
+  # you can register secrets. For best security, you might want to disable
+  # the initial deployment of it. This way, you can deploy VSecM Sentinel
+  # off-cycle later when you need it.
+  deploySentinel: true
+
+  # -- Possible options for baseImage (distroless, distroless-fips). When in
+  # doubt, stick with distroless.
+  baseImage: distroless
+  # -- Registry url. Defaults to "vsecm", which points to the public vsecm
+  # DockerHub registry: <https://hub.docker.com/u/vsecm>.
+  registry: vsecm
+
+  # -- Where to find the dependent images of VSecM.
+  # Normally, you would not need to modify this.
+  images:
+    # - Container registry details for VSecM Keystone.
+    keystone:
+      distrolessRepository: vsecm-ist-keystone
+      distrolessFipsRepository: vsecm-ist-fips-keystone
+      tag: 0.27.2
+      pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Safe.
+    safe:
+      distrolessRepository: vsecm-ist-safe
+      distrolessFipsRepository: vsecm-ist-fips-safe
+      tag: 0.27.2
+      pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Sentinel.    
+    sentinel:
+      distrolessRepository: vsecm-ist-sentinel
+      distrolessFipsRepository: vsecm-ist-fips-sentinel
+      tag: 0.27.2
+      pullPolicy: IfNotPresent
+    # - Container registry details of VSecM Init Container.
+    initContainer:
+      repository: vsecm-ist-init-container
+      tag: 0.27.2
+
+    # -- Container registry details of SPIRE Agent.
+    spireAgent:
+      repository: ghcr.io/spiffe/spire-agent
+      tag: 1.9.6
+      pullPolicy: IfNotPresent
+    # -- Container registry details of SPIFFE CSI Driver.
+    spiffeCsiDriver:
+      repository: ghcr.io/spiffe/spiffe-csi-driver
+      tag: 0.2.6
+      pullPolicy: IfNotPresent
+    # -- Container registry details of SPIFFE CSI Node Driver Registrar.
+    nodeDriverRegistrar:
+      repository: registry.k8s.io/sig-storage/csi-node-driver-registrar
+      tag: v2.10.0
+      pullPolicy: IfNotPresent
+    # -- Container registry details of SPIRE Server.
+    spireServer:
+      repository: ghcr.io/spiffe/spire-server
+      tag: 1.9.6
+      pullPolicy: IfNotPresent
+    # -- Container registry details of SPIRE Controller Manager.
+    spireControllerManager:
+      repository: ghcr.io/spiffe/spire-controller-manager
+      tag: 0.5.0
+      pullPolicy: IfNotPresent
+
+    spireHelperBash:
+      repository: cgr.dev/chainguard/bash
+      tag: latest@sha256:8c9e5cbb641ced8112c637eb3611dab29bf65448a9d884a03938baf1b352dc4d
+      pullPolicy: IfNotPresent
+
+    spireHelperKubectl:
+      repository: docker.io/rancher/kubectl
+      tag: v1.28.0
+      pullPolicy: IfNotPresent
+
+    openShiftHelperUbi9:
+      repository: registry.access.redhat.com/ubi9
+      tag: latest
+      pullPolicy: IfNotPresent
+
+  # - VSecM-related global configuration.
+  vsecm:
+    # - This is where all VSecM components will be deployed.
+    namespace: vsecm-system
+
+    # - The endpoint URL of the VSecM Safe Service
+    # should match https://<service-name>.<namespace>.svc.cluster.local:<port>
+    # unless you have a custom setup.
+    safeEndpointUrl: "https://vsecm-safe.vsecm-system.svc.cluster.local:8443/"
+
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from VSecM Safe. You can also use regular expression
+    # matchers. Check out the official documentation at https://vsecm.com
+    # for details.
+    safeSpiffeIdPrefix: "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from VSecM Sentinel. You can also use regular expression
+    # matchers. Check out the official documentation at https://vsecm.com
+    # for details.
+    sentinelSpiffeIdPrefix: "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
+    # - The SPIFFE ID prefix that is used to verify the authenticity of a
+    # request coming from a Workload. If the SPIFFE ID of the workload does not
+    # match this pattern, then VSecM Safe will reject the workload's request.
+    # You can also use regular expression # matchers. Check out the official
+    # documentation at https://vsecm.com for details.
+    workloadSpiffeIdPrefix: "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+    # - The regular expression pattern that VSecM Safe will use to match workloads,
+    # VSecM Safe, VSecM Sentinel, and VSecM Keystone. The first capture group
+    # must exist and should match the workload's name. The rest of the capture
+    # groups will be ignored.
+    workloadNameRegExp: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+
+    # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
+    safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+    # - The SPIFFE ID template that VSecM Sentinel's ClusterSPIFFEID will use.
+    sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+    # - The SPIFFE ID template that VSecM Keystone's ClusterSPIFFEID will use.
+    keystoneSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-keystone/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+
+  # -- SPIRE-related global configuration.
+  spire:
+
+    # -- This is the className that ClusterSPIFFEIDs will use to
+    # be able to register their SPIFFE IDs with the SPIRE Server.
+    controllerManagerClassName: "vsecm"
+
+    # -- Enable federation. If set to true, SPIRE Server will be configured
+    # to federate with other SPIRE Servers. This is useful when you have
+    # multiple clusters, and you want to establish trust between them.
+    federationEnabled: false
+    # -- The trust domain is the root of the SPIFFE ID hierarchy. It is used to
+    # identify the trust domain of a workload. If you use anything other than
+    # the default `vsecm.com`, you must also update the relevant environment
+    # variables that does SPIFFE ID validation.
+    #
+    # To prevent accidental collisions (two trust domains select identical names),
+    # operators are advised to select trust domain names which are highly likely
+    # to be globally unique. Even though a trust domain name is not a DNS name,
+    # using a registered domain name as a suffix of a trust domain name, when
+    # available, will reduce chances of an accidental collision; for example,
+    # if a trust domain operator owns the domain name `example.com`,
+    # then using a trust domain name such as `apps.example.com` would likely
+    # not produce a collision. When trust domain names are automatically generated
+    # without operator input, randomly generating a unique name (such as a UUID)
+    # is strongly advised.
+    #
+    # All SPIFFE IDs shall be prefixed with `spiffe://<trustDomain>` unless
+    # you have an advanced custom setup.
+    trustDomain: "vsecm.com"
+    # -- The SPIRE CA common name.
+    caCommonName: "vsecm.com"
+    # -- The SPIRE CA country.
+    caCountry: "US"
+    # -- The SPIRE CA organization.
+    caOrganization: "vsecm.com"
+    # -- This is the namespace where the SPIRE components will be deployed.
+    namespace: spire-system
+    # -- It is best to keep the SPIRE server namespace separate from other
+    # SPIRE components for an added layer of security.
+    serverNamespace: spire-server
+    # -- The SPIRE Server address. This is the address where the SPIRE Server
+    # that the agents will connect to.
+    # This address is in the form of <service-name>.<namespace>.svc.cluster.local
+    # unless you have a custom setup.
+    serverAddress: "spire-server.spire-server.svc.cluster.local"
+    # -- The log level of the SPIRE components. This is useful for debugging.
+    logLevel: DEBUG
+    # -- The SPIRE Server port. This is the port where the SPIRE Server will
+    # listen for incoming connections.
+    # This is the port of the SPIRE server k8s Service.
+    serverPort: 443

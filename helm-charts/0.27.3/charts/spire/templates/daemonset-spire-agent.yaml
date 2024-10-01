@@ -1,0 +1,170 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: spire-agent
+  namespace: {{ .Values.global.spire.namespace }}
+  labels:
+    helm.sh/chart: {{ include "spire.chart" . }}
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: agent
+      app.kubernetes.io/instance: spire
+      app.kubernetes.io/component: default
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: spire-agent
+        checksum/config: 2ad907b85aad20064f4cbf04be0f3bf500bbe6a43f76c82c48eda97306352008
+      labels:
+        app.kubernetes.io/name: agent
+        app.kubernetes.io/instance: spire
+        app.kubernetes.io/component: default
+    spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+
+      hostPID: true
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccountName: spire-agent
+      securityContext:
+{{- if .Values.global.enableOpenShift }}
+        fsGroupChangePolicy: OnRootMismatch
+{{- else }}
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+  {{- end }}
+      priorityClassName: system-node-critical
+      initContainers:
+        - name: ensure-alternate-names
+          image:  "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
+          command: ["bash", "-xc"]
+          args:
+            - |
+              cd {{ .Values.spireAgent.hostSocketDir }}
+              L=`readlink socket`
+              [ "x$L" != "x{{ .Values.spireAgent.socketName }}" ] && rm -f socket
+              [ ! -L socket ] && ln -s {{ .Values.spireAgent.socketName }} socket
+              L=`readlink api.sock`
+              [ "x$L" != "x{{ .Values.spireAgent.socketName }}" ] && rm -f api.sock
+              [ ! -L api.sock ] && ln -s {{ .Values.spireAgent.socketName }} api.sock
+              [ -L {{ .Values.spireAgent.socketName }} ] && rm -f {{ .Values.spireAgent.socketName }}
+              exit 0
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-agent-socket-dir
+              mountPath: {{ .Values.spireAgent.hostSocketDir }}
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+{{- if not .Values.global.enableOpenShift }}
+        - name: fsgroupfix
+          image: "{{ .Values.global.images.spireHelperBash.repository }}:{{ .Values.global.images.spireHelperBash.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperBash.pullPolicy }}
+          command: ["bash", "-c"]
+          args:
+            - "chown -R 1000:1000 {{ .Values.spireAgent.hostSocketDir }} {{ .Values.spireAgent.internalAdminSocketDir }}"
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-agent-socket-dir
+              mountPath: {{ .Values.spireAgent.hostSocketDir }}
+            - name: spire-agent-admin-socket-dir
+              mountPath: {{ .Values.spireAgent.internalAdminSocketDir }}
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+{{- end }}
+      containers:
+        - name: spire-agent
+          image: "{{ .Values.global.images.spireAgent.repository }}:{{ .Values.global.images.spireAgent.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireAgent.pullPolicy }}
+          args: ["-config", "/opt/spire/conf/agent/agent.conf"]
+          securityContext:
+            {}
+          env:
+            - name: PATH
+              value: "/opt/spire/bin:/bin"
+{{- if .Values.global.enableOpenShift }}
+            - name: MY_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+{{- end}}
+          ports:
+            - containerPort: 9982
+              name: healthz
+            - containerPort: 9988
+              name: prom
+          volumeMounts:
+            - name: spire-config
+              mountPath: /opt/spire/conf/agent
+              readOnly: true
+            - name: spire-bundle
+              mountPath: /run/spire/bundle
+              readOnly: true
+            - name: spire-agent-socket-dir
+              mountPath: {{ .Values.spireAgent.internalPublicSocketDir }}
+              readOnly: false
+            - name: spire-token
+              mountPath: /var/run/secrets/tokens
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            initialDelaySeconds: 15
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            {}
+      volumes:
+        - name: spire-config
+          configMap:
+            name: spire-agent
+        - name: spire-agent-admin-socket-dir
+          emptyDir: {}
+        - name: spire-bundle
+          configMap:
+            name: spire-bundle
+        - name: spire-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: spire-agent
+                  expirationSeconds: 7200
+                  audience: spire-server
+        - name: spire-agent-socket-dir
+          hostPath:
+            path: {{ .Values.spireAgent.hostSocketDir }}
+            type: DirectoryOrCreate
