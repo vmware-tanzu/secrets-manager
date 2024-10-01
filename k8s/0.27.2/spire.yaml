@@ -899,6 +899,7 @@ spec:
         app.kubernetes.io/name: spiffe-csi-driver
         app.kubernetes.io/instance: spire
     spec:
+
       serviceAccountName: spire-spiffe-csi-driver
 
       priorityClassName: system-node-critical
