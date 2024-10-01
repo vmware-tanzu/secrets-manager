@@ -1,0 +1,127 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+#
+# Commented out for now, as scaling to multiple instances will not work until
+# we use an external database.
+# Check out the official documentation for more information:
+# https://spiffe.io/docs/latest/setup/
+#
+# replicaCount: 1
+#
+# autoscaling:
+#   enabled: false
+#   minReplicas: 1
+#   maxReplicas: 100
+#   targetCPUUtilizationPercentage: 80
+#   # targetMemoryUtilizationPercentage: 80
+#
+
+# -- Override it with an image pull secret that you need as follows:
+# imagePullSecrets:
+#  - name: my-registry-secret
+imagePullSecrets: []
+
+# -- The name override of the chart.
+nameOverride: ""
+# -- The fullname override of the chart.
+fullnameOverride: ""
+
+# -- Experimental settings.
+experimental:
+  # -- eventsBasedCache is known to significantly improve SPIRE Server
+  # performance. It is set to `false` by default, just in case.
+  eventsBasedCache: false
+
+# -- SPIRE assigns a default Cluster SPIFFE ID to all workloads in the
+# cluster. The SPIFFEID SPIRE assigns by default is not aligned with the
+# SPIFFE ID format that VSecM Safe expects. Also, you might not want
+# SPIRE to assign SPIFFE IDs to every single workload you have in your
+# cluster if you are not using SPIRE to attest those workloads. Therefore,
+# this option is set to false by default.
+#
+# If you set this to true, make sure you update `safeSpiffeIdTemplate`
+# `sentinelSpiffeIdTemplate`, `keystoneSpiffeIdTemplate`,
+# `workloadNameRegExp`, `workloadSpiffeIdPrefix`, `safeSpiffeIdPrefix`,
+# `sentinelSpiffeIdPrefix` and other relevant configurations to match
+# with what SPIRE assigns.
+enableSpireMintedDefaultClusterSpiffeIds: false
+
+# -- SPIRE Agent settings.
+spireAgent:
+  # -- The corresponding SPIRE Agent socket directory on the host.
+  # SPIRE Agents and SPIFFE CSI Driver shares this directory.
+  hostSocketDir: "/run/spire/agent-sockets"
+  # -- The SPIRE Agent socket name.
+  socketName: "spire-agent.sock"
+
+  # -- The corresponding SPIRE Agent internal socket directory in the
+  # container. The configuration should match the SPIRE Agent configuration
+  # and SPIRE Agent DaemonSet.
+  internalPublicSocketDir: "/tmp/spire-agent/public"
+
+  # -- The corresponding SPIRE Agent internal admin directory in the
+  # container. The configuration should match the SPIRE Agent configuration
+  # and SPIRE Agent DaemonSet. You are advised not to change this value.
+  internalAdminSocketDir: "/tmp/spire-agent/private"
+
+# -- SPIRE Server settings.
+spireServer:
+  # -- The data directory for the SPIRE Server.
+  # SPIRE Server’s ConfigMap and StatefulSet should agree on this directory.
+  dataDir: "/run/spire/data"
+  # -- The private socket directory for the SPIRE Server.
+  # SPIRE Server’s ConfigMap and StatefulSet should agree on this directory.
+  privateSocketDir: "/tmp/spire-server/private"
+
+  # -- The configuration directory for the SPIRE Server.
+  configDir: "/run/spire/config"
+
+  # -- Service details for the SPIRE Server.
+  service:
+    # -- Service type.
+    # Possible values are: ClusterIP, NodePort, LoadBalancer.
+    # Defaults to `ClusterIP`.
+    type: ClusterIP
+
+# -- These are the default resources suitable for a moderate SPIRE usage.
+# Of course, it's best to do your own benchmarks and update these
+# requests and limits to your production needs accordingly.
+# That being said, as a rule of thumb, do not limit the CPU request
+# on SPIRE Agent and SPIRE server. It's best to let them leverage
+# the available excess CPU, if available.
+resources:
+  # -- SPIRE Server resource requests and limits.
+  server:
+    requests:
+      memory: "1Gi"
+      cpu: "100m"
+  # -- SPIRE Agent resource requests and limits.
+  agent:
+    requests:
+      memory: "512Mi"
+      cpu: "50m"
+  # -- SPIFFE CSI Driver resource requests and limits.
+  spiffeCsiDriver:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+
+# -- Persistence settings for the SPIRE Server.
+data:
+  # -- Persistence is enabled by default. However, you are recommended to
+  # provide your own storage class if you are using a cloud provider or
+  # a storage solution that supports dynamic provisioning.
+  persistent: true
+  # -- Define the PVC if `persistent` is true.
+  persistentVolumeClaim:
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
