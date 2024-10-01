@@ -15,9 +15,13 @@ weight = 11
 
 ## Recent Changes
 
+## [0.27.2] - 2024-09-30
+
+### Added
+
 * Documented all undocumented public methods in the source code.
-* Updated some of the Asciinema screen recordings of the use cases.
 * Other documentation updates.
+* Updated some of the Asciinema screen recordings of the use cases.
 * Minor code fixes and enhancements.
 * Added missing imagePullSecrets to SPIFFE CSI Driver helm template of the
   VSecM Helm charts.
