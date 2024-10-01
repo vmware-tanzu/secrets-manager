@@ -192,3 +192,13 @@ global:
     # listen for incoming connections.
     # This is the port of the SPIRE server k8s Service.
     serverPort: 443
+
+#safe:
+#  imagePullSecrets:
+#    - name: potato
+#sentinel:
+#  imagePullSecrets:
+#    - name: potato
+#keystone:
+#  imagePullSecrets:
+#    - name: potato

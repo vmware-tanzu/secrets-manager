@@ -83,7 +83,8 @@ environments:
 # Override it with an image pull secret that you need as follows:
 # imagePullSecrets:
 #  - name: my-registry-secret
-imagePullSecrets: []
+imagePullSecrets:
+  - name: registrycredentials
 
 # -- The name override of the chart.
 nameOverride: ""
