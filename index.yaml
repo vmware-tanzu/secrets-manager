@@ -2,8 +2,50 @@ apiVersion: v1
 entries:
   vsecm:
   - apiVersion: v2
+    appVersion: 0.27.3
+    created: "2024-10-03T22:57:12.945217-07:00"
+    dependencies:
+    - condition: global.deployKeystone
+      name: keystone
+      repository: file://charts/keystone
+      version: 0.27.3
+    - condition: global.deploySpire
+      name: spire
+      repository: file://charts/spire
+      version: 0.27.3
+    - condition: global.deploySafe
+      name: safe
+      repository: file://charts/safe
+      version: 0.27.3
+    - condition: global.deploySentinel
+      name: sentinel
+      repository: file://charts/sentinel
+      version: 0.27.3
+    description: Helm chart for VMware Secrets Manager
+    digest: 14f172de243f925b558a5394410c5292ebdfd7ba434491e92b1610316ac5ca37
+    home: https://vsecm.com/
+    icon: https://vsecm.com/assets/vsecm-256.png
+    keywords:
+    - secrets
+    - kubernetes
+    - secrets-manager
+    - spire
+    - spiffe
+    - zero-trust
+    - cloud-native
+    - edge
+    - secret-management
+    - security
+    name: vsecm
+    sources:
+    - https://github.com/vmware-tanzu/secrets-manager
+    type: application
+    urls:
+    - vsecm-0.27.3.tgz
+    version: 0.27.3
+  - apiVersion: v2
     appVersion: 0.27.2
-    created: "2024-09-30T20:09:12.113699-07:00"
+    created: "2024-10-03T22:57:12.943443-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -45,7 +87,7 @@ entries:
     version: 0.27.2
   - apiVersion: v2
     appVersion: 0.27.1
-    created: "2024-09-30T20:09:12.111396-07:00"
+    created: "2024-10-03T22:57:12.941242-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -87,7 +129,7 @@ entries:
     version: 0.27.1
   - apiVersion: v2
     appVersion: 0.27.0
-    created: "2024-09-30T20:09:12.10991-07:00"
+    created: "2024-10-03T22:57:12.939684-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -129,7 +171,7 @@ entries:
     version: 0.27.0
   - apiVersion: v2
     appVersion: 0.26.1
-    created: "2024-09-30T20:09:12.108384-07:00"
+    created: "2024-10-03T22:57:12.938099-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -171,7 +213,7 @@ entries:
     version: 0.26.1
   - apiVersion: v2
     appVersion: 0.26.0
-    created: "2024-09-30T20:09:12.106209-07:00"
+    created: "2024-10-03T22:57:12.936242-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -213,7 +255,7 @@ entries:
     version: 0.26.0
   - apiVersion: v2
     appVersion: 0.25.3
-    created: "2024-09-30T20:09:12.104847-07:00"
+    created: "2024-10-03T22:57:12.93389-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -255,7 +297,7 @@ entries:
     version: 0.25.3
   - apiVersion: v2
     appVersion: 0.25.2
-    created: "2024-09-30T20:09:12.10369-07:00"
+    created: "2024-10-03T22:57:12.932729-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -297,7 +339,7 @@ entries:
     version: 0.25.2
   - apiVersion: v2
     appVersion: 0.25.1
-    created: "2024-09-30T20:09:12.102446-07:00"
+    created: "2024-10-03T22:57:12.931595-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -339,7 +381,7 @@ entries:
     version: 0.25.1
   - apiVersion: v2
     appVersion: 0.25.0
-    created: "2024-09-30T20:09:12.10059-07:00"
+    created: "2024-10-03T22:57:12.930424-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -381,7 +423,7 @@ entries:
     version: 0.25.0
   - apiVersion: v2
     appVersion: 0.24.4
-    created: "2024-09-30T20:09:12.099506-07:00"
+    created: "2024-10-03T22:57:12.928579-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -423,7 +465,7 @@ entries:
     version: 0.24.4
   - apiVersion: v2
     appVersion: 0.24.3
-    created: "2024-09-30T20:09:12.098478-07:00"
+    created: "2024-10-03T22:57:12.927621-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -465,7 +507,7 @@ entries:
     version: 0.24.3
   - apiVersion: v2
     appVersion: 0.24.2
-    created: "2024-09-30T20:09:12.097483-07:00"
+    created: "2024-10-03T22:57:12.926656-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -507,7 +549,7 @@ entries:
     version: 0.24.2
   - apiVersion: v2
     appVersion: 0.24.1
-    created: "2024-09-30T20:09:12.095843-07:00"
+    created: "2024-10-03T22:57:12.925697-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -549,7 +591,7 @@ entries:
     version: 0.24.1
   - apiVersion: v2
     appVersion: 0.24.0
-    created: "2024-09-30T20:09:12.094903-07:00"
+    created: "2024-10-03T22:57:12.924696-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -591,7 +633,7 @@ entries:
     version: 0.24.0
   - apiVersion: v2
     appVersion: 0.23.3
-    created: "2024-09-30T20:09:12.093921-07:00"
+    created: "2024-10-03T22:57:12.923055-07:00"
     dependencies:
     - condition: global.deployKeystone
       name: keystone
@@ -633,7 +675,7 @@ entries:
     version: 0.23.3
   - apiVersion: v2
     appVersion: 0.23.2
-    created: "2024-09-30T20:09:12.09288-07:00"
+    created: "2024-10-03T22:57:12.922082-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -671,7 +713,7 @@ entries:
     version: 0.23.2
   - apiVersion: v2
     appVersion: 0.23.1
-    created: "2024-09-30T20:09:12.091766-07:00"
+    created: "2024-10-03T22:57:12.921225-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -709,7 +751,7 @@ entries:
     version: 0.23.1
   - apiVersion: v2
     appVersion: 0.23.0
-    created: "2024-09-30T20:09:12.090808-07:00"
+    created: "2024-10-03T22:57:12.920283-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -747,7 +789,7 @@ entries:
     version: 0.23.0
   - apiVersion: v2
     appVersion: 0.22.5
-    created: "2024-09-30T20:09:12.090013-07:00"
+    created: "2024-10-03T22:57:12.919427-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -785,7 +827,7 @@ entries:
     version: 0.22.5
   - apiVersion: v2
     appVersion: 0.22.4
-    created: "2024-09-30T20:09:12.089161-07:00"
+    created: "2024-10-03T22:57:12.918015-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -823,7 +865,7 @@ entries:
     version: 0.22.4
   - apiVersion: v2
     appVersion: 0.22.3
-    created: "2024-09-30T20:09:12.08835-07:00"
+    created: "2024-10-03T22:57:12.91717-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -861,7 +903,7 @@ entries:
     version: 0.22.3
   - apiVersion: v2
     appVersion: 0.22.2
-    created: "2024-09-30T20:09:12.087503-07:00"
+    created: "2024-10-03T22:57:12.916253-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -899,7 +941,7 @@ entries:
     version: 0.22.2
   - apiVersion: v2
     appVersion: 0.22.1
-    created: "2024-09-30T20:09:12.086352-07:00"
+    created: "2024-10-03T22:57:12.915418-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -937,7 +979,7 @@ entries:
     version: 0.22.1
   - apiVersion: v2
     appVersion: 0.22.0
-    created: "2024-09-30T20:09:12.085416-07:00"
+    created: "2024-10-03T22:57:12.91462-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -975,7 +1017,7 @@ entries:
     version: 0.22.0
   - apiVersion: v2
     appVersion: 0.21.5
-    created: "2024-09-30T20:09:12.084622-07:00"
+    created: "2024-10-03T22:57:12.913151-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1012,7 +1054,7 @@ entries:
     version: 0.21.5
   - apiVersion: v2
     appVersion: 0.21.4
-    created: "2024-09-30T20:09:12.083787-07:00"
+    created: "2024-10-03T22:57:12.912337-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1047,7 +1089,7 @@ entries:
     version: 0.21.4
   - apiVersion: v2
     appVersion: 0.21.3
-    created: "2024-09-30T20:09:12.083042-07:00"
+    created: "2024-10-03T22:57:12.911559-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1082,7 +1124,7 @@ entries:
     version: 0.21.3
   - apiVersion: v2
     appVersion: 0.21.2
-    created: "2024-09-30T20:09:12.081294-07:00"
+    created: "2024-10-03T22:57:12.910789-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1117,7 +1159,7 @@ entries:
     version: 0.21.2
   - apiVersion: v2
     appVersion: 0.21.1
-    created: "2024-09-30T20:09:12.08052-07:00"
+    created: "2024-10-03T22:57:12.909973-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1152,7 +1194,7 @@ entries:
     version: 0.21.1
   - apiVersion: v2
     appVersion: 0.21.0
-    created: "2024-09-30T20:09:12.079712-07:00"
+    created: "2024-10-03T22:57:12.90854-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1187,7 +1229,7 @@ entries:
     version: 0.21.0
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2024-09-30T20:09:12.078938-07:00"
+    created: "2024-10-03T22:57:12.907794-07:00"
     dependencies:
     - condition: global.deploySpire
       name: spire
@@ -1211,4 +1253,4 @@ entries:
     urls:
     - vsecm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-30T20:09:12.077995-07:00"
+generated: "2024-10-03T22:57:12.906865-07:00"
