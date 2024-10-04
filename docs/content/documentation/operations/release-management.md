@@ -281,12 +281,12 @@ first.
 Make sure you are on the `main` branch and you have fetched the recent changes,
 then, for example `make k8s-manifests-update VERSION=0.22.4`
 
-### 9. Update Helm Documentation
+### 10. Update Helm Documentation
 
 If you have updated inline documentation in helm charts, make sure to reflect
 the changes by running `./hack/helm-docs.sh`.
 
-### 10. Release Helm Charts
+### 11. Release Helm Charts
 
 Make sure you have a clean `main` branch before proceeding. Merge everything
 that needs to be merged.
@@ -324,7 +324,7 @@ the `gh-pages` branch.
 > `main` branch. Older versions should be snapshotted in the `gh-pages` branch
 > using the workflow described above.
 
-### 11. Add a Snapshot of the Current Documentation
+### 12. Add a Snapshot of the Current Documentation
 
 The `docs` branch contains a snapshot of each documentation in versioned
 folders.
@@ -350,7 +350,24 @@ To add a snapshot of the current documentation:
 
 [init_script]: https://github.com/vmware-tanzu/secrets-manager/blob/main/hack/init-next-helm-chart.sh
 
-### 12. All Set 🎉
+### 13. Add a Snapshot of the Kubernetes Manifests
+
+Copy the Kubernetes manifests folder for the current release.
+
+For example, if the  current release is `v0.27.2`, copy the `k8s/0.27.2` folder 
+to a temporary location; then switch to the `k8s` branch and then cop the
+`0.27.2` folder to the project's root (*while still on the `k8s` branch),
+and then merge your changes onto the `k8s` branch.
+
+### 14. Create a Github Release
+
+On the GitHub UI, based on the former releases...
+
+1. Create a new release if it hasn't already been created.
+2. Update the release notes.
+3. Create a GitHub  announcement for the release.
+
+### 15. All Set 🎉
 
 You're all set.
 
