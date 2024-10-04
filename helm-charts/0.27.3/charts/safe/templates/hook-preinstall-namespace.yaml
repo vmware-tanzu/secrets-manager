@@ -8,7 +8,9 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if .Values.global.preInstallVSecMNamespaces }}
 apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .Values.global.vsecm.namespace }}
+{{- end }}

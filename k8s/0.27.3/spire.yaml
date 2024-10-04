@@ -1289,7 +1289,6 @@ webhooks:
 # <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
-
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -1311,7 +1310,6 @@ metadata:
 # <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
-
 apiVersion: v1
 kind: Namespace
 metadata:
