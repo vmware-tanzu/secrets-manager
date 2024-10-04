@@ -234,13 +234,26 @@ make build
 make tag
 ```
 
-### 7. Initializing Helm Charts
+### 7. Tag SDK
+
+VSecM SDK Go SDK is managed under its own tag.
+
+Make sure you tag it too.
+
+```bash
+cd $WORKSPACE/secrets-manager
+git tag -a v0.22.4 -m "v0.22.4"
+git push origin --tags
+```
+
+### 8. Initializing Helm Charts
 
 To start the release cycle, we initialize helm-charts for each official
 release of VSecM. Helm charts are continuously developed and updated
 during the release development process.
 
-At the beginning of a VSecM release, the [./hack/init-next-helm-chart.sh][init_script]
+At the beginning of a VSecM release, the 
+[./hack/init-next-helm-chart.sh][init_script]
 script is used to initialize the helm-charts.
 
 To initialize a new helm-chart, run the following command using the init script:
@@ -255,16 +268,18 @@ Use this link to create a pull request (PR) and merge it into the main branch.
 This will make the new helm-charts available for the VSecM release
 development cycle.
 
-### 8. Update Kubernetes Manifests
+### 9. Update Kubernetes Manifests
 
-Based on the generated helm charts run `make k8s-manifests-update VERSION=<version>` target
+Based on the generated helm charts run 
+`make k8s-manifests-update VERSION=<version>` target
 to update the Kubernetes manifests for the new release.
 
 These manifests are used by people who want to install VSecM without using
 Helm. To generate the manifests you need to have generated the helm charts
 first.
 
-For example `make k8s-manifests-update VERSION=0.22.4`
+Make sure you are on the `main` branch and you have fetched the recent changes,
+then, for example `make k8s-manifests-update VERSION=0.22.4`
 
 ### 9. Update Helm Documentation
 
@@ -272,6 +287,10 @@ If you have updated inline documentation in helm charts, make sure to reflect
 the changes by running `./hack/helm-docs.sh`.
 
 ### 10. Release Helm Charts
+
+Make sure you have a clean `main` branch before proceeding. Merge everything
+that needs to be merged.
+
 
 > **Pull Recent `gh-pages` Changes**
 >
