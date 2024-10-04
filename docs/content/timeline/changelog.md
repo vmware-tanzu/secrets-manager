@@ -15,7 +15,9 @@ weight = 11
 
 ## Recent Changes
 
-## [0.27.3] - 2024-09-30
+* Added helm charts the ability to optionally disable custom namespace generation.
+
+## [0.27.2] - 2024-09-30
 
 ### Added
 
