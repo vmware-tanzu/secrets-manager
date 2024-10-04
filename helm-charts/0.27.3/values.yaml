@@ -13,6 +13,16 @@ global:
   # using kapp to deploy the VSecM components. (ref: https://carvel.dev/kapp/)
   enableKAppAnnotations: false
 
+  # -- Set it to true to enable the pre-installation of the VSecM namespaces.
+  # If set to false, the VSecM namespaces will not be pre-installed; you will
+  # need to create a `vsecm-system` namespace manually.
+  preInstallVSecMNamespaces: true
+
+  # -- Set it to true to enable the pre-installation of the SPIRE namespaces.
+  # If set to false, the SPIRE namespaces will not be pre-installed; you will
+  # need to create `spire-system` and `spire-server` namespaces manually.
+  preInstallSpireNamespaces: true
+
   # -- Set it to true for OpenShift deployments. This will add necessary
   # annotations to the SPIRE components to make them work on OpenShift.
   enableOpenShift: false

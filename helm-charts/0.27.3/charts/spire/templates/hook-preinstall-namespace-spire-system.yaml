@@ -8,6 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if .Values.global.preInstallSpireNamespaces }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -21,3 +22,4 @@ metadata:
 {{- end }}
   annotations:
     "helm.sh/hook": pre-install
+{{- end }}

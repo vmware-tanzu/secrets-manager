@@ -8,6 +8,7 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+{{- if .Values.global.preInstallSpireNamespaces }}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -16,8 +17,9 @@ metadata:
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/warn: privileged
-{{- if .Values.global.enableOpenShift }}
+  {{- if .Values.global.enableOpenShift }}
     security.openshift.io/scc.podSecurityLabelSync: "false"
-{{- end }}
+  {{- end }}
   annotations:
     "helm.sh/hook": pre-install
+{{- end }}
