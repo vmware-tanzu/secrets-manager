@@ -5,26 +5,26 @@
 0. Remove federation configuration from the servers; ClusterFederatedTrustDomain
    is to create the federation anyway.
 
-1. Edge Nodes can have a keypair securely delivered to them out-of-band;
+1. Install VSecM in all clusters (because we’ll need it anyway).
+
+2. Edge Nodes can have a keypair securely delivered to them out-of-band;
    likely around build time.
    The bundle will have a private/public key pair, and the public key of the
    control plane.
 
-2. Control plane can create the keypair and store it in a secure place (like
+3. Control plane can create the keypair and store it in a secure place (like
    an object store within the network boundary; or a secret manager).
    (maybe we should have VSecM installed there to store the encryption keys
    to the key pairs, and store the encrypted key pairs in the object store?)
 
-3. Edge node establishes an mTLS connection with a service on the control plane.
+4. Edge node establishes an mTLS connection with a service on the control plane.
 
-4. Edge node sends its trust bundle to the control plane.
+5. Edge node sends its trust bundle to the control plane.
 
-5. In response the control plane sends the trust bundle of the control plane
+6. In response the control plane sends the trust bundle of the control plane
    to the edge node.
 
-6. Both sides save the trust bundles.
+7. Both sides save the trust bundles.
 
-7. Both nodes register trust bundles to SPIRE servers, and also create the
+8. Both nodes register trust bundles to SPIRE servers, and also create the
    necessary custom resources.
-
-8.
