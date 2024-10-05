@@ -88,7 +88,13 @@ data:
         "default_x509_svid_ttl": "4h",
         "jwt_issuer": "https://oidc-discovery.vsecm.com",
         "log_level": "info",
-        "trust_domain": "azmodan.vsecm.com"
+        "trust_domain": "azmodan.vsecm.com",
+        "federation": {
+          "bundle_endpoint": {
+            "address": "0.0.0.0",
+            "port": 8443
+          }
+        }
       }
     }
 
