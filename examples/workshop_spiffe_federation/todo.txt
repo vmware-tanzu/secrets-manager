@@ -28,3 +28,8 @@
 
 8. Both nodes register trust bundles to SPIRE servers, and also create the
    necessary custom resources.
+
+
+--
+
+* retry spiffe csi driver
