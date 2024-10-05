@@ -3,7 +3,7 @@
 ## Assumptions
 
 0. Remove federation configuration from the servers; ClusterFederatedTrustDomain
-   is to create the federation anyway.
+   is to create the federation anyway. // DID NOT WORK; will figure out later.
 
 1. Install VSecM in all clusters (because we’ll need it anyway).
 
