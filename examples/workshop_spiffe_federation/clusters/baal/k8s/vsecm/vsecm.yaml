@@ -199,7 +199,7 @@ spec:
 
       initContainers:
         - name: init-container
-          image: "vsecm/vsecm-ist-init-container:0.27.3"
+          localhost:32000/vsecm-ist-init-container:0.27.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /spire-agent-socket
@@ -260,7 +260,7 @@ spec:
               value: "^spiffe://baal.vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-keystone:0.27.3"
+          localhost:32000/vsecm-ist-keystone:0.27.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -313,7 +313,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-sentinel:0.27.3"
+          localhost:32000/vsecm-ist-sentinel:0.27.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: spire-agent-socket
@@ -484,7 +484,7 @@ spec:
 
       containers:
         - name: main
-          image: "vsecm/vsecm-ist-safe:0.27.3"
+          localhost:32000/vsecm-ist-safe:0.27.3"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8443
