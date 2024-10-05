@@ -98,24 +98,6 @@ data:
         "default_x509_svid_ttl": "4h",
         "jwt_issuer": "https://oidc-discovery.vsecm.com",
         "log_level": "info",
-        "trust_domain": "mephisto.vsecm.com",
-
-        "federation": {
-          "bundle_endpoint": {
-            "address": "0.0.0.0",
-            "port": 8443
-          },
-          "federates_with": {
-            "diablo.vsecm.com": {
-              "bundle_endpoint_url": "https://10.211.55.111:8443",
-              "bundle_endpoint_profile": {
-                "https_spiffe": {
-                  "endpoint_spiffe_id": "spiffe://diablo.vsecm.com/spire/server"
-                }
-              }
-            }
-          }
-        }
+        "trust_domain": "mephisto.vsecm.com"
       }
     }
-
