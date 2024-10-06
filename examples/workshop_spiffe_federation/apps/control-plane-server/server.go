@@ -159,58 +159,6 @@ func encryptAES(plaintext []byte, key []byte) ([]byte, error) {
 	return gcm.Seal(nonce, nonce, plaintext, nil), nil
 }
 
-//func generateKeyPair() error {
-//	// Generate a new private key
-//	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// Create a self-signed certificate template
-//	template := x509.Certificate{
-//		SerialNumber: big.NewInt(1),
-//		Subject: pkix.Name{
-//			Organization: []string{"Your Organization"},
-//		},
-//		NotBefore:             time.Now(),
-//		NotAfter:              time.Now().Add(365 * 24 * time.Hour), // Valid for 1 year
-//		KeyUsage:              x509.KeyUsageKeyEncipherment | x509.KeyUsageDigitalSignature,
-//		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-//		BasicConstraintsValid: true,
-//	}
-//
-//	// Create the certificate
-//	derBytes, err := x509.CreateCertificate(rand.Reader, &template, &template, &privateKey.PublicKey, privateKey)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// Save the private key to a file
-//	privateKeyFile, err := os.Create("private.key")
-//	if err != nil {
-//		return err
-//	}
-//	defer privateKeyFile.Close()
-//
-//	privateKeyPEM := &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(privateKey)}
-//	if err := pem.Encode(privateKeyFile, privateKeyPEM); err != nil {
-//		return err
-//	}
-//
-//	// Save the certificate to a file
-//	certFile, err := os.Create("cert.pem")
-//	if err != nil {
-//		return err
-//	}
-//	defer certFile.Close()
-//
-//	if err := pem.Encode(certFile, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes}); err != nil {
-//		return err
-//	}
-//
-//	return nil
-//}
-
 func generateKeyPair() (*rsa.PrivateKey, *rsa.PublicKey, error) {
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
@@ -316,15 +264,6 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		Signature:       base64.StdEncoding.EncodeToString(signature),
 	}
 
-	// Encode the public key to PEM format
-	//publicKeyPEM := pem.EncodeToMemory(&pem.Block{
-	//	Type:  "RSA PUBLIC KEY",
-	//	Bytes: x509.MarshalPKCS1PublicKey(publicKey),
-	//})
-	//
-	//// Add the public key to the response headers
-	//w.Header().Set("X-Public-Key", base64.StdEncoding.EncodeToString(publicKeyPEM))
-
 	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
 	if err != nil {
 		http.Error(w, "Error encoding public key", http.StatusInternalServerError)
@@ -341,66 +280,6 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Send the response
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(response)
-
-	//// Generate a new keypair for this response
-	//privateKey, publicKey, err := generateKeyPair()
-	//if err != nil {
-	//	fmt.Println("error generating keypair")
-	//	http.Error(w, "Error generating keypair", http.StatusInternalServerError)
-	//	return
-	//}
-	//
-	//// Find the corresponding secret
-	//secretName := fmt.Sprintf("vsecm-relay:%s", trustDomain)
-	//var secretValue []string
-	//for _, secret := range secrets.Secrets {
-	//	if secret.Name == secretName {
-	//		secretValue = secret.Value
-	//		break
-	//	}
-	//}
-	//
-	//if secretValue == nil {
-	//	fmt.Println("No secret found for the given SPIFFE ID")
-	//	http.Error(w, "No secret found for the given SPIFFE ID", http.StatusNotFound)
-	//	return
-	//}
-	//
-	//// Encrypt the secret using the client's public key
-	//encryptedData, err := encryptData(secretValue, clientPublicKey)
-	//if err != nil {
-	//	fmt.Println("error encrypting data")
-	//	fmt.Println(err.Error())
-	//	http.Error(w, "Error encrypting data", http.StatusInternalServerError)
-	//	return
-	//}
-	//
-	//// Sign the encrypted data using the newly generated private key
-	//signature, err := signData(encryptedData, privateKey)
-	//if err != nil {
-	//	fmt.Println("error signing data")
-	//	http.Error(w, "Error signing data", http.StatusInternalServerError)
-	//	return
-	//}
-	//
-	//// Prepare the response
-	//response := EncryptedResponse{
-	//	EncryptedData: base64.StdEncoding.EncodeToString(encryptedData),
-	//	Signature:     base64.StdEncoding.EncodeToString(signature),
-	//}
-	//
-	//// Encode the public key to PEM format
-	//publicKeyPEM := pem.EncodeToMemory(&pem.Block{
-	//	Type:  "RSA PUBLIC KEY",
-	//	Bytes: x509.MarshalPKCS1PublicKey(publicKey),
-	//})
-	//
-	//// Add the public key to the response headers
-	//w.Header().Set("X-Public-Key", base64.StdEncoding.EncodeToString(publicKeyPEM))
-	//
-	//// Send the response
-	//w.Header().Set("Content-Type", "application/json")
-	//_ = json.NewEncoder(w).Encode(response)
 }
 
 func main() {

@@ -69,26 +69,6 @@ func encodePublicKeyToPEM(publicKey *rsa.PublicKey) (string, error) {
 	return string(publicKeyPEM), nil
 }
 
-//	func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
-//		fmt.Println("will decode:")
-//		fmt.Println(pemStr)
-//		fmt.Println("-----")
-//
-//		block, _ := pem.Decode([]byte(pemStr))
-//		if block == nil {
-//			return nil, fmt.Errorf("failed to parse PEM block containing the public key")
-//		}
-//		pub, err := x509.ParsePKIXPublicKey(block.Bytes)
-//		if err != nil {
-//			return nil, err
-//		}
-//		rsaPub, ok := pub.(*rsa.PublicKey)
-//		if !ok {
-//			return nil, fmt.Errorf("not an RSA public key")
-//		}
-//		return rsaPub, nil
-//	}
-
 func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode([]byte(pemStr))
 	if block == nil {
@@ -260,63 +240,6 @@ func run() {
 	}
 
 	fmt.Printf("My secret is: '%v'.\n", secretValue)
-
-	//r, err := client.Do(req)
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//	panic("error getting from client")
-	//}
-	//defer func(Body io.ReadCloser) {
-	//	err := Body.Close()
-	//	if err != nil {
-	//		fmt.Println("error closing body")
-	//	}
-	//}(r.Body)
-	//
-	//body, err := io.ReadAll(r.Body)
-	//if err != nil {
-	//	panic("error reading body")
-	//}
-	//
-	//var response EncryptedResponse
-	//err = json.Unmarshal(body, &response)
-	//if err != nil {
-	//	panic("error unmarshaling response")
-	//}
-	//
-	//// Decode the server's public key from the response header
-	//serverPublicKeyPEM, err := base64.StdEncoding.DecodeString(r.Header.Get("X-Public-Key"))
-	//if err != nil {
-	//	panic("error decoding server public key")
-	//}
-	//serverPublicKey, err := decodePublicKeyFromPEM(string(serverPublicKeyPEM))
-	//if err != nil {
-	//	panic("error parsing server public key")
-	//}
-	//
-	//// Decode the encrypted data and signature
-	//encryptedData, err := base64.StdEncoding.DecodeString(response.EncryptedData)
-	//if err != nil {
-	//	panic("error decoding encrypted data")
-	//}
-	//signature, err := base64.StdEncoding.DecodeString(response.Signature)
-	//if err != nil {
-	//	panic("error decoding signature")
-	//}
-	//
-	//// Verify the signature
-	//err = verifySignature(encryptedData, signature, serverPublicKey)
-	//if err != nil {
-	//	panic("signature verification failed")
-	//}
-	//
-	//// Decrypt the data using the client's private key
-	//decryptedData, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, encryptedData)
-	//if err != nil {
-	//	panic("error decrypting data")
-	//}
-	//
-	//fmt.Printf("My secret is: '%s'.\n", string(decryptedData))
 }
 
 func main() {
