@@ -128,6 +128,10 @@ func run() {
 		},
 	}
 
+	fmt.Println("computed pem")
+	fmt.Println(publicKeyPEM)
+	fmt.Println("-----")
+
 	// Create a new request with the public key in the body
 	req, err := http.NewRequest("POST", p, strings.NewReader(publicKeyPEM))
 	if err != nil {
