@@ -185,7 +185,8 @@ func run() {
 		return
 	}
 
-	fmt.Println("There is a secret")
+	fmt.Println("")
+	fmt.Println("")
 	registerSecretToVSecM(workloadName, secretValue[0])
 }
 
