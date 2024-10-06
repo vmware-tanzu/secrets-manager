@@ -245,6 +245,10 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	clientPublicKey, err = parsePublicKey(string(body))
 	if err != nil {
 		fmt.Println("error parsing public key")
+		fmt.Println(err.Error())
+		fmt.Println("----")
+		fmt.Println(string(body))
+		fmt.Println("----")
 		http.Error(w, "Invalid client public key", http.StatusBadRequest)
 		return
 	}
