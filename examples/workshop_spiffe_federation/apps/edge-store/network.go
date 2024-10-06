@@ -169,22 +169,33 @@ func run() {
 	fmt.Printf("My secret is: '%v'.\n", secretValue)
 
 	if len(secretValue) == 0 {
-		mahmut(secretValue[0])
+		fmt.Println("There is a secret")
+		registerSecretToVSecM(secretValue[0])
+	} else {
+		fmt.Println("No secret found")
 	}
+
+	fmt.Println("Everything is awesome!")
 }
 
-func mahmut(secretValue string) {
+func registerSecretToVSecM(secretValue string) {
+	fmt.Println("registerSecretToVSecM: 001")
+
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		fmt.Println("err:", err.Error())
 		return
 	}
 
+	fmt.Println("registerSecretToVSecM: 002")
+
 	// Assume we have a valid *rest.Config named config
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("registerSecretToVSecM: 003")
 
 	namespace := "vsecm-system"
 	containerName := "" // Leave empty to use the first container
@@ -194,6 +205,8 @@ func mahmut(secretValue string) {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("registerSecretToVSecM: 004")
 
 	command := []string{"safe", "-w", "mephisto-edge-store", "-s", secretValue, "-e"}
 
@@ -211,10 +224,14 @@ func mahmut(secretValue string) {
 			TTY:       false,
 		}, scheme.ParameterCodec)
 
+	fmt.Println("registerSecretToVSecM: 005")
+
 	exec, err := remotecommand.NewSPDYExecutor(config, "POST", req.URL())
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("registerSecretToVSecM: 006")
 
 	var stdout, stderr bytes.Buffer
 	err = exec.Stream(remotecommand.StreamOptions{
