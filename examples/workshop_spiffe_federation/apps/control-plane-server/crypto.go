@@ -8,25 +8,10 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
-	"encoding/json"
 	"encoding/pem"
 	"fmt"
 	"io"
 )
-
-func encryptData(data []string, publicKey *rsa.PublicKey) ([]byte, error) {
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return nil, err
-	}
-
-	encryptedData, err := rsa.EncryptPKCS1v15(rand.Reader, publicKey, jsonData)
-	if err != nil {
-		return nil, err
-	}
-
-	return encryptedData, nil
-}
 
 func signData(data []byte, privateKey *rsa.PrivateKey) ([]byte, error) {
 	hash := sha256.Sum256(data)

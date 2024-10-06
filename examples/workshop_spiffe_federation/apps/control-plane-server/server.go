@@ -26,9 +26,11 @@ func main() {
 			workloadapi.WithAddr("unix:///spire-agent-socket/spire-agent.sock"),
 		),
 	)
+
 	if err != nil {
 		panic("Error acquiring X.509 source: " + err.Error())
 	}
+
 	defer func(source *workloadapi.X509Source) {
 		err := source.Close()
 		if err != nil {

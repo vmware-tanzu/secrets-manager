@@ -46,6 +46,10 @@ var spiffeIdPrefixStart = "spiffe://" + env.SpiffeTrustDomain() + "/"
 //
 //	bool: `true` if the SPIFFE ID belongs to a workload, `false` otherwise.
 func IsWorkload(spiffeid string) bool {
+
+	// "spiffe://mephisto.vsecm.com/workload/mephisto-edge-store/ns/default/sa/default/n/edge-store-7b9468d7cf-675b7"
+	// prefix: "^spiffe://mephisto.vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+	// workload regex: ^spiffe://mephisto.vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$
 	prefix := env.SpiffeIdPrefixForWorkload()
 
 	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {

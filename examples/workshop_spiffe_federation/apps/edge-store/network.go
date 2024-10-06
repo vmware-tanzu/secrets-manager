@@ -37,9 +37,11 @@ func run() {
 			workloadapi.WithAddr("unix:///spire-agent-socket/spire-agent.sock"),
 		),
 	)
+
 	if err != nil {
 		panic("Error acquiring source")
 	}
+
 	defer func(source *workloadapi.X509Source) {
 		err := source.Close()
 		if err != nil {
@@ -51,7 +53,16 @@ func run() {
 	if err != nil {
 		panic("error getting svid")
 	}
-	fmt.Println("svid ID: ", svid.ID.String())
+
+	// example:
+	// spiffe://mephisto.vsecm.com/workload/mephisto-edge-store/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+	svidId := svid.ID.String()
+	parts := strings.Split(svidId, "/")
+	// The workload name is the 4th element (index 3) in the split result
+	workloadName := ""
+	if len(parts) > 3 {
+		workloadName = parts[3]
+	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
 		// In a real-world scenario, you'd implement proper authorization logic here
@@ -65,7 +76,7 @@ func run() {
 
 	p, err := url.JoinPath(baseURL, "/")
 	if err != nil {
-		panic("problem in url")
+		panic("problem in url " + baseURL)
 	}
 
 	// Generate a new keypair for this request
@@ -87,10 +98,6 @@ func run() {
 		},
 	}
 
-	fmt.Println("computed pem")
-	fmt.Println(publicKeyPEM)
-	fmt.Println("-----")
-
 	// Create a new request with the public key in the body
 	req, err := http.NewRequest("POST", p, strings.NewReader(publicKeyPEM))
 	if err != nil {
@@ -103,6 +110,7 @@ func run() {
 		fmt.Println(err.Error())
 		panic("error getting from client")
 	}
+
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
 	}(r.Body)
@@ -123,6 +131,7 @@ func run() {
 	if err != nil {
 		panic("error decoding server public key")
 	}
+
 	serverPublicKey, err := decodePublicKeyFromPEM(string(serverPublicKeyPEM))
 	if err != nil {
 		fmt.Println("err", err.Error())
@@ -134,10 +143,12 @@ func run() {
 	if err != nil {
 		panic("error decoding encrypted AES key")
 	}
+
 	encryptedData, err := base64.StdEncoding.DecodeString(response.EncryptedData)
 	if err != nil {
 		panic("error decoding encrypted data")
 	}
+
 	signature, err := base64.StdEncoding.DecodeString(response.Signature)
 	if err != nil {
 		panic("error decoding signature")
@@ -167,7 +178,7 @@ func run() {
 		panic("error unmarshaling decrypted data")
 	}
 
-	fmt.Printf("My secret is: '%v'.\n", secretValue)
+	fmt.Printf("My secret (encrypted with VSecM root key) : '%v'.\n", secretValue)
 
 	if len(secretValue) == 0 {
 		fmt.Println("No secret found")
@@ -175,13 +186,11 @@ func run() {
 	}
 
 	fmt.Println("There is a secret")
-	registerSecretToVSecM(secretValue[0])
-
-	fmt.Println("Everything is awesome!")
+	registerSecretToVSecM(workloadName, secretValue[0])
 }
 
-func registerSecretToVSecM(secretValue string) {
-	fmt.Println("registerSecretToVSecM: 001")
+func registerSecretToVSecM(workloadName, secretValue string) {
+	fmt.Println("will register the secret to VSecM.")
 
 	config, err := rest.InClusterConfig()
 	if err != nil {
@@ -189,15 +198,11 @@ func registerSecretToVSecM(secretValue string) {
 		return
 	}
 
-	fmt.Println("registerSecretToVSecM: 002")
-
 	// Assume we have a valid *rest.Config named config
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println("registerSecretToVSecM: 003")
 
 	namespace := "vsecm-system"
 	containerName := "" // Leave empty to use the first container
@@ -208,9 +213,7 @@ func registerSecretToVSecM(secretValue string) {
 		panic(err)
 	}
 
-	fmt.Println("registerSecretToVSecM: 004")
-
-	command := []string{"safe", "-w", "mephisto-edge-store", "-s", secretValue, "-e"}
+	command := []string{"safe", "-w", workloadName, "-s", secretValue, "-e"}
 
 	req := clientset.CoreV1().RESTClient().Post().
 		Resource("pods").
@@ -226,14 +229,10 @@ func registerSecretToVSecM(secretValue string) {
 			TTY:       false,
 		}, scheme.ParameterCodec)
 
-	fmt.Println("registerSecretToVSecM: 005")
-
 	exec, err := remotecommand.NewSPDYExecutor(config, "POST", req.URL())
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println("registerSecretToVSecM: 006")
 
 	var stdout, stderr bytes.Buffer
 	err = exec.Stream(remotecommand.StreamOptions{
@@ -245,8 +244,8 @@ func registerSecretToVSecM(secretValue string) {
 		panic(err)
 	}
 
-	fmt.Println("Output:", stdout.String())
-	fmt.Println("Error:", stderr.String())
+	fmt.Println("Registered the secret to VSecM. Now fetching it with VSecM SDK.")
+	fmt.Println("(this will be done in a separate workload, normally.")
 
 	res, err := sentry.Fetch()
 	if err != nil {
@@ -256,7 +255,9 @@ func registerSecretToVSecM(secretValue string) {
 
 	fmt.Println("my secret data (decrypted):", res.Data)
 
-	fmt.Println("everything is awesome!")
+	fmt.Println()
+	fmt.Println("---")
+	fmt.Println()
 }
 
 func getSentinelPodName(clientset *kubernetes.Clientset, namespace, prefix string) (string, error) {

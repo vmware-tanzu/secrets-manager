@@ -15,8 +15,6 @@ import (
 )
 
 func handleRequest(w http.ResponseWriter, r *http.Request, secrets Secrets) {
-	fmt.Println("handle request", "method", r.Method)
-
 	// Extract SPIFFE ID from the client certificate
 	if r.TLS == nil || len(r.TLS.PeerCertificates) == 0 {
 		http.Error(w, "No client certificate provided", http.StatusUnauthorized)
