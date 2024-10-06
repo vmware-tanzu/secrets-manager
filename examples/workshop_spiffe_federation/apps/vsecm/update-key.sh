@@ -53,12 +53,25 @@ echo "$updated_secret" | kubectl apply -f -
 
 echo "Secret $SECRET_NAME in namespace $NAMESPACE updated successfully."
 
+# Check if StatefulSet exists
+if ! microk8s kubectl get statefulset "$STATEFULSET_NAME" -n "$NAMESPACE" &> /dev/null; then
+    echo "Error: StatefulSet $STATEFULSET_NAME not found in namespace $NAMESPACE"
+    exit 1
+fi
+
 # Rotate the StatefulSet
 echo "Rotating StatefulSet $STATEFULSET_NAME..."
-kubectl rollout restart statefulset "$STATEFULSET_NAME" -n "$NAMESPACE"
+if ! kubectl rollout restart statefulset "$STATEFULSET_NAME" -n "$NAMESPACE"; then
+    echo "Error: Failed to restart StatefulSet $STATEFULSET_NAME"
+    exit 1
+fi
 
 # Wait for the rollout to complete
-kubectl rollout status statefulset "$STATEFULSET_NAME" -n "$NAMESPACE" --timeout=5m
+echo "Waiting for StatefulSet rollout to complete..."
+if ! kubectl rollout status statefulset "$STATEFULSET_NAME" -n "$NAMESPACE" --timeout=5m; then
+    echo "Error: StatefulSet rollout did not complete within the timeout period"
+    exit 1
+fi
 
 echo "StatefulSet $STATEFULSET_NAME rotated successfully."
 echo "Secret update and StatefulSet rotation completed."

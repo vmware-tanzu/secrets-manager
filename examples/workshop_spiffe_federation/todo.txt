@@ -24,8 +24,12 @@ main node. this will happen only once within a limited time window.
 for now we'll assume that it is safe to do this transfer over federated mTLS
 without any PSK validation.
 
-for now manually update vsecm-root-key
+for now, manually update vsecm-root-key
 and manually rotate vsecm-safe instances to consume the new root key.
+
+at each poll
+* edge nodes
+
 
 
 
