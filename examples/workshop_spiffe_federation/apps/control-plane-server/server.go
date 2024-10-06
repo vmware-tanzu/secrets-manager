@@ -204,6 +204,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Extract trust domain from SPIFFE ID
 	parts := strings.Split(spiffeID, "/")
 	if len(parts) < 3 {
+		fmt.Println("Invalid SPIFFE ID")
 		http.Error(w, "Invalid SPIFFE ID", http.StatusBadRequest)
 		return
 	}
@@ -212,11 +213,13 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Read the client's public key from the request body
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
+		fmt.Println("error in request body")
 		http.Error(w, "Error reading request body", http.StatusBadRequest)
 		return
 	}
 	clientPublicKey, err := parsePublicKey(string(body))
 	if err != nil {
+		fmt.Println("error in parsing public key")
 		http.Error(w, "Invalid client public key", http.StatusBadRequest)
 		return
 	}
@@ -224,6 +227,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Generate a new keypair for this response
 	privateKey, publicKey, err := generateKeyPair()
 	if err != nil {
+		fmt.Println("error generating keypair")
 		http.Error(w, "Error generating keypair", http.StatusInternalServerError)
 		return
 	}
@@ -231,12 +235,14 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Read the client's public key from the request body
 	body, err = io.ReadAll(r.Body)
 	if err != nil {
+		fmt.Println("error reading request body")
 		http.Error(w, "Error reading request body", http.StatusBadRequest)
 		return
 	}
 
 	clientPublicKey, err = parsePublicKey(string(body))
 	if err != nil {
+		fmt.Println("error parsing public key")
 		http.Error(w, "Invalid client public key", http.StatusBadRequest)
 		return
 	}
@@ -252,6 +258,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if secretValue == nil {
+		fmt.Println("No secret found for the given SPIFFE ID")
 		http.Error(w, "No secret found for the given SPIFFE ID", http.StatusNotFound)
 		return
 	}
@@ -259,6 +266,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Encrypt the secret using the client's public key
 	encryptedData, err := encryptData(secretValue, clientPublicKey)
 	if err != nil {
+		fmt.Println("error encrypting data")
 		http.Error(w, "Error encrypting data", http.StatusInternalServerError)
 		return
 	}
@@ -266,6 +274,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	// Sign the encrypted data using the newly generated private key
 	signature, err := signData(encryptedData, privateKey)
 	if err != nil {
+		fmt.Println("error signing data")
 		http.Error(w, "Error signing data", http.StatusInternalServerError)
 		return
 	}
