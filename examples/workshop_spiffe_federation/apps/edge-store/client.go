@@ -129,7 +129,7 @@ func run() {
 	}
 
 	// Create a new request with the public key in the body
-	req, err := http.NewRequest("GET", p, strings.NewReader(publicKeyPEM))
+	req, err := http.NewRequest("POST", p, strings.NewReader(publicKeyPEM))
 	if err != nil {
 		panic("Error creating request")
 	}

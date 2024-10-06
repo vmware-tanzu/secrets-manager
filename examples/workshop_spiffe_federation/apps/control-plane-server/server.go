@@ -192,6 +192,8 @@ func generateKeyPair() (*rsa.PrivateKey, *rsa.PublicKey, error) {
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("handle request", "method", r.Method)
+
 	// Extract SPIFFE ID from the client certificate
 	if r.TLS == nil || len(r.TLS.PeerCertificates) == 0 {
 		http.Error(w, "No client certificate provided", http.StatusUnauthorized)
