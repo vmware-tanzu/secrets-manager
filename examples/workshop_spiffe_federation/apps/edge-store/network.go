@@ -191,7 +191,7 @@ func run() {
 }
 
 func registerSecretToVSecM(workloadName, secretValue string) {
-	fmt.Println("will register the secret to VSecM.")
+	fmt.Println("will register the secret to VSecM for… ", workloadName)
 
 	config, err := rest.InClusterConfig()
 	if err != nil {
