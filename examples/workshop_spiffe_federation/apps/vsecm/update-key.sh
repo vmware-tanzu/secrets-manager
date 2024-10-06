@@ -49,7 +49,7 @@ updated_secret=$(echo "$current_secret" | awk -v key="$encoded_key" '
 ')
 
 # Apply the updated secret
-echo "$updated_secret" | kubectl apply -f -
+echo "$updated_secret" | microk8s kubectl apply -f -
 
 echo "Secret $SECRET_NAME in namespace $NAMESPACE updated successfully."
 
