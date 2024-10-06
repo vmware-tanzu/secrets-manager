@@ -234,25 +234,6 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Read the client's public key from the request body
-	body, err = io.ReadAll(r.Body)
-	if err != nil {
-		fmt.Println("error reading request body")
-		http.Error(w, "Error reading request body", http.StatusBadRequest)
-		return
-	}
-
-	clientPublicKey, err = parsePublicKey(string(body))
-	if err != nil {
-		fmt.Println("error parsing public key")
-		fmt.Println(err.Error())
-		fmt.Println("----")
-		fmt.Println(string(body))
-		fmt.Println("----")
-		http.Error(w, "Invalid client public key", http.StatusBadRequest)
-		return
-	}
-
 	// Find the corresponding secret
 	secretName := fmt.Sprintf("vsecm-relay:%s", trustDomain)
 	var secretValue []string
