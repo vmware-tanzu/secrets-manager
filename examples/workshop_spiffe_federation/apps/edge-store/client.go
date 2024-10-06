@@ -69,24 +69,49 @@ func encodePublicKeyToPEM(publicKey *rsa.PublicKey) (string, error) {
 	return string(publicKeyPEM), nil
 }
 
-func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
-	fmt.Println("will decode:")
-	fmt.Println(pemStr)
-	fmt.Println("-----")
+//	func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
+//		fmt.Println("will decode:")
+//		fmt.Println(pemStr)
+//		fmt.Println("-----")
+//
+//		block, _ := pem.Decode([]byte(pemStr))
+//		if block == nil {
+//			return nil, fmt.Errorf("failed to parse PEM block containing the public key")
+//		}
+//		pub, err := x509.ParsePKIXPublicKey(block.Bytes)
+//		if err != nil {
+//			return nil, err
+//		}
+//		rsaPub, ok := pub.(*rsa.PublicKey)
+//		if !ok {
+//			return nil, fmt.Errorf("not an RSA public key")
+//		}
+//		return rsaPub, nil
+//	}
 
+func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode([]byte(pemStr))
 	if block == nil {
 		return nil, fmt.Errorf("failed to parse PEM block containing the public key")
 	}
+
+	// Try parsing as PKIX first
 	pub, err := x509.ParsePKIXPublicKey(block.Bytes)
+	if err == nil {
+		rsaPub, ok := pub.(*rsa.PublicKey)
+		if !ok {
+			return nil, fmt.Errorf("not an RSA public key")
+		}
+		return rsaPub, nil
+	}
+
+	// If PKIX parsing fails, try PKCS1
+	pub, err = x509.ParsePKCS1PublicKey(block.Bytes)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse public key: %v", err)
 	}
-	rsaPub, ok := pub.(*rsa.PublicKey)
-	if !ok {
-		return nil, fmt.Errorf("not an RSA public key")
-	}
-	return rsaPub, nil
+
+	return pub.(*rsa.PublicKey), nil
 }
 
 func verifySignature(data []byte, signature []byte, publicKey *rsa.PublicKey) error {

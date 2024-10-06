@@ -317,9 +317,22 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Encode the public key to PEM format
+	//publicKeyPEM := pem.EncodeToMemory(&pem.Block{
+	//	Type:  "RSA PUBLIC KEY",
+	//	Bytes: x509.MarshalPKCS1PublicKey(publicKey),
+	//})
+	//
+	//// Add the public key to the response headers
+	//w.Header().Set("X-Public-Key", base64.StdEncoding.EncodeToString(publicKeyPEM))
+
+	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
+	if err != nil {
+		http.Error(w, "Error encoding public key", http.StatusInternalServerError)
+		return
+	}
 	publicKeyPEM := pem.EncodeToMemory(&pem.Block{
-		Type:  "RSA PUBLIC KEY",
-		Bytes: x509.MarshalPKCS1PublicKey(publicKey),
+		Type:  "PUBLIC KEY",
+		Bytes: publicKeyBytes,
 	})
 
 	// Add the public key to the response headers
