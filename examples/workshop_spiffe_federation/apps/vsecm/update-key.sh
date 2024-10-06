@@ -6,6 +6,7 @@ set -e
 NAMESPACE="vsecm-system"
 SECRET_NAME="vsecm-root-key"
 KEY_FILE="key.txt"
+STATEFULSET_NAME="vsecm-safe"
 
 # Function to display usage information
 usage() {
