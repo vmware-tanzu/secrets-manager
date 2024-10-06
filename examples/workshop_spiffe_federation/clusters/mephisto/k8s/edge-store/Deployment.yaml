@@ -48,6 +48,9 @@ spec:
           value: "^spiffe://mephisto.vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
         - name: VSECM_WORKLOAD_NAME_REGEXP
           value: "^spiffe://mephisto.vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+        - name: SPIFFE_TRUST_DOMAIN
+          value: "mephisto.vsecm.com"
+
         resources:
           limits:
             cpu: "500m"
