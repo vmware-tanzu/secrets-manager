@@ -37,7 +37,7 @@ new_key=$(tr -d '[:space:]' < "$KEY_FILE")
 encoded_key=$new_key
 
 # Get the current secret
-current_secret=$(kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o yaml)
+current_secret=$(microk8s kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o yaml)
 
 # Update the secret
 updated_secret=$(echo "$current_secret" | awk -v key="$encoded_key" '
