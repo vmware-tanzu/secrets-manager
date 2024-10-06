@@ -60,8 +60,8 @@ func run() {
 	parts := strings.Split(svidId, "/")
 	// The workload name is the 4th element (index 3) in the split result
 	workloadName := ""
-	if len(parts) > 3 {
-		workloadName = parts[3]
+	if len(parts) > 4 {
+		workloadName = parts[4]
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
