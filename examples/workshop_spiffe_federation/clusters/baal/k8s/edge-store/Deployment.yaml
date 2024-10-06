@@ -40,6 +40,18 @@ spec:
         env:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/spire-agent.sock"
+
+        - name: VSECM_SPIFFEID_PREFIX_SAFE
+          value: "^spiffe://baal.vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
+        - name: VSECM_SPIFFEID_PREFIX_SENTINEL
+          value: "^spiffe://baal.vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
+        - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
+          value: "^spiffe://baal.vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+        - name: VSECM_WORKLOAD_NAME_REGEXP
+          value: "^spiffe://baal.vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+        - name: SPIFFE_TRUST_DOMAIN
+          value: "baal.vsecm.com"
+
         resources:
           limits:
             cpu: "500m"
