@@ -12,6 +12,7 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 	"io"
 	"net/http"
 	"net/url"
@@ -246,6 +247,16 @@ func registerSecretToVSecM(secretValue string) {
 
 	fmt.Println("Output:", stdout.String())
 	fmt.Println("Error:", stderr.String())
+
+	res, err := sentry.Fetch()
+	if err != nil {
+		fmt.Println("error fetching secret", err.Error())
+		return
+	}
+
+	fmt.Println("my secret data (decrypted):", res.Data)
+
+	fmt.Println("everything is awesome!")
 }
 
 func getSentinelPodName(clientset *kubernetes.Clientset, namespace, prefix string) (string, error) {
