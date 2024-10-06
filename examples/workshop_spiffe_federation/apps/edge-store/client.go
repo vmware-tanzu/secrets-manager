@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"crypto"
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
@@ -23,8 +25,28 @@ import (
 )
 
 type EncryptedResponse struct {
-	EncryptedData string `json:"encryptedData"`
-	Signature     string `json:"signature"`
+	EncryptedAESKey string `json:"encryptedAESKey"`
+	EncryptedData   string `json:"encryptedData"`
+	Signature       string `json:"signature"`
+}
+
+func decryptAES(ciphertext []byte, key []byte) ([]byte, error) {
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
+
+	gcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(ciphertext) < gcm.NonceSize() {
+		return nil, fmt.Errorf("ciphertext too short")
+	}
+
+	nonce, ciphertext := ciphertext[:gcm.NonceSize()], ciphertext[gcm.NonceSize():]
+	return gcm.Open(nil, nonce, ciphertext, nil)
 }
 
 func generateKeyPair() (*rsa.PrivateKey, *rsa.PublicKey, error) {
@@ -145,10 +167,7 @@ func run() {
 		panic("error getting from client")
 	}
 	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil {
-			fmt.Println("error closing body")
-		}
+		_ = Body.Close()
 	}(r.Body)
 
 	body, err := io.ReadAll(r.Body)
@@ -172,7 +191,11 @@ func run() {
 		panic("error parsing server public key")
 	}
 
-	// Decode the encrypted data and signature
+	// Decode the encrypted AES key, encrypted data, and signature
+	encryptedAESKey, err := base64.StdEncoding.DecodeString(response.EncryptedAESKey)
+	if err != nil {
+		panic("error decoding encrypted AES key")
+	}
 	encryptedData, err := base64.StdEncoding.DecodeString(response.EncryptedData)
 	if err != nil {
 		panic("error decoding encrypted data")
@@ -188,13 +211,82 @@ func run() {
 		panic("signature verification failed")
 	}
 
-	// Decrypt the data using the client's private key
-	decryptedData, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, encryptedData)
+	// Decrypt the AES key using the client's private key
+	aesKey, err := rsa.DecryptOAEP(sha256.New(), rand.Reader, privateKey, encryptedAESKey, nil)
+	if err != nil {
+		panic("error decrypting AES key")
+	}
+
+	// Decrypt the data using the AES key
+	decryptedData, err := decryptAES(encryptedData, aesKey)
 	if err != nil {
 		panic("error decrypting data")
 	}
 
-	fmt.Printf("My secret is: '%s'.\n", string(decryptedData))
+	var secretValue []string
+	err = json.Unmarshal(decryptedData, &secretValue)
+	if err != nil {
+		panic("error unmarshaling decrypted data")
+	}
+
+	fmt.Printf("My secret is: '%v'.\n", secretValue)
+
+	//r, err := client.Do(req)
+	//if err != nil {
+	//	fmt.Println(err.Error())
+	//	panic("error getting from client")
+	//}
+	//defer func(Body io.ReadCloser) {
+	//	err := Body.Close()
+	//	if err != nil {
+	//		fmt.Println("error closing body")
+	//	}
+	//}(r.Body)
+	//
+	//body, err := io.ReadAll(r.Body)
+	//if err != nil {
+	//	panic("error reading body")
+	//}
+	//
+	//var response EncryptedResponse
+	//err = json.Unmarshal(body, &response)
+	//if err != nil {
+	//	panic("error unmarshaling response")
+	//}
+	//
+	//// Decode the server's public key from the response header
+	//serverPublicKeyPEM, err := base64.StdEncoding.DecodeString(r.Header.Get("X-Public-Key"))
+	//if err != nil {
+	//	panic("error decoding server public key")
+	//}
+	//serverPublicKey, err := decodePublicKeyFromPEM(string(serverPublicKeyPEM))
+	//if err != nil {
+	//	panic("error parsing server public key")
+	//}
+	//
+	//// Decode the encrypted data and signature
+	//encryptedData, err := base64.StdEncoding.DecodeString(response.EncryptedData)
+	//if err != nil {
+	//	panic("error decoding encrypted data")
+	//}
+	//signature, err := base64.StdEncoding.DecodeString(response.Signature)
+	//if err != nil {
+	//	panic("error decoding signature")
+	//}
+	//
+	//// Verify the signature
+	//err = verifySignature(encryptedData, signature, serverPublicKey)
+	//if err != nil {
+	//	panic("signature verification failed")
+	//}
+	//
+	//// Decrypt the data using the client's private key
+	//decryptedData, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, encryptedData)
+	//if err != nil {
+	//	panic("error decrypting data")
+	//}
+	//
+	//fmt.Printf("My secret is: '%s'.\n", string(decryptedData))
 }
 
 func main() {
