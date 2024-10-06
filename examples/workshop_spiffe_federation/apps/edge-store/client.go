@@ -70,6 +70,10 @@ func encodePublicKeyToPEM(publicKey *rsa.PublicKey) (string, error) {
 }
 
 func decodePublicKeyFromPEM(pemStr string) (*rsa.PublicKey, error) {
+	fmt.Println("will decode:")
+	fmt.Println(pemStr)
+	fmt.Println("-----")
+
 	block, _ := pem.Decode([]byte(pemStr))
 	if block == nil {
 		return nil, fmt.Errorf("failed to parse PEM block containing the public key")
@@ -188,6 +192,7 @@ func run() {
 	}
 	serverPublicKey, err := decodePublicKeyFromPEM(string(serverPublicKeyPEM))
 	if err != nil {
+		fmt.Println("err", err.Error())
 		panic("error parsing server public key")
 	}
 
