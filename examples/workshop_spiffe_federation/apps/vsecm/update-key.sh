@@ -62,14 +62,14 @@ fi
 
 # Rotate the StatefulSet
 echo "Rotating StatefulSet $STATEFULSET_NAME..."
-if ! kubectl rollout restart statefulset "$STATEFULSET_NAME" -n "$NAMESPACE"; then
+if ! microk8s kubectl rollout restart statefulset "$STATEFULSET_NAME" -n "$NAMESPACE"; then
     echo "Error: Failed to restart StatefulSet $STATEFULSET_NAME"
     exit 1
 fi
 
 # Wait for the rollout to complete
 echo "Waiting for StatefulSet rollout to complete..."
-if ! kubectl rollout status statefulset "$STATEFULSET_NAME" -n "$NAMESPACE" --timeout=5m; then
+if ! microk8s kubectl rollout status statefulset "$STATEFULSET_NAME" -n "$NAMESPACE" --timeout=5m; then
     echo "Error: StatefulSet rollout did not complete within the timeout period"
     exit 1
 fi
