@@ -7,5 +7,8 @@ S=$(microk8s kubectl get po -n vsecm-system \
 # Execute the command and save output directly to secrets.json in the project root
 microk8s kubectl exec "$S" -n vsecm-system -- safe -l -e > ./secrets.json
 
+mv secrets.json "$HOME"/WORKSPACE/data
+cp "$HOME/WORKSPACE/secrets-manager/examples/workshop_spiffe_federation/clusters/diablo/hack/endpoints.json" "$HOME/WORKSPACE/data"
+
 # Inform the user
-echo "Secrets have been saved to secrets.json in the current working directory."
+echo "Secrets have been saved to secrets.json in the data directory."
