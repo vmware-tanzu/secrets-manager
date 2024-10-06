@@ -46,7 +46,8 @@ spec:
           value: "^spiffe://mephisto.vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
         - name: VSECM_SPIFFEID_PREFIX_WORKLOAD
           value: "^spiffe://mephisto.vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
-
+        - name: VSECM_WORKLOAD_NAME_REGEXP
+          value: "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
         resources:
           limits:
             cpu: "500m"
