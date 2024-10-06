@@ -169,11 +169,12 @@ func run() {
 	fmt.Printf("My secret is: '%v'.\n", secretValue)
 
 	if len(secretValue) == 0 {
-		fmt.Println("There is a secret")
-		registerSecretToVSecM(secretValue[0])
-	} else {
 		fmt.Println("No secret found")
+		return
 	}
+
+	fmt.Println("There is a secret")
+	registerSecretToVSecM(secretValue[0])
 
 	fmt.Println("Everything is awesome!")
 }
