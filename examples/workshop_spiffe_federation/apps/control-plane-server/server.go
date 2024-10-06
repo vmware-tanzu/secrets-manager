@@ -254,6 +254,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
 	encryptedData, err := encryptData(secretValue, clientPublicKey)
 	if err != nil {
 		fmt.Println("error encrypting data")
+		fmt.Println(err.Error())
 		http.Error(w, "Error encrypting data", http.StatusInternalServerError)
 		return
 	}
