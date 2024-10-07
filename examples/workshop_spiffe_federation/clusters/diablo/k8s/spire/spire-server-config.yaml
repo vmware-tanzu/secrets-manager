@@ -99,7 +99,6 @@ data:
         "jwt_issuer": "https://oidc-discovery.vsecm.com",
         "log_level": "info",
         "trust_domain": "diablo.vsecm.com",
-
         "federation": {
           "bundle_endpoint": {
             "address": "0.0.0.0",
@@ -129,7 +128,7 @@ data:
                   "endpoint_spiffe_id": "spiffe://azmodan.vsecm.com/spire/server"
                 }
               }
-            }    
+            }
           }
         }
       }

@@ -14,12 +14,15 @@ WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
+COPY client.go .
+COPY crypto.go .
+COPY network.go .
 
 RUN go mod download
 
 COPY client.go .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o client client.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o client client.go network.go crypto.go
 
 FROM alpine:latest AS client
 

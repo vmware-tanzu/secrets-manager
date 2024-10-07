@@ -1,0 +1,74 @@
+# Things to Do
+
+## Assumptions
+
+0. Remove federation configuration from the servers; ClusterFederatedTrustDomain
+   is to create the federation anyway. // DID NOT WORK; will figure out later.
+
+1. Install VSecM in all clusters (because we’ll need it anyway).
+
+
+{"secrets":[{"name":"mepshisto", "namespace": "vsecm-restricted",
+"value":["YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+vD"],
+"created":"2024-10-05T20:03:22Z",
+"updated":"2024-10-05T20:03:22Z","notBefore":"2024-10-05T20:03:22Z",
+"expiresAfter":"9999-12-31T23:59:59Z"}],"algorithm":"age"}
+
+- create a secret for an edge node
+- export it in encrypted form
+- a poller can fetch it and save it in memory for now.
+
+during initial sync, an out-of-band process delivers the master key of the
+main node. this will happen only once within a limited time window.
+
+for now we'll assume that it is safe to do this transfer over federated mTLS
+without any PSK validation.
+
+for now, manually update vsecm-root-key
+and manually rotate vsecm-safe instances to consume the new root key.
+
+at each poll
+* edge nodes
+
+
+
+
+2. Edge Nodes can have a keypair securely delivered to them out-of-band;
+   likely around build time.
+   The bundle will have a private/public key pair, and the public key of the
+   control plane.
+
+3. Control plane can create the keypair and store it in a secure place (like
+   an object store within the network boundary; or a secret manager).
+   (maybe we should have VSecM installed there to store the encryption keys
+   to the key pairs, and store the encrypted key pairs in the object store?)
+
+4. Edge node establishes an mTLS connection with a service on the control plane.
+
+5. Edge node sends its trust bundle to the control plane.
+
+6. In response the control plane sends the trust bundle of the control plane
+   to the edge node.
+
+7. Both sides save the trust bundles.
+
+8. Both nodes register trust bundles to SPIRE servers, and also create the
+   necessary custom resources.
+
+
+--
+
+* retry spiffe csi driver
+
+
+image: "vsecm/vsecm-ist-init-container:0.27.3"
+image: "vsecm/vsecm-ist-init-container-arm64:0.27.3"
+
+image list:
+          image: "vsecm/vsecm-ist-init-container:0.27.3"
+          image: "vsecm/vsecm-ist-sentinel:0.27.3"
+          image: "vsecm/vsecm-ist-safe:0.27.3"
+          image: "vsecm/vsecm-ist-keystone:0.27.3"
+
+
+

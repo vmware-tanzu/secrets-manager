@@ -1,13 +1,3 @@
-/*
-|    Protect your secrets, protect your sensitive data.
-:    Explore VMware Secrets Manager docs at https://vsecm.com/
-</
-<>/  keep your secrets... secret
->/
-<>/' Copyright 2023-present VMware Secrets Manager contributors.
->/'  SPDX-License-Identifier: BSD-2-Clause
-*/
-
 package main
 
 import (
@@ -18,16 +8,17 @@ import (
 	"github.com/spiffe/go-spiffe/v2/spiffetls/tlsconfig"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"net/http"
-	"sync"
 )
 
 func main() {
-	fmt.Println("In main...")
+	fmt.Println("Starting mTLS Secret Relay Server...")
+
+	// Load endpoints and secrets
+	// endpoints = loadEndpoints("/vsecm-relay/data/endpoints.json")
+	secrets := loadSecrets("/vsecm-relay/data/secrets.json")
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-
-	fmt.Println("Before querying the workload api")
 
 	source, err := workloadapi.NewX509Source(
 		ctx,
@@ -36,13 +27,15 @@ func main() {
 		),
 	)
 
-	fmt.Println("After querying the workload api")
-
 	if err != nil {
-		panic("Error acquiring X.509 source")
+		panic("Error acquiring X.509 source: " + err.Error())
 	}
+
 	defer func(source *workloadapi.X509Source) {
-		_ = source.Close()
+		err := source.Close()
+		if err != nil {
+			fmt.Println("Error closing X.509 source: " + err.Error())
+		}
 	}(source)
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -57,17 +50,11 @@ func main() {
 		},
 	}
 
-	var counter = 0
-	var counterLock sync.Mutex
-
 	server := &http.Server{
 		Addr:      ":443",
 		TLSConfig: serverConfig,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			counterLock.Lock()
-			defer counterLock.Unlock()
-			counter = counter + 1
-			_, _ = fmt.Fprintf(w, "hello: %d", counter)
+			handleRequest(w, r, secrets)
 		}),
 	}
 
@@ -75,5 +62,4 @@ func main() {
 	if err := server.ListenAndServeTLS("", ""); err != nil {
 		panic("Error starting server: " + err.Error())
 	}
-	fmt.Println("Server started.")
 }

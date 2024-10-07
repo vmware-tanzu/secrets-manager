@@ -29,12 +29,19 @@ spec:
         hostPath:
           path: /run/spire/agent-sockets
           type: DirectoryOrCreate
+      - name: vsecm-relay
+        hostPath:
+          path: /home/volkan/WORKSPACE/data
+          type: DirectoryOrCreate
       containers:
       - name: control-plane-server
         image: localhost:32000/control-plane-server:latest
         volumeMounts:
           - name: spire-agent-socket
             mountPath: /spire-agent-socket
+            readOnly: true
+          - name: vsecm-relay
+            mountPath: /vsecm-relay/data
             readOnly: true
         env:
         - name: SPIFFE_ENDPOINT_SOCKET

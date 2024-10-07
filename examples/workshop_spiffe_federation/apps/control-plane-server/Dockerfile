@@ -18,8 +18,12 @@ COPY go.sum .
 RUN go mod download
 
 COPY server.go .
+COPY crypto.go .
+COPY network.go .
+COPY entity.go .
+COPY io.go .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o server server.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o server server.go crypto.go network.go io.go entity.go
 
 FROM ubuntu:22.04 AS server
 
