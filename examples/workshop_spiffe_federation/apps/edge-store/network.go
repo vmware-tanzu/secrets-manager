@@ -64,6 +64,8 @@ func run() {
 		workloadName = parts[4]
 	}
 
+	// https://github.com/vmware-tanzu/secrets-manager -- /examples/workshop_spiffe_federation/
+
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
 		// In a real-world scenario, you'd implement proper authorization logic here
 		return nil
