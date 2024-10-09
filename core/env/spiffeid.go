@@ -38,6 +38,22 @@ func SpiffeIdPrefixForSafe() string {
 	return p
 }
 
+func SpiffeIdPrefixForRelayServer() string {
+	p := env.Value(env.VSecMSpiffeIdPrefixRelayServer)
+	if p == "" {
+		p = string(env.VSecMSpiffeIdPrefixRelayServerDefault)
+	}
+	return p
+}
+
+func SpiffeIdPrefixForRelayClient() string {
+	p := env.Value(env.VSecMSpiffeIdPrefixRelayClient)
+	if p == "" {
+		p = string(env.VSecMSpiffeIdPrefixRelayClientDefault)
+	}
+	return p
+}
+
 // SpiffeIdPrefixForWorkload returns the prefix for the Workload's SPIFFE ID.
 // The prefix is obtained from the environment variable
 // VSECM_SPIFFEID_PREFIX_WORKLOAD.

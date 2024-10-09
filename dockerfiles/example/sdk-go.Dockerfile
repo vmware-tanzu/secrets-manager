@@ -34,8 +34,8 @@ LABEL "website"="https://vsecm.com/"
 LABEL "repo"="https://github.com/vmware-tanzu/secrets-manager"
 LABEL "documentation"="https://vsecm.com/"
 LABEL "contact"="https://vsecm.com/docs/contact"
-LABEL "community"="https://vsecm.com/docs/community"
-LABEL "changelog"="https://vsecm.com/docs/changelog"
+LABEL "community"="https://vsecm.com/community/hello/"
+LABEL "changelog"="https://vsecm.com/timeline/changelog/"
 
 COPY --from=builder /build/example .
 COPY --from=builder /build/env .

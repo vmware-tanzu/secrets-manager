@@ -15,14 +15,11 @@ RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
 COPY lib /build/lib
-COPY sdk /build/sdk
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-inspector \
-  ./app/inspector/cmd/main.go
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o sloth \
-  ./app/inspector/busywait/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-relay-server \
+    ./app/relay-server/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11
@@ -38,9 +35,8 @@ LABEL "contact"="https://vsecm.com/docs/contact"
 LABEL "community"="https://vsecm.com/community/hello/"
 LABEL "changelog"="https://vsecm.com/timeline/changelog/"
 
-COPY --from=builder /build/vsecm-inspector /env
-COPY --from=builder /build/sloth .
+COPY --from=builder /build/vsecm-relay-client /relay-client
 
 # executable
-ENTRYPOINT [ "./sloth" ]
+ENTRYPOINT [ "./relay-client" ]
 CMD [ "" ]

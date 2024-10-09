@@ -24,3 +24,11 @@ func TlsPort() string {
 	}
 	return p
 }
+
+func RelayServerUrl() string {
+	u := env.Value(env.VSecMRelayServerUrl)
+	if u == "" {
+		u = string(env.VSecMRelayServerUrlDefault)
+	}
+	return u
+}
