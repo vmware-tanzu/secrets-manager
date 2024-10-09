@@ -69,3 +69,12 @@ func BackingStoreForSafe() data.BackingStore {
 
 	return data.File
 }
+
+// TODO: add docs to this one and other missing methods too.
+func PostgresDataSourceNameForSafe() string {
+	s := os.Getenv(string(env.VSecMSafePostgresDataSourceName))
+	if s == "" {
+		return string(env.VSecMSafePostgresDataSourceNameDefault)
+	}
+	return s
+}

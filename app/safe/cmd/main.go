@@ -12,14 +12,17 @@ package main
 
 import (
 	"context"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	env2 "github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
@@ -37,6 +40,15 @@ func main() {
 		context.WithValue(context.Background(), key.CorrelationId, &id),
 	)
 	defer cancel()
+
+	// TODO: this should be part of initialization counter too.
+	if env2.BackingStoreForSafe() == data.Postgres {
+		dataSourceName := env2.PostgresDataSourceNameForSafe() // You'll need to implement this function
+		err := io.InitDB(dataSourceName)
+		if err != nil {
+			log.FatalLn(&id, "Failed to initialize database:", err)
+		}
+	}
 
 	log.InfoLn(&id, "Acquiring identity...")
 

@@ -93,7 +93,11 @@ func ProcessSecretBackingStoreQueue() {
 		//
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processSecretQueue` goroutine.
-		io.PersistToDisk(secret, errChan)
+		if store == entity.Postgres {
+			io.PersistToPostgres(secret, errChan)
+		} else {
+			io.PersistToDisk(secret, errChan)
+		}
 
 		log.TraceLn(&cid,
 			"processSecretQueue: should have persisted the secret.")

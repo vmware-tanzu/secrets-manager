@@ -6,6 +6,7 @@ require (
 	filippo.io/age v1.1.1
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/akamensky/argparse v1.4.0
+	github.com/lib/pq v1.10.9
 	github.com/spiffe/go-spiffe/v2 v2.3.0
 	github.com/stretchr/testify v1.9.0
 	github.com/vmware-tanzu/secrets-manager/sdk v0.27.0
