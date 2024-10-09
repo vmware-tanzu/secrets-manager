@@ -215,6 +215,58 @@ func IsSafe(spiffeid string) bool {
 	return strings.HasPrefix(spiffeid, prefix)
 }
 
+func IsRelayServer(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
+	prefix := env.SpiffeIdPrefixForRelayServer()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			panic(
+				"Failed to compile the regular expression pattern " +
+					"for Relay Server SPIFFE ID." +
+					" Check the " + string(e.VSecMSpiffeIdPrefixRelayServer) +
+					" environment variable." +
+					" val: " + env.SpiffeIdPrefixForRelayServer() +
+					" trust: " + env.SpiffeTrustDomain(),
+			)
+		}
+
+		return re.MatchString(spiffeid)
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
+}
+
+func IsRelayClient(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
+	prefix := env.SpiffeIdPrefixForRelayClient()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			panic(
+				"Failed to compile the regular expression pattern " +
+					"for Relay Client SPIFFE ID." +
+					" Check the " + string(e.VSecMSpiffeIdPrefixRelayClient) +
+					" environment variable." +
+					" val: " + env.SpiffeIdPrefixForRelayClient() +
+					" trust: " + env.SpiffeTrustDomain(),
+			)
+		}
+
+		return re.MatchString(spiffeid)
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
+}
+
 // EnsureSafe checks the safety of the SPIFFE ID from the provided X509Source.
 // It retrieves an X.509 SVID (SPIFFE Verifiable Identity Document) from the
 // source, and validates the SPIFFE ID against a predefined safety check.
@@ -246,6 +298,50 @@ func EnsureSafe(source *workloadapi.X509Source) {
 
 	svidId := svid.ID
 	if !IsSafe(svidId.String()) {
+		panic(
+			fmt.Sprintf(
+				"SpiffeId check: I don't know you, and it's crazy: %s",
+				svidId.String(),
+			),
+		)
+	}
+}
+
+func EnsureRelayServer(source *workloadapi.X509Source) {
+	svid, err := source.GetX509SVID()
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"Unable to get X.509 SVID from source bundle: %s",
+				err.Error(),
+			),
+		)
+	}
+
+	svidId := svid.ID
+	if !IsRelayServer(svidId.String()) {
+		panic(
+			fmt.Sprintf(
+				"SpiffeId check: I don't know you, and it's crazy: %s",
+				svidId.String(),
+			),
+		)
+	}
+}
+
+func EnsureRelayClient(source *workloadapi.X509Source) {
+	svid, err := source.GetX509SVID()
+	if err != nil {
+		panic(
+			fmt.Sprintf(
+				"Unable to get X.509 SVID from source bundle: %s",
+				err.Error(),
+			),
+		)
+	}
+
+	svidId := svid.ID
+	if !IsRelayClient(svidId.String()) {
 		panic(
 			fmt.Sprintf(
 				"SpiffeId check: I don't know you, and it's crazy: %s",

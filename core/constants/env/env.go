@@ -59,6 +59,8 @@ const VSecMSentinelInitCommandPath VarName = "VSECM_SENTINEL_INIT_COMMAND_PATH"
 const VSecMSentinelInitCommandWaitAfterInitComplete VarName = "VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE"
 const VSecMSentinelInitCommandWaitBeforeExec VarName = "VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC"
 
+const VSecMRelayServerUrl VarName = "VSECM_RELAY_SERVER_URL"
+
 // See ADR-0017 for a discussion about important security considerations when
 // using OIDC.
 
@@ -73,6 +75,8 @@ const VSecMSidecarMaxPollInterval VarName = "VSECM_SIDECAR_MAX_POLL_INTERVAL"
 const VSecMSidecarPollInterval VarName = "VSECM_SIDECAR_POLL_INTERVAL"
 const VSecMSidecarSecretsPath VarName = "VSECM_SIDECAR_SECRETS_PATH"
 const VSecMSidecarSuccessThreshold VarName = "VSECM_SIDECAR_SUCCESS_THRESHOLD"
+const VSecMSpiffeIdPrefixRelayClient VarName = "VSECM_SPIFFEID_PREFIX_RELAY_CLIENT"
+const VSecMSpiffeIdPrefixRelayServer VarName = "VSECM_SPIFFEID_PREFIX_RELAY_SERVER"
 const VSecMSpiffeIdPrefixSafe VarName = "VSECM_SPIFFEID_PREFIX_SAFE"
 const VSecMSpiffeIdPrefixSentinel VarName = "VSECM_SPIFFEID_PREFIX_SENTINEL"
 const VSecMSpiffeIdPrefixWorkload VarName = "VSECM_SPIFFEID_PREFIX_WORKLOAD"
@@ -115,10 +119,14 @@ const VSecMSidecarMaxPollIntervalDefault VarValue = "300000"
 const VSecMSidecarPollIntervalDefault VarValue = "20000"
 const VSecMSidecarSecretsPathDefault VarValue = "/opt/vsecm/secrets.json"
 const VSecMSidecarSuccessThresholdDefault VarValue = "3"
+const VSecMSpiffeIdPrefixRelayClientDefault VarValue = "^spiffe://[^/]/workload/vsecm-relay-client/ns/vsecm-system/sa/vsecm-relay-client/n/[^/]+$"
+const VSecMSpiffeIdPrefixRelayServerDefault VarValue = "^spiffe://[^/]/workload/vsecm-relay-server/ns/vsecm-system/sa/vsecm-relay-server/n/[^/]+$"
 const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
 const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
 const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+
+const VSecMRelayServerUrlDefault VarValue = "https://vsecm-relay.vsecm-system.svc.cluster.local:443/"
 
 type Namespace string
 
