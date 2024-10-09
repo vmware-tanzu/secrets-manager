@@ -7,5 +7,5 @@
 <>/ keep your secrets... secret
 ```
 
-See <https://vsecm.com/docs/community/> for information about the **VMware
+See <https://vsecm.com/community/hello//> for information about the **VMware
 Secrets Manager** community, public events, meetings, and more.
