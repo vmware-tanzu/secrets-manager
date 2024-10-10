@@ -73,7 +73,11 @@ func ProcessSecretBackingStoreQueue() {
 			panic("implement azure secret store")
 		case entity.GcpSecretStore:
 			panic("implement gcp secret store")
+		case entity.Postgres:
+			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to Postgres.")
 		}
+
+		// TODO: will definitely need cleanup.
 
 		// Get a secret to be persisted to the disk.
 		secret := <-SecretUpsertQueue
