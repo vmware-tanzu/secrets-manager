@@ -98,6 +98,7 @@ func ProcessSecretBackingStoreQueue() {
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processSecretQueue` goroutine.
 		if store == entity.Postgres {
+
 			// TODO: for debugging; delete values before merging.
 			log.TraceLn(&cid, "Persisting to Postgres.", secret.Name, secret.Values[0])
 			io.PersistToPostgres(secret, errChan)

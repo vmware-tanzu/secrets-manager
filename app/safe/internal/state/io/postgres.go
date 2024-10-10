@@ -64,6 +64,15 @@ func PersistToPostgres(secret entity.SecretStored, errChan chan<- error) {
 	}
 
 	err = backoff.RetryExponential("PersistToPostgres", func() error {
+		if db == nil {
+			if secret.Name == "vsecm-safe" {
+				// TODO: implement me.
+				log.InfoLn(&cid, "PersistToPostgres: vsecm-safe secret will be persisted after db connection is initialized")
+				return nil
+			}
+			return errors.New("PersistToPostgres: Database connection is nil")
+		}
+
 		// TODO: get table name from env var.
 		_, err := db.Exec(
 			`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
