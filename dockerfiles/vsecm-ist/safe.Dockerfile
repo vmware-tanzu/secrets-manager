@@ -18,7 +18,7 @@ COPY lib /build/lib
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cmd/main.go ./app/safe/cmd/entity.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11

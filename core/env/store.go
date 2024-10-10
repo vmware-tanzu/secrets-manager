@@ -63,8 +63,13 @@ func BackingStoreForSafe() data.BackingStore {
 		return data.File
 	}
 
-	if s != string(data.File) {
-		panic("Only File is supported as a backing store")
+	switch s {
+	case string(data.File):
+		return data.File
+	case string(data.Postgres):
+		return data.Postgres
+	default:
+		panic("Only File and Postgres are supported as a backing store")
 	}
 
 	return data.File

@@ -25,9 +25,9 @@ bundle-all-local: \
 	safe-bundle-ist \
 	sidecar-bundle-ist \
 	sentinel-bundle-ist \
-	init-container-bundle-ist \
-	relay-client-bundle-ist \
-	relay-server-bundle-ist
+	init-container-bundle-ist
+	# relay-client-bundle-ist \
+	# relay-server-bundle-ist
 
 bundle-all: \
 	inspector-bundle \
@@ -67,11 +67,11 @@ push-all: \
 	sentinel-push-ist \
 	sentinel-push-ist-fips \
 	init-container-push-ist \
-	init-container-push-ist-fips \
-	relay-client-push-ist \
-	relay-client-push-ist-fips \
-	rely-server-push-ist \
-	relay-server-push-ist-fips
+	init-container-push-ist-fips
+#	relay-client-push-ist \
+#	relay-client-push-ist-fips \
+#	rely-server-push-ist \
+#	relay-server-push-ist-fips
 
 # Builds everything and pushes to public DockerHub registries.
 build:
@@ -139,9 +139,9 @@ push-all-local: \
 	safe-push-ist-local \
 	sidecar-push-ist-local \
 	sentinel-push-ist-local \
-	init-container-push-ist-local \
-	relay-client-push-ist-local \
-	relay-server-push-ist-local
+	init-container-push-ist-local
+#	relay-client-push-ist-local \
+#	relay-server-push-ist-local
 
 
 # Builds everything and pushes to the local registry.

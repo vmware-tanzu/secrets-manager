@@ -20,7 +20,7 @@ COPY go.mod /build/go.mod
 WORKDIR /build
 
 # GOEXPERIMENT=boringcrypto is required for FIPS compliance.
-RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cmd/main.go
+RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o vsecm-safe ./app/safe/cmd/main.go ./app/safe/cmd/entity.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11

@@ -88,7 +88,7 @@ func Fetch(
 
 	log.DebugLn(&cid, "Fetch: preparing request")
 
-	workloadId, parts := extract.WorkloadIDAndParts(spiffeid)
+	workloadId, parts := extract.WorkloadIdAndParts(spiffeid)
 	if len(parts) == 0 {
 		handle.BadPeerSvidResponse(cid, w, spiffeid, j)
 		return

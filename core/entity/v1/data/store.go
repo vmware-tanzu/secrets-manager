@@ -20,4 +20,5 @@ var (
 	AzureSecretStore BackingStore = "azure-secret"
 	GcpSecretStore   BackingStore = "gcp-secret"
 	Kubernetes       BackingStore = "k8s"
+	Postgres         BackingStore = "postgres"
 )

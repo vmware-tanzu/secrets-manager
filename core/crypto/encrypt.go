@@ -199,3 +199,108 @@ func EncryptToWriterAes(out io.Writer, data string) error {
 
 	return nil
 }
+
+var lastEncryptBytesAesCall time.Time
+
+// EncryptBytesAes encrypts the given data using AES encryption and returns the encrypted bytes.
+func EncryptBytesAes(data []byte) ([]byte, error) {
+	rkt := RootKeyCollectionFromMemory()
+
+	// Throttle calls to this method to ensure IV randomness
+	if time.Since(lastEncryptBytesAesCall) < time.Millisecond*time.Duration(
+		env.IvInitializationIntervalForSafe(),
+	) {
+		return nil, errors.New("calls too frequent")
+	}
+
+	lastEncryptBytesAesCall = time.Now()
+
+	aesKey := rkt.AesSeed
+
+	if aesKey == "" {
+		return nil, errors.New("EncryptBytesAes: no AES key")
+	}
+
+	aesKeyDecoded, err := hex.DecodeString(aesKey)
+	defer func() {
+		// Clear the key from memory for security reasons.
+		for i := range aesKeyDecoded {
+			aesKeyDecoded[i] = 0
+		}
+	}()
+
+	if err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAes: failed to decode AES key"),
+		)
+	}
+
+	block, err := aes.NewCipher(aesKeyDecoded)
+	if err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAes: failed to create AES cipher block"),
+		)
+	}
+
+	totalSize := uint64(aes.BlockSize) + uint64(len(data))
+	if totalSize > uint64(math.MaxInt64) {
+		return nil, errors.New("EncryptBytesAes: data too large")
+	}
+
+	ciphertext := make([]byte, totalSize)
+
+	iv := ciphertext[:aes.BlockSize]
+	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
+		return nil, err
+	}
+
+	stream := cipher.NewCFBEncrypter(block, iv)
+	stream.XORKeyStream(ciphertext[aes.BlockSize:], data)
+
+	return ciphertext, nil
+}
+
+// EncryptBytesAge encrypts the given data using the age encryption protocol and returns the encrypted bytes.
+func EncryptBytesAge(data []byte) ([]byte, error) {
+	rkt := RootKeyCollectionFromMemory()
+	publicKey := rkt.PublicKey
+
+	if publicKey == "" {
+		return nil, errors.New("EncryptBytesAge: no public key")
+	}
+
+	recipient, err := age.ParseX25519Recipient(publicKey)
+	if err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAge: failed to parse public key"),
+		)
+	}
+
+	var buf bytes.Buffer
+	wrappedWriter, err := age.Encrypt(&buf, recipient)
+	if err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAge: failed to create encrypted buffer"),
+		)
+	}
+
+	if _, err := wrappedWriter.Write(data); err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAge: failed to write to encrypted buffer"),
+		)
+	}
+
+	if err := wrappedWriter.Close(); err != nil {
+		return nil, errors.Join(
+			err,
+			errors.New("EncryptBytesAge: failed to close encrypted writer"),
+		)
+	}
+
+	return buf.Bytes(), nil
+}

@@ -72,6 +72,9 @@ func PopulateSecrets(cid string) error {
 		if err != nil {
 			log.ErrorLn(&cid, "populateSecrets:error", err.Error())
 		}
+	case data.Postgres:
+		// TODO: implement me.
+		log.WarnLn(&cid, "populateSecrets: postgres initial secrets population is not implemented yet.")
 	case data.Kubernetes:
 		panic("implement kubernetes store")
 	case data.AwsSecretStore:

@@ -37,6 +37,7 @@ const VSecMRootKeyInputModeManual VarName = "VSECM_ROOT_KEY_INPUT_MODE_MANUAL"
 const VSecMRootKeyName VarName = "VSECM_ROOT_KEY_NAME"
 const VSecMRootKeyPath VarName = "VSECM_ROOT_KEY_PATH"
 const VSecMSafeBackingStore VarName = "VSECM_SAFE_BACKING_STORE"
+const VSecMSafePostgresDataSourceName VarName = "VSECM_SAFE_POSTGRES_DATASOURCE_NAME"
 const VSecMSafeBootstrapTimeout VarName = "VSECM_SAFE_BOOTSTRAP_TIMEOUT"
 const VSecMSafeDataPath VarName = "VSECM_SAFE_DATA_PATH"
 const VSecMSafeEndpointUrl VarName = "VSECM_SAFE_ENDPOINT_URL"
@@ -125,6 +126,7 @@ const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vs
 const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
 const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
+const VSecMSafePostgresDataSourceNameDefault VarValue = "user=postgres dbname=postgres sslmode=disable"
 
 const VSecMRelayServerUrlDefault VarValue = "https://vsecm-relay.vsecm-system.svc.cluster.local:443/"
 

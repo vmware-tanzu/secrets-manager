@@ -34,6 +34,10 @@ import (
 //     channel allows the function to operate asynchronously, notifying the
 //     caller of any issues in the process of persisting the secret.
 func PersistToDisk(secret entity.SecretStored, errChan chan<- error) {
+	if env.BackingStoreForSafe() != entity.File {
+		panic("Attempted to save to disk when backing store is not file")
+	}
+
 	backupCount := env.SecretBackupCountForSafe()
 
 	// Save the secret
