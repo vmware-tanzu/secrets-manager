@@ -15,6 +15,7 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	data "github.com/vmware-tanzu/secrets-manager/lib/entity"
 )
@@ -197,6 +198,16 @@ func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 		log.TraceLn(&cid,
 			"ReadSecret: returning from memory.", "len", len(s.Values))
 		return &s, nil
+	}
+
+	store := env.BackingStoreForSafe()
+
+	switch store {
+	case entity.File:
+		log.TraceLn(&cid, "will read from file store.")
+	case entity.Postgres:
+		log.WarnLn(&cid, "TODO: fetch from postgres store")
+		return nil, nil
 	}
 
 	stored, err := io.ReadFromDisk(key)
