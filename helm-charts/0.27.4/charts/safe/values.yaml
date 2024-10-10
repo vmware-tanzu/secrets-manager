@@ -79,7 +79,7 @@ environments:
   # Possible values are: "memory", "file", "aws-secret", "azure-secret",
   # "gcp-secret", "k8s". Currently, only "memory" and "file" are supported.
   - name: VSECM_SAFE_BACKING_STORE
-    value: "file"
+    value: "postgres" # FOR TESTING ONLY; REVERT IT BEFORE MERGING THE PR!
   # -- The interval (in milliseconds) that the VSecM Safe will wait during
   # bootstrapping before it bails out.
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT
