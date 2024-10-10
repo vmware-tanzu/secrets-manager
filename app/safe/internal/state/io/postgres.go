@@ -66,7 +66,7 @@ func PersistToPostgres(secret entity.SecretStored, errChan chan<- error) {
 	// Persist the encrypted data to the database
 	// TODO: get table name from env var.
 	_, err = db.Exec(
-		"INSERT INTO 'vsecm-secrets' (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2",
+		`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
 		secret.Name, encryptedData)
 
 	if err != nil {
