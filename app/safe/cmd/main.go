@@ -12,7 +12,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"time"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
@@ -27,6 +31,37 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
 
+type SafeConfig struct {
+	Config struct {
+		BackingStore   string `json:"backingStore"`
+		DataSourceName string `json:"dataSourceName"`
+	} `json:"config"`
+}
+
+func pollForConfig(ctx context.Context, id string) (*SafeConfig, error) {
+	for {
+		log.InfoLn(&id, "Polling for VSecM Safe internal configuration")
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+			vSecMSafeInternalConfig, err := collection.ReadSecret(id, "vsecm-safe")
+			if err != nil {
+				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration", err.Error())
+			} else if vSecMSafeInternalConfig != nil && len(vSecMSafeInternalConfig.Values) > 0 {
+				var safeConfig SafeConfig
+				err := json.Unmarshal([]byte(vSecMSafeInternalConfig.Values[0]), &safeConfig)
+				if err != nil {
+					log.InfoLn(&id, "Failed to parse VSecM Safe internal configuration", err.Error())
+				} else {
+					return &safeConfig, nil
+				}
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}
+}
+
 func main() {
 	id := crypto.Id()
 
@@ -40,6 +75,18 @@ func main() {
 		context.WithValue(context.Background(), key.CorrelationId, &id),
 	)
 	defer cancel()
+
+	go func() {
+		log.InfoLn(&id, "Waiting for VSecM Safe internal configuration...")
+		safeConfig, err := pollForConfig(ctx, id)
+		if err != nil {
+			log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
+		}
+
+		log.InfoLn(&id, "VSecM Safe internal configuration loaded")
+		fmt.Printf("Backing Store: %s\n", safeConfig.Config.BackingStore)
+		fmt.Printf("Data Source Name: %s\n", safeConfig.Config.DataSourceName)
+	}()
 
 	// TODO: this should be part of initialization counter too.
 	if env2.BackingStoreForSafe() == data.Postgres {
