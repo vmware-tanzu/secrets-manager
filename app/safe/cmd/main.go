@@ -13,29 +13,22 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
-	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
-	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"time"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	cEnv "github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
-
-type SafeConfig struct {
-	Config struct {
-		BackingStore   string `json:"backingStore"`
-		DataSourceName string `json:"dataSourceName"`
-	} `json:"config"`
-}
 
 func pollForConfig(ctx context.Context, id string) (*SafeConfig, error) {
 	for {
@@ -75,84 +68,27 @@ func main() {
 	)
 	defer cancel()
 
-	// TODO: obviously there is a need for cleanup; once things start to work
-	// as expected, move the codes to where they should belong.
+	if cEnv.BackingStoreForSafe() == entity.Postgres {
+		go func() {
+			log.InfoLn(&id, "Backing store is postgres.")
+			log.InfoLn(&id, "VSecM Safe will remain read-only until the internal configuration is loaded.")
 
-	// TODO: poll for config ONLY IF backingstore is postgres
-	go func() {
-		// TODO: a log indicating that backing store is postgres, so until the
-		// configuration is there, VSecM Safe will block any write operation.
-		// (except for its internal config)
+			safeConfig, err := pollForConfig(ctx, id)
+			if err != nil {
+				log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
+			}
 
-		// TODO: we need documentation for this feature. (and also a demo recording)
+			log.InfoLn(&id, "VSecM Safe internal configuration loaded. Initializing database.")
 
-		log.InfoLn(&id, "Waiting for VSecM Safe internal configuration...")
-		safeConfig, err := pollForConfig(ctx, id)
-		if err != nil {
-			log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
-		}
+			err = io.InitDB(safeConfig.Config.DataSourceName)
+			if err != nil {
+				log.FatalLn(&id, "Failed to initialize database:", err)
+				return
+			}
 
-		log.InfoLn(&id, "VSecM Safe internal configuration loaded")
-		fmt.Printf("Backing Store: %s\n", safeConfig.Config.BackingStore)
-		fmt.Printf("Data Source Name: %s\n", safeConfig.Config.DataSourceName)
-
-		// TODO: this should be part of initialization counter too.
-		//if env2.BackingStoreForSafe() == data.Postgres {
-
-		// TODO: we don't need this; remove from the codebase.
-		// dataSourceName := env2.PostgresDataSourceNameForSafe() // You'll need to implement this function
-
-		err = io.InitDB(safeConfig.Config.DataSourceName)
-		if err != nil {
-			log.FatalLn(&id, "Failed to initialize database:", err)
-		} else {
-			log.InfoLn(&id, "Database initialized with amazing accuracy!")
-		}
-
-		// Test persistence:
-		meta := entity.SecretMeta{
-			Namespaces:    []string{"default"},
-			Template:      "",
-			Format:        "json",
-			CorrelationId: "42",
-		}
-
-		secretToStore := entity.SecretStored{
-			Name:             "eeeee-macarena",
-			Values:           []string{"macarena"},
-			ValueTransformed: "",
-			Meta:             meta,
-			Created:          time.Time{},
-			Updated:          time.Time{},
-			NotBefore:        time.Time{},
-			ExpiresAfter:     time.Time{},
-		}
-
-		errChan := make(chan error, 1)
-
-		io.PersistToPostgres(secretToStore, errChan)
-
-		select {
-		case err := <-errChan:
-			log.InfoLn(&id, "Failed to persist secret to database:", err)
-		case <-time.After(30 * time.Second): // Adjust timeout as needed
-			log.InfoLn(&id, "Timeout while persisting secret to database")
-		}
-
-		// TODO: by design, VSecM Safe will not use more than one backing store
-		// (create an ADR for that).
-		// This means, there is a chicken-and-the-egg problem for persisting the
-		// internal VSecM Safe configuration.
-		//
-		// For postgres backing store, VSecM Safe should keep its initial config
-		// in memory until the database is there; and then it should save it to
-		// the database, too.
-
-		// TODO: we should check for the existence of the table in postgres and
-		// log an error if it's not there.
-
-		//}
-	}()
+			log.InfoLn(&id, "Database connection initialized.")
+		}()
+	}
 
 	log.InfoLn(&id, "Acquiring identity...")
 

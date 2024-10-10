@@ -6,12 +6,13 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
+	_ "github.com/lib/pq"
 
-	_ "github.com/lib/pq" // PostgreSQL driver
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
 var db *sql.DB
@@ -62,12 +63,13 @@ func PersistToPostgres(secret entity.SecretStored, errChan chan<- error) {
 		encryptedData = base64.StdEncoding.EncodeToString(encryptedBytes)
 	}
 
-	// TODO: maybe retry with an exponential backoff
-	// Persist the encrypted data to the database
-	// TODO: get table name from env var.
-	_, err = db.Exec(
-		`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
-		secret.Name, encryptedData)
+	err = backoff.RetryExponential("PersistToPostgres", func() error {
+		// TODO: get table name from env var.
+		_, err := db.Exec(
+			`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
+			secret.Name, encryptedData)
+		return err
+	})
 
 	if err != nil {
 		errChan <- errors.Join(err, errors.New("PersistToPostgres: Failed to persist secret to database"))
