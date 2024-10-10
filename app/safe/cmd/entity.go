@@ -33,6 +33,12 @@ package main
 
 // TODO: we need documentation for this postgres store feature. (and also a demo recording)
 
+// TODO: it's best block requests when the db is not ready yet (in postgres mode)
+// because otherwise, the initCommand will retry in exponential backoff and
+// eventually give up.
+// or the keystone secret will not be persisted although keystone will
+// be informed that safe is ready.
+
 type SafeConfig struct {
 	Config struct {
 		BackingStore   string `json:"backingStore"`

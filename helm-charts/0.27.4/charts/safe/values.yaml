@@ -77,9 +77,10 @@ environments:
     value: ":8082"
   # -- The backing store for VSecM Safe.
   # Possible values are: "memory", "file", "aws-secret", "azure-secret",
-  # "gcp-secret", "k8s". Currently, only "memory" and "file" are supported.
+  # "gcp-secret", "k8s". Currently, only "memory", "postgres", and "file"
+  # are supported.
   - name: VSECM_SAFE_BACKING_STORE
-    value: "postgres" # FOR TESTING ONLY; REVERT IT BEFORE MERGING THE PR!
+    value: "file" #
   # -- The interval (in milliseconds) that the VSecM Safe will wait during
   # bootstrapping before it bails out.
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT

@@ -100,7 +100,7 @@ func ProcessSecretBackingStoreQueue() {
 		if store == entity.Postgres {
 
 			// TODO: for debugging; delete values before merging.
-			log.TraceLn(&cid, "Persisting to Postgres.", secret.Name, secret.Values[0])
+			log.TraceLn(&cid, "Persisting to Postgres.", secret.Name)
 			io.PersistToPostgres(secret, errChan)
 		} else {
 			io.PersistToDisk(secret, errChan)
