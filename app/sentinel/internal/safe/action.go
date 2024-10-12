@@ -29,6 +29,7 @@ func doDelete(cid *string, client *http.Client, p string, md []byte) error {
 	req.Header.Set("Content-Type", "application/json")
 
 	r, err := client.Do(req)
+
 	if err != nil {
 		return errors.Join(
 			err,
@@ -37,18 +38,28 @@ func doDelete(cid *string, client *http.Client, p string, md []byte) error {
 		)
 	}
 
+	if r.StatusCode != http.StatusOK {
+		return errors.New("post: Problem connecting to VSecM Safe API endpoint URL")
+	}
+
 	respond(cid, r)
 	return nil
 }
 
 func doPost(cid *string, client *http.Client, p string, md []byte) error {
 	r, err := client.Post(p, "application/json", bytes.NewBuffer(md))
+
 	if err != nil {
 		return errors.Join(
 			err,
 			errors.New("post: Problem connecting to VSecM Safe API endpoint URL"),
 		)
 	}
+
+	if r.StatusCode != http.StatusOK {
+		return errors.New("post: Problem connecting to VSecM Safe API endpoint URL")
+	}
+
 	respond(cid, r)
 	return nil
 }
