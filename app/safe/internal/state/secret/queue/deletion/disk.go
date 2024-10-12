@@ -69,7 +69,7 @@ func ProcessSecretBackingStoreQueue() {
 			log.TraceLn(&cid, "ProcessSecretQueue: using in-memory store.")
 			return
 		case entity.File:
-			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to disk.")
+			log.TraceLn(&cid, "ProcessSecretQueue: Will delete secret from disk.")
 		case entity.Kubernetes:
 			panic("implement kubernetes store")
 		case entity.AwsSecretStore:
@@ -78,6 +78,9 @@ func ProcessSecretBackingStoreQueue() {
 			panic("implement azure secret store")
 		case entity.GcpSecretStore:
 			panic("implement gcp secret store")
+		case entity.Postgres:
+			log.WarnLn(&cid, "Delete operation has not been implemented for postgres backing store yet.")
+			return
 		}
 
 		if secret.Name == "" {

@@ -13,6 +13,7 @@ package io
 import (
 	"encoding/json"
 	"errors"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
@@ -36,6 +37,10 @@ import (
 //     returned. The error provides context about the nature of the failure,
 //     such as issues with decryption or data deserialization.
 func ReadFromDisk(key string) (*entity.SecretStored, error) {
+	if env.BackingStoreForSafe() != entity.File {
+		panic("Attempted to read from disk when backing store is not file")
+	}
+
 	contents, err := crypto.DecryptDataFromDisk(key)
 	if err != nil {
 		return nil, errors.Join(

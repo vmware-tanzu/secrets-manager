@@ -73,7 +73,11 @@ func ProcessSecretBackingStoreQueue() {
 			panic("implement azure secret store")
 		case entity.GcpSecretStore:
 			panic("implement gcp secret store")
+		case entity.Postgres:
+			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to Postgres.")
 		}
+
+		// TODO: will definitely need cleanup.
 
 		// Get a secret to be persisted to the disk.
 		secret := <-SecretUpsertQueue
@@ -93,7 +97,14 @@ func ProcessSecretBackingStoreQueue() {
 		//
 		// Do not call this function elsewhere.
 		// It is meant to be called inside this `processSecretQueue` goroutine.
-		io.PersistToDisk(secret, errChan)
+		if store == entity.Postgres {
+
+			// TODO: for debugging; delete values before merging.
+			log.TraceLn(&cid, "Persisting to Postgres.", secret.Name)
+			io.PersistToPostgres(secret, errChan)
+		} else {
+			io.PersistToDisk(secret, errChan)
+		}
 
 		log.TraceLn(&cid,
 			"processSecretQueue: should have persisted the secret.")

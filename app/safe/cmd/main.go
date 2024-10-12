@@ -12,17 +12,47 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"time"
 
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/key"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	cEnv "github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
+
+func pollForConfig(ctx context.Context, id string) (*SafeConfig, error) {
+	for {
+		log.InfoLn(&id, "Polling for VSecM Safe internal configuration")
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		default:
+			vSecMSafeInternalConfig, err := collection.ReadSecret(id, "vsecm-safe")
+			if err != nil {
+				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration", err.Error())
+			} else if vSecMSafeInternalConfig != nil && len(vSecMSafeInternalConfig.Values) > 0 {
+				var safeConfig SafeConfig
+				err := json.Unmarshal([]byte(vSecMSafeInternalConfig.Values[0]), &safeConfig)
+				if err != nil {
+					log.InfoLn(&id, "Failed to parse VSecM Safe internal configuration", err.Error())
+				} else {
+					return &safeConfig, nil
+				}
+			}
+			time.Sleep(5 * time.Second)
+		}
+	}
+}
 
 func main() {
 	id := crypto.Id()
@@ -37,6 +67,28 @@ func main() {
 		context.WithValue(context.Background(), key.CorrelationId, &id),
 	)
 	defer cancel()
+
+	if cEnv.BackingStoreForSafe() == entity.Postgres {
+		go func() {
+			log.InfoLn(&id, "Backing store is postgres.")
+			log.InfoLn(&id, "VSecM Safe will remain read-only until the internal configuration is loaded.")
+
+			safeConfig, err := pollForConfig(ctx, id)
+			if err != nil {
+				log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
+			}
+
+			log.InfoLn(&id, "VSecM Safe internal configuration loaded. Initializing database.")
+
+			err = io.InitDB(safeConfig.Config.DataSourceName)
+			if err != nil {
+				log.FatalLn(&id, "Failed to initialize database:", err)
+				return
+			}
+
+			log.InfoLn(&id, "Database connection initialized.")
+		}()
+	}
 
 	log.InfoLn(&id, "Acquiring identity...")
 

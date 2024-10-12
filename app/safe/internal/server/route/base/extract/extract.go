@@ -19,7 +19,7 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
-// WorkloadIDAndParts extracts the workload identifier and its constituent parts
+// WorkloadIdAndParts extracts the workload identifier and its constituent parts
 // from a SPIFFE ID string, based on a predefined prefix that is removed from
 // the SPIFFE ID.
 //
@@ -32,7 +32,7 @@ import (
 //     which is essentially the first part of the SPIFFE ID after removing the
 //     prefix. The second return value is a slice of strings representing all
 //     parts of the SPIFFE ID after the prefix removal.
-func WorkloadIDAndParts(spiffeid string) (string, []string) {
+func WorkloadIdAndParts(spiffeid string) (string, []string) {
 	re := env.NameRegExpForWorkload()
 	if re == "" {
 		return "", nil
