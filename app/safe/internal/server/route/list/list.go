@@ -11,33 +11,14 @@
 package list
 
 import (
-	"io"
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"net/http"
 
 	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
-
-// TODO: move to a proper place.
-func checkDatabaseReadiness(cid string, w http.ResponseWriter) bool {
-
-	// If postgres mode enabled and db is not initialized, return error.
-	// TODO: there is code duplication; all such code MUST call this function instead.
-	if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_, err := io.WriteString(w, val.NotOk)
-		if err != nil {
-			log.ErrorLn(&cid, "error writing response", err.Error())
-		}
-		log.InfoLn(&cid, "Secret: Database not initialized")
-		return false
-	}
-
-	return true
-}
 
 // Masked returns all registered workloads to the system with some metadata
 // that is secure to share. For example, it returns secret names but not values.
@@ -54,7 +35,7 @@ func Masked(
 	log.InfoLn(&cid, "Masked: Postgres ready:", ioState.PostgresReady())
 	log.InfoLn(&cid, "Masked: entity:", entity.Postgres)
 
-	if !checkDatabaseReadiness(cid, w) {
+	if !validation.CheckDatabaseReadiness(cid, w) {
 		return
 	}
 
@@ -72,7 +53,11 @@ func Masked(
 func Encrypted(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
-	log.InfoLn(&cid, "route:Encrypted")
+	log.TraceLn(&cid, "route:Encrypted")
+
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
 
 	doList(cid, w, r, true)
 }

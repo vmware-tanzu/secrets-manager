@@ -85,6 +85,11 @@ func Status(
 		return
 	}
 
+	// Return 5xx if postgres mode and db is not ready.
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
+
 	// Only sentinel can get the status.
 	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
 		j.Event = audit.NotSentinel

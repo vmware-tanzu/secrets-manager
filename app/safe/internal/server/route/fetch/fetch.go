@@ -12,14 +12,13 @@ package fetch
 
 import (
 	"fmt"
-	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/extract"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/handle"
+	rv "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
@@ -63,17 +62,7 @@ func Fetch(
 		return
 	}
 
-	if env.BackingStoreForSafe() == data.Postgres &&
-		!io2.PostgresReady() {
-		log.InfoLn(&cid, "Fetch: Postgres not ready")
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(
-				&cid,
-				"Status: problem sending response", spiffeid)
-		}
-
+	if !rv.CheckDatabaseReadiness(cid, w) {
 		return
 	}
 
