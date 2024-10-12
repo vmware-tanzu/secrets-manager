@@ -11,7 +11,14 @@
 package list
 
 import (
+	"io"
 	"net/http"
+
+	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // Masked returns all registered workloads to the system with some metadata
@@ -24,6 +31,17 @@ import (
 func Masked(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
+	// If postgres mode enabled and db is not initialized, return error.
+	if env.BackingStoreForSafe() == entity.Postgres && ioState.PostgresReady() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, err := io.WriteString(w, val.NotOk)
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
+		log.InfoLn(&cid, "Secret: Database not initialized")
+		return
+	}
+
 	doList(cid, w, r, false)
 }
 
