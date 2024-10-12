@@ -11,6 +11,8 @@
 package secret
 
 import (
+	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"time"
@@ -19,13 +21,11 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/json"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
-	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	data "github.com/vmware-tanzu/secrets-manager/lib/entity"
 	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
@@ -62,17 +62,6 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 		}
 		log.InfoLn(&cid, "Secret: Root key not set")
 
-		return
-	}
-
-	// If postgres mode enabled and db is not initialized, return error.
-	if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_, err := io.WriteString(w, val.NotOk)
-		if err != nil {
-			log.ErrorLn(&cid, "error writing response", err.Error())
-		}
-		log.InfoLn(&cid, "Secret: Database not initialized")
 		return
 	}
 
@@ -130,6 +119,24 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	appendValue := sr.AppendValue
 	notBefore := sr.NotBefore
 	expiresAfter := sr.Expires
+
+	// The next check is only for non-vsecm-safe workloads.
+	if len(workloadIds) == 0 || workloadIds[0] != "vsecm-safe" {
+		log.TraceLn(&cid, "Secret: workloadIds is empty or not vsecm-safe")
+
+		// If postgres mode enabled and db is not initialized, return error.
+		if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
+			w.WriteHeader(http.StatusServiceUnavailable)
+			_, err := io.WriteString(w, val.NotOk)
+			if err != nil {
+				log.ErrorLn(&cid, "error writing response", err.Error())
+			}
+			log.InfoLn(&cid, "Secret: Database not initialized")
+			return
+		}
+	} else {
+		log.TraceLn(&cid, "Secret: vsecm-safe workload detected")
+	}
 
 	if len(workloadIds) == 0 && encrypt {
 		httq.SendEncryptedValue(cid, value, j, w)
