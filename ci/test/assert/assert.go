@@ -97,12 +97,15 @@ func WorkloadIsRunning() error {
 
 	// Count how many times 'Running' appears in the command output.
 	podCount := strings.Count(cmdOutput, "Running")
+	postgresCount := strings.Count(cmdOutput, "postgres")
+	podCount -= postgresCount
+
 	if podCount == 0 {
 		return errors.New("WorkloadIsRunning: No running pods found")
 	}
 
 	if podCount != 1 {
-		return fmt.Errorf("Expected 1 running pod for workload, found %d", podCount)
+		return fmt.Errorf("expected 1 running pod for workload, found %d", podCount)
 	}
 
 	return nil
