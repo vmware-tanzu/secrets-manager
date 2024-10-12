@@ -126,7 +126,6 @@ const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vs
 const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
 const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
-const VSecMSafePostgresDataSourceNameDefault VarValue = "user=postgres dbname=postgres sslmode=disable"
 
 const VSecMRelayServerUrlDefault VarValue = "https://vsecm-relay.vsecm-system.svc.cluster.local:443/"
 

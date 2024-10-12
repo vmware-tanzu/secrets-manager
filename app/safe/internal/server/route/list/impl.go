@@ -14,14 +14,12 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	algo "github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	reqres "github.com/vmware-tanzu/secrets-manager/core/entity/v1/reqres/safe"
@@ -75,30 +73,7 @@ func doList(
 
 	log.TraceLn(&cid, "Masked: after defer")
 
-	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForSentinel(), "", 1)
-	parts := strings.Split(tmp, symbol.PathSeparator)
-
-	// TODO: there could be a bug here.
-	log.InfoLn(&cid, "tmp:", tmp)
-	log.InfoLn(&cid, "parts[1]", parts[1])
-
-	if len(parts) == 0 {
-		j.Event = audit.BadPeerSvid
-		journal.Log(j)
-
-		w.WriteHeader(http.StatusBadRequest)
-		_, err := io.WriteString(w, "")
-		if err != nil {
-			log.InfoLn(&cid, "Masked: Problem with spiffeid", spiffeid)
-		}
-
-		return
-	}
-
-	workloadId := parts[0]
 	secrets := collection.AllSecrets(cid)
-
-	log.DebugLn(&cid, "Masked: will send. workload id:", workloadId)
 
 	if encrypted {
 		a := algo.Age

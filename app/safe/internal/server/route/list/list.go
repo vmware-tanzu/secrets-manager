@@ -37,7 +37,7 @@ func Masked(
 	log.InfoLn(&cid, "Masked: entity:", entity.Postgres)
 
 	// If postgres mode enabled and db is not initialized, return error.
-	if env.BackingStoreForSafe() == entity.Postgres && ioState.PostgresReady() {
+	if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		_, err := io.WriteString(w, val.NotOk)
 		if err != nil {
