@@ -88,9 +88,9 @@ type MockSafeOps struct {
 	mock.Mock
 }
 
-func (m *MockSafeOps) Check(ctx context.Context, src *workloadapi.X509Source) error {
+func (m *MockSafeOps) Check(ctx context.Context, src *workloadapi.X509Source) (int, string, error) {
 	args := m.Called(ctx, src)
-	return args.Error(0)
+	return 0, "", args.Error(0)
 }
 
 func (m *MockSafeOps) CheckInitialization(ctx context.Context, src *workloadapi.X509Source) (bool, error) {
