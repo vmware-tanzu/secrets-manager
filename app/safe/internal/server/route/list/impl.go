@@ -78,6 +78,10 @@ func doList(
 	tmp := strings.Replace(spiffeid, env.SpiffeIdPrefixForSentinel(), "", 1)
 	parts := strings.Split(tmp, symbol.PathSeparator)
 
+	// TODO: there could be a bug here.
+	log.InfoLn(&cid, "tmp:", tmp)
+	log.InfoLn(&cid, "parts[1]", parts[1])
+
 	if len(parts) == 0 {
 		j.Event = audit.BadPeerSvid
 		journal.Log(j)

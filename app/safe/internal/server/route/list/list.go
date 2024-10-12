@@ -31,6 +31,11 @@ import (
 func Masked(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
+	log.InfoLn(&cid, "route:Masked")
+	log.InfoLn(&cid, "Masked: Backing store:", env.BackingStoreForSafe())
+	log.InfoLn(&cid, "Masked: Postgres ready:", ioState.PostgresReady())
+	log.InfoLn(&cid, "Masked: entity:", entity.Postgres)
+
 	// If postgres mode enabled and db is not initialized, return error.
 	if env.BackingStoreForSafe() == entity.Postgres && ioState.PostgresReady() {
 		w.WriteHeader(http.StatusServiceUnavailable)
@@ -56,5 +61,7 @@ func Masked(
 func Encrypted(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
+	log.InfoLn(&cid, "route:Encrypted")
+
 	doList(cid, w, r, true)
 }
