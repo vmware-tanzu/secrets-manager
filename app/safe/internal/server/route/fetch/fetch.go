@@ -12,6 +12,8 @@ package fetch
 
 import (
 	"fmt"
+	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"time"
@@ -51,6 +53,20 @@ func Fetch(
 		log.InfoLn(&cid, "Fetch: Root key not set")
 
 		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(
+				&cid,
+				"Status: problem sending response", spiffeid)
+		}
+
+		return
+	}
+
+	if env.BackingStoreForSafe() == data.Postgres &&
+		!io2.PostgresReady() {
+		log.InfoLn(&cid, "Fetch: Postgres not ready")
+		w.WriteHeader(http.StatusServiceUnavailable)
 		_, err := io.WriteString(w, "")
 		if err != nil {
 			log.InfoLn(

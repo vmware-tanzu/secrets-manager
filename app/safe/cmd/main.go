@@ -12,11 +12,7 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"time"
-
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
-
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
@@ -29,30 +25,6 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/core/probe"
 )
-
-func pollForConfig(ctx context.Context, id string) (*SafeConfig, error) {
-	for {
-		log.InfoLn(&id, "Polling for VSecM Safe internal configuration")
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		default:
-			vSecMSafeInternalConfig, err := collection.ReadSecret(id, "vsecm-safe")
-			if err != nil {
-				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration", err.Error())
-			} else if vSecMSafeInternalConfig != nil && len(vSecMSafeInternalConfig.Values) > 0 {
-				var safeConfig SafeConfig
-				err := json.Unmarshal([]byte(vSecMSafeInternalConfig.Values[0]), &safeConfig)
-				if err != nil {
-					log.InfoLn(&id, "Failed to parse VSecM Safe internal configuration", err.Error())
-				} else {
-					return &safeConfig, nil
-				}
-			}
-			time.Sleep(5 * time.Second)
-		}
-	}
-}
 
 func main() {
 	id := crypto.Id()
@@ -71,9 +43,10 @@ func main() {
 	if cEnv.BackingStoreForSafe() == entity.Postgres {
 		go func() {
 			log.InfoLn(&id, "Backing store is postgres.")
-			log.InfoLn(&id, "VSecM Safe will remain read-only until the internal configuration is loaded.")
+			log.InfoLn(&id, "Secrets will be stored in-memory "+
+				"until the internal config is loaded.")
 
-			safeConfig, err := pollForConfig(ctx, id)
+			safeConfig, err := bootstrap.PollForConfig(id, ctx)
 			if err != nil {
 				log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
 			}
@@ -87,6 +60,33 @@ func main() {
 			}
 
 			log.InfoLn(&id, "Database connection initialized.")
+
+			// Persist secrets that have not been persisted yet to Postgres.
+
+			errChan := make(chan error, 1)
+
+			collection.Secrets.Range(func(key any, value any) bool {
+				v := value.(entity.SecretStored)
+
+				io.PersistToPostgres(v, errChan)
+
+				// This will not block since the channel has a buffer of 1.
+				for err := range errChan {
+					if err != nil {
+						log.ErrorLn(&id, "Error persisting secret", err.Error())
+					}
+				}
+
+				return true
+			})
+
+			// Drain any remaining errors from the channel
+			close(errChan)
+			for err := range errChan {
+				if err != nil {
+					log.ErrorLn(&id, "Error persisting secret", err.Error())
+				}
+			}
 		}()
 	}
 

@@ -5,6 +5,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"sync"
+	"sync/atomic"
 
 	_ "github.com/lib/pq"
 
@@ -15,16 +17,46 @@ import (
 	"github.com/vmware-tanzu/secrets-manager/lib/backoff"
 )
 
-var db *sql.DB
+var (
+	db     atomic.Pointer[sql.DB]
+	initMu sync.Mutex
+)
 
 // InitDB initializes the database connection
 func InitDB(dataSourceName string) error {
-	var err error
-	db, err = sql.Open("postgres", dataSourceName)
+	initMu.Lock()
+	defer initMu.Unlock()
+
+	// Check if db is already initialized
+	if db.Load() != nil {
+		return nil
+	}
+
+	newDB, err := sql.Open("postgres", dataSourceName)
 	if err != nil {
 		return err
 	}
-	return db.Ping()
+
+	if err := newDB.Ping(); err != nil {
+		_ = newDB.Close()
+		return err
+	}
+
+	db.Store(newDB)
+	return nil
+}
+
+func PostgresReady() bool {
+	currentDB := db.Load()
+	if currentDB == nil {
+		return false
+	}
+	return currentDB.Ping() == nil
+}
+
+// DB returns the current database connection
+func DB() *sql.DB {
+	return db.Load()
 }
 
 // PersistToPostgres saves a given secret to the Postgres database
@@ -64,17 +96,9 @@ func PersistToPostgres(secret entity.SecretStored, errChan chan<- error) {
 	}
 
 	err = backoff.RetryExponential("PersistToPostgres", func() error {
-		if db == nil {
-			if secret.Name == "vsecm-safe" {
-				// TODO: implement me.
-				log.InfoLn(&cid, "PersistToPostgres: vsecm-safe secret will be persisted after db connection is initialized")
-				return nil
-			}
-			return errors.New("PersistToPostgres: Database connection is nil")
-		}
+		pg := DB()
 
-		// TODO: get table name from env var.
-		_, err := db.Exec(
+		_, err := pg.Exec(
 			`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
 			secret.Name, encryptedData)
 		return err

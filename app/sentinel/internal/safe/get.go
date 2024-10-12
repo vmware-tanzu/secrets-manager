@@ -97,6 +97,13 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		)
 	}
 
+	if r.StatusCode != http.StatusOK {
+		return errors.New(
+			"check: VSecM Safe API endpoint returned an unexpected status: " +
+				r.Status,
+		)
+	}
+
 	defer func(b io.ReadCloser) {
 		if b == nil {
 			return

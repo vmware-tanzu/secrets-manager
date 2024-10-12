@@ -16,6 +16,7 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
+	"time"
 )
 
 // SecretUpsertQueue items are persisted to files. They are buffered, so
@@ -27,6 +28,16 @@ var SecretUpsertQueue = make(
 	chan entity.SecretStored,
 	env.SecretBufferSizeForSafe(),
 )
+
+func pickSecretFromQueue(cid string) entity.SecretStored {
+	// Get a secret to be persisted.
+	secret := <-SecretUpsertQueue
+
+	log.TraceLn(&cid, "ProcessSecretQueue: Will persist to Postgres.",
+		len(SecretUpsertQueue))
+
+	return secret
+}
 
 // ProcessSecretBackingStoreQueue manages a continuous loop that processes
 // secrets from the SecretUpsertQueue, persisting each secret to disk storage.
@@ -58,13 +69,16 @@ func ProcessSecretBackingStoreQueue() {
 			)
 		}
 
+		// Persist the secret.
+		// Each secret is persisted one at a time, with the order they come in.
+		// Do not call this function elsewhere.
+		// It is meant to be called inside this `processSecretQueue` goroutine.
+
 		store := env.BackingStoreForSafe()
 		switch store {
 		case entity.Memory:
 			log.TraceLn(&cid, "ProcessSecretQueue: using in-memory store.")
 			return
-		case entity.File:
-			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to disk.")
 		case entity.Kubernetes:
 			panic("implement kubernetes store")
 		case entity.AwsSecretStore:
@@ -73,40 +87,26 @@ func ProcessSecretBackingStoreQueue() {
 			panic("implement azure secret store")
 		case entity.GcpSecretStore:
 			panic("implement gcp secret store")
+		case entity.File:
+			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to disk.")
+			// This is blocking.
+			io.PersistToDisk(pickSecretFromQueue(cid), errChan)
 		case entity.Postgres:
-			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to Postgres.")
+			if !io.PostgresReady() {
+				log.TraceLn(&cid, "ProcessSecretQueue: Postgres is not ready. Waiting...")
+
+				// Give the loop some time to breathe.
+				// This is to prevent the loop from spinning too fast.
+				time.Sleep(5 * time.Second)
+
+				continue
+			}
+
+			log.TraceLn(&cid, "ProcessSecretQueue: Postgres is ready. Persisting...")
+			// This is blocking.
+			io.PersistToPostgres(pickSecretFromQueue(cid), errChan)
 		}
 
-		// TODO: will definitely need cleanup.
-
-		// Get a secret to be persisted to the disk.
-		secret := <-SecretUpsertQueue
-
-		cid := secret.Meta.CorrelationId
-
-		log.TraceLn(
-			&cid,
-			"processSecretQueue: picked a secret",
-			len(SecretUpsertQueue),
-		)
-
-		// Persist the secret to disk.
-		//
-		// Each secret is persisted one at a time, with the order they
-		// come in.
-		//
-		// Do not call this function elsewhere.
-		// It is meant to be called inside this `processSecretQueue` goroutine.
-		if store == entity.Postgres {
-
-			// TODO: for debugging; delete values before merging.
-			log.TraceLn(&cid, "Persisting to Postgres.", secret.Name)
-			io.PersistToPostgres(secret, errChan)
-		} else {
-			io.PersistToDisk(secret, errChan)
-		}
-
-		log.TraceLn(&cid,
-			"processSecretQueue: should have persisted the secret.")
+		log.TraceLn(&cid, "processSecretQueue: should have persisted the secret.")
 	}
 }
