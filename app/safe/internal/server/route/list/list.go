@@ -21,6 +21,24 @@ import (
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
+// TODO: move to a proper place.
+func checkDatabaseReadiness(cid string, w http.ResponseWriter) bool {
+
+	// If postgres mode enabled and db is not initialized, return error.
+	// TODO: there is code duplication; all such code MUST call this function instead.
+	if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		_, err := io.WriteString(w, val.NotOk)
+		if err != nil {
+			log.ErrorLn(&cid, "error writing response", err.Error())
+		}
+		log.InfoLn(&cid, "Secret: Database not initialized")
+		return false
+	}
+
+	return true
+}
+
 // Masked returns all registered workloads to the system with some metadata
 // that is secure to share. For example, it returns secret names but not values.
 //
@@ -36,14 +54,7 @@ func Masked(
 	log.InfoLn(&cid, "Masked: Postgres ready:", ioState.PostgresReady())
 	log.InfoLn(&cid, "Masked: entity:", entity.Postgres)
 
-	// If postgres mode enabled and db is not initialized, return error.
-	if env.BackingStoreForSafe() == entity.Postgres && !ioState.PostgresReady() {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_, err := io.WriteString(w, val.NotOk)
-		if err != nil {
-			log.ErrorLn(&cid, "error writing response", err.Error())
-		}
-		log.InfoLn(&cid, "Secret: Database not initialized")
+	if !checkDatabaseReadiness(cid, w) {
 		return
 	}
 
