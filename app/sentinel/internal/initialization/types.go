@@ -48,7 +48,7 @@ type Logger interface {
 // SafeOps is an interface for the Safe operations that the Sentinel needs
 // to perform.
 type SafeOps interface {
-	Check(ctx context.Context, src *workloadapi.X509Source) error
+	Check(ctx context.Context, src *workloadapi.X509Source) (int, string, error)
 	CheckInitialization(ctx context.Context,
 		src *workloadapi.X509Source) (bool, error)
 	Post(ctx context.Context, sc entity.SentinelCommand) error

@@ -44,7 +44,12 @@ func (i *Initializer) ensureApiConnectivity(ctx context.Context, cid *string) {
 					"RunInitCommands:CheckConnectivity"+
 						": acquired source successfully")
 
-				if err := i.Safe.Check(ctx, src); err != nil {
+				code, body, err := i.Safe.Check(ctx, src)
+
+				i.Logger.TraceLn(cid, "RunInitCommands:CheckConnectivity",
+					"code:", code, "body:", body, "err?", err != nil)
+
+				if err != nil {
 					i.Logger.TraceLn(cid,
 						"RunInitCommands:CheckConnectivity: "+
 							"failed to verify connection to safe:", err.Error())

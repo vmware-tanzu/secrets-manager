@@ -92,7 +92,7 @@ type SafeClient struct{}
 
 // Check performs a check operation using the provided context and X509Source.
 func (SafeClient) Check(ctx context.Context,
-	src *workloadapi.X509Source) error {
+	src *workloadapi.X509Source) (int, string, error) {
 	return safe.Check(ctx, src)
 }
 
