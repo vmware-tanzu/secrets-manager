@@ -27,8 +27,6 @@ import (
 func Watch() {
 	interval := env.PollIntervalForSidecar()
 
-	fmt.Println("in watch: interval", interval)
-
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {
 		panic("Unable to create a secure correlation id.")
