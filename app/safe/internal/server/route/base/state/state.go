@@ -11,6 +11,8 @@
 package state
 
 import (
+	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 
@@ -41,6 +43,21 @@ func Upsert(secretToStore entity.SecretStored,
 	appendValue bool, workloadId string, cid string,
 	j entity.JournalEntry, w http.ResponseWriter,
 ) {
+	// If the secret is not internal VSecM Safe configuration secret and
+	// if db persistence is enabled, and the db is not ready,
+	// then respond with an error.
+	if secretToStore.Name != "vsecm-safe" &&
+		env.BackingStoreForSafe() == entity.Postgres &&
+		!io2.PostgresReady() {
+		log.InfoLn(&cid, "Secret: DB not ready. Responding with error.")
+		w.WriteHeader(http.StatusInternalServerError)
+		_, err := io.WriteString(w, "DB not ready")
+		if err != nil {
+			log.InfoLn(&cid, "Secret: Problem sending response", err.Error())
+		}
+		return
+	}
+
 	collection.UpsertSecret(secretToStore, appendValue)
 	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
 

@@ -18,6 +18,7 @@ import (
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/extract"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/handle"
+	rv "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
@@ -58,6 +59,10 @@ func Fetch(
 				"Status: problem sending response", spiffeid)
 		}
 
+		return
+	}
+
+	if !rv.CheckDatabaseReadiness(cid, w) {
 		return
 	}
 

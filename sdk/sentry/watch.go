@@ -11,7 +11,6 @@
 package sentry
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/vmware-tanzu/secrets-manager/sdk/core/env"
@@ -49,7 +48,6 @@ func Watch() {
 			Exponential: false,
 		})
 
-		fmt.Println("will sleep for interval:", interval)
 		time.Sleep(interval)
 	}
 }

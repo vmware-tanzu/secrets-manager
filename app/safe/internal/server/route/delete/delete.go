@@ -57,6 +57,10 @@ func Delete(
 		return
 	}
 
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
+
 	j := entity.JournalEntry{
 		CorrelationId: cid,
 		Method:        r.Method,

@@ -47,11 +47,11 @@ import (
 //     HTTP request to the VSecM Safe API endpoint, or the response body cannot
 //     be read. The error includes a descriptive message indicating the nature
 //     of the failure.
-func Check(ctx context.Context, source *workloadapi.X509Source) error {
+func Check(ctx context.Context, source *workloadapi.X509Source) (int, string, error) {
 	cid := ctx.Value(key.CorrelationId).(*string)
 
 	if source == nil {
-		return errors.New("check: workload source is nil")
+		return -1, "", errors.New("check: workload source is nil")
 	}
 
 	authorizer := tlsconfig.AdaptMatcher(func(id spiffeid.ID) error {
@@ -68,7 +68,7 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 
 	p, err := url.JoinPath(env.EndpointUrlForSafe(), safeUrl)
 	if err != nil {
-		return errors.Join(
+		return -1, "", errors.Join(
 			err,
 			fmt.Errorf(
 				"check: I am having problem generating"+
@@ -87,13 +87,20 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 
 	r, err := client.Get(p)
 	if err != nil {
-		return errors.Join(
+		return -1, "", errors.Join(
 			err,
 			fmt.Errorf(
 				"check: Problem connecting to"+
 					" VSecM Safe API endpoint URL: %s\n",
 				safeUrl,
 			),
+		)
+	}
+
+	if r.StatusCode != http.StatusOK {
+		return r.StatusCode, "", errors.New(
+			"check: VSecM Safe API endpoint returned an unexpected status: " +
+				r.Status,
 		)
 	}
 
@@ -107,15 +114,15 @@ func Check(ctx context.Context, source *workloadapi.X509Source) error {
 		}
 	}(r.Body)
 
-	_, err = io.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		return errors.Join(
+		return r.StatusCode, "", errors.Join(
 			err,
 			errors.New("check: Unable to read the response body from VSecM Safe"),
 		)
 	}
 
-	return nil
+	return r.StatusCode, string(body), nil
 }
 
 // Get retrieves secrets from a VSecM Safe API endpoint based on the context and

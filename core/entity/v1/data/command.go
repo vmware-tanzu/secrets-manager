@@ -18,6 +18,15 @@ type VSecMInternalCommand struct {
 	LogLevel int `json:"logLevel"`
 }
 
+// VSecMSafeInternalConfig is the configuration of VSecM Safe that
+// set up the backing store and data source name.
+type VSecMSafeInternalConfig struct {
+	Config struct {
+		BackingStore   string `json:"backingStore"`
+		DataSourceName string `json:"dataSourceName"`
+	} `json:"config"`
+}
+
 // SentinelCommand is the command that VSecM Sentinel uses to perform
 // REST API operations on VSecM Safe.
 type SentinelCommand struct {

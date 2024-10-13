@@ -87,7 +87,7 @@ func WorkloadIsRunning() error {
 	// Fetch all pods in the 'default' namespace and count how many are in
 	// 'Running' status for the defined workload.
 	cmdOutput, err := io.Exec("kubectl", "get", "po", "-n", "default", "-o",
-		"jsonpath={.items[*].status.phase}")
+		"jsonpath={.items[*].status.phase}", "-l", "app.kubernetes.io/instance!=my-postgres")
 	if err != nil {
 		return errors.Join(
 			err,
@@ -97,12 +97,13 @@ func WorkloadIsRunning() error {
 
 	// Count how many times 'Running' appears in the command output.
 	podCount := strings.Count(cmdOutput, "Running")
+
 	if podCount == 0 {
 		return errors.New("WorkloadIsRunning: No running pods found")
 	}
 
 	if podCount != 1 {
-		return fmt.Errorf("Expected 1 running pod for workload, found %d", podCount)
+		return fmt.Errorf("expected 1 running pod for workload, found %d", podCount)
 	}
 
 	return nil

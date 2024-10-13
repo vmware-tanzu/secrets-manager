@@ -15,7 +15,10 @@ weight = 11
 
 ## Recent Changes
 
-TBD.
+* Added postgreSQL support as a backing store to VSecM Safe.
+* Fixed a bug that affected the polling interval to be faster than normal
+  in VSecM Sidecar.
+* Security Update: `https://github.com/vmware-tanzu/secrets-manager/pull/1166`
 
 ## [0.27.3] - 2024-10-03
 

@@ -18,8 +18,9 @@ COPY lib /build/lib
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build
-RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux go build -mod vendor -a -o vsecm-relay-client \
-    ./app/relay-client/cmd/main.go
+RUN CGO_ENABLED=0 GOEXPERIMENT=boringcrypto GOOS=linux \
+  go build -mod vendor -a -o vsecm-relay-client \
+  ./app/relay-client/cmd/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11

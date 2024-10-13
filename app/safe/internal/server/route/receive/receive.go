@@ -61,6 +61,10 @@ func Keys(cid string, r *http.Request, w http.ResponseWriter) {
 		return
 	}
 
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
+
 	log.DebugLn(&cid, "Keys: sentinel spiffeid:", spiffeid)
 
 	body, _ := httq.ReadBody(cid, r)

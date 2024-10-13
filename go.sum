@@ -91,8 +91,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
-github.com/vmware-tanzu/secrets-manager/sdk v0.27.0 h1:pCm+3jzVvhKR9EI/Rg3IEEZ8rqBN7Z0K7H7JeYHgaIA=
-github.com/vmware-tanzu/secrets-manager/sdk v0.27.0/go.mod h1:qvFAX0EtNV1DbClJmMiPl6lsctRe6Wx83IvUq+aHNWo=
+github.com/vmware-tanzu/secrets-manager/sdk v0.27.3-r1 h1:OpOWAlfTh6Jed/ufAD5Zm3tDSyqPEl+CD/urvjrBqag=
+github.com/vmware-tanzu/secrets-manager/sdk v0.27.3-r1/go.mod h1:235pNpaqLpvc6oAE1mbDoDTRRcksqcFa8AjXb+Khyuk=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/zeebo/errs v1.3.0 h1:hmiaKqgYZzcVgRL1Vkc1Mn2914BbzB0IBxs+ebeutGs=

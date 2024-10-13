@@ -11,11 +11,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	env3 "github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/system"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
+	"os"
 )
 
 func main() {
@@ -28,6 +31,11 @@ func main() {
 		string(env.VSecMLogLevel),
 	}
 	log.PrintEnvironmentInfo(&id, envVarsToPrint)
+
+	fmt.Println("-----")
+	fmt.Println("Environment info", env3.PollIntervalForSidecar())
+	fmt.Println("env", os.Getenv("VSECM_SIDECAR_POLL_INTERVAL"))
+	fmt.Println("-----")
 
 	// Periodically update secret values:
 	go sentry.Watch()

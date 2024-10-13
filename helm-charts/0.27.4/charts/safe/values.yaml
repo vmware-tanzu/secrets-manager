@@ -80,7 +80,7 @@ environments:
   # "gcp-secret", "k8s". Currently, only "memory", "postgres", and "file"
   # are supported.
   - name: VSECM_SAFE_BACKING_STORE
-    value: "file" #
+    value: "file"
   # -- The interval (in milliseconds) that the VSecM Safe will wait during
   # bootstrapping before it bails out.
   - name: VSECM_SAFE_BOOTSTRAP_TIMEOUT

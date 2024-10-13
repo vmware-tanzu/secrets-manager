@@ -11,7 +11,13 @@
 package list
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
 	"net/http"
+
+	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 // Masked returns all registered workloads to the system with some metadata
@@ -24,6 +30,15 @@ import (
 func Masked(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
+	log.InfoLn(&cid, "route:Masked")
+	log.InfoLn(&cid, "Masked: Backing store:", env.BackingStoreForSafe())
+	log.InfoLn(&cid, "Masked: Postgres ready:", ioState.PostgresReady())
+	log.InfoLn(&cid, "Masked: entity:", entity.Postgres)
+
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
+
 	doList(cid, w, r, false)
 }
 
@@ -38,5 +53,11 @@ func Masked(
 func Encrypted(
 	cid string, r *http.Request, w http.ResponseWriter,
 ) {
+	log.TraceLn(&cid, "route:Encrypted")
+
+	if !validation.CheckDatabaseReadiness(cid, w) {
+		return
+	}
+
 	doList(cid, w, r, true)
 }
