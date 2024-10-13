@@ -51,6 +51,8 @@ func verifyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
+	// https://github.com/vmware-tanzu/secrets-manager
+
 	// Parse JSON data
 	err = json.Unmarshal(body, &data)
 	if err != nil {
@@ -94,6 +96,7 @@ var (
 
 	aesKey []byte // Store the AES key generated in getEncryptedDataHandler
 
+	storedMessage []byte
 )
 
 func nonceHandler(w http.ResponseWriter, r *http.Request) {
@@ -135,6 +138,8 @@ func nonceHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func init() {
+	storedMessage = []byte("This is a secret message")
+
 	//// Generate the server's key pair
 	//var err error
 	//serverSignPublicKey, serverSignPrivateKey, err = ed25519.GenerateKey(rand.Reader)
@@ -273,7 +278,7 @@ func getEncryptedDataHandler(w http.ResponseWriter, r *http.Request) {
 	encryptedAESKey := box.Seal(nil, aesKey, &nonceAESKey, &clientKeys.BoxPublicKey, &serverBoxPrivateKey)
 
 	// Encrypt message using AES key
-	message := []byte("This is a secret message")
+	message := storedMessage
 	block, err := aes.NewCipher(aesKey)
 	if err != nil {
 		http.Error(w, "Failed to create cipher", http.StatusInternalServerError)
@@ -425,6 +430,8 @@ func receiveEncryptedDataHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decrypt message", http.StatusBadRequest)
 		return
 	}
+
+	storedMessage = plaintext
 
 	// Process the decrypted message
 	fmt.Println("Decrypted message from client:", string(plaintext))

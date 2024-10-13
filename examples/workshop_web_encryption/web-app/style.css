@@ -1,0 +1,47 @@
+* {
+    margin: 0; padding: 0;
+}
+
+h1, h2 {
+    padding: 1em 0 0 1em;
+}
+
+body {
+    color: #ffffff;
+    background: #00151D;
+    font-family: MonoLisa, monospace;
+}
+
+.app-payload {
+    margin: 20px;
+    width: calc(100% - 60px);
+    max-width: 800px;
+    background: #2e3440;
+    color: #DDC755;
+    padding: 10px;
+}
+
+.app-payload {
+    field-sizing: content;
+}
+
+.app-response {
+    margin: 20px;
+    padding: 10px;
+    background: #002B36;
+    border-radius: 5px;
+    text-wrap: wrap;
+    word-break: break-all;
+}
+
+.btn-action {
+    padding: 10px;
+    margin: 20px;
+    width: calc(100% - 60px);
+    background: #DDC755;
+    color: #000000;
+}
+
+.btn-action:hover {
+    background: #FFD700;
+}
