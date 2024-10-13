@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super Secret Web App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h2><label for="payload-txt">Payload</label></h2>
+
+<textarea id="payload-txt" class="app-payload">
+{
+  "secrets: [
+    {"accessKey": "very-very-secret-key",
+    "jwt": "jwt-totally-valid-jwt",
+    "username": "root",
+    "password: "super-secret-password"}
+  ],
+  "meta": {
+    "storeName": "storeName",
+    "scope: "org",
+    "clusters": ["azmodan", "baal"]
+   }
+}
+</textarea>
+
+<input type="button" class="btn-action" id="encrypt-btn" value="Encrypt and Send">
+
+<h2>Response</h2>
+
+<pre class="app-response" id="encrypted-response-txt">
+encrypted response will be here.
+</pre>
+
+<input type="button" class="btn-action" id="decrypt-btn" value="Decrypt">
+
+<pre class="app-response" id="decrypted-response-txt">
+decrypted response will be here.
+</pre>
+</main>
+
+<script src="/lib/nacl.js"></script>
+<script src="/lib/nacl-util.js"></script>
+<script src="/lib/aes.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
