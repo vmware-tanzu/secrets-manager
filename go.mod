@@ -19,6 +19,8 @@ require (
 	k8s.io/client-go v0.30.0
 )
 
+replace github.com/vmware-tanzu/secrets-manager/sdk => ./sdk
+
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
