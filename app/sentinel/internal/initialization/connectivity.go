@@ -77,13 +77,13 @@ func (i *Initializer) ensureApiConnectivity(ctx context.Context, cid *string) {
 
 		i.Logger.ErrorLn(cid, "All retries exhausted. Last error:", err.Error())
 		i.Logger.InfoLn(cid, "Entering extended retry mode. "+
-			"Will attempt again in 5 minutes.")
+			"Will attempt again in 1 minute.")
 
 		select {
 		case <-ctx.Done():
 			i.Logger.WarnLn(cid, "Context canceled, stopping retry attempts")
 			return
-		case <-time.After(5 * time.Minute):
+		case <-time.After(1 * time.Minute):
 			i.Logger.InfoLn(cid, "Resuming connectivity check after extended wait")
 		}
 	}
