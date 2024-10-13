@@ -9,7 +9,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/spiffe/go-spiffe/v2 v2.3.0
 	github.com/stretchr/testify v1.9.0
-	github.com/vmware-tanzu/secrets-manager/sdk v0.27.0
+	github.com/vmware-tanzu/secrets-manager/sdk v0.27.3-r1
 	golang.org/x/text v0.17.0
 	google.golang.org/grpc v1.66.0
 	google.golang.org/protobuf v1.34.2
@@ -18,8 +18,6 @@ require (
 	k8s.io/apimachinery v0.30.0
 	k8s.io/client-go v0.30.0
 )
-
-replace github.com/vmware-tanzu/secrets-manager/sdk => ./sdk
 
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
