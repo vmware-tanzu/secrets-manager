@@ -11,6 +11,9 @@
 package sentry
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/vmware-tanzu/secrets-manager/sdk/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/sdk/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/sdk/lib/backoff"
@@ -24,6 +27,8 @@ import (
 // variable (`/opt/vsecm/secrets.json` by default).
 func Watch() {
 	interval := env.PollIntervalForSidecar()
+
+	fmt.Println("in watch: interval", interval)
 
 	cid, _ := crypto.RandomString(8)
 	if cid == "" {
@@ -43,5 +48,8 @@ func Watch() {
 			Delay:       interval,
 			Exponential: false,
 		})
+
+		fmt.Println("will sleep for interval:", interval)
+		time.Sleep(interval)
 	}
 }
