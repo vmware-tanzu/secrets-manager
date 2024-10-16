@@ -45,11 +45,11 @@ bundle-all: \
 	sentinel-bundle-ist \
 	sentinel-bundle-ist-fips \
 	init-container-bundle-ist \
-	init-container-bundle-ist-fips \
-	relay-client-bundle-ist \
-	relay-client-bundle-ist-fips \
-	relay-server-bundle-ist \
-	relay-server-bundle-ist-fips
+	init-container-bundle-ist-fips
+#	relay-client-bundle-ist \
+#	relay-client-bundle-ist-fips \
+#	relay-server-bundle-ist \
+#	relay-server-bundle-ist-fips
 
 push-all: \
 	inspector-push \
