@@ -1,0 +1,197 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    helm.sh/chart: {{ include "spire.chart" . }}
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: server
+spec:
+  replicas: 1
+  serviceName: spire-server
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: server
+      app.kubernetes.io/instance: spire
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: spire-server
+        checksum/config: 83dddc7bb9f54b5059533228971826c0585045b7c4afb17635ede1e7ef6c1e35
+        checksum/config2: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/config3: 9742ccbbd63b5da94e50bc34b73c946f254110b1f94fbc4ac437b3bba15cefe8
+        checksum/configTornjak: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+      labels:
+        app.kubernetes.io/name: server
+        app.kubernetes.io/instance: spire
+        app.kubernetes.io/component: server
+        component: server
+        release: spire
+        release-namespace: {{ .Values.global.spire.serverNamespace }}
+    spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+
+      serviceAccountName: spire-server
+      shareProcessNamespace: true
+      securityContext:
+{{- if .Values.global.enableOpenShift }}
+        fsGroupChangePolicy: OnRootMismatch
+{{- else }}
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+{{- end }}
+
+      priorityClassName: system-cluster-critical
+      containers:
+        - name: spire-server
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: "{{ .Values.global.images.spireServer.repository }}:{{ .Values.global.images.spireServer.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireServer.pullPolicy }}
+          args:
+            - -expandEnv
+            - -config
+            - {{ .Values.spireServer.configDir }}/server.conf
+          env:
+            - name: PATH
+              value: "/opt/spire/bin:/bin"
+          ports:
+            - name: grpc
+              containerPort: 8081
+              protocol: TCP
+            - containerPort: 8080
+              name: healthz
+            - containerPort: 9988
+              name: prom
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: healthz
+            failureThreshold: 2
+            initialDelaySeconds: 15
+            periodSeconds: 60
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: {{ .Values.spireServer.privateSocketDir}}
+              readOnly: false
+            - name: spire-config
+              mountPath: {{ .Values.spireServer.configDir }}
+              readOnly: true
+            - name: spire-data
+              mountPath: {{ .Values.spireServer.dataDir }}
+              readOnly: false
+            - name: server-tmp
+              mountPath: /tmp
+              readOnly: false
+
+        - name: spire-controller-manager
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: "{{ .Values.global.images.spireControllerManager.repository }}:{{ .Values.global.images.spireControllerManager.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireControllerManager.pullPolicy }}
+          args:
+            - --config=controller-manager-config.yaml
+          env:
+            - name: ENABLE_WEBHOOKS
+              value: "true"
+          ports:
+            - name: https
+              containerPort: 9443
+              protocol: TCP
+            - containerPort: 8083
+              name: healthz
+            - containerPort: 8082
+              name: prom-cm
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+          resources:
+            {}
+          volumeMounts:
+            - name: spire-server-socket
+              mountPath: {{ .Values.spireServer.privateSocketDir }}
+              readOnly: true
+            - name: controller-manager-config
+              mountPath: /controller-manager-config.yaml
+              subPath: controller-manager-config.yaml
+              readOnly: true
+            - name: spire-controller-manager-tmp
+              mountPath: /tmp
+              subPath: spire-controller-manager
+              readOnly: false
+      volumes:
+        - name: server-tmp
+          emptyDir: {}
+        - name: spire-config
+          configMap:
+            name: spire-server
+        - name: spire-server-socket
+          emptyDir: {}
+        - name: spire-controller-manager-tmp
+          emptyDir: {}
+        - name: controller-manager-config
+          configMap:
+            name: spire-controller-manager
+  {{- if .Values.data.persistent }}
+  # noinspection KubernetesUnknownKeys
+  volumeClaimTemplates:
+    - metadata:
+        name: spire-data
+      spec:
+        accessModes:
+          - {{ .Values.data.persistentVolumeClaim.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.data.persistentVolumeClaim.size }}
+        {{- if .Values.data.persistentVolumeClaim.storageClass }}
+        storageClassName: {{ .Values.data.persistentVolumeClaim.storageClass }}
+        {{- end }}
+  {{- end }}

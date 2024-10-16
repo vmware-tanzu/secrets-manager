@@ -1,0 +1,31 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# ClusterRole to allow spire-server node attestor to query Token Review API
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: spire-server-spire-server
+rules:
+{{- if .Values.global.enableOpenShift }}
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get"]
+  - apiGroups: ["authentication.k8s.io"]
+    resources: ["tokenreviews"]
+    verbs: ["get", "create"]
+{{- else }}
+  - apiGroups: [""]
+    resources: [nodes, pods]
+    verbs: ["get", "list"]
+  - apiGroups: [authentication.k8s.io]
+    resources: [tokenreviews]
+    verbs: ["get", "watch", "list", "create"]
+{{- end }}

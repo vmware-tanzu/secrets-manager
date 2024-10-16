@@ -1,0 +1,77 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spire-server-pre-upgrade
+  namespace: {{ .Values.global.spire.serverNamespace }}
+  labels:
+    helm.sh/chart: {{ include "spire.chart" . }}
+    app.kubernetes.io/name: server
+    app.kubernetes.io/instance: spire
+    app.kubernetes.io/version: "1.9.6"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded, hook-failed
+spec:
+  template:
+    metadata:
+      name: spire-server-pre-upgrade
+    spec:
+{{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
+
+      restartPolicy: Never
+      serviceAccountName: spire-server-pre-upgrade
+      securityContext:
+{{- if .Values.global.enableOpenShift }}
+        fsGroupChangePolicy: OnRootMismatch
+{{- else }}
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 1000
+        runAsUser: 1000
+{{- end }}
+      containers:
+        - name: post-install-job
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          image: "{{ .Values.global.images.spireHelperKubectl.repository }}:{{ .Values.global.images.spireHelperKubectl.tag }}"
+          imagePullPolicy: {{ .Values.global.images.spireHelperKubectl.pullPolicy }}
+          args:
+            - patch
+            - validatingwebhookconfiguration
+            - spire-server-spire-controller-manager-webhook
+            - --type=strategic
+            - -p
+            - |
+              {
+                "webhooks":[
+                  {
+                    "name":"vclusterspiffeid.kb.io",
+                    "failurePolicy":"Ignore"
+                  },
+                  {
+                    "name":"vclusterfederatedtrustdomain.kb.io",
+                    "failurePolicy":"Ignore"
+                  }
+                ]
+              }
