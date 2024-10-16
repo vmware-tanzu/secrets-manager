@@ -46,21 +46,21 @@ global:
     keystone:
       distrolessRepository: vsecm-ist-keystone
       distrolessFipsRepository: vsecm-ist-fips-keystone
-      tag: 0.27.4
+      tag: 0.28.0
       pullPolicy: IfNotPresent
     safe:
       distrolessRepository: vsecm-ist-safe
       distrolessFipsRepository: vsecm-ist-fips-safe
-      tag: 0.27.4
+      tag: 0.28.0
       pullPolicy: IfNotPresent
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
       distrolessFipsRepository: vsecm-ist-fips-sentinel
-      tag: 0.27.4
+      tag: 0.28.0
       pullPolicy: IfNotPresent
     initContainer:
       repository: vsecm-ist-init-container
-      tag: 0.27.4
+      tag: 0.28.0
     spireAgent:
       repository: ghcr.io/spiffe/spire-agent
       tag: 1.9.4
