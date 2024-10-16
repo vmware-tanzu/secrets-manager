@@ -15,10 +15,24 @@ weight = 11
 
 ## Recent Changes
 
-* Added postgreSQL support as a backing store to VSecM Safe.
+TBD
+
+## [0.28.0] - 2024-10-05
+
+### Added
+
+* Added PostgreSQL support as a backing store to VSecM Safe.
 * Fixed a bug that affected the polling interval to be faster than normal
   in VSecM Sidecar.
-* Security Update: `https://github.com/vmware-tanzu/secrets-manager/pull/1166`
+* Added use case examples on SPIFFE federation and Web Crypto API.
+* Initiated a PoC VSecM Relay Client and VSecM Relay Server to enable
+  cross-cluster secret sharing.
+
+### Security
+
+* Fixed GHSA-xr7q-jx4m-x55m [Private tokens could appear in logs if context 
+  containing gRPC metadata is logged in 
+  github.com/grpc/grpc-go](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/22)
 
 ## [0.27.3] - 2024-10-03
 
