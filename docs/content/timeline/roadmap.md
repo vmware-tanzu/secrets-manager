@@ -31,232 +31,251 @@ this page, and also [the changelog](@/timeline/changelog.md) to reflect the chan
 
 ## Active Iterations
 
-### VSecM v0.28.0 (*codename: Hydra*)
-
-**Jun 29, 2024 - Sep 30, 2024**
-
-This iteration is about increasing coverage. We will focus on
-unit tests.
-
-Our goal is to reach at least 50% coverage.
-
-In addition, we are targeting to fix certain low-hanging bugs and improve 
-stability. 
-
-[Here is a list of issues that are candidate for VSecM vHydra](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.28.0-candidate+).
-
 ### VSecM v0.29.0 (*codename: Indus*)
 
-**Oct 01, 2024 - Oct 28, 2024**
+**Oct 16, 2024 - Jan, 31, 2025**
 
-In this iteration, we will focus on adding use cases and tutorials, along with
-any stability and security improvement that may come our way.
+This iteration focuses on several enhancements and fixes aimed at improving 
+flexibility and security. Key areas include:
+
+* Introducing secret kind ‘raw’ for external operators.
+* Enhancements to VSecM Sentinel with nested encryption.
+* Removing autoscaling from Helm charts.
+* Configuring sleep intervals for better resource control.
+* Improving PostgreSQL table configurations via environment variables.
+* Utilizing Web Crypto API for secure secret relay.
+* Additionally, we are addressing good first issues like increasing test 
+  coverage and optimizing the landing page CSS.
 
 [Here is a list of issues that are candidate for VSecM vIndus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.29.0-candidate+).
 
 ### VSecM v0.30.0 (*codename: Lupus*)
 
-**Oc 29, 2024 - Nov 25, 2024**
+**Feb 01, 2025 - Feb 28, 2025**
 
-This iteration will be about adding more features that may be immediately
-useful around **VSecM Sentinel** CLI.
+This iteration focuses on several key features and enhancements:
 
-[Here is a list of issues that are candidate for VSecM vLupus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.30.0-candidate+).
+* Fetching data in the GoLang SDK using a `jq` filter.
+* Better support for secret versioning.
+* A new hub-spoke secrets relay architecture.
+* Adding multi-tenancy capabilities.
+* Integration tests and in-memory persistence improvements.
+* New video tutorials and updated documentation for clarity.
+
+The goal is to solidify multi-tenancy, streamline secret handling, and 
+improve system stability through better testing and documentation.
+
+[Here is a list of issues that are candidate for VSecM 
+vLupus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.30.0-candidate+).
 
 ### VSecM v0.31.0 (*codename: Mensa*)
 
-**Nov 26, 2024 - Jan 6, 2025**
+**Mar 01, 2025 - Apr 11, 2025**
 
-This iteration is about SDKs and KMS integration.
+This iteration focuses on enhancing security and user-requested features:
 
-[Here is a list of issues that are candidate for VSecM vMensa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.31.0-candidate+).
+* Audit logging and log streaming.
+* Rate limiting to control access.
+* Hierarchical secrets management and better root key support from external users.
+* A `/purge` API to remove orphaned secret backups.
+* Features like secret versioning, ACL for secret access, and storing large 
+  Kubeconfig files.
+* Several CLI enhancements for improved usability.
+* Enhanced support for Java SDK, alongside multi-tenancy and operator-specific 
+  encryption capabilities.
+
+[Here is a list of issues that are candidate for VSecM 
+vMensa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.31.0-candidate+).
 
 ### VSecM v0.32.0 (*codename: Norma*)
 
-**Jan 07, 2024 - Feb 03, 2024**
+**Apr 12, 2025 - May 09, 2025**
 
-The overall theme of this iteration is issues labeled as enhancing the system's 
-scalability, high availability (HA), and integration capabilities. Key areas of 
-focus include improving HA modes for various components, enabling state 
-federation and synchronization with external storage systems, enhancing 
-documentation, and expanding the flexibility of key management through integration 
-with cloud Key Management Services (KMS) and databases. 
+This iteration brings major enhancements for system security and SDK expansion:
 
-These efforts aim to make VMware Secrets Manager more robust, reliable, 
-and easier to integrate with other systems and environments.
+* Development of a UI for VSecM Sentinel leveraging OIDC functionality.
+* Introduction of user auditing capabilities in Sentinel.
+* New SDKs in Rust and Python.
+* Enhancements for SPIRE Helm charts, supporting x509 node attestation.
+* Optional support for AWS KMS for master key storage.
+* Consideration of Redis as a memory backing store for VSecM Safe.
 
-This iteration is about visibility and metrics. We'll create a `/stats` and a
-`/health` endpoint for **VSecM Safe** among other observability improvements.
+These improvements focus on expanding SDKs, improving audit capabilities, and 
+integrating new storage options.
 
 [Here is a list of issues that are candidate for VSecM vNorma](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.32.0-candidate+).
 
 ### VSecM v0.33.0 (*codename: Orion*)
 
-**Feb 04, 2024 - Mar 03, 2024**
+**May 10, 2025 - Jun 06, 2025**
 
-This iteration is centered around enhancing the system's capabilities in high 
-availability, scalability, and integration. Key areas include:
+This iteration focuses on improving security, scalability, and coverage:
 
-* **High Availability (HA)**: Demonstrating and improving HA modes for various 
-  components like SPIRE and VSecM.
-* **Federation and State Management**: Implementing federation of the identity
-  control plane and considering state federation for VSecM.
-* **Storage and Synchronization**: Enhancing the flexibility of key management 
-  by enabling the use of external storage solutions, such as separate VSecM Safe 
-  instances, cloud Key Management Services (KMS), databases, and persistent 
-  volumes, with a focus on two-way synchronization.
-* **Documentation and Usability**: Improving documentation for various features 
-  and providing better configuration options in Helm charts.
+* ClusterSPIFFEID management added to Sentinel.
+* RBAC/ABAC policy support for enhanced access control.
+* Scalability improvements with multiple VSecM Safe instances.
+* 60% test coverage target across the project.
+* New hashing of log lines to prevent tampering and increase security.
+* Documentation on federating identity control planes for VSecM.
+
+These enhancements aim to solidify security, scalability, and manageability 
+while enhancing project test coverage.
 
 [Here is a list of issues that are candidate for VSecM vOrion](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.33.0-candidate+).
 
 ### VSecM v0.34.0 (*codename: Perseus*)
 
-**Mar 04, 2024 - Mar 31, 2025**
+**Jun 07, 2025 - Jul 04, 2025**
 
-This iteration centers on enhancing the system's scalability, high availability, 
-and integration capabilities. Key areas include:
+This iteration emphasizes enhancements around Helm charts and key management for SPIRE:
 
-* **High Availability (HA)**: Enhancing HA modes for components like SPIRE and 
-  VSecM to ensure system reliability.
-* **Federation and State Management**: Implementing federation for identity 
-  control and state management to improve scalability and integration with other 
-  systems.
-* **Storage and Synchronization**: Increasing flexibility in key management by 
-  enabling external storage solutions such as cloud KMS, databases, and 
-  persistent volumes, along with ensuring two-way synchronization.
-* **Helm Charts Customization**: Providing extensive customization options in 
-  Helm charts for SPIRE server and agents, including the ability to use 
-  different data stores, key managers, and telemetry configurations.
-* **Documentation and User Requests**: Improving documentation for better 
-  usability and addressing user requests for new features such as stats and 
-  health endpoints, and key rotation capabilities.
+* Support for key rotation.
+* Expanded Helm chart capabilities, including customizing node attestors, 
+  key managers, and data stores for both SPIRE server and agent.
+* Configurable options for telemetry and federation in SPIRE.
+* Key storage on persistent volumes (PVs) and custom upstream authorities.
+* Focus on integrating SSH node attestation and improving system resilience via 
+  retry logic.
+* These changes aim to enhance flexibility, security, and scalability in managing 
+  SPIRE deployments.
 
-[Here is a list of issues that are candidate for VSecM vPerseus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.34.0-candidate+).
+[Here is a list of issues that are candidate for VSecM 
+vPerseus](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.34.0-candidate+).
 
 ### VSecM v0.35.0 (*codename: Reticulum*)
 
-**Apr 01, 2024 - Apr 28, 2025**
+**Jul 05, 2025 - Aug 01, 2025**
 
-This iteration aims at enhancing security, workflow, and documentation. 
-The open issues include:
+This release emphasizes improved flexibility and synchronization for key and 
+secret management:
 
-* **Security Enhancements**: Use a separate VSecM Safe to store root keys instead of  
-  a Kubernetes secret, improving security by isolating critical keys from the 
-  main application infrastructure.
+* Support for VSecM Safe as an alternative to the in-memory store, with two-way 
+  sync.
+* Integration with cloud KMS and databases for secret backups, root key storage, 
+  and versioning.
+* New `/stats` and `/health` endpoints for VSecM Safe.
+* Persistent root key storage across cloud KMS and persistent volumes, with 
+  automatic updates to VSecM memory.
 
-* **Workflow Improvements**: Ensuring the project includes an automated test 
-  suite that provides at least 90% statement coverage, which aims to improve the 
-  reliability and maintainability of the codebase.
+These features enhance resilience and scalability across various storage backends.
 
-* **Documentation Updates:**: Documenting the VSecM Sentinel OIDC authentication 
-  feature, which will help users understand and implement this feature more 
-  effectively.
-
-[Here is a list of issues that are candidate for VSecM vReticulum](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+).
+[Here is a list of issues that are candidate for VSecM 
+vReticulum](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.35.0-candidate+).
 
 ### VSecM v0.36.0 (*codename: Sagittarius*)
 
-**Apr 31, 2025 - May 26, 2025**
+**Aug 02, 2025 - Aug 29, 2025**
 
-This iteration revolves around enhancing functionality, improving integration 
-capabilities, and expanding test coverage. The key areas include:
+This release continues to enhance security and storage capabilities:
 
-* **Enhanced Integration and Configuration**: Ability to configure SPIRE's key 
-  manager in Helm charts. 
-  * Configure **VSecM Sidecar** for dynamic secret updates.
-  * Use AWS KMS as an alternate backup store. 
-  * Demo and integrate OPA and VSecM.
+* Use a separate VSecM Safe to store root keys, improving security by avoiding 
+  reliance on Kubernetes secrets.
+* Focus on workflows and improving overall security measures within VSecM 
+  infrastructure.
 
-* **Workflow and Automation Improvements**:
-  * Integration of Sentinel OIDC Resource Server functionality into tests.
-    
-* **Use Cases and Examples**:
-  * Demonstration of GitOps use cases.
-  * Sample configurations and documentation for various use cases.
+These updates aim to bolster the system’s integrity by leveraging dedicated, 
+secure storage solutions for critical keys.
 
-[Here is a list of issues that are candidate for VSecM vSagittarius](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.36.0-candidate+).
+[Here is a list of issues that are candidate for VSecM 
+vSagittarius](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.36.0-candidate+).
 
 ### VSecM v0.37.0 (*codename: Telescopium*)
 
-**May 27, 2025 -- Jul 31 2025**
+**Aug 30, 2025 - Nov 03 2025**
 
-This iteration focuses on enhancing security, improving integration and workflow, 
-and providing new features for better user experience. Here are the main points:
+This iteration focuses on demonstrating key features through extensive video 
+tutorials:
 
-* **Security Enhancements**:
-  * Conducting security reviews and independent security audits.
-  * Introducing dynamic code analysis using fuzzing to enhance security measures.
-* **Integration and Workflow**:
-  * Facilitating integration with AWS and GCP through placeholders.
-  * Creating a dedicated user for EKS provisioning with just-enough privileges.
-  * Supporting the separation of audit logs from other logs for better security 
-    management.
-* New Features and Usability Improvements:
-  * Allowing the VSecM Init container to decrypt mounted files using AES or age 
-    decryption keys.
-  * Enabling the creation and registration of AES keys or age key pairs for 
-    workloads to decrypt shared encrypted files.
-  * Demonstrating autoscaling use cases.
-  * Adding new endpoints for statistics and health monitoring.
+* Demos on key management, secret decryption, root key changes, and large file 
+  encryption.
+* Showcasing integrations with tools like Keycloak and Cassandra.
+* Use cases for federated SPIRE, three-way federation, and GitOps.
+* Secrets handling across multiple VSecM instances, namespaces, and workloads.
+* Deploying VSecM on Kubernetes clusters and EKS.
 
-[Here is a list of issues that are candidate for VSecM vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
+* These video demonstrations enhance understanding of VSecM’s advanced features 
+  and integrations.
+
+[Here is a list of issues that are candidate for VSecM 
+vTelescopium](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.37.0-candidate+).
 
 ### VSecM v0.38.0 (*codename: Ursa*)
 
-**Aug 01, 2025 -- Aug 28 2025**
+**Nov 04, 2025 - Dec 01 2025**
 
-This iteration is focused on enhancing the system's security, improving 
-integration capabilities, and refining user experience. Key points include:
+This release focuses on improving automated testing and security demos:
 
-* **Security Enhancements**:
-  * Introduction of high-trust modes, such as using a `PKCS#11` interface to 
-    secure root keys.
-  * Customizable kubelet verification for enhanced security.
-* **Integration and Configuration**:
-  * Ability to use Kubernetes as a backing store.
-  * Configurable audit targets and customizable Helm charts.
-* **User Experience Improvements**:
-  * Creating Kubernetes Operators to inject Init Containers and Sidecars based 
-    on annotations.
-  * Adding optional policies for secrets and considering methods for seamless 
-    secret rotation.
-* **Documentation and Workflow**:
-  * Documenting self-security assessments and OIDC authentication features.
-  * Release workflow management for new versions.
+* Achieve 90% test coverage using FLOSS automated test suites.
+* A demo showcasing the integration of OPA (Open Policy Agent) with VSecM.
+* Further enhancements to the workflow and project infrastructure.
 
-[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+).
+* These updates are crucial for strengthening the project's testing capabilities 
+* and demonstrating VSecM's integration with modern policy management tools like OPA.
+
+[Here is a list of issues that are candidate for VSecM 
+vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.38.0-candidate+).
 
 ### VSecM v0.39.0 (*codename: Virgo*)
 
-**Aug 29, 2025 -- Sep 25 2025**
+**Dec 02, 2025 - Dec 29 2025**
 
-This is mainly a security-focused iteration. Here are the main points:
+This release focuses on enhancing security, replication, and integration:
 
-* There is a plan to create a UI for VSecM Sentinel, leveraging the existing 
-  OIDC Server functionality.
-* Integration tests will include Sentinel OIDC Resource Server functionality.
-* Implementation of a `ValidatingAdmissionWebhook` to ensure `clusterspiffeid`s 
-  and `clusterspiffeid` templates have the correct format.
-* Development of a self-security assessment documentation.
-* Exploration of secure methods for sharing root key material across VSecM 
-  instances in different clusters.
-* Support for replication across multiple VSecM Safe instances.
-* Creation of Kubernetes Operator to inject VSecM Init Container and 
-  VSecM Sidecar-based on annotations.
+* `ValidatingAdmissionWebhook` to ensure proper ClusterSPIFFEID templates.
+* Secrets rotation demo with a sidecar.
+* Replication support for multiple VSecM Safe instances.
+* Improved audit logging with separation options.
+* Kubernetes Operator for automating VSecM sidecar and init container injection.
 
-[Here is a list of issues that are candidate for VSecM vVirgo](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
+These enhancements aim to improve multi-cloud integration, security, and 
+cluster management capabilities.
+
+[Here is a list of issues that are candidate for VSecM 
+vVirgo](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.39.0-candidate+).
 
 ### VSecM v0.40.0 (*codename: Antlia*)
 
-**Sep 26, 2025 -- Oct 32 2025**
+**Dec 30, 2025 - Jan 26 2026**
+
+This release enhances key integration and testing functionalities:
+
+* Expanded secrets rotation demo with sidecar integration.
+* Sentinel OIDC Resource Server functionality included in integration tests.
+* Documentation for VSecM Sentinel OIDC authentication.
+* Replication support for multiple VSecM Safe instances.
+* Exploration of minimal disruption secret refresh strategies.
+* Customizable kubelet verification in Helm charts.
+* Self-security assessment and independent security audit.
+
+This release focuses on improving authentication, replication, and security 
+testing.
+
+[Here is a list of issues that are candidate for VSecM 
+vAntlia](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.40.0-candidate+).
+
+### VSecM v0.41.0 (*codename: Bellatrix*)
+
+**Jan 27, 2026 - Feb 23 2026**
 
 This is a "*catch all*" that contains all remaining documented future plans.
 We will create new iterations from it as the time gets closer.
 
-[Here is a list of issues that are candidate for VSecM vUrsa](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.40.0-candidate+).
+[Here is a list of issues that are candidate for VSecM 
+vBellatrix](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.41.0-candidate+).
 
 ## Closed Iterations
+
+### VSecM v0.28.0 (*codename: Hydra*)
+
+**Dec 30, 2025 - Jan 26, 2026**
+
+This iteration was about increasing coverage. We will focus on unit tests.
+
+In addition, we are targeted to fix certain low-hanging bugs and improve
+stability.
+
+[Here is a list of issues that were candidate for VSecM vHydra
+](https://github.com/vmware-tanzu/secrets-manager/issues?q=+label%3Av0.28.0-candidate+).
 
 ### VSecM v0.27.0 (*codename: Gemini*)
 

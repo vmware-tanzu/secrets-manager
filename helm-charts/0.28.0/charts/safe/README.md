@@ -1,6 +1,6 @@
 # safe
 
-![Version: 0.27.4](https://img.shields.io/badge/Version-0.27.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.27.4](https://img.shields.io/badge/AppVersion-0.27.4-informational?style=flat-square)
+![Version: 0.28.0](https://img.shields.io/badge/Version-0.28.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.28.0](https://img.shields.io/badge/AppVersion-0.28.0-informational?style=flat-square)
 
 Helm chart for VMware Secrets Manager (VSecM) Safe
 
@@ -38,7 +38,7 @@ Helm chart for VMware Secrets Manager (VSecM) Safe
 | environments[6] | object | `{"name":"VSECM_LOG_SECRET_FINGERPRINTS","value":"false"}` | Useful for debugging. This will log cryptographic fingerprints of secrets without revealing the secret itself. It is recommended to keep this "false" in production. |
 | environments[7] | object | `{"name":"VSECM_PROBE_LIVENESS_PORT","value":":8081"}` | The port that the liveness probe listens on. |
 | environments[8] | object | `{"name":"VSECM_PROBE_READINESS_PORT","value":":8082"}` | The port that the readiness probe listens on. |
-| environments[9] | object | `{"name":"VSECM_SAFE_BACKING_STORE","value":"file"}` | The backing store for VSecM Safe. Possible values are: "memory", "file", "aws-secret", "azure-secret", "gcp-secret", "k8s". Currently, only "memory" and "file" are supported. |
+| environments[9] | object | `{"name":"VSECM_SAFE_BACKING_STORE","value":"file"}` | The backing store for VSecM Safe. Possible values are: "memory", "file", "aws-secret", "azure-secret", "gcp-secret", "k8s". Currently, only "memory", "postgres", and "file" are supported. |
 | fullnameOverride | string | `""` | The fullname override of the chart. |
 | imagePullSecrets | list | `[]` | Override it with an image pull secret that you need as follows: imagePullSecrets:  - name: my-registry-secret |
 | livenessPort | int | `8081` | The port that the liveness probe listens on. `environments.VSECM_PROBE_LIVENESS_PORT` should match this value. |
