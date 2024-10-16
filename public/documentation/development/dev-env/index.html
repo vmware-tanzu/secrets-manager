@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="keep your secrets... secret">
+        <meta name="author" content="VMware Secrets Manager Contributors">
+        <title>Development Environment | VMware Secrets Manager </title>
+        <link rel="stylesheet" href="https://vsecm.com/site.css"/>
+        <link rel="icon" href="https://vsecm.com/vsecm-32.png">
+    </head>
+    <body>
+
+        <header style="background:#00151D;">
+            <nav class="">
+                <a class="header__logo white" href="https:&#x2F;&#x2F;vsecm.com&#x2F;" style="font-weight:100;color:#95e3fc;">
+                    <img src="https://vsecm.com/vsecm-64.png" alt="VSecM" style="vertical-align:middle">
+                    VMware Secrets Manager
+                    <em style="font-size:0.62em;color:#ffffff">v0.28.0</em>
+                </a>
+                <a class="white" href="https://vsecm.com/documentation/" class="nav-link">
+                <svg
+                    style="position:relative;top:4px;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Programming-Book--Streamline-Ultimate" height="24" width="24"><desc>Programming Book</desc><path fill="#e3e3e3" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Z" stroke-width="0.75"></path><path fill="#ffef5e" d="M3.390625 2.421875a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M18.890625 4.359375h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v2.90625a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 2.421875h10.65625a0.96875 0.96875 0 0 1 0.96875 0.96875v0.96875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Zm0 0a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m7.265625 10.175749999999999 2.421875 2.421875 -2.421875 2.421875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M12.109375 14.050749999999999h3.875" stroke-width="0.75"></path></svg>
+                Docs
+
+                </a>
+                <a class="white" href=" https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" id="Slack-Logo--Streamline-Flex-Gradient" height="24" width="24" stroke-width="1"><desc>Slack Logo</desc><g id="slack"><path id="Union" fill="url(#paint0_linear_7718_2952)" fill-rule="evenodd" d="M5.75879.25c.41421 0 .75.335786.75.75v.24995c0 .41421-.33579.75-.75.75s-.75-.33579-.75-.75V1c0-.414214.33579-.75.75-.75ZM13 4.34033c.4142 0 .75.33579.75.75v.24995c0 .41422-.3358.75-.75.75s-.75-.33578-.75-.75v-.24995c0-.41421.3358-.75.75-.75ZM1.75 8.03479c0-.41421-.33579-.75-.75-.75-.414214 0-.75.33579-.75.75v.24995c0 .41421.335786.75.75.75.41421 0 .75-.33579.75-.75v-.24995Zm4.54094-4.46403c.23744.28178.38454.65583.38454 1.04404 0 .38821-.1471.76227-.38454 1.04404-.23628.2804-.58938.4986-1.01303.50949-1.1742.06477-2.45614.06477-3.63034 0-.42365-.01089-.776743-.22909-1.013025-.50949C.397098 5.37707.25 5.00301.25 4.6148c0-.38821.147099-.76226.384545-1.04404.236282-.28039.589375-.49859 1.013025-.50948 1.1742-.06478 2.45614-.06478 3.63034 0 .42365.01089.77675.22909 1.01303.50948ZM9.34332.25c-.38821 0-.76226.147099-1.04404.384545-.2804.236281-.4986.589375-.50949 1.013025-.06477 1.1742-.06477 2.45614 0 3.63034.01089.42365.22909.77675.50949 1.01303.28178.23744.65583.38454 1.04404.38454.38821 0 .76228-.1471 1.04408-.38454.2804-.23628.4986-.58938.5094-1.01303.0648-1.1742.0648-2.45614 0-3.63034-.0108-.42365-.229-.776743-.5094-1.013025C10.1056.397099 9.73153.25 9.34332.25ZM5.70084 13.3671c-.28178.2375-.65584.3846-1.04405.3846-.3882 0-.76226-.1471-1.04404-.3846-.28039-.2363-.49859-.5894-.50948-1.013-.06478-1.1742-.06478-2.45615 0-3.63036.01089-.42364.22909-.77674.50948-1.01302.28178-.23745.65584-.38455 1.04405-.38455.38821 0 .76226.1471 1.04404.38455.28039.23628.49859.58938.50948 1.01302.06478 1.17421.06478 2.45616 0 3.63036-.01089.4236-.22909.7767-.50948 1.013Zm1.62338-3.9802c0 .38821.1471.7623.38454 1.044.23628.2804.58938.4986 1.01303.5095 1.1742.0648 2.45611.0648 3.63031 0 .4237-.0109.7768-.2291 1.0131-.5095.2374-.2817.3845-.65579.3845-1.044 0-.38821-.1471-.76227-.3845-1.04404-.2363-.2804-.5894-.4986-1.0131-.50949-1.1742-.06477-2.45611-.06477-3.63031 0-.42365.01089-.77674.22909-1.01303.50949-.23744.28177-.38454.65583-.38454 1.04404Zm.85644 2.6148c.41422 0 .75.3358.75.75v.25c0 .4142-.33578.75-.75.75-.41421 0-.75-.3358-.75-.75v-.25c0-.4142.33579-.75.75-.75Z" clip-rule="evenodd"></path></g><defs><linearGradient id="paint0_linear_7718_2952" x1="14.92" x2="-3.291" y1="16.611" y2="3.677" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd600"></stop><stop offset="1" stop-color="#FF007A"></stop></linearGradient></defs></svg>
+                    Slack</a>
+                <a class="white" href="https://github.com/vmware-tanzu/secrets-manager" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Github-Logo--Streamline-Ultimate" height="24" width="24"><desc>Github Logo</desc><path fill="#808080" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#b2b2b2" d="M1.09294375 11.432315625C4.235665625 9.4212875 7.895021874999999 8.366803124999999 11.62596875 8.397028125C15.356915625 8.36554375 19.016659375 9.4189625 22.159865625000002 11.4293125C21.926784375 10.603065625 21.566215625 9.81828125 21.0912375 9.103246875L21.1230125 9.126109375S23.7510375 4.5850937499999995 20.5270375 1.938275C18.540615625 1.938275 15.503390625 5.215846875 15.503390625 5.215846875L15.525284375 5.230765625C12.999656250000001 4.50449375 10.3210625 4.500425 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.68581875 9.8239 1.3259281250000001 10.60800625 1.09294375 11.433284375Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#ffdda1" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M19.074978125 15.846134374999998C19.074978125 9.917675000000001 14.976971875 12.338096875 11.62596875 12.338096875C8.27486875 12.338096875 4.1768625 9.9792875 4.1768625 15.846134374999998C4.1768625 17.766003124999997 5.733256249999999 19.322396875 7.653125 19.322396875H15.598812500000001C17.51868125 19.322396875 19.074978125 17.766003124999997 19.074978125 15.846134374999998H19.074978125Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.123059375 17.335974999999998C15.671275 17.335974999999998 16.116221875 16.66850625 16.116221875 15.846134374999998S15.671275 14.35629375 15.123059375 14.35629375S14.1298 15.0237625 14.1298 15.846134374999998S14.574746875 17.335974999999998 15.123059375 17.335974999999998Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M8.170534375 17.335974999999998C8.718846875 17.335974999999998 9.16379375 16.66850625 9.16379375 15.846134374999998S8.718846875 14.35629375 8.170534375 14.35629375S7.177371875 15.0237625 7.177371875 15.846134374999998S7.62231875 17.335974999999998 8.170534375 17.335974999999998Z" stroke-width="0.75"></path></svg>
+                    GitHub</a>
+
+                <div class="search-container">
+                    <input id="search" type="search" placeholder="Search...">
+
+                    <div class="search-results">
+                        <div class="search-results__items"></div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <!--div style="background: #cc0000; color: #ffffff; padding: 1em;">
+            This is a snapshot of the VMware Secrets Manager documentation
+            at version <strong>v0.25.3</strong>.<br>
+            For the latest information, please visit the
+            <a href="/" style="color:#ffff00;text-decoration:underline;border:0"
+            >VMware Secrets Manager documentation root</a>.
+        </div-->
+            <div style="font-size:1em;background:#FFED90;
+            color: #000000;
+padding: 1em;
+">
+                <svg
+                    style="display:inline-block;top: 7px;position:relative;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Calendar-Favorite-1--Streamline-Ultimate" height="24" width="24"><desc>Calendar Favorite 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ff808c" d="M19.859375 7.273375V3.390625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v3.88275h19.375Z" stroke-width="0.75"></path><path fill="#ffbfc5" d="M19.859375 4.359375v-0.96875a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v0.96875h19.375Z" stroke-width="0.75"></path><path fill="#ffffff" d="M0.484375 7.273375V16.953125a0.96875 0.96875 0 0 0 0.96875 0.96875h17.4375a0.96875 0.96875 0 0 0 0.96875 -0.96875v-9.6875l-19.375 0.00775Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M9.203125 17.921875h-7.75a0.96875 0.96875 0 0 1 -0.96875 -0.96875v-13.5625a0.96875 0.96875 0 0 1 0.96875 -0.96875h17.4375a0.96875 0.96875 0 0 1 0.96875 0.96875V9.6875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.015625 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M0.484375 7.26659375h19.375" stroke-width="0.75"></path><path fill="#ffef5e" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M19.127 15.015625 17.631249999999998 11.554281249999999a0.775 0.775 0 0 0 -1.36496875 0L14.778281250000001 15.015625h-2.90625a0.71203125 0.71203125 0 0 0 -0.49793750000000003 1.2429062499999999l2.5187500000000003 2.24265625 -1.3920937500000001 3.2085a0.755625 0.755625 0 0 0 -0.0096875 0.5366875000000001l7.2365625 -7.2307500000000005h-0.600625Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path></svg>
+                &nbsp;<a style="color: #00151D" href="/community/contributor-hours/"><strong>Mark Your Calendars</strong></a>:
+                The next
+                <strong
+                ><a
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;font-weight:400;margin:0.4em;position:relative;display:inline-block;transform: rotate(-2deg)"
+                    href="/community/contributor-hours/"
+                >VSecM Contributor Sync</a
+                ></strong
+                >
+                will be on...
+                <a
+                    href="/community/contributor-hours/"
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;margin:0.4em;font-weight:400;position:relative;display:inline-block;transform: rotate(-2deg)"
+
+                >🎃 Thursday, 2024-10-31 🎃
+                at 8:00am Pacific time</a>.
+
+            </div>
+        <div
+        style="padding:1em;background:#DDC755;color:#000000"
+        >
+            <svg
+                style="position:relative;top:6px;"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Rating-Star-1--Streamline-Ultimate" height="24" width="24"><desc>Rating Star 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ffef5e" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.932246875 1.9808031250000002C10.995215625 1.84915 11.09431875 1.73813125 11.217834375 1.660534375C11.341446875 1.582840625 11.484434375000001 1.5418625 11.630424999999999 1.542153125V18.63158125Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path></svg>
+
+            &nbsp;<a href="https://github.com/vmware-tanzu/secrets-manager" style="color:#000000;text-decoration:underline;">Star <strong>VMware Secrets Manager</strong> to show your support</a>.
+            <span class="secondary-slogan">Help us reach out to even more people with this amazing tech.</span></div>
+
+        <div class="content content--reversed">
+            
+
+
+
+<div class="documentation">
+    <aside class="documentation__sidebar">
+        <ul>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title"></span>
+                <ul>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Community</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;community&#x2F;hello&#x2F;">VSecM Community</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;community&#x2F;contributor-hours&#x2F;">VSecM Contributor Hour</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;community&#x2F;contact&#x2F;">Get in Touch</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;community&#x2F;maintainers&#x2F;">Maintainers</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;community&#x2F;endorsements&#x2F;">What People Say</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Showcase</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;showcase&#x2F;vsecm&#x2F;">VSecM Showcase</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Timeline</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;timeline&#x2F;roadmap&#x2F;">VSecM Roadmap</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;timeline&#x2F;changelog&#x2F;">VSecM Changelog</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Quickstart</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;getting-started&#x2F;overview&#x2F;">Prerequisites</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;getting-started&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;getting-started&#x2F;verify&#x2F;">Verify Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;getting-started&#x2F;deploy&#x2F;">Deploy an Example Workload</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;getting-started&#x2F;register&#x2F;">Register a Secret</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Welcome</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;welcome&#x2F;overview&#x2F;">Introducing VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;welcome&#x2F;about&#x2F;">What is VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Architecture</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;architecture&#x2F;philosophy&#x2F;">VSecM Design Philosophy</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;architecture&#x2F;overview&#x2F;">VSecM Architecture</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;architecture&#x2F;adr-intro&#x2F;">Architectural Decision Records</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Configuration</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;configuration&#x2F;overview&#x2F;">Configuring VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Development</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;development&#x2F;use-the-source&#x2F;">Use the Source</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;development&#x2F;contributing&#x2F;">Contribute to VSecM</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;development&#x2F;dev-env&#x2F;">Development Environment</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Using VSecM</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;usage&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;usage&#x2F;cli&#x2F;">VSecM CLI</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;usage&#x2F;sdk&#x2F;">VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;usage&#x2F;releases&#x2F;">VSecM Releases</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Use Cases</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;about&#x2F;">About Use Cases</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;overview&#x2F;">Overview</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;registering-secrets&#x2F;">Registering Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;retrieving-secrets&#x2F;">Retrieving Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;sidecar&#x2F;">Using VSecM Sidecar</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;init-container&#x2F;">Using VSecM Init Container</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;encrypt&#x2F;">Encrypting Secrets Using VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;transform&#x2F;">Transforming Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;mounting-secrets&#x2F;">Mounting Secrets as Volumes</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;template-files&#x2F;">Mutating a Template File</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;vsecm-sdk&#x2F;">Retrieving Secrets Via VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;kubernetes-secrets&#x2F;">Mounting Kubernetes Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;large-files&#x2F;">Encrypting Large Files</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;root-key&#x2F;">Setting VSecM Root Key</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;use-cases&#x2F;randomized-secrets&#x2F;">Generating Randomized Secrets</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Production</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;production&#x2F;overview&#x2F;">Production Setup</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Operations</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;operations&#x2F;security&#x2F;">Security</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;operations&#x2F;documentation-snapshots&#x2F;">Documentation Snapshots</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;operations&#x2F;release-management&#x2F;">Release Management</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;documentation&#x2F;operations&#x2F;governance&#x2F;">Governance</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+        </ul>
+    </aside>
+    <div class="documentation__content">
+        
+    <h1>Development Environment</h1>
+    <h2 id="introduction">
+<a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Introduction</h2>
+<p>This section contains instructions to set up your development environment
+to actively contribute the <strong>VMware Secrets Manager</strong> project.</p>
+<h2 id="overview">
+<a class="zola-anchor" href="#overview" aria-label="Anchor link for: overview" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Overview</h2>
+<p>Here is a brief recording of the steps that you need to take to build and test
+<strong>VMware Secrets Manager</strong> locally:</p>
+<script 
+  src="https://asciinema.org/a/676190.js"
+  id="asciicast-676190" 
+  async="true"></script>
+<h2 id="prerequisites">
+<a class="zola-anchor" href="#prerequisites" aria-label="Anchor link for: prerequisites" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Prerequisites</h2>
+<p>Other than the source code, you need the following set up for your development
+environment to be able to locally develop <strong>VMware Secrets Manager</strong>:</p>
+<ul>
+<li><a href="https://www.docker.com/">Docker</a> installed and running for the local user.</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/">Minikube</a> installed on your system.</li>
+<li><a href="https://www.gnu.org/software/make/">Make</a> installed on your system.</li>
+<li><a href="https://git-scm.com/">Git</a> installed on your system.</li>
+<li><a href="https://go.dev/">Go</a> installed and configured on your system.</li>
+</ul>
+<blockquote>
+<p><strong>Can I Use Something Other than Minikube and Docker</strong>?</p>
+<p>Of course, you can use any Kubernetes cluster to develop, deploy, and test
+<strong>VMware Secrets Manager</strong> for Cloud-Native Apps.</p>
+<p>Similarly, you can use any OCI-compliant container runtime. It does not
+have to be Docker.</p>
+<p>We are giving <strong>Minikube</strong> and <strong>Docker</strong> as an example because they are
+easier to set up; and when you stumble upon, it is easy to find supporting
+documentation about these to help you out.</p>
+<p>For <strong>macOS</strong>, for example, you can check the
+<a href="https://vsecm.com/documentation/development/dev-env/#alternate-non-minikube-setup-on-macos">alternate setup</a>
+section below.</p>
+</blockquote>
+<h2 id="alternate-non-minikube-setup-on-macos">
+<a class="zola-anchor" href="#alternate-non-minikube-setup-on-macos" aria-label="Anchor link for: alternate-non-minikube-setup-on-macos" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Alternate Non-Minikube Setup on macOS</h2>
+<p>The rest of this document assumes that you are using <strong>Minikube</strong> and <strong>Docker</strong>;
+however, if you are on a Mac, want to use <strong>Docker for Mac’s Kubernetes Distribution</strong>,
+you can install them as described below and skip the sections that are
+specific to <strong>Minikube</strong>.</p>
+<h3 id="installing-docker-for-mac">
+<a class="zola-anchor" href="#installing-docker-for-mac" aria-label="Anchor link for: installing-docker-for-mac" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Installing Docker for Mac</h3>
+<p>Download and install <a href="https://docs.docker.com/desktop/install/mac-install/">Docker for Mac</a> on your system.</p>
+<h3 id="enable-kubernetes-on-docker-for-mac">
+<a class="zola-anchor" href="#enable-kubernetes-on-docker-for-mac" aria-label="Anchor link for: enable-kubernetes-on-docker-for-mac" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Enable Kubernetes on Docker for Mac</h3>
+<p>Once you have Docker for Mac installed, you’ll need to enable Kubernetes on it.
+To do that, follow the steps below:</p>
+<ol>
+<li>Open Docker for Mac’s preferences.</li>
+<li>Go to the “<strong>Kubernetes</strong>” tab.</li>
+<li>Check the “<strong>Enable Kubernetes</strong>” checkbox.</li>
+</ol>
+<h3 id="disabling-airplay-receiver">
+<a class="zola-anchor" href="#disabling-airplay-receiver" aria-label="Anchor link for: disabling-airplay-receiver" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Disabling Airplay Receiver</h3>
+<p>Airplay Receiver uses port 5000 by default, which is the same port that dokcer
+registry uses.</p>
+<p>To fix the first issue, on your Mac’s “<strong>System Settings</strong>” you’ll need to go to
+“<strong>Setting » Airdrop &amp; Handoff » Airplay Receiver</strong>” and on that screen…</p>
+<ul>
+<li><strong>uncheck</strong> “<em>allow handoff between this Mac and your iCloud devices</em>”,</li>
+<li>make sure “<strong>Airdrop</strong>” is selected as “<strong>no one</strong>”.</li>
+<li>then you might need to kill the process that’s using port 5000 or restart your
+system.</li>
+</ul>
+<p>Alternatively, you can bind a different port to the docker registry. But when
+you do that, you’ll need to make sure that you update other files in the
+project too that reference <code>localhost:5000</code>.</p>
+<h3 id="install-docker-registry">
+<a class="zola-anchor" href="#install-docker-registry" aria-label="Anchor link for: install-docker-registry" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Install Docker Registry</h3>
+<p>Use the following command to install the docker registry:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">docker</span><span> run -d -p 5000:5000 --restart</span><span style="color:#81a1c1;">=</span><span>always --name registry registry:2
+</span></code></pre>
+<h3 id="you-are-all-set">
+<a class="zola-anchor" href="#you-are-all-set" aria-label="Anchor link for: you-are-all-set" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>You Are All Set</h3>
+<p>And you should be all set.</p>
+<p>You can run <code>make build-local</code> to build local images, and <code>make deploy-local</code> to
+build and install <strong>VMware Secrets Manager</strong> locally.</p>
+<h2 id="alternate-non-minikube-setup-using-kind">
+<a class="zola-anchor" href="#alternate-non-minikube-setup-using-kind" aria-label="Anchor link for: alternate-non-minikube-setup-using-kind" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Alternate Non-Minikube Setup Using Kind</h2>
+<p>If you are using <a href="https://kind.sigs.k8s.io/">Kind</a> to set up your local Kubernetes cluster, you
+don’t need to do anything special. Just make sure that you have a local
+container registry running on port <code>5000</code>:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">docker</span><span> run -d -p 5000:5000 --restart</span><span style="color:#81a1c1;">=</span><span>always --name registry registry:2
+</span></code></pre>
+<p>You may also want to check out <a href="https://kind.sigs.k8s.io/docs/user/local-registry/"><code>kind</code>’s instructions for setting up a local
+registry</a>.</p>
+<p>Then initialize <code>kind</code> with the following command:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kind</span><span> create cluster
+</span></code></pre>
+<p>Then you can run <code>make build-local</code> to build local images, and
+<code>make deploy-local</code> install <strong>VMware Secrets Manager</strong> locally.</p>
+<h2 id="cloning-vmware-secrets-manager">
+<a class="zola-anchor" href="#cloning-vmware-secrets-manager" aria-label="Anchor link for: cloning-vmware-secrets-manager" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Cloning VMware Secrets Manager</h2>
+<p>Create a workspace folder and clone <strong>VMware Secrets Manager</strong> into it.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">mkdir </span><span style="color:#81a1c1;">$</span><span>HOME/Desktop/WORKSPACE
+</span><span style="color:#88c0d0;">cd </span><span style="color:#81a1c1;">$</span><span>HOME/Desktop/WORKSPACE
+</span><span style="color:#88c0d0;">git</span><span> clone </span><span style="color:#a3be8c;">&quot;https://github.com/vmware-tanzu/secrets-manager.git&quot;
+</span><span style="color:#88c0d0;">cd</span><span> secrets-manager 
+</span></code></pre>
+<blockquote>
+<p><strong>Want to Create a Pull Request</strong>?</p>
+<p>If you are contributing to the source code, make sure you read
+<a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/CONTRIBUTING_DCO.md">the contributing guidelines</a>, and <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/CODE_OF_CONDUCT.md">the code of conduct</a>.</p>
+</blockquote>
+<h2 id="getting-help">
+<a class="zola-anchor" href="#getting-help" aria-label="Anchor link for: getting-help" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Getting Help</h2>
+<p>Running <code>make help</code> at the project root will provide you with a list of
+logically grouped commands. This page will not include the output because
+the content of the output can change depending on the version of <strong>VMware Secrets
+Manager</strong>; however, the output will give a nice overview of what you can do
+with the <code>Makefile</code> at the project root.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">make</span><span> help
+</span></code></pre>
+<p>Additionally, you can run <code>make h</code> at the root of each project to get
+a more release-specific help output.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">make</span><span> h
+</span></code></pre>
+<p>Both of these commands gives a brief overview of what you can do with the
+make targets. If you want to learn more about a specific target, you can
+read the source code of the relevant file inside the <code>./makefiles</code> folder.</p>
+<h2 id="building-deploying-and-testing">
+<a class="zola-anchor" href="#building-deploying-and-testing" aria-label="Anchor link for: building-deploying-and-testing" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Building, Deploying, and Testing</h2>
+<p>Now let’s explain some of these steps (*and for the remainder, you can read
+the <code>Makefile</code> at the project root):</p>
+<ul>
+<li><code>make k8s-delete</code>: Deletes your minikube cluster.</li>
+<li><code>make k8s-start</code>: Starts an existing cluster, or creates a brand new one.</li>
+<li><code>make build-local</code>: Builds all the projects locally and pushes them to
+the local container registry.</li>
+<li><code>make deploy-local</code>: Deploys <strong>VMware Secrets Manager</strong> locally with the
+artifacts generated at the <code>build-local</code> step.</li>
+<li><code>make test-local</code>: Runs integration tests to make sure that the changes
+that were made doesn’t break anything.</li>
+</ul>
+<p>If you run these commands in the above order, you’ll be able to <strong>build</strong>,
+<strong>deploy</strong>, and <strong>test</strong> your work locally.</p>
+<h2 id="kubernetes-related-troubleshooting">
+<a class="zola-anchor" href="#kubernetes-related-troubleshooting" aria-label="Anchor link for: kubernetes-related-troubleshooting" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Kubernetes-Related Troubleshooting</h2>
+<p>If you delete the <code>spire-system</code> and <code>spire-server</code> namespaces before deleting
+the <code>vsecm-system</code> namespace, then you might have issues deleting the 
+<code>vsecm-system</code> namespace because the Pods in the <code>vsecm-system</code> namespace
+will remain hanging waiting on the SPIFFE CSI Driver’s volume to mount.</p>
+<p>This can also happen if you install <strong>VSecM</strong> using <code>helm</code> and then execute
+<code>helm delete</code> to remove the <strong>VSecM</strong> installation. To uninstall <strong>VSecM</strong>
+helm deployment, we recommend using the <code>make helm-delete</code> target, which takes
+care of the order of deletion. </p>
+<p>Or, alternatively, you can first delete the <code>vsecm-system</code> namespace, and then
+execute <code>helm delete</code> to remove the <strong>VSecM</strong> installation.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> delete namespace vsecm-system
+</span><span style="color:#88c0d0;">helm</span><span> delete vsecm
+</span></code></pre>
+<p>If you still see resources hanging, you can use the following command to
+detect the resources that are still hanging and force delete them:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> api-resources --verbs</span><span style="color:#81a1c1;">=</span><span>list --namespaced -o name </span><span style="color:#81a1c1;">\
+</span><span>  </span><span style="color:#81a1c1;">| </span><span style="color:#88c0d0;">xargs</span><span> -n 1 kubectl get -n vsecm-system
+</span></code></pre>
+<p>For example if <code>vsecm-keystone-59fc9568b6-zx7zl</code> pod is <code>Pending</code> or is in 
+a <code>FailedMount</code> state, you can first delete its owner deployment, and then
+force delete the pod with the following command:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> delete deployment vsecm-keystone -n vsecm-system
+</span><span style="color:#88c0d0;">kubectl</span><span> delete pod vsecm-keystone-59fc9568b6-zx7zl </span><span style="color:#81a1c1;">\
+</span><span>  -n vsecm-system --grace-period</span><span style="color:#81a1c1;">=</span><span>0 --force
+</span></code></pre>
+<p>When you do this for all the hanging resources, you can then delete the 
+<code>vsecm-system</code> namespace.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> delete namespace vsecm-system
+</span></code></pre>
+<h2 id="minikube-quirks">
+<a class="zola-anchor" href="#minikube-quirks" aria-label="Anchor link for: minikube-quirks" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Minikube Quirks</h2>
+<h3 id="docker-for-mac-troubleshooting">
+<a class="zola-anchor" href="#docker-for-mac-troubleshooting" aria-label="Anchor link for: docker-for-mac-troubleshooting" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Docker for Mac Troubleshooting</h3>
+<p>When you use <strong>Minikube</strong> with <strong>Docker for Mac</strong>, you’ll likely get a warning
+similar to the following:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">make</span><span> k8s-start
+</span><span>
+</span><span style="color:#616e88;"># below is the response to the command above
+</span><span>
+</span><span style="color:#88c0d0;">./hack/minikube-start.sh
+</span><span>
+</span><span style="color:#88c0d0;">...
+</span><span style="color:#88c0d0;">...</span><span> truncated ...
+</span><span style="color:#88c0d0;">...
+</span><span>
+</span><span style="color:#88c0d0;">Registry</span><span> addon with docker driver uses port 50565
+</span><span style="color:#88c0d0;">please</span><span> use that instead of 
+</span><span style="color:#88c0d0;">default</span><span> port 5000 
+</span><span>
+</span><span style="color:#88c0d0;">...
+</span></code></pre>
+<p>The port <code>50656</code> is a randomly-selected port. Every time you run <code>make k8s-start</code>
+it will pick a different port.</p>
+<p>You can verify that the repository is there:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">curl</span><span> localhost:50565/v2/_catalog
+</span><span style="color:#616e88;"># response:
+</span><span style="color:#616e88;"># {&quot;repositories&quot;:[]} 
+</span><span>
+</span></code></pre>
+<blockquote>
+<p><strong>Do You Need Multiple Nodes</strong></p>
+<p>If you are using Minikube Docker driver, you can configure it to start
+with multiple nodes. This can be useful if you want to test an
+advanced scenario where more than one <strong>SPIRE Agent</strong> may be required.</p>
+<p>For that, set up the <code>VSECM_MINIKUBE_NODE_COUNT</code> variable to the number
+of Kubernetes worker nodes you wish to use in your development environment.</p>
+</blockquote>
+<p>There are two issues here:</p>
+<ul>
+<li>First, all the local development scripts assume port 5000 as the repository port;
+however, port <code>5000</code> on your Mac will likely be controlled by the
+<strong>Airplay Receiver</strong>.</li>
+<li>And secondly, you’ll need to forward <code>localhost:5000</code> to whatever port the error
+message shows you.</li>
+</ul>
+<p>To fix the first issue, on your Mac’s “<strong>System Settings</strong>” you’ll need to go to
+“<strong>Setting » Airdrop &amp; Handoff » Airplay Receiver</strong>” and on that screen…</p>
+<ul>
+<li><strong>uncheck</strong> “<em>allow handoff between this Mac and your iCloud devices</em>”,</li>
+<li>make sure “<strong>Airdrop</strong>” is selected as “<strong>no one</strong>”</li>
+<li>and finally, after updating your settings,  <strong>restart your Mac</strong>
+(<em>this step is important; without restart, your macOS will still hold onto
+that port</em>)</li>
+</ul>
+<p>Note that where these settings are can be slightly different from one version
+of macOS to another.</p>
+<p>As for the second issue, to redirect your local <code>:5000</code> port to the docker engine’s
+designated port, you can use <a href="http://www.dest-unreach.org/socat/" title="socat: Multipurpose Relay"><code>socat</code></a>.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span>
+</span><span style="color:#616e88;"># Install `socat` if you don&#39;t have it on your system.
+</span><span style="color:#88c0d0;">brew</span><span> install socat
+</span><span>
+</span><span style="color:#616e88;"># Replace 49876 with whatever port the warning message 
+</span><span style="color:#616e88;"># gave you during the initial cluster setup.
+</span><span style="color:#88c0d0;">socat</span><span> TCP-LISTEN:5000,fork,reuseaddr TCP:localhost:49876
+</span><span>
+</span></code></pre>
+<p>Then execute the following on a separate tab:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span>
+</span><span style="color:#88c0d0;">curl</span><span> localhost:5000/v2/_catalog
+</span><span>
+</span><span style="color:#616e88;"># Should return something similar to this:
+</span><span style="color:#616e88;"># {&quot;repositories&quot;:[]}
+</span><span>
+</span></code></pre>
+<p>If you get a successful response to the above <code>curl</code>, then congratulations,
+you have successfully set up your local docker registry for your
+<strong>VMware Secrets Manager</strong> development needs.</p>
+<blockquote>
+<p><strong>Make a Big McTunnel</strong></p>
+<p>If you have <code>localhost:5000</code> unallocated, there is a <code>make mac-tunnel</code>
+target in the <strong>VMware Secrets Manager</strong>’s project <strong>Makefile</strong> that will
+automatically find the exposed docker registry port, and establish a
+tunnel for you.</p>
+<p>Execute this:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">make</span><span> mac-tunnel
+</span></code></pre>
+<p>And then on a separate terminal window, verify that you can access the
+registry from <code>localhost:5000</code>.</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">curl</span><span> localhost:5000/v2/_catalog
+</span><span style="color:#616e88;"># Should return something similar to this:
+</span><span style="color:#616e88;"># &quot;repositories&quot;:[]
+</span></code></pre>
+</blockquote>
+<h3 id="ubuntu-troubleshooting">
+<a class="zola-anchor" href="#ubuntu-troubleshooting" aria-label="Anchor link for: ubuntu-troubleshooting" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Ubuntu Troubleshooting</h3>
+<p>If you are using <strong>Ubuntu</strong>, it would be helpful to know that <strong>Minikube</strong> and
+<strong>snap</strong> version of <strong>Docker</strong> do not play well together. If you are having
+registry-related issues, or if you are not able to execute a <code>docker images</code>
+without being the root user, then one resolution can be to remove the snap
+version of docker and install it from the source:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">sudo</span><span> apt update
+</span><span style="color:#88c0d0;">sudo</span><span> apt-get install </span><span style="color:#81a1c1;">\
+</span><span>    apt-transport-https </span><span style="color:#81a1c1;">\
+</span><span>    ca-certificates </span><span style="color:#81a1c1;">\
+</span><span>    curl </span><span style="color:#81a1c1;">\
+</span><span>    gnupg-agent </span><span style="color:#81a1c1;">\
+</span><span>    software-properties-common
+</span><span style="color:#88c0d0;">curl</span><span> -fsSL https://download.docker.com/linux/ubuntu/gpg </span><span style="color:#81a1c1;">|</span><span> \</span><span style="background-color:#bf616a;color:#d8dee9;"> </span><span>
+</span><span>    </span><span style="color:#88c0d0;">sudo</span><span> apt-key add -
+</span><span style="color:#88c0d0;">sudo</span><span> apt-key fingerprint 0EBFCD88
+</span><span style="color:#88c0d0;">sudo</span><span> add-apt-repository </span><span style="color:#81a1c1;">\
+</span><span>   </span><span style="color:#a3be8c;">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu </span><span style="color:#ebcb8b;">\
+</span><span style="color:#a3be8c;">   </span><span style="color:#81a1c1;">$</span><span style="color:#a3be8c;">(</span><span style="color:#88c0d0;">lsb_release</span><span> -cs</span><span style="color:#a3be8c;">) </span><span style="color:#ebcb8b;">\
+</span><span style="color:#a3be8c;">   stable&quot;
+</span><span style="color:#88c0d0;">sudo</span><span> apt-get update
+</span><span style="color:#88c0d0;">sudo</span><span> apt-get install docker-ce docker-ce-cli containerd.io
+</span></code></pre>
+<blockquote>
+<p><strong>Restart Your System</strong></p>
+<p>After doing this, you might need to restart your system and execute
+<code>minikube delete</code> on your terminal too. Although you might feel that this
+step is optional, it is <strong>not</strong>; trust me 🙂.</p>
+</blockquote>
+<p>After installing a non-snap version of <strong>Docker</strong> and restarting your system, if
+you can use <strong>Minikube</strong> <em>Docker registry</em>, then, perfect. If not, there are
+a few things that you might want to try. So if you are still having issues
+keep on reading.</p>
+<p>Before trying anything else, it might be worth giving <a href="https://docs.docker.com/engine/install/linux-postinstall/">Docker Post Installation
+Steps</a> from the official Docker website a shot. Following
+that guideline <strong>may</strong> solve Docker-related permission issues that you might
+still be having.</p>
+<blockquote>
+<p><strong>Restart, Maybe?</strong></p>
+<p>If you still have permission issues after following the official Docker
+post-installation steps outlined above, try <strong>restarting</strong> your computer once
+more.</p>
+<p>Especially when it comes to Docker permissions, restarting can help,
+and worst case it’s still worth giving a try.</p>
+</blockquote>
+<p>Still no luck? Keep on reading.</p>
+<p>Depending on your operating system, and the Minikube version that you use
+it might take a while to find a way to push images to Minikube’s internal
+Docker registry. <a href="https://minikube.sigs.k8s.io/docs/handbook/pushing/">The relevant section about the Minikube handbook</a>
+covers a lot of details, and can be helpful; however, it is also really easy
+skip or overlook certain steps.</p>
+<p>If you have <code>docker push</code> issues, or you have problem your Kubernetes Pods
+acquiring images from the local registry, try these:</p>
+<ul>
+<li>Execute <code>eval $(minikube docker-env)</code> before pushing things to <strong>Docker</strong>. This
+is one of the first instructions <a href="https://minikube.sigs.k8s.io/docs/handbook/pushing/">on the “<em>push</em>” section of the Minikube
+handbook</a>, yet it is still very easy to inadvertently skip it.</li>
+<li>Make sure you have the registry addon enabled
+<ul>
+<li>(<code>minikube addons list</code>).</li>
+</ul>
+</li>
+<li>You might have luck directly pushing the image:
+<ul>
+<li>first: <code>docker build --tag $(minikube ip):5000/test-img</code>;</li>
+<li>followed by: <code>docker push $(minikube ip):5000/test-img</code>.</li>
+</ul>
+</li>
+<li>There are also <code>minikube image load</code> and <code>minikube image build</code> commands
+that might be helpful.</li>
+</ul>
+<h2 id="checking-logs">
+<a class="zola-anchor" href="#checking-logs" aria-label="Anchor link for: checking-logs" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Checking Logs</h2>
+<p>It’s always a good idea to check <strong>SPIRE Server</strong>’s and <strong>VSecM Safe</strong>’s logs
+to ensure that they are running as expected.</p>
+<p>To check <strong>SPIRE Server</strong>’s logs, execute the following:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> logs -n spire-system </span><span style="color:#81a1c1;">$</span><span>NAME_OF_SPIRE_SERVER_POD -f
+</span></code></pre>
+<p>To check <strong>VSecM Safe</strong>’s logs, execute the following:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> logs -n vsecm-system </span><span style="color:#81a1c1;">$</span><span>NAME_OF_VSECM_SAFE_POD -f 
+</span></code></pre>
+<h2 id="inspecting-spire-server-via-cli">
+<a class="zola-anchor" href="#inspecting-spire-server-via-cli" aria-label="Anchor link for: inspecting-spire-server-via-cli" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Inspecting SPIRE Server via CLI</h2>
+<p><strong>SPIRE Server</strong> has a command lin interface that you can use to directly
+interact with it. This can prove to be useful when you are debugging issues.</p>
+<p>Here’s an example:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#616e88;"># $SPIRE_SERVER is the name of the SPIRE Server pod.
+</span><span style="color:#88c0d0;">kubectl</span><span> exec -n spire-system </span><span style="color:#81a1c1;">$</span><span>SPIRE_SERVER</span><span style="color:#81a1c1;"> -- \
+</span><span>  /opt/spire/bin/spire-server
+</span><span>
+</span><span style="color:#616e88;">## Output:
+</span><span style="color:#616e88;"># Usage: spire-server [--version] [--help] &lt;command&gt; [&lt;args&gt;]
+</span><span style="color:#616e88;">#
+</span><span style="color:#616e88;"># Available commands are:
+</span><span style="color:#616e88;">#    agent
+</span><span style="color:#616e88;">#    bundle
+</span><span style="color:#616e88;">#    entry
+</span><span style="color:#616e88;">#    federation
+</span><span style="color:#616e88;">#    healthcheck    Determines server health status
+</span><span style="color:#616e88;">#    jwt
+</span><span style="color:#616e88;">#    run            Runs the server
+</span><span style="color:#616e88;">#    token
+</span><span style="color:#616e88;">#    validate       Validates a SPIRE server configuration file
+</span><span style="color:#616e88;">#    x509
+</span></code></pre>
+<p>You can also check registration entries:</p>
+<pre data-lang="bash" style="background-color:#2e3440;color:#d8dee9;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#88c0d0;">kubectl</span><span> exec spire-server-0 -n spire-server </span><span style="color:#81a1c1;">\
+</span><span style="color:#81a1c1;">  --</span><span> /opt/spire/bin/spire-server entry show </span><span style="color:#81a1c1;">\
+</span><span>  -spiffeID spiffe://vsecm.com/ns/vsecm-system/sa/vsecm-safe
+</span><span>
+</span><span style="color:#616e88;"># Found 1 entry
+</span><span style="color:#616e88;"># Entry ID     : ric.4746eca9-0853-468e-9b4e-6283a46912df
+</span><span style="color:#616e88;"># SPIFFE ID    : spiffe://vsecm.com/ns/vsecm-system/sa/vsecm-safe
+</span><span style="color:#616e88;"># Parent ID    : spiffe://vsecm.com/spire/agent/k8s_psat/o-ric/fe
+</span><span style="color:#616e88;"># Revision     : 0
+</span><span style="color:#616e88;"># X509-SVID TTL: default
+</span><span style="color:#616e88;"># JWT-SVID TTL : default
+</span><span style="color:#616e88;"># Selector     : k8s:pod-uid:c5e3728c-35a6-482c-8208-543fb2e6630e
+</span></code></pre>
+<h2 id="enjoy-tada">
+<a class="zola-anchor" href="#enjoy-tada" aria-label="Anchor link for: enjoy-tada" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Enjoy 🎉</h2>
+<p>Just explore the <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/Makefile">Makefile</a> and get a feeling of it.</p>
+<p><a href="https://vsecm.com/community/hello/">Feel free to touch base</a> if you have any questions, comments,
+recommendations.</p>
+<!--
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+-->
+<p class="github-button" style="text-align: right;margin-top:2em;border-top:1px #ccc dashed;padding-top:2em;">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/">
+    edit this page ✏️ 
+  </a>
+</p>
+
+
+    </div>
+</div>
+
+        </div>
+        <footer style="background:#00151D;">
+            Copyright © 2023-present <a style="color:#95e2fc" href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors">VMware Secrets Manager contributors</a>.<br><br>
+            <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+            code is distributed under <a style="color:#95e2fc"  href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+            <br>
+            The documentation on this website<br>
+            is distributed under <a style="color:#95e2fc"  href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+            <br><br>
+            <a style="color:#95e2fc" href="/community/contact/">contact</a> |
+            <a style="color:#95e2fc" href="/privacy/">privacy policy</a> |
+            <a style="color:#95e2fc" href="/code-of-conduct">code of conduct</a>
+            <br><br>
+        </footer>
+
+        <script type="text/javascript" src="https://vsecm.com/elasticlunr.min.js"></script>
+        <script type="text/javascript" src="https://vsecm.com/search.js"></script>
+    </body>
+</html>

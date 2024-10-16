@@ -1,0 +1,1109 @@
+
+<!DOCTYPE html>
+<html lang="en-gb">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="keep your secrets... secret">
+        <meta name="author" content="VMware Secrets Manager Contributors">
+        <title>Configuring VSecM | VMware Secrets Manager </title>
+        <link rel="stylesheet" href="https://vsecm.com/v0.28.0/site.css"/>
+        <link rel="icon" href="https://vsecm.com/v0.28.0/vsecm-32.png">
+    </head>
+    <body>
+
+        <header style="background:#00151D;">
+            <nav class="">
+                <a class="header__logo white" href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;" style="font-weight:100;color:#95e3fc;">
+                    <img src="https://vsecm.com/v0.28.0/vsecm-64.png" alt="VSecM" style="vertical-align:middle">
+                    VMware Secrets Manager
+                    <em style="font-size:0.62em;color:#ffffff">v0.28.0</em>
+                </a>
+                <a class="white" href="https://vsecm.com/v0.28.0/documentation/" class="nav-link">
+                <svg
+                    style="position:relative;top:4px;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Programming-Book--Streamline-Ultimate" height="24" width="24"><desc>Programming Book</desc><path fill="#e3e3e3" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Z" stroke-width="0.75"></path><path fill="#ffef5e" d="M3.390625 2.421875a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M18.890625 4.359375h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v2.90625a1.9375 1.9375 0 0 0 1.9375 1.9375h13.5625a0.96875 0.96875 0 0 1 0.96875 0.96875v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 2.421875h10.65625a0.96875 0.96875 0 0 1 0.96875 0.96875v0.96875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M18.890625 4.359375v-2.90625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-12.59375a1.9375 1.9375 0 1 0 0 3.875h13.5625Zm0 0a0.96875 0.96875 0 0 1 0.96875 0.96875v16.46875a0.96875 0.96875 0 0 1 -0.96875 0.96875h-13.5625a1.9375 1.9375 0 0 1 -1.9375 -1.9375v-18.40625" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m7.265625 10.175749999999999 2.421875 2.421875 -2.421875 2.421875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M12.109375 14.050749999999999h3.875" stroke-width="0.75"></path></svg>
+                Docs
+
+                </a>
+                <a class="white" href=" https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" id="Slack-Logo--Streamline-Flex-Gradient" height="24" width="24" stroke-width="1"><desc>Slack Logo</desc><g id="slack"><path id="Union" fill="url(#paint0_linear_7718_2952)" fill-rule="evenodd" d="M5.75879.25c.41421 0 .75.335786.75.75v.24995c0 .41421-.33579.75-.75.75s-.75-.33579-.75-.75V1c0-.414214.33579-.75.75-.75ZM13 4.34033c.4142 0 .75.33579.75.75v.24995c0 .41422-.3358.75-.75.75s-.75-.33578-.75-.75v-.24995c0-.41421.3358-.75.75-.75ZM1.75 8.03479c0-.41421-.33579-.75-.75-.75-.414214 0-.75.33579-.75.75v.24995c0 .41421.335786.75.75.75.41421 0 .75-.33579.75-.75v-.24995Zm4.54094-4.46403c.23744.28178.38454.65583.38454 1.04404 0 .38821-.1471.76227-.38454 1.04404-.23628.2804-.58938.4986-1.01303.50949-1.1742.06477-2.45614.06477-3.63034 0-.42365-.01089-.776743-.22909-1.013025-.50949C.397098 5.37707.25 5.00301.25 4.6148c0-.38821.147099-.76226.384545-1.04404.236282-.28039.589375-.49859 1.013025-.50948 1.1742-.06478 2.45614-.06478 3.63034 0 .42365.01089.77675.22909 1.01303.50948ZM9.34332.25c-.38821 0-.76226.147099-1.04404.384545-.2804.236281-.4986.589375-.50949 1.013025-.06477 1.1742-.06477 2.45614 0 3.63034.01089.42365.22909.77675.50949 1.01303.28178.23744.65583.38454 1.04404.38454.38821 0 .76228-.1471 1.04408-.38454.2804-.23628.4986-.58938.5094-1.01303.0648-1.1742.0648-2.45614 0-3.63034-.0108-.42365-.229-.776743-.5094-1.013025C10.1056.397099 9.73153.25 9.34332.25ZM5.70084 13.3671c-.28178.2375-.65584.3846-1.04405.3846-.3882 0-.76226-.1471-1.04404-.3846-.28039-.2363-.49859-.5894-.50948-1.013-.06478-1.1742-.06478-2.45615 0-3.63036.01089-.42364.22909-.77674.50948-1.01302.28178-.23745.65584-.38455 1.04405-.38455.38821 0 .76226.1471 1.04404.38455.28039.23628.49859.58938.50948 1.01302.06478 1.17421.06478 2.45616 0 3.63036-.01089.4236-.22909.7767-.50948 1.013Zm1.62338-3.9802c0 .38821.1471.7623.38454 1.044.23628.2804.58938.4986 1.01303.5095 1.1742.0648 2.45611.0648 3.63031 0 .4237-.0109.7768-.2291 1.0131-.5095.2374-.2817.3845-.65579.3845-1.044 0-.38821-.1471-.76227-.3845-1.04404-.2363-.2804-.5894-.4986-1.0131-.50949-1.1742-.06477-2.45611-.06477-3.63031 0-.42365.01089-.77674.22909-1.01303.50949-.23744.28177-.38454.65583-.38454 1.04404Zm.85644 2.6148c.41422 0 .75.3358.75.75v.25c0 .4142-.33578.75-.75.75-.41421 0-.75-.3358-.75-.75v-.25c0-.4142.33579-.75.75-.75Z" clip-rule="evenodd"></path></g><defs><linearGradient id="paint0_linear_7718_2952" x1="14.92" x2="-3.291" y1="16.611" y2="3.677" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd600"></stop><stop offset="1" stop-color="#FF007A"></stop></linearGradient></defs></svg>
+                    Slack</a>
+                <a class="white" href="https://github.com/vmware-tanzu/secrets-manager" class="nav-link">
+                    <svg
+                        style="position:relative;top:6px;"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Github-Logo--Streamline-Ultimate" height="24" width="24"><desc>Github Logo</desc><path fill="#808080" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#b2b2b2" d="M1.09294375 11.432315625C4.235665625 9.4212875 7.895021874999999 8.366803124999999 11.62596875 8.397028125C15.356915625 8.36554375 19.016659375 9.4189625 22.159865625000002 11.4293125C21.926784375 10.603065625 21.566215625 9.81828125 21.0912375 9.103246875L21.1230125 9.126109375S23.7510375 4.5850937499999995 20.5270375 1.938275C18.540615625 1.938275 15.503390625 5.215846875 15.503390625 5.215846875L15.525284375 5.230765625C12.999656250000001 4.50449375 10.3210625 4.500425 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.68581875 9.8239 1.3259281250000001 10.60800625 1.09294375 11.433284375Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M21.0912375 9.106250000000001L21.1230125 9.129015625000001S23.7510375 4.588096875000001 20.5270375 1.94118125C18.540615625 1.94118125 15.503390625 5.21885 15.503390625 5.21885L15.525284375 5.2347375C13.00004375 4.5066250000000005 10.321353125 4.5012 7.793109374999999 5.21885C7.776253125000001 5.20393125 4.75094375 1.94118125 2.7694625 1.94118125C-0.381978125 4.523578125 2.04541875 8.905621875 2.159634375 9.10915625C1.0598125 10.796428125 0.570884375 12.80939375 0.7741281250000001 14.81315625C1.01350625 17.918 3.6018125 21.30881875 6.715471875 21.30881875H16.533365625000002C19.647121875 21.30881875 22.236396875 17.918 22.474709375 14.81315625C22.680859375 12.808521875 22.192415625 10.793909374999998 21.0912375 9.106250000000001Z" stroke-width="0.75"></path><path fill="#ffdda1" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M19.074978125 15.846134374999998C19.074978125 9.917675000000001 14.976971875 12.338096875 11.62596875 12.338096875C8.27486875 12.338096875 4.1768625 9.9792875 4.1768625 15.846134374999998C4.1768625 17.766003124999997 5.733256249999999 19.322396875 7.653125 19.322396875H15.598812500000001C17.51868125 19.322396875 19.074978125 17.766003124999997 19.074978125 15.846134374999998H19.074978125Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.123059375 17.335974999999998C15.671275 17.335974999999998 16.116221875 16.66850625 16.116221875 15.846134374999998S15.671275 14.35629375 15.123059375 14.35629375S14.1298 15.0237625 14.1298 15.846134374999998S14.574746875 17.335974999999998 15.123059375 17.335974999999998Z" stroke-width="0.75"></path><path fill="#c77f67" stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M8.170534375 17.335974999999998C8.718846875 17.335974999999998 9.16379375 16.66850625 9.16379375 15.846134374999998S8.718846875 14.35629375 8.170534375 14.35629375S7.177371875 15.0237625 7.177371875 15.846134374999998S7.62231875 17.335974999999998 8.170534375 17.335974999999998Z" stroke-width="0.75"></path></svg>
+                    GitHub</a>
+
+                <div class="search-container">
+                    <input id="search" type="search" placeholder="Search...">
+
+                    <div class="search-results">
+                        <div class="search-results__items"></div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div style="background: #cc0000; color: #ffffff; padding: 1em;">
+            This is a snapshot of the VMware Secrets Manager documentation
+            at version <strong>v0.28.0</strong>.<br>
+            For the latest information, please visit the
+            <a href="/" style="color:#ffff00;text-decoration:underline;border:0"
+            >VMware Secrets Manager documentation root</a>.
+        </div>
+            <div style="font-size:1em;background:#FFED90;
+            color: #000000;
+padding: 1em;
+">
+                <svg
+                    style="display:inline-block;top: 7px;position:relative;"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Calendar-Favorite-1--Streamline-Ultimate" height="24" width="24"><desc>Calendar Favorite 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ff808c" d="M19.859375 7.273375V3.390625a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v3.88275h19.375Z" stroke-width="0.75"></path><path fill="#ffbfc5" d="M19.859375 4.359375v-0.96875a0.96875 0.96875 0 0 0 -0.96875 -0.96875h-17.4375a0.96875 0.96875 0 0 0 -0.96875 0.96875v0.96875h19.375Z" stroke-width="0.75"></path><path fill="#ffffff" d="M0.484375 7.273375V16.953125a0.96875 0.96875 0 0 0 0.96875 0.96875h17.4375a0.96875 0.96875 0 0 0 0.96875 -0.96875v-9.6875l-19.375 0.00775Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M9.203125 17.921875h-7.75a0.96875 0.96875 0 0 1 -0.96875 -0.96875v-13.5625a0.96875 0.96875 0 0 1 0.96875 -0.96875h17.4375a0.96875 0.96875 0 0 1 0.96875 0.96875V9.6875" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M5.328125 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M15.015625 0.48534375v4.84375" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M0.484375 7.26659375h19.375" stroke-width="0.75"></path><path fill="#ffef5e" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M19.127 15.015625 17.631249999999998 11.554281249999999a0.775 0.775 0 0 0 -1.36496875 0L14.778281250000001 15.015625h-2.90625a0.71203125 0.71203125 0 0 0 -0.49793750000000003 1.2429062499999999l2.5187500000000003 2.24265625 -1.3920937500000001 3.2085a0.755625 0.755625 0 0 0 -0.0096875 0.5366875000000001l7.2365625 -7.2307500000000005h-0.600625Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="m17.631249999999998 11.554281249999999 1.4909062499999999 3.4584375h2.9004375000000002a0.71203125 0.71203125 0 0 1 0.5018125 1.2429062499999999l-2.5187500000000003 2.2436249999999998 1.395 3.2085a0.76046875 0.76046875 0 0 1 -1.08209375 0.9513125L16.953125 20.7603125l-3.37125 1.89875a0.76046875 0.76046875 0 0 1 -1.08209375 -0.9513125l1.3969375 -3.204625 -2.5187500000000003 -2.2436249999999998a0.71203125 0.71203125 0 0 1 0.49793750000000003 -1.2429062499999999h2.90625l1.491875 -3.4584375a0.775 0.775 0 0 1 1.3659375 0l-0.0096875 -0.003875Z" stroke-width="0.75"></path></svg>
+                &nbsp;<a style="color: #00151D" href="/community/contributor-hours/"><strong>Mark Your Calendars</strong></a>:
+                The next
+                <strong
+                ><a
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;font-weight:400;margin:0.4em;position:relative;display:inline-block;transform: rotate(-2deg)"
+                    href="/community/contributor-hours/"
+                >VSecM Contributor Sync</a
+                ></strong
+                >
+                will be on...
+                <a
+                    href="/community/contributor-hours/"
+                    style="color: #FFE9BA;background: #08011C;padding: 0.2em;margin:0.4em;font-weight:400;position:relative;display:inline-block;transform: rotate(-2deg)"
+
+                >🎃 Thursday, 2024-10-31 🎃
+                at 8:00am Pacific time</a>.
+
+            </div>
+        <div
+        style="padding:1em;background:#DDC755;color:#000000"
+        >
+            <svg
+                style="position:relative;top:6px;"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.375 -0.375 24 24" id="Rating-Star-1--Streamline-Ultimate" height="24" width="24"><desc>Rating Star 1 Streamline Icon: https://streamlinehq.com</desc><path fill="#ffef5e" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path><path fill="#fff9bf" d="M11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.932246875 1.9808031250000002C10.995215625 1.84915 11.09431875 1.73813125 11.217834375 1.660534375C11.341446875 1.582840625 11.484434375000001 1.5418625 11.630424999999999 1.542153125V18.63158125Z" stroke-width="0.75"></path><path stroke="#191919" stroke-linecap="round" stroke-linejoin="round" d="M10.936896875 1.971503125C11.000059375000001 1.840915625 11.098871874999999 1.73076875 11.221903125 1.6537531250000002C11.34464375 1.5767375 11.486953125 1.53585625 11.631974999999999 1.53585625C11.776996875 1.53585625 11.919209375 1.5767375 12.042046875 1.6537531250000002C12.16498125 1.73076875 12.263890625 1.840915625 12.327053125 1.971503125L15.183025 7.745253125L21.583846875000003 8.671959375C21.726737500000002 8.692690625000001 21.860812499999998 8.75304375 21.97105625 8.8462375C22.081396875000003 8.939334375 22.163353125 9.061396875 22.207721875 9.198862499999999C22.252187499999998 9.336134375 22.257128125 9.483190624999999 22.222253124999998 9.623175C22.187378125 9.763256250000001 22.113850000000003 9.890646875 22.01019375 9.99110625L17.376371875 14.4704125L18.469896875 20.803325C18.494309375 20.945149999999998 18.478615625 21.090946875 18.424462499999997 21.22434375C18.370406250000002 21.35764375 18.28011875 21.473409375 18.163771875000002 21.558175C18.047618749999998 21.642940625 17.9098625 21.693509375 17.766390625 21.7042625C17.622821875 21.714918750000002 17.479253125 21.685468750000002 17.351571875 21.618915625L11.630424999999999 18.63158125L5.89833125 21.62656875C5.770746875 21.69321875 5.62708125 21.72266875 5.4836093749999995 21.7120125C5.3401375 21.701259375 5.202478125000001 21.650690625 5.08613125 21.565925C4.96988125 21.481159375 4.87959375 21.36539375 4.8255375 21.23209375C4.77148125 21.098696874999998 4.755690625 20.9529 4.780103125 20.811075L5.873725 14.4781625L1.23980625 9.998856250000001C1.13615 9.898396875000001 1.06271875 9.77100625 1.027746875 9.630925C0.992871875 9.490940625 0.9978125 9.343884375 1.04218125 9.2066125C1.086646875 9.069146875000001 1.168603125 8.947084375 1.2788468750000002 8.8539875C1.3891875 8.76079375 1.523359375 8.700440624999999 1.666153125 8.679709375L8.068525 7.753003125L10.936896875 1.971503125Z" stroke-width="0.75"></path></svg>
+
+            &nbsp;<a href="https://github.com/vmware-tanzu/secrets-manager" style="color:#000000;text-decoration:underline;">Star <strong>VMware Secrets Manager</strong> to show your support</a>.
+            <span class="secondary-slogan">Help us reach out to even more people with this amazing tech.</span></div>
+
+        <div class="content content--reversed">
+            
+
+
+
+<div class="documentation">
+    <aside class="documentation__sidebar">
+        <ul>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title"></span>
+                <ul>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Community</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;community&#x2F;hello&#x2F;">VSecM Community</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;community&#x2F;contributor-hours&#x2F;">VSecM Contributor Hour</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;community&#x2F;contact&#x2F;">Get in Touch</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;community&#x2F;maintainers&#x2F;">Maintainers</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;community&#x2F;endorsements&#x2F;">What People Say</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Showcase</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;showcase&#x2F;vsecm&#x2F;">VSecM Showcase</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+            
+            <li>
+                <span class="documentation__sidebar__title">Timeline</span>
+                <ul>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;timeline&#x2F;roadmap&#x2F;">VSecM Roadmap</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;timeline&#x2F;changelog&#x2F;">VSecM Changelog</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            
+
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Quickstart</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;getting-started&#x2F;overview&#x2F;">Prerequisites</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;getting-started&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;getting-started&#x2F;verify&#x2F;">Verify Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;getting-started&#x2F;deploy&#x2F;">Deploy an Example Workload</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;getting-started&#x2F;register&#x2F;">Register a Secret</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Welcome</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;welcome&#x2F;overview&#x2F;">Introducing VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;welcome&#x2F;about&#x2F;">What is VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Architecture</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;architecture&#x2F;philosophy&#x2F;">VSecM Design Philosophy</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;architecture&#x2F;overview&#x2F;">VSecM Architecture</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;architecture&#x2F;adr-intro&#x2F;">Architectural Decision Records</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Configuration</span>
+                <ul>
+                    
+                        <li class="active">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;configuration&#x2F;overview&#x2F;">Configuring VSecM</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Development</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;development&#x2F;use-the-source&#x2F;">Use the Source</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;development&#x2F;contributing&#x2F;">Contribute to VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;development&#x2F;dev-env&#x2F;">Development Environment</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Using VSecM</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;usage&#x2F;installation&#x2F;">Installation</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;usage&#x2F;cli&#x2F;">VSecM CLI</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;usage&#x2F;sdk&#x2F;">VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;usage&#x2F;releases&#x2F;">VSecM Releases</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Use Cases</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;about&#x2F;">About Use Cases</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;overview&#x2F;">Overview</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;registering-secrets&#x2F;">Registering Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;retrieving-secrets&#x2F;">Retrieving Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;sidecar&#x2F;">Using VSecM Sidecar</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;init-container&#x2F;">Using VSecM Init Container</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;encrypt&#x2F;">Encrypting Secrets Using VSecM</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;transform&#x2F;">Transforming Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;mounting-secrets&#x2F;">Mounting Secrets as Volumes</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;template-files&#x2F;">Mutating a Template File</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;vsecm-sdk&#x2F;">Retrieving Secrets Via VSecM SDK</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;kubernetes-secrets&#x2F;">Mounting Kubernetes Secrets</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;large-files&#x2F;">Encrypting Large Files</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;root-key&#x2F;">Setting VSecM Root Key</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;use-cases&#x2F;randomized-secrets&#x2F;">Generating Randomized Secrets</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Production</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;production&#x2F;overview&#x2F;">Production Setup</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <span class="documentation__sidebar__title">Operations</span>
+                <ul>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;operations&#x2F;security&#x2F;">Security</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;operations&#x2F;documentation-snapshots&#x2F;">Documentation Snapshots</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;operations&#x2F;release-management&#x2F;">Release Management</a>
+                        </li>
+                    
+                        <li class="">
+                            <a href="https:&#x2F;&#x2F;vsecm.com&#x2F;v0.28.0&#x2F;documentation&#x2F;operations&#x2F;governance&#x2F;">Governance</a>
+                        </li>
+                    
+                </ul>
+            </li>
+        
+        </ul>
+    </aside>
+    <div class="documentation__content">
+        
+    <h1>Configuring VSecM</h1>
+    <blockquote>
+<p><strong>Alphabetic Order</strong></p>
+<p>The environment variables mentioned in this document are listed in alphabetic
+order.</p>
+</blockquote>
+<blockquote>
+<p><strong>Looking for VMware Secrets Manager Production Tips</strong>?</p>
+<p>For <strong>production setup</strong>, check out <a href="https://vsecm.com/v0.28.0/documentation/production/overview/"><strong>VMware Secrets Manager Production
+Deployment</strong></a>.</p>
+</blockquote>
+<h2 id="introduction">
+<a class="zola-anchor" href="#introduction" aria-label="Anchor link for: introduction" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Introduction</h2>
+<p><strong>VMware Secrets Manager</strong> system components can be configured using environment
+variables.</p>
+<p>The following section contain a breakdown of all of these environment variables.</p>
+<blockquote>
+<p><strong>With Great Flexibility Comes Responsibility</strong></p>
+<p>Using environment variables to configure <strong>VSecM</strong> offers operators 
+significant flexibility. However, it’s important to be mindful that 
+incorrect configurations can potentially reduce your apps’ security.</p>
+<p>For detailed guidance on secure configurations, please refer to 
+the <a href="https://vsecm.com/v0.28.0/documentation/production/overview/"><strong>Production Deployment Instructions</strong></a>.</p>
+</blockquote>
+<h2 id="environment-variables">
+<a class="zola-anchor" href="#environment-variables" aria-label="Anchor link for: environment-variables" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>Environment Variables</h2>
+<blockquote>
+<p><strong>Using VSecM Helm Charts</strong>?</p>
+<p>If you are using <a href="https://vmware-tanzu.github.io/secrets-manager/"><strong>VMware Secrets Manager Helm Charts</strong></a>,
+you can configure these environment variables using the <code>values.yaml</code> file.</p>
+<p>You can check out the details <a href="https://vmware-tanzu.github.io/secrets-manager/">from the official VSecM Helm Charts
+documentation</a>.</p>
+</blockquote>
+<h3 id="spiffe-endpoint-socket">
+<a class="zola-anchor" href="#spiffe-endpoint-socket" aria-label="Anchor link for: spiffe-endpoint-socket" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>SPIFFE_ENDPOINT_SOCKET</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Sidecar</em>,
+<em>VSecM Init Container</em>, <em>VSecM Safe</em>, <em>Workloads</em>.</p>
+<p><code>SPIFFE_ENDPOINT_SOCKET</code> is required for <strong>VSecM Sentinel</strong> to talk to
+<strong>SPIRE</strong>.</p>
+<p>If not provided, a default value of <code>&quot;unix:///spire-agent-socket/spire-agent.sock&quot;</code>
+will be used.</p>
+<h3 id="spiffe-trust-domain">
+<a class="zola-anchor" href="#spiffe-trust-domain" aria-label="Anchor link for: spiffe-trust-domain" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>SPIFFE_TRUST_DOMAIN</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>, <em>VSecM Sidecar</em>, <em>Workloads</em>.</p>
+<p><code>SPIFFE_TRUST_DOMAIN</code> specifies which trust domain that the Kubernetes cluster
+<strong>VSecM</strong> deployed on is configured with.</p>
+<p>By default, it is <code>&quot;vsecm.com&quot;</code>.</p>
+<p>The workload SPIFFE IDs will have this trust domain as per the SPIFFE
+standard.</p>
+<p>For example, for the SPIFFE ID 
+<code>spiffe://vsecm.com/workload/app/s/app/n/app-1234</code>, <code>vsecm.com</code> is the 
+<em>trust domain</em>.</p>
+<p>For more information about SPIFFE IDs and trust domains, 
+<a href="https://spiffe.io/">check out the official SPIFFE documentation</a>.</p>
+<h3 id="vsecm-backoff-delay">
+<a class="zola-anchor" href="#vsecm-backoff-delay" aria-label="Anchor link for: vsecm-backoff-delay" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_BACKOFF_DELAY</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>, <em>VSecM Sidecar</em>, 
+<em>VSecM Init Container</em>.</p>
+<p><code>VSECM_BACKOFF_DELAY</code> configures the initial delay for backoff algorithms. This
+introduces a waiting period before retrying an operation after a failure.</p>
+<p>If not given, defaults to <code>&quot;1000&quot;</code> milliseconds.``</p>
+<h3 id="vsecm-backoff-max-retries">
+<a class="zola-anchor" href="#vsecm-backoff-max-retries" aria-label="Anchor link for: vsecm-backoff-max-retries" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_BACKOFF_MAX_RETRIES</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>, <em>VSecM Sidecar</em>, 
+<em>VSecM Init Container</em>.</p>
+<p><code>VSECM_BACKOFF_MAX_RETRIES</code> configures the maximum number of retries in internal
+backoff algorithms. This is used in scenarios where operations might fail
+transiently and require repeated attempts to succeed.</p>
+<p>If not given, defaults to <code>&quot;10&quot;</code>.</p>
+<h3 id="vsecm-backoff-max-wait">
+<a class="zola-anchor" href="#vsecm-backoff-max-wait" aria-label="Anchor link for: vsecm-backoff-max-wait" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_BACKOFF_MAX_WAIT</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>, <em>VSecM Sidecar</em>, 
+<em>VSecM Init Container</em>.</p>
+<p><code>VSECM_BACKOFF_MAX_WAIT</code> configures the maximum duration the backoff
+algorithm can wait before retrying an operation. This is used to prevent
+excessive waiting times in case of repeated failures.</p>
+<p>If the environment variable is not set or cannot be parsed, a default maximum
+duration of <code>&quot;30000&quot;</code> milliseconds is used.</p>
+<p>This variable is crucial for defining the upper limit on the duration to which
+backoff delay can grow, ensuring that retry mechanisms do not result in
+excessively long wait times.</p>
+<h3 id="vsecm-backoff-mode">
+<a class="zola-anchor" href="#vsecm-backoff-mode" aria-label="Anchor link for: vsecm-backoff-mode" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_BACKOFF_MODE</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>, <em>VSecM Sidecar</em>, 
+<em>VSecM Init Container</em>.</p>
+<p><code>VSECM_BACKOFF_MODE</code> determines the backoff strategy to be used. Available
+options are <code>&quot;exponential&quot;</code> and <code>&quot;linear&quot;</code>.</p>
+<p>If the environment variable is not set, or if its value is <code>&quot;exponential&quot;</code>,
+<code>&quot;exponential&quot;</code> is used. For any other non-empty value, <code>&quot;linear&quot;</code> is used.</p>
+<h3 id="vsecm-init-container-poll-interval">
+<a class="zola-anchor" href="#vsecm-init-container-poll-interval" aria-label="Anchor link for: vsecm-init-container-poll-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_INIT_CONTAINER_POLL_INTERVAL</h3>
+<p><strong>Used By</strong>: <em>VSecM Init Container</em>.</p>
+<p><code>VSECM_INIT_CONTAINER_POLL_INTERVAL</code> determines the time interval between each
+poll in the <code>Watch()</code> function. The interval is specified in milliseconds.
+If the environment variable is not set or is not a valid integer value,
+a default interval of <code>5000</code> milliseconds is used.</p>
+<h3 id="vsecm-init-container-wait-before-exit">
+<a class="zola-anchor" href="#vsecm-init-container-wait-before-exit" aria-label="Anchor link for: vsecm-init-container-wait-before-exit" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT</h3>
+<p><strong>Used By</strong>: <em>VSecM Init Container</em>.</p>
+<p><code>VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT</code> determines the wait time before the
+init container exits. The duration is determined by the environment variable
+<code>&quot;VSECM_INIT_CONTAINER_WAIT_BEFORE_EXIT&quot;</code> and defaults to zero if the variable
+is not set or cannot be parsed.</p>
+<p>The environment variable is expected to be an integer value representing the
+wait time in milliseconds. If parsing fails, the function a default value
+of <code>&quot;0&quot;</code> milliseconds will be assumed.</p>
+<h3 id="vsecm-keygen-decrypt">
+<a class="zola-anchor" href="#vsecm-keygen-decrypt" aria-label="Anchor link for: vsecm-keygen-decrypt" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_KEYGEN_DECRYPT</h3>
+<p><strong>Used By</strong>: <em>VSecM Keygen</em>.</p>
+<p><code>VSECM_KEYGEN_DECRYPT</code> determines if <strong>VSecM Keygen</strong> should decrypt the secrets
+JSON file instead of generation a root key (<em>which is its default behavior</em>).</p>
+<p>If this value is  anything but <code>&quot;true&quot;</code>, <strong>VSecM Keygen</strong> will generate a new
+root key. Otherwise, it will attempt to decrypt the secrets provided to it.</p>
+<p>Defaults to <code>&quot;false&quot;</code>.</p>
+<h3 id="vsecm-keygen-exported-secret-path">
+<a class="zola-anchor" href="#vsecm-keygen-exported-secret-path" aria-label="Anchor link for: vsecm-keygen-exported-secret-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_KEYGEN_EXPORTED_SECRET_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Keygen</em>.</p>
+<p><code>VSECM_KEYGEN_EXPORTED_SECRET_PATH</code> is the path where the exported secrets are
+stored. This needs to be mounted to the container that you run <strong>VSecM Keygen</strong>.</p>
+<p>If the environment variable is not set, it defaults to
+<code>&quot;/opt/vsecm/secrets.json&quot;</code>.</p>
+<h3 id="vsecm-keygen-root-key-path">
+<a class="zola-anchor" href="#vsecm-keygen-root-key-path" aria-label="Anchor link for: vsecm-keygen-root-key-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_KEYGEN_ROOT_KEY_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Keygen</em>.</p>
+<p><code>VSECM_KEYGEN_ROOT_KEY_PATH</code> is the path where the root key is stored. This
+needs to be mounted to the container that you run <strong>VSecM Keygen</strong>.</p>
+<p>If not given, it defaults to <code>&quot;/opt/vsecm/keys.txt&quot;</code>.</p>
+<h3 id="vsecm-log-level">
+<a class="zola-anchor" href="#vsecm-log-level" aria-label="Anchor link for: vsecm-log-level" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_LOG_LEVEL</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>.</p>
+<p><code>VSECM_LOG_LEVEL</code> determines the verbosity of the logs in <strong>VSecM Safe</strong>.</p>
+<p><strong>VSecM Sidecar</strong> also uses this configuration; however, unlike <strong>VSecM Safe</strong>,
+it is not dynamic. While you can dynamically configure this at runtime for
+<strong>VSecM Safe</strong> without having to restart <strong>VSecM Safe</strong>, for <strong>VSecM Sidecar</strong>
+you’ll have to restart the <strong>workload</strong>’s pod for any changes to take effect.</p>
+<p><code>0</code>: logs are off, <code>7</code>: highest verbosity. default: <code>3</code></p>
+<p>Here are what various log levels correspond to:</p>
+<pre data-lang="txt" style="background-color:#2e3440;color:#d8dee9;" class="language-txt "><code class="language-txt" data-lang="txt"><span>Off   = 0
+</span><span>Fatal = 1
+</span><span>Error = 2
+</span><span>Warn  = 3
+</span><span>Info  = 4
+</span><span>Audit = 5
+</span><span>Debug = 6
+</span><span>Trace = 7
+</span></code></pre>
+<h3 id="vsecm-log-secret-fingerprints">
+<a class="zola-anchor" href="#vsecm-log-secret-fingerprints" aria-label="Anchor link for: vsecm-log-secret-fingerprints" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_LOG_SECRET_FINGERPRINTS</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_LOG_SECRET_FINGERPRINTS</code> is used to determine whether secret fingerprints
+should be logged in the <strong>VSecM Safe</strong> logs.</p>
+<p>If the environment variable is not set or is not <code>&quot;true&quot;</code>, defaults to <code>&quot;false&quot;</code>.</p>
+<p>When <code>&quot;true&quot;</code>, <strong>VSecM Safe</strong> logs will include partial hashes for the secrets.
+This approach will be useful to verify changes to a secret without revealing it
+in the logs.</p>
+<p>The partial hash is a cryptographically secure string, and there is no way to
+retrieve the original secret from it.</p>
+<h3 id="vsecm-namespace-system">
+<a class="zola-anchor" href="#vsecm-namespace-system" aria-label="Anchor link for: vsecm-namespace-system" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_NAMESPACE_SYSTEM</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_NAMESPACE_SYSTEM</code> environment variable specifies the namespace in
+which a <strong>VSecM</strong> instance is deployed.</p>
+<p>Ensure this is set as an environment variable for your containers; it’s a
+critical piece. <strong>VSecM Safe</strong> and Sentinel rely on it to precisely locate the
+deployment’s namespace. For instance, Safe leverages this information to
+securely store age keys within a designated secret, as specified by the
+<code>VSECM_ROOT_KEY_NAME</code> configuration.</p>
+<h3 id="vsecm-probe-liveness-port">
+<a class="zola-anchor" href="#vsecm-probe-liveness-port" aria-label="Anchor link for: vsecm-probe-liveness-port" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_PROBE_LIVENESS_PORT</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Safe</em>.</p>
+<p><strong>VSecM Safe</strong> and <strong>VSecM Sentinel</strong> use this configuration.</p>
+<p><code>VSECM_PROBE_LIVENESS_PORT</code> is the port where the liveness probe
+will serve.</p>
+<p>Defaults to <code>:8081</code>.</p>
+<h3 id="vsecm-probe-readiness-port">
+<a class="zola-anchor" href="#vsecm-probe-readiness-port" aria-label="Anchor link for: vsecm-probe-readiness-port" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_PROBE_READINESS_PORT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><strong>VSecM Safe</strong> uses this configuration.</p>
+<p><code>VSECM_PROBE_READINESS_PORT</code> is the port where the readiness probe
+will serve.</p>
+<p>Defaults to <code>:8082</code>.</p>
+<h3 id="vsecm-root-key-input-mode-manual">
+<a class="zola-anchor" href="#vsecm-root-key-input-mode-manual" aria-label="Anchor link for: vsecm-root-key-input-mode-manual" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_ROOT_KEY_INPUT_MODE_MANUAL</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_ROOT_KEY_INPUT_MODE_MANUAL</code> is a boolean indicating whether to use manual
+cryptographic key input for <strong>VSecM Safe</strong>, instead of letting the bootstrap
+flow automatically compute cryptographic keys.</p>
+<p>If the environment variable is not set or its value is not <code>&quot;true&quot;</code>, the
+bootstrap flow will <strong>not</strong> compute the cryptographic keys automatically.</p>
+<p>If this variable is set to <code>&quot;true&quot;</code> then a human operator has to provide the
+necessary cryptographic keys using <strong>VSecM Sentinel</strong> for <strong>VSecM</strong> Safe** to
+unlock itself and start serving API requests.</p>
+<blockquote>
+<p><strong>Setting the Root Key Manually</strong></p>
+<p>You can <a href="https://vsecm.com/v0.28.0/documentation/usage/cli/">set the root key programmatically using
+<strong>VSecM Sentinel</strong></a>.</p>
+</blockquote>
+<p>The control offered by this approach changes the threat boundary of
+<strong>VSecM Safe</strong>. With this approach, the responsibility of securing the
+<em>root key</em> is on you as the operator. This is different than the default
+behavior of <strong>VSecM Safe</strong> where the <em>root key</em> is randomly-generated in a
+cryptographically secure way and stored in a Kubernetes <code>Secret</code>.</p>
+<p>Using a Kubernetes <code>Secret</code> to store the <em>root key</em> is still secure,
+especially if you encrypt your <code>etcd</code> and establish a <strong>tight RBAC</strong> over the
+Kubernetes <code>Secret</code>that stores the <em>root key</em>.</p>
+<p>Also note that when this variable is set to <code>&quot;true&quot;</code>, <strong>VSecM Safe</strong> will <strong>not</strong>
+respond to API requests until a <em>root key</em> is provided, using <strong>VSecM Sentinel</strong>.</p>
+<h3 id="vsecm-root-key-name">
+<a class="zola-anchor" href="#vsecm-root-key-name" aria-label="Anchor link for: vsecm-root-key-name" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_ROOT_KEY_NAME</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_ROOT_KEY_NAME</code> is how the age secret key is referenced by
+name inside <strong>VSecM Safe</strong>’s code. If not set, defaults to <code>&quot;vsecm-root-key&quot;</code>.</p>
+<p>If you change the value of this environment variable, make sure to change the
+relevant <code>Secret</code> and <code>Deployment</code> YAML manifests too. The easiest way to do
+this is to do a project wide search and find and replace places where reference
+<code>&quot;vsecm-root-key&quot;</code> to your new name of choice.</p>
+<h3 id="vsecm-root-key-path">
+<a class="zola-anchor" href="#vsecm-root-key-path" aria-label="Anchor link for: vsecm-root-key-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_ROOT_KEY_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_ROOT_KEY_PATH</code> is where <strong>VSecM Safe</strong> will fetch the <code>&quot;key.txt&quot;</code>
+that contains the encryption keys.</p>
+<p>If not given, it will default to <code>&quot;/key/key.txt&quot;</code>.</p>
+<h3 id="vsecm-safe-backing-store">
+<a class="zola-anchor" href="#vsecm-safe-backing-store" aria-label="Anchor link for: vsecm-safe-backing-store" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_BACKING_STORE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p>This environment variable is used by <strong>VSecM Sentinel</strong> to let <strong>VSecM Safe</strong>
+know where to persist the secret. To reiterate, this environment variable shall
+be defined for <strong>VSecM Sentinel</strong> deployment; defining it for <strong>VSecM Safe</strong>
+has no effect.</p>
+<p><code>VSECM_SAFE_BACKING_STORE</code> is the type of the storage where the secrets
+will be encrypted and persisted.</p>
+<ul>
+<li>If not given, defaults to <code>&quot;file&quot;</code>.</li>
+<li>The other option is  <code>&quot;in-memory&quot;</code>.</li>
+</ul>
+<p>A <code>&quot;file&quot;</code> backing store means <strong>VSecM Safe</strong> persists an encrypted version
+of its state in a volume (<em>ideally a <code>PersistedVolume</code></em>).</p>
+<p>An <code>&quot;in-memory&quot;</code> backing store means <strong>VSecM Safe</strong> does not persist backups
+of the secrets it created to disk. When that option is selected, you will
+lose all of your secrets if <strong>VSecM Safe</strong> is evicted by the scheduler or
+manually restarted by an operator.</p>
+<h3 id="vsecm-safe-bootstrap-timeout">
+<a class="zola-anchor" href="#vsecm-safe-bootstrap-timeout" aria-label="Anchor link for: vsecm-safe-bootstrap-timeout" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_BOOTSTRAP_TIMEOUT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><strong>VSecM Safe</strong> uses this configuration.</p>
+<p><code>VSECM_SAFE_BOOTSTRAP_TIMEOUT</code> is how long (<em>in milliseconds</em>) <strong>VSecM Safe</strong>
+will wait for an <em>SPIRE X.509 SVID</em> bundle before giving up and crashing.</p>
+<p>The default value is <code>300000</code> milliseconds.</p>
+<h3 id="vsecm-safe-data-path">
+<a class="zola-anchor" href="#vsecm-safe-data-path" aria-label="Anchor link for: vsecm-safe-data-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_DATA_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_DATA_PATH</code> is where <strong>VSecM Safe</strong> stores its encrypted secrets.</p>
+<p>If not given, defaults to <code>&quot;/var/local/vsecm/data&quot;</code>.</p>
+<h3 id="vsecm-safe-endpoint-url">
+<a class="zola-anchor" href="#vsecm-safe-endpoint-url" aria-label="Anchor link for: vsecm-safe-endpoint-url" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_ENDPOINT_URL</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>, <em>VSecM Sidecar</em>, <em>VSecM Init Container</em>,
+<em>VSecM Safe</em>, <em>Workloads</em>.</p>
+<p><code>VSECM_SAFE_ENDPOINT_URL</code> is the <strong>REST API</strong> endpoint that <strong>VSecM Safe</strong>
+exposes from its <code>Service</code>.</p>
+<p><strong>VSecM Sentinel</strong>, <strong>VSecM Sidecar</strong> and
+<strong>workloads</strong> need this URL configured.</p>
+<p>If not provided, it will default to:
+<code>&quot;https://vsecm-safe.vsecm-system.svc.cluster.local:8443/&quot;</code>.</p>
+<h3 id="vsecm-safe-fips-compliant">
+<a class="zola-anchor" href="#vsecm-safe-fips-compliant" aria-label="Anchor link for: vsecm-safe-fips-compliant" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_FIPS_COMPLIANT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_FIPS_COMPLIANT</code> is required for <strong>VSecM Safe</strong> to run in 
+FIPS-compliant mode. Defaults to <code>&quot;false&quot;</code>, which means <strong>VSecM Safe</strong> will run 
+in non-FIPS-compliant mode. Setting it to <code>&quot;true&quot;</code> will make <strong>VSecM Safe</strong> run 
+in FIPS-compliant mode.</p>
+<blockquote>
+<p><strong>You Need Host Support for FIPS-Compliant Mode</strong></p>
+<p>Note that this is not a guarantee that <strong>VSecM Safe</strong> will actually
+run in FIPS compliant mode, as it depends on the underlying base image.</p>
+<p>In addition, the host environment will need to be compliant too.</p>
+<p>Furthermore, compliance with FIPS (<em>Federal Information Processing Standards</em>)
+requires not just a technically compliant binary and system but also
+<strong>formal approval</strong> by the United States National Institute of Standards and
+Technology (<em>NIST</em>). This involves a certification process where <strong>NIST</strong>
+validates that the cryptographic modules used in the software meet the
+<strong>FIPS 140-2 standard</strong>.</p>
+<p>Therefore, even if the binary and the underlying system are FIPS-compliant,
+<strong>VSecM Safe</strong> will still need to undergo this formal FIPS approval process
+to be officially recognized as FIPS compliant.</p>
+</blockquote>
+<p>If you are using one of the official FIPS-complaint VSecM Docker images,
+then it will be FIPS-compliant.</p>
+<p>As a FIPS-compliant base image you can use the following:</p>
+<ul>
+<li><a href="https://hub.docker.com/repository/docker/vsecm/vsecm-ist-fips-safe/general">vsecm/vsecm-ist-fips-safe</a> (<em>using a Distroless 
+base</em>)</li>
+</ul>
+<h3 id="vsecm-safe-iv-initialization-interval">
+<a class="zola-anchor" href="#vsecm-safe-iv-initialization-interval" aria-label="Anchor link for: vsecm-safe-iv-initialization-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_IV_INITIALIZATION_INTERVAL</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_IV_INITIALIZATION_INTERVAL</code> is used as a security measure to
+time-based attacks where too frequent call of a function can be used to
+generate less-randomized AES IV values.</p>
+<p>If the environment variable is not set or contains an invalid integer, it
+defaults to <code>50</code> milliseconds.</p>
+<p>The value in the environment variable is in milliseconds.</p>
+<h3 id="vsecm-safe-k8s-secret-buffer-size">
+<a class="zola-anchor" href="#vsecm-safe-k8s-secret-buffer-size" aria-label="Anchor link for: vsecm-safe-k8s-secret-buffer-size" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_K8S_SECRET_BUFFER_SIZE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_K8S_SECRET_BUFFER_SIZE</code> is the buffer size for the <strong>VSecM Safe</strong>
+Kubernetes secret queue.</p>
+<p>If the environment variable is not set, the default buffer size is <code>10</code>.</p>
+<h3 id="vsecm-safe-root-key-store">
+<a class="zola-anchor" href="#vsecm-safe-root-key-store" aria-label="Anchor link for: vsecm-safe-root-key-store" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_ROOT_KEY_STORE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_ROOT_KEY_STORE</code> determines the root key store type for <strong>VSecM
+Safe</strong>.</p>
+<p>As of this version, the only valid value is <code>&quot;k8s&quot;</code>, meaning that the <strong>VSecM
+Safe</strong> will store its root keys in a Kubernetes Secret.</p>
+<p>Defaults to <code>&quot;k8s&quot;</code> when not provided.</p>
+<h3 id="vsecm-safe-secret-backup-count">
+<a class="zola-anchor" href="#vsecm-safe-secret-backup-count" aria-label="Anchor link for: vsecm-safe-secret-backup-count" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SECRET_BACKUP_COUNT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_SECRET_BACKUP_COUNT</code> indicates the number of backups to keep for
+<strong>VSecM Safe</strong> secrets.</p>
+<p>If the environment variable VSECM_SAFE_SECRET_BACKUP_COUNT is not set or is not
+a valid integer, the default value of <code>&quot;3&quot;</code> will be used.</p>
+<p>This configuration is <strong>not</strong> effective when <code>VSECM_SAFE_BACKING_STORE</code> is
+set to <code>&quot;in-memory&quot;</code>.</p>
+<blockquote>
+<p><strong>Plan to Deprecate</strong></p>
+<p>There are plans to deprecate this feature in the future in favor of
+a more robust database-driven changelog solution for secrets.</p>
+</blockquote>
+<h3 id="vsecm-safe-secret-buffer-size">
+<a class="zola-anchor" href="#vsecm-safe-secret-buffer-size" aria-label="Anchor link for: vsecm-safe-secret-buffer-size" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SECRET_BUFFER_SIZE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_SECRET_BUFFER_SIZE</code> is the amount of secret insertion operations
+to be buffered until <strong>VSecM Safe API</strong> blocks and waits for the buffer to have
+an empty slot.</p>
+<p>If the environment variable is not set, this buffer size defaults to <code>10</code>.</p>
+<p>Two separate buffers of the same size are used for IO operations, and
+Kubernetes <code>Secret</code> creation (<em>depending on the type of the API request</em>). The
+Kubernetes Secrets buffer, and File IO buffer work asynchronously and
+independent of each other int two separate goroutines.</p>
+<h3 id="vsecm-safe-secret-delete-buffer-size">
+<a class="zola-anchor" href="#vsecm-safe-secret-delete-buffer-size" aria-label="Anchor link for: vsecm-safe-secret-delete-buffer-size" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_SECRET_DELETE_BUFFER_SIZE</code> isd the buffer size for the <strong>VSecM Safe</strong>
+secret deletion queue.</p>
+<p>If the environment variable is not set, the default buffer size is <code>10</code>.</p>
+<h3 id="vsecm-safe-source-acquisition-timeout">
+<a class="zola-anchor" href="#vsecm-safe-source-acquisition-timeout" aria-label="Anchor link for: vsecm-safe-source-acquisition-timeout" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_SOURCE_ACQUISITION_TIMEOUT</code> is the timeout duration for acquiring
+a SPIFFE source bundle.</p>
+<p>If the environment variable is not set, or cannot be parsed, defaults to
+<code>10000</code> milliseconds.</p>
+<blockquote>
+<p><strong>RegEx Prefixes</strong></p>
+<p>You can use regular expressions for:</p>
+<ul>
+<li><code>VSECM_SPIFFEID_PREFIX_SENTINEL</code>,</li>
+<li><code>VSECM_SPIFFEID_PREFIX_SAFE</code>,</li>
+<li>and <code>VSECM_SPIFFEID_PREFIX_WORKLOAD</code>.</li>
+</ul>
+<p>When the prefix string starts with a “^”, VSecM will validate the
+SPIFFE ID based on the given regular expression.</p>
+<p>For example, a pattern <code>&quot;^spiffe://vsecm\.com/workload/(app1|app2)$</code>
+will treat <code>&quot;spiffe://vsecm.com/workload/app1&quot;</code> and
+<code>&quot;spiffe://vsecm.com/workload/app2&quot;</code> as SPIFFE IDs that can be trusted.</p>
+</blockquote>
+<h3 id="vsecm-safe-store-workload-secret-as-k8s-secret-prefix">
+<a class="zola-anchor" href="#vsecm-safe-store-workload-secret-as-k8s-secret-prefix" aria-label="Anchor link for: vsecm-safe-store-workload-secret-as-k8s-secret-prefix" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p><code>VSECM_SAFE_STORE_WORKLOAD_SECRET_AS_K8S_SECRET_PREFIX</code> retrieves the prefix that
+indicates the secret shall be stored as a Kubernetes <code>Secret</code>. The prefix
+is as part of the <code>-w</code> flag (<em>as in <code>-w k8s:my-secret</code></em>).</p>
+<p>If this environment variable is not set or is empty, it defaults to <code>&quot;k8s:&quot;</code>.</p>
+<h3 id="vsecm-safe-sync-deleted-secrets">
+<a class="zola-anchor" href="#vsecm-safe-sync-deleted-secrets" aria-label="Anchor link for: vsecm-safe-sync-deleted-secrets" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SYNC_DELETED_SECRETS</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p>This configuration has no effect as of this version.
+It is a work in progress.</p>
+<h3 id="vsecm-safe-sync-expired-secrets">
+<a class="zola-anchor" href="#vsecm-safe-sync-expired-secrets" aria-label="Anchor link for: vsecm-safe-sync-expired-secrets" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SYNC_EXPIRED_SECRETS</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p>This configuration has no effect as of this version.
+It is a work in progress.</p>
+<h3 id="vsecm-safe-sync-interpolated-k8s-secrets">
+<a class="zola-anchor" href="#vsecm-safe-sync-interpolated-k8s-secrets" aria-label="Anchor link for: vsecm-safe-sync-interpolated-k8s-secrets" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SYNC_INTERPOLATED_K8S_SECRETS</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>.</p>
+<p>This configuration has no effect as of this version.
+It is a work in progress.</p>
+<h3 id="vsecm-safe-sync-root-key-interval">
+<a class="zola-anchor" href="#vsecm-safe-sync-root-key-interval" aria-label="Anchor link for: vsecm-safe-sync-root-key-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SYNC_ROOT_KEY_INTERVAL</h3>
+<p><strong>Used By</strong>: “VSecM Safe”.</p>
+<p>As of this version, this configuration has no effect.
+It is a work in progress.</p>
+<h3 id="vsecm-safe-sync-secrets-interval">
+<a class="zola-anchor" href="#vsecm-safe-sync-secrets-interval" aria-label="Anchor link for: vsecm-safe-sync-secrets-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_SYNC_SECRETS_INTERVAL</h3>
+<p><strong>Used By</strong>: “VSecM Safe”.</p>
+<p>As of this version, this configuration has no effect.
+It is a work in progress.</p>
+<h3 id="vsecm-safe-tls-port">
+<a class="zola-anchor" href="#vsecm-safe-tls-port" aria-label="Anchor link for: vsecm-safe-tls-port" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SAFE_TLS_PORT</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>, <em>Workloads</em>.</p>
+<p>Both <strong>VSecM Sentinel</strong>, <strong>VSecM Safe</strong>, and <strong>workload</strong>s use this environment
+variable.</p>
+<p><code>VSECM_SAFE_TLS_PORT</code> is the port that <strong>VSecM Safe</strong> serves its API endpoints.</p>
+<p>When you change this port, you will likely need to make changes in more
+than one manifest, and restart or redeploy <strong>VMware Secrets Manager</strong> and
+<strong>SPIRE</strong>.</p>
+<p>Defaults to <code>&quot;:8443&quot;</code>.</p>
+<h3 id="vsecm-sentinel-init-command-path">
+<a class="zola-anchor" href="#vsecm-sentinel-init-command-path" aria-label="Anchor link for: vsecm-sentinel-init-command-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_INIT_COMMAND_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_INIT_COMMAND_PATH</code> returns the path to the initialization commands
+file for <strong>VSecM Sentinel</strong>.</p>
+<p>This file is used to automate the initialization of <strong>VSecM Sentinel</strong> entries
+during the first deployment of <strong>VSecM</strong>.</p>
+<p>If not given, defaults to <code>&quot;/opt/vsecm-sentinel/init/data&quot;</code>.</p>
+<h3 id="vsecm-sentinel-init-command-wait-after-init-complete">
+<a class="zola-anchor" href="#vsecm-sentinel-init-command-wait-after-init-complete" aria-label="Anchor link for: vsecm-sentinel-init-command-wait-after-init-complete" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_INIT_COMMAND_WAIT_AFTER_INIT_COMPLETE</code> is the interval to wait 
+after executing an <strong>init command</strong> stanza of Sentinel.</p>
+<p>The interval is an integer value representing the wait time in milliseconds.</p>
+<p>If the environment variable is not set or cannot be parsed, it defaults to
+zero milliseconds.</p>
+<h3 id="vsecm-sentinel-init-command-wait-before-exec">
+<a class="zola-anchor" href="#vsecm-sentinel-init-command-wait-before-exec" aria-label="Anchor link for: vsecm-sentinel-init-command-wait-before-exec" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_INIT_COMMAND_WAIT_BEFORE_EXEC</code> is the interval to wait before 
+executing an <strong>init command</strong> stanza of Sentinel. </p>
+<p>The interval is an integer value representing the wait time in milliseconds.</p>
+<p>If the environment variable is not set or cannot be parsed, it defaults to 
+zero milliseconds.</p>
+<h3 id="vsecm-sentinel-logger-url">
+<a class="zola-anchor" href="#vsecm-sentinel-logger-url" aria-label="Anchor link for: vsecm-sentinel-logger-url" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_LOGGER_URL</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_LOGGER_URL</code> ise the URL for the <strong>VSecM Sentinel</strong> Logger.</p>
+<p>If this environment variable is not set, it defaults to <code>&quot;localhost:50051&quot;</code>.</p>
+<p>This url used to configure gRPC logging service, which enables
+<strong>VSecM Sentinel</strong>’s <code>safe</code> CLI command to send audit logs to the container’s
+standard output.</p>
+<h3 id="vsecm-sentinel-oidc-provider-base-url">
+<a class="zola-anchor" href="#vsecm-sentinel-oidc-provider-base-url" aria-label="Anchor link for: vsecm-sentinel-oidc-provider-base-url" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL</h3>
+<blockquote>
+<p><strong>Experimental</strong></p>
+<p><strong>VSecM Sentinel</strong> can provide an OIDC resource server so that you can
+link <strong>VSecM</strong> to your OIDC provider. This feature is experimental,
+have not been thoroughly tested, and is subject to change.</p>
+</blockquote>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_OIDC_PROVIDER_BASE_URL</code> is the base URL for the OIDC provider
+server that <strong>VSecM Sentinel</strong> uses. This url is used when
+<code>VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER</code> is set to <code>&quot;true&quot;</code>.</p>
+<p>Defaults to <code>&quot;&quot;</code>.</p>
+<h3 id="vsecm-sentinel-oidc-enable-resource-server">
+<a class="zola-anchor" href="#vsecm-sentinel-oidc-enable-resource-server" aria-label="Anchor link for: vsecm-sentinel-oidc-enable-resource-server" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER</h3>
+<blockquote>
+<p><strong>Experimental</strong></p>
+<p><strong>VSecM Sentinel</strong> can provide an OIDC resource server so that you can
+link <strong>VSecM</strong> to your OIDC provider. This feature is experimental,
+have not been thoroughly tested, and is subject to change.</p>
+</blockquote>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_OIDC_ENABLE_RESOURCE_SERVER</code> is a flag that enables the OIDC
+resource server functionality in <strong>VSecM Sentinel</strong>.</p>
+<p>Defaults to “false”.</p>
+<h3 id="vsecm-sentinel-secret-generation-prefix">
+<a class="zola-anchor" href="#vsecm-sentinel-secret-generation-prefix" aria-label="Anchor link for: vsecm-sentinel-secret-generation-prefix" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SENTINEL_SECRET_GENERATION_PREFIX</h3>
+<p><strong>Used By</strong>: <em>VSecM Sentinel</em>.</p>
+<p><code>VSECM_SENTINEL_SECRET_GENERATION_PREFIX</code> is a prefix that’s used by
+that’s used by <strong>VSecM Sentinel</strong> to generate random pattern-based secrets.</p>
+<p>If a secret is prefixed with this value, then <strong>VSecM Sentinel</strong> will consider
+it as a “<em>template</em>” rather than a literal value.</p>
+<p>If the environment variable is not set or is empty, it defaults to <code>&quot;gen:&quot;</code>.</p>
+<h3 id="vsecm-sidecar-error-threshold">
+<a class="zola-anchor" href="#vsecm-sidecar-error-threshold" aria-label="Anchor link for: vsecm-sidecar-error-threshold" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_ERROR_THRESHOLD</h3>
+<p><strong>Used By</strong>: <em>VSecM Sidecar</em>.</p>
+<p><strong>VSecM Sidecar</strong> uses this environment variable.</p>
+<p><code>VSECM_SIDECAR_ERROR_THRESHOLD</code> configures the number of fetch failures before
+increasing the poll interval. Defaults to <code>2</code>.</p>
+<p>The next interval is calculated by multiplying the current interval with
+<code>VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER</code>.</p>
+<h3 id="vsecm-sidecar-exponential-backoff-multiplier">
+<a class="zola-anchor" href="#vsecm-sidecar-exponential-backoff-multiplier" aria-label="Anchor link for: vsecm-sidecar-exponential-backoff-multiplier" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER</h3>
+<p><strong>Used By</strong>: <em>VSecM Sidecar</em>.</p>
+<p><strong>VSecM Sidecar</strong> uses this environment variable.</p>
+<p><code>VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER</code> configures how fast the algorithm
+backs off when there is a failure. Defaults to <code>2</code>, which means when there are
+enough failures to trigger a backoff, the next wait interval will be twice the
+current one.</p>
+<h3 id="vsecm-sidecar-max-poll-interval">
+<a class="zola-anchor" href="#vsecm-sidecar-max-poll-interval" aria-label="Anchor link for: vsecm-sidecar-max-poll-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_MAX_POLL_INTERVAL</h3>
+<p><strong>Used By</strong>: <em>VSecM Sidecar</em>.</p>
+<p><strong>VSecM Sidecar</strong> has an <strong>exponential backoff</strong> algorithm to execute fetch
+in longer intervals when an error occurs. <code>VSECM_SIDECAR_MAX_POLL_INTERVAL</code>
+is the maximum wait time (<em>in milliseconds</em>) before executing the next.</p>
+<p>Defaults to <code>300000</code> milliseconds, if not provided.</p>
+<h3 id="vsecm-sidecar-poll-interval">
+<a class="zola-anchor" href="#vsecm-sidecar-poll-interval" aria-label="Anchor link for: vsecm-sidecar-poll-interval" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_POLL_INTERVAL</h3>
+<p><strong>Used By</strong>: <em>VSecM Sidecar</em>.</p>
+<p><code>VSECM_SIDECAR_POLL_INTERVAL</code> is the interval (<em>in milliseconds</em>)
+that the sidecar polls <strong>VSecM Safe</strong> for new secrets.</p>
+<p>Defaults to <code>20000</code> milliseconds, if not provided.</p>
+<h3 id="vsecm-sidecar-secrets-path">
+<a class="zola-anchor" href="#vsecm-sidecar-secrets-path" aria-label="Anchor link for: vsecm-sidecar-secrets-path" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_SECRETS_PATH</h3>
+<p><strong>Used By</strong>: <em>VSecM Sidecar</em></p>
+<p><code>VSECM_SIDECAR_SECRETS_PATH</code> is path to the secrets file used by the
+<strong>VSecM Sidecar</strong>.</p>
+<p>If not specified, it has a default value of <code>&quot;/opt/vsecm/secrets.json&quot;</code>.</p>
+<h3 id="vsecm-sidecar-success-threshold">
+<a class="zola-anchor" href="#vsecm-sidecar-success-threshold" aria-label="Anchor link for: vsecm-sidecar-success-threshold" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SIDECAR_SUCCESS_THRESHOLD</h3>
+<p><strong>Used By</strong>:  <em>VSecM Sidecar</em>.</p>
+<p><strong>VSecM Sidecar</strong> uses this environment variable.</p>
+<p><code>VSECM_SIDECAR_SUCCESS_THRESHOLD</code> configures the number of successful poll
+results before reducing the poll interval. Defaults to <code>3</code>.</p>
+<p>The next interval is calculated by dividing the current interval with
+<code>VSECM_SIDECAR_EXPONENTIAL_BACKOFF_MULTIPLIER</code>.</p>
+<h3 id="vsecm-spiffeid-prefix-safe">
+<a class="zola-anchor" href="#vsecm-spiffeid-prefix-safe" aria-label="Anchor link for: vsecm-spiffeid-prefix-safe" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SPIFFEID_PREFIX_SAFE</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>, <em>Workloads</em>.</p>
+<p><code>VSECM_SPIFFEID_PREFIX_SAFE</code> is the prefix for the Safe SPIFFE ID.</p>
+<p><code>VSECM_SPIFFEID_PREFIX_SAFE</code> is required for validation.</p>
+<p>If the prefix starts with <code>&quot;^&quot;</code>, it will be treated as a regular expression.</p>
+<p>If the prefix is a regular expression, it MUST start with 
+<code>&quot;^spiffe://&lt;trust-domain&gt;/&quot;</code> where <code>&lt;trust-domain&gt;</code> is the trust domain
+(<code>vsecm.com</code> by default).</p>
+<p>If not provided, it will default to:
+<code>&quot;^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$&quot;</code></p>
+<h3 id="vsecm-spiffeid-prefix-sentinel">
+<a class="zola-anchor" href="#vsecm-spiffeid-prefix-sentinel" aria-label="Anchor link for: vsecm-spiffeid-prefix-sentinel" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SPIFFEID_PREFIX_SENTINEL</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>.</p>
+<p>Both <strong>VSecM Safe</strong> and <strong>VSecM Sentinel</strong> use this environment variable.</p>
+<p><code>VSECM_SPIFFEID_PREFIX_SENTINEL</code> is required for validation.</p>
+<p>If the prefix starts with <code>&quot;^&quot;</code>, it will be treated as a regular expression.</p>
+<p>If the prefix is a regular expression, it MUST start with
+<code>&quot;^spiffe://&lt;trust-domain&gt;/&quot;</code> where <code>&lt;trust-domain&gt;</code> is the trust domain
+(<code>vsecm.com</code> by default).</p>
+<p>If not provided, it will default to:
+<code>&quot;^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$&quot;</code></p>
+<h3 id="vsecm-spiffeid-prefix-workload">
+<a class="zola-anchor" href="#vsecm-spiffeid-prefix-workload" aria-label="Anchor link for: vsecm-spiffeid-prefix-workload" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_SPIFFEID_PREFIX_WORKLOAD</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>, <em>Workloads</em>.</p>
+<p>Both <strong>VSecM Safe</strong> and <strong>workloads</strong> use this environment variable.</p>
+<p><code>VSECM_SPIFFEID_PREFIX_WORKLOAD</code> is required for validation. If not provided,
+it will default to: <code>&quot;spiffe://vsecm.com/workload/&quot;</code></p>
+<p>If the prefix starts with <code>&quot;^&quot;</code>, it will be treated as a regular expression.</p>
+<p>If the prefix is a regular expression, it MUST start with
+<code>&quot;^spiffe://&lt;trust-domain&gt;/&quot;</code> where <code>&lt;trust-domain&gt;</code> is the trust domain
+(<code>vsecm.com</code> by default).</p>
+<p>If not provided, it will default to:
+<code>&quot;^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$&quot;</code></p>
+<h3 id="vsecm-workload-name-regexp">
+<a class="zola-anchor" href="#vsecm-workload-name-regexp" aria-label="Anchor link for: vsecm-workload-name-regexp" style="position:relative; top: -4px;">
+  <img src="https://vsecm.com/v0.28.0/vsecm-32.png" alt="Link" style="vertical-align:middle">
+</a>VSECM_WORKLOAD_NAME_REGEXP</h3>
+<p><strong>Used By</strong>: <em>VSecM Safe</em>, <em>VSecM Sentinel</em>, <em>Workloads</em>.</p>
+<p><code>VSECM_WORKLOAD_NAME_REGEXP</code> is the regular expression pattern for extracting
+the workload name from the SPIFFE ID.</p>
+<p>The first capture group of the regular expression is used as the workload name.</p>
+<p>If not provided, it will default to:
+<code>&quot;^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$&quot;</code></p>
+<p>The regular expression MUST start with <code>&quot;^spiffe://&lt;trust-domain&gt;/&quot;</code> where 
+<code>&lt;trust-domain&gt;</code> is the trust domain (<code>vsecm.com</code> by default).</p>
+<!--
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+-->
+<p class="github-button" style="text-align: right;margin-top:2em;border-top:1px #ccc dashed;padding-top:2em;">
+  <a href="https://github.com/vmware-tanzu/secrets-manager/blob/main/docs/">
+    edit this page ✏️ 
+  </a>
+</p>
+
+
+    </div>
+</div>
+
+        </div>
+        <footer style="background:#00151D;">
+            Copyright © 2023-present <a style="color:#95e2fc" href="https://github.com/vmware-tanzu/secrets-manager/graphs/contributors">VMware Secrets Manager contributors</a>.<br><br>
+            <strong>VMware Secrets Manager</strong> for Cloud-Native Apps<br>
+            code is distributed under <a style="color:#95e2fc"  href="https://github.com/vmware-tanzu/secrets-manager/blob/main/LICENSE">BSD 2-Clause License</a>.<br>
+            <br>
+            The documentation on this website<br>
+            is distributed under <a style="color:#95e2fc"  href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
+            <br><br>
+            <a style="color:#95e2fc" href="/community/contact/">contact</a> |
+            <a style="color:#95e2fc" href="/privacy/">privacy policy</a> |
+            <a style="color:#95e2fc" href="/code-of-conduct">code of conduct</a>
+            <br><br>
+        </footer>
+
+        <script type="text/javascript" src="https://vsecm.com/v0.28.0/elasticlunr.min.js"></script>
+        <script type="text/javascript" src="https://vsecm.com/v0.28.0/search.js"></script>
+    </body>
+</html>
