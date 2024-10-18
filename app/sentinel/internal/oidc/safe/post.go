@@ -177,6 +177,8 @@ func Post(
 			},
 		}
 
+		log.Println(cid, "Post:>>>>>>>>>>>>>> NEW SECRET UPSERT REQUEST")
+
 		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
 			sc.Template, sc.Format,
 			sc.Encrypt, sc.NotBefore, sc.Expires)

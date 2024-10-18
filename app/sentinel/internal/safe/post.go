@@ -223,6 +223,10 @@ func Post(parentContext context.Context,
 			return doDelete(cid, client, p, md)
 		}
 
+		// TODO: just for debugging. remove from final PR.
+		log.TraceLn(cid, ">>>>>>>>>>>>> DO POST", "workloadids", sr.WorkloadIds, "secret",
+			sc.Secret, "namespaces", sc.Namespaces)
+
 		return doPost(cid, client, p, md)
 	}
 }

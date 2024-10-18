@@ -154,6 +154,8 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if len(workloadIds) == 0 && !encrypt {
+		log.TraceLn(&cid, ">>>>>>>>>>>>>>>> Secret: NO WORKLOAD ID")
+
 		j.Event = audit.NoWorkloadId
 		journal.Log(j)
 
