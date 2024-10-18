@@ -185,7 +185,7 @@ func SetJSONSecret(value, transform string) error {
 	return nil
 }
 
-func AppendSecret(value string) error {
+/*func AppendSecret(value string) error {
 	if value == "" {
 		return errors.New("AppendSecret: Value is empty")
 	}
@@ -209,4 +209,4 @@ func AppendSecret(value string) error {
 	}
 
 	return nil
-}
+}*/
