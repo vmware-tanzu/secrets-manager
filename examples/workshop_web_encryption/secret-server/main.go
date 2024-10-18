@@ -217,7 +217,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Store the client's public keys
-	clientKeys.SignPublicKey = ed25519.PublicKey(signPublicKeyBytes)
+	clientKeys.SignPublicKey = signPublicKeyBytes
 	copy(clientKeys.BoxPublicKey[:], boxPublicKeyBytes)
 
 	// Reconstruct data to verify

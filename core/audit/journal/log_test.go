@@ -124,7 +124,7 @@ func TestLog(t *testing.T) {
 						Namespaces:  []string{"test_namespace"},
 						Value:       "test_value",
 						Template:    "test_template",
-						Format:      data.SecretFormat("test_format"),
+						Format:      "test_format",
 					}),
 				},
 			},

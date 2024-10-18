@@ -43,7 +43,8 @@ func TestInitializer_commandFileScanner(t *testing.T) {
 			name: "Fail to open file",
 			setupMocks: func(mfo *MockFileOpener, mer *MockEnvReader, ml *MockLogger) {
 				mer.On("InitCommandPathForSentinel").Return("/path/to/file")
-				mfo.On("Open", "/path/to/file").Return((*os.File)(nil), errors.New("file not found"))
+				mfo.On("Open", "/path/to/file").Return((*os.File)(nil),
+					errors.New("file not found"))
 				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
 			},
 			expectFile:    false,

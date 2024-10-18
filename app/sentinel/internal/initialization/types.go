@@ -20,13 +20,15 @@ import (
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 )
 
+// TODO: some of these type may need to go to a common package
+
 // FileOpener is an interface for the file operations that the Sentinel
 // needs to perform.
 type FileOpener interface {
 	Open(name string) (*os.File, error)
 }
 
-// EnvReader is an interface for the environment variables that the Sentinel
+// EnvReader is an interface for the environment variables that VSecM Sentinel
 // needs to read.
 type EnvReader interface {
 	InitCommandPathForSentinel() string
@@ -83,4 +85,14 @@ func NewInitializer(
 		Safe:       safe,
 		Spiffe:     spiffe,
 	}
+}
+
+func NewDefaultInitializer() *Initializer {
+	return NewInitializer(
+		&OSFileOpener{},
+		&EnvConfigReader{},
+		&StandardLogger{},
+		&SafeClient{},
+		&SpiffeClient{},
+	)
 }

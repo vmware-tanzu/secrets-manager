@@ -209,7 +209,7 @@ func Post(parentContext context.Context,
 
 		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
 			sc.Template, sc.Format,
-			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
+			sc.Encrypt, sc.NotBefore, sc.Expires)
 
 		md, err := json.Marshal(sr)
 		if err != nil {
@@ -222,6 +222,9 @@ func Post(parentContext context.Context,
 		if sc.DeleteSecret {
 			return doDelete(cid, client, p, md)
 		}
+
+		log.TraceLn(cid, "doPost", "workload-ids", sc.WorkloadIds, "secret",
+			sc.Secret, "namespaces", sc.Namespaces)
 
 		return doPost(cid, client, p, md)
 	}

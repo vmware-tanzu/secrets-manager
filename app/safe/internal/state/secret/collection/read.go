@@ -11,9 +11,11 @@
 package collection
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"strings"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/stats"
-	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
@@ -151,15 +153,14 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 	Secrets.Range(func(key any, value any) bool {
 		v := value.(entity.SecretStored)
 
-		var vals []string
-		for _, val := range v.Values {
-			ve, _ := crypto.EncryptValue(val)
-			vals = append(vals, ve)
-		}
+		// For debugging purposes, if you want to see the plain secret,
+		// you can remove this wrapper. But remember, this is a security
+		// leak; DO NOT expose this in the final source code.
+		ev, _ := crypto.EncryptValue(v.Value)
 
 		result = append(result, entity.SecretEncrypted{
 			Name:           v.Name,
-			EncryptedValue: vals,
+			EncryptedValue: ev,
 			Created:        data.JsonTime(v.Created),
 			Updated:        data.JsonTime(v.Updated),
 			NotBefore:      data.JsonTime(v.NotBefore),
@@ -185,6 +186,43 @@ func contains(s []string, e string) bool {
 	return false
 }
 
+// RawSecrets returns a slice of entity.Secret containing all secrets
+// currently stored with keys prefixed by "raw:". If no raw secrets are found,
+// an empty slice is returned.
+func RawSecrets(cid string) []entity.SecretStored {
+	var result []entity.SecretStored
+
+	// Check existing stored secrets files.
+	// If VSecM pod is evicted and revived, it will not have knowledge about
+	// the secret it has. This loop helps it re-populate its cache.
+	if !SecretsPopulated() {
+		err := PopulateSecrets(cid)
+		if err != nil {
+			log.WarnLn(&cid,
+				"Failed to populate secrets from disk", err.Error())
+		}
+	}
+
+	// Range over all existing secrets.
+	Secrets.Range(func(key any, value any) bool {
+		k := key.(string)
+		v := value.(entity.SecretStored)
+
+		// Check if the key is prefixed with "raw:"
+		if strings.HasPrefix(k, "raw:") {
+			result = append(result, v)
+		}
+
+		return true
+	})
+
+	if result == nil {
+		return []entity.SecretStored{}
+	}
+
+	return result
+}
+
 // ReadSecret takes a key string and returns a pointer to an entity.SecretStored
 // object if the secret exists in the in-memory store. If the secret is not
 // found in memory, it attempts to read it from disk, store it in memory, and
@@ -196,7 +234,8 @@ func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 	if secretFoundInMemory {
 		s := result.(entity.SecretStored)
 		log.TraceLn(&cid,
-			"ReadSecret: returning from memory.", "len", len(s.Values))
+			"ReadSecret: returning from memory.", "len", len(s.Value))
+
 		return &s, nil
 	}
 
@@ -223,6 +262,10 @@ func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 	Secrets.Store(stored.Name, *stored)
 
 	log.TraceLn(&cid,
-		"ReadSecret: returning from disk.", "len", len(stored.Values))
+		"ReadSecret: returning from disk.", "len", len(stored.Value))
+
+	//res := []entity.SecretStored{*stored}
+	//res = append(res, *stored)
+
 	return stored, nil
 }

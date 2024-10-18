@@ -1,3 +1,13 @@
+/*
+|    Protect your secrets, protect your sensitive data.
+:    Explore VMware Secrets Manager docs at https://vsecm.com/
+</
+<>/  keep your secrets... secret
+>/
+<>/' Copyright 2023-present VMware Secrets Manager contributors.
+>/'  SPDX-License-Identifier: BSD-2-Clause
+*/
+
 package io
 
 import (
@@ -99,7 +109,8 @@ func PersistToPostgres(secret entity.SecretStored, errChan chan<- error) {
 		pg := DB()
 
 		_, err := pg.Exec(
-			`INSERT INTO "vsecm-secrets" (name, data) VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
+			`INSERT INTO "vsecm-secrets" (name, data) 
+VALUES ($1, $2) ON CONFLICT (name) DO UPDATE SET data = $2`,
 			secret.Name, encryptedData)
 		return err
 	})

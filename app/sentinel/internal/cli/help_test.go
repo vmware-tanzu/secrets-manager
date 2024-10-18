@@ -34,7 +34,10 @@ func captureFmtOutput(f func()) string {
 	f()
 
 	os.Stdout = stdout
-	w.Close()
+	err = w.Close()
+	if err != nil {
+		return ""
+	}
 
 	out := make([]byte, 1000)
 	n, err := r.Read(out)

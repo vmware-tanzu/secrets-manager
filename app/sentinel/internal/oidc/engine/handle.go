@@ -158,7 +158,6 @@ func (e *Engine) createSentinelCommand(
 		Format:             req.Format,
 		Encrypt:            req.Encrypt,
 		DeleteSecret:       req.Delete,
-		AppendSecret:       req.Append,
 		SerializedRootKeys: req.SerializedRootKeys,
 		NotBefore:          req.NotBefore,
 		Expires:            req.Expires,

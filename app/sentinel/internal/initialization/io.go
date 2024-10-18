@@ -46,7 +46,7 @@ func (i *Initializer) parseCommandsFile(
 	ctx context.Context, cid *string, scanner *bufio.Scanner,
 ) {
 	i.Logger.TraceLn(cid, "Before parsing commands 002")
-
+	i.Logger.TraceLn(cid, "Created blank sentinel command")
 	sc := entity.SentinelCommand{}
 
 	if scanner == nil {
@@ -87,6 +87,8 @@ dance:
 			i.Logger.TraceLn(cid, "scanner: delimiter found")
 			if sc.ShouldSleep {
 				i.doSleep(sc.SleepIntervalMs)
+
+				i.Logger.TraceLn(cid, "scanner: resetting sentinel command")
 				sc = entity.SentinelCommand{}
 				continue
 			}
@@ -99,6 +101,14 @@ dance:
 						"RunInitCommands:ProcessCommandBlock"+
 							": retrying with exponential backoff",
 					)
+
+					i.Logger.TraceLn(cid, "scanner: posting sentinel command")
+
+					if len(sc.WorkloadIds) == 0 {
+						i.Logger.InfoLn(cid, "RunInitCommands:ProcessCommandBlock: "+
+							"empty command block. Nothing to do.")
+						return nil
+					}
 
 					err := i.Safe.Post(ctx, sc)
 					if err != nil {
@@ -150,8 +160,6 @@ dance:
 			sc.Encrypt = true
 		case sentinel.Remove:
 			sc.DeleteSecret = true
-		case sentinel.Join:
-			sc.AppendSecret = true
 		case sentinel.Format:
 			sc.Format = value
 		case sentinel.Keys:

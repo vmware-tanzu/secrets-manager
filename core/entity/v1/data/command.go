@@ -35,7 +35,6 @@ type SentinelCommand struct {
 	Secret             string
 	Template           string
 	DeleteSecret       bool
-	AppendSecret       bool
 	Format             string
 	Encrypt            bool
 	NotBefore          string

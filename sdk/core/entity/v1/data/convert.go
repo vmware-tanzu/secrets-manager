@@ -18,7 +18,6 @@ import (
 	"text/template"
 
 	"github.com/vmware-tanzu/secrets-manager/sdk/core/constants/key"
-	"github.com/vmware-tanzu/secrets-manager/sdk/core/constants/symbol"
 	tpl "github.com/vmware-tanzu/secrets-manager/sdk/core/template"
 )
 
@@ -37,15 +36,10 @@ func convertMapToStringBytes(inputMap map[string]string) map[string][]byte {
 // map. If the unmarshalling fails, it creates a new empty 'data' map and
 // populates it with a single entry, "VALUE", containing the original 'value' as
 // []byte.
-func convertValueToMap(values []string) map[string][]byte {
+func convertValueToMap(value string) map[string][]byte {
 	var data map[string][]byte
 
-	val := ""
-	if len(values) == 1 {
-		val = values[0]
-	} else {
-		val = strings.Join(values, symbol.CollectionDelimiter)
-	}
+	val := value
 
 	err := json.Unmarshal([]byte(val), &data)
 	if err != nil {
@@ -61,23 +55,18 @@ func convertValueToMap(values []string) map[string][]byte {
 // returns a map with the JSON key-value pairs converted to []byte values;
 // otherwise, it returns a map with a single entry, "VALUE", containing the
 // original 'value' as []byte.
-func convertValueNoTemplate(values []string) map[string][]byte {
-	var data map[string][]byte
+func convertValueNoTemplate(value string) map[string][]byte {
+	var data = make(map[string][]byte)
 	var jsonData map[string]string
 
-	val := ""
-	if len(values) == 1 {
-		val = values[0]
-	} else {
-		val = strings.Join(values, symbol.CollectionDelimiter)
-	}
+	val := value
 
 	err := json.Unmarshal(([]byte)(val), &jsonData)
 	if err != nil {
-		//If error in unmarshalling, add the whole as a part of VALUE
+		// If error in unmarshalling, add the whole as a part of VALUE
 		data[key.SecretDataValue] = ([]byte)(val)
 	} else {
-		//Use the secret's value as a key-val pair
+		// Otherwise, use the secret's value as a key-val pair
 		return convertMapToStringBytes(jsonData)
 	}
 
@@ -106,12 +95,12 @@ func parseForK8sSecret(secret SecretStored) (map[string]string, error) {
 
 	secretData := make(map[string]string)
 
-	if len(secret.Values) == 0 {
-		return secretData, fmt.Errorf("no values found for secret %s",
+	if len(secret.Value) == 0 {
+		return secretData, fmt.Errorf("no value found for secret %s",
 			secret.Name)
 	}
 
-	jsonData := strings.TrimSpace(secret.Values[0])
+	jsonData := strings.TrimSpace(secret.Value)
 	tmpStr := strings.TrimSpace(secret.Meta.Template)
 
 	err := json.Unmarshal([]byte(jsonData), &secretData)

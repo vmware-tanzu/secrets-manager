@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
@@ -99,9 +99,14 @@ func sendPostRequest(client *http.Client, url string, cid string) error {
 	if err != nil {
 		return fmt.Errorf("failed to send request: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			log.WarnLn(&cid, "Failed to close response body:", err.Error())
+		}
+	}(resp.Body)
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %v", err)
 	}

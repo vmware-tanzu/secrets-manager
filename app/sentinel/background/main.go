@@ -44,17 +44,8 @@ func main() {
 
 	log.TraceLn(&id, "before RunInitCommands")
 
-	// Create the Initializer with all dependencies
-	initializer := initialization.NewInitializer(
-		&initialization.OSFileOpener{},
-		&initialization.EnvConfigReader{},
-		&initialization.StandardLogger{},
-		&initialization.SafeClient{},
-		&initialization.SpiffeClient{},
-	)
-
-	// Execute the initialization commands (if any)
-	initializer.RunInitCommands(ctx)
+	// Create the Initializer with all dependencies and run init commands
+	initialization.NewDefaultInitializer().RunInitCommands(ctx)
 
 	log.InfoLn(&id, "Initialization commands executed successfully")
 

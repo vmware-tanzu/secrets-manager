@@ -184,29 +184,3 @@ func SetJSONSecret(value, transform string) error {
 
 	return nil
 }
-
-func AppendSecret(value string) error {
-	if value == "" {
-		return errors.New("AppendSecret: Value is empty")
-	}
-
-	sentinel, err := vsecm.Sentinel()
-	if err != nil || sentinel == "" {
-		return errors.Join(
-			err,
-			errors.New("appendSecret: Failed to define sentinel"),
-		)
-	}
-
-	// Executing command within the sentinel pod to append the secret.
-	_, err = io.Exec("kubectl", "exec", sentinel, "-n", "vsecm-system",
-		"--", "safe", "-w", "example", "-n", "default", "-a", "-s", value)
-	if err != nil {
-		return errors.Join(
-			err,
-			errors.New("appendSecret: Failed to exec kubectl"),
-		)
-	}
-
-	return nil
-}

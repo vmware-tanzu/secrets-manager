@@ -99,24 +99,61 @@ func Fetch(
 		return
 	}
 
-	secret, err := collection.ReadSecret(cid, workloadId)
-	if err != nil {
-		log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
-		log.TraceLn(&cid,
-			"Likely expected error. No need to panic:", err.Error())
+	var secrets []data.SecretStored
+
+	if workloadId == "vsecm-scout" {
+		secrets = collection.RawSecrets(cid)
+	} else {
+		secret, err := collection.ReadSecret(cid, workloadId)
+		if err != nil {
+			log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
+			log.TraceLn(&cid,
+				"Likely expected error. No need to panic:", err.Error())
+		}
+
+		if secret != nil {
+			secrets = append(secrets, *secret)
+		}
 	}
 
 	log.TraceLn(&cid, "Fetch: workloadId", workloadId)
 
 	// If secret does not exist, send an empty response.
-	if secret == nil {
+	if secrets == nil {
 		handle.NoSecretResponse(cid, w, j)
 		return
 	}
 
+	if len(secrets) == 0 {
+		handle.NoSecretResponse(cid, w, j)
+		return
+	}
+
+	if workloadId == "vsecm-scout" {
+		value := extract.SecretValue(cid, secrets)
+
+		sfr := reqres.SecretFetchResponse{
+			Data: value,
+		}
+
+		handle.SuccessResponse(cid, w, j, sfr)
+		return
+	}
+
+	// Only vsecm-scout workloads can fetch multiple `raw` secrets.
+	if len(secrets) > 1 {
+		log.WarnLn(&cid, "Fetch: Sending 'no secrets' response:",
+			workloadId, len(secrets))
+		handle.NoSecretResponse(cid, w, j)
+		return
+	}
+
+	// Regular workloads will only have one secret.
+	secret := secrets[0]
+
 	log.DebugLn(&cid, "Fetch: will send. workload id:", workloadId)
 
-	value := extract.SecretValue(cid, secret)
+	value := extract.SecretValue(cid, secrets)
 
 	// RFC3339 is what Go uses internally when marshaling dates.
 	// Choosing it to be consistent.

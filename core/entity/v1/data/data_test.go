@@ -100,7 +100,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{},
+					Value:            "",
 					ValueTransformed: "",
 					Meta:             SecretMeta{},
 					Created:          timeNow,
@@ -108,14 +108,14 @@ func Test_parseForK8sSecret(t *testing.T) {
 				},
 			},
 			want:    map[string]string{},
-			wantErr: errors.New("no values found for secret test"),
+			wantErr: errors.New("no value found for secret test"),
 		},
 		{
 			name: "error_invalid_json_value",
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"value-1"},
+					Value:            "value-1",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "",
@@ -132,7 +132,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					Value:            "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "",
@@ -149,7 +149,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					Value:            "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "template-1",
@@ -166,7 +166,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"{\"username\":\"admin\",\"password-1\":\"VSecMRocks\"}"},
+					Value:            "{\"username\":\"admin\",\"password-1\":\"VSecMRocks\"}",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "{\"USER\":\"{{.username}}\", \"PASS-1\":\"{{.password-1}}\"}",
@@ -185,7 +185,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"{\"user\":\"pass\"}"},
+					Value:            "{\"user\":\"pass\"}",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "{{.USER .PASS}}",
@@ -203,7 +203,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 			args: args{
 				secret: SecretStored{
 					Name:             "test",
-					Values:           []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+					Value:            "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
 					ValueTransformed: "",
 					Meta: SecretMeta{
 						Template: "{\"USER\":\"{{.username}}\", \"PASS\":\"{{.password}}\"}",
@@ -234,7 +234,7 @@ func Test_parseForK8sSecret(t *testing.T) {
 func TestSecretStored_ToMapForK8s(t *testing.T) {
 	type fields struct {
 		Name             string
-		Values           []string
+		Value            string
 		ValueTransformed string
 		Meta             SecretMeta
 		Created          time.Time
@@ -248,7 +248,7 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 		{
 			name: "empty_values_list",
 			fields: fields{
-				Values: []string{},
+				Value: "",
 			},
 			want: make(map[string][]byte),
 		},
@@ -262,14 +262,14 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 		{
 			name: "empty_template_valid_value",
 			fields: fields{
-				Values: []string{"{\"username\":\"admin\",\"password\":\"VSecMRocks\"}"},
+				Value: "{\"username\":\"admin\",\"password\":\"VSecMRocks\"}",
 			},
 			want: map[string][]byte{"username": []byte("admin"), "password": []byte("VSecMRocks")},
 		},
 		{
 			name: "valid_value_invalid_template",
 			fields: fields{
-				Values: []string{"{\"pass\":\"secret\"}"},
+				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "template-1",
 					Format:   "json",
@@ -280,7 +280,7 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 		{
 			name: "success_case",
 			fields: fields{
-				Values: []string{"{\"pass\":\"secret\"}"},
+				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "{\"PASS\":\"{{.pass}}\"}",
 				},
@@ -292,7 +292,7 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			secret := SecretStored{
 				Name:             tt.fields.Name,
-				Values:           tt.fields.Values,
+				Value:            tt.fields.Value,
 				ValueTransformed: tt.fields.ValueTransformed,
 				Meta:             tt.fields.Meta,
 				Created:          tt.fields.Created,
@@ -308,7 +308,7 @@ func TestSecretStored_ToMapForK8s(t *testing.T) {
 func TestSecretStored_ToMap(t *testing.T) {
 	type fields struct {
 		Name             string
-		Values           []string
+		Value            string
 		ValueTransformed string
 		Meta             SecretMeta
 		Created          time.Time
@@ -323,13 +323,13 @@ func TestSecretStored_ToMap(t *testing.T) {
 			name: "success_case",
 			fields: fields{
 				Name:    "test_name",
-				Values:  []string{"test_values"},
+				Value:   "test_values",
 				Created: timeNow,
 				Updated: timeUpdated,
 			},
 			want: map[string]any{
 				"Name":    "test_name",
-				"Values":  []string{"test_values"},
+				"Value":   "test_values",
 				"Created": timeNow,
 				"Updated": timeUpdated,
 			},
@@ -339,7 +339,7 @@ func TestSecretStored_ToMap(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			secret := SecretStored{
 				Name:             tt.fields.Name,
-				Values:           tt.fields.Values,
+				Value:            tt.fields.Value,
 				ValueTransformed: tt.fields.ValueTransformed,
 				Meta:             tt.fields.Meta,
 				Created:          tt.fields.Created,
@@ -544,7 +544,7 @@ func TestSecretStored_ToMap(t *testing.T) {
 func TestSecretStored_Parse(t *testing.T) {
 	type fields struct {
 		Name             string
-		Values           []string
+		Value            string
 		ValueTransformed string
 		Meta             SecretMeta
 		Created          time.Time
@@ -560,17 +560,17 @@ func TestSecretStored_Parse(t *testing.T) {
 		{
 			name: "empty_secret_value",
 			fields: fields{
-				Name:   "test",
-				Values: []string{},
+				Name:  "test",
+				Value: "",
 			},
 			wantErr: true,
-			err:     errors.New("no values found for secret test"),
+			err:     errors.New("no value found for secret test"),
 		},
 		{
 			name: "valid_values",
 			fields: fields{
-				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}"},
+				Name:  "test-2",
+				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "\"PASS\":\"{{.pass}}\"",
 					Format:   "yaml",
@@ -583,8 +583,8 @@ func TestSecretStored_Parse(t *testing.T) {
 		{
 			name: "valid_values_json",
 			fields: fields{
-				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}"},
+				Name:  "test-2",
+				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "{\"PASS\":\"{{.pass}}\"}",
 					Format:   "json",
@@ -595,66 +595,25 @@ func TestSecretStored_Parse(t *testing.T) {
 			err:     nil,
 		},
 		{
-			name: "multiple_valid_values",
-			fields: fields{
-				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}", "{\"pass\":\"secret-2\"}"},
-				Meta: SecretMeta{
-					Template: "PASS:{{.pass}}",
-					Format:   "yaml",
-				},
-			},
-			want:    "[\"PASS:secret\",\"PASS:secret-2\"]",
-			wantErr: false,
-			err:     nil,
-		},
-		{
-			name: "multiple_templates",
-			fields: fields{
-				Name:   "test-2",
-				Values: []string{"{\"pass\":\"secret\"}", "{\"pass_2\":\"secret-2\"}"},
-				Meta: SecretMeta{
-					Template: "PASS:{{.pass}},PASS_2:{{.pass_2}}",
-					Format:   "yaml",
-				},
-			},
-			want:    "[\"PASS:secret\",\"PASS_2:secret-2\"]",
-			wantErr: false,
-			err:     nil,
-		},
-		{
-			name: "multiple_selected_template",
-			fields: fields{
-				Name:   "test-3",
-				Values: []string{"{\"pass\":\"secret\"}", "{\"pass_2\":\"secret-2\"}", "{\"pass_3\":\"secret-3\"}"},
-				Meta: SecretMeta{
-					Template: "PASS:{{.pass}},PASS_3:{{.pass_3}}",
-					Format:   "yaml",
-				},
-			},
-			want:    "[\"PASS:secret\",\"PASS_3:secret-3\"]",
-			wantErr: false,
-			err:     nil,
-		},
-		{
 			name: "unsupported_format",
 			fields: fields{
-				Name:   "test-3",
-				Values: []string{"{\"pass\":\"secret\"}"},
+				Name:  "test-3",
+				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "\"PASS\":\"{{.pass}}\"",
 					Format:   "RAML",
 				},
 			},
+			want:    "\"PASS\":\"secret\"",
 			wantErr: true,
-			err:     errors.New("failed to parse secret test-3"),
+			err:     errors.New("unknown format: RAML"),
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			secret := SecretStored{
 				Name:             tt.fields.Name,
-				Values:           tt.fields.Values,
+				Value:            tt.fields.Value,
 				ValueTransformed: tt.fields.ValueTransformed,
 				Meta:             tt.fields.Meta,
 				Created:          tt.fields.Created,

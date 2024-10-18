@@ -11,12 +11,13 @@
 package insertion
 
 import (
+	"time"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
-	"time"
 )
 
 // SecretUpsertQueue items are persisted to files. They are buffered, so
@@ -69,10 +70,13 @@ func ProcessSecretBackingStoreQueue() {
 			)
 		}
 
-		// Persist the secret.
+		// Persist the secret:
+		//
 		// Each secret is persisted one at a time, with the order they come in.
-		// Do not call this function elsewhere.
-		// It is meant to be called inside this `processSecretQueue` goroutine.
+		//
+		// DO NOT call `PersistToXyz()` functions (i.e.,[1],[2]) elsewhere.
+		// They mean to be called inside this goroutine that
+		// `ProcessSecretBackingStoreQueue` owns.
 
 		store := env.BackingStoreForSafe()
 		switch store {
@@ -89,7 +93,8 @@ func ProcessSecretBackingStoreQueue() {
 			panic("implement gcp secret store")
 		case entity.File:
 			log.TraceLn(&cid, "ProcessSecretQueue: Will persist to disk.")
-			// This is blocking.
+
+			// This is blocking. [1]
 			io.PersistToDisk(pickSecretFromQueue(cid), errChan)
 		case entity.Postgres:
 			if !io.PostgresReady() {
@@ -103,7 +108,8 @@ func ProcessSecretBackingStoreQueue() {
 			}
 
 			log.TraceLn(&cid, "ProcessSecretQueue: Postgres is ready. Persisting...")
-			// This is blocking.
+
+			// This is blocking. [2]
 			io.PersistToPostgres(pickSecretFromQueue(cid), errChan)
 		}
 
