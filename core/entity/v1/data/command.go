@@ -30,12 +30,11 @@ type VSecMSafeInternalConfig struct {
 // SentinelCommand is the command that VSecM Sentinel uses to perform
 // REST API operations on VSecM Safe.
 type SentinelCommand struct {
-	WorkloadIds  []string
-	Namespaces   []string
-	Secret       string
-	Template     string
-	DeleteSecret bool
-	// AppendSecret       bool
+	WorkloadIds        []string
+	Namespaces         []string
+	Secret             string
+	Template           string
+	DeleteSecret       bool
 	Format             string
 	Encrypt            bool
 	NotBefore          string

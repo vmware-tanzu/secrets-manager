@@ -60,18 +60,13 @@ func convertValueNoTemplate(value string) map[string][]byte {
 	var jsonData map[string]string
 
 	val := value
-	//if len(values) == 1 {
-	//	val = values[0]
-	//} else {
-	//	val = strings.Join(values, symbol.CollectionDelimiter)
-	//}
 
 	err := json.Unmarshal(([]byte)(val), &jsonData)
 	if err != nil {
-		//If error in unmarshalling, add the whole as a part of VALUE
+		// If error in unmarshalling, add the whole as a part of VALUE
 		data[key.SecretDataValue] = ([]byte)(val)
 	} else {
-		//Use the secret's value as a key-val pair
+		// Otherwise, use the secret's value as a key-val pair
 		return convertMapToStringBytes(jsonData)
 	}
 

@@ -236,7 +236,6 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 			ExpiresAfter: time.Time(exp),
 		}
 
-		// TODO: workload id can be gathered from secretToStore.Name
 		state.Upsert(secretToStore, workloadId, cid, j, w)
 	}
 }

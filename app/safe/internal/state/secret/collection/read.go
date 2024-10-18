@@ -153,12 +153,9 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 	Secrets.Range(func(key any, value any) bool {
 		v := value.(entity.SecretStored)
 
-		//var vals []string
-		//for _, val := range v.Values {
-		//	ve, _ := crypto.EncryptValue(val)
-		//	vals = append(vals, ve)
-		//}
-
+		// For debugging purposes, if you want to see the plain secret,
+		// you can remove this wrapper. But remember, this is a security
+		// leak; DO NOT expose this in the final source code.
 		ev, _ := crypto.EncryptValue(v.Value)
 
 		result = append(result, entity.SecretEncrypted{
@@ -233,20 +230,11 @@ func RawSecrets(cid string) []entity.SecretStored {
 func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 	log.TraceLn(&cid, "ReadSecret:begin")
 
-	//if key == "vsecm-scout" {
-	//	rawSecrets := RawSecrets(cid)
-	//
-	//	return rawSecrets, nil
-	//}
-
 	result, secretFoundInMemory := Secrets.Load(key)
 	if secretFoundInMemory {
 		s := result.(entity.SecretStored)
 		log.TraceLn(&cid,
 			"ReadSecret: returning from memory.", "len", len(s.Value))
-
-		//res := []entity.SecretStored{s}
-		//res = append(res, s)
 
 		return &s, nil
 	}

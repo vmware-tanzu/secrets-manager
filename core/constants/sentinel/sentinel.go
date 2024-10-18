@@ -31,9 +31,6 @@ const ExpiresExp Command = "exp"
 const Format Command = "f"
 const FormatExp Command = "format"
 
-//const Join Command = "a"
-// const JoinExp Command = "append"
-
 const Keys Command = "i"
 const KeysExp Command = "input-keys"
 const Namespace Command = "n"

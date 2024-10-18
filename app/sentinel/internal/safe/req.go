@@ -45,9 +45,8 @@ func newSecretUpsertRequest(workloadIds []string, secret string,
 		Template:    template,
 		Format:      f,
 		Encrypt:     encrypt,
-		// AppendValue: appendSecret,
-		Value:     secret,
-		NotBefore: notBefore,
-		Expires:   expires,
+		Value:       secret,
+		NotBefore:   notBefore,
+		Expires:     expires,
 	}
 }

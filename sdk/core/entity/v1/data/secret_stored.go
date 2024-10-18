@@ -51,12 +51,6 @@ type SecretStored struct {
 //     logic as in case 1, attempting to unmarshal the secret's value into a map,
 //     and if that fails, storing the secret's value under the "VALUE" key.
 func (secret SecretStored) ToMapForK8s() map[string][]byte {
-	// data := make(map[string][]byte)
-	//// If there are no values, return an empty map.
-	//if len(secret.Values) == 0 {
-	//	return data
-	//}
-
 	// If there is no template, use the secret's value as is.
 	if secret.Meta.Template == "" {
 		return convertValueNoTemplate(secret.Value)

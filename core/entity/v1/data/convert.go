@@ -60,11 +60,6 @@ func convertValueNoTemplate(value string) map[string][]byte {
 	var jsonData map[string]string
 
 	val := value
-	//if len(values) == 1 {
-	//	val = values[0]
-	//} else {
-	//	val = strings.Join(values, symbol.CollectionDelimiter)
-	//}
 
 	if val == "" {
 		return data

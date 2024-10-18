@@ -151,14 +151,13 @@ func (e *Engine) validateModifyRequest(req *sentinel.SecretRequest) error {
 func (e *Engine) createSentinelCommand(
 	req *sentinel.SecretRequest) data.SentinelCommand {
 	return data.SentinelCommand{
-		WorkloadIds:  req.Workloads,
-		Secret:       req.Secret,
-		Namespaces:   req.Namespaces,
-		Template:     req.Template,
-		Format:       req.Format,
-		Encrypt:      req.Encrypt,
-		DeleteSecret: req.Delete,
-		// AppendSecret:       req.Append,
+		WorkloadIds:        req.Workloads,
+		Secret:             req.Secret,
+		Namespaces:         req.Namespaces,
+		Template:           req.Template,
+		Format:             req.Format,
+		Encrypt:            req.Encrypt,
+		DeleteSecret:       req.Delete,
 		SerializedRootKeys: req.SerializedRootKeys,
 		NotBefore:          req.NotBefore,
 		Expires:            req.Expires,

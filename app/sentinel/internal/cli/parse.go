@@ -40,20 +40,6 @@ func ParseDeleteSecret(parser *argparse.Parser) *bool {
 		})
 }
 
-//// ParseAppendSecret adds a flag to the parser for appending a secret to an
-//// existing secret collection.
-//// It returns a pointer to a boolean that will be set to true if the flag is
-//// used.
-//func ParseAppendSecret(parser *argparse.Parser) *bool {
-//	return parser.Flag(
-//		string(sentinel.Join),
-//		string(sentinel.JoinExp), &argparse.Options{
-//			Required: false, Default: false,
-//			Help: "append the secret to the existing secret collection" +
-//				" associated with the workload",
-//		})
-//}
-
 // ParseNamespaces adds a string list argument to the parser for specifying
 // namespaces.
 // It returns a pointer to a slice of strings containing the specified
