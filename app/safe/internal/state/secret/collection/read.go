@@ -227,14 +227,14 @@ func RawSecrets(cid string) []entity.SecretStored {
 // object if the secret exists in the in-memory store. If the secret is not
 // found in memory, it attempts to read it from disk, store it in memory, and
 // return it. If the secret is not found on disk, it returns nil.
-func ReadSecret(cid string, key string) ([]entity.SecretStored, error) {
+func ReadSecret(cid string, key string) (*entity.SecretStored, error) {
 	log.TraceLn(&cid, "ReadSecret:begin")
 
-	if key == "vsecm-scout" {
-		rawSecrets := RawSecrets(cid)
-
-		return rawSecrets, nil
-	}
+	//if key == "vsecm-scout" {
+	//	rawSecrets := RawSecrets(cid)
+	//
+	//	return rawSecrets, nil
+	//}
 
 	result, secretFoundInMemory := Secrets.Load(key)
 	if secretFoundInMemory {
@@ -242,10 +242,10 @@ func ReadSecret(cid string, key string) ([]entity.SecretStored, error) {
 		log.TraceLn(&cid,
 			"ReadSecret: returning from memory.", "len", len(s.Value))
 
-		res := []entity.SecretStored{s}
-		res = append(res, s)
+		//res := []entity.SecretStored{s}
+		//res = append(res, s)
 
-		return res, nil
+		return &s, nil
 	}
 
 	store := env.BackingStoreForSafe()
@@ -273,8 +273,8 @@ func ReadSecret(cid string, key string) ([]entity.SecretStored, error) {
 	log.TraceLn(&cid,
 		"ReadSecret: returning from disk.", "len", len(stored.Value))
 
-	res := []entity.SecretStored{*stored}
-	res = append(res, *stored)
+	//res := []entity.SecretStored{*stored}
+	//res = append(res, *stored)
 
-	return res, nil
+	return stored, nil
 }

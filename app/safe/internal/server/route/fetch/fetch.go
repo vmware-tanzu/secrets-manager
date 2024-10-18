@@ -99,11 +99,21 @@ func Fetch(
 		return
 	}
 
-	secrets, err := collection.ReadSecret(cid, workloadId)
-	if err != nil {
-		log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
-		log.TraceLn(&cid,
-			"Likely expected error. No need to panic:", err.Error())
+	var secrets []data.SecretStored
+
+	if workloadId == "vsecm-scout" {
+		secrets = collection.RawSecrets(cid)
+	} else {
+		secret, err := collection.ReadSecret(cid, workloadId)
+		if err != nil {
+			log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
+			log.TraceLn(&cid,
+				"Likely expected error. No need to panic:", err.Error())
+		}
+
+		if secret != nil {
+			secrets = append(secrets, *secret)
+		}
 	}
 
 	log.TraceLn(&cid, "Fetch: workloadId", workloadId)
@@ -153,7 +163,8 @@ func Fetch(
 		return
 	}
 
-	// Regular workloads.
+	// TODO: this is a leaky abstraction and needs cleanup.
+	// Regular workloads will only have one secret.
 	secret := secrets[0]
 
 	log.DebugLn(&cid, "Fetch: will send. workload id:", workloadId)

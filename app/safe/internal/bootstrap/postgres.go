@@ -37,19 +37,19 @@ func PollForConfig(id string, ctx context.Context,
 		case <-ctx.Done():
 			return nil, ctx.Err()
 		default:
-			vSecMSafeInternalConfigs, err := collection.ReadSecret(id, "vsecm-safe")
+			vSecMSafeInternalConfig, err := collection.ReadSecret(id, "vsecm-safe")
 
-			if vSecMSafeInternalConfigs == nil {
+			if vSecMSafeInternalConfig == nil {
 				log.InfoLn(&id, "VSecM Safe internal configuration not found")
 				time.Sleep(5 * time.Second)
 				continue
 			}
 
-			if len(vSecMSafeInternalConfigs) == 0 {
-				log.InfoLn(&id, "VSecM Safe internal configuration is empty")
-				time.Sleep(5 * time.Second)
-				continue
-			}
+			//if len(vSecMSafeInternalConfig) == 0 {
+			//	log.InfoLn(&id, "VSecM Safe internal configuration is empty")
+			//	time.Sleep(5 * time.Second)
+			//	continue
+			//}
 
 			if err != nil {
 				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration",
@@ -58,7 +58,7 @@ func PollForConfig(id string, ctx context.Context,
 				continue
 			}
 
-			vSecMSafeInternalConfig := vSecMSafeInternalConfigs[0]
+			// vSecMSafeInternalConfig := vSecMSafeInternalConfigs
 
 			if len(vSecMSafeInternalConfig.Value) == 0 {
 				log.InfoLn(&id, "VSecM Safe internal configuration is empty")
