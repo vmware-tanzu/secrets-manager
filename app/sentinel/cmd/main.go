@@ -56,7 +56,7 @@ func main() {
 
 	list := cli.ParseList(parser)
 	deleteSecret := cli.ParseDeleteSecret(parser)
-	appendSecret := cli.ParseAppendSecret(parser)
+	// appendSecret := cli.ParseAppendSecret(parser)
 	namespaces := cli.ParseNamespaces(parser)
 	inputKeys := cli.ParseInputKeys(parser)
 	workloadIds := cli.ParseWorkload(parser)
@@ -106,14 +106,14 @@ func main() {
 	}
 
 	err = safe.Post(ctx, entity.SentinelCommand{
-		WorkloadIds:        *workloadIds,
-		Secret:             *secret,
-		Namespaces:         *namespaces,
-		Template:           *template,
-		Format:             *format,
-		Encrypt:            *encrypt,
-		DeleteSecret:       *deleteSecret,
-		AppendSecret:       *appendSecret,
+		WorkloadIds:  *workloadIds,
+		Secret:       *secret,
+		Namespaces:   *namespaces,
+		Template:     *template,
+		Format:       *format,
+		Encrypt:      *encrypt,
+		DeleteSecret: *deleteSecret,
+		// AppendSecret:       *appendSecret,
 		SerializedRootKeys: *inputKeys,
 		NotBefore:          *notBefore,
 		Expires:            *expires,

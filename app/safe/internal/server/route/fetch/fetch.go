@@ -99,7 +99,7 @@ func Fetch(
 		return
 	}
 
-	secret, err := collection.ReadSecret(cid, workloadId)
+	secrets, err := collection.ReadSecret(cid, workloadId)
 	if err != nil {
 		log.WarnLn(&cid, "Fetch: Attempted to read secret from disk.")
 		log.TraceLn(&cid,
@@ -109,14 +109,49 @@ func Fetch(
 	log.TraceLn(&cid, "Fetch: workloadId", workloadId)
 
 	// If secret does not exist, send an empty response.
-	if secret == nil {
+	if secrets == nil {
 		handle.NoSecretResponse(cid, w, j)
 		return
 	}
 
+	if len(secrets) == 0 {
+		handle.NoSecretResponse(cid, w, j)
+		return
+	}
+
+	// TODO: this needs cleanup; we probably need a different handler for Scout.
+	// Also extract.SecretValue can be split into one used by scout and one used
+	// by regular workloads.
+	// TODO: extra control for vsecm-scout: it cannot have a regex-based spiffeid matcher.
+	// (same holds for any other vsecm workload; it has to be in vsecm-system namespace
+	// and be served by a matching service account)
+	// i.e. vsecm-related workloads shall have hard-coded spiffe ids that cannot
+	// be altered via environment variables.
+	// custom regex-matchers shall not work for vsecm-related workloads.
+	if workloadId == "vsecm-scout" {
+		value := extract.SecretValue(cid, secrets)
+
+		sfr := reqres.SecretFetchResponse{
+			Data: value,
+		}
+
+		handle.SuccessResponse(cid, w, j, sfr)
+		return
+	}
+
+	// Only vsecm-scout workloads can fetch multiple `raw` secrets.
+	if len(secrets) > 1 {
+		log.WarnLn(&cid, "Fetch: Multiple secrets found for workload id:", workloadId)
+		handle.NoSecretResponse(cid, w, j)
+		return
+	}
+
+	// Regular workloads.
+	secret := secrets[0]
+
 	log.DebugLn(&cid, "Fetch: will send. workload id:", workloadId)
 
-	value := extract.SecretValue(cid, secret)
+	value := extract.SecretValue(cid, secrets)
 
 	// RFC3339 is what Go uses internally when marshaling dates.
 	// Choosing it to be consistent.

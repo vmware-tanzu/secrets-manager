@@ -11,11 +11,11 @@
 package state
 
 import (
-	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 
+	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
@@ -40,12 +40,14 @@ import (
 //   - w (http.ResponseWriter): The HTTP response writer to send back the
 //     operation's outcome.
 func Upsert(secretToStore entity.SecretStored,
-	appendValue bool, workloadId string, cid string,
+	workloadId string, cid string,
 	j entity.JournalEntry, w http.ResponseWriter,
 ) {
 	// If the secret is not internal VSecM Safe configuration secret and
 	// if db persistence is enabled, and the db is not ready,
 	// then respond with an error.
+	// TODO: extract part of this as a method. "vsecm-safe" is a magic string.
+	// TODO: io2 is a bad name for a package.
 	if secretToStore.Name != "vsecm-safe" &&
 		env.BackingStoreForSafe() == entity.Postgres &&
 		!io2.PostgresReady() {
@@ -58,7 +60,7 @@ func Upsert(secretToStore entity.SecretStored,
 		return
 	}
 
-	collection.UpsertSecret(secretToStore, appendValue)
+	collection.UpsertSecret(secretToStore)
 	log.DebugLn(&cid, "Secret:UpsertEnd: workloadId", workloadId)
 
 	j.Event = audit.Ok

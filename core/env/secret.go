@@ -29,6 +29,18 @@ func SecretGenerationPrefix() string {
 	return p
 }
 
+// RawSecretPrefix returns the prefix that's used by VSecM Safe to store
+// raw secrets. Raw secrets are not associated with any workload and no
+// workload can access them. They are meant to be harvested by external
+// operators.
+func RawSecretPrefix() string {
+	p := env.Value(env.VSecMSafeRawSecretPrefix)
+	if p == "" {
+		return string(env.VSecMSafeRawSecretPrefixDefault)
+	}
+	return p
+}
+
 // StoreWorkloadAsK8sSecretPrefix retrieves the prefix for storing workload data
 // as a Kubernetes secret.
 //

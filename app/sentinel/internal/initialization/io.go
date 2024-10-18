@@ -150,8 +150,8 @@ dance:
 			sc.Encrypt = true
 		case sentinel.Remove:
 			sc.DeleteSecret = true
-		case sentinel.Join:
-			sc.AppendSecret = true
+		//case sentinel.Join:
+		//	sc.AppendSecret = true
 		case sentinel.Format:
 			sc.Format = value
 		case sentinel.Keys:

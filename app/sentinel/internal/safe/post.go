@@ -209,7 +209,7 @@ func Post(parentContext context.Context,
 
 		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
 			sc.Template, sc.Format,
-			sc.Encrypt, sc.AppendSecret, sc.NotBefore, sc.Expires)
+			sc.Encrypt, sc.NotBefore, sc.Expires)
 
 		md, err := json.Marshal(sr)
 		if err != nil {

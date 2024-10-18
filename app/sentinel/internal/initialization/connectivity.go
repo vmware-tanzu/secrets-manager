@@ -89,7 +89,8 @@ func (i *Initializer) ensureApiConnectivity(ctx context.Context, cid *string) {
 	}
 }
 
-func (i *Initializer) ensureSourceAcquisition(ctx context.Context) *workloadapi.X509Source {
+func (i *Initializer) ensureSourceAcquisition(
+	ctx context.Context) *workloadapi.X509Source {
 	cid := ctx.Value(key.CorrelationId).(*string)
 
 	i.Logger.TraceLn(cid, "RunInitCommands: acquiring source 001")

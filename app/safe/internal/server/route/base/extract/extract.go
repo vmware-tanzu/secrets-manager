@@ -62,29 +62,41 @@ func WorkloadIdAndParts(spiffeid string) (string, []string) {
 //   - string: The selected representation of the secret's value. This could be
 //     the transformed value, a single raw value, a JSON-encoded string of
 //     multiple values, or an empty string in case of an error.
-func SecretValue(cid string, secret *entity.SecretStored) string {
-	if secret.ValueTransformed != "" {
-		log.TraceLn(&cid, "Fetch: using transformed value")
-		return secret.ValueTransformed
+func SecretValue(cid string, secrets []entity.SecretStored) string {
+	if secrets == nil {
+		return ""
 	}
 
-	// This part is for backwards compatibility.
-	// It probably won't execute because `secret.ValueTransformed` will
-	// always be set.
-
-	log.TraceLn(&cid, "Fetch: using raw value")
-
-	// If there is only one value, return it, instead of returning an array.
-	if len(secret.Values) == 1 {
-		return secret.Values[0]
+	if len(secrets) == 0 {
+		return ""
 	}
 
-	jsonData, err := json.Marshal(secret.Values)
+	if len(secrets) == 1 {
+		secret := secrets[0]
+
+		if secret.ValueTransformed != "" {
+			log.TraceLn(&cid, "Fetch: using transformed value")
+			return secret.ValueTransformed
+		}
+
+		// This part is for backwards compatibility.
+		// It probably won't execute because `secret.ValueTransformed` will
+		// always be set.
+
+		log.TraceLn(&cid, "Fetch: no transformed value found. returning raw value")
+		return secret.Value
+	}
+
+	// TODO: split this path.
+	// If multiple secrets, it's a vsecm-scout secret.
+	// This is a hacky assumption. We should have a better way to determine
+	// if a secret is a vsecm-scout secret.
+
+	jsonData, err := json.Marshal(secrets)
 	if err != nil {
-		log.WarnLn(&cid, "Fetch: Problem marshaling values", err.Error())
-	} else {
-		return string(jsonData)
+		log.WarnLn(&cid, "Fetch: Problem marshaling secrets", err.Error())
+		return ""
 	}
 
-	return ""
+	return string(jsonData)
 }

@@ -12,7 +12,9 @@ package main
 
 import (
 	"context"
+
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
+
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/bootstrap"
 	server "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/engine"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
@@ -48,10 +50,12 @@ func main() {
 
 			safeConfig, err := bootstrap.PollForConfig(id, ctx)
 			if err != nil {
-				log.FatalLn(&id, "Failed to retrieve VSecM Safe internal configuration", err.Error())
+				log.FatalLn(&id,
+					"Failed to retrieve VSecM Safe internal configuration", err.Error())
 			}
 
-			log.InfoLn(&id, "VSecM Safe internal configuration loaded. Initializing database.")
+			log.InfoLn(&id,
+				"VSecM Safe internal configuration loaded. Initializing database.")
 
 			err = io.InitDB(safeConfig.Config.DataSourceName)
 			if err != nil {

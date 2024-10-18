@@ -34,7 +34,7 @@ type Secret struct {
 // It is still safe to view since the value of it is encrypted.
 type SecretEncrypted struct {
 	Name           string          `json:"name"`
-	EncryptedValue []string        `json:"value"`
+	EncryptedValue string          `json:"value"`
 	Created        entity.JsonTime `json:"created"`
 	Updated        entity.JsonTime `json:"updated"`
 	NotBefore      entity.JsonTime `json:"notBefore"`

@@ -11,7 +11,6 @@
 package data
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -20,10 +19,10 @@ import (
 type SecretStored struct {
 	// Name of the secret.
 	Name string
-	// Raw values. A secret can have multiple values. Sentinel returns
+	// Raw value. A secret can have multiple values. Sentinel returns
 	// a single value if there is a single value in this array. Sentinel
 	// will return an array of values if there are multiple values in the array.
-	Values []string `json:"values"`
+	Value string `json:"value"`
 	// Transformed values. This value is the value that workloads see.
 	//
 	// Apply transformation (if needed) and then store the value in
@@ -52,16 +51,15 @@ type SecretStored struct {
 //     logic as in case 1, attempting to unmarshal the secret's value into a map,
 //     and if that fails, storing the secret's value under the "VALUE" key.
 func (secret SecretStored) ToMapForK8s() map[string][]byte {
-	data := make(map[string][]byte)
-
-	// If there are no values, return an empty map.
-	if len(secret.Values) == 0 {
-		return data
-	}
+	// data := make(map[string][]byte)
+	//// If there are no values, return an empty map.
+	//if len(secret.Values) == 0 {
+	//	return data
+	//}
 
 	// If there is no template, use the secret's value as is.
 	if secret.Meta.Template == "" {
-		return convertValueNoTemplate(secret.Values)
+		return convertValueNoTemplate(secret.Value)
 	}
 
 	// Otherwise, apply the template.
@@ -71,7 +69,7 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 	}
 
 	// If the template fails, use the secret's value as is.
-	return convertValueToMap(secret.Values)
+	return convertValueToMap(secret.Value)
 }
 
 // ToMap converts the SecretStored struct to a map[string]any.
@@ -84,7 +82,7 @@ func (secret SecretStored) ToMapForK8s() map[string][]byte {
 func (secret SecretStored) ToMap() map[string]any {
 	return map[string]any{
 		"Name":    secret.Name,
-		"Values":  secret.Values,
+		"Value":   secret.Value,
 		"Created": secret.Created,
 		"Updated": secret.Updated,
 	}
@@ -112,47 +110,15 @@ func (secret SecretStored) ToMap() map[string]any {
 //   - If the Meta.Format field is Raw, then the output string is simply the
 //     parsedString, without any specific format checks or transformations.
 func (secret SecretStored) Parse() (string, error) {
-	if len(secret.Values) == 0 {
-		return "", fmt.Errorf("no values found for secret %s", secret.Name)
+	if len(secret.Value) == 0 {
+		return "", fmt.Errorf("no value found for secret %s", secret.Name)
+	}
+	transformed, err := transform(secret.Value, secret.Meta.Template,
+		secret.Meta.Format)
+
+	if transformed == "" {
+		return secret.Value, fmt.Errorf("failed to parse secret %s", secret.Name)
 	}
 
-	parseFailed := false
-	var results []string
-	for _, v := range secret.Values {
-		transformed, err := transform(v,
-			secret.Meta.Template, secret.Meta.Format)
-		if err != nil {
-			parseFailed = true
-			continue
-		}
-		if transformed == "" {
-			continue
-		}
-		results = append(results, transformed)
-	}
-
-	if results == nil {
-		return "", fmt.Errorf("failed to parse secret %s", secret.Name)
-	}
-
-	if len(results) == 1 {
-		// Can happen if there are N values, but only 1 was successfully parsed.
-		if parseFailed {
-			return results[0],
-				fmt.Errorf("failed to parse secret %s", secret.Name)
-		}
-
-		return results[0], nil
-	}
-
-	marshaled, err := json.Marshal(results)
-	if err != nil {
-		return "", err
-	}
-	if parseFailed {
-		return string(marshaled),
-			fmt.Errorf("failed to parse secret %s", secret.Name)
-	}
-
-	return string(marshaled), nil
+	return transformed, err
 }

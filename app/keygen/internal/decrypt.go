@@ -36,19 +36,18 @@ func PrintDecryptedKeys() {
 	for _, secret := range ss.Secrets {
 		fmt.Println("Name:", secret.Name)
 
-		values := secret.EncryptedValue
+		value := secret.EncryptedValue
+		dv, err := crypto.Decrypt([]byte(value), algorithm)
 
-		for i, v := range values {
-			dv, err := crypto.Decrypt([]byte(v), algorithm)
-			if err != nil {
-				fmt.Println("Error decrypting value:", err.Error())
-				continue
-			}
-			fmt.Printf("Value[%d]: %s\n", i, dv)
+		if err != nil {
+			fmt.Println("Error decrypting value:", err.Error())
+			continue
 		}
 
+		fmt.Printf("Value: %s\n", dv)
 		fmt.Println("Created:", secret.Created.String())
 		fmt.Println("Updated:", secret.Updated.String())
+
 		fmt.Println(ruler)
 	}
 }

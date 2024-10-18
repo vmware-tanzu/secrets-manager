@@ -37,21 +37,30 @@ func PollForConfig(id string, ctx context.Context,
 		case <-ctx.Done():
 			return nil, ctx.Err()
 		default:
-			vSecMSafeInternalConfig, err := collection.ReadSecret(id, "vsecm-safe")
+			vSecMSafeInternalConfigs, err := collection.ReadSecret(id, "vsecm-safe")
 
-			if err != nil {
-				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration", err.Error())
-				time.Sleep(5 * time.Second)
-				continue
-			}
-
-			if vSecMSafeInternalConfig == nil {
+			if vSecMSafeInternalConfigs == nil {
 				log.InfoLn(&id, "VSecM Safe internal configuration not found")
 				time.Sleep(5 * time.Second)
 				continue
 			}
 
-			if len(vSecMSafeInternalConfig.Values) == 0 {
+			if len(vSecMSafeInternalConfigs) == 0 {
+				log.InfoLn(&id, "VSecM Safe internal configuration is empty")
+				time.Sleep(5 * time.Second)
+				continue
+			}
+
+			if err != nil {
+				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration",
+					err.Error())
+				time.Sleep(5 * time.Second)
+				continue
+			}
+
+			vSecMSafeInternalConfig := vSecMSafeInternalConfigs[0]
+
+			if len(vSecMSafeInternalConfig.Value) == 0 {
 				log.InfoLn(&id, "VSecM Safe internal configuration is empty")
 				time.Sleep(5 * time.Second)
 				continue
@@ -60,11 +69,12 @@ func PollForConfig(id string, ctx context.Context,
 			var safeConfig data.VSecMSafeInternalConfig
 
 			err = json.Unmarshal(
-				[]byte(vSecMSafeInternalConfig.Values[0]), &safeConfig,
+				[]byte(vSecMSafeInternalConfig.Value), &safeConfig,
 			)
 
 			if err != nil {
-				log.InfoLn(&id, "Failed to parse VSecM Safe internal configuration", err.Error())
+				log.InfoLn(&id, "Failed to parse VSecM Safe internal configuration",
+					err.Error())
 				time.Sleep(5 * time.Second)
 				continue
 			}

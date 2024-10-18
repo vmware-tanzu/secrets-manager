@@ -82,35 +82,35 @@ func TestParseDeleteSecret(t *testing.T) {
 	})
 }
 
-func TestParseAppendSecret(t *testing.T) {
-	t.Run("test short flag", func(t *testing.T) {
-		parser := newParser()
-		join := ParseAppendSecret(parser)
-
-		assert.NotNil(t, join)
-		assert.False(t, *join)
-
-		os.Args = []string{"sentinel", "-a" /*+ string(sentinel.Join)*/}
-
-		err := parser.Parse(os.Args)
-		assert.NoError(t, err)
-		assert.True(t, *join)
-	})
-
-	t.Run("test long flag", func(t *testing.T) {
-		parser := newParser()
-		join := ParseAppendSecret(parser)
-
-		assert.NotNil(t, join)
-		assert.False(t, *join)
-
-		os.Args = []string{"sentinel", "--append" /*+ string(sentinel.JoinExp)*/}
-
-		err := parser.Parse(os.Args)
-		assert.NoError(t, err)
-		assert.True(t, *join)
-	})
-}
+//func TestParseAppendSecret(t *testing.T) {
+//	t.Run("test short flag", func(t *testing.T) {
+//		parser := newParser()
+//		join := ParseAppendSecret(parser)
+//
+//		assert.NotNil(t, join)
+//		assert.False(t, *join)
+//
+//		os.Args = []string{"sentinel", "-a" /*+ string(sentinel.Join)*/}
+//
+//		err := parser.Parse(os.Args)
+//		assert.NoError(t, err)
+//		assert.True(t, *join)
+//	})
+//
+//	t.Run("test long flag", func(t *testing.T) {
+//		parser := newParser()
+//		join := ParseAppendSecret(parser)
+//
+//		assert.NotNil(t, join)
+//		assert.False(t, *join)
+//
+//		os.Args = []string{"sentinel", "--append" /*+ string(sentinel.JoinExp)*/}
+//
+//		err := parser.Parse(os.Args)
+//		assert.NoError(t, err)
+//		assert.True(t, *join)
+//	})
+//}
 
 func TestParseNamespaces(t *testing.T) {
 	t.Run("test short flag", func(t *testing.T) {

@@ -60,7 +60,7 @@ func newInputKeysRequest(ageSecretKey, agePublicKey, aesCipherKey string,
 func newSecretUpsertRequest(
 	workloadIds []string, secret string, namespaces []string,
 	template string, format string,
-	encrypt, appendSecret bool, notBefore string, expires string,
+	encrypt bool, notBefore string, expires string,
 ) reqres.SecretUpsertRequest {
 	f := decideSecretFormat(format)
 
@@ -78,10 +78,10 @@ func newSecretUpsertRequest(
 		Template:    template,
 		Format:      f,
 		Encrypt:     encrypt,
-		AppendValue: appendSecret,
-		Value:       secret,
-		NotBefore:   notBefore,
-		Expires:     expires,
+		// AppendValue: appendSecret,
+		Value:     secret,
+		NotBefore: notBefore,
+		Expires:   expires,
 	}
 }
 

@@ -26,31 +26,16 @@ import (
 // handles updating the backing store and Kubernetes secrets if necessary.
 // If appendValue is true, the new value will be appended to the existing
 // values, otherwise it will replace the existing values.
-func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
+func UpsertSecret(secretStored entity.SecretStored) {
 	cid := secretStored.Meta.CorrelationId
 
-	vs := secretStored.Values
+	val := secretStored.Value
 
-	if len(vs) == 0 {
+	if len(val) == 0 {
 		log.InfoLn(&cid,
-			"UpsertSecret: nothing to upsert. exiting.", "len(vs)", len(vs))
+			"UpsertSecret: nothing to upsert. exiting.", "len(vs)", len(val))
 		return
 	}
-
-	var nonEmptyValues []string
-	for _, value := range secretStored.Values {
-		if value != "" {
-			nonEmptyValues = append(nonEmptyValues, value)
-		}
-	}
-
-	if nonEmptyValues == nil {
-		log.InfoLn(&cid,
-			"UpsertSecret: nothing to upsert. exiting.", "len(vs)", len(vs))
-		return
-	}
-
-	secretStored.Values = nonEmptyValues
 
 	s, exists := Secrets.Load(secretStored.Name)
 	now := time.Now()
@@ -59,20 +44,6 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 
 		ss := s.(entity.SecretStored)
 		secretStored.Created = ss.Created
-
-		if appendValue {
-			log.TraceLn(&cid, "UpsertSecret: Will append value.")
-
-			for _, v := range ss.Values {
-				if contains(secretStored.Values, v) {
-					continue
-				}
-				if len(v) == 0 {
-					continue
-				}
-				secretStored.Values = append(secretStored.Values, v)
-			}
-		}
 	} else {
 		secretStored.Created = now
 	}
@@ -80,7 +51,7 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 
 	log.InfoLn(&cid, "UpsertSecret:",
 		"created", secretStored.Created, "updated", secretStored.Updated,
-		"name", secretStored.Name, "len(vs)", len(vs),
+		"name", secretStored.Name, "len(vs)", len(val),
 	)
 
 	log.TraceLn(&cid, "UpsertSecret: Will parse secret.")
@@ -114,6 +85,16 @@ func UpsertSecret(secretStored entity.SecretStored, appendValue bool) {
 		&cid, "UpsertSecret: Pushed secret. len",
 		len(insertion.SecretUpsertQueue), "cap",
 		cap(insertion.SecretUpsertQueue))
+
+	// A "raw" secret cannot be queried by regular workloads, you will need a
+	// special Kubernetes Operator to access it.
+	if strings.HasPrefix(secretStored.Name, env.RawSecretPrefix()) {
+		log.TraceLn(&cid,
+			"UpsertSecret: the secret will not be associated with a workload.",
+		)
+
+		return
+	}
 
 	// If the "name" of the secret has the prefix "k8s:", then store it as a
 	// Kubernetes secret too.

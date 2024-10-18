@@ -11,21 +11,21 @@
 package secret
 
 import (
-	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
 	"io"
 	"net/http"
 	"time"
 
-	httq "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/http"
+	net "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/http"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/json"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/state"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/validation"
+	ioState "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/val"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	entity "github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	data "github.com/vmware-tanzu/secrets-manager/lib/entity"
 	s "github.com/vmware-tanzu/secrets-manager/lib/spiffe"
@@ -78,7 +78,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 
 	log.DebugLn(&cid, "Secret: sentinel spiffeid:", spiffeid)
 
-	body, _ := httq.ReadBody(cid, r)
+	body, _ := net.ReadBody(cid, r)
 	if body == nil {
 		j.Event = audit.BadPayload
 		journal.Log(j)
@@ -116,7 +116,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	template := sr.Template
 	format := sr.Format
 	encrypt := sr.Encrypt
-	appendValue := sr.AppendValue
+	//appendValue := sr.AppendValue
 	notBefore := sr.NotBefore
 	expiresAfter := sr.Expires
 
@@ -139,7 +139,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	}
 
 	if len(workloadIds) == 0 && encrypt {
-		httq.SendEncryptedValue(cid, value, j, w)
+		net.SendEncryptedValue(cid, value, j, w)
 
 		return
 	}
@@ -151,7 +151,6 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	log.DebugLn(&cid, "Secret:Upsert: ", "workloadIds:", workloadIds,
 		"namespaces:", namespaces,
 		"template:", template, "format:", format, "encrypt:", encrypt,
-		"appendValue:", appendValue,
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if len(workloadIds) == 0 && !encrypt {
@@ -231,11 +230,12 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 				Format:        format,
 				CorrelationId: cid,
 			},
-			Values:       []string{value},
+			Value:        value,
 			NotBefore:    time.Time(nb),
 			ExpiresAfter: time.Time(exp),
 		}
 
-		state.Upsert(secretToStore, appendValue, workloadId, cid, j, w)
+		// TODO: workload id can be gathered from secretToStore.Name
+		state.Upsert(secretToStore, workloadId, cid, j, w)
 	}
 }
