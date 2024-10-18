@@ -141,7 +141,14 @@ func Fetch(
 
 	// Only vsecm-scout workloads can fetch multiple `raw` secrets.
 	if len(secrets) > 1 {
-		log.WarnLn(&cid, "Fetch: Multiple secrets found for workload id:", workloadId)
+		// TODO: only for debug; remove later.
+		for _, secret := range secrets {
+			name := secret.Name
+			value := secret.Value
+			log.InfoLn(&cid, "Fetch: >>>>>>>>>>>>>:", workloadId, name, value)
+		}
+
+		log.WarnLn(&cid, "Fetch: Multiple secrets found for workload id:", workloadId, len(secrets))
 		handle.NoSecretResponse(cid, w, j)
 		return
 	}
