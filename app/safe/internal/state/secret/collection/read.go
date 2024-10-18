@@ -11,6 +11,7 @@
 package collection
 
 import (
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"strings"
 
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
@@ -158,9 +159,11 @@ func AllSecretsEncrypted(cid string) []entity.SecretEncrypted {
 		//	vals = append(vals, ve)
 		//}
 
+		ev, _ := crypto.EncryptValue(v.Value)
+
 		result = append(result, entity.SecretEncrypted{
 			Name:           v.Name,
-			EncryptedValue: v.Value,
+			EncryptedValue: ev,
 			Created:        data.JsonTime(v.Created),
 			Updated:        data.JsonTime(v.Updated),
 			NotBefore:      data.JsonTime(v.NotBefore),
