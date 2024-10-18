@@ -224,8 +224,8 @@ func Post(parentContext context.Context,
 		}
 
 		// TODO: just for debugging. remove from final PR.
-		log.TraceLn(cid, ">>>>>>>>>>>>> DO POST", "workloadids", sr.WorkloadIds, "secret",
-			sc.Secret, "namespaces", sc.Namespaces)
+		log.TraceLn(cid, ">>>>>>>>>>>>> DO POST", "workloadids", sc.WorkloadIds, "secret",
+			sc.Secret, "namespaces", sc.Namespaces, "md::::::", string(md))
 
 		return doPost(cid, client, p, md)
 	}

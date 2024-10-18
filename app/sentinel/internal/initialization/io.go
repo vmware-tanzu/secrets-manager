@@ -104,7 +104,8 @@ dance:
 					)
 
 					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> POSTING SENTINEL COMMAND")
-					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>> ns", len(sc.Namespaces), "secret", sc.Secret, "workload", len(sc.WorkloadIds))
+					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>> ns", len(sc.Namespaces),
+						"secret", sc.Secret, "workload", len(sc.WorkloadIds))
 
 					if len(sc.WorkloadIds) == 0 {
 						i.Logger.InfoLn(cid, "RunInitCommands:ProcessCommandBlock: empty command block. Nothing to do.")
