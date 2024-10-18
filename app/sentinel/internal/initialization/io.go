@@ -47,6 +47,7 @@ func (i *Initializer) parseCommandsFile(
 ) {
 	i.Logger.TraceLn(cid, "Before parsing commands 002")
 
+	i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> CREATED EMPTY SENTINEL COMMAND")
 	sc := entity.SentinelCommand{}
 
 	if scanner == nil {
@@ -87,6 +88,8 @@ dance:
 			i.Logger.TraceLn(cid, "scanner: delimiter found")
 			if sc.ShouldSleep {
 				i.doSleep(sc.SleepIntervalMs)
+
+				i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> RESETTING SENTINEL COMMAND")
 				sc = entity.SentinelCommand{}
 				continue
 			}
@@ -99,6 +102,9 @@ dance:
 						"RunInitCommands:ProcessCommandBlock"+
 							": retrying with exponential backoff",
 					)
+
+					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> POSTING SENTINEL COMMAND")
+					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>> ns", len(sc.Namespaces), "secret", sc.Secret, "workload", len(sc.WorkloadIds))
 
 					err := i.Safe.Post(ctx, sc)
 					if err != nil {
