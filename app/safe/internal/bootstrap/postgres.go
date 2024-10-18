@@ -45,20 +45,12 @@ func PollForConfig(id string, ctx context.Context,
 				continue
 			}
 
-			//if len(vSecMSafeInternalConfig) == 0 {
-			//	log.InfoLn(&id, "VSecM Safe internal configuration is empty")
-			//	time.Sleep(5 * time.Second)
-			//	continue
-			//}
-
 			if err != nil {
 				log.InfoLn(&id, "Failed to load VSecM Safe internal configuration",
 					err.Error())
 				time.Sleep(5 * time.Second)
 				continue
 			}
-
-			// vSecMSafeInternalConfig := vSecMSafeInternalConfigs
 
 			if len(vSecMSafeInternalConfig.Value) == 0 {
 				log.InfoLn(&id, "VSecM Safe internal configuration is empty")

@@ -15,7 +15,7 @@ import (
 	"io"
 	"net/http"
 
-	io2 "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
+	net "github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/io"
 	"github.com/vmware-tanzu/secrets-manager/app/safe/internal/state/secret/collection"
 	"github.com/vmware-tanzu/secrets-manager/core/audit/journal"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/audit"
@@ -46,11 +46,9 @@ func Upsert(secretToStore entity.SecretStored,
 	// If the secret is not internal VSecM Safe configuration secret and
 	// if db persistence is enabled, and the db is not ready,
 	// then respond with an error.
-	// TODO: extract part of this as a method. "vsecm-safe" is a magic string.
-	// TODO: io2 is a bad name for a package.
 	if secretToStore.Name != "vsecm-safe" &&
 		env.BackingStoreForSafe() == entity.Postgres &&
-		!io2.PostgresReady() {
+		!net.PostgresReady() {
 		log.InfoLn(&cid, "Secret: DB not ready. Responding with error.")
 		w.WriteHeader(http.StatusInternalServerError)
 		_, err := io.WriteString(w, "DB not ready")

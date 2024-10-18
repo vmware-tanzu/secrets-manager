@@ -87,11 +87,6 @@ func SecretValue(cid string, secrets []entity.SecretStored) string {
 		return secret.Value
 	}
 
-	// TODO: split this path.
-	// If multiple secrets, it's a vsecm-scout secret.
-	// This is a hacky assumption. We should have a better way to determine
-	// if a secret is a vsecm-scout secret.
-
 	jsonData, err := json.Marshal(secrets)
 	if err != nil {
 		log.WarnLn(&cid, "Fetch: Problem marshaling secrets", err.Error())

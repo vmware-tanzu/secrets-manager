@@ -129,15 +129,6 @@ func Fetch(
 		return
 	}
 
-	// TODO: this needs cleanup; we probably need a different handler for Scout.
-	// Also extract.SecretValue can be split into one used by scout and one used
-	// by regular workloads.
-	// TODO: extra control for vsecm-scout: it cannot have a regex-based spiffeid matcher.
-	// (same holds for any other vsecm workload; it has to be in vsecm-system namespace
-	// and be served by a matching service account)
-	// i.e. vsecm-related workloads shall have hard-coded spiffe ids that cannot
-	// be altered via environment variables.
-	// custom regex-matchers shall not work for vsecm-related workloads.
 	if workloadId == "vsecm-scout" {
 		value := extract.SecretValue(cid, secrets)
 
@@ -151,19 +142,12 @@ func Fetch(
 
 	// Only vsecm-scout workloads can fetch multiple `raw` secrets.
 	if len(secrets) > 1 {
-		// TODO: only for debug; remove later.
-		for _, secret := range secrets {
-			name := secret.Name
-			value := secret.Value
-			log.InfoLn(&cid, "Fetch: >>>>>>>>>>>>>:", workloadId, name, value)
-		}
-
-		log.WarnLn(&cid, "Fetch: Multiple secrets found for workload id:", workloadId, len(secrets))
+		log.WarnLn(&cid, "Fetch: Sending 'no secrets' response:",
+			workloadId, len(secrets))
 		handle.NoSecretResponse(cid, w, j)
 		return
 	}
 
-	// TODO: this is a leaky abstraction and needs cleanup.
 	// Regular workloads will only have one secret.
 	secret := secrets[0]
 

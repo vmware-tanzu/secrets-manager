@@ -116,7 +116,6 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	template := sr.Template
 	format := sr.Format
 	encrypt := sr.Encrypt
-	//appendValue := sr.AppendValue
 	notBefore := sr.NotBefore
 	expiresAfter := sr.Expires
 
@@ -154,7 +153,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 		"notBefore:", notBefore, "expiresAfter:", expiresAfter)
 
 	if len(workloadIds) == 0 && !encrypt {
-		log.TraceLn(&cid, ">>>>>>>>>>>>>>>> Secret: NO WORKLOAD ID")
+		log.TraceLn(&cid, "Secret:Upsert: No workload id. Exiting")
 
 		j.Event = audit.NoWorkloadId
 		journal.Log(j)

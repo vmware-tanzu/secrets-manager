@@ -177,7 +177,7 @@ func Post(
 			},
 		}
 
-		log.Println(cid, "Post:>>>>>>>>>>>>>> NEW SECRET UPSERT REQUEST")
+		log.Println(cid, "Post: newSecretUpsertRequest")
 
 		sr := newSecretUpsertRequest(sc.WorkloadIds, sc.Secret, sc.Namespaces,
 			sc.Template, sc.Format,

@@ -46,8 +46,7 @@ func (i *Initializer) parseCommandsFile(
 	ctx context.Context, cid *string, scanner *bufio.Scanner,
 ) {
 	i.Logger.TraceLn(cid, "Before parsing commands 002")
-
-	i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> CREATED EMPTY SENTINEL COMMAND")
+	i.Logger.TraceLn(cid, "Created blank sentinel command")
 	sc := entity.SentinelCommand{}
 
 	if scanner == nil {
@@ -89,7 +88,7 @@ dance:
 			if sc.ShouldSleep {
 				i.doSleep(sc.SleepIntervalMs)
 
-				i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> RESETTING SENTINEL COMMAND")
+				i.Logger.TraceLn(cid, "scanner: resetting sentinel command")
 				sc = entity.SentinelCommand{}
 				continue
 			}
@@ -103,12 +102,11 @@ dance:
 							": retrying with exponential backoff",
 					)
 
-					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>>> POSTING SENTINEL COMMAND")
-					i.Logger.TraceLn(cid, ">>>>>>>>>>>>>>>>>>>> ns", len(sc.Namespaces),
-						"secret", sc.Secret, "workload", len(sc.WorkloadIds))
+					i.Logger.TraceLn(cid, "scanner: posting sentinel command")
 
 					if len(sc.WorkloadIds) == 0 {
-						i.Logger.InfoLn(cid, "RunInitCommands:ProcessCommandBlock: empty command block. Nothing to do.")
+						i.Logger.InfoLn(cid, "RunInitCommands:ProcessCommandBlock: "+
+							"empty command block. Nothing to do.")
 						return nil
 					}
 
