@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eso-webhook
+  labels:
+    app: eso-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eso-webhook
+  template:
+    metadata:
+      labels:
+        app: eso-webhook
+    spec:
+      containers:
+        - name: eso-webhook
+          image: localhost:5000/eso-webhook:v1
+          ports:
+            - containerPort: 8080
