@@ -19,7 +19,7 @@ cat << EOF > cluster-secret-store.yaml
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
 metadata:
-  name: webhook-backend
+  name: vsecm-scout
 spec:
   provider:
     webhook:
