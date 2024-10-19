@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/tls"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
@@ -62,8 +63,19 @@ func main() {
 	fmt.Println(serverKey)
 	fmt.Println("--------")
 
-	// Configure TLS
-	cert, err := tls.X509KeyPair([]byte(serverCert), []byte(serverKey))
+	// Decode base64 encoded certificate and key
+	decodedCert, err := base64.StdEncoding.DecodeString(serverCert)
+	if err != nil {
+		log.Fatalf("Error decoding server certificate: %v", err)
+	}
+
+	decodedKey, err := base64.StdEncoding.DecodeString(serverKey)
+	if err != nil {
+		log.Fatalf("Error decoding server key: %v", err)
+	}
+
+	// Configure TLS with decoded certificate and key
+	cert, err := tls.X509KeyPair(decodedCert, decodedKey)
 	if err != nil {
 		log.Fatalf("Error loading server certificate and key: %v", err)
 	}
