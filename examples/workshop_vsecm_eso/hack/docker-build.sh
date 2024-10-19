@@ -2,4 +2,4 @@
 
 cd app || exit
 
-docker build -t localhost:5000/eso-webhook:v1 .
+docker build -t localhost:5000/vsecm-scout:v1 .

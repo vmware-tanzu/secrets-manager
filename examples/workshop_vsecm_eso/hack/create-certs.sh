@@ -5,7 +5,7 @@ openssl genrsa -out server.key 2048
 
 # Create a self-signed certificate
 openssl req -new -x509 -sha256 -key server.key -out server.crt \
-  -days 3650 -subj "/CN=eso-webhook.default.svc.cluster.local"
+  -days 3650 -subj "/CN=vsecm-scout.default.svc.cluster.local"
 
 # Create a CA bundle (in this case, it's just the server certificate)
 cp server.crt ca.crt
@@ -23,7 +23,7 @@ metadata:
 spec:
   provider:
     webhook:
-      url: "https://eso-webhook.default.svc.cluster.local:8443/webhook?key={{ .remoteRef.key }}"
+      url: "https://vsecm-scout.default.svc.cluster.local:8443/webhook?key={{ .remoteRef.key }}"
       method: GET
       result:
         jsonPath: "$"

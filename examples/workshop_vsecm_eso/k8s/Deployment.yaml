@@ -1,22 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eso-webhook
+  name: vsecm-scout
+  namespace: vsecm-system
   labels:
-    app: eso-webhook
+    app: vsecm-scout
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eso-webhook
+      app: vsecm-scout
   template:
     metadata:
       labels:
-        app: eso-webhook
+        app: vsecm-scout
     spec:
+      serviceAccountName: vsecm-scout
       containers:
-      - name: eso-webhook
-        image: localhost:5000/eso-webhook:v1
+      - name: vsecm-scout
+        image: localhost:5000/vsecm-scout:v1
         env:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/spire-agent.sock"

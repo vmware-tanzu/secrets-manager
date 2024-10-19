@@ -21,20 +21,20 @@ export S=$S
 
 # Add cert and key to vsecm
 kubectl exec -n vsecm-system $S -- safe \
-  -w "raw:vsecm-eso-webhook-server-crt" \
+  -w "raw:vsecm-scout-crt" \
 	-s "$SERVER_CRT"
 
 kubectl exec -n vsecm-system $S -- safe \
-  -w "raw:vsecm-eso-webhook-server-key" \
+  -w "raw:vsecm-scout-key" \
 	-s "$SERVER_KEY"
 
 kubectl exec -n vsecm-system $S -- safe \
-  -w "raw:vsecm-eso-webhook-ca-crt" \
+  -w "raw:vsecm-scout-ca-crt" \
 	-s "$CA_CRT"
 
 # Add JWT secret
 kubectl exec -n vsecm-system $S -- safe \
-  -w "raw:vsecm-eso-webhook-jwt-secret" \
+  -w "raw:vsecm-scout-jwt-secret" \
   -s "$JWT_SECRET"
 
 # This is the demo secret:
