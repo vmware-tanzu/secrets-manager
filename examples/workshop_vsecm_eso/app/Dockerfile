@@ -12,6 +12,8 @@ RUN go mod download
 
 # Copy the source code
 COPY main.go ./
+COPY handler.go ./
+COPY query.go ./
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -o webhook-server .
