@@ -5,15 +5,18 @@ metadata:
   namespace: vsecm-system
   labels:
     app: vsecm-scout
+    app.kubernetes.io/name: vsecm-scout
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: vsecm-scout
+      app.kubernetes.io/name: vsecm-scout
   template:
     metadata:
       labels:
         app: vsecm-scout
+        app.kubernetes.io/name: vsecm-scout
     spec:
       serviceAccountName: vsecm-scout
       containers:

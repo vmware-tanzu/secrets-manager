@@ -1,7 +1,7 @@
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: example
+  name: vsecm-scout
 spec:
   className: "vsecm"
   spiffeIDTemplate: "spiffe://vsecm.com\
@@ -11,7 +11,7 @@ spec:
     /n/{{ .PodMeta.Name }}"
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: example
+      app.kubernetes.io/name: vsecm-scout
   workloadSelectorTemplates:
     - "k8s:ns:vsecm-system"
     - "k8s:sa:vsecm-scout"
