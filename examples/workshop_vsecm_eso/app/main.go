@@ -22,6 +22,8 @@ func main() {
 		log.Fatalf("Error fetching secrets: %v", err)
 	}
 
+	fmt.Println("data", sfr.Data)
+
 	var secrets []map[string]interface{}
 	err = json.Unmarshal([]byte(sfr.Data), &secrets)
 	if err != nil {
