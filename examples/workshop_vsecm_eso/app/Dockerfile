@@ -1,17 +1,30 @@
+# Build stage
 FROM golang:1.20-alpine AS builder
 
 WORKDIR /app
 
-COPY main.go .
+# Copy go mod and sum files
+COPY go.mod ./
 
-RUN go build -o webhook-server main.go
+# Download all dependencies
+RUN go mod download
 
+# Copy the source code
+COPY main.go ./
+
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -o webhook-server .
+
+# Final stage
 FROM alpine:latest
 
 WORKDIR /root/
 
+# Copy the binary from the builder stage
 COPY --from=builder /app/webhook-server .
 
-EXPOSE 8080
+# Expose the port the app runs on
+EXPOSE 8443
 
+# Run the binary
 CMD ["./webhook-server"]

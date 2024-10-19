@@ -15,7 +15,19 @@ spec:
         app: eso-webhook
     spec:
       containers:
-        - name: eso-webhook
-          image: localhost:5000/eso-webhook:v1
-          ports:
-            - containerPort: 8080
+      - name: eso-webhook
+        image: localhost:5000/eso-webhook:v1
+        env:
+        - name: SPIFFE_ENDPOINT_SOCKET
+          value: "unix:///spire-agent-socket/spire-agent.sock"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: spire-agent-socket
+          mountPath: /spire-agent-socket
+          readOnly: true
+      volumes:
+      - name: spire-agent-socket
+        csi:
+          driver: "csi.spiffe.io"
+          readOnly: true

@@ -32,3 +32,7 @@ EOF
 
 echo "Self-signed certificate generated and ClusterSecretStore YAML updated."
 echo "Please review the cluster-secret-store.yaml file."
+
+mv server.crt ./hack
+mv server.key ./hack
+mv ca.crt ./hack

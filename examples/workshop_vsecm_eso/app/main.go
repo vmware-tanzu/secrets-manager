@@ -3,16 +3,34 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 func main() {
+	fmt.Println("before fetching")
+	sfr, err := sentry.Fetch()
+	if err != nil {
+		fmt.Println("error", err.Error())
+		fmt.Println("will sleep for 1 hour")
+		time.Sleep(time.Second * 3600)
+	}
+	fmt.Println("after fetching")
+
+	if err == nil {
+		fmt.Println("data", sfr.Data)
+	}
+
 	http.HandleFunc("/webhook", webhookHandler)
 	fmt.Println("Server is running on :8443")
-	log.Fatal(http.ListenAndServeTLS(":8443", "server.crt", "server.key", nil))
+
+	log.Fatal(http.ListenAndServe(":8443", nil))
+
+	// log.Fatal(http.ListenAndServeTLS(":8443", "server.crt", "server.key", nil))
 }
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
