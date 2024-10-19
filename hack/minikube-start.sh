@@ -26,4 +26,6 @@ minikube start \
 echo "waiting 10 secs before enabling registry"
 sleep 10
 minikube addons enable registry
+minikube addons enable metrics-server
+minikube addons enable metallb
 kubectl get node

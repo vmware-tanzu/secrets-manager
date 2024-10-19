@@ -8,5 +8,5 @@ spec:
     app: eso-webhook
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8888
+      port: 443
+      targetPort: 8443

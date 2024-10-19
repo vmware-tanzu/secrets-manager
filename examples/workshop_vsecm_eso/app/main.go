@@ -11,8 +11,8 @@ import (
 
 func main() {
 	http.HandleFunc("/webhook", webhookHandler)
-	fmt.Println("Server is running on :8888")
-	log.Fatal(http.ListenAndServe(":8888", nil))
+	fmt.Println("Server is running on :8443")
+	log.Fatal(http.ListenAndServeTLS(":8443", "server.crt", "server.key", nil))
 }
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
