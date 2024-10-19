@@ -40,5 +40,5 @@ kubectl exec -n vsecm-system $S -- safe \
 # This is the demo secret:
 kubectl exec -n vsecm-system $S -- safe \
   -w "raw:coca-cola.cluster-001" \
-  -s '{"namespaces": {"coke-system": {"secrets":{"admin-credentials":{"type":"k8s","value":"super-secret-secret","metadata": {"labels": {"managed-by": "coke-system"},"annotations": {"inject-sidecar": "true"},"creationTimestamp": "2024-01-01","lastUpdated": "2024-01-01"},"expires": "2024-01-01","notBefore": "2024-01-01"}}}}}'
+  -s '{"namespaces": {"cokeSystem": {"secrets":{"adminCredentials":{"type":"k8s","value":"super-secret-secret","metadata": {"labels": {"managedBy": "coke-system"},"annotations": {"injectSidecar": "true"},"creationTimestamp": "2024-01-01","lastUpdated": "2024-01-01"},"expires": "2024-01-01","notBefore": "2024-01-01"}}}}}'
 
