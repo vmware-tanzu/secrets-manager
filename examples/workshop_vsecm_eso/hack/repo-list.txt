@@ -1,0 +1,5 @@
+# helm repo list
+NAME                    URL
+vsecm                   https://vmware-tanzu.github.io/secrets-manager/
+bitnami                 https://charts.bitnami.com/bitnami
+external-secrets        https://charts.external-secrets.io
