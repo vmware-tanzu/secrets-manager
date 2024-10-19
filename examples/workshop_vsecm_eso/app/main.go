@@ -55,6 +55,13 @@ func main() {
 		}
 	}
 
+	fmt.Println("---------")
+	fmt.Println("server cert")
+	fmt.Println(serverCert)
+	fmt.Println("server key")
+	fmt.Println(serverKey)
+	fmt.Println("--------")
+
 	// Configure TLS
 	cert, err := tls.X509KeyPair([]byte(serverCert), []byte(serverKey))
 	if err != nil {
