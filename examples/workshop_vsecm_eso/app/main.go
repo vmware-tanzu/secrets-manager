@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("Error fetching secrets: %v", err)
 	}
 
-	fmt.Println("data", sfr.Data)
+	// fmt.Println("data", sfr.Data)
 
 	var secrets []map[string]interface{}
 	err = json.Unmarshal([]byte(sfr.Data), &secrets)
@@ -36,7 +36,7 @@ func main() {
 	//, caCert string
 
 	for _, secret := range secrets {
-		name := secret["Name"].(string)
+		name := secret["name"].(string)
 		value := secret["value"].(string)
 
 		switch name {
