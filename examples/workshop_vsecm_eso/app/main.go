@@ -135,7 +135,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 func getValueFromPath(data interface{}, path string) (interface{}, error) {
 	parts := strings.Split(path, ".")
 
-	var current interface{} = data
+	var current = data
 	for _, part := range parts {
 		switch v := current.(type) {
 		case map[string]interface{}:
