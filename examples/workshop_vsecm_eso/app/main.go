@@ -21,6 +21,8 @@ func main() {
 	}
 	fmt.Println("after fetching")
 
+	// TODO: JWT token validation
+
 	if err == nil {
 		fmt.Println("data", sfr.Data)
 	}
