@@ -5,9 +5,25 @@ SCOUT_DNS="vsecm-scout.vsecm-system.svc.cluster.local"
 # Generate a private key
 openssl genrsa -out server.key 2048
 
-# Create a self-signed certificate
+# Create a configuration file for the certificate
+cat > server.conf << EOF
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+CN = ${SCOUT_DNS}
+[v3_req]
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ${SCOUT_DNS}
+EOF
+
+# Create a self-signed certificate using the configuration file
 openssl req -new -x509 -sha256 -key server.key -out server.crt \
-  -days 3650 -subj "/CN=${SCOUT_DNS}"
+  -days 3650 -config server.conf
 
 # Create a CA bundle (in this case, it's just the server certificate)
 cp server.crt ca.crt
