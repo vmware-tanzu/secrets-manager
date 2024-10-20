@@ -72,28 +72,31 @@ func main() {
 	tlsConfig := &tls.Config{
 		Certificates: []tls.Certificate{cert},
 
+		// Further configuration options to strengthen the server's security.
+		// Can be applied via env configuration.
+		//
 		// Minimum TLS version
-		MinVersion: tls.VersionTLS12,
-
+		// MinVersion: tls.VersionTLS12,
+		//
 		// Preferred cipher suites
-		CipherSuites: []uint16{
-			tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-			tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
-			tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
-		},
-
+		// CipherSuites: []uint16{
+		//	tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+		//	tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+		//	tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+		//	tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		// },
+		//
 		// Disable TLS renegotiation
-		Renegotiation: tls.RenegotiateNever,
-
+		// Renegotiation: tls.RenegotiateNever,
+		//
 		// Enable HTTP/2
-		NextProtos: []string{"h2", "http/1.1"},
-
+		// NextProtos: []string{"h2", "http/1.1"},
+		//
 		// Enable client authentication if needed
 		// ClientAuth: tls.RequireAndVerifyClientCert,
-
+		//
 		// Curve preferences
-		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
+		// CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
 	}
 
 	http.HandleFunc("/webhook", webhookHandler)
