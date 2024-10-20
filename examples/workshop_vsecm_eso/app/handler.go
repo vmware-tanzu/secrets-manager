@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -12,6 +13,7 @@ import (
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
+		log.Println("webhookHandler: Method not allowed")
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
@@ -19,6 +21,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the token from the Authorization header
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
+		log.Println("webhookHandler: Missing Authorization header")
 		http.Error(w, "Missing Authorization header", http.StatusUnauthorized)
 		return
 	}
@@ -35,11 +38,13 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
+		log.Print("webhookHandler: Nil token")
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
 		return
 	}
 
 	if !token.Valid {
+		log.Println("webhookHandler: Invalid token")
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
 		return
 	}
@@ -57,6 +62,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the decoded key as a query string
 	values, err := url.ParseQuery(decodedKey)
 	if err != nil {
+		log.Println("webhookHandler: Invalid key format")
 		http.Error(w, "Invalid key format", http.StatusBadRequest)
 		return
 	}
@@ -66,11 +72,13 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 
 	secretValue, exists := secretsToServe[key]
 	if !exists {
+		log.Println("webhookHandler: Invalid key")
 		http.Error(w, "Invalid key", http.StatusUnauthorized)
 		return
 	}
 
 	if path == "" {
+		log.Println("webhookHandler: Path is required")
 		http.Error(w, "Path is required", http.StatusBadRequest)
 		return
 	}
@@ -78,12 +86,14 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	var data interface{}
 	err = json.Unmarshal([]byte(secretValue), &data)
 	if err != nil {
+		log.Println("webhookHandler: Error parsing secret data")
 		http.Error(w, "Error parsing secret data", http.StatusInternalServerError)
 		return
 	}
 
 	result, err := getValueFromPath(data, path)
 	if err != nil {
+		log.Println("webhookHandler: Error getting value from path")
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}

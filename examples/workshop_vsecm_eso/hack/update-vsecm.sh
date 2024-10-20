@@ -55,6 +55,8 @@ kind: Secret
 metadata:
   name: vsecm-scout-jwt
   namespace: vsecm-client
+  labels:
+    external-secrets.io/type: webhook
 type: Opaque
 data:
   token: $(echo -n "$TOKEN" | base64 -w 0)
