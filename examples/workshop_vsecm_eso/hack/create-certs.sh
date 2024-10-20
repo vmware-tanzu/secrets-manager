@@ -52,6 +52,7 @@ spec:
       secrets:
       - name: jwt
         secretRef:
+          namespace: vsecm-client
           name: vsecm-scout-jwt
       caBundle: ${CA_BUNDLE}
 EOF

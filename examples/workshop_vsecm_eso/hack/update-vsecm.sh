@@ -54,6 +54,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: vsecm-scout-jwt
+  namespace: vsecm-client
 type: Opaque
 data:
   token: $(echo -n "$TOKEN" | base64 -w 0)
