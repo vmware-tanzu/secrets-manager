@@ -43,7 +43,10 @@ kubectl exec -n vsecm-system "$S" -- safe \
   -s '{"namespaces": {"cokeSystem": {"secrets":{"adminCredentials":{"type":"k8s","value":"super-secret-secret","metadata": {"labels": {"managedBy": "coke-system"},"annotations": {"injectSidecar": "true"},"creationTimestamp": "2024-01-01","lastUpdated": "2024-01-01"},"expires": "2024-01-01","notBefore": "2024-01-01"}}}}}'
 
 # Run Go code and capture the token
+cd hack || exit
 TOKEN=$(go run token.go)
+ehco "TOKEN: $TOKEN"
+cd ..
 
 # Create Kubernetes secret YAML
 cat > vsecm-scout-jwt-secret.yaml <<EOL
