@@ -45,7 +45,7 @@ kubectl exec -n vsecm-system "$S" -- safe \
 # Run Go code and capture the token
 cd hack || exit
 TOKEN=$(go run token.go)
-ehco "TOKEN: $TOKEN"
+echo "TOKEN: $TOKEN"
 cd ..
 
 # Create Kubernetes secret YAML
