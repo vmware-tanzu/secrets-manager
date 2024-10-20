@@ -2,7 +2,10 @@ module vsecm-scout
 
 go 1.23.1
 
-require github.com/vmware-tanzu/secrets-manager/sdk v0.28.0
+require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/vmware-tanzu/secrets-manager/sdk v0.28.0
+)
 
 require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect

@@ -23,8 +23,6 @@ func main() {
 		log.Fatalf("Error fetching secrets: %v", err)
 	}
 
-	// fmt.Println("data", sfr.Data)
-
 	var secrets []map[string]interface{}
 	err = json.Unmarshal([]byte(sfr.Data), &secrets)
 	if err != nil {
@@ -34,7 +32,6 @@ func main() {
 	secretsToServe = make(map[string]string)
 
 	var serverCert, serverKey string
-	//, caCert string
 
 	for _, secret := range secrets {
 		name := secret["name"].(string)
@@ -47,21 +44,13 @@ func main() {
 			serverCert = value
 		case "raw:vsecm-scout-key":
 			serverKey = value
-		//case "raw:vsecm-scout-ca-crt":
-		//	caCert = value
 		default:
-			if strings.HasPrefix(name, "raw:") && !strings.HasPrefix(name, "raw:vsecm-scout") {
+			if strings.HasPrefix(name, "raw:") &&
+				!strings.HasPrefix(name, "raw:vsecm-scout") {
 				secretsToServe[strings.TrimPrefix(name, "raw:")] = value
 			}
 		}
 	}
-
-	fmt.Println("---------")
-	fmt.Println("server cert")
-	fmt.Println(serverCert)
-	fmt.Println("server key")
-	fmt.Println(serverKey)
-	fmt.Println("--------")
 
 	// Decode base64 encoded certificate and key
 	decodedCert, err := base64.StdEncoding.DecodeString(serverCert)
@@ -82,7 +71,29 @@ func main() {
 
 	tlsConfig := &tls.Config{
 		Certificates: []tls.Certificate{cert},
-		// You might want to add more TLS configuration here
+
+		// Minimum TLS version
+		MinVersion: tls.VersionTLS12,
+
+		// Preferred cipher suites
+		CipherSuites: []uint16{
+			tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+			tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+		},
+
+		// Disable TLS renegotiation
+		Renegotiation: tls.RenegotiateNever,
+
+		// Enable HTTP/2
+		NextProtos: []string{"h2", "http/1.1"},
+
+		// Enable client authentication if needed
+		// ClientAuth: tls.RequireAndVerifyClientCert,
+
+		// Curve preferences
+		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
 	}
 
 	http.HandleFunc("/webhook", webhookHandler)
@@ -93,5 +104,7 @@ func main() {
 	}
 
 	fmt.Println("Server is running on :8443 with TLS enabled")
-	log.Fatal(server.ListenAndServeTLS("", "")) // Empty strings because we've already provided the cert and key in TLSConfig
+	log.Fatal(server.ListenAndServeTLS("", ""))
+	//                                 ^   ^
+	// Empty strings because we've already provided the cert and key in TLSConfig.
 }

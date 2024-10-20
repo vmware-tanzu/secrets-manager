@@ -47,6 +47,12 @@ spec:
       method: GET
       result:
         jsonPath: "$"
+      headers:
+        Authorization: "Bearer {{ .jwt.token }}"
+      secrets:
+      - name: jwt
+        secretRef:
+          name: vsecm-scout-jwt
       caBundle: ${CA_BUNDLE}
 EOF
 

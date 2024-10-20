@@ -41,3 +41,16 @@ kubectl exec -n vsecm-system "$S" -- safe \
 kubectl exec -n vsecm-system "$S" -- safe \
   -w "raw:coca-cola.cluster-001" \
   -s '{"namespaces": {"cokeSystem": {"secrets":{"adminCredentials":{"type":"k8s","value":"super-secret-secret","metadata": {"labels": {"managedBy": "coke-system"},"annotations": {"injectSidecar": "true"},"creationTimestamp": "2024-01-01","lastUpdated": "2024-01-01"},"expires": "2024-01-01","notBefore": "2024-01-01"}}}}}'
+
+# Create Kubernetes secret YAML
+cat > vsecm-scout-jwt-secret.yaml <<EOL
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsecm-scout-jwt
+type: Opaque
+data:
+  token: $(echo -n "$TOKEN" | base64 -w 0)
+EOL
+
+echo "Kubernetes secret YAML file 'vsecm-scout-jwt-secret.yaml' has been created in the current directory."

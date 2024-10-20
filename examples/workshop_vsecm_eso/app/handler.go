@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,21 +16,36 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Log detailed request information
-	fmt.Println("--- Incoming Request Details ---")
-	fmt.Printf("Method: %s\n", r.Method)
-	fmt.Printf("URL: %s\n", r.URL.String())
-	fmt.Printf("Protocol: %s\n", r.Proto)
-	fmt.Println("Headers:")
-	for name, headers := range r.Header {
-		for _, h := range headers {
-			fmt.Printf("  %v: %v\n", name, h)
+	// Extract the token from the Authorization header
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		http.Error(w, "Missing Authorization header", http.StatusUnauthorized)
+		return
+	}
+
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+
+	// Parse and validate the token
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Validate the algorithm
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
+		return []byte(jwtSecret), nil
+	})
+
+	if err != nil {
+		http.Error(w, "Invalid token", http.StatusUnauthorized)
+		return
+	}
+
+	if !token.Valid {
+		http.Error(w, "Invalid token", http.StatusUnauthorized)
+		return
 	}
 
 	// Get the 'key' query parameter
 	encodedKey := r.URL.Query().Get("key")
-	fmt.Printf("Raw 'key' parameter: %s\n", encodedKey)
 
 	// Unescape the key parameter
 	decodedKey, err := url.QueryUnescape(encodedKey)
@@ -35,7 +53,6 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode key parameter", http.StatusBadRequest)
 		return
 	}
-	fmt.Printf("Decoded 'key' parameter: %s\n", decodedKey)
 
 	// Parse the decoded key as a query string
 	values, err := url.ParseQuery(decodedKey)
@@ -52,8 +69,6 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid key", http.StatusUnauthorized)
 		return
 	}
-
-	fmt.Println("path", path)
 
 	if path == "" {
 		http.Error(w, "Path is required", http.StatusBadRequest)
