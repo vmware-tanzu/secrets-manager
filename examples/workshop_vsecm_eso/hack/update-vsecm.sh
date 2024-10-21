@@ -37,6 +37,9 @@ kubectl exec -n vsecm-system "$S" -- safe \
   -w "raw:vsecm-scout-jwt-secret" \
   -s "$JWT_SECRET"
 
+# curl -k "https://vsecm-scout.vsecm-system.svc.cluster.local/webhook?
+#  key=key%3Dcoca-cola.cluster-001%26path%3Dnamespaces.cokeSystem.secrets.adminCredentials.value"
+
 # This is the demo secret:
 kubectl exec -n vsecm-system "$S" -- safe \
   -w "raw:coca-cola.cluster-001" \
