@@ -18,11 +18,13 @@ import (
 // SecretStored represents a secret stored in VSecM Safe.
 type SecretStored struct {
 	// Name of the secret.
-	Name string
+	Name string `json:"name"`
+
 	// Raw value. A secret can have multiple values. Sentinel returns
 	// a single value if there is a single value in this array. Sentinel
 	// will return an array of values if there are multiple values in the array.
 	Value string `json:"value"`
+
 	// Transformed values. This value is the value that workloads see.
 	//
 	// Apply transformation (if needed) and then store the value in
@@ -30,12 +32,13 @@ type SecretStored struct {
 	// a valid JSON is stored here. If the format is yaml, ensure that
 	// a valid YAML is stored here. If the format is none, then just
 	// apply transformation (if needed) and do not do any validity check.
-	ValueTransformed string `json:"valuesTransformed"`
+	ValueTransformed string `json:"valueTransformed"`
+
 	// Additional information that helps format and store the secret.
-	Meta SecretMeta
+	Meta SecretMeta `json:"meta"`
 	// Timestamps
-	Created time.Time
-	Updated time.Time
+	Created time.Time `json:"created"`
+	Updated time.Time `json:"updated"`
 	// Invalid before this time.
 	NotBefore time.Time `json:"notBefore"`
 	// Invalid after this time.

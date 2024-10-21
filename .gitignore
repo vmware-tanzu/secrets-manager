@@ -54,3 +54,7 @@ vendor
 /vsecm-ist-sentinel
 /vsecm-ist-sidecar
 /docs/public
+examples/workshop_vsecm_eso/hack/ca.crt
+examples/workshop_vsecm_eso/hack/cluster-secret-store.yaml
+examples/workshop_vsecm_eso/hack/server.crt
+examples/workshop_vsecm_eso/hack/server.key

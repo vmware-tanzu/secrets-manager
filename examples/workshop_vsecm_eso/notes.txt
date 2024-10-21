@@ -1,0 +1,35 @@
+Arbitrary notes we took during the workshop
+
+1. install vsecm
+2. build docker
+3. create certs
+4. install ESO
+5. Update VSecM Secrets
+6. configure metallb
+7.
+  mv cluster-secret-store.yaml k8s/external-secrets
+  mv vsecm-scout-jwt-secret.yaml k8s/external-secrets
+
+# To debug the connectivity internally:
+kubectl run tmp-shell-2 --rm -i --tty --image nicolaka/netshoot -- /bin/bash
+
+curl -k "https://192.168.49.200/webhook?key=key%3Dcoca-cola.cluster-001%
+26path%3Dnamespaces.cokeSystem.secrets.adminCredentials.value"
+
+# To debug the connectivity externally:
+curl -k "https://vsecm-scout.vsecm-system.svc.cluster.local/webhook?
+key=key%3Dcoca-cola.cluster-001%26path%3Dnamespaces.cokeSystem.secrets.adminCredentials.value"
+
+addresses:  192.168.49.200-192.168.49.250
+
+k create ns coke-system
+k create ns vsecm-client
+
+1. install vsecm-scout
+cd k8s/vsecm-scout
+k apply -f .
+
+2. install external store and secrets
+cd k8s/external-secrets
+k apply -f . # better do it one by one and observe the logs.
+

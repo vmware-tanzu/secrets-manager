@@ -15,7 +15,8 @@ weight = 11
 
 ## Recent Changes
 
-TBD
+* Removed the `--append` flag from VSecM Sentinel CLI.
+* Minor bugfixes.
 
 ## [0.28.0] - 2024-10-05
 
