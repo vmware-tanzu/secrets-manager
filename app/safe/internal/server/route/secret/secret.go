@@ -68,9 +68,11 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 
-	// Only sentinel can do this.
-	if ok, respond := validation.IsSentinel(j, cid, spiffeid); !ok {
-		j.Event = audit.NotSentinel
+	isSentinelOrScout := validation.IsSentinelOrScout(j, cid, spiffeid)
+
+	// Only sentinel or scout can do this
+	if !isSentinelOrScout {
+		j.Event = audit.NotSentinelOrScout
 		journal.Log(j)
 		respond(w)
 		return
@@ -138,6 +140,13 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	}
 
 	if len(workloadIds) == 0 && encrypt {
+		isSentinel, respond := validation.IsSentinel(j, cid, spiffeid)
+		if !isSentinel {
+			j.Event = audit.NotSentinel
+			journal.Log(j)
+			respond(w)
+		}
+
 		net.SendEncryptedValue(cid, value, j, w)
 
 		return
@@ -223,6 +232,14 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	}
 
 	for _, workloadId := range workloadIds {
+		isClerk := validation.IsClerk(stuff)
+
+		// Clerk can only set `raw:` secrets.
+		if isClerk && !isRaw(workloadId) {
+			// TODO: log this
+			continue
+		}
+
 		secretToStore := entity.SecretStored{
 			Name: workloadId,
 			Meta: entity.SecretMeta{

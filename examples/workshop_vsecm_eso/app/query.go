@@ -8,6 +8,11 @@ import (
 func getValueFromPath(data interface{}, path string) (interface{}, error) {
 	parts := strings.Split(path, ".")
 
+	// If no path specified, return the data as is.
+	if path == "" || !strings.Contains(path, ".") {
+		return data, nil
+	}
+
 	var current = data
 	for _, part := range parts {
 		switch v := current.(type) {
