@@ -80,6 +80,8 @@ const VSecMSpiffeIdPrefixRelayClient VarName = "VSECM_SPIFFEID_PREFIX_RELAY_CLIE
 const VSecMSpiffeIdPrefixRelayServer VarName = "VSECM_SPIFFEID_PREFIX_RELAY_SERVER"
 const VSecMSpiffeIdPrefixSafe VarName = "VSECM_SPIFFEID_PREFIX_SAFE"
 const VSecMSpiffeIdPrefixSentinel VarName = "VSECM_SPIFFEID_PREFIX_SENTINEL"
+const VSecMSpiffeIdPrefixScout VarName = "VSECM_SPIFFEID_PREFIX_SCOUT"
+const VSecMSpiffeIdPrefixClerk VarName = "VSECM_SPIFFEID_PREFIX_CLERK"
 const VSecMSpiffeIdPrefixWorkload VarName = "VSECM_SPIFFEID_PREFIX_WORKLOAD"
 const VSecMWorkloadNameRegExp VarName = "VSECM_WORKLOAD_NAME_REGEXP"
 
@@ -125,6 +127,8 @@ const VSecMSpiffeIdPrefixRelayClientDefault VarValue = "^spiffe://[^/]/workload/
 const VSecMSpiffeIdPrefixRelayServerDefault VarValue = "^spiffe://[^/]/workload/vsecm-relay-server/ns/vsecm-system/sa/vsecm-relay-server/n/[^/]+$"
 const VSecMSpiffeIdPrefixSafeDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-safe/ns/vsecm-system/sa/vsecm-safe/n/[^/]+$"
 const VSecMSpiffeIdPrefixSentinelDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-sentinel/ns/vsecm-system/sa/vsecm-sentinel/n/[^/]+$"
+const VSecMSpiffeIdPrefixScoutDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-scout/ns/vsecm-system/sa/vsecm-scout/n/[^/]+$"
+const VSecMSpiffeIdPrefixClerkDefault VarValue = "^spiffe://vsecm.com/workload/vsecm-clerk/ns/default/sa/vsecm-clerk/n/[^/]+$"
 const VSecMSpiffeIdPrefixWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/[^/]+/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 const VSecMNameRegExpForWorkloadDefault VarValue = "^spiffe://vsecm.com/workload/([^/]+)/ns/[^/]+/sa/[^/]+/n/[^/]+$"
 

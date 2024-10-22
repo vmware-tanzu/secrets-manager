@@ -26,6 +26,22 @@ func SpiffeIdPrefixForSentinel() string {
 	return p
 }
 
+func SpiffeIdPrefixForScout() string {
+	p := env.Value(env.VSecMSpiffeIdPrefixScout)
+	if p == "" {
+		p = string(env.VSecMSpiffeIdPrefixScoutDefault)
+	}
+	return p
+}
+
+func SpiffeIdPrefixForClerk() string {
+	p := env.Value(env.VSecMSpiffeIdPrefixClerk)
+	if p == "" {
+		p = string(env.VSecMSpiffeIdPrefixClerkDefault)
+	}
+	return p
+}
+
 // SpiffeIdPrefixForSafe returns the prefix for the Safe SPIFFE ID.
 // The prefix is obtained from the environment variable
 // VSECM_SPIFFEID_PREFIX_SAFE. If the variable is not set, the default prefix is

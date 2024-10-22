@@ -13,6 +13,7 @@ package secret
 import (
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	net "github.com/vmware-tanzu/secrets-manager/app/safe/internal/server/route/base/http"
@@ -68,7 +69,7 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	j := journal.CreateDefaultEntry(cid, spiffeid, r)
 	journal.Log(j)
 
-	isSentinelOrScout := validation.IsSentinelOrScout(j, cid, spiffeid)
+	isSentinelOrScout, respond := validation.IsSentinelOrScout(j, cid, spiffeid)
 
 	// Only sentinel or scout can do this
 	if !isSentinelOrScout {
@@ -232,11 +233,12 @@ func Secret(cid string, r *http.Request, w http.ResponseWriter) {
 	}
 
 	for _, workloadId := range workloadIds {
-		isClerk := validation.IsClerk(stuff)
+		isClerk, _ := validation.IsClerk(j, cid, spiffeid)
 
 		// Clerk can only set `raw:` secrets.
-		if isClerk && !isRaw(workloadId) {
-			// TODO: log this
+		if isClerk && !strings.HasPrefix(workloadId, "raw:") {
+			log.WarnLn(&cid, "Clerk is trying to upsert non-raw secrets."+
+				" Skipping:", workloadId)
 			continue
 		}
 

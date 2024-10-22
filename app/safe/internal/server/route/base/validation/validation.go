@@ -70,6 +70,56 @@ func IsSentinel(
 	return false, responder
 }
 
+func IsClerk(
+	j data.JournalEntry, cid string, spiffeid string,
+) (bool, func(http.ResponseWriter)) {
+	journal.Log(j)
+
+	if validation.IsClerk(spiffeid) {
+		return true, func(writer http.ResponseWriter) {}
+	}
+
+	j.Event = audit.BadSpiffeId
+	journal.Log(j)
+
+	var responder = func(w http.ResponseWriter) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Fetch: Problem sending response", err.Error())
+		}
+	}
+
+	return false, responder
+}
+
+func IsSentinelOrScout(
+	j data.JournalEntry, cid string, spiffeid string,
+) (bool, func(http.ResponseWriter)) {
+	journal.Log(j)
+
+	if validation.IsSentinel(spiffeid) {
+		return true, func(writer http.ResponseWriter) {}
+	}
+
+	if validation.IsScout(spiffeid) {
+		return true, func(writer http.ResponseWriter) {}
+	}
+
+	j.Event = audit.BadSpiffeId
+	journal.Log(j)
+
+	var responder = func(w http.ResponseWriter) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err := io.WriteString(w, "")
+		if err != nil {
+			log.InfoLn(&cid, "Fetch: Problem sending response", err.Error())
+		}
+	}
+
+	return false, responder
+}
+
 // CheckDatabaseReadiness checks if the database is ready for use.
 //
 // This function verifies the readiness of the database, specifically for
