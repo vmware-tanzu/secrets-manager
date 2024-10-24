@@ -6,13 +6,14 @@ require (
 	filippo.io/age v1.1.1
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/akamensky/argparse v1.4.0
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/lib/pq v1.10.9
 	github.com/spiffe/go-spiffe/v2 v2.3.0
 	github.com/stretchr/testify v1.9.0
 	github.com/vmware-tanzu/secrets-manager/sdk v0.27.3-r1
 	golang.org/x/text v0.17.0
 	google.golang.org/grpc v1.66.0
-	google.golang.org/protobuf v1.34.2
+	google.golang.org/protobuf v1.35.1
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/api v0.30.0
 	k8s.io/apimachinery v0.30.0

@@ -155,10 +155,62 @@ func IsSentinel(spiffeid string) bool {
 		if err != nil {
 			panic(
 				"Failed to compile the regular expression pattern " +
-					"for Sentinel SPIFFE ID." +
+					"for VSecM Sentinel SPIFFE ID." +
 					" Check the " + string(e.VSecMSpiffeIdPrefixSentinel) +
 					" environment variable." +
 					" val: " + env.SpiffeIdPrefixForSentinel() +
+					" trust: " + env.SpiffeTrustDomain(),
+			)
+		}
+
+		return re.MatchString(spiffeid)
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
+}
+
+func IsScout(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
+	prefix := env.SpiffeIdPrefixForScout()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			panic(
+				"Failed to compile the regular expression pattern " +
+					"for VSecM Scout SPIFFE ID." +
+					" Check the " + string(e.VSecMSpiffeIdPrefixScout) +
+					" environment variable." +
+					" val: " + env.SpiffeIdPrefixForScout() +
+					" trust: " + env.SpiffeTrustDomain(),
+			)
+		}
+
+		return re.MatchString(spiffeid)
+	}
+
+	return strings.HasPrefix(spiffeid, prefix)
+}
+
+func IsClerk(spiffeid string) bool {
+	if !IsWorkload(spiffeid) {
+		return false
+	}
+
+	prefix := env.SpiffeIdPrefixForClerk()
+
+	if strings.HasPrefix(prefix, spiffeRegexPrefixStart) {
+		re, err := regexp.Compile(prefix)
+		if err != nil {
+			panic(
+				"Failed to compile the regular expression pattern " +
+					"for VSecM Clerk SPIFFE ID." +
+					" Check the " + string(e.VSecMSpiffeIdPrefixClerk) +
+					" environment variable." +
+					" val: " + env.SpiffeIdPrefixForClerk() +
 					" trust: " + env.SpiffeTrustDomain(),
 			)
 		}
