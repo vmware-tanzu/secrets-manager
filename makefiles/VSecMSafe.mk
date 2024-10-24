@@ -22,19 +22,10 @@ safe-bundle-ist-fips:
 safe-push-ist:
 	./hack/push.sh "vsecm-ist-safe" $(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-safe"
 
-# Pushes the "VSecM Safe" container to the public EKS registry.
-safe-push-ist-eks:
-	./hack/push.sh "vsecm-ist-safe" $(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-safe"
-
 # Pushes the "VSecM Safe" (FIPS) container to the public registry.
 safe-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-safe" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-safe"
-
-# Pushes the "VSecM Safe" (FIPS) container to the public EKS registry.
-safe-push-ist-fips-eks:
-	./hack/push.sh "vsecm-ist-fips-safe" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-safe"
 
 # Pushes the "VSecM Safe" container image to the local registry.
 safe-push-ist-local:

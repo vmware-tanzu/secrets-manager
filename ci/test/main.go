@@ -18,13 +18,13 @@ import (
 
 func main() {
 	origin := flag.String("origin", "local",
-		"The origin of the operation, can be 'remote' or 'eks'.")
+		"The origin of the operation, can be 'remote' or 'local'.")
 	ci := flag.String("ci", "", "CI mode")
 	flag.Parse()
 
 	// Validate origin
-	if *origin != "remote" && *origin != "eks" && *origin != "local" {
-		fmt.Println("Invalid origin. Must be 'remote', 'eks', or 'local'.")
+	if *origin != "remote" && *origin != "local" {
+		fmt.Println("Invalid origin. Must be 'remote', or 'local'.")
 		os.Exit(1)
 	}
 

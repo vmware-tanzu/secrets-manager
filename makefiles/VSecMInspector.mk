@@ -18,11 +18,6 @@ inspector-push:
 	./hack/push.sh "vsecm-inspector" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-inspector"
 
-# Pushes the "VSecM Inspector" container image to the public EKS registry.
-inspector-push-eks:
-	./hack/push.sh "vsecm-inspector" $(VERSION) \
-		"$(VSECM_EKS_REGISTRY_URL)/vsecm-inspector"
-
 # Pushes the "VSecM Inspector" container image to the local registry.
 inspector-push-local:
 	./hack/push.sh "vsecm-inspector" $(VERSION) \

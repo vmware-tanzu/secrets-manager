@@ -23,20 +23,10 @@ sentinel-push-ist:
 	./hack/push.sh "vsecm-ist-sentinel" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-sentinel"
 
-# Pushes the "VSecM Sentinel" container image to the public EKS registry.
-sentinel-push-ist-eks:
-	./hack/push.sh "vsecm-ist-sentinel" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-sentinel"
-
 # Pushes the "VSecM Sentinel" (FIPS) container image to the public registry.
 sentinel-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-sentinel" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-sentinel"
-
-# Pushes the "VSecM Sentinel" (FIPS) container image to the public EKS registry.
-sentinel-push-ist-fips-eks:
-	./hack/push.sh "vsecm-ist-fips-sentinel" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-sentinel"
 
 # Pushes the "VSecM Sentinel" container image to the local registry.
 sentinel-push-ist-local:

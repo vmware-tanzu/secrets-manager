@@ -23,20 +23,10 @@ sidecar-push-ist:
 	./hack/push.sh "vsecm-ist-sidecar" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-sidecar"
 
-# Pushes the "VSecM Sidecar" container image to the public EKS registry.
-sidecar-push-ist-eks:
-	./hack/push.sh "vsecm-ist-sidecar" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-sidecar"
-
 # Pushes the "VSecM Sidecar" (FIPS) container image to the public registry.
 sidecar-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-sidecar" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-sidecar"
-
-# Pushes the "VSecM Sidecar" (FIPS) container image to the public EKS registry.
-sidecar-push-ist-fips-eks:
-	./hack/push.sh "vsecm-ist-fips-sidecar" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-sidecar"
 
 # Pushes the "VSecM Sidecar" container image to the local registry.
 sidecar-push-ist-local:
