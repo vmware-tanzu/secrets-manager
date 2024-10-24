@@ -63,6 +63,13 @@ global:
       distrolessFipsRepository: vsecm-ist-fips-safe
       tag: 0.28.1
       pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Scout.
+    scout:
+      distrolessRepository: vsecm-ist-scout
+      distrolessFipsRepository: vsecm-ist-fips-scout
+      tag: 0.28.1
+      pullPolicy: IfNotPresent
+
     # - Container registry details for VSecM Sentinel.    
     sentinel:
       distrolessRepository: vsecm-ist-sentinel

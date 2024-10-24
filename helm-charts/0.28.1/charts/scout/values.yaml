@@ -1,0 +1,72 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+# -- The port that the liveness probe listens on.
+# `environments.VSECM_PROBE_LIVENESS_PORT` should match this value.
+livenessPort: 8081
+# -- The port that the readiness probe listens on.
+# `environments.VSECM_PROBE_READINESS_PORT` should match this value.
+readinessPort: 8082
+
+# -- See https://vsecm.com/configuration for more information
+# about these environment variables.
+environments:
+  # -- The SPIFFE endpoint socket. This is used to communicate with the SPIRE
+  # agent. If you change this, you will need to change the associated
+  # volumeMount in the Deployment.yaml too.
+  # The name of the socket should match spireAgent.socketName in values.yaml
+  # of the SPIRE chart.
+  - name: SPIFFE_ENDPOINT_SOCKET
+    value: "unix:///spire-agent-socket/spire-agent.sock"
+
+# -- Override it with an image pull secret that you need as follows:
+# imagePullSecrets:
+#  - name: my-registry-secret
+imagePullSecrets: []
+
+# -- The name override of the chart.
+nameOverride: ""
+# -- The fullname override of the chart.
+fullnameOverride: ""
+
+# -- The service account to use.
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "vsecm-scout"
+
+# -- Additional pod annotations.
+podAnnotations: {}
+
+# -- Pod security context overrides.
+podSecurityContext:
+  {}
+# fsGroup: 2000
+
+# -- Service settings.
+service:
+  type: ClusterIP
+  httpPort: 8080
+  httpTargetPort: 8080
+  tlsPort: 8443
+  tlsTargetPort: 8443
+
+# -- Resource limits and requests.
+resources:
+  # These are default requests that can be used as a starting point.
+  # Of course, benchmark your production system to determine the actual
+  # requests you need.
+  requests:
+    memory: "20Mi"
+    cpu: "5m"

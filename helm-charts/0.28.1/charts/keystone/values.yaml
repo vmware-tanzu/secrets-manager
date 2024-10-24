@@ -8,11 +8,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-# Default values for keystone.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-replicaCount: 1
-
 # -- The port of the liveness probe.
 livenessPort: 8081
 
@@ -96,13 +91,3 @@ resources:
   requests:
     memory: "20Mi"
     cpu: "5m"
-
-# -- Autoscaling settings. Note that, by default, autoscaling is disabled.
-# It does not typically make sense to autoscale VSecM Keystone as it is
-# a control plane component with minimal resource requirements.
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80

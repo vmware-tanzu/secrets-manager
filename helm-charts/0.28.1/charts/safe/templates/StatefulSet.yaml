@@ -17,9 +17,7 @@ metadata:
     {{- include "safe.labels" . | nindent 4 }}
 spec:
   serviceName: {{ include "safe.fullname" . }}
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "safe.selectorLabels" . | nindent 6 }}

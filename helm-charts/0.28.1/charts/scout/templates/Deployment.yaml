@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scout.fullname" . }}
+  namespace: {{ .Values.global.vsecm.namespace }}
+  labels:
+    {{- include "scout.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "scout.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> I WAS LEFT HERE <<<<<<<<<<<<<<<<<<<<<<<<<<
+      labels:
+        app: vsecm-scout
+        app.kubernetes.io/name: vsecm-scout
+    spec:
+      serviceAccountName: vsecm-scout
+      containers:
+      - name: vsecm-scout
+        image: localhost:5000/vsecm-scout:v1
+        env:
+        - name: SPIFFE_ENDPOINT_SOCKET
+          value: "unix:///spire-agent-socket/spire-agent.sock"
+        ports:
+        - containerPort: 8443
+        volumeMounts:
+        - name: spire-agent-socket
+          mountPath: /spire-agent-socket
+          readOnly: true
+      volumes:
+      - name: spire-agent-socket
+        csi:
+          driver: "csi.spiffe.io"
+          readOnly: true
