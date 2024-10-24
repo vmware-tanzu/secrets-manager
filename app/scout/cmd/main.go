@@ -12,17 +12,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/app/scout/internal/net"
-	"github.com/vmware-tanzu/secrets-manager/core/env"
-	"log"
 	"net/http"
+
+	nets "github.com/vmware-tanzu/secrets-manager/app/scout/internal/net"
+	"github.com/vmware-tanzu/secrets-manager/core/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
+	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 )
 
 func main() {
-	http.HandleFunc("/webhook", net.Webhook)
+	id := crypto.Id()
+
+	http.HandleFunc("/webhook", nets.Webhook)
 
 	// Has side effect of initializing jwt token if provided.
-	tlsConfig := TlsConfig()
+	tlsConfig := nets.TlsConfig()
 
 	if env.ScoutTlsEnabled() {
 		server := &http.Server{
@@ -30,18 +34,23 @@ func main() {
 			TLSConfig: tlsConfig,
 		}
 
+		log.InfoLn(&id, "Server is running on",
+			env.ScoutHttpPort(), "with TLS enabled")
+
 		fmt.Println("Server is running on :8443 with TLS enabled")
-		log.Fatal(server.ListenAndServeTLS("", ""))
-		//                                 ^   ^
-		// Empty strings because we've already provided the cert and key in TLSConfig.
+		if err := server.ListenAndServeTLS("", ""); err != nil {
+			log.InfoLn(&id, "Failed", err.Error())
+		}
 
 		return
 	}
 
-	fmt.Println("Server is running on :8080")
+	log.InfoLn(&id, "Server is running on", env.ScoutHttpPort())
 	server := &http.Server{
 		Addr: env.ScoutHttpPort(),
 	}
 
-	log.Fatalln(server.ListenAndServe())
+	if err := server.ListenAndServe(); err != nil {
+		log.InfoLn(&id, "Failed", err.Error())
+	}
 }
