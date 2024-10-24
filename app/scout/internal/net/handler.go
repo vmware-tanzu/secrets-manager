@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/vmware-tanzu/secrets-manager/app/scout/internal/filter"
 	"log"
 	"net/http"
 	"net/url"
@@ -100,7 +101,7 @@ func Webhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := getValueFromPath(data, path)
+	result, err := filter.ValueFromPath(data, path)
 	if err != nil {
 		log.Println("webhookHandler: Error getting value from path")
 		http.Error(w, err.Error(), http.StatusBadRequest)

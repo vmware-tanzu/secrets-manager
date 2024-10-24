@@ -19,8 +19,10 @@ spec:
       containers:
       - name: main
         # Change this, if you want to use a different image:
-        image: vsecm/example-using-init-container:latest
+        # image: vsecm/example-using-init-container:latest
+        image: localhost:5000/example-using-init-container:latest
       initContainers:
       - name: init-container
         # Change this, if you want to use a different image:
+        # image: vsecm/vsecm-ist-init-container:latest
         image: vsecm/vsecm-ist-init-container:latest

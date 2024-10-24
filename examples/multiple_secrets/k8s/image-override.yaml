@@ -19,7 +19,8 @@ spec:
       containers:
       - name: main
         # Change this, if you want to use a different image:
-        image: vsecm/example-multiple-secrets:latest
+        # image: vsecm/example-multiple-secrets:latest
+        image: localhost:5000/example-multiple-secrets:latest
         env:
           - name: VSECM_LOG_LEVEL
             value: "7"

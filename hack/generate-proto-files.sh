@@ -12,7 +12,27 @@
 
 if ! command -v go &> /dev/null
 then
-    echo "Go binary could not be found. Please install go first."
+    echo "Go binary could not be found. Please install protoc first."
+    exit 1
+fi
+
+if ! command -v protoc &> /dev/null
+then
+    echo "protoc binary could not be found. Please install go first."
+    exit 1
+fi
+
+if ! command -v protoc-gen-go-grpc &> /dev/null
+then
+    echo "protoc-gen-go-grpc not found. Please install protoc-gen-go-grpc first."
+    echo "go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest"
+    exit 1
+fi
+
+if ! command -v protoc-gen-go &> /dev/null
+then
+    echo "protoc-gen-go not found. Please install protoc-gen-go first."
+    echo "go install github.com/golang/protobuf/protoc-gen-go@latest"
     exit 1
 fi
 
@@ -37,5 +57,6 @@ protoc --proto_path=. \
        --go-grpc_opt=paths=source_relative \
        log.proto
 
-# Download the required dependencies specified in go.mod and go.sum files to the local vendor directory.
+# Download the required dependencies specified in go.mod and go.sum files to
+# the local vendor directory.
 go mod vendor
