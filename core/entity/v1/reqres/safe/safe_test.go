@@ -12,10 +12,10 @@ package safe
 
 import (
 	"encoding/json"
+	"github.com/spiffe/vsecm-sdk-go/core/entity/v1/reqres/safe"
 	"github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
 	"github.com/vmware-tanzu/secrets-manager/lib/entity"
-	"github.com/vmware-tanzu/secrets-manager/sdk/core/entity/v1/reqres/safe"
 	"reflect"
 	"testing"
 	"time"
@@ -29,9 +29,9 @@ func TestSecretUpsertRequest_JSONMarshalling(t *testing.T) {
 		Template:    "template1",
 		Format:      "json",
 		Encrypt:     true,
-		AppendValue: false,
-		NotBefore:   "2024-01-01T00:00:00Z",
-		Expires:     "2024-12-31T23:59:59Z",
+		// AppendValue: false,
+		NotBefore: "2024-01-01T00:00:00Z",
+		Expires:   "2024-12-31T23:59:59Z",
 	}
 
 	bytes, err := json.Marshal(expected)

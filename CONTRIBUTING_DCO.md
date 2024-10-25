@@ -1,5 +1,3 @@
-# Contributing
-
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
 ## Contributing to VMware Secrets Manager
@@ -42,7 +40,8 @@ Pull request. Contributions may include:
 
 ## Getting started
 
-Please [read the developer guide](https://vsecm.com/use-the-source/) to 
+Please [read the developer 
+guide](https://vsecm.com/documentation/development/use-the-source/) to 
 learn how to build, deploy, and test **VMware Secrets Manager** from the
 source. 
 
@@ -125,11 +124,11 @@ existing tests, and add new ones if necessary.
 ## Building VMware Secrets Manager for Development
 
 To build **VMware Secrets Manager** from source code and develop locally,
-[follow the contributing guidelines here][contributing].
+[follow the guidelines here][contributing].
 
 If you are a maintainer, and you are preparing a release,
 [follow the release guidelines here][release].
 
-[contributing]: https://vsecm.com/use-the-source/
-[release]: https://vsecm.com/release/
+[contributing]: https://vsecm.com/documentatin/development/use-the-source/
+[release]: https://vsecm.com/documentation/operations/release-management/
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
