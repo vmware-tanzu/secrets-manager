@@ -13,12 +13,15 @@ package net
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/vmware-tanzu/secrets-manager/app/scout/internal/filter"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/golang-jwt/jwt/v4"
+
+	"github.com/vmware-tanzu/secrets-manager/app/scout/internal/filter"
+	"github.com/vmware-tanzu/secrets-manager/core/env"
 )
 
 func Webhook(w http.ResponseWriter, r *http.Request) {
@@ -28,35 +31,42 @@ func Webhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Extract the token from the Authorization header
-	authHeader := r.Header.Get("Authorization")
-	if authHeader == "" {
-		log.Println("webhookHandler: Missing Authorization header")
-		http.Error(w, "Missing Authorization header", http.StatusUnauthorized)
-		return
-	}
-
-	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-
-	// Parse and validate the token
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// Validate the algorithm
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+	// Default to JWT for now. Eventually we'll support other auth methods.
+	if env.ScoutAuthenticationMode() != env.AuthenticationModeNone {
+		// Extract the token from the Authorization header
+		authHeader := r.Header.Get("Authorization")
+		if authHeader == "" {
+			log.Println("webhookHandler: Missing Authorization header")
+			http.Error(w, "Missing Authorization header",
+				http.StatusUnauthorized)
+			return
 		}
-		return []byte(jwtSecret), nil
-	})
 
-	if err != nil {
-		log.Print("webhookHandler: Nil token")
-		http.Error(w, "Invalid token", http.StatusUnauthorized)
-		return
-	}
+		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
-	if !token.Valid {
-		log.Println("webhookHandler: Invalid token")
-		http.Error(w, "Invalid token", http.StatusUnauthorized)
-		return
+		// Parse and validate the token
+		token, err := jwt.Parse(tokenString,
+			func(token *jwt.Token) (interface{}, error) {
+				// Validate the algorithm
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil,
+						fmt.Errorf(
+							"unexpected signing method: %v", token.Header["alg"])
+				}
+				return []byte(jwtSecret), nil
+			})
+
+		if err != nil {
+			log.Print("webhookHandler: Nil token")
+			http.Error(w, "Invalid token", http.StatusUnauthorized)
+			return
+		}
+
+		if !token.Valid {
+			log.Println("webhookHandler: Invalid token")
+			http.Error(w, "Invalid token", http.StatusUnauthorized)
+			return
+		}
 	}
 
 	// Get the 'key' query parameter

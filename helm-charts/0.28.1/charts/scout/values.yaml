@@ -56,11 +56,11 @@ podSecurityContext:
 
 # -- Service settings.
 service:
+  tlsEnabled: false
+  authenticationMode: "none"
   type: ClusterIP
   httpPort: 8080
-  httpTargetPort: 8080
   tlsPort: 8443
-  tlsTargetPort: 8443
 
 # -- Resource limits and requests.
 resources:

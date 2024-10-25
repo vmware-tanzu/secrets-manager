@@ -1,13 +1,33 @@
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: vsecm-scout
-  namespace: vsecm-system
+  name: {{ include "scout.fullname" . }}
+  namespace: {{ .Values.global.vsecm.namespace }}
+  labels:
+    {{- include "scout.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
-  selector:
-    app: vsecm-scout
+  type: {{ .Values.service.type }}
   ports:
-    - protocol: TCP
-      port: 443
-      targetPort: 8443
+  {{- if .Values.service.tlsEnabled }}
+  - port: {{ .Values.service.tlsPort }}
+    targetPort: {{ .Values.service.tlsPort }}
+    protocol: TCP
+    name: https
+  {{- else }}
+  - port: {{ .Values.service.httpPort }}
+    targetPort: {{ .Values.service.httpPort }}
+    protocol: TCP
+    name: http
+  {{- end }}
+  selector:
+    {{- include "scout.selectorLabels" . | nindent 4 }}

@@ -12,20 +12,41 @@ spec:
       {{- include "scout.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> I WAS LEFT HERE <<<<<<<<<<<<<<<<<<<<<<<<<<
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: vsecm-scout
-        app.kubernetes.io/name: vsecm-scout
+        {{- include "scout.selectorLabels" | nindent 8 }}
     spec:
-      serviceAccountName: vsecm-scout
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "scout.serviceAccountName" }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-      - name: vsecm-scout
-        image: localhost:5000/vsecm-scout:v1
+      - name: name
+        image: "{{ .Values.global.registry }}/{{- include "scout.repository" }}:{{ .Values.global.images.scout.tag }}"
         env:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/spire-agent.sock"
+        - name: VSECM_SCOUT_TLS_ENABLED
+          value: {{ .Values.service.tlsEnabled }}
+        - name: VSECM_SCOUT_HTTP_PORT
+          value: ":{{ .Values.service.httpPort }}"
+        - name: VSECM_SCOUT_TLS_PORT
+          value: ":{{ .Values.service.tlsPort }}"
+        - name: VSECM_SCOUT_AUTHENTICATION_MODE
+          value: "{{ .Values.service.authenticationMode }}"
+
         ports:
-        - containerPort: 8443
+        {{- if .Values.service.tlsEnabled }}
+        - containerPort: {{ .Values.service.tlsPort }}
+        {{- else }}
+        - containerPort: {{ .Values.service.httpPort }}
+        {{-end }}
         volumeMounts:
         - name: spire-agent-socket
           mountPath: /spire-agent-socket
