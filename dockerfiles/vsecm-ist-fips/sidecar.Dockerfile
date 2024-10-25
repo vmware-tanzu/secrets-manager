@@ -10,12 +10,11 @@
 # */
 
 # builder image
-FROM golang:1.23.1-alpine3.20 AS builder
+FROM golang:1.23.2-alpine3.20 AS builder
 RUN mkdir /build
 COPY app /build/app
 COPY core /build/core
 COPY lib /build/lib
-COPY sdk /build/sdk
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
 WORKDIR /build

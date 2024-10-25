@@ -16,9 +16,7 @@ metadata:
   labels:
     {{- include "sentinel.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "sentinel.selectorLabels" . | nindent 6 }}

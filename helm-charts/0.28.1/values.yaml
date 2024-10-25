@@ -35,11 +35,15 @@ global:
   # Pod that is initialized only after VSecM Sentinel completes it
   # `initCommand` initialization sequence.
   deployKeystone: true
+
   # -- Deploy VSecM Sentinel. VSecM Sentinel is the only admin interface where
   # you can register secrets. For best security, you might want to disable
   # the initial deployment of it. This way, you can deploy VSecM Sentinel
   # off-cycle later when you need it.
   deploySentinel: true
+
+  # -- Deploy VSecM Scout
+  deployScout: true
 
   # -- Possible options for baseImage (distroless, distroless-fips). When in
   # doubt, stick with distroless.
@@ -63,6 +67,13 @@ global:
       distrolessFipsRepository: vsecm-ist-fips-safe
       tag: 0.28.1
       pullPolicy: IfNotPresent
+    # - Container registry details for VSecM Scout.
+    scout:
+      distrolessRepository: vsecm-ist-scout
+      distrolessFipsRepository: vsecm-ist-fips-scout
+      tag: 0.28.1
+      pullPolicy: IfNotPresent
+
     # - Container registry details for VSecM Sentinel.    
     sentinel:
       distrolessRepository: vsecm-ist-sentinel
@@ -149,6 +160,8 @@ global:
 
     # - The SPIFFE ID template that VSecM Safe's ClusterSPIFFEID will use.
     safeSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-safe/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
+    # - The SPIFFE ID template that VSecM Scout's ClusterSPIFFEID will use.
+    scoutSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-scout/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     # - The SPIFFE ID template that VSecM Sentinel's ClusterSPIFFEID will use.
     sentinelSpiffeIdTemplate: "spiffe://vsecm.com/workload/vsecm-sentinel/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}"
     # - The SPIFFE ID template that VSecM Keystone's ClusterSPIFFEID will use.

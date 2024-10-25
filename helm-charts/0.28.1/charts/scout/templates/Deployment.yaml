@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "scout.fullname" . }}
+  namespace: {{ .Values.global.vsecm.namespace }}
+  labels:
+    {{- include "scout.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "scout.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "scout.selectorLabels" | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "scout.serviceAccountName" }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - name: name
+        image: "{{ .Values.global.registry }}/{{- include "scout.repository" }}:{{ .Values.global.images.scout.tag }}"
+        env:
+        - name: SPIFFE_ENDPOINT_SOCKET
+          value: "unix:///spire-agent-socket/spire-agent.sock"
+        - name: VSECM_SCOUT_TLS_ENABLED
+          value: {{ .Values.service.tlsEnabled }}
+        - name: VSECM_SCOUT_HTTP_PORT
+          value: ":{{ .Values.service.httpPort }}"
+        - name: VSECM_SCOUT_TLS_PORT
+          value: ":{{ .Values.service.tlsPort }}"
+        - name: VSECM_SCOUT_AUTHENTICATION_MODE
+          value: "{{ .Values.service.authenticationMode }}"
+
+        ports:
+        {{- if .Values.service.tlsEnabled }}
+        - containerPort: {{ .Values.service.tlsPort }}
+        {{- else }}
+        - containerPort: {{ .Values.service.httpPort }}
+        {{-end }}
+        volumeMounts:
+        - name: spire-agent-socket
+          mountPath: /spire-agent-socket
+          readOnly: true
+      volumes:
+      - name: spire-agent-socket
+        csi:
+          driver: "csi.spiffe.io"
+          readOnly: true

@@ -1,8 +1,6 @@
-# Maintainers
-
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
-## Project Maintainers
+## VMware Secrets Manager Maintainers
 
 This file lists the maintainers of **VMware Secrets Manager** for Cloud-Native Apps, 
 each with their responsibilities outlined.
@@ -14,6 +12,10 @@ each with their responsibilities outlined.
     security, architecture decisions, and major feature developments.
 
 ## Core Contributors
+
+* **Qi Hu** [@BulldromeQ](https://github.com/bulldromeq)
+  * Qi (*Patrick*) helps the pipeline integration, helm charts, and other
+    ops parts of the project.
 
 * **Abhishek Sharma** [@abhishek44sharma](https://github.com/abhishek44sharma)
   * Abhishek is a core contributor, working on various aspects of the project.

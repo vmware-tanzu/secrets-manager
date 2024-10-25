@@ -67,3 +67,8 @@ dependencies:
     repository: file://charts/sentinel
     version: 0.28.1
     condition: global.deploySentinel
+  - name: scout
+    repository: file://charts/scout
+    version: 0.28.1
+    condition: global.deployScout
+

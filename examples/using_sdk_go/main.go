@@ -18,7 +18,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry" // <- SDK
+	"github.com/spiffe/vsecm-sdk-go/sentry" // <- SDK
 )
 
 func main() {

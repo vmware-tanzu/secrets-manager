@@ -23,11 +23,6 @@ example-init-container-push-local:
 	./hack/push.sh "example-using-init-container" \
 		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-init-container"
 
-# Pushes the "Init Container" container image to the public EKS registry.
-example-init-container-push-eks:
-	./hack/push.sh "example-using-init-container" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-using-init-container"
-
 # Deploys the "Init Container" app from the public registry into the cluster.
 example-init-container-deploy:
 	./hack/example-init-container-deploy.sh
@@ -35,7 +30,3 @@ example-init-container-deploy:
 # Deploys the "Init Container" app from the local registry into the cluster.
 example-init-container-deploy-local:
 	./hack/example-init-container-deploy-local.sh
-
-# Deploys the "Init Container" app from the public EKS registry into the cluster.
-example-init-container-deploy-eks:
-	./hack/example-init-container-deploy-eks.sh

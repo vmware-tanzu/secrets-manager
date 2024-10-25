@@ -22,19 +22,10 @@ keystone-bundle-ist-fips:
 keystone-push-ist:
 	./hack/push.sh "vsecm-ist-keystone" $(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-keystone"
 
-# Pushes the "VSecM Keystone" container to the public EKS registry.
-keystone-push-ist-eks:
-	./hack/push.sh "vsecm-ist-keystone" $(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-keystone"
-
 # Pushes the "VSecM Keystone" (FIPS) container to the public registry.
 keystone-push-ist-fips:
 	./hack/push.sh "vsecm-ist-fips-keystone" \
 		$(VERSION) "$(VSECM_DOCKERHUB_REGISTRY_URL)/vsecm-ist-fips-keystone"
-
-# Pushes the "VSecM Keystone" (FIPS) container to the public EKS registry.
-keystone-push-ist-fips-eks:
-	./hack/push.sh "vsecm-ist-fips-keystone" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/vsecm-ist-fips-keystone"
 
 # Pushes the "VSecM Safe" container image to the local registry.
 keystone-push-ist-local:

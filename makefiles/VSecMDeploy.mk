@@ -14,7 +14,6 @@
 
 MANIFESTS_BASE_PATH="./k8s/${VERSION}"
 MANIFESTS_LOCAL_PATH="${MANIFESTS_BASE_PATH}/local"
-MANIFESTS_EKS_PATH="${MANIFESTS_BASE_PATH}/eks"
 MANIFESTS_REMOTE_PATH="${MANIFESTS_BASE_PATH}/remote"
 CPU ?= $(or $(VSECM_MINIKUBE_CPU_COUNT),2)
 # If using the Docker drive, you can emulate a multi-node cluster by setting
@@ -24,7 +23,8 @@ MEMORY ?= $(or $(VSECM_MINIKUBE_MEMORY),4096)
 
 # Removes the former VSecM deployment without entirely destroying the cluster.
 clean:
-	./hack/uninstall.sh $(VSECM_NAMESPACE_SYSTEM) $(VSECM_NAMESPACE_SPIRE) $(VSECM_NAMESPACE_SPIRE_SERVER)
+	./hack/uninstall.sh $(VSECM_NAMESPACE_SYSTEM) $(VSECM_NAMESPACE_SPIRE) \
+	$(VSECM_NAMESPACE_SPIRE_SERVER)
 
 # Completely removes the Minikube cluster.
 k8s-delete:
@@ -83,20 +83,6 @@ deploy-fips-local: deploy-spire
 		kubectl apply -f ${MANIFESTS_LOCAL_PATH}/vsecm-distroless-fips.yaml; \
 	}
 
-	$(MAKE) post-deploy
-deploy-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml || { \
-		echo "Command failed, retrying in 15 seconds..." \
-		sleep 15; \
-		kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless.yaml; \
-	}
-	$(MAKE) post-deploy
-deploy-fips-eks: deploy-spire
-	kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml || { \
-		echo "Command failed, retrying in 15 seconds..." \
-		sleep 15; \
-		kubectl apply -f ${MANIFESTS_EKS_PATH}/vsecm-distroless-fips.yaml; \
-	}
 	$(MAKE) post-deploy
 
 .SILENT:

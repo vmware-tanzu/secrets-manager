@@ -9,7 +9,7 @@
 # */
 
 # builder image
-FROM golang:1.23.1-alpine3.20 AS builder
+FROM golang:1.23.2-alpine3.20 AS builder
 COPY app /build/app
 COPY core /build/core
 COPY lib /build/lib

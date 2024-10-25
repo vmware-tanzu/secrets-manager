@@ -8,10 +8,6 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
-# -- Number of replicas to deploy. Note that values greater than 1 are not
-# supported yet.
-replicaCount: 1
-
 # -- The port that the liveness probe listens on.
 # `environments.VSECM_PROBE_LIVENESS_PORT` should match this value.
 livenessPort: 8081
@@ -180,13 +176,3 @@ resources:
   requests:
     memory: "20Mi"
     cpu: "5m"
-
-# -- Autoscaling settings. Note that autoscaling is not supported for VSecM
-# Safe yet. For proper operation there should always be a single VSecM Safe
-# pod at all times.
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80

@@ -23,11 +23,6 @@ example-sdk-push-local:
 	./hack/push.sh "example-using-sdk-go" \
 		$(VERSION) "$(VSECM_LOCAL_REGISTRY_URL)/example-using-sdk-go"
 
-# Pushes the "SDK" use case container image to the public EKS registry.
-example-sdk-push-eks:
-	./hack/push.sh "example-using-sdk-go" \
-		$(VERSION) "$(VSECM_EKS_REGISTRY_URL)/example-using-sdk-go"
-
 # Deploys the "SDK" use case app from the public registry into the cluster.
 example-sdk-deploy:
 	./hack/example-sdk-deploy.sh
@@ -35,7 +30,3 @@ example-sdk-deploy:
 # Deploys the "SDK" use case app from the local registry into the cluster.
 example-sdk-deploy-local:
 	./hack/example-sdk-deploy-local.sh
-
-# Deploys the "SDK" use case app from the public EKS registry into the cluster.
-example-sdk-deploy-eks:
-	./hack/example-sdk-deploy-eks.sh

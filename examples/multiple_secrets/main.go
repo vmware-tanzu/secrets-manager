@@ -18,7 +18,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
+	"github.com/spiffe/vsecm-sdk-go/sentry"
 )
 
 func main() {

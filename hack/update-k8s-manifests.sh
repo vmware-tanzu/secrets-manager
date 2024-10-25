@@ -13,7 +13,6 @@
 readonly k8s="k8s"
 readonly local="local"
 readonly remote="remote"
-readonly eks="eks"
 
 readonly crds="crds"
 readonly helmChartDirName="helm-charts"
@@ -24,7 +23,6 @@ helmChartDirectory=$gitRoot/$helmChartDirName
 k8sManifestsDirectory=$gitRoot/$k8s/$version
 localManifests="$k8sManifestsDirectory/$local/"
 remoteManifests="$k8sManifestsDirectory/$remote/"
-eksManifests="$k8sManifestsDirectory/$eks/"
 
 # producing k8s manifests, using helm-template command
 function produceK8sManifests() {
@@ -32,7 +30,6 @@ function produceK8sManifests() {
     mkdir -p "$k8sManifestsDirectory/$crds" || exit 1
     mkdir -p "$localManifests" || exit 1
     mkdir -p "$remoteManifests" || exit 1
-    mkdir -p "$eksManifests" || exit 1
 
     echo "copying spire CRDs"
     cp "$helmChartPath/$crds/"* "$k8sManifestsDirectory/$crds/"
@@ -44,10 +41,6 @@ function produceK8sManifests() {
     echo "producing manifests for vsecm local deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-distroless.yaml || exit 1
     helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-distroless-fips.yaml || exit 1
-
-    echo "producing manifests for eks deployments"
-    helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-distroless.yaml || exit 1
-    helm template "$helmChartPath" $NAME_TEMPLATE $EKS_REGISTRY $DISTROLESSS_FIPS_IMAGE $DEPLOY_SPIRE_FALSE > $eksManifests/vsecm-distroless-fips.yaml || exit 1
 
     echo "producing manifests for vsecm remote deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $remoteManifests/vsecm-distroless.yaml || exit 1

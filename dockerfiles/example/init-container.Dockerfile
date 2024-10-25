@@ -9,16 +9,16 @@
 # */
 
 # builder image
-FROM golang:1.23.1-alpine3.20 AS builder
+FROM golang:1.23.2-alpine3.20 AS builder
 COPY app /build/app
 COPY core /build/core
 COPY lib /build/lib
 COPY examples /build/examples
 COPY vendor /build/vendor
 COPY go.mod /build/go.mod
+
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o example \
-  ./examples/using_init_container/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -o example ./examples/using_init_container/main.go
 
 # generate clean, final image for end users
 FROM gcr.io/distroless/static-debian11

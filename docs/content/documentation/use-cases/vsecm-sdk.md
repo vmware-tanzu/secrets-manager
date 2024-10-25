@@ -126,7 +126,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry" // <- SDK
+	"github.com/spiffe/vsecm-sdk-go/sentry" // <- SDK
 	"log"
 	"os"
 	"os/signal"

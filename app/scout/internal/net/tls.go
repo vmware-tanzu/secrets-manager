@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/sdk/sentry"
+	"github.com/spiffe/vsecm-sdk-go/sentry"
 	"log"
 	"strings"
 )

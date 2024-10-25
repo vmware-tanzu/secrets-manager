@@ -23,7 +23,7 @@ if ! go test ./... -cover; then
 fi
 
 ORIGIN=${1:-"local"}
-if [[ "$ORIGIN" != "remote" && "$ORIGIN" != "eks" ]]; then
+if [[ "$ORIGIN" != "remote" ]]; then
   ORIGIN="local"
 fi
 

@@ -28,8 +28,6 @@ func WorkloadUsingSDK() error {
 	switch origin {
 	case "remote":
 		deployCommand = "make example-sdk-deploy"
-	case "eks":
-		deployCommand = "make example-sdk-deploy-eks"
 	default:
 		deployCommand = "make example-sdk-deploy-local"
 	}
@@ -61,8 +59,6 @@ func WorkloadUsingSidecar() error {
 	switch origin {
 	case "remote":
 		command = "make example-sidecar-deploy"
-	case "eks":
-		command = "make example-sidecar-deploy-eks"
 	default:
 		command = "make example-sidecar-deploy-local"
 	}
@@ -94,8 +90,6 @@ func WorkloadUsingInitContainer() error {
 	switch origin {
 	case "remote":
 		command = "make example-init-container-deploy"
-	case "eks":
-		command = "make example-init-container-deploy-eks"
 	default:
 		command = "make example-init-container-deploy-local"
 	}

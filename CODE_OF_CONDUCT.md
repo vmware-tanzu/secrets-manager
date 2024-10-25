@@ -1,5 +1,3 @@
-# VSecM Code of Conduct
-
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
 ## Contributor Covenant Code of Conduct

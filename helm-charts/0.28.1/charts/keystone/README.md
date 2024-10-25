@@ -8,7 +8,6 @@ Helm chart for keystone
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| autoscaling | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Autoscaling settings. Note that, by default, autoscaling is disabled. It does not typically make sense to autoscale VSecM Keystone as it is a control plane component with minimal resource requirements. |
 | environments | list | `[{"name":"VSECM_LOG_LEVEL","value":"7"}]` | See https://vsecm.com/configuration for more information about these environment variables. |
 | environments[0] | object | `{"name":"VSECM_LOG_LEVEL","value":"7"}` | The log level. 0: Logs are off (only audit events will be logged) 7: TRACE level logging (maximum verbosity). |
 | fullnameOverride | string | `""` | The fullname override of the chart. |
@@ -26,7 +25,6 @@ Helm chart for keystone
 | nameOverride | string | `""` | The name override of the chart. |
 | podAnnotations | object | `{}` | Additional pod annotations. |
 | podSecurityContext | object | `{}` | Pod security context overrides. |
-| replicaCount | int | `1` |  |
 | resources | object | `{"requests":{"cpu":"5m","memory":"20Mi"}}` | Resource limits and requests. |
 | serviceAccount | object | `{"annotations":{},"create":true,"name":"vsecm-keystone"}` | The service account to use. |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account. |

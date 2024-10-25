@@ -11,12 +11,13 @@
 package main
 
 import (
+	"github.com/spiffe/vsecm-sdk-go/startup"
+
 	e "github.com/vmware-tanzu/secrets-manager/core/constants/env"
 	"github.com/vmware-tanzu/secrets-manager/core/crypto"
 	"github.com/vmware-tanzu/secrets-manager/core/env"
 	log "github.com/vmware-tanzu/secrets-manager/core/log/std"
 	"github.com/vmware-tanzu/secrets-manager/lib/system"
-	"github.com/vmware-tanzu/secrets-manager/sdk/startup"
 )
 
 func main() {

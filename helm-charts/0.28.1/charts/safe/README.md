@@ -8,7 +8,6 @@ Helm chart for VMware Secrets Manager (VSecM) Safe
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| autoscaling | object | `{"enabled":false,"maxReplicas":10,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Autoscaling settings. Note that autoscaling is not supported for VSecM Safe yet. For proper operation there should always be a single VSecM Safe pod at all times. |
 | data | object | `{"hostPath":{"path":"/var/local/vsecm/data"},"persistent":false,"persistentVolumeClaim":{"accessMode":"ReadWriteOnce","size":"1Gi","storageClass":""}}` | How persistence is handled. |
 | data.hostPath | object | `{"path":"/var/local/vsecm/data"}` | hostPath if `persistent` is false. |
 | data.persistent | bool | `false` | If `persistent` is true, a PersistentVolumeClaim is used. Otherwise, a hostPath is used. |
@@ -46,7 +45,6 @@ Helm chart for VMware Secrets Manager (VSecM) Safe
 | podAnnotations | object | `{}` | Additional pod annotations. |
 | podSecurityContext | object | `{}` | Pod security context overrides. |
 | readinessPort | int | `8082` | The port that the readiness probe listens on. `environments.VSECM_PROBE_READINESS_PORT` should match this value. |
-| replicaCount | int | `1` | Number of replicas to deploy. Note that values greater than 1 are not supported yet. |
 | resources | object | `{"requests":{"cpu":"5m","memory":"20Mi"}}` | Resource limits and requests. |
 | rootKeySecretName | string | `"vsecm-root-key"` | The name of the root key secret. |
 | service | object | `{"port":8443,"targetPort":8443,"type":"ClusterIP"}` | Service settings. |
