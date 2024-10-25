@@ -14,6 +14,7 @@ import (
 	"fmt"
 
 	"github.com/spiffe/vsecm-sdk-go/sentry"
+
 	"github.com/vmware-tanzu/secrets-manager/core/constants/symbol"
 	"github.com/vmware-tanzu/secrets-manager/lib/system"
 )

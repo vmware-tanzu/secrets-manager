@@ -12,17 +12,17 @@ package safe
 
 import (
 	"encoding/json"
-	"github.com/spiffe/vsecm-sdk-go/core/entity/v1/reqres/safe"
-	"github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
-	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
-	"github.com/vmware-tanzu/secrets-manager/lib/entity"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/core/constants/crypto"
+	"github.com/vmware-tanzu/secrets-manager/core/entity/v1/data"
+	"github.com/vmware-tanzu/secrets-manager/lib/entity"
 )
 
 func TestSecretUpsertRequest_JSONMarshalling(t *testing.T) {
-	expected := safe.SecretUpsertRequest{
+	expected := SecretUpsertRequest{
 		WorkloadIds: []string{"workload1", "workload2"},
 		Namespaces:  []string{"namespace1", "namespace2"},
 		Value:       "secretValue",
@@ -39,7 +39,7 @@ func TestSecretUpsertRequest_JSONMarshalling(t *testing.T) {
 		t.Fatalf("Failed to marshal SecretUpsertRequest: %v", err)
 	}
 
-	var actual safe.SecretUpsertRequest
+	var actual SecretUpsertRequest
 	if err := json.Unmarshal(bytes, &actual); err != nil {
 		t.Fatalf("Failed to unmarshal SecretUpsertRequest: %v", err)
 	}
@@ -50,7 +50,7 @@ func TestSecretUpsertRequest_JSONMarshalling(t *testing.T) {
 }
 
 func TestKeyInputRequest_JSONMarshalling(t *testing.T) {
-	expected := safe.KeyInputRequest{
+	expected := KeyInputRequest{
 		AgeSecretKey: "secretKey",
 		AgePublicKey: "publicKey",
 		AesCipherKey: "cipherKey",
@@ -61,7 +61,7 @@ func TestKeyInputRequest_JSONMarshalling(t *testing.T) {
 		t.Fatalf("Failed to marshal KeyInputRequest: %v", err)
 	}
 
-	var actual safe.KeyInputRequest
+	var actual KeyInputRequest
 	if err := json.Unmarshal(bytes, &actual); err != nil {
 		t.Fatalf("Failed to unmarshal KeyInputRequest: %v", err)
 	}
