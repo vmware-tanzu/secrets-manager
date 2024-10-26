@@ -1,4 +1,30 @@
 ---
+# Source: vsecm/charts/scout/templates/ServiceAccount.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vsecm-scout
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: scout-0.28.1
+    app.kubernetes.io/name: vsecm-scout
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.28.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+automountServiceAccountToken: false
+---
 # Source: vsecm/charts/spire/templates/serviceaccount-spire-agent.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -640,6 +666,41 @@ subjects:
     name: spire-server
     namespace: spire-server
 ---
+# Source: vsecm/charts/scout/templates/Service.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vsecm-scout
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: scout-0.28.1
+    app.kubernetes.io/name: vsecm-scout
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.28.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: vsecm-scout
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+---
 # Source: vsecm/charts/spire/templates/service-spire-controller-manager-webhook.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -994,6 +1055,63 @@ spec:
             path: /var/lib/kubelet/plugins_registry
             type: Directory
 ---
+# Source: vsecm/charts/scout/templates/Deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsecm-scout
+  namespace: vsecm-system
+  labels:
+    helm.sh/chart: scout-0.28.1
+    app.kubernetes.io/name: vsecm-scout
+    app.kubernetes.io/instance: vsecm
+    app.kubernetes.io/part-of: vsecm-system
+    app.kubernetes.io/version: "0.28.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-scout
+      app.kubernetes.io/instance: vsecm
+      app.kubernetes.io/part-of: vsecm-system
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vsecm-scout
+        app.kubernetes.io/instance: vsecm
+        app.kubernetes.io/part-of: vsecm-system
+    spec:
+      serviceAccountName: vsecm-scout
+      securityContext:
+        {}
+      containers:
+      - name: name
+        image: "vsecm/vsecm-ist-scout:0.28.1"
+        env:
+        - name: SPIFFE_ENDPOINT_SOCKET
+          value: "unix:///spire-agent-socket/spire-agent.sock"
+        - name: VSECM_SCOUT_TLS_ENABLED
+          value: false
+        - name: VSECM_SCOUT_HTTP_PORT
+          value: ":8080"
+        - name: VSECM_SCOUT_TLS_PORT
+          value: ":8443"
+        - name: VSECM_SCOUT_AUTHENTICATION_MODE
+          value: "none"
+
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: spire-agent-socket
+          mountPath: /spire-agent-socket
+          readOnly: true
+      volumes:
+      - name: spire-agent-socket
+        csi:
+          driver: "csi.spiffe.io"
+          readOnly: true
+---
 # Source: vsecm/charts/spire/templates/statefulset-spire-server.yaml
 # /*
 # |    Protect your secrets, protect your sensitive data.
@@ -1201,6 +1319,32 @@ spec:
 # <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
+---
+# Source: vsecm/charts/scout/templates/Identity.yaml
+# /*
+# |    Protect your secrets, protect your sensitive data.
+# :    Explore VMware Secrets Manager docs at https://vsecm.com/
+# </
+# <>/  keep your secrets... secret
+# >/
+# <>/' Copyright 2023-present VMware Secrets Manager contributors.
+# >/'  SPDX-License-Identifier: BSD-2-Clause
+# */
+
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: vsecm-scout
+spec:
+  className: "vsecm"
+  spiffeIDTemplate: spiffe://vsecm.com/workload/vsecm-scout/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}/n/{{ .PodMeta.Name }}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vsecm-scout
+      app.kubernetes.io/part-of: vsecm-system
+  workloadSelectorTemplates:
+    - "k8s:ns:vsecm-system"
+    - "k8s:sa:vsecm-scout"
 ---
 # Source: vsecm/charts/spire/templates/clusterspiffeid-spire-server-spire-test-keys.yaml
 # /*

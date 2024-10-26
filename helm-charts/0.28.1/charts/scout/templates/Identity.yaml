@@ -11,7 +11,7 @@
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: {{ include "scout.fullname" }}
+  name: {{ include "scout.fullname" . }}
 spec:
   className: {{ .Values.global.spire.controllerManagerClassName | quote }}
   spiffeIDTemplate: {{ .Values.global.vsecm.scoutSpiffeIdTemplate }}
