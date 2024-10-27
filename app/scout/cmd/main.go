@@ -25,10 +25,11 @@ func main() {
 
 	http.HandleFunc("/webhook", nets.Webhook)
 
-	// Has side effect of initializing jwt token if provided.
-	tlsConfig := nets.TlsConfig()
-
 	if env.ScoutTlsEnabled() {
+		log.InfoLn(&id, "scout: TLS enabled")
+
+		tlsConfig := nets.TlsConfig()
+
 		server := &http.Server{
 			Addr:      env.ScoutHttpPort(),
 			TLSConfig: tlsConfig,
@@ -43,6 +44,8 @@ func main() {
 		}
 
 		return
+	} else {
+		log.InfoLn(&id, "scout: TLS disabled")
 	}
 
 	log.InfoLn(&id, "Server is running on", env.ScoutHttpPort())

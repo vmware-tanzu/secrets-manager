@@ -12,7 +12,7 @@
 title = "Timeline"
 weight = 3
 sort_by = "weight"
-redirect_to = "timeline/roadmap"
+redirect_to = "timeline/changelog"
 insert_anchor_links = "left"
 +++
 

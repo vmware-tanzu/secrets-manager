@@ -17,23 +17,23 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "scout.selectorLabels" | nindent 8 }}
+        {{- include "scout.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "scout.serviceAccountName" }}
+      serviceAccountName: {{ include "scout.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - name: name
-        image: "{{ .Values.global.registry }}/{{- include "scout.repository" }}:{{ .Values.global.images.scout.tag }}"
+        image: "{{ .Values.global.registry }}/{{- include "scout.repository" . }}:{{ .Values.global.images.scout.tag }}"
         env:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/spire-agent.sock"
         - name: VSECM_SCOUT_TLS_ENABLED
-          value: {{ .Values.service.tlsEnabled }}
+          value: {{ .Values.service.tlsEnabled | quote }}
         - name: VSECM_SCOUT_HTTP_PORT
           value: ":{{ .Values.service.httpPort }}"
         - name: VSECM_SCOUT_TLS_PORT
@@ -46,7 +46,7 @@ spec:
         - containerPort: {{ .Values.service.tlsPort }}
         {{- else }}
         - containerPort: {{ .Values.service.httpPort }}
-        {{-end }}
+        {{- end }}
         volumeMounts:
         - name: spire-agent-socket
           mountPath: /spire-agent-socket

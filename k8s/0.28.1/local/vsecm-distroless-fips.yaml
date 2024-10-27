@@ -48,8 +48,7 @@ automountServiceAccountToken: false
 # >/
 # <>/' Copyright 2023-present VMware Secrets Manager contributors.
 # >/'  SPDX-License-Identifier: BSD-2-Clause
-# */
-
+# */#
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -348,10 +347,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8443
-      targetPort: 8443
-      protocol: TCP
-      name: http
+  - port: 8443
+    targetPort: 8443
+    protocol: TCP
+    name: http
   selector:
     app.kubernetes.io/name: vsecm-safe
     app.kubernetes.io/instance: vsecm

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/spiffe/vsecm-sdk-go/sentry"
 	"log"
-	"strings"
 )
 
 var (
@@ -37,17 +36,23 @@ func TlsConfig() *tls.Config {
 		value := secret["value"].(string)
 
 		switch name {
+		// do this initialization elsewhere
+		// also you might need a lock since jwtsecret is a shared resource.
 		//case "raw:vsecm-scout-jwt-secret":
 		//	jwtSecret = value
 		case "raw:vsecm-scout-crt":
 			serverCert = value
 		case "raw:vsecm-scout-key":
 			serverKey = value
-		default:
-			if strings.HasPrefix(name, "raw:") &&
-				!strings.HasPrefix(name, "raw:vsecm-scout") {
-				secretsToServe[strings.TrimPrefix(name, "raw:")] = value
-			}
+
+			// This is not related to TLS config. Move it elsewhere.
+			// Ideally, update it in a loop. Also, `secretsToServe` is a shared
+			// resource; so you might want a thread-safe map for it.
+			//default:
+			//	if strings.HasPrefix(name, "raw:") &&
+			//		!strings.HasPrefix(name, "raw:vsecm-scout") {
+			//		secretsToServe[strings.TrimPrefix(name, "raw:")] = value
+			//	}
 		}
 	}
 
