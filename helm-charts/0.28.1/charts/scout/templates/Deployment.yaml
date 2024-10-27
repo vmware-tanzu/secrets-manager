@@ -33,7 +33,7 @@ spec:
         - name: SPIFFE_ENDPOINT_SOCKET
           value: "unix:///spire-agent-socket/spire-agent.sock"
         - name: VSECM_SCOUT_TLS_ENABLED
-          value: {{ .Values.service.tlsEnabled }}
+          value: {{ .Values.service.tlsEnabled | quote }}
         - name: VSECM_SCOUT_HTTP_PORT
           value: ":{{ .Values.service.httpPort }}"
         - name: VSECM_SCOUT_TLS_PORT

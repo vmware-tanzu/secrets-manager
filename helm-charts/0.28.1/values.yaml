@@ -43,7 +43,7 @@ global:
   deploySentinel: true
 
   # -- Deploy VSecM Scout
-  deployScout: true
+  deployScout: false
 
   # -- Possible options for baseImage (distroless, distroless-fips). When in
   # doubt, stick with distroless.

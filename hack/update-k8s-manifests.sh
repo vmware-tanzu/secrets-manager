@@ -36,7 +36,7 @@ function produceK8sManifests() {
 
     echo "producing manifests for spire deployments"
 
-    helm template "$helmChartPath" $NAME_TEMPLATE $DEPLOY_KEYSTONE_FALSE $DEPLOY_SAFE_FALSE $DEPLOY_SENTINEL_FALSE > $k8sManifestsDirectory/spire.yaml || exit 1
+    helm template "$helmChartPath" $NAME_TEMPLATE $DEPLOY_KEYSTONE_FALSE $DEPLOY_SAFE_FALSE $DEPLOY_SCOUT_FALSE $DEPLOY_SENTINEL_FALSE > $k8sManifestsDirectory/spire.yaml || exit 1
 
     echo "producing manifests for vsecm local deployments"
     helm template "$helmChartPath" $NAME_TEMPLATE $LOCAL_REGISTRY $DISTROLESSS_IMAGE $DEPLOY_SPIRE_FALSE > $localManifests/vsecm-distroless.yaml || exit 1

@@ -14,6 +14,7 @@ export DISTROLESSS_IMAGE := --set global.baseImage=distroless
 export DISTROLESSS_FIPS_IMAGE := --set global.baseImage=distroless-fips
 export HELM_CHART_PATH := "./helm-charts/${VERSION}"
 export NAME_TEMPLATE := --name-template vsecm
+export DEPLOY_SCOUT_FALSE := --set global.deployScout=false
 export DEPLOY_SAFE_FALSE := --set global.deploySafe=false
 export DEPLOY_SENTINEL_FALSE := --set global.deploySentinel=false
 export DEPLOY_SPIRE_FALSE := --set global.deploySpire=false

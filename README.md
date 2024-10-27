@@ -79,14 +79,6 @@ at: <https://hub.docker.com/u/vsecm>.
 
 [You can also build **VMware Secrets Manager** from the source][build].
 
-## The Roadmap
-
-[We publicly track all **VMware Secrets Manager** plans on this 
-roadmap page][roadmap].
-
-You can check it out to get a glimpse of the current planned features and how
-the future of **VMware Secrets Manager** looks like.
-
 ## Status of This Software
 
 **VMware Secrets Manager** is under dynamic and progressive development.
@@ -235,11 +227,6 @@ There are special long-living branches that the project maintains.
 You can find the changelog and migration/upgrade instructions (*if any*)
 on [**VMware Secrets Manager**'s Changelog Page][changelog].
 
-## What's Coming Up Next?
-
-You can see the project's progress [in this **VMware Secrets Manager** 
-roadmap][roadmap].
-
 ## Code Of Conduct
 
 [Be a nice citizen](CODE_OF_CONDUCT.md).
@@ -287,7 +274,6 @@ We'd love to have them.
 [pkg-go-dev]: https://pkg.go.dev/github.com/vmware-tanzu/secrets-manager "VSecM Go Docs"
 [production]: https://vsecm.com/documentation/production/overview/ "VSecM Production Deployment"
 [quickstart]: https://vsecm.com/documentation/getting-started/overview/ "VSecM Quickstart"
-[roadmap]: https://vsecm.com/timeline/roadmap/ "VSecM Roadmap"
 [sdk]: https://vsecm.com/documentation/usage/sdk/ "VSecM Developer SDK"
 [slack-invite]: https://join.slack.com/t/a-101-103-105-s/shared_invite/zt-287dbddk7-GCX495NK~FwO3bh_DAMAtQ "Join VSecM Slack"
 [spire]: https://spiffe.io/ "SPIFFE: Secure Production Identity Framework for Everyone"
