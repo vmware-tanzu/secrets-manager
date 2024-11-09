@@ -99,6 +99,7 @@ func TestInitializer_parseCommandsFile(t *testing.T) {
 		name        string
 		input       string
 		setupMocks  func(*MockLogger, *MockSafeOps)
+		setupFunc   func() *bufio.Scanner
 		expectPanic bool
 	}{
 		{
@@ -190,6 +191,66 @@ func TestInitializer_parseCommandsFile(t *testing.T) {
 			},
 			expectPanic: true,
 		},
+		{
+			name:  "Successfully parse commands - workload, namespace, secret, keys, and exit",
+			input: "w:workload1\nn:namespace1\ns:secret1\ni:keys1\n--\nexit\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
+				ms.On("Post", mock.Anything, mock.Anything).Return(nil)
+			},
+			expectPanic: false,
+		},
+		{
+			name:  "Fail to process command block",
+			input: "w:workload1\nn:namespace1\ns:secret1\n--\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("ErrorLn", mock.Anything, mock.Anything).Return()
+				ms.On("Post", mock.Anything, mock.Anything).Return(errors.New("post error"))
+			},
+			expectPanic: true,
+		},
+		{
+			name:  "Successfully parse commands - workload, not before, secret, keys, and exit",
+			input: "w:workload1\nN:not_before\ns:secret1\ni:keys1\n--\nexit\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
+				ms.On("Post", mock.Anything, mock.Anything).Return(nil)
+			},
+			expectPanic: false,
+		},
+		{
+			name:  "Successfully parse commands - workload, expires, secret, keys, and exit",
+			input: "w:workload1\nE:20\ns:secret1\ni:keys1\n--\nexit\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
+				ms.On("Post", mock.Anything, mock.Anything).Return(nil)
+			},
+			expectPanic: false,
+		},
+		{
+			name:  "Successfully parse commands - workload, secret, transformation, invalid sleep, and exit",
+			input: "w:workload1\ns:secret1\nt:1000\nsleep:invalid_sleep\n--\nexit\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
+				ml.On("ErrorLn", mock.Anything, mock.Anything).Return()
+			},
+			expectPanic: false,
+		},
+		{
+			name:  "Successfully parse commands - workload, secret, transformation, invalid sleep, and exit",
+			input: "w:workload1\ns:secret1\nt:1000\nsleep:invalid_sleep\n--\nexit\n",
+			setupMocks: func(ml *MockLogger, ms *MockSafeOps) {
+				ml.On("TraceLn", mock.Anything, mock.Anything).Return()
+				ml.On("InfoLn", mock.Anything, mock.Anything).Return()
+				ml.On("ErrorLn", mock.Anything, mock.Anything).Return()
+			},
+			expectPanic: false,
+		},
 	}
 
 	for _, tt := range tests {
@@ -207,6 +268,9 @@ func TestInitializer_parseCommandsFile(t *testing.T) {
 			ctx := context.Background()
 			cid := "test-cid"
 			scanner := bufio.NewScanner(strings.NewReader(tt.input))
+			if tt.setupFunc != nil {
+				scanner = tt.setupFunc()
+			}
 
 			if tt.expectPanic {
 				assert.Panics(t, func() {
