@@ -260,3 +260,123 @@ func TestParseNotBefore(t *testing.T) {
 		assert.Equal(t, "2023-12-31", *notBefore)
 	})
 }
+
+func TestParseWorkload(t *testing.T) {
+	t.Run("test short flag", func(t *testing.T) {
+		parser := newParser()
+		workload := ParseWorkload(parser)
+
+		assert.NotNil(t, workload)
+		assert.Equal(t, []string{}, *workload)
+
+		os.Args = []string{"sentinel", "-w", "short workload"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, []string{"short workload"}, *workload)
+	})
+
+	t.Run("test long flag", func(t *testing.T) {
+		parser := newParser()
+		workload := ParseWorkload(parser)
+
+		assert.NotNil(t, workload)
+		assert.Equal(t, []string{}, *workload)
+
+		os.Args = []string{"sentinel", "--workload", "long workload"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, []string{"long workload"}, *workload)
+	})
+}
+
+func TestParseSecret(t *testing.T) {
+	t.Run("test short flag", func(t *testing.T) {
+		parser := newParser()
+		secret := ParseSecret(parser)
+
+		assert.NotNil(t, secret)
+		assert.Equal(t, "", *secret)
+
+		os.Args = []string{"sentinel", "-s", "short secret option"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "short secret option", *secret)
+	})
+
+	t.Run("test long flag", func(t *testing.T) {
+		parser := newParser()
+		secret := ParseSecret(parser)
+
+		assert.NotNil(t, secret)
+		assert.Equal(t, "", *secret)
+
+		os.Args = []string{"sentinel", "--secret", "long secret option"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "long secret option", *secret)
+	})
+}
+
+func TestParseTemplate(t *testing.T) {
+	t.Run("test short flag", func(t *testing.T) {
+		parser := newParser()
+		template := ParseTemplate(parser)
+
+		assert.NotNil(t, template)
+		assert.Equal(t, "", *template)
+
+		os.Args = []string{"sentinel", "-t", "short template"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "short template", *template)
+	})
+
+	t.Run("test long flag", func(t *testing.T) {
+		parser := newParser()
+		template := ParseTemplate(parser)
+
+		assert.NotNil(t, template)
+		assert.Equal(t, "", *template)
+
+		os.Args = []string{"sentinel", "--template", "long template"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "long template", *template)
+	})
+}
+
+func TestParseFormat(t *testing.T) {
+	t.Run("test short flag", func(t *testing.T) {
+		parser := newParser()
+		format := ParseFormat(parser)
+
+		assert.NotNil(t, format)
+		assert.Equal(t, "", *format)
+
+		os.Args = []string{"sentinel", "-f", "short format"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "short format", *format)
+	})
+
+	t.Run("test long flag", func(t *testing.T) {
+		parser := newParser()
+		format := ParseFormat(parser)
+
+		assert.NotNil(t, format)
+		assert.Equal(t, "", *format)
+
+		os.Args = []string{"sentinel", "--format", "long format"}
+
+		err := parser.Parse(os.Args)
+		assert.NoError(t, err)
+		assert.Equal(t, "long format", *format)
+	})
+}

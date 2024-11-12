@@ -38,3 +38,13 @@ func TestNewInitializer(t *testing.T) {
 	assert.Equal(t, mockSafeOps, initializer.Safe)
 	assert.Equal(t, mockSpiffeOps, initializer.Spiffe)
 }
+
+func TestNewDefaultInitializer(t *testing.T) {
+	got := NewDefaultInitializer()
+	assert.NotNil(t, got)
+	assert.Equal(t, got.FileOpener, &OSFileOpener{})
+	assert.Equal(t, got.EnvReader, &EnvConfigReader{})
+	assert.Equal(t, got.Logger, &StandardLogger{})
+	assert.Equal(t, got.Safe, &SafeClient{})
+	assert.Equal(t, got.Spiffe, &SpiffeClient{})
+}

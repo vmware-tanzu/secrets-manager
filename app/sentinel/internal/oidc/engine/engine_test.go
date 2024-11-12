@@ -16,3 +16,13 @@ func TestNewEngine(t *testing.T) {
 	assert.NotNil(t, engine)
 	assert.IsType(t, &Engine{}, engine)
 }
+
+func TestNew(t *testing.T) {
+	safeOps := &MockSafeOperations{}
+	logger := &MockLogger{}
+
+	engine := New(safeOps, logger)
+
+	assert.NotNil(t, engine)
+	assert.IsType(t, &Engine{}, engine)
+}
