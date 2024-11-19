@@ -13,10 +13,11 @@ package data
 import (
 	"errors"
 	"fmt"
-	"github.com/vmware-tanzu/secrets-manager/lib/entity"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/vmware-tanzu/secrets-manager/lib/entity"
 )
 
 var (
@@ -560,14 +561,14 @@ func TestSecretStored_Parse(t *testing.T) {
 		{
 			name: "empty_secret_value",
 			fields: fields{
-				Name:  "test",
+				Name:  "test-1",
 				Value: "",
 			},
 			wantErr: true,
-			err:     errors.New("no value found for secret test"),
+			err:     errors.New("no value found for secret test-1"),
 		},
 		{
-			name: "valid_values",
+			name: "valid_values_yaml_format",
 			fields: fields{
 				Name:  "test-2",
 				Value: "{\"pass\":\"secret\"}",
@@ -583,7 +584,7 @@ func TestSecretStored_Parse(t *testing.T) {
 		{
 			name: "valid_values_json",
 			fields: fields{
-				Name:  "test-2",
+				Name:  "test-3",
 				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "{\"PASS\":\"{{.pass}}\"}",
@@ -597,7 +598,7 @@ func TestSecretStored_Parse(t *testing.T) {
 		{
 			name: "unsupported_format",
 			fields: fields{
-				Name:  "test-3",
+				Name:  "test-4",
 				Value: "{\"pass\":\"secret\"}",
 				Meta: SecretMeta{
 					Template: "\"PASS\":\"{{.pass}}\"",
@@ -607,6 +608,34 @@ func TestSecretStored_Parse(t *testing.T) {
 			want:    "\"PASS\":\"secret\"",
 			wantErr: true,
 			err:     errors.New("unknown format: RAML"),
+		},
+		{
+			name: "valid_format_empty_template",
+			fields: fields{
+				Name:  "test-5",
+				Value: "{\"raw-key\":\"raw-value\"}",
+				Meta: SecretMeta{
+					Template: "",
+					Format:   "raw",
+				},
+			},
+			want:    "{\"raw-key\":\"raw-value\"}",
+			wantErr: false,
+			err:     nil,
+		},
+		{
+			name: "invalid_json_value",
+			fields: fields{
+				Name:  "test-6",
+				Value: "{\"pass\"\"secret\"}",
+				Meta: SecretMeta{
+					Template: "{\"PASS\":\"{{.pass}}\"}",
+					Format:   "json",
+				},
+			},
+			want:    "{\"pass\"\"secret\"}",
+			wantErr: false,
+			err:     nil,
 		},
 	}
 	for _, tt := range tests {
