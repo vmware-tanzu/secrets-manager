@@ -37,22 +37,22 @@ func TestRandomString(t *testing.T) {
 			want:    8,
 			wantErr: nil,
 		},
-		//{
-		//	name: "failure_case",
-		//	setup: func() {
-		//		reader = func(b []byte) (n int, err error) {
-		//			return 0, errors.New("failed during rand.Read() call")
-		//		}
-		//	},
-		//	args: args{
-		//		n: 8,
-		//	},
-		//	want:    0,
-		//	wantErr: errors.New("failed during rand.Read() call"),
-		//	cleanup: func() {
-		//		reader = rand.Read
-		//	},
-		//},
+		// {
+		// 	name: "failure_case",
+		// 	setup: func() {
+		// 		reader = func(b []byte) (n int, err error) {
+		// 			return 0, errors.New("failed during rand.Read() call")
+		// 		}
+		// 	},
+		// 	args: args{
+		// 		n: 8,
+		// 	},
+		// 	want:    0,
+		// 	wantErr: errors.New("failed during rand.Read() call"),
+		// 	cleanup: func() {
+		// 		reader = rand.Read
+		// 	},
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
