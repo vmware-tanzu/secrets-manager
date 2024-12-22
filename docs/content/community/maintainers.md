@@ -32,11 +32,6 @@ security, architecture decisions, and major feature developments.
 
 Abhishek is a core contributor, working on various aspects of the project.
 
-**Esteban Serrano** [@st96d045](https://github.com/st96d045)
-
-Esteban is a core contributor, focusing on integrating VSecM to various
-external components and hardening it for production use-cases.
-
 **Arun Thundyill Saseendran** [@ats0stv](https://github.com/ats0stv)
 
 Arun is a core contributor, assisting in feature development and workflow
