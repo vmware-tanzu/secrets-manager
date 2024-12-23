@@ -2,6 +2,26 @@
 
 ![VSecM Logo](https://github.com/vmware-tanzu/secrets-manager/assets/1041224/885c11ac-7269-4344-a376-0d0a0fb082a7)
 
+## Project Status
+
+**Active Maintenance Mode**
+
+We are currently focusing our development efforts on 
+[SPIKE](https://github.com/spiffe/spike) to reach its v1.0 milestone. 
+
+During this period:
+
+- **Security Issues**: We will promptly address any security vulnerabilities or 
+  CVE announcements in **VSecM**.
+- **Feature Development**: New feature implementations will be deferred until 
+  [SPIKE](https://github.com/spiffe/spike) achieves v1.0.
+- **Community Contributions**: We welcome and encourage community contributions 
+  to VSecM during this time. We will review and merge PRs as quickly as possible.
+  We will provide guidance and support to contributors.
+
+Thank you for your understanding and continued support.
+
+## About
 
 **VMware Secrets Manager** (*VSecM*) redefines secrets management 
 for cloud native apps.

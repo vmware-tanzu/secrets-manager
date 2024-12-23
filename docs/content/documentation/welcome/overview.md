@@ -15,6 +15,25 @@ weight = 10
 
 {{ badges() }}
 
+## Project Status
+
+**Active Maintenance Mode**
+
+We are currently focusing our development efforts on
+[SPIKE](https://github.com/spiffe/spike) to reach its v1.0 milestone.
+
+During this period:
+
+- **Security Issues**: We will promptly address any security vulnerabilities or
+  CVE announcements in **VSecM**.
+- **Feature Development**: New feature implementations will be deferred until
+  [SPIKE](https://github.com/spiffe/spike) achieves v1.0.
+- **Community Contributions**: We welcome and encourage community contributions
+  to VSecM during this time. We will review and merge PRs as quickly as possible.
+  We will provide guidance and support to contributors.
+
+Thank you for your understanding and continued support.
+
 ## Keep Your Secrets... Secret
 
 **VMware Secrets Manager** (*VSecM*) redefines secrets management for 
