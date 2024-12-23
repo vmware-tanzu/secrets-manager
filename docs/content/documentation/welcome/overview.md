@@ -15,6 +15,8 @@ weight = 10
 
 {{ badges() }}
 
+----
+
 ## Project Status
 
 **Active Maintenance Mode**
@@ -33,6 +35,9 @@ During this period:
   We will provide guidance and support to contributors.
 
 Thank you for your understanding and continued support.
+
+----
+
 
 ## Keep Your Secrets... Secret
 
