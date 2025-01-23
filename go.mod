@@ -6,7 +6,7 @@ require (
 	filippo.io/age v1.1.1
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/akamensky/argparse v1.4.0
-	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/lib/pq v1.10.9
 	github.com/spiffe/go-spiffe/v2 v2.4.0
 	github.com/spiffe/vsecm-sdk-go v0.5.1
