@@ -3,7 +3,7 @@ module github.com/vmware-tanzu/secrets-manager
 go 1.23.2
 
 require (
-	filippo.io/age v1.1.1
+	filippo.io/age v1.2.1
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/akamensky/argparse v1.4.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
