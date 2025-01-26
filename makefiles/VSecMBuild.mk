@@ -33,7 +33,7 @@ bundle-all-local: \
 bundle-all: \
 	inspector-bundle \
 	keygen-bundle \
-	scout-bundle \
+	scout-bundle-ist \
 	example-sdk-bundle \
 	example-sidecar-bundle \
 	example-multiple-secrets-bundle \
