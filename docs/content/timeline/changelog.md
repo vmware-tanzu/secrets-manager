@@ -15,8 +15,25 @@ weight = 11
 
 ## Recent Changes
 
+TBD
+
+## [0.28.1] - 2025-01-25
+
+This is a security patch to recent CVE scan results.
+
+### Changed
+
 * Removed the `--append` flag from VSecM Sentinel CLI.
 * Minor bugfixes.
+
+### Security
+
+* Fixed CVE-2024-45337 [Misuse of ServerConfig.PublicKeyCallback may cause 
+  authorization bypass in golang.org/x/crypto](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/34)
+* Fixed CVE-2024-45338 [Non-linear parsing of case-insensitive content 
+  in golang.org/x/net/html](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/38)
+* Fixed GHSA-32gq-x56h-299c [age vulnerable to malicious plugin names, 
+  recipients, or identities causing arbitrary binary execution](https://github.com/vmware-tanzu/secrets-manager/security/dependabot/35)
 
 ## [0.28.0] - 2024-10-05
 

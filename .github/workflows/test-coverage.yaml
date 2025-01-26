@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+
+permissions: read-all  # Set default permissions to read-only for the workflow
+
 jobs:
   build:
     runs-on: ubuntu-latest
