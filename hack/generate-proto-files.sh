@@ -12,13 +12,13 @@
 
 if ! command -v go &> /dev/null
 then
-    echo "Go binary could not be found. Please install protoc first."
+    echo "Go binary could not be found. Please install go first."
     exit 1
 fi
 
 if ! command -v protoc &> /dev/null
 then
-    echo "protoc binary could not be found. Please install go first."
+    echo "protoc binary could not be found. Please install protoc first."
     exit 1
 fi
 

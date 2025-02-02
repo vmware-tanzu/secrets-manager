@@ -10,6 +10,13 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+# Check if minikube binary is present
+if ! command -v minikube &> /dev/null
+then
+    echo "Command 'minikube' not found. Please install Minikube first."
+    exit 1
+fi
+
 # Minikube might need additional flags for SPIRE to work properly.
 # A bare-metal or cloud Kubernetes cluster will not need these extra configs.
 minikube start \

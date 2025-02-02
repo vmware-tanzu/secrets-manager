@@ -60,12 +60,49 @@ environment to be able to locally develop **VMware Secrets Manager**:
 > [alternate setup](#alternate-non-minikube-setup-on-macos)
 > section below.
 
+## Docker on Linux
+
+For Ubuntu Linux users, do not use `snap` to install Docker as it can create
+permission problems when working with minikube.
+
+Instead, try the following:
+
+```bash
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker packages:
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli \
+containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Add your user to docker group:
+sudo usermod -aG docker $USER
+```
+
+After this, you'll need to log out and log back in for the group changes 
+to take effect. This will give you a more reliable Docker setup that 
+integrates better with Minikube and other tools.
+
 ## Alternate Non-Minikube Setup on macOS
 
-The rest of this document assumes that you are using **Minikube** and **Docker**;
-however, if you are on a Mac, want to use **Docker for Mac's Kubernetes Distribution**,
-you can install them as described below and skip the sections that are
-specific to **Minikube**.
+The rest of this document assumes that you are using **Minikube** and
+**Docker**; however, if you are on a Mac, want to use**Docker for Mac's 
+Kubernetes Distribution**, you can install them as described below and skip 
+the sections that are specific to **Minikube**.
 
 ### Installing Docker for Mac
 

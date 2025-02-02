@@ -15,7 +15,9 @@ weight = 11
 
 ## Recent Changes
 
-TBD
+* Minor updates in the build scripts to check existence of prerequisites
+  before proceeding further, for better developer experience.
+* Documentation updates.
 
 ## [0.28.1] - 2025-01-25
 

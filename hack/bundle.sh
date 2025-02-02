@@ -22,6 +22,14 @@ then
     exit 1
 fi
 
+# Check if docker daemon is running by attempting docker ps
+if ! docker ps &> /dev/null
+then
+    echo "Docker daemon is not running or you don't have sufficient permissions."
+    echo "Please start the Docker daemon or check your Docker permissions."
+    exit 1
+fi
+
 # Change directory to the root of the git repository.
 cd "$gitRoot" || exit 1
 
