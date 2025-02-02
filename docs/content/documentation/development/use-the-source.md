@@ -13,21 +13,50 @@ title = "Use the Source"
 weight = 10
 +++
 
+/*
+
+For Ubuntu users; do not use snap to install docker as it can create 
+permission issues when working with minikube.
+*/
+
 ## Introduction
 
 This section describes how to build **VMware Secrets Manager** from source.
 
 For a more detailed walkthrough about how to contribute to **VMware Secrets
-Manager**, see the [**Contributing**](@/documentation/development/contributing.md) section.
+Manager**, see the 
+[**Contributing**](@/documentation/development/contributing.md) section.
 
 ## Prerequisites
 
 Make you have the following installed on your system:
 
+* [`go`](https://go.dev/)
 * [`make`](https://www.gnu.org/software/make/)
 * [`git`](https://git-scm.com/)
-* [`docker`](https://www.docker.com/)
 * [`protoc`](https://grpc.io/docs/protoc-installation/)
+
+## Ensure Your Environment Is Set Up
+
+Make sure your Go environment is set up.
+
+Here are some important environment settings that you might want
+to double check:
+
+```bash
+go env
+
+GO111MODULE=''
+GOEXE=''
+GONOPROXY=''
+GONOSUMDB=''
+GOPATH='/$USER/packages/go'
+GOPRIVATE=''
+GOPROXY='https://proxy.golang.org,direct'
+GOROOT='/usr/local/go'
+GOSUMDB='sum.golang.org'
+GOTOOLCHAIN='auto'
+```
 
 ## Clone the Project
 
@@ -60,6 +89,10 @@ If this command fails, you might need to install the `protoc` compiler:
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
+
+After installation ensure that `protoc-gen-go` and `protoc-gen-go-grpc` is
+in your `$PATH`. If you set up your Go development enviornment, this should
+already be the case.
 
 ## Updating Vendor Dependencies
 

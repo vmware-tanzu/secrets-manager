@@ -10,4 +10,11 @@
 # >/'  SPDX-License-Identifier: BSD-2-Clause
 # */
 
+# Check if minikube binary is present
+if ! command -v minikube &> /dev/null
+then
+    echo "Command 'minikube' not found. Please install Minikube first."
+    exit 1
+fi
+
 minikube delete
