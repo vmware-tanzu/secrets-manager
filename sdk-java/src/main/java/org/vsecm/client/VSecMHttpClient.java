@@ -26,15 +26,22 @@ import java.util.logging.Logger;
  */
 public class VSecMHttpClient {
     private static final Logger LOGGER = Logger.getLogger(VSecMHttpClient.class.getName());
+
+    /**
+     * The path to the SPIFFE socket used to communicate with the SPIFFE Workload API.
+     * This socket provides access to the X.509 SVID (SPIFFE Verifiable Identity Document)
+     * used for mutual TLS authentication.
+     */
     private static final String SPIFFE_SOCKET_PATH = "unix:///spire-agent-socket/spire-agent.sock";
 
     /**
-     * Creates an instance of {@link HttpClient} with SPIFFE-based SSL context.
-     * This client can be used for secure HTTP communication.
+     * Creates and configures an {@link HttpClient} instance with SPIFFE-based mutual TLS.
+     * This client can be used to securely communicate with SPIFFE-enabled services.
      *
-     * @return A configured {@link HttpClient} instance ready for secure communication.
-     * @throws RuntimeException if there's an issue configuring the SSL context,
-     *                          encapsulating any underlying exceptions.
+     * @return An instance of {@link HttpClient} configured with mutual TLS using SPIFFE credentials.
+     * @throws RuntimeException if there is an error while configuring the SSLContext,
+     *                          encapsulating any underlying exceptions such as connection issues.
+     * @see #configureSSLContext()
      */
     public HttpClient client() {
         try {
@@ -47,13 +54,19 @@ public class VSecMHttpClient {
     }
 
     /**
-     * Configures and returns an {@link SSLContext} suitable for SPIFFE based secure communication.
+     * Configures and returns an {@link SSLContext} instance using SPIFFE credentials.
+     * This method creates a secure SSL context that is configured with X.509 SVIDs
+     * obtained from the SPIFFE Workload API to enable mutual TLS for communication.
      *
-     * @return An {@link SSLContext} configured with SPIFFE X.509 SVIDs for mutual TLS.
-     * @throws SocketEndpointAddressException If the SPIFFE Workload API socket endpoint address is incorrect.
-     * @throws X509SourceException If there's an issue fetching or processing the X.509 SVIDs.
-     * @throws NoSuchAlgorithmException If the SSL context cannot be instantiated due to a missing algorithm.
-     * @throws KeyManagementException If there's an issue initializing the {@link SSLContext} with SPIFFE SVIDs.
+     * @return A configured {@link SSLContext} that supports mutual TLS using SPIFFE identities.
+     * @throws SocketEndpointAddressException If there is an issue with the SPIFFE socket path,
+     *                                         typically indicating that the SPIFFE Workload API is inaccessible.
+     * @throws X509SourceException If there is an error fetching or processing the X.509 SVIDs from the SPIFFE Workload API.
+     * @throws NoSuchAlgorithmException If the SSLContext cannot be instantiated due to a missing or unsupported algorithm.
+     * @throws KeyManagementException If there is an issue initializing the SSLContext, typically indicating a problem
+     *                                with key management or protocol setup.
+     * @see DefaultX509Source
+     * @see SpiffeSslContextFactory
      */
     private SSLContext configureSSLContext() throws SocketEndpointAddressException, X509SourceException, NoSuchAlgorithmException, KeyManagementException {
         DefaultX509Source.X509SourceOptions sourceOptions = DefaultX509Source.X509SourceOptions
