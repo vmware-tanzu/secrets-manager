@@ -25,11 +25,27 @@ public final class FetchService {
     private FetchService(){}
 
     /**
-     * Fetches data as a {@link String} from the specified URI using an HTTP GET request.
-     * This method utilizes a SPIFFE-enabled HTTP client for secure communication.
+     * Fetches data from the specified URI using an HTTP GET request.
+     * The request is sent over a secure channel using a SPIFFE-enabled HTTP client,
+     * which ensures mutual TLS authentication as part of the communication process.
      *
-     * @param secretUri The URI from which to fetch data. Must be a valid URI string.
-     * @return The body of the HTTP response as a {@link String}. Returns an empty string if the request fails.
+     * <p>This method constructs an HTTP GET request to the provided URI, sends the request
+     * using the {@link VSecMHttpClient} (which handles SPIFFE-based secure communication),
+     * and returns the response body as a {@link String}. If any errors occur during
+     * the request (such as invalid URI, network issues, or interrupted request), an empty string
+     * is returned, and the error is logged.</p>
+     *
+     * @param secretUri The URI from which to fetch the data. This must be a well-formed URI string
+     *                  that points to a resource to be fetched.
+     *                  Example: "https://example.com/data".
+     * @return The body of the HTTP response as a {@link String}. If the request fails or an error occurs,
+     *         an empty string is returned.
+     * @throws IllegalArgumentException if the URI is not valid or cannot be parsed.
+     * @throws URISyntaxException if the provided URI is malformed or invalid.
+     * @throws IOException if an I/O error occurs during communication with the server.
+     * @throws InterruptedException if the request is interrupted during execution.
+     *
+     * @see VSecMHttpClient
      */
     public static String fetch(String secretUri) {
         try {
