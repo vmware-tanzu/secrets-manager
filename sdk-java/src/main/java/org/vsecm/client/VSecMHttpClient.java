@@ -49,7 +49,16 @@ public class VSecMHttpClient {
             return HttpClient.newBuilder().sslContext(sslContext).build();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to fetch secrets", e);
-            throw new RuntimeException(e);
+
+            if (e instanceof SocketEndpointAddressException) {
+                throw VSecMHttpClientException.socketPathError("SPIFFE socket path is inaccessible: " + e.getMessage());
+            } else if (e instanceof X509SourceException) {
+                throw VSecMHttpClientException.x509FetchError("Failed to fetch X.509 SVIDs: " + e.getMessage());
+            } else if (e instanceof NoSuchAlgorithmException || e instanceof KeyManagementException) {
+                throw VSecMHttpClientException.sslContextError("SSLContext configuration failed: " + e.getMessage());
+            } else {
+                throw new RuntimeException("Unknown error occurred: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -68,6 +77,7 @@ public class VSecMHttpClient {
      * @see DefaultX509Source
      * @see SpiffeSslContextFactory
      */
+
     private SSLContext configureSSLContext() throws SocketEndpointAddressException, X509SourceException, NoSuchAlgorithmException, KeyManagementException {
         DefaultX509Source.X509SourceOptions sourceOptions = DefaultX509Source.X509SourceOptions
                 .builder()
