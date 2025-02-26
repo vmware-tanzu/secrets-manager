@@ -36,11 +36,15 @@ public class VSecMHttpClient {
 
     /**
      * Creates and configures an {@link HttpClient} instance with SPIFFE-based mutual TLS.
-     * This client can be used to securely communicate with SPIFFE-enabled services.
+     * This client is used for secure communication with SPIFFE-enabled services.
      *
      * @return An instance of {@link HttpClient} configured with mutual TLS using SPIFFE credentials.
-     * @throws RuntimeException if there is an error while configuring the SSLContext,
-     *                          encapsulating any underlying exceptions such as connection issues.
+     *
+     * @throws VSecMHttpClientException.SocketPathError If the SPIFFE socket path is inaccessible.
+     * @throws VSecMHttpClientException.X509FetchError If fetching X.509 SVIDs fails.
+     * @throws VSecMHttpClientException.SSLContextError If SSLContext configuration fails.
+     * @throws RuntimeException If an unknown error occurs during client initialization.
+     *
      * @see #configureSSLContext()
      */
     public HttpClient client() {
