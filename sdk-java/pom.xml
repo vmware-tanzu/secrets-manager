@@ -49,7 +49,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Asenkron testler için Awaitility -->
+        <!-- Awaitility for asc tests -->
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
