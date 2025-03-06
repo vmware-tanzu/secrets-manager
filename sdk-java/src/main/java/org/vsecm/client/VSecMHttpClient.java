@@ -12,6 +12,7 @@ import io.spiffe.exception.SocketEndpointAddressException;
 import io.spiffe.exception.X509SourceException;
 import io.spiffe.provider.SpiffeSslContextFactory;
 import io.spiffe.workloadapi.DefaultX509Source;
+import org.vsecm.exception.VSecMHttpClientException;
 
 import javax.net.ssl.SSLContext;
 import java.net.http.HttpClient;
